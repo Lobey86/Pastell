@@ -132,9 +132,9 @@ if ( $authentification->getBreadCrumbs()) {
 	<div id="bloc_h1">
 	<h1><?php echo $page_title; ?></h1>
 	</div>
-	<?php if (isset($nouveau_bouton)): ?>
+	<?php if (isset($nouveau_bouton_url)): ?>
 	<div id="bloc_boutons">
-		<a href="<?php echo $nouveau_bouton ?>">
+		<a href="<?php echo $nouveau_bouton_url ?>">
 			<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />Nouveau</a>
 	</div>
 	<?php endif;?>

@@ -8,7 +8,7 @@ $formulaire = new Formulaire( PASTELL_PATH ."/form/inscription-fournisseur.yml")
 
 
 require_once(PASTELL_PATH . "/lib/FileFournisseurInscriptionPath.class.php");
-$fileFournisseurPath = new FileFournisseurInscriptionPath(FOURNISSEUR_XML_FILE);
+$fileFournisseurPath = new FileFournisseurInscriptionPath(WORKSPACE_PATH);
 
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 $donneesFormulaire = new DonneesFormulaire($fileFournisseurPath->getFilePath($infoEntite['siren']));
