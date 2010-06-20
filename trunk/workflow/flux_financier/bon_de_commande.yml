@@ -1,0 +1,23 @@
+Bon de commande:
+	init:
+		emmetteur: collectivite
+		destinateur: fournisseur
+		next_state: poster
+		next_state_form: bon_de_commande.yml
+		
+	poster:
+		emmetteur: collectivite
+		destinateur: fournisseur
+		notification
+		journalisation
+		next_state: livraison
+		next_state_form: bon_de_livraison.yml
+		
+	livraison:
+		emmetteur: collectivite
+		destinateur: fournisseur
+		notification
+		journalisation
+		next_state: end
+
+ 
