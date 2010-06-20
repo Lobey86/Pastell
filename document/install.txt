@@ -1,0 +1,4 @@
+chown www-data test log
+
+
+LocalSettings !

@@ -1,0 +1,6 @@
+all_type:
+	all_state:
+		- notification_emmeteur
+		- notification_destinataire
+		- journalisation
+	
