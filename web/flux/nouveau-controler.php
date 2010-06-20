@@ -18,7 +18,7 @@ require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . "/lib/Journal.class.php");
 require_once( PASTELL_PATH . "/lib/Notification.class.php");
 
-//Récupération des données
+//Rï¿½cupï¿½ration des donnï¿½es
 $recuperateur = new Recuperateur($_POST);
 $flux = $recuperateur->get('flux');
 $destinataire = $recuperateur->get('destinataire',array());
@@ -30,7 +30,7 @@ $id_t = $recuperateur->get('id_t');
 
 $fileUploader = new FileUploader($_FILES);
 
-//Création de la transaction
+//Crï¿½ation de la transaction
 $transaction = new TransactionSQL($sqlQuery,$id_t);
 $info = $transaction->getInfo();
 
@@ -50,8 +50,8 @@ if (!$info){
 	$info = $transaction->getInfo();
 } 
 
-//Création du message
-//TODO (le cas échéant ?)
+//Crï¿½ation du message
+//TODO (le cas ï¿½chï¿½ant ?)
 $messageSQL = new MessageSQL($sqlQuery);
 $id_m = $messageSQL->create($id_t,$message_type,$infoEntite['siren'],$message);
 
@@ -75,13 +75,13 @@ if ($message->getFormulaire()){
 
 	//TODO : pas le cas standard !
 	foreach($fileUploader->getAll() as $filename => $orig_filename){
-		$url = FOURNISSEUR_XML_FILE . "/$id_t" . "_" . $filename;
+		$url = WORKSPACE_PATH . "/$id_t" . "_" . $filename;
 		$fileUploader->save($filename,$url);
 		$messageSQL->addRessource($id_m,$url,"file",$orig_filename);
 	}
 }
 
-//Ajout des destinataire au message (TODO en double avec les rôle de la transaction ? )
+//Ajout des destinataire au message (TODO en double avec les rï¿½le de la transaction ? )
 foreach($destinataire as $dest){
 	$messageSQL->addDestinataire($id_m,$dest);
 }
@@ -109,7 +109,7 @@ if ($info['type'] == FluxInscriptionFournisseur::TYPE) {
 if ( $next_step ){
 	$transaction->setEtat($next_step);
 	
-	$message ="La transaction " . $id_t . " est passé dans l'état $next_step";
+	$message ="La transaction " . $id_t . " est passï¿½ dans l'ï¿½tat $next_step";
 	$journal = new Journal($sqlQuery);
 	
 	$zMail = new ZenMail($zLog);

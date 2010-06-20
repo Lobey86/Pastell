@@ -151,9 +151,6 @@ include( PASTELL_PATH ."/include/haut.php");
 </table>
 
 
-TODO Liste des transactions ? 
-
-TODO Nouvelle transaction ?
 </div>
 <?php if($info['type'] == Entite::TYPE_FOURNISSEUR): ?>
 <a href='supprimer.php'>Redemander les informations</a>

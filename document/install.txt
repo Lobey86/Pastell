@@ -1,4 +1,6 @@
-chown www-data test log
 
-
-LocalSettings !
+0. Vérifier les dépendances (depends.txt)
+1. Installer les scripts PHP.
+2. Le serveur web doit "servir" le répertoire "web" (voir apache.conf pour un exemple)
+3. Installer la base de données (database.sql)
+4. Configurer l'application (voir le fichier LocalSettings.php)
