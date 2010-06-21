@@ -44,7 +44,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <div class="box_contenu">
 
 <h2>Informations générales</h2>
-	<a href="entite/nouveau.php?siren=<?php echo $info['siren']?>">
+	<a href="entite/nouveau.php?siren=<?php echo $info['siren']?>" class='btn'>
 		<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
 		Modifier
 	</a>
