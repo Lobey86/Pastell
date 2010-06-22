@@ -105,7 +105,7 @@ include( PASTELL_PATH ."/include/haut.php");
 			$messageReponse = MessageFactory::getInstance($reponsePossible);
 			if ($messageReponse->canCreate($infoEntite['type'])) :?>
 				<li>
-				<a href='flux/nouveau.php?id_m=<?php echo $message['id_m']?>&message_type=<?php echo $messageReponse->getType()?>'>
+				<a href='flux/nouveau.php?id_m=<?php echo $message['id_m']?>&message_type=<?php echo $messageReponse->getType()?>' class='btn'>
 					<?php echo $messageReponse->getLienResponse(); ?>
 				</a>
 				</li>
