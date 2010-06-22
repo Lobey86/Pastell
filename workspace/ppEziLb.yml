@@ -1,0 +1,10 @@
+---
+formulaire_definition: >
+  /home/eric/workspace/pastell//form/rh-arrete.yml
+objet: rr
+matricule_de_lagent: rrr
+nom: rrr
+prenom: rr
+type: 
+date: 06/18/2010
+arrete: .xsession-errors

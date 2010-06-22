@@ -1,0 +1,37 @@
+/etc/gdm/Xsession: Beginning session setup...
+Setting IM through im-switch for locale=fr_FR.
+Start IM through /etc/X11/xinit/xinput.d/all_ALL linked to /etc/X11/xinit/xinput.d/default.
+GNOME_KEYRING_CONTROL=/tmp/keyring-htFu9I
+GNOME_KEYRING_PID=1208
+GNOME_KEYRING_CONTROL=/tmp/keyring-htFu9I
+GNOME_KEYRING_CONTROL=/tmp/keyring-htFu9I
+SSH_AUTH_SOCK=/tmp/keyring-htFu9I/ssh
+Avertissement du gestionnaire de fenêtres : La lecture du fichier de session enregistré /home/eric/.config/metacity/sessions/10e736bfbf2669f635127722025842817800000011540026.ms a échoué : L'ouverture du fichier « /home/eric/.config/metacity/sessions/10e736bfbf2669f635127722025842817800000011540026.ms » a échoué : Aucun fichier ou dossier de ce type
+
+(polkit-gnome-authentication-agent-1:1285): GLib-GObject-WARNING **: cannot register existing type `_PolkitError'
+
+(polkit-gnome-authentication-agent-1:1285): GLib-CRITICAL **: g_once_init_leave: assertion `initialization_value != 0' failed
+
+(gnome-power-manager:1275): GLib-GObject-WARNING **: /build/buildd/glib2.0-2.24.1/gobject/gsignal.c:2273: signal `proxy-status' is invalid for instance `0x1f2f5c0'
+
+** (gnome-power-manager:1275): WARNING **: Either HAL or DBUS are not working!
+
+** (gnome-power-manager:1275): WARNING **: proxy failed
+
+** (gnome-power-manager:1275): WARNING **: failed to get Computer root object
+
+** (gnome-power-manager:1275): WARNING **: proxy NULL!!
+Initializing nautilus-gdu extension
+Unable to find a synaptics device.
+Impossible d'ouvrir le fichier de bureau /usr/share/applications/netbeans.desktop pour le lanceur du tableau de bord: Aucun fichier ou dossier de ce type
+evolution-alarm-notify-Message: Setting timeout for 23711 1277244000 1277220289
+evolution-alarm-notify-Message:  Wed Jun 23 00:00:00 2010
+
+evolution-alarm-notify-Message:  Tue Jun 22 17:24:49 2010
+
+** (update-notifier:1745): DEBUG: Skipping reboot required
+*** NSPlugin Viewer  *** WARNING: unhandled variable 18 (<unknown variable>) in NPN_GetValue()
+*** NSPlugin Viewer  *** WARNING: unhandled variable 18 (<unknown variable>) in NPN_GetValue()
+*** NSPlugin Viewer  *** WARNING: unhandled variable 18 (<unknown variable>) in NPN_GetValue()
+
+(gnome-terminal:1971): Gtk-CRITICAL **: gtk_accel_map_unlock_path: assertion `entry != NULL && entry->lock_count > 0' failed

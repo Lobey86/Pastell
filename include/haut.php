@@ -17,6 +17,9 @@ require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 
 <link rel="shortcut icon" type="images/x-icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="img/commun.css" media="screen" />
+<!--[if gte IE 6]>
+<link rel="stylesheet" type="text/css" href="img/style_IE6.css" media="screen" />
+<![endif]-->
 </head>
 <body>
 
