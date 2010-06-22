@@ -98,23 +98,29 @@ include( PASTELL_PATH ."/include/haut.php");
 </div>
 
 
-
-<ul>
-<?php $messageType = MessageFactory::getInstance($message['type']);
+<?php 
+$ok0 = false;
+$messageType = MessageFactory::getInstance($message['type']);
 		foreach ($messageType->getMessageReponse() as $reponsePossible){
 			$messageReponse = MessageFactory::getInstance($reponsePossible);
 			if ($messageReponse->canCreate($infoEntite['type'])) :?>
-				<li>
+				
 				<a href='flux/nouveau.php?id_m=<?php echo $message['id_m']?>&message_type=<?php echo $messageReponse->getType()?>' class='btn'>
 					<?php echo $messageReponse->getLienResponse(); ?>
 				</a>
-				</li>
-			<?php endif;
+				
+			<?php 
+			$ok0 = true;
+			endif;
 		}
 ?>	
-</ul>
-<?php endforeach;  ?>
-
+		<?php endforeach;  ?>
+		<?php 
+		//TODO
+		if($ok0) : ?>
+		<br/><br/>
+		<?php endif;?>
+		
 <div class="box_contenu clearfix">
 
 <h2>Historique de la transaction</h2>
