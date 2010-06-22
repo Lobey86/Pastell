@@ -17,6 +17,7 @@ $utilisateurListe = new UtilisateurListe($sqlQuery);
 $lastTransaction = false;
 if ($info['type'] == Entite::TYPE_FOURNISSEUR) {
 	$transactionFinder = new TransactionFinder($sqlQuery);
+	//
 	$lastTransaction = $transactionFinder->getLastTransactionBySiren($siren,FluxInscriptionFournisseur::TYPE);
 }
 
@@ -41,15 +42,16 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/><br/>
 
 
-<div class="box_contenu">
+<div class="box_contenu clearfix">
 
-<h2>Informations générales</h2>
-	<a href="entite/nouveau.php?siren=<?php echo $info['siren']?>" class='btn'>
-		<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+<h2>Informations générales
+<a href="entite/nouveau.php?siren=<?php echo $info['siren']?>" class='btn_maj'>
 		Modifier
 	</a>
+</h2>
+	
 
-<table>
+<table class='tab_04'>
 
 <tr>
 <th>Type</th>
@@ -100,11 +102,10 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) : ?>
 <div class="box_contenu">
-<h2>Liste des entités filles</h2>
-	<a href="entite/nouveau.php?entite_mere=<?php echo $info['siren']?>">
-		<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+<h2>Liste des entités filles <a href="entite/nouveau.php?entite_mere=<?php echo $info['siren']?>" class='btn_add'>
 		Nouveau
-	</a>
+	</a></h2>
+	
 	<?php if ($filles) : ?>
 		<ul>
 			<?php foreach($filles as $fille) : ?>
@@ -122,13 +123,12 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php endif;?>
 
 <div class="box_contenu">
-<h2>Liste des utilisateurs</h2>
-<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) :?>
-	<a href="utilisateur/nouveau.php?siren=<?php echo $info['siren']?>">
-		<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+<h2>Liste des utilisateurs<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) :?>
+	<a href="utilisateur/nouveau.php?siren=<?php echo $info['siren']?>" class='btn_add'>
 		Nouveau
 	</a>
-<?php endif;?>
+<?php endif;?></h2>
+
 <table class='<?php echo $info['type'] != Entite::TYPE_FOURNISSEUR?"tab_02":"tab_03" ?>'>
 <tr>
 	<th>Nom</th>

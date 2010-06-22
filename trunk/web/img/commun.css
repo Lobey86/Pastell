@@ -97,7 +97,7 @@ margin:0 0 12px -4px;
 padding:4px 4px 4px 28px;
 font-size:130%;
 font-weight:normal;
-letter-spacing:2px;
+letter-spacing:1px;
 }
 
 #bloc_boutons {float:right;}
@@ -161,6 +161,7 @@ margin-bottom:20px;
 }
 
 .box_contenu h2 {font-size:100%;text-transform:uppercase;margin:0 0 4px 0;}
+.box_contenu h2 a {float:right;text-transform:none;font-weight:normal;height:16px;line-height:1.4em;}
 
 .box {margin:6px 0 20px 0;}
 .haut {background:url(commun/back_h2.png) no-repeat #D1DADE;height:26px;}
@@ -255,23 +256,28 @@ padding-left:40px;
 .box_suiv .suiv {float:right;width:32%;margin:1px;display:block;text-align:right;}
 .box_suiv .prec a:hover, .box_suiv .suiv a:hover {text-decoration:none;}
 
+.box_btn_droite {
+border:1px solid red;
+float:right;
+height:28px;
+}
 
 /* divers élément de base */
 
 hr {margin:10px 0 10px 0;border:0;border-bottom:1px solid #D3DBDE;height:1px;}
 img {border:0;}
 a {color:#0179FF;}
-a:hover {color:#C83B10;text-decoration:none;}
+a:hover {color:#01A2FF;text-decoration:none;}
 .absmiddle {margin:0.1em;margin-left:0;margin-right:4px;vertical-align:middle;display:inline;}
 
 
 
 /* tableau */
 table {width:100%;}
-.tab_01, .tab_02, .tab_03 {border-collapse:collapse;margin-bottom:12px;}
+.tab_01, .tab_02, .tab_03, .tab_04 {border-collapse:collapse;margin-bottom:12px;}
 
-.tab_01 th,.tab_02 th,.tab_03 th {padding:4px;color:#ffffff;text-align:left;}
-.tab_01 td,.tab_02 td,.tab_03 td {padding:4px;}
+.tab_01 th,.tab_02 th,.tab_03 th,.tab_04 th {padding:4px;color:#ffffff;text-align:left;}
+.tab_01 td,.tab_02 td,.tab_03 td,.tab_04 td {padding:4px;}
 
 .tab_01 tr:hover, .tab_02 tr:hover, .tab_03 tr:hover {background-color:#F9F9DF;}
 
@@ -305,9 +311,25 @@ height:24px;
 }
 
 .submit {line-height:1.4em;}
-
 .submit:hover, .btn:hover {background-position:0 -27px;color:#C83B10;}
 
+
+.btn_add, .btn_maj {
+border:1px solid #aaaaaa;
+padding:4px 12px 4px 26px;
+margin:4px 0 4px 0;
+border-radius: 4px 4px;
+-moz-border-radius: 4px;
+text-decoration:none;
+color:#474747;
+cursor:pointer;
+line-height:1.6em;
+height:24px;
+}
+
+.btn_add {background:url(commun/picto_nouveau.png) 4px 1px no-repeat #DCDCDC;}
+.btn_maj {background:url(commun/picto_modifier.png) 4px 1px no-repeat #DCDCDC;}
+.btn_add:hover, .btn_maj:hover {background-color:#F3F3F3;}
 
 
 .tab_01 th {background:url(commun/back_tab_01.png) repeat-x #7CB6DA;border-bottom:1px solid #185C8C;}
@@ -318,6 +340,9 @@ height:24px;
 
 .tab_03 th {background:url(commun/back_tab_03.png) repeat-x #FA8D2C;border-bottom:1px solid #C55F05;color:#C55F05;}
 .tab_03 td {border-bottom:1px solid #E8D1B6;color:#C55F05;}
+
+.tab_04 th {background-color:#E9EEF3;border-bottom:1px solid #ffffff;color:#868686;}
+.tab_04 td {border-bottom:1px solid #FFFFFF;}
 
 .bg_class_blanc {background-color:#ffffff;}
 .bg_class_gris {background-color:#E7ECF1;}

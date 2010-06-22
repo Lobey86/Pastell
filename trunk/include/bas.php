@@ -1,5 +1,4 @@
 
-</div><!-- fin bloc_contenu -->
 	
 	
 </div><!-- fin main_droite  -->
