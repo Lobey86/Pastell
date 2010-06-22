@@ -26,8 +26,7 @@ function send_cdg($id_t,$begin_state,$end_state){
 	return $end_state;
 	
 }
-
-$workflow->doStep(FluxArrete::TYPE,Flux::STATE_POSTE,FluxArrete::STATE_SEND_TDT,"pas_de_traitement");
-$workflow->doStep(FluxArrete::TYPE,FluxArrete::STATE_SEND_TDT,FluxArrete::STATE_SEND_TDT_ACK,"pas_de_traitement");
 $workflow->doStep(FluxArrete::TYPE,FluxArrete::STATE_SEND_TDT_ACK,FluxArrete::STATE_SEND_CDG,"send_cdg");
+$workflow->doStep(FluxArrete::TYPE,FluxArrete::STATE_SEND_TDT,FluxArrete::STATE_SEND_TDT_ACK,"pas_de_traitement");
+$workflow->doStep(FluxArrete::TYPE,Flux::STATE_POSTE,FluxArrete::STATE_SEND_TDT,"pas_de_traitement");
 

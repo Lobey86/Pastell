@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbel version="1.0"
+      xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
+      xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
+>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/STATUS%20SIGMALIS-30062008.doc" added="2010-05-10T06:39:23Z" modified="2010-06-08T09:02:03Z" visited="2010-05-10T06:39:23Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/msword"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-06-08T09:01:21Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-08T09:02:03Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/vide.pdf" added="2010-05-14T06:10:52Z" modified="2010-05-28T14:08:42Z" visited="2010-05-14T06:10:52Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-28T14:08:42Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/vide-1.pdf" added="2010-05-14T06:12:45Z" modified="2010-05-25T05:44:08Z" visited="2010-05-14T06:12:45Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-25T05:44:08Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/doc.pdf" added="2010-05-14T08:53:12Z" modified="2010-06-08T15:52:06Z" visited="2010-05-14T08:53:12Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-08T15:52:06Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/doc-1.pdf" added="2010-05-14T08:53:53Z" modified="2010-06-08T16:02:18Z" visited="2010-05-14T08:53:53Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-08T16:02:18Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/cahier_des_charges_pastell_v3FL-SV.odt" added="2010-05-24T17:04:57Z" modified="2010-05-24T17:04:57Z" visited="2010-05-24T17:04:57Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-24T17:04:57Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/vide-2.pdf" added="2010-05-25T06:10:55Z" modified="2010-05-25T06:10:55Z" visited="2010-05-25T06:10:56Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-25T06:10:55Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/cahier_des_charges_pastell_v3FL-SV.odt" added="2010-05-25T08:29:27Z" modified="2010-05-25T08:29:27Z" visited="2010-05-25T08:29:27Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-25T08:29:27Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/workspace/pastell/data-exemple/demo.sql" added="2010-05-25T12:31:55Z" modified="2010-05-25T12:31:55Z" visited="2010-05-25T12:31:56Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-sql"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-05-25T12:31:55Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Musique/20100524_gg_3.mp3" added="2010-05-25T14:32:44Z" modified="2010-05-25T14:32:44Z" visited="2010-05-25T14:32:44Z">
+    <title>20100524_gg_3.mp3</title>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="audio/mpeg"/>
+        <bookmark:groups>
+          <bookmark:group>Totem</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Lecteur vidéo Totem" exec="&apos;totem %u&apos;" modified="2010-05-25T14:32:44Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/pastell.sql" added="2010-05-26T14:35:28Z" modified="2010-06-22T04:11:16Z" visited="2010-05-26T14:35:28Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-sql"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-22T04:11:16Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/fiche_ficoma.pdf" added="2010-05-27T05:43:40Z" modified="2010-05-27T05:43:40Z" visited="2010-05-27T05:43:40Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T05:43:40Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/FICOMA%20FICHE%20TECH%20FEV%202010.pdf" added="2010-05-27T05:46:18Z" modified="2010-05-27T05:46:18Z" visited="2010-05-27T05:46:18Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T05:46:18Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/uffi_ficoma_reporting.pdf" added="2010-05-27T05:54:19Z" modified="2010-05-27T05:54:19Z" visited="2010-05-27T05:54:19Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T05:54:19Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/uffi_ficoma_reporting-1.pdf" added="2010-05-27T05:54:21Z" modified="2010-05-27T05:54:21Z" visited="2010-05-27T05:54:21Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T05:54:21Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/uffi_ficoma_rapport_annuel.pdf" added="2010-05-27T05:58:50Z" modified="2010-05-27T05:58:50Z" visited="2010-05-27T05:58:50Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T05:58:50Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/uffi_ficoma_fiche_technique.pdf" added="2010-05-27T06:17:01Z" modified="2010-05-27T06:17:01Z" visited="2010-05-27T06:17:01Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T06:17:01Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/PositionRet_703423_EUR_30042010.pdf" added="2010-05-27T07:27:38Z" modified="2010-05-27T07:27:38Z" visited="2010-05-27T07:27:38Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T07:27:38Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/resume.pdf" added="2010-05-27T08:33:06Z" modified="2010-05-27T08:33:06Z" visited="2010-05-27T08:33:06Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T08:33:06Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Documents/impotdividende.pdf" added="2010-05-27T10:30:44Z" modified="2010-05-27T10:31:27Z" visited="2010-05-27T10:30:44Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-05-27T10:31:27Z" count="2"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-27T10:31:27Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Documents/impotdividende.ods" added="2010-05-27T10:30:52Z" modified="2010-05-28T08:11:34Z" visited="2010-05-27T10:30:52Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.spreadsheet"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -calc %F&apos;" modified="2010-05-27T10:30:52Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-28T08:11:34Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Documents/ficoma.ods" added="2010-05-27T12:55:58Z" modified="2010-05-27T12:55:58Z" visited="2010-05-27T12:55:58Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.spreadsheet"/>
+        <bookmark:applications>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-27T12:55:58Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/1082266623P1274965441145.csv" added="2010-05-27T13:04:10Z" modified="2010-05-27T13:04:14Z" visited="2010-05-27T13:04:10Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/csv"/>
+        <bookmark:applications>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-27T13:04:14Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/preuve.txt" added="2010-05-28T09:04:34Z" modified="2010-06-05T13:59:52Z" visited="2010-05-28T09:04:34Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-05T13:59:52Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/preuve-1.txt" added="2010-05-28T17:13:41Z" modified="2010-05-28T17:13:41Z" visited="2010-05-28T17:13:41Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-05-28T17:13:41Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/preuve-2.txt" added="2010-05-28T17:14:36Z" modified="2010-05-28T17:14:36Z" visited="2010-05-28T17:14:38Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-05-28T17:14:36Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/TOC-Ed4.4.pdf" added="2010-05-30T07:11:44Z" modified="2010-05-30T07:11:45Z" visited="2010-05-30T07:11:44Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-05-30T07:11:44Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-30T07:11:45Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/rib_iban(2).pdf" added="2010-05-31T09:01:47Z" modified="2010-05-31T09:01:47Z" visited="2010-05-31T09:01:47Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-31T09:01:47Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/rib_iban(3).pdf" added="2010-05-31T09:01:56Z" modified="2010-05-31T09:01:56Z" visited="2010-05-31T09:01:56Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-31T09:01:56Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/TNS/2010/remuneration-05-10.xls" added="2010-05-31T12:50:57Z" modified="2010-05-31T12:51:05Z" visited="2010-05-31T12:50:57Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.ms-excel"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -calc %F&apos;" modified="2010-05-31T12:50:57Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T12:51:05Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/convocation-ago.odt" added="2010-05-31T13:26:43Z" modified="2010-05-31T14:13:36Z" visited="2010-05-31T13:26:43Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-05-31T14:13:32Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T14:13:36Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/decharge.odt" added="2010-05-31T13:27:48Z" modified="2010-05-31T14:14:09Z" visited="2010-05-31T13:27:48Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-05-31T14:14:03Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T14:14:09Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2008/document-preAGO-2008.tar.gz" added="2010-05-31T13:29:15Z" modified="2010-05-31T13:29:17Z" visited="2010-05-31T13:29:15Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-compressed-tar"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;file-roller %U&apos;" modified="2010-05-31T13:29:15Z" count="1"/>
+          <bookmark:application name="File Roller" exec="&apos;file-roller&apos;" modified="2010-05-31T13:29:17Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/rapport-gerance.odt" added="2010-05-31T13:29:29Z" modified="2010-05-31T14:14:28Z" visited="2010-05-31T13:29:29Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-05-31T14:14:22Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T14:14:28Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/rapport-special.odt" added="2010-05-31T13:37:19Z" modified="2010-05-31T14:14:45Z" visited="2010-05-31T13:37:19Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-05-31T14:14:41Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T14:14:45Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/annexe.odt" added="2010-05-31T13:38:30Z" modified="2010-05-31T14:16:11Z" visited="2010-05-31T13:38:30Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-05-31T14:15:59Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T14:16:11Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2007/plaquette%20comptes%20annuels%20-%20a%20conserver.pdf" added="2010-05-31T13:41:28Z" modified="2010-05-31T13:41:30Z" visited="2010-05-31T13:41:28Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-05-31T13:41:28Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-31T13:41:30Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Bureau/compte-de-resultat-2009.pdf" added="2010-05-31T13:48:54Z" modified="2010-05-31T13:48:55Z" visited="2010-05-31T13:48:54Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-05-31T13:48:54Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-31T13:48:55Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/bilan-2009.pdf" added="2010-05-31T13:49:28Z" modified="2010-05-31T14:15:38Z" visited="2010-05-31T13:49:28Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-05-31T14:15:37Z" count="2"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-31T14:15:38Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/proposition-resolution.odt" added="2010-05-31T13:49:43Z" modified="2010-05-31T14:16:55Z" visited="2010-05-31T13:49:43Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-05-31T14:16:46Z" count="3"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-05-31T14:16:55Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/compte-de-resultat-2009.pdf" added="2010-05-31T13:53:38Z" modified="2010-05-31T14:15:48Z" visited="2010-05-31T13:53:38Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-05-31T14:15:47Z" count="2"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-05-31T14:15:48Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Juridique/2009/pv-ago.odt" added="2010-05-31T14:04:10Z" modified="2010-06-07T09:17:10Z" visited="2010-05-31T14:04:10Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-06-07T09:17:02Z" count="4"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-07T09:17:10Z" count="5"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/explicit.pdf" added="2010-06-01T03:25:28Z" modified="2010-06-01T03:25:28Z" visited="2010-06-01T03:25:28Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-01T03:25:28Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/grandlivre-411ASOFT.pdf" added="2010-06-04T03:57:26Z" modified="2010-06-04T03:57:26Z" visited="2010-06-04T03:57:26Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T03:57:26Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///media/54f2b020-b7ab-4214-85fc-37a7e05116d4/eric/zenWorkspace/zenData/zenCompta/LocalSettings.php" added="2010-06-04T04:00:28Z" modified="2010-06-04T04:00:29Z" visited="2010-06-04T04:00:28Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-php"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;gedit %U&apos;" modified="2010-06-04T04:00:28Z" count="1"/>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-04T04:00:29Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/Etats-annexes-CA2008-definitif.pdf" added="2010-06-04T04:08:12Z" modified="2010-06-04T04:08:12Z" visited="2010-06-04T04:08:12Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T04:08:12Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/grandlivre-411ASOFT.pdf" added="2010-06-04T04:44:07Z" modified="2010-06-04T04:44:07Z" visited="2010-06-04T04:44:07Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T04:44:07Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Alternance%20Soft/facture_asoft_10-06-04-07.ods" added="2010-06-04T04:45:20Z" modified="2010-06-04T04:45:29Z" visited="2010-06-04T04:45:20Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.spreadsheet"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -calc %F&apos;" modified="2010-06-04T04:45:20Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-04T04:45:29Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Alternance%20Soft/facture_asoft_10-06-04-07.pdf" added="2010-06-04T04:46:51Z" modified="2010-06-04T04:46:51Z" visited="2010-06-04T04:46:51Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-06-04T04:46:51Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T04:46:51Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Documents/grandlivre-411ASOFT-2010.pdf" added="2010-06-04T04:49:20Z" modified="2010-06-04T04:49:20Z" visited="2010-06-04T04:49:20Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T04:49:20Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/facture_062010-17320.pdf" added="2010-06-04T04:54:18Z" modified="2010-06-04T04:54:18Z" visited="2010-06-04T04:54:19Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T04:54:18Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Rentabiliweb/facture_renta_RE-2010-005.xls" added="2010-06-04T04:54:48Z" modified="2010-06-04T04:54:51Z" visited="2010-06-04T04:54:48Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.ms-excel"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -calc %F&apos;" modified="2010-06-04T04:54:48Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-04T04:54:51Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Rentabiliweb/facture_renta_RE-2010-005.pdf" added="2010-06-04T04:55:32Z" modified="2010-06-04T04:55:33Z" visited="2010-06-04T04:55:32Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-06-04T04:55:32Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-04T04:55:33Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/cnll-carto-07.pdf" added="2010-06-05T15:12:24Z" modified="2010-06-05T15:12:24Z" visited="2010-06-05T15:12:24Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-05T15:12:24Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/PHP_05_2010_FR.pdf" added="2010-06-06T14:39:22Z" modified="2010-06-06T14:39:22Z" visited="2010-06-06T14:39:22Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-06T14:39:22Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/cession_02.jpg" added="2010-06-07T09:18:23Z" modified="2010-06-07T09:18:24Z" visited="2010-06-07T09:18:23Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/jpeg"/>
+        <bookmark:groups>
+          <bookmark:group>Graphics</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;eog %U&apos;" modified="2010-06-07T09:18:23Z" count="1"/>
+          <bookmark:application name="Eye of GNOME Image Viewer" exec="&apos;eog %u&apos;" modified="2010-06-07T09:18:24Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/cession_01.jpg" added="2010-06-07T09:18:33Z" modified="2010-06-07T09:18:33Z" visited="2010-06-07T09:18:33Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/jpeg"/>
+        <bookmark:groups>
+          <bookmark:group>Graphics</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;eog %U&apos;" modified="2010-06-07T09:18:33Z" count="1"/>
+          <bookmark:application name="Eye of GNOME Image Viewer" exec="&apos;eog %u&apos;" modified="2010-06-07T09:18:33Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/ACTE%20DE%20CESSION%20DE%20PARTS%2030-06-2008%20-%20Voirin%20-%20Pommateau.doc" added="2010-06-07T09:19:41Z" modified="2010-06-08T09:04:55Z" visited="2010-06-07T09:19:41Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/msword"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-06-08T09:04:47Z" count="2"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-08T09:04:55Z" count="4"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/Attestation.pdf" added="2010-06-07T09:42:19Z" modified="2010-06-07T09:42:19Z" visited="2010-06-07T09:42:19Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-07T09:42:19Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/adullact/s2low/TedetisJava/test.sh" added="2010-06-07T11:33:06Z" modified="2010-06-07T11:33:27Z" visited="2010-06-07T11:33:06Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-shellscript"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-07T11:33:27Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/adullact/s2low/TedetisJava/src/com/adullact/tedetis/test/NomFichierXMLTest.java" added="2010-06-07T11:33:58Z" modified="2010-06-07T11:33:58Z" visited="2010-06-07T11:33:58Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-java"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-07T11:33:58Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/adullact/s2low/TedetisJava/src/com/adullact/tedetis/actes/NomFichierXML.java" added="2010-06-07T11:34:14Z" modified="2010-06-07T11:38:37Z" visited="2010-06-07T11:34:14Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-java"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-07T11:38:37Z" count="5"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/adullact/s2low/TedetisJava/src/com/adullact/tedetis/actes/EnveloppeXML.java" added="2010-06-07T11:39:44Z" modified="2010-06-07T11:39:44Z" visited="2010-06-07T11:39:44Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-java"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-07T11:39:44Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/adullact/s2low/TedetisJava/src/com/adullact/tedetis/actes/Archive.java" added="2010-06-07T11:39:56Z" modified="2010-06-07T11:39:56Z" visited="2010-06-07T11:39:56Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-java"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-07T11:39:56Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/Plateforme%20d&apos;%C3%A9change%20RH%20CDG59%20v0.2.pd" added="2010-06-08T04:45:53Z" modified="2010-06-08T04:45:53Z" visited="2010-06-08T04:45:53Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/octet-stream"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-08T04:45:53Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/jquery-ui-1.8.2.custom/js/jquery-1.4.2.min.js" added="2010-06-08T08:03:29Z" modified="2010-06-08T08:03:31Z" visited="2010-06-08T08:03:29Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/javascript"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;gedit %U&apos;" modified="2010-06-08T08:03:29Z" count="1"/>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-08T08:03:31Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/ACTE%20DE%20CESSION%20DE%20PARTS%2030-06-2008%20-%20Guinet%20-%20Pommateau.doc" added="2010-06-08T08:53:42Z" modified="2010-06-08T08:53:52Z" visited="2010-06-08T08:53:42Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/msword"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-06-08T08:53:42Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-08T08:53:52Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/ACTE%20DE%20CESSION%20DE%20PARTS%2008-06-2010%20-%20Guinet%20-%20Bianchi.doc" added="2010-06-08T08:56:15Z" modified="2010-06-08T08:56:18Z" visited="2010-06-08T08:56:15Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/msword"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-06-08T08:56:15Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-08T08:56:18Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/ACTE%20DE%20CESSION%20DE%20PARTS%2030-06-2008%20-%20Bianchi%20-%20Pommateau.doc" added="2010-06-08T08:56:47Z" modified="2010-06-08T09:04:14Z" visited="2010-06-08T08:56:47Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/msword"/>
+        <bookmark:applications>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-08T09:04:14Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Constitution/Session%20de%20part/ACTE%20DE%20CESSION%20DE%20PARTS%2008-06-2010%20-%20Voirin%20-%20Bianchi.odt" added="2010-06-08T09:04:43Z" modified="2010-06-08T09:04:43Z" visited="2010-06-08T09:04:43Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -writer %F&apos;" modified="2010-06-08T09:04:43Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/pages_header_banner.jpg" added="2010-06-13T05:51:20Z" modified="2010-06-13T05:51:20Z" visited="2010-06-13T05:51:20Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/jpeg"/>
+        <bookmark:groups>
+          <bookmark:group>Graphics</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Eye of GNOME Image Viewer" exec="&apos;eog %u&apos;" modified="2010-06-13T05:51:20Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Alternance%20Soft/facture_asoft_10-06-14-08.ods" added="2010-06-14T05:08:04Z" modified="2010-06-14T05:08:13Z" visited="2010-06-14T05:08:04Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.spreadsheet"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -calc %F&apos;" modified="2010-06-14T05:08:04Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-14T05:08:13Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Alternance%20Soft/facture_asoft_10-06-14-08.pdf" added="2010-06-14T05:09:58Z" modified="2010-06-14T05:09:58Z" visited="2010-06-14T05:09:58Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-06-14T05:09:58Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-14T05:09:58Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Alternance%20Soft/facture_asoft_10-06-19-09.ods" added="2010-06-19T08:51:52Z" modified="2010-06-19T08:52:00Z" visited="2010-06-19T08:51:52Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.spreadsheet"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;ooffice -calc %F&apos;" modified="2010-06-19T08:51:52Z" count="1"/>
+          <bookmark:application name="OpenOffice.org 3.2" exec="&apos;soffice %u&apos;" modified="2010-06-19T08:52:00Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Sigmalis/Factures/2010/Alternance%20Soft/facture_asoft_10-06-19-09.pdf" added="2010-06-19T08:53:11Z" modified="2010-06-19T08:53:12Z" visited="2010-06-19T08:53:11Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="File Manager" exec="&apos;evince %U&apos;" modified="2010-06-19T08:53:11Z" count="1"/>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-19T08:53:12Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/mystere_de_la_chambre_jaune_aymeric_l.PDF" added="2010-06-19T12:12:04Z" modified="2010-06-19T12:12:04Z" visited="2010-06-19T12:12:04Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="Document Viewer" exec="&apos;evince %u&apos;" modified="2010-06-19T12:12:04Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/workspace/pastell/document/database.sql" added="2010-06-20T06:50:28Z" modified="2010-06-22T04:12:21Z" visited="2010-06-20T06:50:28Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-sql"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-22T04:12:21Z" count="4"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/exemple_asalae.php" added="2010-06-20T06:58:24Z" modified="2010-06-22T04:40:39Z" visited="2010-06-20T06:58:24Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-php"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-22T04:40:39Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Calibre/Unknown/Propriete%20et%20loi%20-%20Wikisource%20(11)/Propriete%20et%20loi%20-%20Wikisource%20-%20Unknown.zip" added="2010-06-20T08:00:01Z" modified="2010-06-20T08:00:01Z" visited="2010-06-20T08:00:01Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/zip"/>
+        <bookmark:applications>
+          <bookmark:application name="File Roller" exec="&apos;file-roller&apos;" modified="2010-06-20T08:00:01Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/Bureau/travail_adullact.txt" added="2010-06-21T16:01:32Z" modified="2010-06-22T04:36:37Z" visited="2010-06-21T16:01:32Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-22T04:36:37Z" count="14"/>
+          <bookmark:application name="File Manager" exec="&apos;gedit %U&apos;" modified="2010-06-22T04:14:36Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/pastell.sql" added="2010-06-22T04:11:53Z" modified="2010-06-22T04:11:53Z" visited="2010-06-22T04:11:53Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/x-sql"/>
+        <bookmark:groups>
+          <bookmark:group>gedit</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2010-06-22T04:11:53Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/eric/T%C3%A9l%C3%A9chargements/picto_modifier.png" added="2010-06-22T16:28:59Z" modified="2010-06-22T16:28:59Z" visited="2010-06-22T16:28:59Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/png"/>
+        <bookmark:groups>
+          <bookmark:group>Graphics</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Eye of GNOME Image Viewer" exec="&apos;eog %u&apos;" modified="2010-06-22T16:28:59Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+</xbel>

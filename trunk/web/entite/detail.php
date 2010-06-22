@@ -17,7 +17,6 @@ $utilisateurListe = new UtilisateurListe($sqlQuery);
 $lastTransaction = false;
 if ($info['type'] == Entite::TYPE_FOURNISSEUR) {
 	$transactionFinder = new TransactionFinder($sqlQuery);
-	//
 	$lastTransaction = $transactionFinder->getLastTransactionBySiren($siren,FluxInscriptionFournisseur::TYPE);
 }
 
