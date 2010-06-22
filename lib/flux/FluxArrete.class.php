@@ -9,7 +9,7 @@ class FluxArrete extends Flux {
 	const TYPE  = "rh_arrete";
 	
 	const STATE_SEND_TDT = "Télétransmis";
-	const STATE_SEND_TDT_ACK = "Acquitter";
+	const STATE_SEND_TDT_ACK = "Acquitté";
 	const STATE_SEND_CDG = "Envoyé au CDG";
 	const STATE_ARCHIVE = "Archivé";
 	
