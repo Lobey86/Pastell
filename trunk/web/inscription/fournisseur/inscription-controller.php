@@ -53,7 +53,7 @@ if ( ! $id_u){
 
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
 $utilisateur->setNomPrenom($nom,$prenom);
-$entite->save($denomination,"fournisseur");
+$entite->save($denomination,"fournisseur",null);
 $entite->addRole($id_u,"proprietaire");
 
 
