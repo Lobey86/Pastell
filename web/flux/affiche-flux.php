@@ -55,7 +55,7 @@ if  (!$theFlux){
 }
 
 
-if ($entite && $flux->canCreate($infoEntite['type'])){
+if ($entite && $flux->canCreate($infoEntite['type']) && $theFlux){
 	$nouveau_bouton_url = "flux/nouveau.php?flux=$theFlux";
 }
 

@@ -51,11 +51,10 @@ if ($flux){
 	}
 }
 
-
 $entiteListe = new EntiteListe($sqlQuery);
 if ($destinataire){
-	$infoEntite = $entiteListe->getInfoFromArray($destinataire);
-}
+	$infoEntite2 = $entiteListe->getInfoFromArray($destinataire);
+} 
 
 if ($id_m){
 	$page_title = "Réponse au message «" . $transactionInfo['objet'] . "»"; 
@@ -117,7 +116,8 @@ $afficheurFormulaire->affiche(0,"flux/nouveau-controler.php");
 </th>
 <td>
 <?php if ($destinataire) : ?>
-	<?php foreach($infoEntite as $info) : ?>
+	<?php foreach($infoEntite2 as $info) : ?>
+		
 		<input type='hidden' name='destinataire[]' value='<?php echo $info['siren']?>' />
 		<a href='entite/detail.php?siren=<?php echo $info['siren']?>'>
 			<?php echo $info['denomination'] ?>

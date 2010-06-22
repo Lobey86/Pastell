@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__)."/../web/init.php");
 require_once( PASTELL_PATH . "/lib/Workflow.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 
 
 $workflow = new Workflow($sqlQuery);
@@ -16,7 +17,12 @@ function send_cdg($id_t,$begin_state,$end_state){
 	global $sqlQuery;
 	
 	$transaction = new TransactionSQL($sqlQuery,$id_t);
-	$transaction->addRole("653366963","destinataire");
+	$entiteListe = new EntiteListe($sqlQuery);
+	$cdg = $entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
+	//TODO ! 
+	$siren_cdg = $cdg[0]['siren'];
+	
+	$transaction->addRole($siren_cdg,"destinataire");
 	return $end_state;
 	
 }
