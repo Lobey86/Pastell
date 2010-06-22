@@ -314,7 +314,7 @@ height:24px;
 .submit:hover, .btn:hover {background-position:0 -27px;color:#C83B10;}
 
 
-.btn_add, .btn_maj {
+.btn_add, .btn_maj, .btn_ok, .btn_pas_ok {
 border:1px solid #aaaaaa;
 padding:4px 12px 4px 26px;
 margin:4px 0 4px 0;
@@ -329,7 +329,9 @@ height:24px;
 
 .btn_add {background:url(commun/picto_nouveau.png) 4px 1px no-repeat #DCDCDC;}
 .btn_maj {background:url(commun/picto_modifier.png) 4px 1px no-repeat #DCDCDC;}
-.btn_add:hover, .btn_maj:hover {background-color:#F3F3F3;}
+.btn_ok {background:url(commun/picto_ok.png) 4px 1px no-repeat #DCDCDC;}
+.btn_pas_ok {background:url(commun/picto_pas_ok.png) 4px 1px no-repeat #DCDCDC;}
+.btn_add:hover, .btn_maj:hover, .btn_ok:hover, .btn_pas_ok:hover {background-color:#F3F3F3;}
 
 
 .tab_01 th {background:url(commun/back_tab_01.png) repeat-x #7CB6DA;border-bottom:1px solid #185C8C;}

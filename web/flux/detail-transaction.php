@@ -105,9 +105,14 @@ $messageType = MessageFactory::getInstance($message['type']);
 			$messageReponse = MessageFactory::getInstance($reponsePossible);
 			if ($messageReponse->canCreate($infoEntite['type'])) :?>
 				
-				<a href='flux/nouveau.php?id_m=<?php echo $message['id_m']?>&message_type=<?php echo $messageReponse->getType()?>' class='btn'>
+				<a href='flux/nouveau.php?id_m=<?php echo $message['id_m']?>&message_type=<?php echo $messageReponse->getType()?>' 
+				
+				
+						class='<?php echo $messageReponse->getType() != 'inscription_accepter' ?'btn_pas_ok':'btn_ok' ?>'
+						
+						>
 					<?php echo $messageReponse->getLienResponse(); ?>
-				</a>
+				</a>&nbsp;
 				
 			<?php 
 			$ok0 = true;
