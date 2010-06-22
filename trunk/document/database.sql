@@ -1,23 +1,10 @@
--- phpMyAdmin SQL Dump
--- version 3.3.2deb1
--- http://www.phpmyadmin.net
---
--- Serveur: localhost
--- Généré le : Mer 09 Juin 2010 à 10:01
--- Version du serveur: 5.1.41
--- Version de PHP: 5.3.2-1ubuntu4.2
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
---
--- Base de données: 'pastell'
---
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
--- --------------------------------------------------------
-
---
--- Structure de la table 'entite'
---
 
 CREATE TABLE entite (
   `type` varchar(32) NOT NULL,
@@ -25,14 +12,9 @@ CREATE TABLE entite (
   siren char(9) NOT NULL,
   date_inscription datetime NOT NULL,
   etat int(11) NOT NULL,
+  entite_mere varchar(9) DEFAULT NULL,
   PRIMARY KEY (siren)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table 'journal'
---
 
 CREATE TABLE journal (
   id_j int(11) NOT NULL AUTO_INCREMENT,
@@ -44,24 +26,12 @@ CREATE TABLE journal (
   PRIMARY KEY (id_j)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Structure de la table 'mail_notification'
---
-
 CREATE TABLE mail_notification (
   siren char(16) NOT NULL,
   mail varchar(128) NOT NULL,
   `type` varchar(16) NOT NULL,
   PRIMARY KEY (siren,mail,`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table 'message'
---
 
 CREATE TABLE message (
   id_m int(11) NOT NULL AUTO_INCREMENT,
@@ -73,22 +43,10 @@ CREATE TABLE message (
   PRIMARY KEY (id_m)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Structure de la table 'message_destinataire'
---
-
 CREATE TABLE message_destinataire (
   id_m int(11) NOT NULL,
   siren varchar(9) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table 'message_ressource'
---
 
 CREATE TABLE message_ressource (
   id_r int(11) NOT NULL AUTO_INCREMENT,
@@ -98,12 +56,6 @@ CREATE TABLE message_ressource (
   original_name varchar(128) NOT NULL,
   PRIMARY KEY (id_r)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table 'transaction'
---
 
 CREATE TABLE `transaction` (
   id_t varchar(16) NOT NULL,
@@ -115,35 +67,17 @@ CREATE TABLE `transaction` (
   PRIMARY KEY (id_t)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Structure de la table 'transaction_changement_etat'
---
-
 CREATE TABLE transaction_changement_etat (
   id_t varchar(16) NOT NULL,
   etat varchar(32) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Structure de la table 'transaction_role'
---
-
 CREATE TABLE transaction_role (
   id_t varchar(16) NOT NULL,
   siren char(9) NOT NULL,
   role varchar(16) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table 'utilisateur'
---
 
 CREATE TABLE utilisateur (
   id_u int(11) NOT NULL AUTO_INCREMENT,
@@ -157,12 +91,6 @@ CREATE TABLE utilisateur (
   prenom varchar(128) NOT NULL,
   PRIMARY KEY (id_u)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table 'utilisateur_role'
---
 
 CREATE TABLE utilisateur_role (
   id_u int(11) NOT NULL,
