@@ -1,6 +1,6 @@
 <?php
 
-require_once("zenBase/lib/ZenTest.class.php");
+require_once( dirname( __FILE__) . "/../lib/base/ZenTest.class.php");
 
 $zenTest = new ZenTest(dirname(__FILE__));
 $zenTest->addToIncludePath(dirname(__FILE__)."/../lib");

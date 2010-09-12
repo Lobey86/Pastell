@@ -1,6 +1,6 @@
 <?php
 require_once( dirname(__FILE__) . "/../init-admin.php");
-require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 
 

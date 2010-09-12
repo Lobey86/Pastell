@@ -1,6 +1,6 @@
 <?php 
 
-require_once( ZEN_PATH . "/lib/ZenMail.class.php");
+require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 
 require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionSQL.class.php");

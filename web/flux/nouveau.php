@@ -1,8 +1,8 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
-require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
-require_once( ZEN_PATH . "/lib/PasswordGenerator.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
 
 require_once( PASTELL_PATH . "/lib/transaction/message/MessageSQL.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionSQL.class.php");

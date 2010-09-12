@@ -2,27 +2,22 @@
 
 //Ce fichier contient les valeurs par défaut
 
-if (file_exists( dirname( __FILE__) . "/../LocalSettings.php")){
+if (file_exists( dirname( __FILE__) . "/LocalSettings.php")){
 	//Il est possible d'écraser les valeurs par défaut en 
 	//créant un fichier LocalSettings.php 
 	require_once( dirname( __FILE__) . "/LocalSettings.php");
 }
 
 if (! defined("PASTELL_PATH")){
-	define("PASTELL_PATH",dirname(__FILE__) );
+	define("PASTELL_PATH",dirname(__FILE__) ."/");
 }
-
-if ( ! defined("ZEN_PATH")){
-	define("ZEN_PATH", PASTELL_PATH . "zenBase");
-}
-
 
 //Emplacement du répertoire pour sauvegarder les fichiers temporaires
 if (!defined("WORKSPACE_PATH")){
 	define("WORKSPACE_PATH" , PASTELL_PATH . "/workspace");
 }
 
-require_once( ZEN_PATH . "/lib/ZLog.class.php");
+require_once( PASTELL_PATH . "/lib/base/ZLog.class.php");
 
 //Emplacement du fichier de Log
 if (!defined("LOG_FILE")){

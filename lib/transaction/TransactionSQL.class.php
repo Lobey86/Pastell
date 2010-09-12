@@ -1,6 +1,6 @@
 <?php
 
-require_once( ZEN_PATH . "/lib/Date.class.php");
+require_once( PASTELL_PATH . "/lib/base/Date.class.php");
 
 class TransactionSQL {
 	
