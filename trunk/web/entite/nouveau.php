@@ -25,6 +25,7 @@ if ($siren){
 	$page_title = "Nouveau [".Entite::getNom($type)."]";
 } else {
 	header("Location : index.php");
+	exit;
 }
 
 $entiteListe = new EntiteListe($sqlQuery);

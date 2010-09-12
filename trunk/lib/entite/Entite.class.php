@@ -3,6 +3,8 @@ require_once( ZEN_PATH . "/lib/SQLQuery.class.php");
 
 class Entite {
 	
+	const DROIT_CREATION = "creer_entite";
+	
 	const TYPE_COLLECTIVITE = "collectivite";
 	const TYPE_FOURNISSEUR = "fournisseur";
 	const TYPE_CENTRE_DE_GESTION = "centre_de_gestion";

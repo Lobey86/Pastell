@@ -34,6 +34,10 @@ class TransactionSQL {
 		return $this->sqlQuery->fetchAll("SELECT * FROM transaction_changement_etat WHERE id_t=? ORDER BY date DESC ",array($this->id_t));
 	}
 	
+	public function restrictInformation($siren) {
+		$this->siren = $siren;
+	}
+	
 	public function getAllRole(){
 		$sql = "SELECT * FROM transaction_role " . 
 				" JOIN entite ON transaction_role.siren = entite.siren " . 
@@ -72,7 +76,4 @@ class TransactionSQL {
 		return $this->sqlQuery->fetchOneValue($sql,array($this->id_t,$siren));
 	}
 	
-	public function restrictInformation($siren) {
-		$this->siren = $siren;
-	}
 }

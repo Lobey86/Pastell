@@ -2,26 +2,31 @@
 
 require_once( dirname(__FILE__) . "/../init-admin.php");
 
+require_once( ZEN_PATH ."/lib/Recuperateur.class.php");
+
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
+require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+
+$recuperateur = new Recuperateur($_GET);
+$offset = $recuperateur->getInt('offset',0);
+
 
 $utilisateurListe = new UtilisateurListe($sqlQuery);
+
+$limit = 20;
+$count = $utilisateurListe->getNbUtilisateur();
 
 $page_title = "Liste des utilisateurs";
 
 include( PASTELL_PATH ."/include/haut.php");
+
+suivant_precedent($offset,$limit,$count);
+
 ?>
-
-
 
 <div class="box_contenu clearfix">
 
 <h2>Utilisateurs</h2>
-
-filtrer par : fournisseurs/collectivités
-
-
-
-suivant/precedant
 
 <table class="tab_01">
 	<tr>
@@ -31,7 +36,7 @@ suivant/precedant
 		<th>Vérifié</th>
 		<th>Entité</th>
 	</tr>
-<?php foreach($utilisateurListe->getAll() as $i => $user) : ?>
+<?php foreach($utilisateurListe->getAll($offset,$limit) as $i => $user) : ?>
 	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td><?php echo $user['nom']?>&nbsp;<?php echo $user['prenom']?></td>
 		<td><?php echo $user['login']?></td>
