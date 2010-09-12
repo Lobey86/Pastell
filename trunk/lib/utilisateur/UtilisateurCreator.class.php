@@ -1,7 +1,6 @@
 <?php
-require_once( ZEN_PATH . "/lib/PasswordGenerator.class.php");
-require_once( ZEN_PATH . "/lib/SQLQuery.class.php");
-
+require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
+require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 require_once( PASTELL_PATH . "/lib/MailValidator.class.php");
 
 class UtilisateurCreator {

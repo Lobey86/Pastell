@@ -2,7 +2,7 @@
 
 require_once("init-information.php");
 
-require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $field = $recuperateur->get('field');

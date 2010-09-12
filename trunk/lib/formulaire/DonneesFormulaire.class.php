@@ -1,5 +1,5 @@
 <?php
-require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once (PASTELL_PATH . "/ext/spyc.php");
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");

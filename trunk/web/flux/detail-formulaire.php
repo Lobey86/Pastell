@@ -5,7 +5,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 $haut = PASTELL_PATH ."/include/haut.php";
 $bas = PASTELL_PATH ."/include/bas.php";
 
-require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");

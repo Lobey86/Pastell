@@ -1,9 +1,7 @@
 <?php
 require_once("init-information.php");
 
-require_once( ZEN_PATH . "/lib/PasswordGenerator.class.php");
-
-
+require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
 require_once( PASTELL_PATH . '/lib/transaction/TransactionCreator.class.php');
 require_once( PASTELL_PATH . '/lib/transaction/TransactionSQL.class.php');
 require_once( PASTELL_PATH . '/lib/flux/FluxInscriptionFournisseur.class.php');

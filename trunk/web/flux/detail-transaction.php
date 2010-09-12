@@ -1,7 +1,7 @@
 <?php
 require_once("../init-authenticated.php");
 
-require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 require_once( PASTELL_PATH . "/lib/transaction/TransactionSQL.class.php");
 require_once( PASTELL_PATH ."/lib/flux/Flux.class.php");

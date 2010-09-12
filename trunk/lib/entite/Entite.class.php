@@ -1,5 +1,5 @@
 <?php
-require_once( ZEN_PATH . "/lib/SQLQuery.class.php");
+require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 
 class Entite {
 	
