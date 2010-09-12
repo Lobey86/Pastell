@@ -1,5 +1,5 @@
 <?php 
-require_once(dirname(__FILE__)."/../LocalSettings.php");
+require_once(dirname(__FILE__)."/../DefaultSettings.php");
 
 
 require_once( ZEN_PATH . "/lib/Timer.class.php");
