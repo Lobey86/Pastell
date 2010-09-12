@@ -37,7 +37,12 @@ class SQLQuery {
 		$this->hasMoreResult = false;
 	}
 		
-	public function query($query,$param = array()){
+	public function query($query,$param = false){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
+		
 		$this->prepare($query);
 		return $this->justExecute($param);
 	}
@@ -57,12 +62,20 @@ class SQLQuery {
 		}
 	}
 	
-	public function prepareAndExecute($query,$param = array()){
+	public function prepareAndExecute($query,$param = false){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
 		$this->prepare($query);
 		$this->execute($param);
 	}
 
-	public function fetchOneValue($query,$param = array()){
+	public function fetchOneValue($query,$param = false ){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
 		$data = $this->fetchOneLine($query,$param);
 		if (! $data || count($data) < 1 ) {
 			return false;	
@@ -71,7 +84,11 @@ class SQLQuery {
 		return $values[0];
 	}
 	
-	public function fetchOneLine($query,$param = array()){
+	public function fetchOneLine($query,$param = false){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
 		$this->prepare($query);
 		$this->execute($param);
 		if (! $this->hasMoreResult()) {
@@ -80,7 +97,11 @@ class SQLQuery {
 		return $this->fetch();
 	}
 	
-	public function fetchAll($query,$param=array()){
+	public function fetchAll($query,$param=false){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
 		$result = array();
 		$this->prepare($query);
 		$this->execute($param);
@@ -91,14 +112,23 @@ class SQLQuery {
 		return $result;
 	}
 	
-	public function execute($param = array()){
+	public function execute($param = false){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
+    	
 		$this->justExecute($param);
 
 		$this->hasMoreResult = true;		
 		$this->fetch();		
 	}
 	
-	private function justExecute($param = array()){
+	private function justExecute($param = false){
+		if ( ! is_array($param)){
+			$param = func_get_args();
+			array_shift($param);
+    	}
 		assert('$this->lastPdoStatement');
 		$this->init();
 		try {

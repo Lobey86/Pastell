@@ -1,11 +1,11 @@
 <?php 
 
-//Ce fichier contient les valeurs par dÃ©faut
+//Ce fichier contient les valeurs par défaut
 
-if (file_exists(dirname( __FILE__) . "/../LocalSettings.php")){
-	//Il est possible d'Ã©craser les valeurs par dÃ©faut en 
-	//crÃ©ant un fichier LocalSettings.php dans le rÃ©pertoire supÃ©rieur Ã  ce fichier.
-	require_once( dirname( __FILE__) . "/../LocalSettings.php");
+if (file_exists( dirname( __FILE__) . "/../LocalSettings.php")){
+	//Il est possible d'écraser les valeurs par défaut en 
+	//créant un fichier LocalSettings.php 
+	require_once( dirname( __FILE__) . "/LocalSettings.php");
 }
 
 if (! defined("PASTELL_PATH")){
@@ -17,24 +17,24 @@ if ( ! defined("ZEN_PATH")){
 }
 
 
-//Emplacement du rÃ©pertoire pour sauvegarder les fichiers temporaire
+//Emplacement du répertoire pour sauvegarder les fichiers temporaires
 if (!defined("WORKSPACE_PATH")){
-	define("WORKSPACE_PATH" , dirname(__FILE__) . "/workspace");
+	define("WORKSPACE_PATH" , PASTELL_PATH . "/workspace");
 }
 
 require_once( ZEN_PATH . "/lib/ZLog.class.php");
 
-//Emplecement du fichier de Log
+//Emplacement du fichier de Log
 if (!defined("LOG_FILE")){
-	define("LOG_FILE",PASTELL_PATH."/log/pastell.log");
+	define("LOG_FILE", PASTELL_PATH. "/log/pastell.log");
 }
 
-//Niveau de Log enregistrÃ©
+//Niveau de Log enregistré
 if (!defined("LOG_LEVEL")){
 	define("LOG_LEVEL",ZLog::DEBUG);
 }
 
-//DÃ©finition de la connexion Ã  la base de donnÃ©es
+//Définition de la connexion à  la base de données
 if (!defined("BD_DSN")){
 	define("BD_DSN","mysql:dbname=pastell;host=127.0.0.1");
 	define("BD_USER","pastell");
