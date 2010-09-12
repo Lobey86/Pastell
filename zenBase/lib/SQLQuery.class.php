@@ -93,6 +93,7 @@ class SQLQuery {
 	
 	public function execute($param = array()){
 		$this->justExecute($param);
+
 		$this->hasMoreResult = true;		
 		$this->fetch();		
 	}
@@ -118,6 +119,8 @@ class SQLQuery {
 		
 		$result = $this->nextResult; 
 		$this->nextResult = $this->lastPdoStatement->fetch(PDO::FETCH_ASSOC,PDO::FETCH_ORI_NEXT);
+
+
 		
 		if (! $this->nextResult){
 			$this->hasMoreResult = false;		

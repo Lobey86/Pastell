@@ -3,11 +3,17 @@
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
+require_once( PASTELL_PATH . "/lib/droit/Droit.class.php");
 
 $entiteListe = new EntiteListe($sqlQuery);
 
 $page_title = "Liste des collectivités";
-$nouveau_bouton_url = "entite/nouveau.php?type=collectivite";
+
+$droit = new Droit($sqlQuery);
+
+if ($droit->hasDroit($authentification->getId(),"creer_entite")){
+	$nouveau_bouton_url = "entite/nouveau.php?type=collectivite";
+}
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>

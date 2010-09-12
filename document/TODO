@@ -1,0 +1,131 @@
+
+# @pastell Journal des transactions : affiché que les transactions sur lequel on est relié 26 mai modifier  -  fait
+# @pastell Menu : permettre de filtrer par type de flux 26 mai modifier  -  fait
+# @pastell permettre l'envoie d'une transaction d'inscription 26 mai modifier  -  fait
+# @pastell Vérifié l'état du fournisseur pour que l'utilisateur puisse s'inscrire 26 mai modifier  -  fait
+# @pastell afficher le menu en fonction de l'entité controlé 26 mai modifier  -  fait 
+*****************
+
+
+- generalités
++ cdg doit disparaitre au profit d'une collectivité std
+chaque collectivité peut acceder à certains flux (ex: une collectivité
+appartenant à un cdg n'a pas les meme flux qu'un cdg)
+et un agent peut s'abonner à certains flux parmi les flux de sa collectivité
+
+- scenario de teletransmission au cdg
+
++ les modeles de documents ne sont pas chez pastell et n'a donc pas
+à se charger de cela (voir intranet cdg).
+
++ pastell ne conserve pas les documents; seulement les traces de passage
+
++ pastell doit envoyer directement à la GED et ASALAE, sans
+validation intermediaire, automatiquement.
+
+l'envoi à la GED est automatique : on y enregistre le doc ainsi que la
+date d'envoi au cdg.
+l'envoi à ASALAE est automatique selon le type du document. pastell doit
+connaitre le type du document et seuls les types selectionnés pour cela
+doivent automatiquement partir vers asalae
+
+- scenario controle de legalité + cdg
+
++ l'envoi au TDT passe par un formulaire permettant à l'gent de
+remplir manuellement les champs necessaires au TDT (n° unique, table
+matiere, ...)
+
++ on avait imaginé etre en mesure de traiter les actes directement
+postés sur s2low, sans passer par pastell. dans ce cas, s2low aurait du
+avertir pastell qu'un acte est ok. on aurait utiliser la notification
+métier de s2low.
+ON N'IMPLEMENTE PAS CETTE IDEE dans cette 1ere version.
+
+
+- scenario d'envoi du cdg vers une coll.
+
++ le scenario decrit le processus manuel et est implémenté ainsi
+dans pastell dans un 1er temps.
+Dans un 2eme temps, on devra etre en mesure d'automatiser l'envoi vers
+pastell d'un doc. directement à partir de la ged, via WS. Le status de
+ce doc dans pastell (lu, pas lu, ...) ne sera pas remonté dans la GED.
+
+- identifications coll. & agent
++ on identifie la coll. par son n° de SIREN (cf s2low)
+
++ dans la 1ere version de pastell, on re-crée une base agent dans
+pastell. cette base est importée "à la main" à partir d'un export de la
+base RH de la collectivité. il faut prevoir un dispositif d'import
+permettant à la fois d'ajouter un agent qui n'a pas encore de n° de
+matricule (nlle embauche) et à la fois d'importer une base complete sans
+casser la coherence (id vs matricule).
+
++ dans une version suivante, on devra prevoir la possibilité de
+recupérer la liste des agents à partir le logiciel RH de la
+collectivité, via ETL. en particulier pour recupérer le matricule de
+l'agent.
+
+_question_: faut il demarer immediatement avec un ETL ?
+
+
+- utilisation du iparapheur
+
++ on recommande de faire piloter le parapheur + pastell + s2low
+directement par le logiciel métier. dans ce cas, c'est l'editeur qui
+realise les connecteurs.
+sinon, c'est le parapheur qui devra prendre en charge la connexion vers
+pastell.
+
+- cas particulier de l'arete individuel
+
++ on prevoit, à terme, de notifier l'agent via mail securisé.
+si le maire a signé electroniquement, il convient de mettre à
+disposition de l'agent un outil de validation de signature electronique.
+
+******************************
+- (urgent) dans ts les affichages de flux (tableau de bord...) la
+colonne "ACQUITTER" devrait etre "ACQUITTé"
+
+- (urgent) je suis col1, je souhaite valider l'inscription d'une nlle
+entreprise (liste des fournisseurs/fournisseur2=sigmalis) mais qd je
+clique sur le bouton "En cours de validation" j'arrive sur le dernier
+courrier qui a ete envoyé à cette entreprise :-(
+je ne peux plus la valider
+(attention: je ne veux pas la valider, je veux juste montrer le bouton
+"valider"
+
+- au meme endroit, qd je clique sur "modifier", j'arrive sur la liste
+des transactions.
+
+- une fois que j'ai validé une entreprise, le bouton "valider" apparait
+encore.
+
+- le cdg est bien une colelctivité qui doit pouvoir faire comme une
+coll. vis à vis des fournisseurs. et qui devrait etre ds la liste des
+colelctivités (faut il vraiment un selecteur CDG ?)
+
+- historiques: la plupart des historiques de status ne sont pas mis à
+jour!? ou bien je n'ai aps compris comment ca marche. ex: qd j'envoi un
+msg au cdg, je souhaite savoir qd il l'a lu! idem pour tous les flux.
+
+- le formulaire complet des entreprises est à detailler (on en reparle
+ulterieurement)
+
+- menu "message": je suis col1, je veux envoyer un msg à un de mes
+fournisseur: je vois apparaitre tous les fournisseurs meme ceux qui
+n'ont pas fini leur inscription et ceux que je n'ai aps encore validé.
+
+- l'envoi à s2low (status=teletransmis) ne dois pas etre automatique. il
+faut que l'arreté soit "validé" par le CDG, puis que ce soit la
+collectivité qui reprenne la main pour l'envoyer à s2low
+
+- dans le flux: devis-commande-facture, il faudra pouvoir les lier les
+uns aux autres: le devis est referencé par le bon de commande, lequel
+est est referencé par la facture.
+
+- dans tous les envois (msg, facture, ...) il faudrait pouvoir "anuller"
+un envoi avant qu'il n'ai ete traité par mon correspondant.  (ex: j'ai
+fais une erreru dans ma facture, je veux l'annuler pour en faire une nlle)
+--
+Pascal Kuczynski - http://www.adullact.org
+Directeur Technique - 04 67 65 05 88

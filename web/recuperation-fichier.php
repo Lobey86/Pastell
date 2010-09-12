@@ -23,7 +23,6 @@ if ($id){
 		$file_name = $donneesFormulaire->get($field);
 	}
 } else {
-	//TODO 
 	require_once( PASTELL_PATH . "/web/inscription-fournisseur/init-information.php");
 	$file_path = $donneesFormulaire->getFilePath($field);
 	$file_name = $donneesFormulaire->get($field);

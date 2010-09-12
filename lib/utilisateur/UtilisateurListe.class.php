@@ -11,11 +11,16 @@ class UtilisateurListe {
 		$this->sqlQuery = $sqlQuery;
 	}
 	
-	public function getAll(){
+	public function getNbUtilisateur(){
+		$sql = "SELECT count(*) FROM utilisateur ";
+		return $this->sqlQuery->fetchOneValue($sql);
+	}
+	
+	public function getAll($offset,$limit){
 		$sql = "SELECT utilisateur.*,entite.* FROM utilisateur " . 
 				" LEFT JOIN utilisateur_role ON utilisateur.id_u = utilisateur_role.id_u " . 
 				" LEFT JOIN entite ON utilisateur_role.siren = entite.siren ".
-				" ORDER BY utilisateur.nom,prenom,login";
+				" ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
 		return $this->sqlQuery->fetchAll($sql);
 	}
 	

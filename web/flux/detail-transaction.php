@@ -1,42 +1,39 @@
 <?php
 require_once("../init-authenticated.php");
+
 require_once( ZEN_PATH . "/lib/Recuperateur.class.php");
+
 require_once( PASTELL_PATH . "/lib/transaction/TransactionSQL.class.php");
 require_once( PASTELL_PATH ."/lib/flux/Flux.class.php");
 require_once( PASTELL_PATH ."/lib/transaction/message/MessageSQL.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-
 require_once( PASTELL_PATH . "/include/TransactionEtatBouton.class.php");
 require_once( PASTELL_PATH . "/lib/flux/message/MessageFactory.class.php");
+
+$recuperateur = new Recuperateur($_GET);
+$id_t = $recuperateur->get('id_t');
+
 
 $flux = new Flux();
 
 
-$recuperateur = new Recuperateur($_GET);
-
-$id_t = $recuperateur->get('id_t');
-
-
 $transactionSQL = new TransactionSQL($sqlQuery,$id_t);
+
 if ($infoEntite && $infoEntite['type'] == Entite::TYPE_FOURNISSEUR){
 	$transactionSQL->restrictInformation($infoEntite['siren']);
 }
 
-$info = $transactionSQL->getInfo();	
-$page_title = "[".FluxFactory::getTitre($info['type'])."] " . $info['objet'];
-
-/*
-$nouveau_bouton_url = "flux/affiche-flux.php?flux=".$theFlux;
-$nouveau_bouton_lib = "« Retour liste des messages";
-*/
-
+$infoTransaction = $transactionSQL->getInfo();	
+$page_title = "[".FluxFactory::getTitre($infoTransaction['type'])."] " . $infoTransaction['objet'];
 
 $messageSQL = new MessageSQL($sqlQuery);
+$messageSQL->restrictInformation($infoEntite['siren']);
+
 $lesMessages = $messageSQL->getMessageFromTransaction($id_t);
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
-<p><a href='flux/affiche-flux.php?flux=<?php echo $info['type']?>'>« Liste des messages </a></p>
+<p><a href='flux/affiche-flux.php?flux=<?php echo $infoTransaction['type']?>'>« Liste des transactions </a></p>
 
 
 <?php foreach($lesMessages as $message) : ?>
@@ -108,7 +105,7 @@ $messageType = MessageFactory::getInstance($message['type']);
 				<a href='flux/nouveau.php?id_m=<?php echo $message['id_m']?>&message_type=<?php echo $messageReponse->getType()?>' 
 				
 				
-						class='<?php echo $messageReponse->getType() != 'inscription_accepter' ?'btn_pas_ok':'btn_ok' ?>'
+						class='<?php echo $messageReponse->getType() == 'inscription_refuser' ?'btn_pas_ok':'btn_ok' ?>'
 						
 						>
 					<?php echo $messageReponse->getLienResponse(); ?>
@@ -121,7 +118,6 @@ $messageType = MessageFactory::getInstance($message['type']);
 ?>	
 		<?php endforeach;  ?>
 		<?php 
-		//TODO
 		if($ok0) : ?>
 		<br/><br/>
 		<?php endif;?>

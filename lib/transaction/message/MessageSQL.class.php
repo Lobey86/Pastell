@@ -31,6 +31,11 @@ class MessageSQL {
 		$this->sqlQuery->query($sql,array($id_m,$ressource_path,$type,$orig_filename));
 	}
 	
+	public function restrictInformation($siren){
+		//TODO : cette focntion permet de restreindre la récuperation des mails
+		// pour une entite (ex : fournisseur)
+	}
+	
 	public function getDestinataire($id_m){
 		$sql = "SELECT entite.* FROM message_destinataire  " . 
 				" JOIN entite ON message_destinataire.siren=entite.siren " . 
