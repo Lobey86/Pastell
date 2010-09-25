@@ -24,3 +24,6 @@ require_once( PASTELL_PATH . "/lib/authentification/Authentification.class.php")
 $authentification = new Authentification();
 
 require_once( PASTELL_PATH . "/lib/util.php");
+
+require_once( PASTELL_PATH . "/lib/droit/RoleUtilisateur.class.php");
+$roleUtilisateur = new RoleUtilisateur($sqlQuery,new RoleDroit());

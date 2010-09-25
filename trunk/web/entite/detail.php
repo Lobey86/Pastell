@@ -7,10 +7,15 @@ require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 
 $recuperateur = new Recuperateur($_GET);
-$siren = $recuperateur->get('siren');
+$id_e = $recuperateur->getInt('id_e',0);
 
-$entite = new Entite($sqlQuery,$siren);
+$entite = new Entite($sqlQuery,$id_e);
 $info = $entite->getInfo();
+
+if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)){
+	header("Location: index.php");
+	exit;
+}
 
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 
@@ -32,11 +37,10 @@ $filles = $entite->getFille();
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
-<?php if($info['type'] == Entite::TYPE_COLLECTIVITE) : ?>
-<a href='entite/collectivite.php'>« liste des collectivités</a>
-<?php elseif ($info['type'] == Entite::TYPE_FOURNISSEUR) : ?>
+<?php if ($info['type'] == Entite::TYPE_FOURNISSEUR) : ?>
 <a href='entite/fournisseur.php'>« liste des fournisseurs</a>
-
+<?php else :?>
+<a href='entite/index.php'>« liste des collectivités</a>
 <?php endif;?>
 <br/><br/>
 
@@ -44,9 +48,11 @@ include( PASTELL_PATH ."/include/haut.php");
 <div class="box_contenu clearfix">
 
 <h2>Informations générales
-<a href="entite/nouveau.php?siren=<?php echo $info['siren']?>" class='btn_maj'>
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
+<a href="entite/edition.php?id_e=<?php echo $id_e?>" class='btn_maj'>
 		Modifier
 	</a>
+<?php endif;?>
 </h2>
 	
 
@@ -54,7 +60,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <tr>
 <th>Type</th>
-<td><?php echo $info['type'] ?></td>
+<td><?php echo Entite::getNom($info['type']) ?></td>
 </tr>
 
 <tr>
@@ -67,6 +73,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <td><?php echo $info['siren'] ?></td>
 </tr>
 
+<?php if ($info['type'] == Entite::TYPE_FOURNISSEUR ) : ?>
 <tr>
 <th>Etat</th>
 
@@ -81,7 +88,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 </td>
 </tr>
-
+<?php endif;?>
 <tr>
 <th>Date d'inscription</th>
 <td><?php echo $info['date_inscription'] ?></td>
@@ -101,20 +108,32 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) : ?>
 <div class="box_contenu">
-<h2>Liste des entités filles <a href="entite/nouveau.php?entite_mere=<?php echo $info['siren']?>" class='btn_add'>
+<h2>Liste des entités filles 
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
+	<a href="entite/edition.php?entite_mere=<?php echo $id_e?>" class='btn_add'>
 		Nouveau
-	</a></h2>
+	</a>
+<?php endif;?>
+</h2>
 	
 	<?php if ($filles) : ?>
-		<ul>
-			<?php foreach($filles as $fille) : ?>
-				<li>
-					<a href='entite/detail.php?siren=<?php echo $fille['siren']?>'>
+	
+		<table class='tab_01'>
+		<tr>
+			<th>Dénomination</th>
+			<th>siren</th>
+		</tr>
+		<?php foreach($filles as $fille) : ?>
+			<tr>
+				<td>
+					<a href='entite/detail.php?id_e=<?php echo $fille['id_e']?>'>
 						<?php echo $fille['denomination']?>
 					</a>
-				</li>
-			<?php endforeach;?>
-		</ul>
+				</td>
+				<td><?php echo $fille['siren']?></td>
+			</tr>
+		<?php endforeach;?>
+		</table>
 	<?php else : ?>
 		<p>Cette entité n'a pas d'entité fille</p>
 	<?php endif;?>
@@ -123,24 +142,28 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <div class="box_contenu">
 <h2>Liste des utilisateurs<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) :?>
-	<a href="utilisateur/nouveau.php?siren=<?php echo $info['siren']?>" class='btn_add'>
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
+	<a href="utilisateur/edition.php?id_e=<?php echo $id_e ?>" class='btn_add'>
 		Nouveau
 	</a>
+<?php endif;?>
 <?php endif;?></h2>
 
 <table class='<?php echo $info['type'] != Entite::TYPE_FOURNISSEUR?"tab_02":"tab_03" ?>'>
 <tr>
-	<th>Nom</th>
-	<th>Prénom</th>
+	<th>Prénom Nom</th>
 	<th>login</th>
 	<th>email</th>
 	<th>Role</th>
 	
 </tr>
-<?php foreach($utilisateurListe->getUtilisateurByEntite($info['siren']) as $user) : ?>
+<?php foreach($utilisateurListe->getUtilisateurByEntite($id_e) as $user) : ?>
 	<tr>
-		<td><?php echo $user['nom']?></td>
-		<td><?php echo $user['prenom']?></td>
+		<td>
+			<a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'>
+				<?php echo $user['prenom']?> <?php echo $user['nom']?>
+			</a>
+		</td>
 		<td><?php echo $user['login']?></td>
 		<td><?php echo $user['email']?></td>
 		<td><?php echo $user['role']?></td>

@@ -36,6 +36,13 @@ if (!defined("BD_DSN")){
 	define("BD_PASS","pastell");
 }
 
+if (! defined("BD_DSN_TEST")){
+	define("BD_DSN_TEST","mysql:dbname=pastell_test;host=127.0.0.1");
+	define("BD_USER_TEST",BD_USER);
+	define("BD_PASS_TEST",BD_PASS);
+}
+
+
 //Racine du site Pastell
 //ex : http://pastell.sigmalis.com/
 //ex : http://www.sigmalis.com/pastell/

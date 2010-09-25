@@ -31,7 +31,7 @@ class AfficheurFormulaire {
 	<?php 
 	}
 	
-	public function affiche($page_number,$action_url){ ?>
+	public function affiche($page_number,$action_url,$recuperation_fichier_url  ){ ?>
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
 			<input type='hidden' name='page' value='<?php echo $page_number?>' />
 			<?php foreach($this->inject as $name => $value ) : ?>
@@ -59,14 +59,19 @@ class AfficheurFormulaire {
 						<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
 						<br/>
 						<?php if ($this->donneesFormulaire->get($field->getName())):?>
-							<a href='<?php echo SITE_BASE ?>recuperation-fichier.php?field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
+								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
+								&nbsp;&nbsp;<a href=''>supprimer</a>
 						<?php endif;?>
 						
 					<?php elseif($field->getType() == 'select') : ?>
 						<select name='<?php echo $field->getName()?>'>
 							<option>...</option>
 							<?php foreach($field->getSelect() as $value => $name) : ?>
-								<option value='<?php echo $value ?>'><?php echo $name ?></option>
+								<option <?php 
+									if ($this->donneesFormulaire->geth($field->getName()) == $value){
+										echo "selected='selected'";
+									}
+								?> value='<?php echo $value ?>'><?php echo $name ?></option>
 							<?php endforeach;?>
 						</select>
 					
@@ -99,7 +104,10 @@ class AfficheurFormulaire {
 		<?php if ($this->formulaire->hasRequiredField()): ?>
 		* champs obligatoires.<br/>
 		<?php endif;?>
-		<input type='submit' value='enregistrer' />
+			<input type='submit' name='enregistrer' value='Enregistrer' />
+			<input type='submit' name='envoyer' value='Envoyer' />
+			<input type='submit' name='supprimer' value='Supprimer' />
+		
 		</form>
 	<?php }
 	
@@ -118,6 +126,13 @@ class AfficheurFormulaire {
 							<?php if ($this->donneesFormulaire->get($field->getName())):?>
 								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
 							<?php endif;?>
+						<?php elseif($field->getType() == 'select') : ?>
+							<?php 
+								$select = $field->getSelect();
+								if (isset($select[$this->donneesFormulaire->geth($field->getName())])) {
+									echo $select[$this->donneesFormulaire->geth($field->getName())];
+								}
+							?>
 						<?php else:?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?>
 						<?php endif;?>			

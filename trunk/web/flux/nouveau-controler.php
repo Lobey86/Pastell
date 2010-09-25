@@ -18,6 +18,7 @@ require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . "/lib/Journal.class.php");
 require_once( PASTELL_PATH . "/lib/Notification.class.php");
 
+
 //Récupération des données
 $recuperateur = new Recuperateur($_POST);
 $flux = $recuperateur->get('flux');
@@ -106,7 +107,7 @@ if ($info['type'] == FluxInscriptionFournisseur::TYPE) {
 }
 
 //TODO Traitement des notification, enregistrement dans le journal
-if ( $next_step ){
+/*if ( $next_step ){
 	$transaction->setEtat($next_step);
 	
 	$message ="La transaction " . $id_t . " est passée dans l'état $next_step";
@@ -119,7 +120,7 @@ if ( $next_step ){
 	$journal->add(Journal::CHANGEMENT_ETAT, $id_t,$message);
 	$notification->notifyAll($id_t,$message);
 	$transaction->traitementOK();
-}
+}*/
 
 
 header("Location: " . SITE_BASE . "flux/detail-transaction.php?id_t=$id_t");

@@ -3,6 +3,19 @@ require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 
 class Utilisateur {
 
+	const CREATE_SQL = "CREATE TABLE utilisateur (
+  id_u int(11) NOT NULL AUTO_INCREMENT,
+  email varchar(128) NOT NULL,
+  login varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  mail_verif_password varchar(16) NOT NULL,
+  date_inscription datetime NOT NULL,
+  mail_verifie tinyint(1) NOT NULL,
+  nom varchar(128) NOT NULL,
+  prenom varchar(128) NOT NULL,
+  PRIMARY KEY (id_u)
+)";
+	
 	private $sqlQuery;
 	private $id_u;
 		
@@ -46,4 +59,5 @@ class Utilisateur {
 		$sql = "DELETE FROM utilisateur WHERE id_u=?";
 		$this->sqlQuery->query($sql,array($this->id_u));
 	}
+	
 }
