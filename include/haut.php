@@ -2,7 +2,7 @@
 require_once( PASTELL_PATH ."/lib/flux/FluxFactory.class.php");
 require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 
-
+header("Content-type: text/html")
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -47,9 +47,8 @@ require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 ?>
 <div id="main_menu">
 <a href="<?php echo SITE_BASE ?>index.php" class="picto_accueil">Accueil</a>
-<a href="<?php echo SITE_BASE ?>entite/collectivite.php" class="picto_collectivites">Collectivités</a>
+<a href="<?php echo SITE_BASE ?>entite/" class="picto_collectivites">Collectivités</a>
 <?php if ($authentification->getTypeEntite() == Entite::TYPE_COLLECTIVITE || $authentification->isAdmin()) : ?>
-<a href="<?php echo SITE_BASE ?>entite/centre_de_gestion.php" class="picto_centre_gestion">Centre de gestion</a>
 <a href="<?php echo SITE_BASE ?>entite/fournisseur.php" class="picto_fournisseurs">Fournisseurs</a>
 <?php if ($authentification->isAdmin()) : ?>
 <a href="<?php echo SITE_BASE ?>utilisateur/index.php" class="picto_utilisateurs">Utilisateurs</a>
@@ -58,6 +57,7 @@ require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 <a href="<?php echo SITE_BASE ?>inscription-fournisseur/index.php" class="picto_fournisseurs">Mes informations</a>
 <?php endif; ?>
 <a href="<?php echo SITE_BASE ?>flux/index.php" class="picto_flux">Flux</a>
+<a href="<?php echo SITE_BASE ?>document/index.php" class="picto_journal">Document</a>
 <a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_journal">Journal transactions</a>
 
 <a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_aide">Aide</a>
@@ -69,17 +69,17 @@ $bc = array();
 if ( $authentification->getBreadCrumbs()) {
 	$bc = $authentification->getBreadCrumbs();
 } elseif (isset($siren)){
-	$entite = new Entite($sqlQuery,$siren);
-	$bc = $entite->getBreadCrumbs() ;
+	$entiteBC = new Entite($sqlQuery,$siren);
+	$bc = $entiteBC->getBreadCrumbs() ;
 }	
 ?>
 <div id="breadcrumb">
 <img src="img/commun/puce_geographie.png" alt="" class="absmiddle" />
-<?php foreach( $bc as $infoEntite) : ?>
+<?php foreach( $bc as $infoEntiteBC) : ?>
 	<?php if ($authentification->isAdmin()) : ?>
-		<a href='entite/detail.php?siren=<?php echo $infoEntite['siren']?>'>
+		<a href='entite/detail.php?siren=<?php echo $infoEntiteBC['siren']?>'>
 	<?php endif;?>
-&gt;&nbsp;<?php echo $infoEntite['denomination']?>&nbsp;
+&gt;&nbsp;<?php echo $infoEntiteBC['denomination']?>&nbsp;
 	<?php if ($authentification->isAdmin()) : ?>
 </a>
 	<?php endif;?>
@@ -114,7 +114,7 @@ if ( $authentification->getBreadCrumbs()) {
 	<h3><?php echo $type_flux  ?></h3>
 		<ul>
 			<?php foreach($les_flux as $nom => $affichage) : ?>
-				<li><a href='<?php echo SITE_BASE ?>flux/affiche-flux.php?flux=<?php echo $nom?><?php echo isset($siren)?"&siren=$siren":''?>'><?php echo $affichage ?></a></li>
+				<li><a href='<?php echo SITE_BASE ?>document/list.php?type=<?php echo $nom?><?php echo isset($siren)?"&siren=$siren":''?>'><?php echo $affichage ?></a></li>
 			<?php endforeach;?>
 		</ul>
 	<?php endforeach;?>

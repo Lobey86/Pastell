@@ -1,9 +1,18 @@
 <?php
 require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 
-class Entite {
-	
-	const DROIT_CREATION = "creer_entite";
+class Entite  {
+		
+	const CREATE_SQL = "CREATE TABLE entite (
+  id_e int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(32) NOT NULL,
+  denomination varchar(128) NOT NULL,
+  siren char(9) NOT NULL,
+  date_inscription datetime NOT NULL,
+  etat int(11) NOT NULL,
+  entite_mere varchar(9) DEFAULT NULL,
+  PRIMARY KEY (id_e)
+)";
 	
 	const TYPE_COLLECTIVITE = "collectivite";
 	const TYPE_FOURNISSEUR = "fournisseur";
@@ -16,9 +25,10 @@ class Entite {
 	const ETAT_REFUSER = 3;
 	const ETAT_SUSPENDU = 4;
 	
-	protected $sqlQuery;
-	protected $siren;
-	private $certificate;
+	private $sqlQuery;
+	
+	private $id_e;
+	
 	private $info;
 	
 	public static function getNom($type){
@@ -34,43 +44,37 @@ class Entite {
 		return $strEtat[$etat];
 	}
 	
-	public function __construct(SQLQuery $sqlQuery,$siren){
+	public function __construct(SQLQuery $sqlQuery,$id_e){
 		$this->sqlQuery = $sqlQuery;
-		$this->siren = $siren;
+		$this->id_e = $id_e;
 	}
 	
 	public function exists(){
 		return $this->getInfo();
 	}
 	
-	public function save($denomination,$type,$entite_mere){
-		$sql = "INSERT INTO entite(siren,denomination,type,date_inscription,entite_mere) " . 
-				" VALUES (?,?,?,now(),?)";
-		$this->sqlQuery->query($sql,array($this->siren,$denomination,$type,$entite_mere));
+	public function update($siren,$denomination,$type,$entite_mere = 0){
+		$sql = "UPDATE entite SET siren= ? , denomination=?,type=?,entite_mere = ?  " . 
+				" WHERE id_e=?";
+		$this->sqlQuery->query($sql,$siren,$denomination,$type,$entite_mere,$this->id_e);
 	}
 	
-	public function update($denomination,$type,$entite_mere){
-		$sql = "UPDATE entite SET denomination=?,type=?,entite_mere = ?  " . 
-				" WHERE siren=?";
-		$this->sqlQuery->query($sql,array($denomination,$type,$entite_mere,$this->siren));
+	
+	public function getMere(){
+		return $this->sqlQuery->fetchOneValue("SELECT entite_mere FROM entite WHERE id_e=?",$this->id_e);
 	}
 	
 	public function getInfo(){
 		if (! $this->info){
-			$sql = "SELECT * FROM entite WHERE siren=?";
-			$this->info = $this->sqlQuery->fetchOneLine($sql,array($this->siren));
+			$sql = "SELECT * FROM entite WHERE id_e=?";
+			$this->info = $this->sqlQuery->fetchOneLine($sql,$this->id_e);
 		}
 		return $this->info;
 	}
 	
-	public function addRole($id_u,$role){
-		$sql = "INSERT INTO utilisateur_role(id_u,siren,role) VALUES (?,?,?)";
-		$this->sqlQuery->query($sql,array($id_u,$this->siren,$role));
-	}
-	
 	public function setEtat($etat){
-		$sql = "UPDATE entite SET etat=? WHERE siren=?";
-		$this->sqlQuery->query($sql,array($etat,$this->siren));
+		$sql = "UPDATE entite SET etat=? WHERE id_e=?";
+		$this->sqlQuery->query($sql,$etat,$this->id_e);
 	}
 	
 	public function desinscription(){
@@ -83,13 +87,13 @@ class Entite {
 	}
 	
 	public function delete(){
-		$sql = "DELETE FROM entite WHERE siren=?";
-		$this->sqlQuery->query($sql,array($this->siren));
+		$sql = "DELETE FROM entite WHERE id_e=?";
+		$this->sqlQuery->query($sql,$this->id_e);
 	}
 
 	public function getFille(){
 		$sql = "SELECT * FROM entite WHERE entite_mere=?";
-		return $this->sqlQuery->fetchAll($sql,array($this->siren));
+		return $this->sqlQuery->fetchAll($sql,$this->id_e);
 	}
 	
 	public function getBreadCrumbs(){

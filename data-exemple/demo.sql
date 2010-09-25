@@ -1,3 +1,5 @@
+--TODO DEPRECATED
+
 
 INSERT INTO `entite` VALUES('collectivite', 'Saint-Amand-les-Eaux', '160641569', '2010-06-09 10:09:04', 2);
 INSERT INTO `entite` VALUES('centre_de_gestion', 'Centre de gestion du Nord', '186536850', '2010-06-09 10:09:53', 2);

@@ -8,6 +8,7 @@ require_once( PASTELL_PATH . "/include/TransactionListe.class.php");
 require_once( PASTELL_PATH ."/lib/flux/Flux.class.php");
 require_once( PASTELL_PATH ."/lib/flux/FluxFactory.class.php");
 
+require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $theFlux = $recuperateur->get('flux');
@@ -59,11 +60,27 @@ if ($entite && $flux->canCreate($infoEntite['type']) && $theFlux){
 	$nouveau_bouton_url = "flux/nouveau.php?flux=$theFlux";
 }
 
+$document = new Document($sqlQuery);
+
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 
+
 <div class="box_contenu clearfix">
-<h2>Tableau de bord</h2>
+
+<h2>Brouillons</h2>
+				
+<ul>
+	<?php foreach($document->getAll($theFlux) as $f) : ?>
+		<li><a href='document/voir.php?id_d=<?php echo $f['id_d']?>'><?php echo $f['id_d']?></a></li>
+	<?php endforeach;?>
+</ul>
+</div>
+
+<div class="box_contenu clearfix">
+
+
+<h2>Documents envoyés</h2>
 
 <?php if (count($transactionFinder->getCountResult())): ?>
 <?php $transactionListe->affiche($transactionFinder);?>

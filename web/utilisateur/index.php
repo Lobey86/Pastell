@@ -36,9 +36,14 @@ suivant_precedent($offset,$limit,$count);
 		<th>Vérifié</th>
 		<th>Entité</th>
 	</tr>
-<?php foreach($utilisateurListe->getAll($offset,$limit) as $i => $user) : ?>
+<?php foreach($utilisateurListe->getAll($offset,$limit) as $i => $user) : 
+	
+	//TODO 
+	$infoEntite = $roleUtilisateur->getRole($user['id_u']);
+	
+?>
 	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-		<td><?php echo $user['nom']?>&nbsp;<?php echo $user['prenom']?></td>
+		<td><a href='utilisateur/detail.php?id_u=<?php echo $user['id_u']?>'><?php echo $user['nom']?>&nbsp;<?php echo $user['prenom']?></a></td>
 		<td><?php echo $user['login']?></td>
 		<td><?php echo $user['email']?></td>
 		<td>
@@ -48,7 +53,13 @@ suivant_precedent($offset,$limit,$count);
 			<?php endif;?>
 		</td>
 		<td>
-			<a href='entite/detail.php?siren=<?php echo $user['siren']?>'><?php echo $user['denomination']?></a>
+
+			 <?php foreach($infoEntite as $entite) : ?>
+				<a href='entite/detail.php?id_e=<?php echo $entite['id_e']?>'>
+			 		<?php echo $entite['denomination']?>&nbsp;
+			 	</a>
+			 <?php endforeach;?>
+		
 		</td>
 	</tr>
 <?php endforeach; ?>

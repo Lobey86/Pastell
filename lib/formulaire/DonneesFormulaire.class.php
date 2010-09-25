@@ -55,8 +55,11 @@ class DonneesFormulaire {
 	
 	private function saveFile(Field $field, FileUploader $fileUploader){
 		$fname = $field->getName();
-		$this->info[$fname] = $fileUploader->getName($fname);
-		$fileUploader->save($fname, $this->getFilePath($fname));
+		
+		if ($fileUploader->getName($fname)){
+			$this->info[$fname] = $fileUploader->getName($fname);
+			$fileUploader->save($fname, $this->getFilePath($fname));
+		}
 	}
 	
 	public function getFilePath($field_name){

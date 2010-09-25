@@ -17,24 +17,24 @@ class UtilisateurListe {
 	}
 	
 	public function getAll($offset,$limit){
-		$sql = "SELECT utilisateur.*,entite.* FROM utilisateur " . 
-				" LEFT JOIN utilisateur_role ON utilisateur.id_u = utilisateur_role.id_u " . 
-				" LEFT JOIN entite ON utilisateur_role.siren = entite.siren ".
+		$sql = "SELECT * FROM utilisateur" .
 				" ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
-		return $this->sqlQuery->fetchAll($sql);
+		$result =  $this->sqlQuery->fetchAll($sql);
+	
+		return $result;
 	}
 	
 	public function getUtilisateurByLogin($login){
 		$sql = "SELECT id_u FROM utilisateur WHERE login = ?";
-		return $this->sqlQuery->fetchOneValue($sql,array($login));
+		return $this->sqlQuery->fetchOneValue($sql,$login);
 	}
 	
-	public function getUtilisateurByEntite($siren){
+	public function getUtilisateurByEntite($id_e){
 		$sql = "SELECT * FROM utilisateur_role " . 
 				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
-				" WHERE utilisateur_role.siren = ? " . 
+				" WHERE utilisateur_role.id_e = ? " . 
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		return $this->sqlQuery->fetchAll($sql,array($siren));
+		return $this->sqlQuery->fetchAll($sql,$id_e);
 	}
 	
 }

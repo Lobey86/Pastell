@@ -53,11 +53,9 @@ if ( ! $id_u){
 
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
 $utilisateur->setNomPrenom($nom,$prenom);
+//TODO : ca ne doit pas fonctionner ca ...
 $entite->save($denomination,"fournisseur",null);
-$entite->addRole($id_u,"proprietaire");
-
-
-
+$roleUtilisateur->addRole($id_u,"admin",$siren);
 
 $infoUtilisateur = $utilisateur->getInfo();
 

@@ -1,0 +1,6 @@
+Default:
+	Destinataire: { type: select }
+	Objet:
+	Message: {type: textarea}
+	Pièce jointe: {type: file}
+	

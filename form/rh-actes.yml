@@ -1,0 +1,17 @@
+Acte RH:
+	Objet: {requis: true}
+	Matricule de l'agent: {requis: true}
+	Nom: 
+	Prénom :
+	Type:
+		type: select
+		value:	
+				arrete_nomination: Arretés de nomination des titulaires et non titulaires
+				arrete_avancement: Arretés d'avancement de grade
+				sanction: Decisions portant des sanctions disciplinaire
+				licenciement: Licenciement
+	
+	Date: {type: date}
+	Envoie au contrôle de légalité: {type: checkbox}
+	Arreté: {type: file, requis: true}
+	Autre document attaché: {type: file, multiple: true}

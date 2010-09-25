@@ -11,19 +11,20 @@ require_once( PASTELL_PATH . '/lib/notification/MailNotificationSQL.class.php');
 
 $recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');
-$siren = $recuperateur->get('siren');
+$id_e = $recuperateur->get('id_e');
 $login = $recuperateur->get('login');
 $password = $recuperateur->get('password');
 $password2 = $recuperateur->get('password2');
 $nom = $recuperateur->get('nom');
 $prenom = $recuperateur->get('prenom');
+$role = $recuperateur->get('role');
 
-$redirection = new Redirection("nouveau.php?siren=$siren");
+$redirection = new Redirection("edition.php?id_e=$id_e");
 
-$entite = new Entite($sqlQuery,$siren);
+$entite = new Entite($sqlQuery,$id_e);
 
 if (! $entite->exists()){
-	$lastError->setLastError("Le siren que vous avez déjà indiqué est inconnu");
+	$lastError->setLastError("L'entité est est inconnu");
 	$redirection->redirect();
 }
 
@@ -41,8 +42,9 @@ $utilisateur->setNomPrenom($nom,$prenom);
 
 $infoUtilisateur = $utilisateur->getInfo();
 $mailNotificationSQL = new MailNotificationSQL($sqlQuery);
-$mailNotificationSQL->addNotification($siren,$infoUtilisateur['email'],"default");
+$mailNotificationSQL->addNotification($id_e,$infoUtilisateur['email'],"default");
 
-$entite->addRole($id_u,"proprietaire");
+$roleUtilisateur->addRole($id_u,$role,$id_e);
 
-$redirection->redirect(SITE_BASE . "entite/detail.php?siren=$siren");
+
+$redirection->redirect(SITE_BASE . "entite/detail.php?id_e=$id_e");

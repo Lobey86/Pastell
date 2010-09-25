@@ -4,7 +4,7 @@ require_once("FluxDevis.class.php");
 require_once("Flux.class.php");
 require_once("FluxInscriptionFournisseur.class.php");
 require_once("FluxFacture.class.php");
-require_once("FluxArrete.class.php");
+require_once("FluxActesRH.class.php");
 require_once("FluxBonDeCommande.class.php");
 require_once("FluxContrat.class.php");
 require_once("FluxMessageCDG.class.php");
@@ -19,7 +19,7 @@ class FluxFactory{
 			case FluxBonDeCommande::TYPE : return new FluxBonDeCommande(); break;
 			case FluxFacture::TYPE : return new FluxFacture(); break;
 			case FluxInscriptionFournisseur::TYPE : return new FluxInscriptionFournisseur(); break;
-			case FluxArrete::TYPE : return new FluxArrete(); break;
+			case FluxActesRH::TYPE : return new FluxActesRH(); break;
 			case FluxContrat::TYPE : return new FluxContrat(); break;
 			case FluxMessageCDG::TYPE : return new FluxMessageCDG(); break;
 		}	
@@ -75,8 +75,7 @@ class FluxFactory{
  									'gf_bon_de_commande'=> 'Bons de commande',
 									'gf_facture' => 'Factures',
 				
-									'rh_arrete' => 'Arretés',
-									'rh_contrat' => 'Contrats',
+									'rh-actes' => 'Actes RH',
 									'rh_message_cdg' => 'Message Centre de gestion'
 						);
 		
@@ -95,8 +94,7 @@ class FluxFactory{
 									'gf_facture' => 'Factures',
 								),
 			'Flux RH' => array(
-									'rh_arrete' => 'Arreté',
-									'rh_contrat' => 'Contrat',
+									'rh-actes' => 'Actes RH',
 									'rh_message_cdg' => 'Message Centre de gestion'
 								)
 		

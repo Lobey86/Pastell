@@ -47,4 +47,8 @@ class LastMessage {
 		return htmlentities($this->lastPost[$inputName],$this->encoding);
 	}
 	
+	public function deleteLastInput(){
+		unset($_SESSION['last_post']);
+	}
+	
 }

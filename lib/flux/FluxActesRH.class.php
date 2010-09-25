@@ -4,9 +4,9 @@ require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/flux/Flux.class.php");
 require_once( PASTELL_PATH . "/lib/flux/message/MessageArrete.class.php");
 
-class FluxArrete extends Flux {
+class FluxActesRH extends Flux {
 	
-	const TYPE  = "rh_arrete";
+	const TYPE  = "rh-actes";
 	
 	const STATE_SEND_TDT = "Télétransmis";
 	const STATE_SEND_TDT_ACK = "Acquitté";
@@ -18,7 +18,7 @@ class FluxArrete extends Flux {
 	}
 	
 	public function getFluxTitre(){
-		return "Arreté";
+		return "Actes RH";
 	}
 	
 	public function getMessageInit(){
@@ -34,6 +34,15 @@ class FluxArrete extends Flux {
 		}
 		return parent::getNextState($state);
 	}
+	
+	public function getAction($type_flux,$etat){
+		$result = array();
+		if ($etat == 'init'){
+			$result = array('poste' => "Envoyer l'acte");
+		}
+		return $result;
+	}
+	
 	
 	public function getFamille(){
 		return "Flux RH";

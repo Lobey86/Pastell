@@ -1,0 +1,48 @@
+<?php
+require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
+
+class Document {
+	
+	const MAX_ESSAI = 5;
+	
+	private $sqlQuery;
+	
+	public function __construct(SQLQuery $sqlQuery){
+		$this->sqlQuery = $sqlQuery;
+		$this->setPasswordGenerator(new PasswordGenerator());
+	}
+	
+	public function setPasswordGenerator(PasswordGenerator $passwordGenerator){
+		$this->passwordGenerator = $passwordGenerator;
+	}
+	
+	public function getNewId(){
+		for ($i=0; $i<self::MAX_ESSAI; $i++){
+			$id_d = $this->passwordGenerator->getPassword();
+			$sql = "SELECT count(*) FROM document WHERE id_d=?";
+			$nb = $this->sqlQuery->fetchOneValue($sql,$id_d);
+			
+			if ($nb == 0){
+				return $id_d;
+			}	
+		}
+		throw new Exception("Impossible de trouver un numéro de transaction");
+	}
+	
+	
+	public function save($id_d,$type){
+		$sql = "INSERT INTO document(id_d,type) VALUES (?,?)";
+		$this->sqlQuery->query($sql,$id_d,$type);
+	}
+	
+	public function getInfo($id_d){
+		$sql = "SELECT * FROM document WHERE id_d = ? ";
+		return $this->sqlQuery->fetchOneLine($sql,$id_d);
+	}
+	
+	public function getAll($type){
+		$sql = "SELECT * FROM document WHERE type = ? ";
+		return $this->sqlQuery->fetchAll($sql,$type);
+	}
+	
+}

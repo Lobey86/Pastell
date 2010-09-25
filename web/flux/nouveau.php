@@ -17,11 +17,12 @@ require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 
 
 $recuperateur = new Recuperateur($_REQUEST);
+$message_type = $recuperateur->get('message_type');
+$destinataire = $recuperateur->get('destinataire');
+
 
 $flux = $recuperateur->get('flux');
 $id_m = $recuperateur->get('id_m');
-$message_type = $recuperateur->get('message_type');
-$destinataire = $recuperateur->get('destinataire');
 
 $id_t = "";
 
@@ -78,25 +79,26 @@ include( PASTELL_PATH ."/include/haut.php");
 <div class="box_contenu clearfix">
 
 <?php if ($message->getFormulaire()) : 
-$formulaire_file = $message->getFormulaire();
-$formulaire = new Formulaire( PASTELL_PATH ."/form/".$formulaire_file);
+	$formulaire_file = $message->getFormulaire();
+	$formulaire = new Formulaire( PASTELL_PATH ."/form/".$formulaire_file);
+	
+	if (!$id_t){
+		$transactionCreator = new TransactionCreator($sqlQuery,new PasswordGenerator());
+		$id_t = $transactionCreator->getNewTransactionNum();
+	}
+	
+	$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH . "/$id_t.yml");
+	$donneesFormulaire->setFormulaire($formulaire);
+	
+	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+	
+	$afficheurFormulaire->injectHiddenField('flux',$flux);
+	$afficheurFormulaire->injectHiddenField('message_type', $message->getType() );
+	$afficheurFormulaire->injectHiddenField('id_t',$id_t);
+	$afficheurFormulaire->injectHiddenField('id_m',$id_m);
+	
 
-if (!$id_t){
-	$transactionCreator = new TransactionCreator($sqlQuery,new PasswordGenerator());
-	$id_t = $transactionCreator->getNewTransactionNum();
-}
-
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH . "/$id_t.yml");
-$donneesFormulaire->setFormulaire($formulaire);
-
-$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-
-$afficheurFormulaire->injectHiddenField('flux',$flux);
-$afficheurFormulaire->injectHiddenField('message_type', $message->getType() );
-$afficheurFormulaire->injectHiddenField('id_t',$id_t);
-
-
-$afficheurFormulaire->affiche(0,"flux/nouveau-controler.php");
+	$afficheurFormulaire->affiche(0,"flux/nouveau-controler.php");
 ?>
 <?php else : ?>
 
