@@ -12,7 +12,11 @@ class RoleDroit {
 					'admin' => array(
 									'entite:edition',
 									'entite:lecture',
-									'rh-actes:edition'),
+									'journal:lecture',
+									'rh-actes:edition',
+									'rh-actes:lecture',
+					
+					),
 					'lecteur' => array(
 									'entite:lecture',
 								),

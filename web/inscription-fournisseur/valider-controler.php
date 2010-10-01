@@ -6,7 +6,7 @@ require_once( PASTELL_PATH . '/lib/transaction/TransactionCreator.class.php');
 require_once( PASTELL_PATH . '/lib/transaction/TransactionSQL.class.php');
 require_once( PASTELL_PATH . '/lib/flux/FluxInscriptionFournisseur.class.php');
 require_once( PASTELL_PATH . '/lib/transaction/message/MessageSQL.class.php');
-require_once( PASTELL_PATH . '/lib/notification/MailNotificationSQL.class.php');
+require_once( PASTELL_PATH . '/lib/notification/Notification.class.php');
 
 if (! $donneesFormulaire->isValidable()) {
 	$lastError->setLastError("Le formulaire n'est pas terminé");
@@ -33,8 +33,10 @@ foreach ($donneesFormulaire->getAllRessource() as $ressource){
 $transaction->addRole($infoEntite['siren'],"emmeteur");
 $transaction->addRole("160641569","detinataire");
 
-$mailNotificationSQL = new MailNotificationSQL($sqlQuery);
-$mailNotificationSQL->addNotification($infoEntite['siren'],$infoUtilisateur['email'],"default");
+/*
+ * $notification = new Notification($sqlQuery);
+$notification->addNotification($infoEntite['siren'],$infoUtilisateur['email'],"default");
+*/
 
 $entite->setEtat(Entite::ETAT_EN_COURS_VALIDATION);
 

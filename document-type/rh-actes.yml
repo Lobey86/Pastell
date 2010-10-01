@@ -1,0 +1,65 @@
+Actes RH:
+	formulaire:
+		ActesRH:
+			Objet: {requis: true, title: true}
+			Matricule de l'agent: {requis: true}
+			Nom: 
+			Prénom :
+			Type:
+				type: select
+				value:	
+						arrete_nomination: Arretés de nomination des titulaires et non titulaires
+						arrete_avancement: Arretés d'avancement de grade
+						sanction: Decisions portant des sanctions disciplinaires
+						licenciement: Licenciement
+			
+			Date: {type: date}
+			Envoie au contrôle de légalité: {type: checkbox}
+			Arreté: {type: file, requis: true}
+			Autre document attaché: {type: file, multiple: true}
+	
+	action:
+		Modifier:
+			last-action: 
+				Créer
+				Modifier
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+
+		Envoyer au contrôle de légalité:
+			last-action: 
+				Créer
+				Modifier
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			content: 
+				Envoie au contrôle de légalité: true
+			
+		Envoyer au CDG:
+			last-action: Envoyer au contrôle de légalité
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			content: 
+				Envoie au contrôle de légalité: true
+		
+		Envoyer au CDG:
+			last-action: 
+				Créer
+				Modifier
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			content: 
+				Envoie au contrôle de légalité: false
+		
+		Enregistrer dans la GED:
+			last-action: Envoyer au CDG
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+		
+		Archiver:
+			last-action: Enregistrer dans la GED
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+		
+	
+		

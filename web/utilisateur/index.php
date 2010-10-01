@@ -1,6 +1,6 @@
 <?php 
 
-require_once( dirname(__FILE__) . "/../init-admin.php");
+require_once(dirname(__FILE__)."/../init-authenticated.php");
 
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
@@ -56,8 +56,9 @@ suivant_precedent($offset,$limit,$count);
 
 			 <?php foreach($infoEntite as $entite) : ?>
 				<a href='entite/detail.php?id_e=<?php echo $entite['id_e']?>'>
-			 		<?php echo $entite['denomination']?>&nbsp;
+			 		<?php echo $entite['denomination']?>
 			 	</a>
+			 	 (<?php echo $entite['role']?>) &nbsp;
 			 <?php endforeach;?>
 		
 		</td>

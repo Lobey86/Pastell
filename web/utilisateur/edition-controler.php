@@ -7,7 +7,7 @@ require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurCreator.class.php");
-require_once( PASTELL_PATH . '/lib/notification/MailNotificationSQL.class.php');
+require_once( PASTELL_PATH . '/lib/notification/Notification.class.php');
 
 $recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');
@@ -28,7 +28,7 @@ if (! $entite->exists()){
 	$redirection->redirect();
 }
 
-$utilisateurCreator = new UtilisateurCreator($sqlQuery);
+$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
 $id_u = $utilisateurCreator->create($login,$password,$password2,$email);
 
 if ( ! $id_u){
@@ -41,9 +41,9 @@ $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
 
 $infoUtilisateur = $utilisateur->getInfo();
-$mailNotificationSQL = new MailNotificationSQL($sqlQuery);
-$mailNotificationSQL->addNotification($id_e,$infoUtilisateur['email'],"default");
-
+/*$notification = new Notification($sqlQuery);
+$notification->addNotification($id_e,$infoUtilisateur['email'],"default");
+*/
 $roleUtilisateur->addRole($id_u,$role,$id_e);
 
 

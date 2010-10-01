@@ -1,8 +1,13 @@
 <?php 
 require_once( PASTELL_PATH ."/lib/flux/FluxFactory.class.php");
 require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
+require_once( PASTELL_PATH. "/lib/base/Recuperateur.class.php");
 
-header("Content-type: text/html")
+header("Content-type: text/html");
+
+$recuperateur = new Recuperateur($_GET);
+$id_e_menu = $recuperateur->get('id_e');
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -48,14 +53,9 @@ header("Content-type: text/html")
 <div id="main_menu">
 <a href="<?php echo SITE_BASE ?>index.php" class="picto_accueil">Accueil</a>
 <a href="<?php echo SITE_BASE ?>entite/" class="picto_collectivites">Collectivités</a>
-<?php if ($authentification->getTypeEntite() == Entite::TYPE_COLLECTIVITE || $authentification->isAdmin()) : ?>
 <a href="<?php echo SITE_BASE ?>entite/fournisseur.php" class="picto_fournisseurs">Fournisseurs</a>
-<?php if ($authentification->isAdmin()) : ?>
 <a href="<?php echo SITE_BASE ?>utilisateur/index.php" class="picto_utilisateurs">Utilisateurs</a>
-<?php endif; ?>
-<?php elseif($authentification->getTypeEntite() == Entite::TYPE_FOURNISSEUR):  ?>
 <a href="<?php echo SITE_BASE ?>inscription-fournisseur/index.php" class="picto_fournisseurs">Mes informations</a>
-<?php endif; ?>
 <a href="<?php echo SITE_BASE ?>flux/index.php" class="picto_flux">Flux</a>
 <a href="<?php echo SITE_BASE ?>document/index.php" class="picto_journal">Document</a>
 <a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_journal">Journal transactions</a>
@@ -76,13 +76,9 @@ if ( $authentification->getBreadCrumbs()) {
 <div id="breadcrumb">
 <img src="img/commun/puce_geographie.png" alt="" class="absmiddle" />
 <?php foreach( $bc as $infoEntiteBC) : ?>
-	<?php if ($authentification->isAdmin()) : ?>
 		<a href='entite/detail.php?siren=<?php echo $infoEntiteBC['siren']?>'>
-	<?php endif;?>
 &gt;&nbsp;<?php echo $infoEntiteBC['denomination']?>&nbsp;
-	<?php if ($authentification->isAdmin()) : ?>
 </a>
-	<?php endif;?>
 <?php endforeach;?>
 <?php if (! $bc) : ?>
 	Bienvenue
@@ -101,20 +97,17 @@ if ( $authentification->getBreadCrumbs()) {
 		<div class="box">
 		<div class="haut"><h2>Flux</h2></div>
 		<div class="cont">
-		<ul><li><a href='flux/affiche-flux.php<?php echo isset($siren)?"?siren=$siren":''?>'>Tous</a></li></ul>
+		<ul><li><a href='flux/affiche-flux.php<?php echo isset($id_e_menu)?"?id_e=$id_e_menu":''?>'>Tous</a></li></ul>
 	<?php 
-	if (! $authentification->isAdmin()){
-		$allFlux = FluxFactory::getFluxByEntite($infoEntite);
-	} else {
+
 		$allFlux = FluxFactory::getFlux();
-	}
 	
 	foreach($allFlux as $type_flux => $les_flux) : ?>
 	
 	<h3><?php echo $type_flux  ?></h3>
 		<ul>
 			<?php foreach($les_flux as $nom => $affichage) : ?>
-				<li><a href='<?php echo SITE_BASE ?>document/list.php?type=<?php echo $nom?><?php echo isset($siren)?"&siren=$siren":''?>'><?php echo $affichage ?></a></li>
+				<li><a href='<?php echo SITE_BASE ?>document/list.php?type=<?php echo $nom?><?php echo isset($id_e_menu)?"&id_e=$id_e_menu":''?>'><?php echo $affichage ?></a></li>
 			<?php endforeach;?>
 		</ul>
 	<?php endforeach;?>

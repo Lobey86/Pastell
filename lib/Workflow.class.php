@@ -6,7 +6,7 @@ require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionSQL.class.php");
 require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/Journal.class.php");
-require_once( PASTELL_PATH . "/lib/Notification.class.php");
+require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/flux/FluxActesRH.class.php");
 
 require_once( PASTELL_PATH . "/lib/flux/FluxInscriptionFournisseur.class.php");

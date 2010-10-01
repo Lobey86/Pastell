@@ -1,0 +1,100 @@
+<?php
+require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
+require_once( PASTELL_PATH . "/lib/base/Date.class.php");
+
+class Journal {
+	
+	const CREATE_SQL = "CREATE TABLE journal (
+  id_j int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL,
+  id_e int(11) NOT NULL,
+  id_u int(11) NOT NULL,
+  id_d varchar(16) NOT NULL,
+  `action` varchar(16) NOT NULL,
+  message varchar(128) NOT NULL,
+  `date` datetime NOT NULL,
+  preuve varchar(1024) NOT NULL,
+  PRIMARY KEY (id_j)
+)";
+	
+	const DOCUMENT_ACTION = 1;
+	const NOTIFICATION = 2;
+	const MODIFICATION_ENTITE = 3;
+	const MODIFICATION_UTILISATEUR = 4;
+	
+	
+	private $sqlQuery;
+	private $id_u;
+	
+	public function __construct(SQLQuery $sqlQuery,$id_u){
+		$this->sqlQuery = $sqlQuery;
+		$this->id_u = $id_u;
+	}
+	
+	public function add($type,$id_e,$id_d,$action,$message){
+		$now = date(Date::DATE_ISO);
+		$proof= "";
+		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,preuve) VALUES (?,?,?,?,?,?,?,?)";
+		$this->sqlQuery->query($sql,array($type,$id_e,$this->id_u,$id_d,$action,$message,$now,$proof));
+	}
+	
+	public function getAll($id_e,$type,$id_d,$offset,$limit){
+		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
+			" LEFT JOIN document ON journal.id_d = document.id_d " .
+			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
+			" LEFT JOIN utilisateur ON journal.id_u = utilisateur.id_u " .
+			" WHERE journal.id_e = ? ";
+		
+		$value = array($id_e);
+		
+		if ($type){
+			$sql .= " AND document.type=?";
+			$value[] = $type;
+		}
+		if ($id_d){
+			$sql .= " AND document.id_d = ? ";
+			$value[] = $id_d;
+		}
+		
+		$sql .= " ORDER BY id_j DESC LIMIT $offset,$limit";
+		return $this->sqlQuery->fetchAll($sql,$value);
+	}
+	
+	public function countAll($id_e,$type,$id_d){
+		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d WHERE id_e = ?";
+		$value = array($id_e);
+		
+		if ($type){
+			$sql .= " AND document.type=?";
+			$value[] = $type;
+		}
+		if ($id_d){
+			$sql .= " AND document.id_d = ? ";
+			$value[] = $id_d;
+		}
+		
+		return $this->sqlQuery->fetchOneValue($sql,$value);
+	}
+	
+	public function getAllTransactionBySiren($siren,$offset,$limit){
+			$sql = "SELECT journal.* FROM transaction_role "  .  
+					" JOIN transaction ON transaction_role.id_t = transaction.id_t " . 
+					" AND transaction_role.siren=? " . 
+					" JOIN journal ON journal.id_t = transaction.id_t ".
+					" ORDER BY id_j DESC LIMIT $offset,$limit";
+		return $this->sqlQuery->fetchAll($sql,array($siren));		
+	}	
+	
+	public function countBySiren($siren){
+		$sql = "SELECT count(*) FROM transaction_role "  .  
+					" JOIN transaction ON transaction_role.id_t = transaction.id_t " . 
+					" AND transaction_role.siren=? " . 
+					" JOIN journal ON journal.id_t = transaction.id_t ";
+		return $this->sqlQuery->fetchOneValue($sql,array($siren));
+	}
+	
+	public function getTypeAsString($type){
+		$type_string = array(1=>"Action sur un document","Notification","Gestion des entités","Gestion des utilisateurs");
+		return $type_string[$type];
+	}
+}

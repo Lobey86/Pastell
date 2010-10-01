@@ -20,11 +20,8 @@ $flux = FluxFactory::getInstance($theFlux);
 
 $transactionFinder = new TransactionFinder($sqlQuery);
 $transactionFinder->setAllInfo();
-if ( ! $authentification->isAdmin()){
-	$transactionFinder->setSiren($infoEntite['siren']);
-} else {
-	$transactionFinder->setSiren($siren);
-}
+
+$transactionFinder->setSiren($siren);
 
 $transactionFinder->setFlux($theFlux);
 
@@ -56,7 +53,7 @@ if  (!$theFlux){
 }
 
 
-if ($entite && $flux->canCreate($infoEntite['type']) && $theFlux){
+if ( $flux->canCreate($infoEntite['type']) && $theFlux){
 	$nouveau_bouton_url = "flux/nouveau.php?flux=$theFlux";
 }
 
@@ -72,7 +69,7 @@ include( PASTELL_PATH ."/include/haut.php");
 				
 <ul>
 	<?php foreach($document->getAll($theFlux) as $f) : ?>
-		<li><a href='document/voir.php?id_d=<?php echo $f['id_d']?>'><?php echo $f['id_d']?></a></li>
+		<li><a href='document/detail.php?id_d=<?php echo $f['id_d']?>'><?php echo $f['id_d']?></a></li>
 	<?php endforeach;?>
 </ul>
 </div>

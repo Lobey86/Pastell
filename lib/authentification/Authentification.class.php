@@ -1,6 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurEntite.class.php");
 
 class Authentification {
 	
@@ -19,12 +18,6 @@ class Authentification {
 		$this->session['connexion']['breadcrumbs'] = array();
 	}
 	
-	public function setRole($role, $siren ,$type_entite){
-		$this->session['connexion']['role'] = $role;
-		$this->session['connexion']['siren'] = $siren;
-		$this->session['connexion']['type_entite'] = $type_entite;
-  	}
-	
 	public function isConnected(){
 		return isset($this->session['connexion']);
 	}
@@ -39,21 +32,11 @@ class Authentification {
 		return $this->session['connexion']['id_u'];
 	}
 	
-	public function getTypeEntite(){
-		return $this->session['connexion']['type_entite'];
-	}
 	
 	public function deconnexion(){
 		unset($this->session['connexion']);
 	}
 
-	public function isAdmin(){
-		if ($this->session['connexion']['role'] == UtilisateurEntite::ROLE_SUPER_ADMIN){
-			return true;
-		}
-		return $this->session['connexion']['role'] == UtilisateurEntite::ROLE_ADMIN;
-	}
-	
 	public function setBreadCrumbs($bc){
 		$this->session['connexion']['breadcrumbs'] = $bc;
 	}

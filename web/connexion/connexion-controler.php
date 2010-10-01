@@ -24,24 +24,5 @@ if ( ! $utilisateur->verifPassword($password) ){
 
 $authentification->connexion($login, $id_u);
 
-$utilisateurEntite = new UtilisateurEntite($sqlQuery,$id_u);
-
-$siren = $utilisateurEntite->getSiren();
-$role = $utilisateurEntite->getRole();
-
-$type = Entite::TYPE_COLLECTIVITE;
-if ($siren){
-	$entite = new Entite($sqlQuery,$siren);
-	$info = $entite->getInfo();
-	$type = $info['type'];
-	$breadcrumbs = $entite->getBreadCrumbs();
-	$authentification->setBreadCrumbs($breadcrumbs);
-	
-}
-
-$authentification->setRole($role,$siren,$type);
-
-
-
 
 header("Location: " . SITE_BASE . "index.php");

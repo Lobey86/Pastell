@@ -1,5 +1,5 @@
 <?php 
-include( "../init-admin.php");
+require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 $page_title = "Nouvel utilisateur ";
@@ -10,6 +10,7 @@ $id_e = $recuperateur->get('id_e');
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
+
 if (! $infoEntite){
 	header("Location: ".SITE_BASE . "index.php");
 }
@@ -18,6 +19,8 @@ $roleDroit = new RoleDroit();
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 
+<a href='entite/detail.php?id_e=<?php echo $id_e?>'>« Revenir à <?php echo $infoEntite['denomination']?></a>
+<br/><br/>
 
 <?php include (PASTELL_PATH."/include/bloc_message.php"); ?>
 
@@ -61,8 +64,10 @@ Veuillez remplir le formulaire ci-dessous afin de pouvoir créer un nouvel utilis
 	<td> <input type='text' name='prenom' value='<?php echo $lastError->getLastInput('prenom')?>'/></td>
 </tr>
 <tr>
-	<th>numéro SIREN</th>
-	<td> <?php echo $infoEntite['siren'] ?> (<?php echo $infoEntite['denomination']?>) </td>
+	<th>Entité de base</th>
+	<td> <a href='entite/detail.php?id_e=<?php echo $id_e?>'><?php echo $infoEntite['denomination']?> 
+		</a>
+		<?php if ($infoEntite['siren']) :?>(<?php echo $infoEntite['siren']?>)<?php endif;?></td>
 </tr>
 
 <tr>

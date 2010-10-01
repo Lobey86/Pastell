@@ -1,7 +1,9 @@
 <?php 
-include( "../init-admin.php");
+require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
+require_once( PASTELL_PATH . "/lib/document/DocumentType.class.php");
+require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 
 
 
@@ -24,6 +26,10 @@ $entiteListe = new EntiteListe($sqlQuery);
 
 
 $tabEntite = $roleUtilisateur->getEntite($authentification->getId(),'entite:edition');
+
+$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+
+$notification = new Notification($sqlQuery);
 
 
 include( PASTELL_PATH ."/include/haut.php");
@@ -125,6 +131,75 @@ include( PASTELL_PATH ."/include/haut.php");
 
 </div>
 
+<div class="box_contenu clearfix">
+<h2>Notification de l'utilisateur</h2>
+<table class='tab_02'>
+<tr>
+<th>Entité</th>
+<th>Type de document</th>
+<th>Action</th>
+<th>&nbsp;</th>
+</tr>
+
+<?php foreach ($notification->getAll($id_u) as $infoNotification) : ?>
+<tr>
+	<td>
+		<?php if ($infoNotification['id_e']) : ?>
+			<a href='entite/detail.php?id_e=<?php echo $infoNotification['id_e']?>'><?php echo $infoNotification['denomination']?></a>
+		<?php else : ?>
+			Toutes les collectivités 
+		<?php endif;?>
+	</td> 
+	<td>
+		<?php if($infoNotification['type']): ?>
+			<?php echo $documentType->getName($infoNotification['type']) ?>
+		<?php else : ?>
+			Tous
+		<?php endif; ?>
+	</td>
+	<td>
+		<?php if ($infoNotification['action']) : ?>
+			<?php echo $infoNotification['action'] ?>
+		<?php else : ?>
+			Toutes
+		<?php endif;?>
+	</td>
+	
+	<td>
+		<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+			enlever cette notification
+		</a>
+	</td>
+</tr>
+<?php endforeach;?>
+</table>
+
+<form action='utilisateur/ajouter-notification.php' method='post'>
+	<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+	
+	<select name='id_e'>
+		<option value=''>...</option>
+		<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
+		<option value='<?php echo $entiteInfo['id_e']?>'>
+			<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
+			|_<?php echo $entiteInfo['denomination']?> </option>
+		<?php endforeach ; ?>
+	</select>
+	
+	<select name='type'>
+		<option value=''>...</option>
+		<?php foreach($documentType->getAllTtype() as $type => $description): ?>
+		<option value='<?php echo $type?>'> <?php echo $description ?> </option>
+		<?php endforeach ; ?>
+	</select>
+	
+
+	
+	<input type='submit' value='ajouter'/>
+</form>
+
+
+</div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
 

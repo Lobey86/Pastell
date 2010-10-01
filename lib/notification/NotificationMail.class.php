@@ -1,6 +1,6 @@
 <?php
 
-class Notification {
+class NotificationMail {
 	
 	private $sqlQuery;
 	private $zenMail;
