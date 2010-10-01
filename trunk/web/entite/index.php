@@ -1,29 +1,34 @@
 <?php 
 
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
-require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
-$recuperateur = new Recuperateur($_GET);
-$offset = $recuperateur->getInt('offset',0);
-$limit = 20;
+$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'entite:lecture');
 
+if ( ! $liste_collectivite){
+	header("Location: ". SITE_BASE . "/index.php");
+	exit;
+}
 
-$entiteListe = new EntiteListe($sqlQuery);
+if (count($liste_collectivite) == 1){
+	if ($liste_collectivite[0] == 0) {
+		$entiteListe = new EntiteListe($sqlQuery);
+		$liste_collectivite = $entiteListe->getAllCollectiviteId();
+	} else {
+		header("Location: detail.php?id_e=".$liste_collectivite[0]);	
+		exit;
+	}
+}
 
-$count = $entiteListe->countCollectivite();
 
 $page_title = "Liste des collectivités";
+
 
 if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",0)){
 	$nouveau_bouton_url = "entite/edition.php";
 }
 
 include( PASTELL_PATH ."/include/haut.php");
-suivant_precedent($offset,$limit,$count);
-
 ?>
 
 
@@ -38,13 +43,17 @@ suivant_precedent($offset,$limit,$count);
 		<th>Siren</th>
 		<th>Type</th>
 	</tr>
-<?php foreach($entiteListe->getCollectivite($offset,$limit) as $i => $entite) : ?>
+<?php foreach($liste_collectivite as $i=>$id_e) : 
+
+	$entite = new Entite($sqlQuery,$id_e);
+	$info = $entite->getInfo();
+?>
 	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-		<td><a href='entite/detail.php?id_e=<?php echo $entite['id_e']?>'><?php hecho($entite['denomination']) ?></a></td>
+		<td><a href='entite/detail.php?id_e=<?php echo $info['id_e']?>'><?php hecho($info['denomination']) ?></a></td>
 		<td><?php 
-		echo $entite['siren'] ?></td>
+		echo $info['siren'] ?></td>
 		<td>
-			<?php echo Entite::getNom($entite['type']) ?>
+			<?php echo Entite::getNom($info['type']) ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

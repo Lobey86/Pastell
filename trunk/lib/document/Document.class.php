@@ -31,9 +31,15 @@ class Document {
 	
 	
 	public function save($id_d,$type){
-		$sql = "INSERT INTO document(id_d,type) VALUES (?,?)";
+		$sql = "INSERT INTO document(id_d,type,creation,modification) VALUES (?,?,now(),now())";
 		$this->sqlQuery->query($sql,$id_d,$type);
 	}
+	
+	public function setTitre($id_d,$titre){
+		$sql = "UPDATE document SET titre = ?,modification=now() WHERE id_d = ?";
+		$this->sqlQuery->query($sql,$titre,$id_d);
+	}
+	
 	
 	public function getInfo($id_d){
 		$sql = "SELECT * FROM document WHERE id_d = ? ";

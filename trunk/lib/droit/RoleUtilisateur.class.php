@@ -1,6 +1,7 @@
 <?php
 
 require_once("RoleDroit.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 
 class RoleUtilisateur {
 	
@@ -27,14 +28,10 @@ CREATE TABLE utilisateur_role (
 	public function removeRole($id_u,$role,$id_e) {
 		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? AND role = ? AND id_e=? ";
 		
-		$nb_role = $this->sqlQuery->fetchOneValue($sql,$id_u,$role,$id_e);
-		if ($nb_role < 1){
-			return;
-		}
 		
-		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? AND id_e=?";
-		$nb_role_total = $this->sqlQuery->fetchOneValue($sql,$id_u,$id_e);
-		if ($nb_role == $nb_role_total){
+		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? ";
+		$nb_role= $this->sqlQuery->fetchOneValue($sql,$id_u);
+		if ($nb_role == 1){
 			$sql = "UPDATE utilisateur_role SET role='".RoleDroit::AUCUN_DROIT."' WHERE id_u = ? AND role = ? AND id_e = ?";
 		} else {
 			$sql = "DELETE FROM utilisateur_role WHERE id_u = ? AND role = ? AND id_e = ?";
@@ -64,8 +61,20 @@ CREATE TABLE utilisateur_role (
 	}
 	
 	public function getRole($id_u){
-		$sql = "SELECT * FROM utilisateur_role LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?";
+		$sql = "SELECT utilisateur_role.*,denomination FROM utilisateur_role LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?";
 		return $this->sqlQuery->fetchAll($sql,$id_u);
+	}
+	
+	public function hasOneDroit($id_u,$droit){
+		$sql = "SELECT role FROM utilisateur_role WHERE id_u = ?";
+		$allRole = $this->sqlQuery->fetchAll($sql,$id_u);
+		foreach($allRole as $role){
+			if ($this->roleDroit->hasDroit($role['role'],$droit)){
+				return true;
+			}
+		}
+		return false;
+	
 	}
 	
 	

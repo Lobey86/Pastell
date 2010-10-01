@@ -49,16 +49,10 @@ class Entite  {
 		$this->id_e = $id_e;
 	}
 	
+
 	public function exists(){
 		return $this->getInfo();
 	}
-	
-	public function update($siren,$denomination,$type,$entite_mere = 0){
-		$sql = "UPDATE entite SET siren= ? , denomination=?,type=?,entite_mere = ?  " . 
-				" WHERE id_e=?";
-		$this->sqlQuery->query($sql,$siren,$denomination,$type,$entite_mere,$this->id_e);
-	}
-	
 	
 	public function getMere(){
 		return $this->sqlQuery->fetchOneValue("SELECT entite_mere FROM entite WHERE id_e=?",$this->id_e);
@@ -72,6 +66,7 @@ class Entite  {
 		return $this->info;
 	}
 	
+	//TODO => mettre dans EntiteModifier ?
 	public function setEtat($etat){
 		$sql = "UPDATE entite SET etat=? WHERE id_e=?";
 		$this->sqlQuery->query($sql,$etat,$this->id_e);
@@ -86,14 +81,21 @@ class Entite  {
 		return true;
 	}
 	
-	public function delete(){
-		$sql = "DELETE FROM entite WHERE id_e=?";
-		$this->sqlQuery->query($sql,$this->id_e);
-	}
-
 	public function getFille(){
 		$sql = "SELECT * FROM entite WHERE entite_mere=?";
 		return $this->sqlQuery->fetchAll($sql,$this->id_e);
+	}
+	
+	public function getAncetre(){
+		$info = $this->getInfo();
+		$bc = array();
+		while ($info['entite_mere']){
+			$entite = new Entite($this->sqlQuery,$info['entite_mere']);
+			$info = $entite->getInfo();
+			$bc[] = $info;
+		}
+		
+		return array_reverse($bc);
 	}
 	
 	public function getBreadCrumbs(){
@@ -107,5 +109,6 @@ class Entite  {
 		
 		return array_reverse($bc);
 	}
+	
 	
 }

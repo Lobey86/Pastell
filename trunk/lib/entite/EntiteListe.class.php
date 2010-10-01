@@ -22,9 +22,13 @@ class EntiteListe {
 		return $this->sqlQuery->fetchOneValue($sql,Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION);
 	}
 	
-	public function getCollectivite($offset,$limit){
-		$sql = "SELECT * FROM entite WHERE type=? OR type=? ORDER BY denomination LIMIT $offset,$limit" ;
-		return $this->sqlQuery->fetchAll($sql,Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION);
+	public function getAllCollectiviteId(){
+		$sql = "SELECT id_e FROM entite WHERE entite_mere=0 AND type != 'fournisseur' ORDER BY denomination" ;
+		$all= $this->sqlQuery->fetchAll($sql);
+		foreach($all as $info){
+			$result[] = $info['id_e'];
+		}
+		return $result;
 	}
 	
 	public function getAll($type){

@@ -7,15 +7,27 @@ require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 
 $recuperateur = new Recuperateur($_GET);
-$id_e = $recuperateur->getInt('id_e',0);
+$id_e = $recuperateur->getInt('id_e');
 
-$entite = new Entite($sqlQuery,$id_e);
-$info = $entite->getInfo();
+if (! $id_e){
+	header("Location: index.php");
+	exit;
+}
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)){
 	header("Location: index.php");
 	exit;
 }
+
+$entite = new Entite($sqlQuery,$id_e);
+if (! $entite->exists()){
+	header("Location: index.php");
+	exit;
+}
+
+
+$info = $entite->getInfo();
+
 
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 
@@ -67,11 +79,12 @@ include( PASTELL_PATH ."/include/haut.php");
 <th>Dénomination</th>
 <td><?php echo $info['denomination'] ?></td>
 </tr>
-
+<?php if ($info['siren']) : ?>
 <tr>
 <th>Siren</th>
 <td><?php echo $info['siren'] ?></td>
 </tr>
+<?php endif;?>
 
 <?php if ($info['type'] == Entite::TYPE_FOURNISSEUR ) : ?>
 <tr>
@@ -97,48 +110,49 @@ include( PASTELL_PATH ."/include/haut.php");
 <tr>
 	<th>Entité mère</th>
 	<td>
-		<a href='entite/detail.php?siren=<?php echo $infoMere['siren']?>'>
+		<a href='entite/detail.php?id_e=<?php echo $infoMere['id_e']?>'>
 			<?php echo $infoMere['denomination'] ?>
 		</a>
 	</td>
 </tr>
 <?php endif;?>
+<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) : ?>
+	<tr>
+	<th>Entité fille</th>
+	<td>
+		<?php if ( ! $filles) : ?>
+			<?php echo "Cette entité n'a pas d'entité fille"?>
+		<?php endif;?>
+		<ul>
+		<?php foreach($filles as $fille) : ?>
+			<li><a href='entite/detail.php?id_e=<?php echo $fille['id_e']?>'>
+				<?php echo $fille['denomination']?>
+			</a></li>
+		<?php endforeach;?>
+		</ul>
+		<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
+		<a href="entite/edition.php?entite_mere=<?php echo $id_e?>" >
+			Ajouter une entité fille
+		</a>
+		<?php endif;?>
+	</td>
+	</tr>
+<?php endif;?>
+<?php if ($info['centre_de_gestion']) : 
+	$cdg = new Entite($sqlQuery,$info['centre_de_gestion']);
+	$infoCDG = $cdg->getInfo();
+
+?>
+	<tr>
+		<th>Centre de gestion</th>
+		<td><a href='entite/detail.php?id_e=<?php echo $infoCDG['id_e']?>'><?php echo $infoCDG['denomination']?></a></td>
+	</tr>
+<?php endif;?>
+
+
 </table>
 </div>
 
-<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) : ?>
-<div class="box_contenu">
-<h2>Liste des entités filles 
-<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
-	<a href="entite/edition.php?entite_mere=<?php echo $id_e?>" class='btn_add'>
-		Nouveau
-	</a>
-<?php endif;?>
-</h2>
-	
-	<?php if ($filles) : ?>
-	
-		<table class='tab_01'>
-		<tr>
-			<th>Dénomination</th>
-			<th>siren</th>
-		</tr>
-		<?php foreach($filles as $fille) : ?>
-			<tr>
-				<td>
-					<a href='entite/detail.php?id_e=<?php echo $fille['id_e']?>'>
-						<?php echo $fille['denomination']?>
-					</a>
-				</td>
-				<td><?php echo $fille['siren']?></td>
-			</tr>
-		<?php endforeach;?>
-		</table>
-	<?php else : ?>
-		<p>Cette entité n'a pas d'entité fille</p>
-	<?php endif;?>
-</div>
-<?php endif;?>
 
 <div class="box_contenu">
 <h2>Liste des utilisateurs<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) :?>

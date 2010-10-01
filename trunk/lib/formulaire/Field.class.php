@@ -41,4 +41,8 @@ class Field {
 		return $this->properties['value'];
 	}
 	
+	public function isTitle(){
+		return (! empty($this->properties['title']));
+	}
+	
 }

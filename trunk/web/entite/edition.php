@@ -18,10 +18,10 @@ if ( (! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$
 }
 
 
-$infoEntite = array('type' => '',
+$infoEntite = array('type' =>  $lastError->getLastInput('type'),
 					'denomination' =>  $lastError->getLastInput('nom'),
 					'siren' =>  $lastError->getLastInput('siren'),
-					'entite_mere'=>'',
+					'entite_mere'=> $lastError->getLastInput('entite_mere'),
 					'id_e' => $lastError->getLastInput('id_e'),
 );
 
@@ -47,19 +47,19 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php if ($id_e) : ?>
 	<a href='entite/detail.php?id_e=<?php echo $id_e?>'>
 		« revenir à <?php echo $infoEntite['denomination']?>
-	</a><br/><br/>
-<?php endif;?>
-
-
-<?php if ($entite_mere) : ?>
+	</a>
+<?php elseif ($entite_mere) : ?>
 	<a href='entite/detail.php?id_e=<?php echo $infoMere['id_e']?>'>
 		« revenir à <?php echo $infoMere['denomination']?>
-	</a><br/><br/>
+	</a>
+<?php else: ?>
+	<a href='entite/index.php'>
+		« revenir à la liste des collectivités
+	</a>
 <?php endif;?>
-
+<br/><br/>
 
 <?php include (PASTELL_PATH."/include/bloc_message.php"); ?>
-
 
 <div class="box_contenu clearfix">
 
@@ -67,38 +67,54 @@ include( PASTELL_PATH ."/include/haut.php");
 <input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 
 <?php if ($entite_mere) : ?>
-<input type='hidden' name='type' value='<?php echo Entite::TYPE_SERVICE ?>' />
 <input type='hidden' name='entite_mere' value='<?php echo $entite_mere ?>' />
 <?php else: ?>
 <input type='hidden' name='entite_mere' value='<?php echo $infoEntite['entite_mere'] ?>' />
 
 <?php endif;?>
 <table>
-<?php if ( ! $entite_mere) : ?>
 	<tr>
 	<th>Type d'entité</th>
 	<td><select name='type'>
 	<?php foreach (array(Entite::TYPE_COLLECTIVITE, Entite::TYPE_CENTRE_DE_GESTION) as $type) :?>
-		<option value=<?php echo $type?>
+		<option value='<?php echo $type?>'
 			 <?php echo $infoEntite['type'] == $type?'selected="selected"':''?>> 
 		<?php echo Entite::getNom($type) ?> </option>	
 		<?php endforeach;?>
+		<?php if($entite_mere) : ?>
+			<option value=<?php echo Entite::TYPE_SERVICE ?>
+				 <?php echo $infoEntite['type'] == Entite::TYPE_SERVICE?'selected="selected"':''?>> 
+			<?php echo Entite::getNom(Entite::TYPE_SERVICE) ?> 
+		</option>	
+		<?php endif;?>
 	</select></td>
 	</tr>
-<?php endif;?>
 <tr>
 <th><label for="nom">Nom<span>*</span></label></th>
 
 <td><input type="text" name="nom" id="nom" value='<?php echo $infoEntite['denomination']?>'/></td>
 </tr>
 <tr>
-<th><label for="siren">Siren<span>*</span></label></th>
+<th><label for="siren">SIREN<span>*</span>(obligatoire pour une collectivité)</label></th>
 <td>
 	<input type="text" name="siren" id="siren" value='<?php echo $infoEntite['siren']?>'/></td>
 
 </tr>
+
+<tr>
+	<th><label for="cdg">Centre de gestion</label></th>
+	<td>
+		<select name='centre_de_gestion'>
+			<option>...</option>
+			<?php foreach($entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION) as $cdg)  :?>
+				<option value='<?php echo $cdg['id_e']?>'><?php echo $cdg['denomination']?></option>
+			<?php endforeach;?>
+		</select>
+	</td>
+</tr>
+
 </table>
-<span>*</span> champs obligatoires
+<span>*</span> champs obligatoires 
 
 <div class="align_right">
 <?php if ($id_e) : ?>

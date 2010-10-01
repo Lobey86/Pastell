@@ -15,6 +15,7 @@ class RoleUtilisateurTest extends DBUnitTestCase {
 		parent::__construct();
 		$this->sqlQuery->query(RoleUtilisateur::CREATE_SQL . " ENGINE = MEMORY;");
 		$this->sqlQuery->query(Entite::CREATE_SQL . " ENGINE = MEMORY;");
+		$this->sqlQuery->query(Journal::CREATE_SQL . " ENGINE = MEMORY;");
 		
 		$this->roleDroit = new RoleDroit();
 	}
@@ -32,7 +33,7 @@ class RoleUtilisateurTest extends DBUnitTestCase {
 	}
 	
 	public function testCanEditEntite(){
-		$entiteCreator = new EntiteCreator($this->sqlQuery);
+		$entiteCreator = new EntiteCreator($this->sqlQuery, new Journal($this->sqlQuery,999));
 		$id_e = $entiteCreator->create("123","test1",Entite::TYPE_COLLECTIVITE,0);
 		$roleUtilisateur = new RoleUtilisateur($this->sqlQuery,$this->roleDroit);
 		$this->assertFalse($roleUtilisateur->hasDroit(9998,"entite:edition",$id_e));

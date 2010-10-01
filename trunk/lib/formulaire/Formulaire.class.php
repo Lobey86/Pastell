@@ -63,4 +63,14 @@ class Formulaire {
 		}
 		return $fields;
 	}
+	
+	public function getTitreField(){
+		foreach($this->getAllFields() as $field){
+			if ($field->isTitle()){
+				return $field->getName();
+			}
+		}
+		return false;
+	}
+	
 }

@@ -13,6 +13,7 @@ require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $type = $recuperateur->get('type');
+$id_e = $recuperateur->get('id_e');
 
 
 $document = new Document($sqlQuery);
@@ -24,7 +25,8 @@ if ($id_d){
 	$id_d = $document->getNewId();	
 }
 
-
+$entite = new Entite($sqlQuery,$id_e);
+$infoEntite = $entite->getInfo();
 
 $formulaire_file = PASTELL_PATH . "/form/$type.yml" ;
 if ( ! file_exists($formulaire_file)){
@@ -35,7 +37,7 @@ if ( ! file_exists($formulaire_file)){
 $formulaire = new Formulaire( $formulaire_file);
 
 $tab = $formulaire->getTab();
-$page_title="Edition d'un document « " . $tab[0] . " »";
+$page_title="Edition d'un document « " . $tab[0] . " » ( " . $infoEntite['denomination'] . " ) ";
 
 
 $donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH . "/$id_d.yml");
@@ -44,6 +46,7 @@ $donneesFormulaire->setFormulaire($formulaire);
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 $afficheurFormulaire->injectHiddenField("id_d",$id_d);
 $afficheurFormulaire->injectHiddenField("form_type",$type);
+$afficheurFormulaire->injectHiddenField("id_e",$id_e);
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>

@@ -16,7 +16,7 @@ require_once( PASTELL_PATH . "/lib/flux/Flux.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . "/lib/Journal.class.php");
-require_once( PASTELL_PATH . "/lib/Notification.class.php");
+require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 
 
 //Récupération des données

@@ -105,9 +105,6 @@ class AfficheurFormulaire {
 		* champs obligatoires.<br/>
 		<?php endif;?>
 			<input type='submit' name='enregistrer' value='Enregistrer' />
-			<input type='submit' name='envoyer' value='Envoyer' />
-			<input type='submit' name='supprimer' value='Supprimer' />
-		
 		</form>
 	<?php }
 	

@@ -9,10 +9,11 @@ class UtilisateurCreator {
 	private $passwordGenerator;
 	private $mailValidator;
 	
-	public function __construct(SQLQuery $sqlQuery){
+	public function __construct(SQLQuery $sqlQuery,Journal $journal){
 		$this->sqlQuery = $sqlQuery;
 		$this->setPasswordGenertor(new PasswordGenerator());
 		$this->setMailValidator(new MailValidator());
+		$this->journal = $journal;
 	}
 	
 	public function setPasswordGenertor(PasswordGenerator $passwordGenerator){
@@ -59,7 +60,11 @@ class UtilisateurCreator {
 				" VALUES (?,?,?,?,now())";
 		$this->sqlQuery->query($sql,array($login,$password,$email,$password_validation));
 		
-		return $this->sqlQuery->fetchOneValue("SELECT id_u FROM utilisateur WHERE login=?",array($login));
+		$id_u =  $this->sqlQuery->fetchOneValue("SELECT id_u FROM utilisateur WHERE login=?",array($login));
+		
+		$this->journal->add(Journal::MODIFICATION_UTILISATEUR,0,0,"creation","Création de l'utilisateur $login ($id_u)");	
+		
+		return $id_u;
 	}
 	
 	public function loginExists($login){
