@@ -10,6 +10,9 @@ require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
+require_once (PASTELL_PATH . "/lib/base/ZenMail.class.php");
+require_once (PASTELL_PATH . "/lib/notification/Notification.class.php");
+require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 
 
 //Récupération des données
@@ -32,15 +35,17 @@ $formulaire->setTabNumber(0);
 $documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
 
 
+$zenMail = new ZenMail($zLog);
+$notification = new Notification($sqlQuery);
+$notificationMail = new NotificationMail($notification,$zenMail,$journal);
+
 $document = new Document($sqlQuery);
-
-
 $info = $document->getInfo($id_d);
 if (! $info){
 	$document->save($id_d,$form_type);
-	$documentAction->addAction('Créer');
+	$documentAction->addAction('Créer',$notificationMail);
 } else {
-	$documentAction->addAction('Modifier');
+	$documentAction->addAction('Modifier',$notificationMail);
 }
 
 $fileUploader = new FileUploader($_FILES);
@@ -63,8 +68,10 @@ $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
 
+/* ??? */
 $documentEntite = new DocumentEntite($sqlQuery);
 $documentEntite->addRole($id_d,$id_e,"editeur");
+
 
 
 

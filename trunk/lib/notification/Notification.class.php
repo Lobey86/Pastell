@@ -29,5 +29,8 @@ class Notification {
 		return $this->sqlQuery->query("DELETE FROM notification WHERE id_n=?",$id_n);
 	}
 	
+	public function getMail($id_d,$action){
+		return array("eric@babette.com");
+	}
 	
 }

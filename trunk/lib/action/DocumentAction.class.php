@@ -2,6 +2,7 @@
 
 
 require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
+require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 
 class DocumentAction {
 	
@@ -28,12 +29,12 @@ class DocumentAction {
 		$this->journal = $journal;
 	}
 	
-	public function addAction($action){
+	public function addAction($action, NotificationMail $notificationMail){
 		$sql = "INSERT INTO document_action(id_d,date,action,id_e,id_u) VALUES (?,now(),?,?,?)";
 		$this->sqlQuery->query($sql,$this->id_d,$action,$this->id_e,$this->id_u);
 		
 		$this->journal->add(Journal::DOCUMENT_ACTION,$this->id_e,$this->id_d,$action,"");
-		
+		$notificationMail->notify($this->id_e,$this->id_d,$action);
 	}
 	
 	public function getAction(){
