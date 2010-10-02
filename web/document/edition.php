@@ -14,7 +14,8 @@ require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $type = $recuperateur->get('type');
-$id_e = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e');
+$page = $recuperateur->getInt('page',0);
 
 $document = new Document($sqlQuery);
 
@@ -22,6 +23,7 @@ if ($id_d){
 	$info = $document->getInfo($id_d);
 	$type = $info['type'];
 } else {
+	$info = array();
 	$id_d = $document->getNewId();	
 }
 
@@ -51,9 +53,15 @@ $afficheurFormulaire->injectHiddenField("id_e",$id_e);
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
+<?php if ($info) : ?>
+<a href='document/detail.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>'>« <?php echo $info['titre'] ?></a>
+<?php else : ?>
+<a href='document/list.php?type=<?php echo $type ?>&id_e=<?php echo $id_e?>'>« Liste des documents <?php echo $type  ?></a>
+<?php endif;?>
+<br/><br/>
 
 <div class="box_contenu clearfix">
-<?php $afficheurFormulaire->affiche(0,"document/edition-controler.php","document/recuperation-fichier.php?id_d=$id_d"); ?>
+<?php $afficheurFormulaire->affiche($page,"document/edition-controler.php","document/recuperation-fichier.php?id_d=$id_d"); ?>
 </div>
 
 <?php 

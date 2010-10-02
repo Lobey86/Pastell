@@ -34,21 +34,27 @@ class DocumentType {
 	}
 
 	/*****/
+	public function getFormulaireDefinition($type){
+		if (! isset($this->formlulaireDefinition[$type])){
+			$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
+		}
+		return $this->formlulaireDefinition[$type] ;
+	}
+	
 	
 	public function getName($type){
-		$this->formulaireDefinition = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
-		return $this->formulaireDefinition['nom'];
+		$tabDef = $this->getFormulaireDefinition($type);
+		return $tabDef['nom'];
 	}
 	
 	public function getFormulaire($type){
-		$file = $this->documentTypeDirectory."/$type.yml";
-		$this->formulaireDefinition = Spyc::YAMLLoad($file);
-		return new Formulaire($this->formulaireDefinition['formulaire']);
+		$tabDef = $this->getFormulaireDefinition($type);
+		return new Formulaire($tabDef['formulaire']);
 	}
 	
 	public function getAction($type){
-		$this->formulaireDefinition = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
-		return new Action($this->formulaireDefinition['action']);
+		$tabDef = $this->getFormulaireDefinition($type);
+		return new Action($tabDef['action']);
 	}
 	
 }

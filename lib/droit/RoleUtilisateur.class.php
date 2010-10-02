@@ -77,11 +77,9 @@ CREATE TABLE utilisateur_role (
 	
 	}
 	
-	
 	public function getEntite($id_u,$droit){
 		$result = array();
-		$sql = "SELECT role,id_e FROM utilisateur_role WHERE id_u = ? ";
-		$allRole = $this->sqlQuery->fetchAll($sql,$id_u);
+		$allRole = $this->getRole($id_u);
 		foreach($allRole as $role){
 			if ($this->roleDroit->hasDroit($role['role'],$droit)){
 				$result[] = $role['id_e'];
@@ -93,5 +91,14 @@ CREATE TABLE utilisateur_role (
 			
 		return $result;
 	}
+	
+	public function getDroit($id_u){
+		$result = array();
+		foreach($this->getRole($id_u) as $role){
+			$result += $this->roleDroit->getDroit($role['role']);
+		}
+		return $result;
+	}
+	
 	
 }

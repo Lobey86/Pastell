@@ -42,11 +42,20 @@ class DocumentActionEntite {
 	}
 	
 	
-	public function getListDocument($id_e,$type){
+	public function getNbDocument($id_e,$type){
+		$sql = "SELECT count(*) FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d" .
+				" WHERE document_entite.id_e = ? AND document.type=? " ;
+
+		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type);
+		
+	}
+	
+	public function getListDocument($id_e,$type,$offset,$limit){
 		$sql = "SELECT * FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type=? " . 
-				" ORDER BY document.modification DESC";	
+				" ORDER BY document.modification DESC LIMIT $offset,$limit";	
 		$result =  $this->sqlQuery->fetchAll($sql,$id_e,$type);
 		foreach($result as $i => $document){
 			$lesAction = $this->getAction($id_e,$document['id_d']);
@@ -56,6 +65,37 @@ class DocumentActionEntite {
 			}
 		}
 		return $result;
+	}
+	
+	
+	public function  getListDocumentByEntite($id_e,array $type_list,$offset,$limit){
+		
+		$type_list = "'" . implode("','",$type_list) . "'";
+		
+		$sql = "SELECT * FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d" .
+				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " . 
+				" ORDER BY document.modification DESC LIMIT $offset,$limit";	
+		$result =  $this->sqlQuery->fetchAll($sql,$id_e);
+		foreach($result as $i => $document){
+			$lesAction = $this->getAction($id_e,$document['id_d']);
+			$result[$i]['action'] = array();
+			foreach($lesAction as $action){
+				$result[$i]['action'][$action['action']] = $action['date'];
+			}
+		}
+		return $result;
+	}
+	
+	public function getNbDocumentByEntite($id_e,array $type_list){
+		
+		$type_list = "'" . implode("','",$type_list) . "'";
+			
+		$sql = "SELECT count(*) FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d" .
+				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " ;
+
+		return $this->sqlQuery->fetchOneValue($sql,$id_e);
 	}
 	
 }

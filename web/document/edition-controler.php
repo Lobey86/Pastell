@@ -26,6 +26,8 @@ $id_d = $recuperateur->get('id_d');
 $type = $recuperateur->get('form_type');
 $id_e = $recuperateur->get('id_e');
 $objet = $recuperateur->get('objet');
+$page = $recuperateur->get('page');
+
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$id_e)) {
 	header("Location: list.php");
@@ -34,6 +36,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 
 $documentType = new DocumentType(DOCUMENT_TYPE_PATH);
 $formulaire = $documentType->getFormulaire($type);
+$formulaire->setTabNumber($page);
 
 
 $documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
@@ -62,7 +65,6 @@ $fileUploader = new FileUploader($_FILES);
 $donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH  . "/$id_d.yml");
 $donneesFormulaire->setFormulaire($formulaire);
 	
-
 $donneesFormulaire->save($recuperateur,$fileUploader);
 
 foreach($fileUploader->getAll() as $filename => $orig_filename){
@@ -81,4 +83,4 @@ $documentEntite = new DocumentEntite($sqlQuery);
 $documentEntite->addRole($id_d,$id_e,"editeur");
 
 
-header("Location: " . SITE_BASE . "document/detail.php?id_d=$id_d&id_e=$id_e");
+header("Location: " . SITE_BASE . "document/detail.php?id_d=$id_d&id_e=$id_e&page=$page");

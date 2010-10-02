@@ -17,6 +17,7 @@ require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
+$page = $recuperateur->getInt('page',0);
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
@@ -48,19 +49,21 @@ include( PASTELL_PATH ."/include/haut.php" );
 <br/><br/>
 <?php
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-$afficheurFormulaire->afficheTab(0,"document/voir.php?id_d=$id_d");
+$afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_e");
 ?>
 
 <div class="box_contenu">
 
 <?php 
-$afficheurFormulaire->afficheStatic(0,"document/recuperation-fichier.php?id_d=$id_d");
+$afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d");
 ?>
 <br/>
 <?php foreach($actionPossible->getActionPossible($id_d,$id_e,$authentification->getId()) as $action) : ?>
 <form action='document/action.php' method='post' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+	<input type='hidden' name='page' value='<?php echo $page ?>' />
+	
 	<input type='hidden' name='action' value='<?php echo $action ?>' />
 	<input type='submit' value='<?php echo $action?>'/>
 </form>
