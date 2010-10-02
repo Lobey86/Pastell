@@ -145,7 +145,16 @@ include( PASTELL_PATH ."/include/haut.php");
 ?>
 	<tr>
 		<th>Centre de gestion</th>
-		<td><a href='entite/detail.php?id_e=<?php echo $infoCDG['id_e']?>'><?php echo $infoCDG['denomination']?></a></td>
+		<td>
+		<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$infoCDG['id_e'])) : ?>			
+			<a href='entite/detail.php?id_e=<?php echo $infoCDG['id_e']?>'>
+		<?php endif; ?>
+			<?php echo $infoCDG['denomination']?>
+			<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$infoCDG['id_e'])) : ?>			
+			</a>
+			<?php endif; ?>
+			
+			</td>
 	</tr>
 <?php endif;?>
 

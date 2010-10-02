@@ -39,14 +39,18 @@ class Journal {
 	}
 	
 	public function getAll($id_e,$type,$id_d,$offset,$limit){
+		
+		$value = array();
 		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
 			" LEFT JOIN document ON journal.id_d = document.id_d " .
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
 			" LEFT JOIN utilisateur ON journal.id_u = utilisateur.id_u " .
-			" WHERE journal.id_e = ? ";
+			" WHERE 1=1 "; 
 		
-		$value = array($id_e);
-		
+		if ($id_e){
+			$sql .= "AND journal.id_e = ? ";
+			$value[] = $id_e;
+		}
 		if ($type){
 			$sql .= " AND document.type=?";
 			$value[] = $type;

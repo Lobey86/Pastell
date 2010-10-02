@@ -27,6 +27,7 @@ if ($id_e == 0){
 	if (count($liste_collectivite) == 1){
 		$id_e = $liste_collectivite[0];
 	}
+	
 } else if  (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)){
 	header("Location: ".SITE_BASE . "index.php");
 	exit;
@@ -36,9 +37,6 @@ if ($id_e == 0){
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
-$limit = 20;
-
-$all = $journal->getAll($id_e,$type,$id_d,$offset,$limit) ;
 
 
 $count = $journal->countAll($id_e,$type,$id_d);
@@ -59,10 +57,15 @@ if ($id_d) {
 	$page_title .= " - " . $documentInfo['titre'];
 }
 
+$limit = 20;
+$all = $journal->getAll($id_e,$type,$id_d,$offset,$limit) ;
 
 include( PASTELL_PATH ."/include/haut.php");
 
 ?>
+<?php if ($id_d) : ?>
+<a href='journal/index.php?id_e=<?php echo $id_e?>'>« Journal de <?php echo $infoEntite['denomination']?></a>
+<?php endif;?>
 <?php if ($roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)) : 
 suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 
@@ -107,8 +110,8 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 <?php 
 
 if (!$id_e && ! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e) ){
-	navigation_racine($liste_collectivite,"journal/index.php?offset=$offset");
+	navigation_racine($liste_collectivite,"journal/index.php?a=a");
 } else {
-	navigation_collectivite($entite,"journal/index.php?offset=$offset");
+	navigation_collectivite($entite,"journal/index.php?a=a");
 }
 include( PASTELL_PATH ."/include/bas.php");

@@ -82,7 +82,7 @@ class Entite  {
 	}
 	
 	public function getFille(){
-		$sql = "SELECT * FROM entite WHERE entite_mere=?";
+		$sql = "SELECT * FROM entite WHERE entite_mere=? ORDER BY denomination";
 		return $this->sqlQuery->fetchAll($sql,$this->id_e);
 	}
 	
@@ -99,6 +99,9 @@ class Entite  {
 	}
 	
 	public function getBreadCrumbs(){
+		if (! $this->exists()){
+			return array();
+		}
 		$info = $this->getInfo();
 		$bc = array($info);
 		while ($info['entite_mere']){

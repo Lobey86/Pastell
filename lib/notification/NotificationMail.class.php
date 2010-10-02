@@ -13,10 +13,10 @@ class NotificationMail {
 		$this->notification = $notification;
 	}
 	
-	public function notify($id_e,$id_d,$action){
+	public function notify($id_e,$id_d,$action,$type){
 		
-		
-		$lesEmails = $this->notification->getMail($id_d,$action);
+	
+		$lesEmails = $this->notification->getMail($id_e,$type,$action);
 		
 		foreach($lesEmails as $mail){
 			

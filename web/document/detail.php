@@ -11,7 +11,8 @@ require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
-
+require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
@@ -24,17 +25,17 @@ $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 
 $documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
+$documentActionEntite = new DocumentActionEntite($sqlQuery);
 
 $donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_d.yml");
 
-$formulaire = $donneesFormulaire->getFormulaire();
-$formulaire->setTabNumber(0);
+$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+$formulaire = $documentType->getFormulaire($info['type']);
+$action = $documentType->getAction($info['type']);
 
+$actionPossible = new ActionPossible($sqlQuery,$action,$documentAction);
 
-$actionPossible = new ActionPossible($sqlQuery,$documentAction);
-
-
-$page_title =  $info['titre'] . " (".$info['type'].")";
+$page_title =  $info['titre'] . " (".$documentType->getName($info['type']).")";
 
 
 include( PASTELL_PATH ."/include/haut.php" );
@@ -79,12 +80,16 @@ $afficheurFormulaire->afficheStatic(0,"document/recuperation-fichier.php?id_d=$i
 			<th>Utilisateur</th>
 		</tr>
 		
-		<?php foreach($documentAction->getAction() as $action) : ?>
+		<?php foreach($documentActionEntite->getAction($id_e,$id_d) as $action) : ?>
 			<tr>
 				<td><?php echo $action['action']?></td>
 				<td><?php echo $action['date']?></td>
 				<td><a href='entite/detail.php?id_e=<?php echo $action['id_e']?>'><?php echo $action['denomination']?></a></td>
-				<td><a href='utilisateur/detail.php?id_u=<?php echo $action['id_u']?>'><?php echo $action['prenom']?> <?php echo $action['nom']?></a></td>
+				<td>
+					<?php if ($action['id_e'] == $id_e) :?>
+					<a href='utilisateur/detail.php?id_u=<?php echo $action['id_u']?>'><?php echo $action['prenom']?> <?php echo $action['nom']?></a>
+					<?php endif;?>
+				</td>
 			</tr>
 		<?php endforeach;?>
 	</tbody>

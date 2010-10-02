@@ -8,19 +8,9 @@ class Formulaire {
 	private $formArray;
 	private $tabSelected;
 	
-	public function __construct($definitionFile){
-		$this->definitionFile = $definitionFile;	
-		$this->formArray = array();
-		$this->hydrate();
+	public function __construct(array $formulaireDefinition){
+		$this->formArray = $formulaireDefinition;	
 		$this->setTabNumber(0);	
-	}
-	
-	private function hydrate(){
-		$this->formArray = Spyc::YAMLLoad($this->definitionFile);
-	}
-	
-	public function getDefinitionFile(){
-		return $this->definitionFile;
 	}
 	
 	public function setTabNumber($tab_num){

@@ -14,6 +14,7 @@ class DocumentEntite {
 		return $this->sqlQuery->fetchAll($sql,$id_e,$type);
 	}
 	
+	
 	public function addRole($id_d,$id_e,$role){
 		if ($this->hasRole($id_d,$id_e,$role)){
 			return;

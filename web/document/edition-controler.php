@@ -7,29 +7,33 @@ require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
+require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
+
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
+require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
+
 require_once (PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once (PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 
+require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
 //Récupération des données
 $recuperateur = new Recuperateur($_POST);
 $id_d = $recuperateur->get('id_d');
-$form_type = $recuperateur->get('form_type');
+$type = $recuperateur->get('form_type');
 $id_e = $recuperateur->get('id_e');
 $objet = $recuperateur->get('objet');
 
-
-$formulaire_file = PASTELL_PATH . "/form/$form_type.yml" ;
-if ( ! file_exists($formulaire_file)){
-	header("Location: index.php");
+if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$id_e)) {
+	header("Location: list.php");
 	exit;
 }
-$formulaire = new Formulaire( $formulaire_file );
-$formulaire->setTabNumber(0);
+
+$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+$formulaire = $documentType->getFormulaire($type);
 
 
 $documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
@@ -42,11 +46,15 @@ $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 if (! $info){
-	$document->save($id_d,$form_type);
-	$documentAction->addAction('Créer',$notificationMail);
+	$document->save($id_d,$type);
+	$id_a = $documentAction->addAction('Créer',$notificationMail);
 } else {
-	$documentAction->addAction('Modifier',$notificationMail);
+	$id_a = $documentAction->addAction('Modifier',$notificationMail);
 }
+
+
+$documentActionEntite = new DocumentActionEntite($sqlQuery);
+$documentActionEntite->addAction($id_a,$id_e,$journal,$notificationMail);
 
 $fileUploader = new FileUploader($_FILES);
 
@@ -71,9 +79,6 @@ $document->setTitre($id_d,$titre);
 /* ??? */
 $documentEntite = new DocumentEntite($sqlQuery);
 $documentEntite->addRole($id_d,$id_e,"editeur");
-
-
-
 
 
 header("Location: " . SITE_BASE . "document/detail.php?id_d=$id_d&id_e=$id_e");

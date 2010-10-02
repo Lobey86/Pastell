@@ -65,20 +65,13 @@ $id_e_menu = $recuperateur->get('id_e');
 <?php endif; ?>
 
 <?php 
-$bc = array();
-if ( $authentification->getBreadCrumbs()) {
-	$bc = $authentification->getBreadCrumbs();
-} elseif (isset($siren)){
-	$entiteBC = new Entite($sqlQuery,$siren);
-	$bc = $entiteBC->getBreadCrumbs() ;
-}	
+$entiteBC = new Entite($sqlQuery,$id_e_menu);
+$bc = $entiteBC->getBreadCrumbs() ;
 ?>
 <div id="breadcrumb">
 <img src="img/commun/puce_geographie.png" alt="" class="absmiddle" />
 <?php foreach( $bc as $infoEntiteBC) : ?>
-		<a href='entite/detail.php?siren=<?php echo $infoEntiteBC['siren']?>'>
 &gt;&nbsp;<?php echo $infoEntiteBC['denomination']?>&nbsp;
-</a>
 <?php endforeach;?>
 <?php if (! $bc) : ?>
 	Bienvenue
