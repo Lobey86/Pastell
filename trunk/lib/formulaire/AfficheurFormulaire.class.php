@@ -31,7 +31,11 @@ class AfficheurFormulaire {
 	<?php 
 	}
 	
-	public function affiche($page_number,$action_url,$recuperation_fichier_url  ){ ?>
+	public function affiche($page_number,$action_url,$recuperation_fichier_url  ){
+
+					$this->formulaire->setTabNumber($page_number);
+		
+		?>
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
 			<input type='hidden' name='page' value='<?php echo $page_number?>' />
 			<?php foreach($this->inject as $name => $value ) : ?>
@@ -109,7 +113,10 @@ class AfficheurFormulaire {
 	<?php }
 	
 	
-	public function afficheStatic($page,$recuperation_fichier_url){?>
+	public function afficheStatic($page,$recuperation_fichier_url){
+	
+			$this->formulaire->setTabNumber($page);
+		?>
 		<table class='tab_01'>
 			<?php foreach ($this->formulaire->getFields() as $i => $field) : ?>
 				<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>

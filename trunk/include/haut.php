@@ -6,7 +6,8 @@ require_once( PASTELL_PATH. "/lib/base/Recuperateur.class.php");
 header("Content-type: text/html");
 
 $recuperateur = new Recuperateur($_GET);
-$id_e_menu = $recuperateur->get('id_e');
+$id_e_menu = $recuperateur->getInt('id_e',0);
+$type_e_menu = $recuperateur->get('type',"");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,9 +89,9 @@ $bc = $entiteBC->getBreadCrumbs() ;
 	
 		<?php if ( $authentification->isConnected() ): ?>
 		<div class="box">
-		<div class="haut"><h2>Flux</h2></div>
+		<div class="haut"><h2>Documents</h2></div>
 		<div class="cont">
-		<ul><li><a href='flux/affiche-flux.php<?php echo isset($id_e_menu)?"?id_e=$id_e_menu":''?>'>Tous</a></li></ul>
+		<ul><li><a href='document/index.php<?php echo isset($id_e_menu)?"?id_e=$id_e_menu":''?>'>Tous</a></li></ul>
 	<?php 
 
 		$allFlux = FluxFactory::getFlux();
@@ -100,7 +101,14 @@ $bc = $entiteBC->getBreadCrumbs() ;
 	<h3><?php echo $type_flux  ?></h3>
 		<ul>
 			<?php foreach($les_flux as $nom => $affichage) : ?>
-				<li><a href='<?php echo SITE_BASE ?>document/list.php?type=<?php echo $nom?><?php echo isset($id_e_menu)?"&id_e=$id_e_menu":''?>'><?php echo $affichage ?></a></li>
+				<li><a href='<?php echo SITE_BASE ?>document/list.php?type=<?php echo $nom?><?php echo isset($id_e_menu)?"&id_e=$id_e_menu":''?>'>
+					<?php if ($type_e_menu == $nom) : ?>
+						<b><?php echo $affichage ?></b>
+					<?php else : ?>
+						<?php echo $affichage ?>
+					<?php endif;?>
+					
+				</a></li>
 			<?php endforeach;?>
 		</ul>
 	<?php endforeach;?>

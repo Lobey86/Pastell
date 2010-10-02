@@ -60,7 +60,7 @@ class EntiteListe {
 	}
 	
 	public function getAllFille($id_e){
-		$sql = "SELECT * FROM entite WHERE entite_mere=?" ;
+		$sql = "SELECT * FROM entite WHERE entite_mere=? ORDER BY denomination" ;
 		return $this->sqlQuery->fetchAll($sql,$id_e);
 	}
 	
@@ -90,11 +90,11 @@ class EntiteListe {
 		
 		foreach($tabId_e as $id_e){
 			if ($id_e != 0) {
-			$sql = "SELECT * FROM entite WHERE id_e=?";
-			$info = $this->sqlQuery->fetchOneLine($sql,$id_e);
-			$result[] = array(
-							'id_e' => $info['id_e'],
-							'denomination' => $info['denomination'], 
+				$sql = "SELECT * FROM entite WHERE id_e=? ORDER BY denomination";
+				$info = $this->sqlQuery->fetchOneLine($sql,$id_e);
+				$result[] = array(
+								'id_e' => $info['id_e'],
+								'denomination' => $info['denomination'], 
 							'profondeur' => 0);
 			} else {
 				$result[] = array(

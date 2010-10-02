@@ -95,7 +95,7 @@ class FluxFactory{
 								),
 			'Flux RH' => array(
 									'rh-actes' => 'Actes RH',
-									'rh_message_cdg' => 'Message Centre de gestion'
+									'rh-messages' => 'Message Centre de gestion'
 								)
 		
 		);

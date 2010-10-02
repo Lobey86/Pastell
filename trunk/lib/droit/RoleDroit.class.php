@@ -15,6 +15,8 @@ class RoleDroit {
 									'journal:lecture',
 									'rh-actes:edition',
 									'rh-actes:lecture',
+									'rh-messages:edition',
+									'rh-messages:lecture',
 					
 					),
 					'lecteur' => array(
@@ -30,6 +32,13 @@ class RoleDroit {
 
 	public function getAllRole(){
 		return self::$standard_role;
+	}
+	
+	public function getDroit($role){
+		if (! isset(self::$standard_role[$role])){
+			return array();
+		}
+		return self::$standard_role[$role];
 	}
 	
 }

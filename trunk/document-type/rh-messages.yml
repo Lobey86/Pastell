@@ -1,0 +1,33 @@
+nom: Message du CDG
+
+type: Flux RH
+
+formulaire:
+	Message du CDG:
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Document attaché: {type: file, requis: true}
+	Collectivités destinatrices:
+		Destinataires: {type: entite_destinataire, requis: true, rule: is_cdg }
+	
+action:
+	Creér:
+		no-last-action:
+		role_id_e: editeur
+		#type_id_e: centre_de_gestion
+		droit_id_u: 'rh-messages:edition'
+
+	Modifier:
+		last-action: 
+			Créer
+			Modifier
+		role_id_e: editeur
+		droit_id_u: 'rh-messages:edition'
+		
+	Envoyer :
+		last-action: 
+			Créer
+			Modifier
+		role_id_e: editeur
+		droit_id_u: 'rh-messages:edition'
+		

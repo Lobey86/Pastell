@@ -66,7 +66,7 @@ class DonneesFormulaire {
 	}
 	
 	public function geth($item){
-		return htmlentities($this->get($item),ENT_QUOTES);
+		return nl2br(htmlentities($this->get($item),ENT_QUOTES));
 	}
 	
 	public function isValidable(){

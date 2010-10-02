@@ -14,6 +14,7 @@ $recuperateur = new Recuperateur($_POST);
 $id_d = $recuperateur->get('id_d');
 $action = $recuperateur->get('action');
 $id_e = $recuperateur->get('id_e');
+$page = $recuperateur->getInt('page',0);
 
 
 $document = new Document($sqlQuery);
@@ -39,7 +40,7 @@ if ( ! $actionPossible->isActionPossible($id_d,$action,$id_e,$authentification->
 
 if ($action == 'Modifier'){
 	
-	header("Location: edition.php?id_d=$id_d&id_e=$id_e");
+	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
 
