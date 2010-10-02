@@ -1,5 +1,10 @@
 Actes RH:
-
+	
+	Création:
+		no-last-action:
+		role_id_e: editeur
+		droit_id_u: 'rh-actes:edition'
+	
 	Modifier:
 		last-action: 
 			Créer

@@ -3,6 +3,7 @@
 
 require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
 require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
+require_once( PASTELL_PATH . "/lib/base/Date.class.php");
 
 class DocumentAction {
 	
@@ -29,26 +30,20 @@ class DocumentAction {
 		$this->journal = $journal;
 	}
 	
-	public function addAction($action, NotificationMail $notificationMail){
-		$sql = "INSERT INTO document_action(id_d,date,action,id_e,id_u) VALUES (?,now(),?,?,?)";
-		$this->sqlQuery->query($sql,$this->id_d,$action,$this->id_e,$this->id_u);
-		
-		$this->journal->add(Journal::DOCUMENT_ACTION,$this->id_e,$this->id_d,$action,"");
-		$notificationMail->notify($this->id_e,$this->id_d,$action);
-	}
-	
-	public function getAction(){
-		$sql = "SELECT * FROM document_action " . 
-				" JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
-				" JOIN entite ON document_action.id_e  = entite.id_e ".
-				" WHERE id_d=? ORDER BY date DESC";
-		return $this->sqlQuery->fetchAll($sql,$this->id_d);
+	public function addAction($action){	
+		$now = date(Date::DATE_ISO);
+		$sql = "INSERT INTO document_action(id_d,date,action,id_e,id_u) VALUES (?,?,?,?,?)";
+		$this->sqlQuery->query($sql,$this->id_d,$now,$action,$this->id_e,$this->id_u);
+				
+		$sql = "SELECT id_a FROM document_action WHERE id_d=? AND date=? AND action=? AND id_e=? AND id_u=?";
+		return $this->sqlQuery->fetchOneValue($sql,$this->id_d,$now,$action,$this->id_e,$this->id_u);
 	}
 	
 	public function getLastAction(){
 		$sql = "SELECT action FROM document_action WHERE id_d=? ORDER BY date DESC LIMIT 1";
 		return $this->sqlQuery->fetchOneValue($sql,$this->id_d);
 	}
+	
 	
 	
 }

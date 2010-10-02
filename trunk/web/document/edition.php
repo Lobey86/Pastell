@@ -4,6 +4,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
@@ -15,7 +16,6 @@ $id_d = $recuperateur->get('id_d');
 $type = $recuperateur->get('type');
 $id_e = $recuperateur->get('id_e');
 
-
 $document = new Document($sqlQuery);
 
 if ($id_d){
@@ -25,19 +25,20 @@ if ($id_d){
 	$id_d = $document->getNewId();	
 }
 
-$entite = new Entite($sqlQuery,$id_e);
-$infoEntite = $entite->getInfo();
 
-$formulaire_file = PASTELL_PATH . "/form/$type.yml" ;
-if ( ! file_exists($formulaire_file)){
-	header("Location: index.php");
+if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$id_e)) {
+	header("Location: list.php");
 	exit;
 }
 
-$formulaire = new Formulaire( $formulaire_file);
 
-$tab = $formulaire->getTab();
-$page_title="Edition d'un document « " . $tab[0] . " » ( " . $infoEntite['denomination'] . " ) ";
+$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+$formulaire = $documentType->getFormulaire($type);
+
+
+$entite = new Entite($sqlQuery,$id_e);
+$infoEntite = $entite->getInfo();
+$page_title="Edition d'un document « " . $documentType->getName($type) . " » ( " . $infoEntite['denomination'] . " ) ";
 
 
 $donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH . "/$id_d.yml");

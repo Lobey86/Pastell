@@ -1,11 +1,14 @@
 <?php
 
 require_once (PASTELL_PATH . "/ext/spyc.php");
+require_once( PASTELL_PATH . "/lib/action/Action.class.php");
 
 
 class DocumentType {
 	
 	private $documentTypeDirectory;
+	
+	private $typeInformation;
 	
 	public function __construct($documentTypeDirectory){
 		$this->documentTypeDirectory = $documentTypeDirectory; 
@@ -30,10 +33,22 @@ class DocumentType {
 		
 	}
 
+	/*****/
+	
 	public function getName($type){
-		$array = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
-		$keys = array_keys($array);
-		return $keys[0];
+		$this->formulaireDefinition = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
+		return $this->formulaireDefinition['nom'];
+	}
+	
+	public function getFormulaire($type){
+		$file = $this->documentTypeDirectory."/$type.yml";
+		$this->formulaireDefinition = Spyc::YAMLLoad($file);
+		return new Formulaire($this->formulaireDefinition['formulaire']);
+	}
+	
+	public function getAction($type){
+		$this->formulaireDefinition = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
+		return new Action($this->formulaireDefinition['action']);
 	}
 	
 }

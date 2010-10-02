@@ -29,8 +29,18 @@ class Notification {
 		return $this->sqlQuery->query("DELETE FROM notification WHERE id_n=?",$id_n);
 	}
 	
-	public function getMail($id_d,$action){
-		return array("eric@babette.com");
+	public function getMail($id_e,$type,$action){
+		$result = array();
+		
+		$sql = "SELECT * FROM notification " . 
+				" JOIN utilisateur ON notification.id_u = utilisateur.id_u " . 
+				" WHERE (id_e=? OR id_e=0) AND (type=? OR type=0) AND (action=? OR action=0)";
+		$resultSQL = $this->sqlQuery->fetchAll($sql,$id_e,$type,$action);
+		
+		foreach($resultSQL as $ligne){
+			$result[] = $ligne['email'];
+		}
+		return $result;
 	}
 	
 }

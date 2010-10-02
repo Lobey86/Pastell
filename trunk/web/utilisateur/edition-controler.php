@@ -41,10 +41,10 @@ $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
 
 $infoUtilisateur = $utilisateur->getInfo();
-/*$notification = new Notification($sqlQuery);
-$notification->addNotification($id_e,$infoUtilisateur['email'],"default");
-*/
 $roleUtilisateur->addRole($id_u,$role,$id_e);
+
+$notification = new Notification($sqlQuery);
+$notification->add($id_u,$id_e,0,0);
 
 
 $redirection->redirect(SITE_BASE . "entite/detail.php?id_e=$id_e");

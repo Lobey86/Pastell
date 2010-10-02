@@ -20,7 +20,6 @@ class DonneesFormulaire {
 	
 	public function setFormulaire(Formulaire $formulaire){
 		$this->formulaire = $formulaire;
-		$this->info['formulaire_definition'] = $this->formulaire->getDefinitionFile();
 	}
 	
 	public function getFormulaire(){
@@ -31,14 +30,7 @@ class DonneesFormulaire {
 		if ( ! file_exists($this->filePath)){
 			return ;
 		}
-		$this->info = Spyc::YAMLLoad($this->filePath);
-		if ($this->get('formulaire_definition')){
-			$form_def = $this->get('formulaire_definition');
-			if ($form_def){
-				$this->setFormulaire(new Formulaire($form_def));
-			}
-		}
-		
+		$this->info = Spyc::YAMLLoad($this->filePath);		
 	}
 	
 	public function save(Recuperateur $recuperateur, FileUploader $fileUploader){	
