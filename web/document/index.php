@@ -62,13 +62,12 @@ if ($id_e != 0) {
 	
 	
 	$listDocument = $documentActionEntite->getListDocumentByEntite($id_e,$liste_type,$offset,$limit);
-
 	
 	$count = $documentActionEntite->getNbDocumentByEntite($id_e,$liste_type);
 	
 	suivant_precedent($offset,$limit,$count,"document/index.php?id_e=$id_e");
 	
-	liste_document($documentType,$listDocument);
+	liste_document($documentType,$listDocument,$id_e);
 
 }
 

@@ -34,6 +34,15 @@ class ActionPossible {
 		return in_array($action,$action_possible);
 	}
 	
+	public function isCreationPossible($id_e,$id_u){
+		$this->id_e = $id_e;
+		$this->id_u = $id_u;
+		$this->id_d = 0;
+		$a = $this->action->getActionRule("Créer");
+		return $this->testActionPossible($a);
+	}
+	
+	
 	public function getActionPossible($id_d,$id_e,$id_u){
 		
 		$this->id_d = $id_d ;
@@ -82,6 +91,7 @@ class ActionPossible {
 			case 'role_id_e' : return $this->verifRoleEntite($ruleValue); break;
 			case 'droit_id_u' : return $this->verifDroitUtilisateur($ruleValue); break;
 			case 'content' : return $this->verifContent($ruleValue); break;
+			case 'type_id_e': return $this->veriTypeEntite($ruleValue); break;
 		}
 		throw new Exception("Règle d'action inconnue : $ruleName" );
 	} 
@@ -117,6 +127,12 @@ class ActionPossible {
 		$fieldName = $field->getName();
 		$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/". $this->id_d .".yml");
 		return $donneesFormulaire->get($fieldName) == $fieldValue;
+	}
+	
+	private function veriTypeEntite($type){
+		$entite = new Entite($this->sqlQuery,$this->id_e);
+		$info = $entite->getInfo();
+		return ($info["type"] == $type);
 	}
 	
 }

@@ -22,12 +22,13 @@ formulaire:
 		Autre document attaché: {type: file, multiple: true}
 	
 action:
-	Creér:
+	Créer:
 		no-last-action:
-		role_id_e: editeur
-		#type_id_e: collectivite
 		droit_id_u: 'rh-actes:edition'
-
+		type_id_e: 
+			service
+			collectivite
+		
 	Modifier:
 		last-action: 
 			Créer

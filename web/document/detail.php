@@ -13,11 +13,15 @@ require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
+
+
+
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
@@ -35,6 +39,21 @@ $formulaire = $documentType->getFormulaire($info['type']);
 $action = $documentType->getAction($info['type']);
 
 $actionPossible = new ActionPossible($sqlQuery,$action,$documentAction);
+
+
+$documentEntite = new DocumentEntite($sqlQuery);
+
+if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$info['type'].":edition",$id_e)) {
+	header("Location: list.php");
+	exit;
+}
+
+$my_role = $documentEntite->getRole($id_e,$id_d);
+if (! $my_role ){
+	header("Location: list.php");
+	exit;
+}
+
 
 $page_title =  $info['titre'] . " (".$documentType->getName($info['type']).")";
 
@@ -69,6 +88,30 @@ $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_
 </form>
 <?php endforeach;?>
 
+</div>
+
+<div class="box_contenu clearfix">
+<h2>Entité concernée par le document</h2>
+
+<table class="tab_02">
+	<tbody>
+		<tr>
+			<th>Entité</th>
+			<th>Rôle</th>
+		</tr>
+		
+<?php foreach($documentEntite->getEntite($id_d) as $docEntite) : 
+	if ($my_role == 'editeur' || $docEntite['role'] == 'editeur' || $docEntite['id_e'] == $id_e) : 
+?>
+	<tr>
+			<td><a href='entite/detail.php?id_e=<?php echo $docEntite['id_e'] ?>'><?php echo $docEntite['denomination']?></a></td>
+			<td><?php echo $docEntite['role']?></td>
+		</tr>
+<?php 
+	endif;
+endforeach;?>
+	</tbody>
+</table>
 </div>
 
 <div class="box_contenu clearfix">

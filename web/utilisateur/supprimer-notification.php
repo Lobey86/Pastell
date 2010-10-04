@@ -14,7 +14,10 @@ $notification = new Notification($sqlQuery);
 $infoNotification = $notification->getInfo($id_n);
 
 $id_u = $infoNotification['id_u'];
+$id_e = $infoNotification['id_e'];
 
-$notification->remove($id_n);
+if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {
+	$notification->remove($id_n);
+}
 
 header("Location: detail.php?id_u=$id_u");

@@ -13,15 +13,29 @@ class RoleDroit {
 									'entite:edition',
 									'entite:lecture',
 									'journal:lecture',
+									'fournisseur:lecture',
+									'utilisateur:lecture',
+									'utilisateur:edition',
 									'rh-actes:edition',
 									'rh-actes:lecture',
 									'rh-messages:edition',
 									'rh-messages:lecture',
-					
+									'gf-devis:lecture',
+									'gf-devis:edition',
+									'gf-facture:lecture',
+									'gf-facture:edition',
+									'gf-bon-de-commande:lecture',
+									'gf-bon-de-commande:edition',
+									'fournisseur-inscription:lecture',
+									'fournisseur-inscription:edition',
+									'fournisseur-message:lecture',
+									'fournisseur-message:edition',
 					),
 					'lecteur' => array(
 									'entite:lecture',
+									'utilisateur:lecture',
 								),
+					'fournisseur' => array(),
 
 			);
 	}

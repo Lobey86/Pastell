@@ -17,7 +17,6 @@ if (! $info){
 	header("Location: ".SITE_BASE . "index.php");
 }
 
-
 $roleDroit = new RoleDroit();
 
 $page_title = "Utilisateur ".$info['prenom']." " . $info['nom'];
@@ -31,8 +30,28 @@ $documentType = new DocumentType(DOCUMENT_TYPE_PATH);
 
 $notification = new Notification($sqlQuery);
 
+$roleInfo =  $roleUtilisateur->getRole($id_u);
+
+$utilisateur_edition = false;
+$utilisateur_lecture = false;
+
+foreach($roleInfo as $role){
+	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$role['id_e'])) {
+		$utilisateur_edition = true;
+	}
+	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$role['id_e'])) {
+		$utilisateur_lecture = true;
+	}
+}
+
+if (! $utilisateur_lecture){
+	header("Location: index.php");
+	exit;
+}
 
 include( PASTELL_PATH ."/include/haut.php");
+
+
 ?>
 <a href='utilisateur/index.php'>« liste des utilisateurs</a>
 
@@ -43,7 +62,13 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <div class="box_contenu clearfix">
 
-<h2>Détail de l'utilisateur <?php echo $info['prenom']." " . $info['nom']?></h2>
+<h2>Détail de l'utilisateur <?php echo $info['prenom']." " . $info['nom']?>
+<?php if ($utilisateur_edition) : ?>
+<a href="utilisateur/edition.php?id_u=<?php echo $id_u?>" class='btn_maj'>
+		Modifier
+	</a>
+<?php endif;?>
+</h2>
 
 <table class='tab_04'>
 
@@ -95,40 +120,42 @@ include( PASTELL_PATH ."/include/haut.php");
 		<?php endif;?>
 	</td> 
 	<td>
+		<?php if ($utilisateur_edition) : ?>
 		<a href='utilisateur/supprimer-role.php?id_u=<?php echo $id_u ?>&role=<?php echo $infoRole['role']?>&id_e=<?php echo $infoRole['id_e']?>'>
 			enlever ce rôle
 		</a>
+		<?php endif; ?>
 	</td>
 </tr>
 <?php endforeach;?>
 </table>
 
 
-
-<h3>Ajouter un rôle </h3>
-
-<form action='utilisateur/ajouter-role.php' method='post'>
-	<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
-
-	<select name='role'>
-		<option value=''>...</option>
-		<?php foreach($roleDroit->getAllRole() as $role => $lesDroits): ?>
-		<option value='<?php echo $role?>'> <?php echo $role ?> </option>
-		<?php endforeach ; ?>
-	</select>
+<?php if ($utilisateur_edition) : ?>
+	<h3>Ajouter un rôle </h3>
 	
-	<select name='id_e'>
-		<option value=''>...</option>
-		<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
-		<option value='<?php echo $entiteInfo['id_e']?>'>
-			<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
-			|_<?php echo $entiteInfo['denomination']?> </option>
-		<?php endforeach ; ?>
-	</select>
+	<form action='utilisateur/ajouter-role.php' method='post'>
+		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
 	
-	<input type='submit' value='ajouter'/>
-</form>
-
+		<select name='role'>
+			<option value=''>...</option>
+			<?php foreach($roleDroit->getAllRole() as $role => $lesDroits): ?>
+			<option value='<?php echo $role?>'> <?php echo $role ?> </option>
+			<?php endforeach ; ?>
+		</select>
+		
+		<select name='id_e'>
+			<option value=''>...</option>
+			<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
+			<option value='<?php echo $entiteInfo['id_e']?>'>
+				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
+				|_<?php echo $entiteInfo['denomination']?> </option>
+			<?php endforeach ; ?>
+		</select>
+		
+		<input type='submit' value='ajouter'/>
+	</form>
+<?php endif; ?>
 </div>
 
 <div class="box_contenu clearfix">
@@ -166,38 +193,43 @@ include( PASTELL_PATH ."/include/haut.php");
 	</td>
 	
 	<td>
-		<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
-			enlever cette notification
-		</a>
+		<?php if ($utilisateur_edition) : ?>
+			<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+				enlever cette notification
+			</a>
+		<?php endif;?>
 	</td>
 </tr>
 <?php endforeach;?>
 </table>
-
-<form action='utilisateur/ajouter-notification.php' method='post'>
-	<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+<?php if ($utilisateur_edition) : ?>
+	<form action='utilisateur/ajouter-notification.php' method='post'>
+		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+		
+		<select name='id_e'>
+			<option value=''>...</option>
+			<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
+			<option value='<?php echo $entiteInfo['id_e']?>'>
+				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
+				|_<?php echo $entiteInfo['denomination']?> </option>
+			<?php endforeach ; ?>
+		</select>
+		
+		<select name='type'>
+			<option value=''>...</option>
+			<?php foreach($documentType->getAllTtype() as $flux_type => $lesFlux ) : ?>
+			<?php foreach($lesFlux as $type => $description): ?>
+			<option value='<?php echo $type?>'> <?php echo $description ?> </option>
+			<?php endforeach ; ?>
+						<?php endforeach ; ?>
+			
+		</select>
+		
 	
-	<select name='id_e'>
-		<option value=''>...</option>
-		<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
-		<option value='<?php echo $entiteInfo['id_e']?>'>
-			<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
-			|_<?php echo $entiteInfo['denomination']?> </option>
-		<?php endforeach ; ?>
-	</select>
-	
-	<select name='type'>
-		<option value=''>...</option>
-		<?php foreach($documentType->getAllTtype() as $type => $description): ?>
-		<option value='<?php echo $type?>'> <?php echo $description ?> </option>
-		<?php endforeach ; ?>
-	</select>
-	
-
-	
-	<input type='submit' value='ajouter'/>
-</form>
-
+		
+		<input type='submit' value='ajouter'/>
+	</form>
+<?php endif;?>
 
 </div>
 <?php 

@@ -100,5 +100,5 @@ CREATE TABLE utilisateur_role (
 		return $result;
 	}
 	
-	
+
 }

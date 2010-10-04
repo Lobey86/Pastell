@@ -12,6 +12,8 @@ require_once( PASTELL_PATH . '/lib/notification/Notification.class.php');
 $recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');
 $id_e = $recuperateur->get('id_e');
+$id_u = $recuperateur->get('id_u');
+
 $login = $recuperateur->get('login');
 $password = $recuperateur->get('password');
 $password2 = $recuperateur->get('password2');
@@ -19,32 +21,45 @@ $nom = $recuperateur->get('nom');
 $prenom = $recuperateur->get('prenom');
 $role = $recuperateur->get('role');
 
-$redirection = new Redirection("edition.php?id_e=$id_e");
+$redirection = new Redirection("edition.php?id_e=$id_e&id_u=$id_u");
 
 $entite = new Entite($sqlQuery,$id_e);
 
-if (! $entite->exists()){
+if (! $entite->exists() && ! $id_u){
 	$lastError->setLastError("L'entité est est inconnu");
 	$redirection->redirect();
 }
 
-$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
-$id_u = $utilisateurCreator->create($login,$password,$password2,$email);
-
-if ( ! $id_u){
-	$lastError->setLastError($utilisateurCreator->getLastError());
-	$redirection->redirect();
+if ($id_e){
+	$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
+	$id_u = $utilisateurCreator->create($login,$password,$password2,$email);
+	
+	if ( ! $id_u){
+		$lastError->setLastError($utilisateurCreator->getLastError());
+		$redirection->redirect();
+	}
 }
-
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
+
+if (! $id_e && $password && $password2 ){
+	if ($password != $password2){
+		$lastError->setLastError("Les mot de passes ne correspondent pas");
+		$redirection->redirect();
+	}
+	$utilisateur->setPassword($password);
+}
 $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
-
-$infoUtilisateur = $utilisateur->getInfo();
-$roleUtilisateur->addRole($id_u,$role,$id_e);
-
-$notification = new Notification($sqlQuery);
-$notification->add($id_u,$id_e,0,0);
+$utilisateur->setEmail($email);
+$utilisateur->setLogin($login);
 
 
-$redirection->redirect(SITE_BASE . "entite/detail.php?id_e=$id_e");
+if ( $id_e ){
+	$infoUtilisateur = $utilisateur->getInfo();
+	$roleUtilisateur->addRole($id_u,$role,$id_e);
+	
+	$notification = new Notification($sqlQuery);
+	$notification->add($id_u,$id_e,0,0);
+}
+
+$redirection->redirect(SITE_BASE . "utilisateur/detail.php?id_u=$id_u");

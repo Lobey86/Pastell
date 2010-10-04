@@ -33,10 +33,8 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 	exit;
 }
 
-
 $documentType = new DocumentType(DOCUMENT_TYPE_PATH);
 $formulaire = $documentType->getFormulaire($type);
-
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
@@ -56,7 +54,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php if ($info) : ?>
 <a href='document/detail.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>'>« <?php echo $info['titre'] ?></a>
 <?php else : ?>
-<a href='document/list.php?type=<?php echo $type ?>&id_e=<?php echo $id_e?>'>« Liste des documents <?php echo $type  ?></a>
+<a href='document/list.php?type=<?php echo $type ?>&id_e=<?php echo $id_e?>'>« Liste des documents <?php echo $documentType->getName($type);  ?></a>
 <?php endif;?>
 <br/><br/>
 
