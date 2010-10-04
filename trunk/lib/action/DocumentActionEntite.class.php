@@ -10,14 +10,14 @@ class DocumentActionEntite {
 		$this->sqlQuery =$sqlQuery;
 	}
 	
-	public function addAction($id_a,$id_e,$journal,$notificationMail){
+	public function addAction($id_a,$id_e,$journal,$notificationMail,$message_journal = ""){
 		
 		$info = $this->getInfo($id_a);
 		
 		$sql = "INSERT INTO document_action_entite (id_a,id_e) VALUES (?,?)";
 		$this->sqlQuery->query($sql,$id_a,$id_e);
 		
-		$journal->add(Journal::DOCUMENT_ACTION,$id_e,$info['id_d'],$info['action'],"");
+		$journal->add(Journal::DOCUMENT_ACTION,$id_e,$info['id_d'],$info['action'],$message_journal);
 		
 		$notificationMail->notify($id_e,$info['id_d'],$info['action'],$info['type']);
 		

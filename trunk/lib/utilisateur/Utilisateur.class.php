@@ -60,4 +60,19 @@ class Utilisateur {
 		$this->sqlQuery->query($sql,array($this->id_u));
 	}
 	
+	public function setPassword($password){
+		$sql = "UPDATE utilisateur SET password = ? WHERE id_u = ?";
+		$this->sqlQuery->query($sql,$password,$this->id_u);
+	}
+	
+	public function setEmail($email){
+		$sql = "UPDATE utilisateur SET email = ? WHERE id_u = ?";
+		$this->sqlQuery->query($sql,$email,$this->id_u);
+	}
+	
+	public function setLogin($login){
+		$sql = "UPDATE utilisateur SET login = ? WHERE id_u = ?";
+		$this->sqlQuery->query($sql,$login,$this->id_u);
+	}
+	
 }

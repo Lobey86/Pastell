@@ -2,24 +2,49 @@
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
-$page_title = "Nouvel utilisateur ";
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->get('id_e');
+$id_u = $recuperateur->get('id_u');
+
+
+$infoUtilisateur = array('login' =>  $lastError->getLastInput('login'),
+					'nom' =>  $lastError->getLastInput('nom'),
+					'prenom' =>  $lastError->getLastInput('prenom'),
+					'email'=> $lastError->getLastInput('email'),
+);
+
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
+if ($id_u){
+	$utilisateur = new Utilisateur($sqlQuery,$id_u);
+	$infoUtilisateur = $utilisateur->getInfo();
+}
 
-
-if (! $infoEntite){
+if (! $infoEntite && ! $infoUtilisateur){
 	header("Location: ".SITE_BASE . "index.php");
+	exit;
 }
 $roleDroit = new RoleDroit();
 
+
+if ($id_e){
+	$page_title = "Nouvel utilisateur ";
+}
+if ($id_u){
+	$page_title = "Modification de " .  $infoUtilisateur['prenom']." ". $infoUtilisateur['nom'];
+	
+}
+
 include( PASTELL_PATH ."/include/haut.php");
 ?>
-
+<?php if ($id_e) : ?>
 <a href='entite/detail.php?id_e=<?php echo $id_e?>'>« Revenir à <?php echo $infoEntite['denomination']?></a>
+<?php endif;?>
+<?php if ($id_u) : ?>
+<a href='utilisateur/detail.php?id_u=<?php echo $id_u ?>'>« Revenir à <?php echo $infoUtilisateur['prenom']." ". $infoUtilisateur['nom']?></a>
+<?php endif;?>
 <br/><br/>
 
 <?php include (PASTELL_PATH."/include/bloc_message.php"); ?>
@@ -32,12 +57,14 @@ Veuillez remplir le formulaire ci-dessous afin de pouvoir créer un nouvel utilis
 
 <form class="w700" action='utilisateur/edition-controler.php' method='post'>
 <input type='hidden' name='id_e' value='<?php echo $id_e?>'>
+<input type='hidden' name='id_u' value='<?php echo $id_u?>'>
+
 <table>
 <tr>
 	<th><label for='login'>
 	Identifiant (login)
 	<span>*</span></label> </th>
-	 <td> <input type='text' name='login' value='<?php echo $lastError->getLastInput('login')?>' /></td>
+	 <td> <input type='text' name='login' value='<?php echo $infoUtilisateur['login'] ?>' /></td>
 </tr>
 <tr>
 	<th><label for='password'>
@@ -53,16 +80,17 @@ Veuillez remplir le formulaire ci-dessous afin de pouvoir créer un nouvel utilis
 </tr>
 <tr>
 	<th><label for='email'>Email<span>*</span></label> </th>
-	<td> <input type='text' name='email' value='<?php echo $lastError->getLastInput('email')?>'/></td>
+	<td> <input type='text' name='email' value='<?php echo $infoUtilisateur['email']?>'/></td>
 </tr>
 <tr>
 	<th><label for='nom'>Nom</label> </th>
-	<td> <input type='text' name='nom' value='<?php echo $lastError->getLastInput('nom')?>'/></td>
+	<td> <input type='text' name='nom' value='<?php echo $infoUtilisateur['nom']?>'/></td>
 </tr>
 <tr>
 	<th><label for='prenom'>Prénom</label> </th>
-	<td> <input type='text' name='prenom' value='<?php echo $lastError->getLastInput('prenom')?>'/></td>
+	<td> <input type='text' name='prenom' value='<?php echo $infoUtilisateur['prenom']?>'/></td>
 </tr>
+<?php if($id_e) : ?>
 <tr>
 	<th>Entité de base</th>
 	<td> <a href='entite/detail.php?id_e=<?php echo $id_e?>'><?php echo $infoEntite['denomination']?> 
@@ -80,10 +108,11 @@ Veuillez remplir le formulaire ci-dessous afin de pouvoir créer un nouvel utilis
 		</select>
 	 </td>
 </tr>
+<?php endif;?>
 </table>
 
 	<div class="align_right">
-	<input type='submit' class='submit' value="Inscription" />
+	<input type='submit' class='submit' value="<?php echo $id_e?"Inscription":"Modification" ?>" />
 	</div>
 
 </form>

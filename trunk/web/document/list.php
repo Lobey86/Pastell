@@ -57,8 +57,18 @@ if ($id_e){
 
 $documentAction = new DocumentAction($sqlQuery,$journal,0,$id_e,$authentification->getId());
 
-if ($roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$id_e) && $id_e != 0){
+$theAction = $documentType->getAction($type);
+
+
+$actionPossible = new ActionPossible($sqlQuery,$theAction,$documentAction);
+
+;
+
+if ($actionPossible->isCreationPossible($id_e,$authentification->getId())){
+//$roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$id_e) && $id_e != 0)
 	$nouveau_bouton_url = "document/edition.php?type=$type&id_e=$id_e";
+
+
 }
 
 
@@ -73,7 +83,7 @@ if ($id_e != 0) {
 	
 	suivant_precedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type");
 	
-	liste_document($documentType,$listDocument);
+	liste_document($documentType,$listDocument,$id_e);
 
 }
 

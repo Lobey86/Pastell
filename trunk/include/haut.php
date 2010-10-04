@@ -2,12 +2,15 @@
 require_once( PASTELL_PATH ."/lib/flux/FluxFactory.class.php");
 require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH. "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
 
 header("Content-type: text/html");
 
 $recuperateur = new Recuperateur($_GET);
 $id_e_menu = $recuperateur->getInt('id_e',0);
 $type_e_menu = $recuperateur->get('type',"");
+$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -54,14 +57,16 @@ $type_e_menu = $recuperateur->get('type',"");
 <div id="main_menu">
 <a href="<?php echo SITE_BASE ?>index.php" class="picto_accueil">Accueil</a>
 <a href="<?php echo SITE_BASE ?>entite/" class="picto_collectivites">Collectivités</a>
-<a href="<?php echo SITE_BASE ?>entite/fournisseur.php" class="picto_fournisseurs">Fournisseurs</a>
-<a href="<?php echo SITE_BASE ?>utilisateur/index.php" class="picto_utilisateurs">Utilisateurs</a>
-<a href="<?php echo SITE_BASE ?>inscription-fournisseur/index.php" class="picto_fournisseurs">Mes informations</a>
-<a href="<?php echo SITE_BASE ?>flux/index.php" class="picto_flux">Flux</a>
-<a href="<?php echo SITE_BASE ?>document/index.php" class="picto_journal">Document</a>
-<a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_journal">Journal transactions</a>
-
+<a href="<?php echo SITE_BASE ?>document/index.php" class="picto_flux">Documents</a>
+<a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_journal">Journal des évènements</a>
 <a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_aide">Aide</a>
+<?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"fournisseur:lecture'")) : ?>
+	<a href="<?php echo SITE_BASE ?>entite/fournisseur.php" class="picto_fournisseurs">Fournisseurs</a>
+<?php endif; ?>
+<?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"utilisateur:lecture")) : ?>
+	<a href="<?php echo SITE_BASE ?>utilisateur/index.php" class="picto_utilisateurs">Utilisateurs</a>
+<?php endif; ?>
+<!-- <a href="<?php echo SITE_BASE ?>inscription-fournisseur/index.php" class="picto_fournisseurs">Mes informations</a> -->
 </div><!-- main_menu menu_2 -->
 <?php endif; ?>
 
@@ -94,9 +99,17 @@ $bc = $entiteBC->getBreadCrumbs() ;
 		<ul><li><a href='document/index.php<?php echo isset($id_e_menu)?"?id_e=$id_e_menu":''?>'>Tous</a></li></ul>
 	<?php 
 
-		$allFlux = FluxFactory::getFlux();
+	$allDocType = $documentType->getAllTtype();
+	foreach($allDocType as $type_flux => $les_flux){
+		foreach($les_flux as $nom => $affichage) {
+			if ($roleUtilisateur->hasOneDroit($authentification->getId(),$nom.":lecture")){
+				$allType[$type_flux][$nom]  = $affichage;
+			}
+		}
+	}
 	
-	foreach($allFlux as $type_flux => $les_flux) : ?>
+	
+	foreach($allType as $type_flux => $les_flux) : ?>
 	
 	<h3><?php echo $type_flux  ?></h3>
 		<ul>

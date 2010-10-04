@@ -11,6 +11,13 @@ $id_u = $recuperateur->get('id_u');
 $role = $recuperateur->get('role');
 $id_e = $recuperateur->get('id_e',0);
 
-$roleUtilisateur->addRole($id_u,$role,$id_e);
+
+
+if ($role &&  $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {
+		
+	$roleUtilisateur->addRole($id_u,$role,$id_e);
+}
+
+
 
 header("Location: detail.php?id_u=$id_u");

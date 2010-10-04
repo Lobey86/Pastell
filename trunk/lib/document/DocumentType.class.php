@@ -14,8 +14,9 @@ class DocumentType {
 		$this->documentTypeDirectory = $documentTypeDirectory; 
 	}
 	
-	
 	public function getAllTtype(){
+		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory."/index.yml");
+		
 		$result = array();
 		
 		$files = scandir($this->documentTypeDirectory);
@@ -36,7 +37,13 @@ class DocumentType {
 	/*****/
 	public function getFormulaireDefinition($type){
 		if (! isset($this->formlulaireDefinition[$type])){
-			$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($this->documentTypeDirectory."/$type.yml");
+			$filename = $this->documentTypeDirectory."/$type.yml";
+			if (! file_exists($filename)){
+				$filename = $this->documentTypeDirectory."/default.yml";
+			}	
+			
+			
+			$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($filename);
 		}
 		return $this->formlulaireDefinition[$type] ;
 	}

@@ -13,5 +13,9 @@ class Action {
 	public function getAll(){
 		return $this->action;
 	}
+
+	public function getActionRule($action){
+		return $this->action[$action];
+	}
 	
 }

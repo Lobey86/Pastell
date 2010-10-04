@@ -1,0 +1,24 @@
+nom: default
+
+formulaire:
+	tab_0:
+		Objet:
+		Message: {type: textarea}
+		Pièce jointe: {type: file}
+	
+action:
+	Créer:
+		no-last-action:
+
+	Modifier:
+		last-action: 
+			Créer
+			Modifier
+		role_id_e: editeur
+		
+	Envoyer :
+		last-action: 
+			Créer
+			Modifier
+		role_id_e: editeur
+		
