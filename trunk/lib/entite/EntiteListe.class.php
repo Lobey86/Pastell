@@ -23,6 +23,8 @@ class EntiteListe {
 	}
 	
 	public function getAllCollectiviteId(){
+		$result = array();
+		
 		$sql = "SELECT id_e FROM entite WHERE entite_mere=0 AND type != 'fournisseur' ORDER BY denomination" ;
 		$all= $this->sqlQuery->fetchAll($sql);
 		foreach($all as $info){
