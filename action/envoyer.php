@@ -7,7 +7,7 @@ require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 $id_collectivite = $recuperateur->get('destinataire');
 
 if (! $id_collectivite){
-	header("Location: " . SITE_BASE . "/entite/choix-collectivite.php?id_d=$id_d&id_e=$id_e");
+	header("Location: " . SITE_BASE . "/entite/choix-collectivite.php?id_d=$id_d&id_e=$id_e&action=$action");
 	exit;
 }
 
@@ -25,11 +25,16 @@ foreach($id_collectivite as $id_col) {
 	$entiteCollectivite = new Entite($sqlQuery,$id_col);
 	$infoCollectivite = $entiteCollectivite->getInfo();
 	$message_journal = "Envoyé à " . $infoCollectivite['denomination']; 	
-	$id_a = $documentAction->addAction('Envoyer');
+	$id_a = $documentAction->addAction('envoie');
 	
 	$documentActionEntite = new DocumentActionEntite($sqlQuery);
-	$documentActionEntite->addAction($id_a,$id_e,$journal,$notificationMail,$message_journal);
-	$documentActionEntite->addAction($id_a,$id_col,$journal,$notificationMail,$message_journal);
+	$documentActionEntite->addAction($id_a,$id_e,$journal,$message_journal);
+	$documentActionEntite->addAction($id_a,$id_col,$journal,$message_journal);
+	
+	$notificationMail->notify($id_e,$id_d,'envoie', 'rh-messages',"Votre centre de gestion vous envoie un nouveau message");
+
 }
+
+$lastMessage->setLastMessage("Le document a été envoyé au(x) collectivité(s) selectionnée(s)");
 
 header("Location: detail.php?id_d=$id_d&id_e=$id_e");

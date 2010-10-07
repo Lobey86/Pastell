@@ -33,27 +33,28 @@ $theAction = $documentType->getAction($infoDocument['type']);
 $actionPossible = new ActionPossible($sqlQuery,$theAction,$documentAction);
 
 if ( ! $actionPossible->isActionPossible($id_d,$action,$id_e,$authentification->getId())) {
-	echo $actionPossible->getLastBadRule();
-	header("Location: index.php");
+	$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
+	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
 
-if ($action == 'Modifier'){
+if ($action == Action::MODIFICATION){
 	
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
 
-$action_normaliser = Normalizer::normalize($action);
+$action_script = $theAction->getActionScript($action);
 
-$action_file = dirname(__FILE__)."/../../action/$action_normaliser.php";
+$action_file = dirname(__FILE__)."/../../action/$action_script";
 
 if (! file_exists($action_file )){
 		
-	header("Location: index.php");
+	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");
+	
+	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
-
 require($action_file);
 
 

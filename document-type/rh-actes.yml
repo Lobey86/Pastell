@@ -3,11 +3,24 @@ nom: Actes RH
 type: Flux RH
 
 formulaire:
-	Actes RH:
+	Informations générales:
+		Siren de la collectivité: {read-only: true, data: siren}
 		Objet: {requis: true, title: true}
+	Agent:
+		Choisir les valeurs dans une liste: {type: externalData, class: AgentCollectivite, link_name: liste des agents}
 		Matricule de l'agent: {requis: true}
-		Nom: 
+		Nom patronymique:
+		Nom d'usage: 
 		Prénom :
+		Grade:
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+		
+	Actes:
 		Type:
 			type: select
 			value:	
@@ -15,61 +28,108 @@ formulaire:
 					arrete_avancement: Arretés d'avancement de grade
 					sanction: Decisions portant des sanctions disciplinaires
 					licenciement: Licenciement
-		
-		Date: {type: date}
+		Numéro de l'acte:
+		Date de l'acte: {type: date}
 		Envoie au contrôle de légalité: {type: checkbox}
 		Arreté: {type: file, requis: true}
 		Autre document attaché: {type: file, multiple: true}
 	
 action:
-	Créer:
-		no-last-action:
-		droit_id_u: 'rh-actes:edition'
-		type_id_e: 
-			service
-			collectivite
+	creation:
 		
-	Modifier:
-		last-action: 
-			Créer
-			Modifier
-		role_id_e: editeur
-		droit_id_u: 'rh-actes:edition'
+		name: Créer
+		
+		rule:
+			no-last-action:
+			droit_id_u: 'rh-actes:edition'
+			type_id_e: 
+				service
+				collectivite
+		
+	modification:
+	
+		name: Modifier
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
 
-	Envoyer au contrôle de légalité:
-		last-action: 
-			Créer
-			Modifier
-		role_id_e: editeur
-		droit_id_u: 'rh-actes:edition'
-		content: 
-			Envoie au contrôle de légalité: true
+	send-tdt:
 		
-	Envoyer au CDG:
-		last-action: Envoyer au contrôle de légalité
-		role_id_e: editeur
-		droit_id_u: 'rh-actes:edition'
-		content: 
-			Envoie au contrôle de légalité: true
+		name: Envoyer au contrôle de légalité
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			document_is_valide: true
+			content: 
+				Envoie au contrôle de légalité: true
 	
-	Envoyer au CDG:
-		last-action: 
-			Créer
-			Modifier
-		role_id_e: editeur
-		droit_id_u: 'rh-actes:edition'
-		content: 
-			Envoie au contrôle de légalité: false
+		action-script: envoyer_au_controle_de_legalite.php
+		
+		
+	acquiter-tdt:
+		name: Acquittement du contrôle de légalité reçu.
+		
+		rule:
+			automatique: true
+			last-action: send-tdt
+			
+		action-script: recup-from-tdt.php
 	
-	Enregistrer dans la GED:
-		last-action: Envoyer au CDG
-		role_id_e: editeur
-		droit_id_u: 'rh-actes:edition'
+		
+	send-cdg:
 	
-	Archiver:
-		last-action: Enregistrer dans la GED
-		role_id_e: editeur
-		droit_id_u: 'rh-actes:edition'
+		name: Envoyer au CDG
+	
+		rule:
+			last-action: acquiter-tdt
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			content: 
+				Envoie au contrôle de légalité: true
+		
+		action-script: envoyer_au_cdg.php
+			
+	send-cdg-2:
+	
+		name: Envoyer au CDG
+	
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			document_is_valide: true
+			content: 
+				Envoie au contrôle de légalité: false
+		
+		action-script: envoyer_au_cdg.php
+		
+	send-ged:
+		
+		name: Enregistrer dans la GED
+	
+		rule:
+			last-action: send-cdg
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+	
+	send-archive:
+	
+		name: Archiver
+	
+		rule:
+			last-action: send-ged
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
 	
 
 		

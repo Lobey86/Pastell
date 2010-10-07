@@ -10,7 +10,7 @@ class DocumentActionEntite {
 		$this->sqlQuery =$sqlQuery;
 	}
 	
-	public function addAction($id_a,$id_e,$journal,$notificationMail,$message_journal = ""){
+	public function addAction($id_a,$id_e,$journal,$message_journal = ""){
 		
 		$info = $this->getInfo($id_a);
 		
@@ -19,10 +19,17 @@ class DocumentActionEntite {
 		
 		$journal->add(Journal::DOCUMENT_ACTION,$id_e,$info['id_d'],$info['action'],$message_journal);
 		
-		$notificationMail->notify($id_e,$info['id_d'],$info['action'],$info['type']);
 		
 	}
 	
+	public function getLastAction($id_e,$id_d){
+			$sql = "SELECT action FROM document_action_entite " .
+				" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
+				" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
+				" JOIN entite ON document_action.id_e  = entite.id_e ".
+				" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date DESC LIMIT 1 ";
+		return $this->sqlQuery->fetchOneValue($sql,$id_e,$id_d);
+	}
 	
 	public function getAction($id_e,$id_d){
 		$sql = "SELECT * FROM document_action_entite " .
@@ -33,7 +40,7 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
 	}
 
-	
+	//TODO : ??
 	public function getInfo($id_a){
 		$sql = "SELECT * FROM document_action " . 
 				" JOIN document ON document_action.id_d = document.id_d " . 

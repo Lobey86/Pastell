@@ -42,22 +42,19 @@ $formulaire->setTabNumber($page);
 $documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
 
 
-$zenMail = new ZenMail($zLog);
-$notification = new Notification($sqlQuery);
-$notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 if (! $info){
 	$document->save($id_d,$type);
-	$id_a = $documentAction->addAction('Créer',$notificationMail);
+	$id_a = $documentAction->addAction(Action::CREATION);
 } else {
-	$id_a = $documentAction->addAction('Modifier',$notificationMail);
+	$id_a = $documentAction->addAction(Action::MODIFICATION);
 }
 
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
-$documentActionEntite->addAction($id_a,$id_e,$journal,$notificationMail);
+$documentActionEntite->addAction($id_a,$id_e,$journal);
 
 $fileUploader = new FileUploader($_FILES);
 
@@ -83,4 +80,14 @@ $documentEntite = new DocumentEntite($sqlQuery);
 $documentEntite->addRole($id_d,$id_e,"editeur");
 
 
+$type = $recuperateur->get('suivant');
+if ($type){
+	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=".($page+1));
+	exit;
+}
+$type = $recuperateur->get('precedent');
+if ($type){
+	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=".($page - 1));
+	exit;
+}
 header("Location: " . SITE_BASE . "document/detail.php?id_d=$id_d&id_e=$id_e&page=$page");

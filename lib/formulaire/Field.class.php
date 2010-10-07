@@ -45,4 +45,11 @@ class Field {
 		return (! empty($this->properties['title']));
 	}
 	
+	public function getProperties($properties){
+		if ( ! isset($this->properties[$properties])){
+			return false;
+		}
+		return $this->properties[$properties];
+	}
+	
 }

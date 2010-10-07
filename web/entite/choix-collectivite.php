@@ -7,6 +7,7 @@ require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $id_e =  $recuperateur->get('id_e');
+$action = $recuperateur->get('action');
 
 $entiteListe = new EntiteListe($sqlQuery);
 
@@ -26,7 +27,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <form action='document/action.php' method='post'>
 	<input type='hidden' name='id_d' value='<?php echo $id_d?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>' />
-	<input type='hidden' name='action' value='Envoyer' />
+	<input type='hidden' name='action' value=<?php echo $action?> />
 
 <table class="tab_01">
 	<tr>

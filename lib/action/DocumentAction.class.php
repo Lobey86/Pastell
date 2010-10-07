@@ -35,6 +35,10 @@ class DocumentAction {
 		$sql = "INSERT INTO document_action(id_d,date,action,id_e,id_u) VALUES (?,?,?,?,?)";
 		$this->sqlQuery->query($sql,$this->id_d,$now,$action,$this->id_e,$this->id_u);
 				
+		$sql = " UPDATE document SET last_action=? WHERE id_d=?";
+		$this->sqlQuery->query($sql,$action,$this->id_d);
+		
+		
 		$sql = "SELECT id_a FROM document_action WHERE id_d=? AND date=? AND action=? AND id_e=? AND id_u=?";
 		return $this->sqlQuery->fetchOneValue($sql,$this->id_d,$now,$action,$this->id_e,$this->id_u);
 	}
