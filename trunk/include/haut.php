@@ -98,6 +98,8 @@ $bc = $entiteBC->getBreadCrumbs() ;
 		<div class="cont">
 		<ul><li><a href='document/index.php<?php echo isset($id_e_menu)?"?id_e=$id_e_menu":''?>'>Tous</a></li></ul>
 	<?php 
+	
+	$allType = array();
 
 	$allDocType = $documentType->getAllTtype();
 	foreach($allDocType as $type_flux => $les_flux){
