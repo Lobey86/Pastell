@@ -61,7 +61,7 @@ if ($id_e && $entite->exists()){
 } else {
 	$entiteCreator = new EntiteCreator($sqlQuery,$journal);
 	$id_e = $entiteCreator->create($siren,$nom,$type,$entite_mere);
-	$entiteModifier = new EntiteModifier($sqlQuery,$id_e);
+	$entiteModifier = new EntiteModifier($sqlQuery,$journal,$id_e);
 }
 
 if ($centre_de_gestion){
