@@ -2,10 +2,10 @@
 
 //Ce fichier contient les valeurs par défaut
 
-if (file_exists( dirname( __FILE__) . "/LocalSettings.php")){
+if (file_exists( dirname( __FILE__) . "/../LocalSettings.php")){
 	//Il est possible d'écraser les valeurs par défaut en 
 	//créant un fichier LocalSettings.php 
-	require_once( dirname( __FILE__) . "/LocalSettings.php");
+	require_once( dirname( __FILE__) . "/../LocalSettings.php");
 }
 
 if (! defined("PASTELL_PATH")){
