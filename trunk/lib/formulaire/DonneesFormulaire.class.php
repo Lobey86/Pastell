@@ -26,6 +26,12 @@ class DonneesFormulaire {
 		return $this->formulaire;
 	}
 	
+	
+	
+	public function injectData($field,$data){
+		$this->info[$field] = $data;
+	}
+	
 	private function retrieveInfo(){
 		if ( ! file_exists($this->filePath)){
 			return ;

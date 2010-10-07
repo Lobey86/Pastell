@@ -30,7 +30,8 @@ class ActionPossible {
 	}
 	
 	public function isActionPossible( $id_d,$action, $id_e,$id_u){
-		$action_possible = $this->getActionPossible($id_d,$id_e,$id_u);
+		$action_possible = array_keys($this->getActionPossible($id_d,$id_e,$id_u));
+		
 		return in_array($action,$action_possible);
 	}
 	
@@ -38,12 +39,13 @@ class ActionPossible {
 		$this->id_e = $id_e;
 		$this->id_u = $id_u;
 		$this->id_d = 0;
-		$a = $this->action->getActionRule("Créer");
+		$a = $this->action->getActionRule(Action::CREATION);
 		return $this->testActionPossible($a);
 	}
 	
 	
 	public function getActionPossible($id_d,$id_e,$id_u){
+				
 		
 		$this->id_d = $id_d ;
 		$this->id_e = $id_e ;
@@ -52,12 +54,11 @@ class ActionPossible {
 	
 		$possible = array();
 		
-		foreach($this->action->getAll() as $action_name => $action_rules){
-			if ($this->testActionPossible($action_rules)){
-				$possible[] = $action_name;
+		foreach($this->action->getAll() as $action_name => $action_properties){
+			if ($this->testActionPossible($action_properties['rule'])){
+				$possible[$action_name] = $action_properties['name'];
 			}
 		}
-		
 		return $possible;
 		
 	}
@@ -77,27 +78,32 @@ class ActionPossible {
 	private function verifRule($ruleName,$ruleValue){
 		if (is_array($ruleValue) && $ruleName != 'content'){
 			foreach($ruleValue as $ruleElement){
-				if ($this->verifRule($ruleName,$ruleElement)){
+				if ($this->verifRule($ruleName,$ruleElement)){					
 					return true;
 				}
 			}
 			
 			return false;
 		}
-		
 		switch($ruleName){
+			
 			case 'no-last-action' : return $this->verifLastAction(false); break;
 			case 'last-action' : return $this->verifLastAction($ruleValue); break;
 			case 'role_id_e' : return $this->verifRoleEntite($ruleValue); break;
 			case 'droit_id_u' : return $this->verifDroitUtilisateur($ruleValue); break;
 			case 'content' : return $this->verifContent($ruleValue); break;
 			case 'type_id_e': return $this->veriTypeEntite($ruleValue); break;
+			case 'document_is_valide' : return $this->verifDocumentIsValide(); break;
+			case 'automatique': return false;
 		}
 		throw new Exception("Règle d'action inconnue : $ruleName" );
 	} 
 	
 	private function verifLastAction($value){
-		$action = $this->documentAction->getLastAction();
+		
+		$documentActionEntite = new DocumentActionEntite($this->sqlQuery);
+		
+		$action = $documentActionEntite->getLastAction($this->id_e,$this->id_d);
 		return $action == $value;
 	}
 	
@@ -119,6 +125,15 @@ class ActionPossible {
 			}
 		}
 		return false;
+	}
+	
+	private function verifDocumentIsValide(){
+		$document =new Document($this->sqlQuery);
+		$infoDoc = $document->getInfo($this->id_d);
+		$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+		$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/". $this->id_d .".yml");
+		$donneesFormulaire->setFormulaire($documentType->getFormulaire($infoDoc['type']));	
+		return $donneesFormulaire->isValidable();	
 	}
 	
 	private function verifField($fieldName,$fieldValue){

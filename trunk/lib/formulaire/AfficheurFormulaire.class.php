@@ -31,9 +31,21 @@ class AfficheurFormulaire {
 	<?php 
 	}
 	
+	public function afficheStaticTab($page){
+		?>
+		<div id="bloc_onglet">
+		<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
+					<a <?php echo ($page_num == $page)?'class="onglet_on"':'' ?>>
+					<?php echo ($page_num + 1) . ". " . $name?>
+					</a>
+		<?php endforeach;?>
+		</div>
+		<?php 
+	}
+	
 	public function affiche($page_number,$action_url,$recuperation_fichier_url  ){
 
-					$this->formulaire->setTabNumber($page_number);
+		$this->formulaire->setTabNumber($page_number);
 		
 		?>
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
@@ -43,7 +55,8 @@ class AfficheurFormulaire {
 			<?php endforeach;?>
 			
 			<table>
-			<?php foreach ($this->formulaire->getFields() as $field) : ?>
+			<?php foreach ($this->formulaire->getFields() as $field) :
+			?>
 				<tr>
 					<th>
 						<label for="<?php echo $field->getName() ?>"><?php echo $field->getLibelle() ?></label>
@@ -78,13 +91,20 @@ class AfficheurFormulaire {
 								?> value='<?php echo $value ?>'><?php echo $name ?></option>
 							<?php endforeach;?>
 						</select>
-					
+					<?php elseif ($field->getType() == 'externalData') :?>
+						<a href='document/external-data.php'><?php echo $field->getProperties('link_name')?></a>
 					<?php else : ?>
+						<?php if ($field->getProperties('read-only')) : ?>
+							<?php echo $this->donneesFormulaire->geth($field->getName())?> 
+							<input type='hidden' name='<?php echo $field->getName(); ?>' value='<?php echo $this->donneesFormulaire->geth($field->getName())?>'/>
+						<?php else : ?>
 						<input 	type='text' 	
 								id='<?php echo $field->getName();?>' 
 								name='<?php echo $field->getName(); ?>' 
 								value='<?php echo $this->donneesFormulaire->geth($field->getName())?>' 
-								size='40'/>
+								size='40'
+								/>
+						<?php endif;?>
 						<?php if($field->getType() == 'date') : ?>
 						<link type="text/css" href="jquery/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
 						
@@ -103,22 +123,45 @@ class AfficheurFormulaire {
 					<?php endif;?>						
 					</td>
 				</tr>				
-			<?php endforeach; ?>
+			<?php 	endforeach; ?>
 			</table>
 		<?php if ($this->formulaire->hasRequiredField()): ?>
 		* champs obligatoires.<br/>
 		<?php endif;?>
+		
+		<?php if ($page_number > 0 ): ?>
+				<input type='submit' name='precedent' value='« Précédent' />
+		<?php endif; ?>
+		
 			<input type='submit' name='enregistrer' value='Enregistrer' />
+			
+		<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
+				<input type='submit' name='suivant' value='Suivant »' />
+		<?php endif; ?>
 		</form>
 	<?php }
 	
 	
 	public function afficheStatic($page,$recuperation_fichier_url){
 	
+		if (! $this->donneesFormulaire->isValidable()){
+			?><div class="box_error">
+					<p>
+						Le formulaire est imcomplet.
+					</p>
+						
+				</div>
+			
+			<?php 
+		}
+		
 			$this->formulaire->setTabNumber($page);
 		?>
 		<table class='tab_01'>
-			<?php foreach ($this->formulaire->getFields() as $i => $field) : ?>
+			<?php foreach ($this->formulaire->getFields() as $i => $field) :
+					if ($field->getType() != 'externalData') : 
+			
+			?>
 				<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 					<td>
 						<?php echo $field->getLibelle() ?>
@@ -142,7 +185,9 @@ class AfficheurFormulaire {
 						<?php endif;?>			
 					</td>
 				</tr>				
-			<?php endforeach; ?>
+			<?php 
+			endif;
+			endforeach; ?>
 		</table>
 	<?php	
 	}

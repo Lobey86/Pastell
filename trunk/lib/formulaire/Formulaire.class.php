@@ -28,6 +28,10 @@ class Formulaire {
 		return $result;
 	}
 	
+	public function getNbPage(){
+		return count($this->formArray);
+	}
+	
 	public function getFields(){
 		$fields = array();	
 		foreach($this->formArray[$this->tabSelected] as $libelle => $properties){

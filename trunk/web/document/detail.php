@@ -29,6 +29,7 @@ $infoEntite = $entite->getInfo();
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 
+
 $documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
 
@@ -36,9 +37,9 @@ $donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_d.yml");
 
 $documentType = new DocumentType(DOCUMENT_TYPE_PATH);
 $formulaire = $documentType->getFormulaire($info['type']);
-$action = $documentType->getAction($info['type']);
-
-$actionPossible = new ActionPossible($sqlQuery,$action,$documentAction);
+$theAction = $documentType->getAction($info['type']);
+$donneesFormulaire->setFormulaire($formulaire);
+$actionPossible = new ActionPossible($sqlQuery,$theAction,$documentAction);
 
 
 $documentEntite = new DocumentEntite($sqlQuery);
@@ -68,6 +69,7 @@ include( PASTELL_PATH ."/include/haut.php" );
 <br/><br/>
 <?php
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+
 $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_e");
 ?>
 
@@ -77,14 +79,14 @@ $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_
 $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d");
 ?>
 <br/>
-<?php foreach($actionPossible->getActionPossible($id_d,$id_e,$authentification->getId()) as $action) : ?>
+<?php foreach($actionPossible->getActionPossible($id_d,$id_e,$authentification->getId()) as $action => $actionName) : ?>
 <form action='document/action.php' method='post' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='page' value='<?php echo $page ?>' />
 	
 	<input type='hidden' name='action' value='<?php echo $action ?>' />
-	<input type='submit' value='<?php echo $action?>'/>
+	<input type='submit' value='<?php echo $actionName?>'/>
 </form>
 <?php endforeach;?>
 
@@ -128,7 +130,7 @@ endforeach;?>
 		
 		<?php foreach($documentActionEntite->getAction($id_e,$id_d) as $action) : ?>
 			<tr>
-				<td><?php echo $action['action']?></td>
+				<td><?php echo $theAction->getActionName($action['action']) ?></td>
 				<td><?php echo $action['date']?></td>
 				<td><a href='entite/detail.php?id_e=<?php echo $action['id_e']?>'><?php echo $action['denomination']?></a></td>
 				<td>

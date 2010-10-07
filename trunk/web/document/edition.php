@@ -9,6 +9,7 @@ require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
+require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -36,6 +37,8 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 $documentType = new DocumentType(DOCUMENT_TYPE_PATH);
 $formulaire = $documentType->getFormulaire($type);
 
+
+
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 $page_title="Edition d'un document « " . $documentType->getName($type) . " » ( " . $infoEntite['denomination'] . " ) ";
@@ -44,19 +47,30 @@ $page_title="Edition d'un document « " . $documentType->getName($type) . " » ( "
 $donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH . "/$id_d.yml");
 $donneesFormulaire->setFormulaire($formulaire);
 
+$dataInjector = new DataInjector($formulaire,$donneesFormulaire);
+$dataInjector->inject($infoEntite['siren']);
+
+
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 $afficheurFormulaire->injectHiddenField("id_d",$id_d);
 $afficheurFormulaire->injectHiddenField("form_type",$type);
 $afficheurFormulaire->injectHiddenField("id_e",$id_e);
 
+
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 <?php if ($info) : ?>
-<a href='document/detail.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>'>« <?php echo $info['titre'] ?></a>
+<a href='document/detail.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>&page=<?php echo $page?>'>« <?php echo $info['titre'] ?></a>
 <?php else : ?>
 <a href='document/list.php?type=<?php echo $type ?>&id_e=<?php echo $id_e?>'>« Liste des documents <?php echo $documentType->getName($type);  ?></a>
 <?php endif;?>
 <br/><br/>
+
+<?php 
+	if ($formulaire->getNbPage() > 1 ) {
+		$afficheurFormulaire->afficheStaticTab($page);
+	}
+?>
 
 <div class="box_contenu clearfix">
 <?php $afficheurFormulaire->affiche($page,"document/edition-controler.php","document/recuperation-fichier.php?id_d=$id_d"); ?>

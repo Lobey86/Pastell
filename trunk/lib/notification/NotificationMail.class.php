@@ -13,14 +13,12 @@ class NotificationMail {
 		$this->notification = $notification;
 	}
 	
-	public function notify($id_e,$id_d,$action,$type){
+	public function notify($id_e,$id_d,$action,$type,$message){
 		
 	
 		$lesEmails = $this->notification->getMail($id_e,$type,$action);
 		
 		foreach($lesEmails as $mail){
-			
-			$message = "La transaction $id_d est passé dans l'état : $action ";
 			
 			$this->zenMail->setEmmeteur("Pastell","pastell@sigmalis.com");
 			$this->zenMail->setDestinataire($mail);

@@ -6,26 +6,43 @@ formulaire:
 	Message du CDG:			
 		Objet: {requis: true, title: true}
 		Message: {type: textarea}
-		Document attaché: {type: file, requis: true}
+		Document attaché: {type: file}
 		
 	
 action:
-	Créer:
-		no-last-action:
-		type_id_e: centre_de_gestion
-		droit_id_u: 'rh-messages:edition'
+	creation:
+		name: Créer
+		rule:
+			no-last-action:
+			type_id_e: centre_de_gestion
+			droit_id_u: 'rh-messages:edition'
 
-	Modifier:
-		last-action: 
-			Créer
-			Modifier
-		role_id_e: editeur
-		droit_id_u: 'rh-messages:edition'
+	modification:
+		name: Modifier
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
 		
-	Envoyer :
-		last-action: 
-			Créer
-			Modifier
-		role_id_e: editeur
-		droit_id_u: 'rh-messages:edition'
+	envoie :
+		name: Envoyer
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+		action-script: envoyer.php
+		
+	accuse_de_reception:
+		name: 	Accuser réception
+		rule:
+			last-action:
+				envoie
+			role_id_e: lecteur
+			droit_id_u: 'rh-messages:edition'
+		action-script: accuse-de-reception.php
+		
 		

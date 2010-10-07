@@ -8,12 +8,15 @@ function liste_document(DocumentType $documentType,array $listDocument,$my_id_e)
 	$tabEntete = array();
 	$type = array();
 	
+	
+	
 	$i = 0;
 	
 	foreach($listDocument as $doc){
 		foreach($doc['action'] as $action => $date){
 			if (! in_array($action,$tabEntete)){
-				$tabEntete[] = $action;
+				$theAction = $documentType->getAction($doc['type']);
+				$tabEntete[$action] = $theAction->getActionName($action);
 			}
 		}
 		$type[$doc['type']] = 1;
@@ -68,7 +71,7 @@ function liste_document(DocumentType $documentType,array $listDocument,$my_id_e)
 				<?php endif;?>
 				<?php endforeach;?>
 				</td>
-				<?php foreach($tabEntete as $entete) : ?>
+				<?php foreach($tabEntete as $entete => $enteteName) : ?>
 					<td>
 						<?php if (isset($document['action'][$entete])) : ?>
 							<?php echo $document['action'][$entete]?>
