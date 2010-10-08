@@ -31,7 +31,7 @@ foreach($id_collectivite as $id_col) {
 	$documentActionEntite->addAction($id_a,$id_e,$journal,$message_journal);
 	$documentActionEntite->addAction($id_a,$id_col,$journal,$message_journal);
 	
-	$notificationMail->notify($id_e,$id_d,'envoie', 'rh-messages',"Votre centre de gestion vous envoie un nouveau message");
+	$notificationMail->notify($id_e,$id_d,'envoie', 'rh-messages',"Votre centre de gestion vous envoi un nouveau message");
 
 }
 

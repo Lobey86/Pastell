@@ -1,44 +1,9 @@
 
-# @pastell Menu : permettre de filtrer par type de flux 26 mai modifier  -  fait
-# @pastell permettre l'envoie d'une transaction d'inscription 26 mai modifier  -  fait
-# @pastell Vérifié l'état du fournisseur pour que l'utilisateur puisse s'inscrire 26 mai modifier  -  fait
-# @pastell afficher le menu en fonction de l'entité controlé 26 mai modifier  -  fait 
-*****************
 
 
-- generalités
-+ cdg doit disparaitre au profit d'une collectivité std
-chaque collectivité peut acceder à certains flux (ex: une collectivité
-appartenant à un cdg n'a pas les meme flux qu'un cdg)
-et un agent peut s'abonner à certains flux parmi les flux de sa collectivité
+--- flux fournisseurs ---
 
-- scenario de teletransmission au cdg
-
-+ les modeles de documents ne sont pas chez pastell et n'a donc pas
-à se charger de cela (voir intranet cdg).
-
-+ pastell ne conserve pas les documents; seulement les traces de passage
-
-+ pastell doit envoyer directement à la GED et ASALAE, sans
-validation intermediaire, automatiquement.
-
-l'envoi à la GED est automatique : on y enregistre le doc ainsi que la
-date d'envoi au cdg.
-l'envoi à ASALAE est automatique selon le type du document. pastell doit
-connaitre le type du document et seuls les types selectionnés pour cela
-doivent automatiquement partir vers asalae
-
-- scenario controle de legalité + cdg
-
-+ l'envoi au TDT passe par un formulaire permettant à l'gent de
-remplir manuellement les champs necessaires au TDT (n° unique, table
-matiere, ...)
-
-+ on avait imaginé etre en mesure de traiter les actes directement
-postés sur s2low, sans passer par pastell. dans ce cas, s2low aurait du
-avertir pastell qu'un acte est ok. on aurait utiliser la notification
-métier de s2low.
-ON N'IMPLEMENTE PAS CETTE IDEE dans cette 1ere version.
+1. regérer l'inscription fournisseur
 
 
 - scenario d'envoi du cdg vers une coll.
@@ -125,6 +90,3 @@ est est referencé par la facture.
 - dans tous les envois (msg, facture, ...) il faudrait pouvoir "anuller"
 un envoi avant qu'il n'ai ete traité par mon correspondant.  (ex: j'ai
 fais une erreru dans ma facture, je veux l'annuler pour en faire une nlle)
---
-Pascal Kuczynski - http://www.adullact.org
-Directeur Technique - 04 67 65 05 88

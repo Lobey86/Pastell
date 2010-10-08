@@ -67,4 +67,15 @@ class Formulaire {
 		return false;
 	}
 	
+	public function getField($fieldName){
+		foreach ($this->formArray as $name => $tab) {
+			foreach($tab as $libelle => $properties){
+				if($libelle == $fieldName){
+					return new Field($libelle,$properties);	
+				}
+			}
+		}
+		return false;
+	}
+	
 }
