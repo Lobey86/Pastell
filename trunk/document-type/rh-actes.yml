@@ -7,7 +7,7 @@ formulaire:
 		Siren de la collectivité: {read-only: true, data: siren}
 		Objet: {requis: true, title: true}
 	Agent:
-		Choisir les valeurs dans une liste: {type: externalData, class: AgentCollectivite, link_name: liste des agents}
+		Choisir les valeurs dans une liste: {type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
 		Matricule de l'agent: {requis: true}
 		Nom patronymique:
 		Nom d'usage: 
@@ -30,7 +30,7 @@ formulaire:
 					licenciement: Licenciement
 		Numéro de l'acte:
 		Date de l'acte: {type: date}
-		Envoie au contrôle de légalité: {type: checkbox}
+		Envoi au contrôle de légalité: {type: checkbox}
 		Arreté: {type: file, requis: true}
 		Autre document attaché: {type: file, multiple: true}
 	
@@ -69,7 +69,7 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			document_is_valide: true
 			content: 
-				Envoie au contrôle de légalité: true
+				Envoi au contrôle de légalité: true
 	
 		action-script: envoyer_au_controle_de_legalite.php
 		
@@ -83,43 +83,38 @@ action:
 			
 		action-script: recup-from-tdt.php
 	
-		
+	send-cdg-manuel:
+	
+		name: Envoyer au CDG
+	
+		rule:
+			last-action: 
+				modification
+				creation
+			
+			document_is_valide: true
+			content: 
+				Envoi au contrôle de légalité: false
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			
+			
 	send-cdg:
 	
 		name: Envoyer au CDG
 	
 		rule:
 			last-action: acquiter-tdt
-			role_id_e: editeur
-			droit_id_u: 'rh-actes:edition'
-			content: 
-				Envoie au contrôle de légalité: true
-		
-		action-script: envoyer_au_cdg.php
-			
-	send-cdg-2:
-	
-		name: Envoyer au CDG
-	
-		rule:
-			last-action: 
-				creation
-				modification
-			role_id_e: editeur
-			droit_id_u: 'rh-actes:edition'
-			document_is_valide: true
-			content: 
-				Envoie au contrôle de légalité: false
-		
-		action-script: envoyer_au_cdg.php
-		
+			automatique: true
+					
 	send-ged:
 		
 		name: Enregistrer dans la GED
 	
 		rule:
 			last-action: send-cdg
-			role_id_e: editeur
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
 			droit_id_u: 'rh-actes:edition'
 	
 	send-archive:
@@ -127,8 +122,12 @@ action:
 		name: Archiver
 	
 		rule:
-			last-action: send-ged
-			role_id_e: editeur
+			last-action: 
+				send-cdg
+				send-ged
+				
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
 			droit_id_u: 'rh-actes:edition'
 	
 

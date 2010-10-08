@@ -40,10 +40,13 @@ class DonneesFormulaire {
 	}
 	
 	public function save(Recuperateur $recuperateur, FileUploader $fileUploader){	
+		
+	
 		foreach ($this->formulaire->getFields() as $field){
 			if ($field->getType() == 'file'){
 				$this->saveFile($field,$fileUploader);
 			} else {
+					
 				$this->info[$field->getName()] = $recuperateur->get($field->getName());
 			}
 		}
@@ -58,6 +61,12 @@ class DonneesFormulaire {
 			$this->info[$fname] = $fileUploader->getName($fname);
 			$fileUploader->save($fname, $this->getFilePath($fname));
 		}
+	}
+	
+	public function removeFile($fieldName){
+		$this->info[$fieldName] = "";
+		$dump = Spyc::YAMLDump($this->info);
+		file_put_contents($this->filePath,$dump);
 	}
 	
 	public function getFilePath($field_name){

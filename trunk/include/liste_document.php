@@ -38,6 +38,7 @@ function liste_document(DocumentType $documentType,array $listDocument,$my_id_e)
 					<th>Type</th>
 				<?php endif;?>
 				<th>Entité</th>
+				<th>Dernier action/état</th>
 				<?php foreach($tabEntete as $entete) : ?>
 					<th><?php echo $entete?></th>
 				<?php endforeach;?>
@@ -70,6 +71,9 @@ function liste_document(DocumentType $documentType,array $listDocument,$my_id_e)
 				<a href='entite/detail.php?id_e=<?php echo $docEntite['id_e']?>'><?php echo $docEntite['denomination']?></a><br/>
 				<?php endif;?>
 				<?php endforeach;?>
+				</td>
+				<td>
+					
 				</td>
 				<?php foreach($tabEntete as $entete => $enteteName) : ?>
 					<td>

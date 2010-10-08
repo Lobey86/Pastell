@@ -1,0 +1,40 @@
+Scénario de démonstration :
+
+Connexion utilisateur de collectivité
+
+Le tableau principale présente tout les flux, ainsi que leur état
+Zoom sur ActesRH
+Nouveau ActesRH
+Agent: dans un second temps, on verra la liste des agents
+Détail d'un acteRH
+Journal des évenements
+
+Connexion CDG
+Visualisation de l'acteRH
+Journal des évenements
+Envoie des notifications
+
+Scénario 2: 
+Envoie au contrôle de légalité
+Attente de la réponse
+Visualisation dans le journal des évenements et notification
+
+Scénario 3:
+- Création d'un message en temps que CDG
+- Envoie à une ou plusieur col
+- connexion col
+- accusé de reception
+- vérification de l'accusé de réception
+
+Utilisateur de plusieurs col
+- Lorsque l'on est utilisateur sur plusieurs col, on peut en choisir une
+- démonstration sur les services
+
+
+
+Admin: 
+Gestion des collectivités
+Création de service
+Détail d'un utilisateur
+Ajout de role
+Ajout de notification

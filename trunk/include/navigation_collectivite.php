@@ -2,6 +2,7 @@
 
 
 function navigation_racine($liste_collectivite,$url){
+	if (array(count($liste_collectivite) > 1)) : 
 	?>
 	<div class="box_contenu clearfix">
 	<h2>Navigation dans les collectivités</h2>
@@ -18,6 +19,7 @@ function navigation_racine($liste_collectivite,$url){
 	</ul>
 </div>
 	<?php 
+	endif;
 }
 
 function navigation_collectivite(Entite $entite,$url){

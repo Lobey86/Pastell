@@ -47,6 +47,11 @@ class AfficheurFormulaire {
 
 		$this->formulaire->setTabNumber($page_number);
 		
+		if (isset($this->inject['id_d'])){
+			$id_d = $this->inject['id_d'];
+			$id_e = $this->inject['id_e'];
+		}
+		
 		?>
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
 			<input type='hidden' name='page' value='<?php echo $page_number?>' />
@@ -77,7 +82,7 @@ class AfficheurFormulaire {
 						<br/>
 						<?php if ($this->donneesFormulaire->get($field->getName())):?>
 								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
-								&nbsp;&nbsp;<a href=''>supprimer</a>
+								&nbsp;&nbsp;<a href='document/supprimer-fichier.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>&field=<?php echo $field->getName() ?>&page=<?php echo $page_number?>'>supprimer</a>
 						<?php endif;?>
 						
 					<?php elseif($field->getType() == 'select') : ?>
@@ -92,7 +97,7 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
-						<a href='document/external-data.php'><?php echo $field->getProperties('link_name')?></a>
+						<a href='document/external-data.php?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getLibelle()?>'><?php echo $field->getProperties('link_name')?></a>
 					<?php else : ?>
 						<?php if ($field->getProperties('read-only')) : ?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?> 
@@ -147,7 +152,7 @@ class AfficheurFormulaire {
 		if (! $this->donneesFormulaire->isValidable()){
 			?><div class="box_error">
 					<p>
-						Le formulaire est imcomplet.
+						Le formulaire est incomplet.
 					</p>
 						
 				</div>

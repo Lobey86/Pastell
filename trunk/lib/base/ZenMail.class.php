@@ -59,7 +59,7 @@ class ZenMail{
 					"Reply-To: ".$this->mailEmmeteur."\r\n".
 					"Content-Type: text/plain; charset=\"".$this->charset."\"";		
 		
-		$this->zLog->log("Envoie d'un mail",ZLog::DEBUG);
+		$this->zLog->log("Envoi d'un mail",ZLog::DEBUG);
 		$this->zLog->log("Destinataire : ".$this->destinataire,ZLog::DEBUG);
 		$this->zLog->log("Sujet : ".$this->sujet,ZLog::DEBUG);
 		$this->zLog->log("Entete: ".$entete,ZLog::DEBUG);
