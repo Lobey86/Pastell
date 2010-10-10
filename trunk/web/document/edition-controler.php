@@ -47,10 +47,18 @@ $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 if (! $info){
 	$document->save($id_d,$type);
+}
+
+
+$documentEntite = new DocumentEntite($sqlQuery);
+$documentEntite->addRole($id_d,$id_e,"editeur");
+
+if (! $info){
 	$id_a = $documentAction->addAction(Action::CREATION);
 } else {
 	$id_a = $documentAction->addAction(Action::MODIFICATION);
 }
+
 
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
@@ -75,9 +83,6 @@ $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
 
-/* ??? */
-$documentEntite = new DocumentEntite($sqlQuery);
-$documentEntite->addRole($id_d,$id_e,"editeur");
 
 
 $type = $recuperateur->get('suivant');

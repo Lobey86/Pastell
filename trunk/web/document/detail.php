@@ -134,8 +134,11 @@ endforeach;?>
 				<td><?php echo $action['date']?></td>
 				<td><a href='entite/detail.php?id_e=<?php echo $action['id_e']?>'><?php echo $action['denomination']?></a></td>
 				<td>
+					<?php if ($action['id_u'] == 0) : ?>
+						Action automatique
+					<?php endif;?>
 					<?php if ($action['id_e'] == $id_e) :?>
-					<a href='utilisateur/detail.php?id_u=<?php echo $action['id_u']?>'><?php echo $action['prenom']?> <?php echo $action['nom']?></a>
+						<a href='utilisateur/detail.php?id_u=<?php echo $action['id_u']?>'><?php echo $action['prenom']?> <?php echo $action['nom']?></a>
 					<?php endif;?>
 				</td>
 			</tr>

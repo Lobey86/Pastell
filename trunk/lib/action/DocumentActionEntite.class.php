@@ -36,7 +36,7 @@ class DocumentActionEntite {
 				" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
 				" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
 				" JOIN entite ON document_action.id_e  = entite.id_e ".
-				" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date ";
+				" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date,document_action_entite.id_a ";
 		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
 	}
 
@@ -59,19 +59,13 @@ class DocumentActionEntite {
 	}
 	
 	public function getListDocument($id_e,$type,$offset,$limit){
-		$sql = "SELECT * FROM document_entite " .  
+		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type=? " . 
-				" ORDER BY document.modification DESC LIMIT $offset,$limit";	
-		$result =  $this->sqlQuery->fetchAll($sql,$id_e,$type);
-		foreach($result as $i => $document){
-			$lesAction = $this->getAction($id_e,$document['id_d']);
-			$result[$i]['action'] = array();
-			foreach($lesAction as $action){
-				$result[$i]['action'][$action['action']] = $action['date'];
-			}
-		}
-		return $result;
+				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
+			
+		return $this->sqlQuery->fetchAll($sql,$id_e,$type);
+	
 	}
 	
 	
@@ -79,19 +73,12 @@ class DocumentActionEntite {
 		
 		$type_list = "'" . implode("','",$type_list) . "'";
 		
-		$sql = "SELECT * FROM document_entite " .  
+		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date  FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " . 
-				" ORDER BY document.modification DESC LIMIT $offset,$limit";	
-		$result =  $this->sqlQuery->fetchAll($sql,$id_e);
-		foreach($result as $i => $document){
-			$lesAction = $this->getAction($id_e,$document['id_d']);
-			$result[$i]['action'] = array();
-			foreach($lesAction as $action){
-				$result[$i]['action'][$action['action']] = $action['date'];
-			}
-		}
-		return $result;
+				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
+		return $this->sqlQuery->fetchAll($sql,$id_e);
+
 	}
 	
 	public function getNbDocumentByEntite($id_e,array $type_list){

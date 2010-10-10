@@ -79,6 +79,8 @@ if ($id_e != 0) {
 
 	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit ) ;
 	
+
+	
 	$count = $documentActionEntite->getNbDocument($id_e,$type);
 	
 	suivant_precedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type");

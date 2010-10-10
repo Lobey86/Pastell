@@ -1,6 +1,7 @@
 <?php
 
 
+//TODO pas bon ?
 class DocumentActionList {
 	
 	private $sqlQuery;

@@ -64,4 +64,5 @@ class DocumentType {
 		return new Action($tabDef['action']);
 	}
 	
+	
 }

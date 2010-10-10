@@ -5,6 +5,7 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/flux/FluxInscriptionFournisseur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
@@ -46,6 +47,9 @@ if ($info['entite_mere']){
 }
 
 $filles = $entite->getFille();
+
+$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
+
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
@@ -158,6 +162,15 @@ include( PASTELL_PATH ."/include/haut.php");
 	</tr>
 <?php endif;?>
 
+<tr>
+<th>Système de GED</th>
+<td><?php echo $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_ged') ?></td>
+</tr>
+
+<tr>
+<th>Système de d'archivage légal</th>
+<td><?php echo $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_archivage') ?></td>
+</tr>
 
 </table>
 </div>
