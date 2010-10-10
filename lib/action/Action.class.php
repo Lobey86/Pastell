@@ -23,6 +23,14 @@ class Action {
 		return $this->action[$action]['rule'];
 	}
 	
+	
+	public function getProperties($action,$properties){
+		if (! isset ($this->action[$action][$properties])){
+			return false;
+		}
+		return $this->action[$action][$properties];
+	}
+	
 	public function getActionScript($action){
 		if (! isset($this->action[$action]['action-script'])){
 			return "default.php";

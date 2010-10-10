@@ -5,21 +5,10 @@ require_once( PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 function liste_document(DocumentType $documentType,array $listDocument,$my_id_e) {
 	
 	
-	$tabEntete = array();
 	$type = array();
-	
-	
-	
-	$i = 0;
-	
 	foreach($listDocument as $doc){
-		foreach($doc['action'] as $action => $date){
-			if (! in_array($action,$tabEntete)){
-				$theAction = $documentType->getAction($doc['type']);
-				$tabEntete[$action] = $theAction->getActionName($action);
-			}
-		}
-		$type[$doc['type']] = 1;
+		$type[$doc['type']] = $doc['type'];
+		
 	}
 	$type = array_keys($type);
 	
@@ -38,20 +27,32 @@ function liste_document(DocumentType $documentType,array $listDocument,$my_id_e)
 					<th>Type</th>
 				<?php endif;?>
 				<th>Entité</th>
-				<th>Dernier action/état</th>
-				<?php foreach($tabEntete as $entete) : ?>
-					<th><?php echo $entete?></th>
-				<?php endforeach;?>
+				<th>Dernier état</th>
+				<th>Date</th>
 			</tr>
 		
 		<?php 
-		foreach($listDocument as $document ) : ?>
+		foreach($listDocument as $i => $document ) : ?>
 			<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
 			
 				<td>
+					<?php if ($documentType->getAction($document['type'])->getProperties($document['last_action'],'accuse_de_reception_action')) :?>
+						L'expediteur a demandé un accusé de réception : 
+						<form action='document/action.php' method='post'>
+						<input type='hidden' name='id_d' value='<?php echo $document['id_d'] ?>' />
+						<input type='hidden' name='id_e' value='<?php echo $my_id_e ?>' />
+						<input type='hidden' name='page' value='0' />
+							
+						<input type='hidden' name='action' value='<?php echo $documentType->getAction($document['type'])->getProperties($document['last_action'],'accuse_de_reception_action') ?>' />
+							
+						<input type='submit' value='Envoyer un accusé de réception'/>
+						</form>
+					<?php else :?>
+
 					<a href='document/detail.php?id_d=<?php echo $document['id_d']?>&id_e=<?php echo $document['id_e']?>'>
 						<?php echo $document['titre']?$document['titre']:$document['id_d']?>
 					</a>			
+					<?php endif;?>
 				</td>
 				<?php if (count($type) > 1 ): ?>
 					<td><?php echo  $documentType->getName($document['type'])?></td>
@@ -73,17 +74,11 @@ function liste_document(DocumentType $documentType,array $listDocument,$my_id_e)
 				<?php endforeach;?>
 				</td>
 				<td>
-					
+					<?php echo $documentType->getAction($document['type'])->getActionName($document['last_action']) ?>
 				</td>
-				<?php foreach($tabEntete as $entete => $enteteName) : ?>
-					<td>
-						<?php if (isset($document['action'][$entete])) : ?>
-							<?php echo $document['action'][$entete]?>
-						<?php else : ?>
-							&nbsp;
-						<?php endif;?>
-					</td>
-				<?php endforeach;?>
+				<td>
+					<?php echo $document['last_action_date']?>
+				</td>
 			</tr>
 		<?php endforeach;?>
 		</table>

@@ -15,7 +15,8 @@ $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 $documentEntite = new DocumentEntite($sqlQuery);
 
-	
+$documentActionEntite = new DocumentActionEntite($sqlQuery);
+
 foreach($id_collectivite as $id_col) {
 	
 	$documentEntite->addRole($id_d,$id_col,"lecteur");
@@ -25,13 +26,17 @@ foreach($id_collectivite as $id_col) {
 	$entiteCollectivite = new Entite($sqlQuery,$id_col);
 	$infoCollectivite = $entiteCollectivite->getInfo();
 	$message_journal = "Envoyé à " . $infoCollectivite['denomination']; 	
-	$id_a = $documentAction->addAction('envoie');
+	$id_a = $documentAction->addAction('envoi-col');
 	
-	$documentActionEntite = new DocumentActionEntite($sqlQuery);
+	$documentActionEntite->addAction($id_a,$id_e,$journal,$message_journal);
+	
+	$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_col,0);
+	$id_a = $documentAction->addAction('recu-col');
+	$message_journal = "Reçu par " . $infoCollectivite['denomination']; 	
 	$documentActionEntite->addAction($id_a,$id_e,$journal,$message_journal);
 	$documentActionEntite->addAction($id_a,$id_col,$journal,$message_journal);
 	
-	$notificationMail->notify($id_e,$id_d,'envoie', 'rh-messages',"Votre centre de gestion vous envoi un nouveau message");
+	$notificationMail->notify($id_col,$id_d,'envoie', 'rh-messages',"Votre centre de gestion vous envoi un nouveau message");
 
 }
 

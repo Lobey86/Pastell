@@ -6,6 +6,7 @@ require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteModifier.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 
@@ -15,7 +16,8 @@ $siren = $recuperateur->get('siren',0);
 $type = $recuperateur->get('type');
 $entite_mere =  $recuperateur->get('entite_mere',0);
 $centre_de_gestion =  $recuperateur->get('centre_de_gestion',0);
-
+$has_ged = $recuperateur->get('has_ged',0);
+$has_archivage = $recuperateur->get('has_archivage',0);
 
 if ( (! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$siren))
 	&& (! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$entite_mere))
@@ -67,6 +69,11 @@ if ($id_e && $entite->exists()){
 if ($centre_de_gestion){
 	$entiteModifier->setCentreDeGestion($centre_de_gestion);
 }
+
+$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
+
+$entiteProperties->setProperties(EntiteProperties::ALL_FLUX,'has_ged',$has_ged);
+$entiteProperties->setProperties(EntiteProperties::ALL_FLUX,'has_archivage',$has_archivage);
 
 $lastError->deleteLastInput();
 

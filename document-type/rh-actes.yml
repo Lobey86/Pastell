@@ -8,10 +8,10 @@ formulaire:
 		Objet: {requis: true, title: true}
 	Agent:
 		Choisir les valeurs dans une liste: {type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
-		Matricule de l'agent: {requis: true}
-		Nom patronymique:
+		Matricule de l'agent: 
+		Nom patronymique: {requis: true}
 		Nom d'usage: 
-		Prénom :
+		Prénom : {requis: true}
 		Grade:
 		Statut:
 			type: select
@@ -84,7 +84,6 @@ action:
 		action-script: recup-from-tdt.php
 	
 	send-cdg-manuel:
-	
 		name: Envoyer au CDG
 	
 		rule:
@@ -97,7 +96,7 @@ action:
 				Envoi au contrôle de légalité: false
 			role_id_e: editeur
 			droit_id_u: 'rh-actes:edition'
-			
+		action-script: envoyer_au_cdg.php
 			
 	send-cdg:
 	
@@ -107,15 +106,31 @@ action:
 			last-action: acquiter-tdt
 			automatique: true
 					
+					
+	recu-cdg:
+		name: Reçu par le CDG
+		rule:
+			automatique: true
+		
+						
+					
 	send-ged:
 		
 		name: Enregistrer dans la GED
 	
 		rule:
-			last-action: send-cdg
+			last-action: 
+				recu-cdg
+				send-archive 
+				
+			no-action:
+				send-ged
+				
 			type_id_e: centre_de_gestion
 			role_id_e: lecteur
 			droit_id_u: 'rh-actes:edition'
+			properties: 
+				has_ged: manuel
 	
 	send-archive:
 	
@@ -123,12 +138,20 @@ action:
 	
 		rule:
 			last-action: 
-				send-cdg
+				recu-cdg
 				send-ged
-				
+			no-action:
+				send-archive	
 			type_id_e: centre_de_gestion
 			role_id_e: lecteur
 			droit_id_u: 'rh-actes:edition'
-	
-
+			properties: 
+				has_archivage: manuel
+				
+				
+entite-properties:
+	has-ged:
+	ged-auto:
+	has-archivage:
+	archivage-auto:
 		

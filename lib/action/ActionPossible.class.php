@@ -6,6 +6,7 @@ require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Field.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 
 
 class ActionPossible {
@@ -76,7 +77,7 @@ class ActionPossible {
 	}
 	
 	private function verifRule($ruleName,$ruleValue){
-		if (is_array($ruleValue) && $ruleName != 'content'){
+		if (is_array($ruleValue) && $ruleName != 'content' && $ruleName != 'properties'){
 			foreach($ruleValue as $ruleElement){
 				if ($this->verifRule($ruleName,$ruleElement)){					
 					return true;
@@ -88,12 +89,14 @@ class ActionPossible {
 		switch($ruleName){
 			
 			case 'no-last-action' : return $this->verifLastAction(false); break;
+			case 'no-action':  return $this->verifNoAction($ruleValue); break;
 			case 'last-action' : return $this->verifLastAction($ruleValue); break;
 			case 'role_id_e' : return $this->verifRoleEntite($ruleValue); break;
 			case 'droit_id_u' : return $this->verifDroitUtilisateur($ruleValue); break;
 			case 'content' : return $this->verifContent($ruleValue); break;
 			case 'type_id_e': return $this->veriTypeEntite($ruleValue); break;
 			case 'document_is_valide' : return $this->verifDocumentIsValide(); break;
+			case 'properties': return $this->verifProperties($ruleValue); break;
 			case 'automatique': return false;
 		}
 		throw new Exception("Règle d'action inconnue : $ruleName" );
@@ -105,6 +108,19 @@ class ActionPossible {
 		
 		$action = $documentActionEntite->getLastAction($this->id_e,$this->id_d);
 		return $action == $value;
+	}
+	
+	private function verifNoAction($value){
+				
+		$documentActionEntite = new DocumentActionEntite($this->sqlQuery);
+		
+		$lesActions = $documentActionEntite->getAction($this->id_e,$this->id_d);
+		foreach($lesActions as $action){
+			if ($action['action'] == $value){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	private function verifRoleEntite($value){
@@ -148,6 +164,14 @@ class ActionPossible {
 		$entite = new Entite($this->sqlQuery,$this->id_e);
 		$info = $entite->getInfo();
 		return ($info["type"] == $type);
+	}
+	
+	private function verifProperties(array $properties){
+		foreach($properties as $key => $value) {}
+		$entiteProperties = new EntiteProperties($this->sqlQuery,$this->id_e);
+		$v = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,$key);
+		
+		return $v == $value;
 	}
 	
 }
