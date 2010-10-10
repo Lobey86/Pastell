@@ -18,6 +18,6 @@ $message = "Un accusé de réception a été recu pour le document $id_d ";
 $notificationMail->notify($id_col,$id_d,$action, 'rh-message',$message);
 
 
-$lastMessage->setLastMessage("L'accusé de réception a été envoyer au centre de gestion");
+$lastMessage->setLastMessage("L'accusé de réception a été envoyé au centre de gestion");
 
 header("Location: detail.php?id_d=$id_d&id_e=$id_e");
