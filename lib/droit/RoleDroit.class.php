@@ -36,6 +36,7 @@ class RoleDroit {
 									'utilisateur:lecture',
 								),
 					'fournisseur' => array(),
+					'testeur' => array('test:lecture','test:edition')
 
 			);
 	}

@@ -2,7 +2,6 @@
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 
 
@@ -26,7 +25,6 @@ $entiteListe = new EntiteListe($sqlQuery);
 
 $tabEntite = $roleUtilisateur->getEntite($authentification->getId(),'entite:edition');
 
-$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
 
 $notification = new Notification($sqlQuery);
 
@@ -179,7 +177,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	</td> 
 	<td>
 		<?php if($infoNotification['type']): ?>
-			<?php echo $documentType->getName($infoNotification['type']) ?>
+			<?php echo $documentTypeFactory->getDocumentType($infoNotification['type'])->getName() ?>
 		<?php else : ?>
 			Tous
 		<?php endif; ?>
@@ -217,7 +215,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		
 		<select name='type'>
 			<option value=''>...</option>
-			<?php foreach($documentType->getAllTtype() as $flux_type => $lesFlux ) : ?>
+			<?php foreach($documentTypeFactory->getAllTtype() as $flux_type => $lesFlux ) : ?>
 			<?php foreach($lesFlux as $type => $description): ?>
 			<option value='<?php echo $type?>'> <?php echo $description ?> </option>
 			<?php endforeach ; ?>

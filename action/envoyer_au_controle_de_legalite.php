@@ -1,13 +1,8 @@
 <?php
 
-require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
-
-
-$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
-$id_a = $documentAction->addAction('send-tdt');
-
-$documentActionEntite = new DocumentActionEntite($sqlQuery);
-$documentActionEntite->addAction($id_a,$id_e,$journal);
+$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
+$actionCreator->addAction($id_e,$authentification->getId(),$action,"Le document a été envoyé au contrôle de légalité");
+	
 
 $lastMessage->setLastMessage("Le document a été envoyé au contrôle de légalité");
 	

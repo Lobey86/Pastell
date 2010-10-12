@@ -12,10 +12,6 @@ if (! defined("PASTELL_PATH")){
 	define("PASTELL_PATH",dirname(__FILE__) ."/");
 }
 
-if (!defined("DOCUMENT_TYPE_PATH")){
-	define("DOCUMENT_TYPE_PATH",dirname(__FILE__)."/document-type/"); 
-}
-
 //Emplacement du répertoire pour sauvegarder les fichiers temporaires
 if (!defined("WORKSPACE_PATH")){
 	define("WORKSPACE_PATH" , PASTELL_PATH . "/workspace");

@@ -9,7 +9,7 @@ header("Content-type: text/html");
 $recuperateur = new Recuperateur($_GET);
 $id_e_menu = $recuperateur->getInt('id_e',0);
 $type_e_menu = $recuperateur->get('type',"");
-$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
+$documentType = $documentTypeFactory->getDocumentType($type_e_menu);
 
 
 ?>
@@ -101,7 +101,7 @@ $bc = $entiteBC->getBreadCrumbs() ;
 	
 	$allType = array();
 
-	$allDocType = $documentType->getAllTtype();
+	$allDocType = $documentTypeFactory->getAllTtype();
 	foreach($allDocType as $type_flux => $les_flux){
 		foreach($les_flux as $nom => $affichage) {
 			if ($roleUtilisateur->hasOneDroit($authentification->getId(),$nom.":lecture")){

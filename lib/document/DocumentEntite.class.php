@@ -2,7 +2,7 @@
 
 class DocumentEntite {
 	
-	public function __construct($sqlQuery){
+	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery;
 	}
 	
@@ -13,7 +13,6 @@ class DocumentEntite {
 				" ORDER BY document.modification DESC";	
 		return $this->sqlQuery->fetchAll($sql,$id_e,$type);
 	}
-	
 	
 	public function addRole($id_d,$id_e,$role){
 		if ($this->hasRole($id_d,$id_e,$role)){

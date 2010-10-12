@@ -26,4 +26,8 @@ $authentification = new Authentification();
 require_once( PASTELL_PATH . "/lib/util.php");
 
 require_once( PASTELL_PATH . "/lib/droit/RoleUtilisateur.class.php");
-$roleUtilisateur = new RoleUtilisateur($sqlQuery,new RoleDroit());
+$roleUtilisateur = new RoleUtilisateur($sqlQuery);
+$roleUtilisateur->setRoleDroit(new RoleDroit());
+
+require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
+$documentTypeFactory = new DocumentTypeFactory();

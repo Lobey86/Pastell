@@ -1,7 +1,6 @@
 <?php
 
 require_once( PASTELL_PATH . "/lib/entite/EntiteRelation.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 require_once (PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 
 
@@ -25,18 +24,14 @@ if ($authentification->isConnected()){
 	$id_u = $authentification->getId();
 } 
 
-$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$id_u);
-$id_a = $documentAction->addAction('send-cdg');
+$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 
+$actionCreator->addAction($id_e,$id_u,'send-cdg',"Le document a été envoyé au centre de gestion");
+$actionCreator->addToEntite($id_cdg,"Le document a été envoyé par la collectivité");
 
+$actionCreator->addAction($id_cdg,0,'recu-cdg',"Le document a été reçu par le centre de gestion");
+$actionCreator->addToEntite($id_e,"Le document a été reçu par le centre de gestion");
 
-$documentActionEntite = new DocumentActionEntite($sqlQuery);
-$documentActionEntite->addAction($id_a,$id_e,$journal);
-
-$documentActionCDG = new DocumentAction($sqlQuery,$journal,$id_d,$id_cdg,0);
-$id_a = $documentActionCDG->addAction('recu-cdg');
-$documentActionEntite->addAction($id_a,$id_e,$journal);
-$documentActionEntite->addAction($id_a,$id_cdg,$journal);
 
 $message =  "La transaction $id_d est passé dans l'état :  " . $theAction->getActionName('send-cdg');
 $message .= "\n\n";
@@ -47,19 +42,15 @@ $notificationMail->notify($id_cdg,$id_d,'recu-cdg', 'rh-actes',$message);
 $entiteProperties = new EntiteProperties($sqlQuery,$id_cdg);
 $has_ged = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_ged');
 if ($has_ged == 'auto'){	
-	$id_a = $documentActionCDG->addAction('send-ged');
-	$documentActionEntite->addAction($id_a,$id_cdg,$journal);
-	
+	$actionCreator->addAction($id_cdg,0,'send-ged',"Le document a été déposé dans la GED");
 }
 
 $has_archivage = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_archivage');
 if ($has_archivage == 'auto'){	
-	$id_a = $documentActionCDG->addAction('send-archive');
-	$documentActionEntite->addAction($id_a,$id_cdg,$journal);
+	$actionCreator->addAction($id_cdg,0,'send-archive',"Le document a été archivé");
 }
 
-
-$lastMessage->setLastMessage("Le document a été envoyé à votre centre de gestion");
-	
-
-header("Location: detail.php?id_d=$id_d&id_e=$id_e");
+if ($authentification->isConnected()){
+	$lastMessage->setLastMessage("Le document a été envoyé à votre centre de gestion");
+	header("Location: detail.php?id_d=$id_d&id_e=$id_e");
+}

@@ -1,14 +1,10 @@
 <?php
 
-require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
+
+$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
+$actionCreator->addAction($id_e,$authentification->getId(),$action,"L'action $actionName a été executé sur le document");
 
 
-$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
-$id_a = $documentAction->addAction($action);
-
-$documentActionEntite = new DocumentActionEntite($sqlQuery);
-$documentActionEntite->addAction($id_a,$id_e,$journal);
-
-$lastMessage->setLastMessage("L'action $action a été executé sur le document");
+$lastMessage->setLastMessage("L'action $actionName a été executé sur le document");
 	
 header("Location: detail.php?id_d=$id_d&id_e=$id_e");

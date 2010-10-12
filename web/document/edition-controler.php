@@ -7,17 +7,14 @@ require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 
 require_once (PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once (PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
-
-require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
 //Récupération des données
@@ -34,13 +31,9 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 	exit;
 }
 
-$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
-$formulaire = $documentType->getFormulaire($type);
+$documentType = $documentTypeFactory->getDocumentType($type);
+$formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
-
-
-$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
-
 
 
 $document = new Document($sqlQuery);
@@ -53,16 +46,13 @@ if (! $info){
 $documentEntite = new DocumentEntite($sqlQuery);
 $documentEntite->addRole($id_d,$id_e,"editeur");
 
+
+$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 if (! $info){
-	$id_a = $documentAction->addAction(Action::CREATION);
+	$actionCreator->addAction($id_e,$authentification->getId(),Action::CREATION,"Création du document");
 } else {
-	$id_a = $documentAction->addAction(Action::MODIFICATION);
+	$actionCreator->addAction($id_e,$authentification->getId(),Action::MODIFICATION,"Modification du document");
 }
-
-
-
-$documentActionEntite = new DocumentActionEntite($sqlQuery);
-$documentActionEntite->addAction($id_a,$id_e,$journal);
 
 $fileUploader = new FileUploader($_FILES);
 

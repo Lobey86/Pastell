@@ -9,18 +9,14 @@ require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/entite/Entite.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
-require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
-
-
 
 
 $entite = new Entite($sqlQuery,$id_e);
@@ -30,19 +26,25 @@ $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 
 
-$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
 
 $donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_d.yml");
 
-$documentType = new DocumentType(DOCUMENT_TYPE_PATH);
-$formulaire = $documentType->getFormulaire($info['type']);
-$theAction = $documentType->getAction($info['type']);
+$documentType = $documentTypeFactory->getDocumentType($info['type']);
+$formulaire = $documentType->getFormulaire();
+$theAction = $documentType->getAction();
 $donneesFormulaire->setFormulaire($formulaire);
-$actionPossible = new ActionPossible($sqlQuery,$theAction,$documentAction);
-
 
 $documentEntite = new DocumentEntite($sqlQuery);
+
+
+$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
+$actionPossible->setDocumentActionEntite($documentActionEntite);
+$actionPossible->setDocumentEntite($documentEntite);
+$actionPossible->setRoleUtilisateur($roleUtilisateur);
+$actionPossible->setDonnesFormulaire($donneesFormulaire);
+$actionPossible->setEntite($entite);
+
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$info['type'].":edition",$id_e)) {
 	header("Location: list.php");
@@ -56,7 +58,7 @@ if (! $my_role ){
 }
 
 
-$page_title =  $info['titre'] . " (".$documentType->getName($info['type']).")";
+$page_title =  $info['titre'] . " (".$documentType->getName().")";
 
 
 include( PASTELL_PATH ."/include/haut.php" );
@@ -79,14 +81,14 @@ $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_
 $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d");
 ?>
 <br/>
-<?php foreach($actionPossible->getActionPossible($id_d,$id_e,$authentification->getId()) as $action => $actionName) : ?>
+<?php foreach($actionPossible->getActionPossible($id_d) as $action_name) : ?>
 <form action='document/action.php' method='post' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='page' value='<?php echo $page ?>' />
 	
-	<input type='hidden' name='action' value='<?php echo $action ?>' />
-	<input type='submit' value='<?php echo $actionName?>'/>
+	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
+	<input type='submit' value='<?php echo $theAction->getActionName($action_name) ?>'/>
 </form>
 <?php endforeach;?>
 
