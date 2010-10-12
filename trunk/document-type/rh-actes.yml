@@ -131,6 +131,7 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			properties: 
 				has_ged: manuel
+		action-script: default.php
 	
 	send-archive:
 	
@@ -147,7 +148,8 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			properties: 
 				has_archivage: manuel
-				
+		action-script: default.php
+			
 				
 entite-properties:
 	has-ged:

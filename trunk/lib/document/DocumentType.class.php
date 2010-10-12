@@ -1,68 +1,27 @@
 <?php
 
-require_once (PASTELL_PATH . "/ext/spyc.php");
 require_once( PASTELL_PATH . "/lib/action/Action.class.php");
-
+require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 
 class DocumentType {
 	
-	private $documentTypeDirectory;
+	private $type;
+	private $typeDefinition;
 	
-	private $typeInformation;
-	
-	public function __construct($documentTypeDirectory){
-		$this->documentTypeDirectory = $documentTypeDirectory; 
-	}
-	
-	public function getAllTtype(){
-		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory."/index.yml");
-		
-		$result = array();
-		
-		$files = scandir($this->documentTypeDirectory);
-		
-		foreach($files as $file){
-			$ext = substr($file,strrpos($file,"."));	
-			$type = substr($file,0,-4);	
-			
-			if ($ext == ".yml"){
-				$result[$type] = $this->getName($type);
-			}
-		}
-		
-		return $result;
-		
+	public function __construct($type,array $typeDefinition){
+		$this->type = $type; 
+		$this->typeDefinition = $typeDefinition;
 	}
 
-	/*****/
-	public function getFormulaireDefinition($type){
-		if (! isset($this->formlulaireDefinition[$type])){
-			$filename = $this->documentTypeDirectory."/$type.yml";
-			if (! file_exists($filename)){
-				$filename = $this->documentTypeDirectory."/default.yml";
-			}	
-			
-			
-			$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($filename);
-		}
-		return $this->formlulaireDefinition[$type] ;
+	public function getName(){
+		return $this->typeDefinition['nom'];
 	}
 	
-	
-	public function getName($type){
-		$tabDef = $this->getFormulaireDefinition($type);
-		return $tabDef['nom'];
+	public function getFormulaire(){
+		return new Formulaire($this->typeDefinition['formulaire']);
 	}
 	
-	public function getFormulaire($type){
-		$tabDef = $this->getFormulaireDefinition($type);
-		return new Formulaire($tabDef['formulaire']);
+	public function getAction(){
+		return new Action($this->typeDefinition['action']);
 	}
-	
-	public function getAction($type){
-		$tabDef = $this->getFormulaireDefinition($type);
-		return new Action($tabDef['action']);
-	}
-	
-	
 }

@@ -1,10 +1,8 @@
 <?php
-require_once (PASTELL_PATH . "/ext/spyc.php");
 require_once("Field.class.php");
 
 class Formulaire {
 
-	private $definitionFile;
 	private $formArray;
 	private $tabSelected;
 	

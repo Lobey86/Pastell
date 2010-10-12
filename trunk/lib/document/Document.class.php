@@ -29,7 +29,6 @@ class Document {
 		throw new Exception("Impossible de trouver un numéro de transaction");
 	}
 	
-	
 	public function save($id_d,$type){
 		$sql = "INSERT INTO document(id_d,type,creation,modification) VALUES (?,?,now(),now())";
 		$this->sqlQuery->query($sql,$id_d,$type);
@@ -50,5 +49,4 @@ class Document {
 		$sql = "SELECT * FROM document WHERE type = ? ";
 		return $this->sqlQuery->fetchAll($sql,$type);
 	}
-	
 }

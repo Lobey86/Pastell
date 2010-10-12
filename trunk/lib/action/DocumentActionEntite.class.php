@@ -18,25 +18,23 @@ class DocumentActionEntite {
 		$this->sqlQuery->query($sql,$id_a,$id_e);
 		
 		$journal->add(Journal::DOCUMENT_ACTION,$id_e,$info['id_d'],$info['action'],$message_journal);
-		
-		
 	}
 	
 	public function getLastAction($id_e,$id_d){
-			$sql = "SELECT action FROM document_action_entite " .
-				" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
-				" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
-				" JOIN entite ON document_action.id_e  = entite.id_e ".
-				" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date DESC LIMIT 1 ";
+		$sql = "SELECT action FROM document_action_entite " .
+			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
+			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
+			" JOIN entite ON document_action.id_e  = entite.id_e ".
+			" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date DESC,document_action.id_a DESC LIMIT 1 ";
 		return $this->sqlQuery->fetchOneValue($sql,$id_e,$id_d);
 	}
 	
 	public function getAction($id_e,$id_d){
 		$sql = "SELECT * FROM document_action_entite " .
-				" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
-				" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
-				" JOIN entite ON document_action.id_e  = entite.id_e ".
-				" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date,document_action_entite.id_a ";
+			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
+			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
+			" JOIN entite ON document_action.id_e  = entite.id_e ".
+			" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date,document_action_entite.id_a ";
 		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
 	}
 
@@ -64,7 +62,8 @@ class DocumentActionEntite {
 				" WHERE document_entite.id_e = ? AND document.type=? " . 
 				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
 			
-		return $this->sqlQuery->fetchAll($sql,$id_e,$type);
+		$list = $this->sqlQuery->fetchAll($sql,$id_e,$type);
+		return $this->addEntiteToList($id_e,$list);
 	
 	}
 	
@@ -77,8 +76,22 @@ class DocumentActionEntite {
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " . 
 				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
-		return $this->sqlQuery->fetchAll($sql,$id_e);
-
+		$list = $this->sqlQuery->fetchAll($sql,$id_e);
+		return $this->addEntiteToList($id_e,$list);
+	}
+	
+	private function addEntiteToList($id_e,$list){
+		
+		foreach($list as $i => $doc){
+			$id_d = $doc['id_d'];
+			$sql = "SELECT DISTINCT document_action.id_e,entite.denomination " .
+					" FROM document_action ".
+					" JOIN document_action_entite ON document_action.id_a = document_action_entite.id_a " . 
+					" JOIN entite ON entite.id_e=document_action.id_e ". 
+					" WHERE id_d= ? AND document_action_entite.id_e=? AND entite.id_e != ?";
+			$list[$i]['entite'] = $this->sqlQuery->fetchAll($sql,$id_d,$id_e,$id_e);
+		}
+		return $list;
 	}
 	
 	public function getNbDocumentByEntite($id_e,array $type_list){

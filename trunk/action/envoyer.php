@@ -1,9 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/entite/EntiteRelation.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentAction.class.php");
-
-
 $id_collectivite = $recuperateur->get('destinataire');
 
 if (! $id_collectivite){
@@ -20,21 +16,21 @@ $documentActionEntite = new DocumentActionEntite($sqlQuery);
 foreach($id_collectivite as $id_col) {
 	
 	$documentEntite->addRole($id_d,$id_col,"lecteur");
-	
-	$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_e,$authentification->getId());
-	
 	$entiteCollectivite = new Entite($sqlQuery,$id_col);
 	$infoCollectivite = $entiteCollectivite->getInfo();
-	$message_journal = "Envoyé à " . $infoCollectivite['denomination']; 	
-	$id_a = $documentAction->addAction('envoi-col');
+	$denomination_col = $infoCollectivite['denomination']; 	
 	
-	$documentActionEntite->addAction($id_a,$id_e,$journal,$message_journal);
 	
-	$documentAction = new DocumentAction($sqlQuery,$journal,$id_d,$id_col,0);
-	$id_a = $documentAction->addAction('recu-col');
-	$message_journal = "Reçu par " . $infoCollectivite['denomination']; 	
-	$documentActionEntite->addAction($id_a,$id_e,$journal,$message_journal);
-	$documentActionEntite->addAction($id_a,$id_col,$journal,$message_journal);
+	$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
+	
+	$actionCreator->addAction($id_e,$authentification->getId(),'envoi-col', "Le document a été envoyé  à $denomination_col");
+	$actionCreator->addToEntite($id_col,"Le document a été envoyé par le centre de gestion");
+	
+	
+	$actionCreator->addAction($id_col,0,'recu-col', "Le document a été reçu");
+	$actionCreator->addToEntite($id_e,"Le document a été reçu par $denomination_col");
+	
+
 	
 	$notificationMail->notify($id_col,$id_d,'envoie', 'rh-messages',"Votre centre de gestion vous envoi un nouveau message");
 

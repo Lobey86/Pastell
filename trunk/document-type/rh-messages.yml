@@ -1,7 +1,5 @@
 nom: Message du CDG
 
-type: Flux RH
-
 formulaire:
 	Message du CDG:			
 		Objet: {requis: true, title: true}
@@ -49,6 +47,7 @@ action:
 				recu-col
 			role_id_e: lecteur
 			droit_id_u: 'rh-messages:edition'
+			
 		action-script: accuse-de-reception.php
 		
 		

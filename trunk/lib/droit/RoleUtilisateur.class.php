@@ -15,8 +15,12 @@ CREATE TABLE utilisateur_role (
 	private $sqlQuery;
 	private $roleDroit;
 	
-	public function __construct(SQLQuery $sqlQuery,RoleDroit $roleDroit){
+	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery;
+		$this->setRoleDroit(new RoleDroit());
+	}
+	
+	public function setRoleDroit(RoleDroit $roleDroit){
 		$this->roleDroit = $roleDroit;
 	}
 	

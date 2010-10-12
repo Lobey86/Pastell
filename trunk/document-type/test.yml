@@ -1,0 +1,30 @@
+nom: Test
+
+formulaire:
+	Message:			
+		Test: {title: true}
+		
+	
+action:
+	creation:
+		name: Créer
+		rule:
+			no-last-action:
+			
+	modification:
+		name: Modifier
+		rule:
+			last-action: 
+				creation
+				modification
+		
+	test-1 :
+		name: Test
+		action-script: default.php
+		
+	test-2:
+		name: Test 2
+		rule:
+			content:
+				Test: toto
+		action-script: default.php

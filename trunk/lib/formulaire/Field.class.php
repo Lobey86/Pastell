@@ -5,6 +5,13 @@ class Field {
 	private $libelle;
 	private $properties;
 	
+	public static function Canonicalize($field_name){	
+		$name = strtolower($field_name);
+		$name = strtr($name," àáâãäçèéêëìíîïñòóôõöùúûüýÿ","_aaaaaceeeeiiiinooooouuuuyy");
+		$name = preg_replace('/[^\w_]/',"",$name);
+		return $name;
+	}
+	
 	public function __construct($libelle,$properties){
 		$this->libelle = $libelle;
 		$this->properties = $properties;
@@ -15,11 +22,7 @@ class Field {
 	}
 	
 	public function getName(){
-		$name = trim($this->libelle);
-		$name = strtolower($name);
-		$name = strtr($name," àáâãäçèéêëìíîïñòóôõöùúûüýÿ","_aaaaaceeeeiiiinooooouuuuyy");
-		$name = preg_replace('/[^\w_]/',"",$name);
-		return $name;
+		return self::Canonicalize($this->libelle);
 	}
 	
 	public function isRequired(){
