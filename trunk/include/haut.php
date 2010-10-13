@@ -9,8 +9,6 @@ header("Content-type: text/html");
 $recuperateur = new Recuperateur($_GET);
 $id_e_menu = $recuperateur->getInt('id_e',0);
 $type_e_menu = $recuperateur->get('type',"");
-$documentType = $documentTypeFactory->getDocumentType($type_e_menu);
-
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -101,7 +99,7 @@ $bc = $entiteBC->getBreadCrumbs() ;
 	
 	$allType = array();
 
-	$allDocType = $documentTypeFactory->getAllTtype();
+	$allDocType = $documentTypeFactory->getAllType();
 	foreach($allDocType as $type_flux => $les_flux){
 		foreach($les_flux as $nom => $affichage) {
 			if ($roleUtilisateur->hasOneDroit($authentification->getId(),$nom.":lecture")){

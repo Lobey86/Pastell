@@ -8,10 +8,12 @@ $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $id_e =  $recuperateur->get('id_e');
 $action = $recuperateur->get('action');
+$type = $recuperateur->get('type',Entite::TYPE_COLLECTIVITE);
+
 
 $entiteListe = new EntiteListe($sqlQuery);
 
-$liste = $entiteListe->getAll(Entite::TYPE_COLLECTIVITE);
+$liste = $entiteListe->getAll($type);
 
 $page_title = "Veuillez choisir le ou les destinataires du document ";
 
@@ -19,10 +21,9 @@ include( PASTELL_PATH ."/include/haut.php");
 ?>
 
 
-
 <div class="box_contenu clearfix">
 
-<h2>Collectivité</h2>
+<h2><?php echo $type ?></h2>
 
 <form action='document/action.php' method='post'>
 	<input type='hidden' name='id_d' value='<?php echo $id_d?>' />

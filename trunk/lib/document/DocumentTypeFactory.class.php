@@ -6,6 +6,7 @@ class DocumentTypeFactory {
 	
 	const DEFAULT_DIRECTORY  =  "/document-type/";
 	const DEFAULT_DOCUMENT_TYPE_FILE = "default.yml";
+	const INDEX_FILE = "index.yml";
 	
 	private $documentTypeDirectory;
 	private $formulaireDefinition;
@@ -18,8 +19,19 @@ class DocumentTypeFactory {
 		$this->documentTypeDirectory = $documentTypeDirectory;
 	}
 	
-	public function getAllTtype(){
-		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory."/index.yml");
+	public function getAllType(){
+		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory . self::INDEX_FILE);
+	}
+	
+	public function getTypeDocument(){
+		$result = array();
+		$allType = $this->getAllType();
+		foreach($allType as $type => $docType){
+			foreach($docType as $name => $value){
+				$result[] = $name;
+			}
+		}
+		return $result;	
 	}
 	
 	public function getDocumentType($type){
@@ -39,5 +51,17 @@ class DocumentTypeFactory {
 			$filename = $this->documentTypeDirectory . self::DEFAULT_DOCUMENT_TYPE_FILE;
 		}	
 		$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($filename);	
+	}
+	
+	
+	public function getAutoAction(){ 
+		$result = array();	
+		foreach ( $this->getTypeDocument() as $typeName){
+			$autoAction = $this->getDocumentType($typeName)->getAction()->getAutoAction();
+			if ($autoAction){
+				$result[$typeName] = $autoAction;
+			}
+		}
+		return $result;
 	}
 }

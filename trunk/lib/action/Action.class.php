@@ -4,6 +4,7 @@ class Action {
 	const ACTION_DISPLAY_NAME = "name";
 	const ACTION_RULE = "rule";
 	const ACTION_SCRIPT = "action-script";
+	const AUTO_SCRIPT = "auto-script";
 	
 	const CREATION = "creation";
 	const MODIFICATION = "modification";
@@ -55,5 +56,16 @@ class Action {
 			throw new Exception("L'action $action_internal_name n'est associé à aucun script");
 		}
 		return $tabAction[self::ACTION_SCRIPT];
+	}
+	
+	public function getAutoAction(){
+		$result = array();
+		foreach($this->getAll() as $actionName){
+			$autoScript = $this->getProperties($actionName,self::AUTO_SCRIPT);
+			if ($autoScript){
+				$result[$actionName] = $autoScript;
+			}	
+		}
+		return $result;
 	}
 }

@@ -1,52 +1,49 @@
-nom: Message du CDG
+nom: Message de la collectivité
 
 formulaire:
-	Message du CDG:			
+	Message:			
 		Objet: {requis: true, title: true}
 		Message: {type: textarea}
 		Document attaché: {type: file}
 		
-	
 action:
 	creation:
 		name: Créer
 		rule:
+			type_id_e: collectivite
 			no-last-action:
-			type_id_e: centre_de_gestion
-			droit_id_u: 'rh-messages:edition'
-
+	
 	modification:
 		name: Modifier
 		rule:
+			type_id_e: collectivite
 			last-action: 
 				creation
 				modification
-			role_id_e: editeur
-			droit_id_u: 'rh-messages:edition'
-		
-	envoi-col :
-		name: Envoyer à une collectivité
+				
+	envoi-fournisseur :
+		name: Envoyer à un fournisseur
 		rule:
 			last-action: 
 				creation
 				modification
 			role_id_e: editeur
-			droit_id_u: 'rh-messages:edition'
-		action-script: envoyer.php
+			droit_id_u: 'fournisseur-message:edition'
+		action-script: envoyer-fournisseur.php
 		
-	recu-col:
-		name: Reçu par une collectivité
+	recu-fournisseur:
+		name: Reçu par un fournisseur
 		rule:
 			role_id_e: no-role
 		accuse_de_reception_action: accuse_de_reception
-	
+		
 	accuse_de_reception:
 		name: 	Accuser réception
 		rule:
 			last-action:
-				recu-col
+				recu-fournisseur
 			role_id_e: lecteur
-			droit_id_u: 'rh-messages:edition'
+			droit_id_u: 'fournisseur-message:edition'
 			
 		action-script: accuse-de-reception.php
 		

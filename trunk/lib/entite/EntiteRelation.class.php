@@ -3,6 +3,8 @@
 
 class EntiteRelation {
 	
+	const IS_FOURNISSEUR = "is_fournisseur";
+	
 	const CREATE_SQL = "CREATE TABLE `pastell`.`entite_relation` (
 `id_e1` INT NOT NULL ,
 `relation` VARCHAR( 16 ) NOT NULL ,

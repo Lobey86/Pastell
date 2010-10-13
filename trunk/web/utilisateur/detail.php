@@ -215,7 +215,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		
 		<select name='type'>
 			<option value=''>...</option>
-			<?php foreach($documentTypeFactory->getAllTtype() as $flux_type => $lesFlux ) : ?>
+			<?php foreach($documentTypeFactory->getAllType() as $flux_type => $lesFlux ) : ?>
 			<?php foreach($lesFlux as $type => $description): ?>
 			<option value='<?php echo $type?>'> <?php echo $description ?> </option>
 			<?php endforeach ; ?>

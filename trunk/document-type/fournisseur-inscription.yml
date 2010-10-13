@@ -1,0 +1,103 @@
+nom: Inscription fournisseur
+
+formulaire:
+	Information sur la société:
+		Raison sociale: {requis: true, title: true}
+		Mnémonique ou sigle: 
+		Année de création: {requis: true}
+		Effectif (en salariés permanents):
+		Forme juridique:
+		Siège social:
+		type de fournisseur (entreprise, association, ...):
+		Rattacher à un groupe, holding, maison mère: {type: checkbox}
+		Nom de la structure de rattachement:
+		Ancienne dénomination: {multiple: true}
+		SIRET:  {requis: true}
+		Code APE: 
+		Code Finess:
+		Code INSEE:
+		Code ADELI:
+		Code RCM:
+		
+	Information financière:
+		Référence bancaire (RIB): {type: file}
+		CA dernier exercice: 
+		
+	Information comptable:
+		Soumis à la TVA : {type: checkbox}
+		
+	Information professionelle:
+		Spécialités professionelles:
+		Références significatives en environnement collectivités: {type: textarea}
+		Plaquette institurionnelle: {type: file}
+		Plaquette produits: {type: file}
+		A déjà effectué des réalisations sur la collectivité: {type: checkbox}
+		Lesquel: {type: textarea}
+		Année de la transaction avec la collectivité:
+		
+	Contacts:
+		Adresse principale:
+		Adresse usuelle:
+		Département:
+		Responsable Juridique:
+		Télephone:
+		Téléphone portable:
+		Adresse email:
+		TODO Nom du contact1:
+		Fonction du contact 1 :
+		Nom du contact2:
+		Fonction du contact 2:
+		
+	Autres:
+		Date de demande d'inscription à Pastell:
+		Adresse de notification Pastell:
+		Commentaire: {type: textarea}
+		Autre PJ: {type: file}
+			
+	
+action:
+	creation:
+		name: Créer
+		rule:
+			type_id_e: fournisseur
+			no-last-action:
+			
+	modification:
+		name: Modifier
+		rule:
+			type_id_e: fournisseur
+			last-action: 
+				creation
+				modification
+	
+	envoi-col :
+		name: Envoyer à une collectivité
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'fournisseur-inscription:edition'
+		action-script: envoyer.php
+	
+	recu-col:
+		name: Reçu par la collectivité
+		rule:
+			role_id_e: no-role
+
+	accepter:
+		name: Accepter l'inscription
+		rule:
+			last-action: recu-col
+			role_id_e: lecteur
+			
+		action-script: accepter-fournisseur.php
+		
+	refuser:
+		name: Refuser l'inscription
+		rule:
+			last-action: recu-col
+			role_id_e: lecteur
+			
+		action-script: refuser-fournisseur.php
+		

@@ -1,6 +1,5 @@
 <?php
 
-
 class DocumentActionEntite {
 	
 	private $sqlQuery;
@@ -8,16 +7,6 @@ class DocumentActionEntite {
 	
 	public function __construct($sqlQuery){
 		$this->sqlQuery =$sqlQuery;
-	}
-	
-	public function addAction($id_a,$id_e,$journal,$message_journal = ""){
-		
-		$info = $this->getInfo($id_a);
-		
-		$sql = "INSERT INTO document_action_entite (id_a,id_e) VALUES (?,?)";
-		$this->sqlQuery->query($sql,$id_a,$id_e);
-		
-		$journal->add(Journal::DOCUMENT_ACTION,$id_e,$info['id_d'],$info['action'],$message_journal);
 	}
 	
 	public function getLastAction($id_e,$id_d){
@@ -37,15 +26,6 @@ class DocumentActionEntite {
 			" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date,document_action_entite.id_a ";
 		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
 	}
-
-	//TODO : ??
-	public function getInfo($id_a){
-		$sql = "SELECT * FROM document_action " . 
-				" JOIN document ON document_action.id_d = document.id_d " . 
-				" WHERE id_a=?";
-		return $this->sqlQuery->fetchOneLine($sql,$id_a);
-	}
-	
 	
 	public function getNbDocument($id_e,$type){
 		$sql = "SELECT count(*) FROM document_entite " .  
@@ -53,7 +33,6 @@ class DocumentActionEntite {
 				" WHERE document_entite.id_e = ? AND document.type=? " ;
 
 		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type);
-		
 	}
 	
 	public function getListDocument($id_e,$type,$offset,$limit){
@@ -66,7 +45,6 @@ class DocumentActionEntite {
 		return $this->addEntiteToList($id_e,$list);
 	
 	}
-	
 	
 	public function  getListDocumentByEntite($id_e,array $type_list,$offset,$limit){
 		

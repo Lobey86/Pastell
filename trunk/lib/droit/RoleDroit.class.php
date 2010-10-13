@@ -35,7 +35,15 @@ class RoleDroit {
 									'entite:lecture',
 									'utilisateur:lecture',
 								),
-					'fournisseur' => array(),
+					'fournisseur' => array(
+									'fournisseur-inscription:lecture',
+									'fournisseur-inscription:edition',
+									'fournisseur-message:lecture',
+									'fournisseur-message:edition',
+									'journal:lecture',
+									'entite:lecture',
+								
+								),
 					'testeur' => array('test:lecture','test:edition')
 
 			);

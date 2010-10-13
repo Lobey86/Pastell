@@ -72,16 +72,14 @@ action:
 				Envoi au contrôle de légalité: true
 	
 		action-script: envoyer_au_controle_de_legalite.php
-		
+		auto-script: recup-from-tdt.php
 		
 	acquiter-tdt:
 		name: Acquittement du contrôle de légalité reçu.
 		
 		rule:
-			automatique: true
-			last-action: send-tdt
-			
-		action-script: recup-from-tdt.php
+			role_id_e: no-role
+
 	
 	send-cdg-manuel:
 		name: Envoyer au CDG
@@ -104,13 +102,13 @@ action:
 	
 		rule:
 			last-action: acquiter-tdt
-			automatique: true
+			role_id_e: no-role
 					
 					
 	recu-cdg:
 		name: Reçu par le CDG
 		rule:
-			automatique: true
+			role_id_e: no-role
 		
 						
 					
@@ -150,10 +148,4 @@ action:
 				has_archivage: manuel
 		action-script: default.php
 			
-				
-entite-properties:
-	has-ged:
-	ged-auto:
-	has-archivage:
-	archivage-auto:
 		

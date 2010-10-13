@@ -45,8 +45,4 @@ class Document {
 		return $this->sqlQuery->fetchOneLine($sql,$id_d);
 	}
 	
-	public function getAll($type){
-		$sql = "SELECT * FROM document WHERE type = ? ";
-		return $this->sqlQuery->fetchAll($sql,$type);
-	}
 }

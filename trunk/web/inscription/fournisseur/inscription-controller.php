@@ -11,6 +11,9 @@ require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurCreator.class.php");
 require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
+
+require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
 
 
 $redirection = new Redirection("index.php");
@@ -43,7 +46,9 @@ if ( ! $denomination ){
 	$redirection->redirect();
 }
 
-$utilisateurCreator = new UtilisateurCreator($sqlQuery);
+$journal = new Journal($sqlQuery,0);
+
+$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
 $id_u = $utilisateurCreator->create($login,$password,$password2,$email);
 
 if ( ! $id_u){
@@ -53,9 +58,12 @@ if ( ! $id_u){
 
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
 $utilisateur->setNomPrenom($nom,$prenom);
-//TODO : ca ne doit pas fonctionner ca ...
-$entite->save($denomination,"fournisseur",null);
-$roleUtilisateur->addRole($id_u,"admin",$siren);
+
+$entiteCreator = new EntiteCreator($sqlQuery,$journal);
+$id_e = $entiteCreator->create($siren,$denomination,"fournisseur",0);
+
+
+$roleUtilisateur->addRole($id_u,"admin",$id_e);
 
 $infoUtilisateur = $utilisateur->getInfo();
 
