@@ -28,3 +28,8 @@ action:
 			content:
 				Test: toto
 		action-script: default.php
+		
+	test-3:
+		name: Test 3
+		auto-script: toto.php
+			

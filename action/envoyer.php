@@ -3,7 +3,7 @@
 $id_collectivite = $recuperateur->get('destinataire');
 
 if (! $id_collectivite){
-	header("Location: " . SITE_BASE . "/entite/choix-collectivite.php?id_d=$id_d&id_e=$id_e&action=$action");
+	header("Location: " . SITE_BASE . "/entite/choix-entite.php?id_d=$id_d&id_e=$id_e&action=$action&type=".Entite::TYPE_COLLECTIVITE);
 	exit;
 }
 
@@ -19,7 +19,6 @@ foreach($id_collectivite as $id_col) {
 	$entiteCollectivite = new Entite($sqlQuery,$id_col);
 	$infoCollectivite = $entiteCollectivite->getInfo();
 	$denomination_col = $infoCollectivite['denomination']; 	
-	
 	
 	$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 	

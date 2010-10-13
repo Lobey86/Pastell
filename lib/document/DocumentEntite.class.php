@@ -32,7 +32,6 @@ class DocumentEntite {
 		return $this->sqlQuery->fetchAll($sql,$id_d);
 	}
 	
-	
 	public function getRole($id_e,$id_d){
 		$sql = "SELECT role FROM document_entite WHERE id_e=? AND id_d=? LIMIT 1";
 		return  $this->sqlQuery->fetchOneValue($sql,$id_e,$id_d);
@@ -41,6 +40,13 @@ class DocumentEntite {
 	public function getEntiteWithRole($id_d,$role){
 		$sql = "SELECT id_e FROM document_entite WHERE id_d=? AND role=? LIMIT 1";
 		return  $this->sqlQuery->fetchOneValue($sql,$id_d,$role);
+	}
+	
+	public function getFromAction($type,$action){
+		$sql = "SELECT * FROM document_entite " . 
+				" JOIN document ON document_entite.id_d = document.id_d " . 
+				" WHERE type = ? AND document_entite.last_action=?"; 
+		return $this->sqlQuery->fetchAll($sql,$type,$action);
 	}
 	
 }

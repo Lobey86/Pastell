@@ -67,7 +67,7 @@ include( PASTELL_PATH ."/include/haut.php" );
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
 
-<a href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>'>« Liste des <?php echo $info['type'] ?> de <?php echo $infoEntite['denomination']?></a>
+<a href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>'>« Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
 <br/><br/>
 <?php
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
@@ -88,7 +88,7 @@ $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_
 	<input type='hidden' name='page' value='<?php echo $page ?>' />
 	
 	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
-	<input type='submit' value='<?php echo $theAction->getActionName($action_name) ?>'/>
+	<input type='submit' value='<?php hecho($theAction->getActionName($action_name)) ?>'/>
 </form>
 <?php endforeach;?>
 
