@@ -48,5 +48,4 @@ class DocumentEntite {
 				" WHERE type = ? AND document_entite.last_action=?"; 
 		return $this->sqlQuery->fetchAll($sql,$type,$action);
 	}
-	
 }

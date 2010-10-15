@@ -1,0 +1,26 @@
+Nom: Propriété de la collectivité
+	
+formulaire:
+	
+	Informations générales : {}
+	
+	Actes RH:
+		tdt_activate: {name: "Module activé", type: checkbox}
+		tdt_url: {name: "URL du TDT"}
+		tdt_server_certificate: {name: "Certificat serveur du TDT (format PEM)", type: file}
+		tdt_user_certificat: {name: "Certificat utilisateur (format PEM)", type: file}
+		tdt_user_key: {name: "Clé associée au certificat", type: file}
+		tdt_user_key_password: {name: "Mot de passe de la clé" , type: password}
+		classification_file: {name: "Fichier de classification", type: file, read-only: true}
+	
+action:
+	test-tedetis:
+		name: Tester la connectivité au Tedetis
+		#tab: Actes RH
+		action-script: test-tedetis.php
+		
+	
+	recup-classification:
+		name: Récuperer la classification
+		#tab: Actes RH
+		action-script: recup-classification.php	

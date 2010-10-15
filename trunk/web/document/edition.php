@@ -72,7 +72,10 @@ include( PASTELL_PATH ."/include/haut.php");
 ?>
 
 <div class="box_contenu clearfix">
-<?php $afficheurFormulaire->affiche($page,"document/edition-controler.php","document/recuperation-fichier.php?id_d=$id_d"); ?>
+<?php $afficheurFormulaire->affiche($page,"document/edition-controler.php",
+			"document/recuperation-fichier.php?id_d=$id_d",
+			"document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page"
+			); ?>
 </div>
 
 <?php 

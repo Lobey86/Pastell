@@ -19,7 +19,7 @@ $centre_de_gestion =  $recuperateur->get('centre_de_gestion',0);
 $has_ged = $recuperateur->get('has_ged',0);
 $has_archivage = $recuperateur->get('has_archivage',0);
 
-if ( (! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$siren))
+if ( (! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e))
 	&& (! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$entite_mere))
 
 ){

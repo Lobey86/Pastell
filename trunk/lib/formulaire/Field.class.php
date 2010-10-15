@@ -18,6 +18,9 @@ class Field {
 	}
 	
 	public function getLibelle(){
+		if (isset($this->properties['name'])){
+			return $this->properties['name'];
+		}
 		return $this->libelle;
 	}
 	

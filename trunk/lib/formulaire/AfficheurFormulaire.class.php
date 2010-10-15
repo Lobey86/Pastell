@@ -18,11 +18,11 @@ class AfficheurFormulaire {
 		$this->inject[$name] = $value;
 	}
 
-	public function afficheTab($page,$url){ ?>
+	public function afficheTab($tab_selected,$page_url){ ?>
 	
 	<div id="bloc_onglet">
 		<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
-					<a href='<?php echo $url ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $page)?'class="onglet_on"':'' ?>>
+					<a href='<?php echo $page_url ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_selected)?'class="onglet_on"':'' ?>>
 					<?php echo $name?>
 					</a>
 		<?php endforeach;?>
@@ -43,7 +43,7 @@ class AfficheurFormulaire {
 		<?php 
 	}
 	
-	public function affiche($page_number,$action_url,$recuperation_fichier_url  ){
+	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url ){
 
 		$this->formulaire->setTabNumber($page_number);
 		
@@ -61,6 +61,9 @@ class AfficheurFormulaire {
 			
 			<table>
 			<?php foreach ($this->formulaire->getFields() as $field) :
+				if ($field->getProperties('read-only') && $field->getType() == 'file'){
+					continue;
+				}
 			?>
 				<tr>
 					<th>
@@ -82,7 +85,7 @@ class AfficheurFormulaire {
 						<br/>
 						<?php if ($this->donneesFormulaire->get($field->getName())):?>
 								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
-								&nbsp;&nbsp;<a href='document/supprimer-fichier.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>&field=<?php echo $field->getName() ?>&page=<?php echo $page_number?>'>supprimer</a>
+								&nbsp;&nbsp;<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>'>supprimer</a>
 						<?php endif;?>
 						
 					<?php elseif($field->getType() == 'select') : ?>
@@ -98,6 +101,14 @@ class AfficheurFormulaire {
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
 						<a href='document/external-data.php?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getLibelle()?>'><?php echo $field->getProperties('link_name')?></a>
+					
+					<?php elseif ($field->getType() == 'password') : ?>
+						<input 	type='password' 	
+								id='<?php echo $field->getName();?>' 
+								name='<?php echo $field->getName(); ?>' 
+								value='' 
+								size='16'
+						/>
 					<?php else : ?>
 						<?php if ($field->getProperties('read-only')) : ?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?> 
@@ -119,7 +130,7 @@ class AfficheurFormulaire {
 						
 							<script type="text/javascript">
 								$(function() {
-									$("#<?php echo $field->getName()?>").datepicker();
+									$("#<?php echo $field->getName()?>").datepicker( { dateFormat: 'yy-mm-dd' });
 									
 								});
 							</script>
@@ -185,6 +196,8 @@ class AfficheurFormulaire {
 									echo $select[$this->donneesFormulaire->geth($field->getName())];
 								}
 							?>
+						<?php elseif ($field->getType() == 'password') : ?>
+							*******
 						<?php else:?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?>
 						<?php endif;?>			

@@ -1,3 +1,6 @@
+Flux Généraux:
+	message-service: Message
+	
 Flux RH:
 	rh-actes: Actes RH
 	rh-messages: Message Centre de gestion

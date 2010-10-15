@@ -28,8 +28,8 @@ formulaire:
 					arrete_avancement: Arretés d'avancement de grade
 					sanction: Decisions portant des sanctions disciplinaires
 					licenciement: Licenciement
-		Numéro de l'acte:
-		Date de l'acte: {type: date}
+		Numéro de l'acte:  {requis: true}
+		Date de l'acte: {type: date, requis: true}
 		Envoi au contrôle de légalité: {type: checkbox}
 		Arreté: {type: file, requis: true}
 		Autre document attaché: {type: file, multiple: true}

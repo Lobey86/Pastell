@@ -5,6 +5,10 @@ require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 
 class DocumentType {
 	
+	const NOM = 'nom';
+	const FORMULAIRE = 'formulaire';
+	const ACTION = 'action';
+	
 	private $type;
 	private $typeDefinition;
 	
@@ -14,14 +18,16 @@ class DocumentType {
 	}
 
 	public function getName(){
-		return $this->typeDefinition['nom'];
+		return $this->typeDefinition[self::NOM];
 	}
 	
 	public function getFormulaire(){
-		return new Formulaire($this->typeDefinition['formulaire']);
+		return new Formulaire($this->typeDefinition[self::FORMULAIRE]);
 	}
 	
 	public function getAction(){
-		return new Action($this->typeDefinition['action']);
+		return new Action($this->typeDefinition[self::ACTION]);
 	}
+	
+	
 }
