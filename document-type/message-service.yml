@@ -1,0 +1,53 @@
+nom: Message 
+
+formulaire:
+	Message :			
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Document attaché: {type: file}
+		
+	
+action:
+	creation:
+		name: Créer
+		rule:
+			no-last-action:
+			type_id_e: centre_de_gestion
+			droit_id_u: 'rh-messages:edition'
+
+	modification:
+		name: Modifier
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'messages-services:edition'
+		
+	envoi-service :
+		name: Envoyer à un groupe
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'messages-services:edition'
+		action-script: envoyer-service.php
+		
+	recu-service:
+		name: Reçu par un utilisateur
+		rule:
+			role_id_e: no-role
+		accuse_de_reception_action: accuse_de_reception
+	
+	accuse_de_reception:
+		name: 	Accuser réception
+		rule:
+			last-action:
+				recu-col
+			role_id_e: lecteur
+			droit_id_u: 'messages-services:edition'
+			
+		action-script: accuse-de-reception.php
+		
+		

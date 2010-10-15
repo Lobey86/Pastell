@@ -43,6 +43,13 @@ if (! defined("BD_DSN_TEST")){
 }
 
 
+//Tédétis
+if (! defined("TEDETIS_URL")){
+	define("TEDETIS_URL","https://192.168.1.87/");
+	define("TEDETIS_CERTIFICATE","/etc/apache2/ssl/autorite_a_effacer-cert.pem");
+}
+
+
 //Racine du site Pastell
 //ex : http://pastell.sigmalis.com/
 //ex : http://www.sigmalis.com/pastell/
@@ -50,3 +57,7 @@ if (! defined("BD_DSN_TEST")){
 if (!defined("SITE_BASE")){
 	define("SITE_BASE","http://127.0.0.1/pastell/web/");
 }
+
+
+
+

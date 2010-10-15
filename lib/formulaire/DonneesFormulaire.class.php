@@ -43,11 +43,15 @@ class DonneesFormulaire {
 		
 	
 		foreach ($this->formulaire->getFields() as $field){
-			if ($field->getType() == 'file'){
+			$type = $field->getType();
+			if ( $type == 'file'){
 				$this->saveFile($field,$fileUploader);
 			} else {
-					
-				$this->info[$field->getName()] = $recuperateur->get($field->getName());
+				$name = $field->getName();
+				$value =  $recuperateur->get($name);
+				if ( ($type != 'password') ||  $value){
+					$this->info[$name] = $value;
+				}
 			}
 		}
 		$dump = Spyc::YAMLDump($this->info);
@@ -61,6 +65,13 @@ class DonneesFormulaire {
 			$this->info[$fname] = $fileUploader->getName($fname);
 			$fileUploader->save($fname, $this->getFilePath($fname));
 		}
+	}
+	
+	public function addFileFromData($field_name,$file_name,$raw_data){
+		$this->info[$field_name] = $file_name;
+		file_put_contents($this->getFilePath($field_name),$raw_data);
+		$dump = Spyc::YAMLDump($this->info);
+		file_put_contents($this->filePath,$dump);
 	}
 	
 	public function removeFile($fieldName){

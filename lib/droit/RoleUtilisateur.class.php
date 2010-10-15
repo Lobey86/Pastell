@@ -78,7 +78,6 @@ CREATE TABLE utilisateur_role (
 			}
 		}
 		return false;
-	
 	}
 	
 	public function getEntite($id_u,$droit){
@@ -103,6 +102,4 @@ CREATE TABLE utilisateur_role (
 		}
 		return $result;
 	}
-	
-
 }

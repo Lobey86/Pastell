@@ -39,10 +39,8 @@ class Document {
 		$this->sqlQuery->query($sql,$titre,$id_d);
 	}
 	
-	
 	public function getInfo($id_d){
 		$sql = "SELECT * FROM document WHERE id_d = ? ";
 		return $this->sqlQuery->fetchOneLine($sql,$id_d);
 	}
-	
 }

@@ -12,14 +12,19 @@ class DocumentListAfficheur {
 		$this->documentTypeFactory = $documentTypeFactory;
 	}
 
-	public function affiche(array $listDocument,$my_id_e) {
-	
+	private function getAllType(array $listDocument){
 		$type = array();
 		foreach($listDocument as $doc){
 			$type[$doc['type']] = $doc['type'];
 			
 		}
-		$type = array_keys($type);
+		return array_keys($type);
+	}
+	
+	public function affiche(array $listDocument,$my_id_e) {
+	
+		$type = $this->getAllType($listDocument);
+
 		?>
 			<div class="box_contenu clearfix">
 		

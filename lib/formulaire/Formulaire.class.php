@@ -26,6 +26,11 @@ class Formulaire {
 		return $result;
 	}
 	
+	public function getTabName($tabNumber){
+		$tabName =  array_keys($this->formArray);
+		return $tabName[$tabNumber];
+	}
+	
 	public function getNbPage(){
 		return count($this->formArray);
 	}

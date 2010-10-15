@@ -112,6 +112,4 @@ class Entite  {
 		
 		return array_reverse($bc);
 	}
-	
-	
 }

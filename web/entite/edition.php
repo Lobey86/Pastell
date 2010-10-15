@@ -26,6 +26,7 @@ $infoEntite = array('type' =>  $lastError->getLastInput('type'),
 					'id_e' => $lastError->getLastInput('id_e'),
 					'has_ged' =>  $lastError->getLastInput('has_ged'),
 					'has_archivage' =>  $lastError->getLastInput('has_archivage'),
+					'centre_de_gestion' => $lastError->getLastInput('centre_de_gestion'),
 );
 
 if ($id_e){

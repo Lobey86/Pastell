@@ -6,9 +6,13 @@ require_once( PASTELL_PATH . "/lib/flux/FluxInscriptionFournisseur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
-
+require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
+require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
+require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
+$tab_number = $recuperateur->getInt('page',0);
 
 if (! $id_e){
 	header("Location: index.php");
@@ -51,8 +55,13 @@ $filles = $entite->getFille();
 $entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 
 
+
+
+
 include( PASTELL_PATH ."/include/haut.php");
 ?>
+<?php include(PASTELL_PATH . "/include/bloc_message.php");?>
+
 <?php if ($info['type'] == Entite::TYPE_FOURNISSEUR) : ?>
 <a href='entite/fournisseur.php'>« liste des fournisseurs</a>
 <?php else :?>
@@ -60,8 +69,21 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php endif;?>
 <br/><br/>
 
+<?php 
+if ($info['type'] == Entite::TYPE_COLLECTIVITE) {
 
+	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+	$formulaire = $documentType->getFormulaire();
+	$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_e.yml"); 
+	$donneesFormulaire->setFormulaire($formulaire);
+	
+	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+	$afficheurFormulaire->afficheTab($tab_number,"entite/detail.php?id_e=$id_e");
+}	
+?>
 <div class="box_contenu clearfix">
+
+<?php if ($tab_number == 0) : ?>
 
 <h2>Informations générales
 <?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
@@ -173,8 +195,41 @@ include( PASTELL_PATH ."/include/haut.php");
 </tr>
 
 </table>
-</div>
+<?php else: 
 
+
+$theAction = $documentType->getAction();
+
+$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
+//$actionPossible->setDocumentActionEntite($documentActionEntite);
+//$actionPossible->setDocumentEntite($documentEntite);
+$actionPossible->setRoleUtilisateur($roleUtilisateur);
+$actionPossible->setDonnesFormulaire($donneesFormulaire);
+$actionPossible->setEntite($entite);
+
+
+?>
+	<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
+	<h2><a href="entite/edition-properties.php?id_e=<?php echo $id_e?>&page=<?php echo $tab_number ?>" class='btn_maj'>
+			Modifier
+		</a></h2>
+	<?php endif;?>
+
+	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e"); ?>
+	
+<br/>
+<?php foreach($actionPossible->getActionPossible($id_e) as $action_name) : ?>
+<form action='entite/action.php' method='post' >
+	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
+	
+	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
+	<input type='submit' value='<?php hecho($theAction->getActionName($action_name)) ?>'/>
+</form>
+<?php endforeach;?>
+<?php endif;?>
+
+</div>
 
 <div class="box_contenu">
 <h2>Liste des utilisateurs<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) :?>
