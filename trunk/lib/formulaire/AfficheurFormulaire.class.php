@@ -80,14 +80,18 @@ class AfficheurFormulaire {
 									/>
 					<?php elseif($field->getType() == 'textarea') : ?>
 						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName())?></textarea>
-					<?php elseif($field->getType() == 'file') : ?>
+					<?php elseif($field->getType() == 'file') :?>
 						<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
 						<br/>
-						<?php if ($this->donneesFormulaire->get($field->getName())):?>
-								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
-								&nbsp;&nbsp;<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>'>supprimer</a>
-						<?php endif;?>
 						
+					<?php 
+					
+						if ($this->donneesFormulaire->get($field->getName())) : 
+						foreach($this->donneesFormulaire->get($field->getName()) as $num => $fileName ): ?>
+								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>&num=<?php echo $num ?>'><?php echo $fileName ?></a>
+								&nbsp;&nbsp;<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>&num=<?php echo $num ?>'>supprimer</a>
+							<br/>
+						<?php endforeach; endif;?>
 					<?php elseif($field->getType() == 'select') : ?>
 						<select name='<?php echo $field->getName()?>'>
 							<option>...</option>
@@ -190,8 +194,11 @@ class AfficheurFormulaire {
 						<?php if ($field->getType() == 'checkbox') :?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?"OUI":"NON" ?>
 						<?php elseif($field->getType() == 'file') : ?>
-							<?php if ($this->donneesFormulaire->get($field->getName())):?>
-								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->geth($field->getName()) ?></a>
+							<?php if ($this->donneesFormulaire->get($field->getName())):
+									foreach($this->donneesFormulaire->get($field->getName()) as $num => $fileName ): ?>
+										<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>&num=<?php echo $num ?>'><?php echo $fileName ?></a>
+										<br/>	
+								<?php endforeach;?>
 							<?php endif;?>
 						<?php elseif($field->getType() == 'select') : ?>
 							<?php 

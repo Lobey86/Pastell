@@ -26,7 +26,6 @@ class AccepterFournisseur extends ActionExecutor {
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"L'inscription de $nomFournisseur a été accepté");
 		$this->getActionCreator()->addToEntite($id_fournisseur,"$nomCol a accepté l'inscription");
 		
-		
 		$this->setLastMessage("Le fournisseur a été accepté.");
 		return true;			
 	}

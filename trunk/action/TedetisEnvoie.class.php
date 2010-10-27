@@ -7,24 +7,19 @@ require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 class TedetisEnvoie  extends ActionExecutor {
 
 	public function go(){
-		$collectviteProperties = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');
 		
-		$tedetis = new Tedetis($collectviteProperties);
+		$tedetis = new Tedetis($collectiviteProperties);
 		
-		
-		if (!  $tedetis->postActes($donneesFormulaire) ){
-			$lastError->setLastError( $tedetis->getLastError());
-			header("Location: detail.php?id_d=$id_d&id_e=$id_e");
-			exit;
+		if (!  $tedetis->postActes($this->getDonneesFormulaire()) ){
+			$this->setLastMessage( $tedetis->getLastError());
+			return false;
 		}
 		
-		
-		$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
-		$actionCreator->addAction($id_e,$authentification->getId(),$action,"Le document a été envoyé au contrôle de légalité");
+		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au contrôle de légalité");
 			
 		
-		$lastMessage->setLastMessage("Le document a été envoyé au contrôle de légalité");
-			
-		header("Location: detail.php?id_d=$id_d&id_e=$id_e");
+		$this->setLastMessage("Le document a été envoyé au contrôle de légalité");
+		return true;			
 	}
 }

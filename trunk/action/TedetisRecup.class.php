@@ -8,6 +8,8 @@ require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
 require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
+require_once( PASTELL_PATH . "/action/EnvoieCDG.class.php");
+
 class TedetisRecup extends ActionExecutor {
 
 	public function go(){
@@ -37,9 +39,13 @@ class TedetisRecup extends ActionExecutor {
 		$actionCreator->addAction($this->id_e,0,'acquiter-tdt',$message);
 		$this->notify('acquiter-tdt', 'rh-actes',$message);
 		
+		
+		$envoieCDG = new EnvoieCDG($this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
+		$envoieCDG->setNotificationMail($this->getNotificationMail());
+		$envoieCDG->go();
+		
 		return true;
-		//$theAction = $documentTypeFactory->getDocumentType($infoDocument['type'])->getAction();
-		//include( dirname(__FILE__) . "/envoyer_au_cdg.php");
+
 	}
 
 }

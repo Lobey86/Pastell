@@ -9,15 +9,16 @@ require_once( PASTELL_PATH . "/lib/transaction/message/MessageRessource.class.ph
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
 $field = $recuperateur->get('field');
+$num = $recuperateur->getInt('num');
 
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,'collectivite-properties');
 
 
-$file_path = $donneesFormulaire->getFilePath($field);
-$file_name = $donneesFormulaire->get($field);
+$file_path = $donneesFormulaire->getFilePath($field,$num);
+$file_name_array = $donneesFormulaire->get($field);
+$file_name= $file_name_array[$num];
 
-	
 if (! file_exists($file_path)){
 	$lastError->setLastError("Ce fichier n'existe pas");
 	header("Location: index.php");
