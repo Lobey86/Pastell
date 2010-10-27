@@ -22,6 +22,13 @@ formulaire:
 				non-titulaire
 		
 	Actes:
+		classification:  
+			name:Classification en matière et sous-matière
+			type: externalData
+			script: choix-classification.php
+			script-controler: choix-classification-controler.php
+			link_name: liste des matières et sous-matières
+			
 		acte_nature:
 			name: Nature de l'acte
 			type: select
@@ -41,13 +48,6 @@ formulaire:
 					arrete_avancement: Arretés d'avancement de grade
 					sanction: Decisions portant des sanctions disciplinaires
 					licenciement: Licenciement
-					
-		classification:  
-			name:Classification en matière et sous-matière
-			type: externalData
-			script: choix-classification.php
-			script-controler: choix-classification-controler.php
-			link_name: liste des matières et sous-matières
 	
 		Numéro de l'acte:  {requis: true}
 		Date de l'acte: {type: date, requis: true}

@@ -41,6 +41,12 @@ if (! $info){
 }
 
 
+
+$fileUploader = new FileUploader($_FILES);
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+$donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
+
 $documentEntite = new DocumentEntite($sqlQuery);
 $documentEntite->addRole($id_d,$id_e,"editeur");
 
@@ -48,20 +54,11 @@ $documentEntite->addRole($id_d,$id_e,"editeur");
 $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 if (! $info){
 	$actionCreator->addAction($id_e,$authentification->getId(),Action::CREATION,"Création du document");
-} else {
+} else if ($donneesFormulaire->isModified()) {
 	$actionCreator->addAction($id_e,$authentification->getId(),Action::MODIFICATION,"Modification du document");
 }
 
-$fileUploader = new FileUploader($_FILES);
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-
-$donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
-
-foreach($fileUploader->getAll() as $filename => $orig_filename){
-	$url = WORKSPACE_PATH . "/$id_d" . "_" . $filename;
-	$fileUploader->save($filename,$url);
-}
 
 $titre_field = $formulaire->getTitreField();
 

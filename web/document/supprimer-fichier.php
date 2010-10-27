@@ -24,6 +24,7 @@ $id_d = $recuperateur->get('id_d');
 $page = $recuperateur->get('page');
 $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
+$num = $recuperateur->get('num');
 
 
 $document = new Document($sqlQuery);
@@ -42,7 +43,7 @@ $formulaire->setTabNumber($page);
 
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-$donneesFormulaire->removeFile($field);
+$donneesFormulaire->removeFile($field,$num);
 
 
 header("Location: " . SITE_BASE . "document/edition.php?id_d=$id_d&id_e=$id_e&page=$page");

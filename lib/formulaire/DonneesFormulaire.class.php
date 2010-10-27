@@ -11,6 +11,7 @@ class DonneesFormulaire {
 	private $formulaire;
 	private $filePath;
 	private $info;
+	private $isModified;
 
 	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
@@ -30,6 +31,7 @@ class DonneesFormulaire {
 	}
 	
 	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){	
+		$this->isModified = false;
 		
 		$this->formulaire->setTabNumber($pageNumber);
 		
@@ -44,6 +46,13 @@ class DonneesFormulaire {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
 				if ( ($type != 'password' ) ||  $value){
+					if (! isset($this->info[$name])){
+						$this->info[$name] = "";
+					}
+					if ($this->info[$name] != $value){
+						$this->isModified = true;
+					}
+				
 					$this->info[$name] = $value;
 				}
 			}
@@ -52,12 +61,27 @@ class DonneesFormulaire {
 		file_put_contents($this->filePath,$dump);
 	}
 	
+	public function isModified(){
+		return $this->isModified;
+	}
+	
+	
 	private function saveFile(Field $field, FileUploader $fileUploader){
 		$fname = $field->getName();
 		
+		
+		
 		if ($fileUploader->getName($fname)){
-			$this->info[$fname] = $fileUploader->getName($fname);
-			$fileUploader->save($fname, $this->getFilePath($fname));
+			
+			if ($field->isMultiple()){
+				$this->info[$fname][] =  $fileUploader->getName($fname);
+			} else {
+				$this->info[$fname][0] =  $fileUploader->getName($fname);
+			}
+			
+			$num = count($this->info[$fname]) - 1 ;
+			$fileUploader->save($fname , $this->getFilePath($fname,$num));
+			$this->isModified = true;
 		}
 	}
 	
@@ -69,20 +93,21 @@ class DonneesFormulaire {
 	
 	
 	public function addFileFromData($field_name,$file_name,$raw_data){
-		$this->info[$field_name] = $file_name;
-		file_put_contents($this->getFilePath($field_name),$raw_data);
+		$this->info[$field_name][0] = $file_name;
+		file_put_contents($this->getFilePath($field_name,0),$raw_data);
 		$dump = Spyc::YAMLDump($this->info);
 		file_put_contents($this->filePath,$dump);
 	}
 	
-	public function removeFile($fieldName){
-		$this->info[$fieldName] = "";
+	public function removeFile($fieldName,$num = 0){
+		//TODO déplacement des fichiers
+		array_splice($this->info[$fieldName],$num,1);
 		$dump = Spyc::YAMLDump($this->info);
 		file_put_contents($this->filePath,$dump);
 	}
 	
-	public function getFilePath($field_name){
-		return  $this->filePath."_".$field_name;
+	public function getFilePath($field_name,$num = 0){
+		return  $this->filePath."_".$field_name."_$num";
 	}
 	
 	public function get($item){
