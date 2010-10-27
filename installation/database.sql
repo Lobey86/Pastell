@@ -1,3 +1,4 @@
+
 CREATE TABLE document (
   id_d varchar(32) NOT NULL,
   `type` varchar(32) NOT NULL,
@@ -26,7 +27,9 @@ CREATE TABLE document_action_entite (
 CREATE TABLE document_entite (
   id_d varchar(8) NOT NULL,
   id_e int(11) NOT NULL,
-  role varchar(16) NOT NULL
+  role varchar(16) NOT NULL,
+  last_action varchar(32) NOT NULL,
+  last_action_date datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE droit (
@@ -47,6 +50,13 @@ CREATE TABLE entite (
   centre_de_gestion int(11) NOT NULL,
   PRIMARY KEY (id_e)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE entite_properties (
+  id_e int(11) NOT NULL,
+  flux varchar(16) NOT NULL,
+  properties varchar(32) NOT NULL,
+  `values` varchar(32) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE entite_relation (
   id_e1 int(11) NOT NULL,
