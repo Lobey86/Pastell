@@ -4,9 +4,13 @@ require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 
 class Tedetis {
 	
+	const STATUS_ACQUITTEMENT_RECU = 4;
+	
+	
 	const URL_TEST = "/modules/actes/";
 	const URL_CLASSIFICATION = "/modules/actes/actes_classification_fetch.php";
 	const URL_POST_ACTES =  "/modules/actes/actes_transac_create.php";
+	const URL_STATUS = "/modules/actes/actes_transac_get_status.php";
 	
 	private $isActivate;
 	private $tedetisURL;
@@ -82,11 +86,9 @@ class Tedetis {
 	
 	public function postActes(DonneesFormulaire $donneesFormulaire) {
 		
-		$nature = 3;
-		$dataClassif = array('1','2','2');	
 		
 		$this->postData['api'] = 1;
-		$this->postData['nature_code'] = $nature;
+		$this->postData['nature_code'] = $donneesFormulaire->get('acte_nature');;
 		$this->postData['number'] = $donneesFormulaire->get('numero_de_lacte');
 		$this->postData['subject'] =$donneesFormulaire->get('objet');
 		$this->postData['decision_date'] = $donneesFormulaire->get('date_de_lacte');
@@ -94,6 +96,10 @@ class Tedetis {
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');
 		$this->postData['acte_pdf_file'] = "@$file_path;filename=$file_name" ;
+		
+		$classification  = $donneesFormulaire->get('classification');
+		$c1 = explode(" ",$classification);
+		$dataClassif = explode(".",$c1[0]);
 		
 		foreach($dataClassif as $i => $elementClassif){
 			$this->postData['classif' . ( $i + 1)] = $elementClassif;  
@@ -108,6 +114,26 @@ class Tedetis {
 			$this->lastError = "Erreur lors de la transmission, Tédétis a répondu : $result";
 			return false;
 		}
+		
+		$ligne = explode("\n",$result);
+		$id_transaction = trim($ligne[1]);
+		$donneesFormulaire->setData('tedetis_transaction_id',$id_transaction);
+		
 		return true;		
+	}
+	
+	public function getStatus($id_transaction){
+		$result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
+		if (! $result){
+			return false;
+		}
+		print_r($result);
+		$ligne = explode("\n",$result);
+		if (trim($ligne[0]) != 'OK'){
+			$this->lastError = trim($ligne[1]);
+			return false;
+		}
+		
+		return trim($ligne[1]);
 	}
 }

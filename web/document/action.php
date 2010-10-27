@@ -19,18 +19,19 @@ $document = new Document($sqlQuery);
 
 $infoDocument = $document->getInfo($id_d);
 
+$type = $infoDocument['type'];
+
 $zenMail = new ZenMail($zLog);
 $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
-$documentType = $documentTypeFactory->getDocumentType($infoDocument['type']);
+$documentType = $documentTypeFactory->getDocumentType($type);
 $theAction = $documentType->getAction();
 $formulaire = $documentType->getFormulaire();
 
 $actionName = $theAction->getActionName($action);
 
-$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_d.yml");
-$donneesFormulaire->setFormulaire($formulaire);
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $entite = new Entite($sqlQuery,$id_e);
 
@@ -51,18 +52,47 @@ if ($action == Action::MODIFICATION){
 	exit;
 }
 
-$action_script = $theAction->getActionScript($action);
 
-$action_file = dirname(__FILE__)."/../../action/$action_script";
+$id_destinataire = array();
 
-if (! file_exists($action_file )){
-		
-	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");
+$action_destinataire =  $theAction->getActionDestinataire($action);
+if ($action_destinataire) {
+	$id_destinataire = $recuperateur->get('destinataire');
 	
+	if (! $id_destinataire){
+		header("Location: " . SITE_BASE . "/entite/choix-entite.php?id_d=$id_d&id_e=$id_e&action=$action&type=$action_destinataire");
+		exit;
+	}
+
+}
+$action_class_name = $theAction->getActionClass($action);
+
+$action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
+
+if (! file_exists($action_class_file )){
+	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");	
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
-require($action_file);
+
+require_once($action_class_file);
+
+$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
+
+$actionClass = new $action_class_name($sqlQuery,$id_d,$id_e,$authentification->getId(),$type);
+$actionClass->setNotificationMail($notificationMail);
+$actionClass->setAction($action);
+$actionClass->setDestinataire($id_destinataire);
+
+$result = $actionClass->go();
+
+if ($result){
+	$lastMessage->setLastMessage($actionClass->getLastMessage());
+} else {
+	$lastError->setLastError($actionClass->getLastMessage());
+}
+
+header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 
 
 

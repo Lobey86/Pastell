@@ -24,6 +24,7 @@ class Field {
 		return $this->libelle;
 	}
 	
+	
 	public function getName(){
 		return self::Canonicalize($this->libelle);
 	}

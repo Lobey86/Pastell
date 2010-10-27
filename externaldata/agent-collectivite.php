@@ -1,4 +1,8 @@
 <?php 
+
+$page_title = "Choix d'un agent";
+include( PASTELL_PATH ."/include/haut.php");
+
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
 $fileName = PASTELL_PATH . "/base-agent/agent.csv";
@@ -77,4 +81,5 @@ suivant_precedent($offset,$limit,count($agent),"document/external-data.php?id_e=
 </form>
 </div>
 
-
+<?php 
+include( PASTELL_PATH ."/include/bas.php");

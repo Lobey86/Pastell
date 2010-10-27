@@ -5,8 +5,6 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
@@ -28,12 +26,13 @@ $info = $document->getInfo($id_d);
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
 
-$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_d.yml");
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
+
 
 $documentType = $documentTypeFactory->getDocumentType($info['type']);
 $formulaire = $documentType->getFormulaire();
 $theAction = $documentType->getAction();
-$donneesFormulaire->setFormulaire($formulaire);
 
 $documentEntite = new DocumentEntite($sqlQuery);
 

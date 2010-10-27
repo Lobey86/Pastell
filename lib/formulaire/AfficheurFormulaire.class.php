@@ -100,8 +100,8 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
-						<a href='document/external-data.php?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getLibelle()?>'><?php echo $field->getProperties('link_name')?></a>
-					
+						<a href='document/external-data.php?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+						<?php echo $this->donneesFormulaire->get($field->getName())?>
 					<?php elseif ($field->getType() == 'password') : ?>
 						<input 	type='password' 	
 								id='<?php echo $field->getName();?>' 
@@ -174,8 +174,12 @@ class AfficheurFormulaire {
 			$this->formulaire->setTabNumber($page);
 		?>
 		<table class='tab_01'>
-			<?php foreach ($this->formulaire->getFields() as $i => $field) :
-					if ($field->getType() != 'externalData') : 
+			<?php
+			
+			foreach ($this->formulaire->getFields() as $i => $field) :
+					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
+						continue;
+					} 
 			
 			?>
 				<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
@@ -204,7 +208,6 @@ class AfficheurFormulaire {
 					</td>
 				</tr>				
 			<?php 
-			endif;
 			endforeach; ?>
 		</table>
 	<?php	

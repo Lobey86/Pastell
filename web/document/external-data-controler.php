@@ -9,7 +9,7 @@ require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 
-$recuperateur = new Recuperateur($_POST);
+$recuperateur = new Recuperateur($_REQUEST);
 $id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');

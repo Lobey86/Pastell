@@ -1,32 +1,22 @@
 <?php
+
+require_once (PASTELL_PATH . "/ext/spyc.php");
+
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once (PASTELL_PATH . "/ext/spyc.php");
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
 class DonneesFormulaire {
-	
-	const TYPE_RESSOURCE_FORMULAIRE = 'formulaire';
-	const TYPE_RESSOURCE_FORMULAIRE_ATTACHEMENT = 'fomulaire_attachment';
 	
 	private $formulaire;
 	private $filePath;
 	private $info;
 
-	public function __construct($filePath){
+	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
+		$this->formulaire = $formulaire;
 		$this->retrieveInfo();
 	}
-	
-	public function setFormulaire(Formulaire $formulaire){
-		$this->formulaire = $formulaire;
-	}
-	
-	public function getFormulaire(){
-		return $this->formulaire;
-	}
-	
-	
 	
 	public function injectData($field,$data){
 		$this->info[$field] = $data;
@@ -39,17 +29,21 @@ class DonneesFormulaire {
 		$this->info = Spyc::YAMLLoad($this->filePath);		
 	}
 	
-	public function save(Recuperateur $recuperateur, FileUploader $fileUploader){	
+	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){	
 		
-	
+		$this->formulaire->setTabNumber($pageNumber);
+		
 		foreach ($this->formulaire->getFields() as $field){
 			$type = $field->getType();
+			if ($type == 'externalData'){
+				continue;
+			}
 			if ( $type == 'file'){
 				$this->saveFile($field,$fileUploader);
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
-				if ( ($type != 'password') ||  $value){
+				if ( ($type != 'password' ) ||  $value){
 					$this->info[$name] = $value;
 				}
 			}
@@ -66,6 +60,13 @@ class DonneesFormulaire {
 			$fileUploader->save($fname, $this->getFilePath($fname));
 		}
 	}
+	
+	public function setData($field_name,$field_value){
+		$this->info[$field_name] = $field_value;
+		$dump = Spyc::YAMLDump($this->info);
+		file_put_contents($this->filePath,$dump);
+	}
+	
 	
 	public function addFileFromData($field_name,$file_name,$raw_data){
 		$this->info[$field_name] = $file_name;
@@ -96,6 +97,7 @@ class DonneesFormulaire {
 	}
 	
 	public function isValidable(){
+		
 		foreach($this->formulaire->getAllFields() as $field){
 			if ($field->isRequired() && ! $this->get($field->getName())){
 				return false;
@@ -104,14 +106,4 @@ class DonneesFormulaire {
 		return true;
 	}
 	
-	public function getAllRessource(){
-		$result = array();
-		$result[] = array("url"=> $this->filePath,"type" => self::TYPE_RESSOURCE_FORMULAIRE);
-		foreach($this->formulaire->getAllFields() as $field){
-			if ($field->getType()== 'file' && $this->get($field->getName())){
-				$result[] = array("url" => $this->getFilePath($field->getName()), "type" => self::TYPE_RESSOURCE_FORMULAIRE_ATTACHEMENT);
-			}
-		}
-		return $result;
-	}
 }

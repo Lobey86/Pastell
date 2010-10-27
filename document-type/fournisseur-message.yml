@@ -21,7 +21,7 @@ action:
 				creation
 				modification
 				
-	envoi-fournisseur :
+	envoi :
 		name: Envoyer à un fournisseur
 		rule:
 			last-action: 
@@ -29,9 +29,10 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'fournisseur-message:edition'
-		action-script: envoyer-fournisseur.php
+		action-class: Envoyer
+		action-selection: fournisseur
 		
-	recu-fournisseur:
+	recu:
 		name: Reçu par un fournisseur
 		rule:
 			role_id_e: no-role
@@ -41,10 +42,11 @@ action:
 		name: 	Accuser réception
 		rule:
 			last-action:
-				recu-fournisseur
+				recu
 			role_id_e: lecteur
 			droit_id_u: 'fournisseur-message:edition'
 			
-		action-script: accuse-de-reception.php
+		action-class: AccuserReception
+
 		
 		

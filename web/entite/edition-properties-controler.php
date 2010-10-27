@@ -27,11 +27,11 @@ $formulaire->setTabNumber($page);
 
 $fileUploader = new FileUploader($_FILES);
 
-
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH  . "/$id_e.yml");
-$donneesFormulaire->setFormulaire($formulaire);
 	
-$donneesFormulaire->save($recuperateur,$fileUploader);
+$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+
+
+$donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 
 $type = $recuperateur->get('suivant');

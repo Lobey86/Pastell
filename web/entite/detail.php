@@ -74,8 +74,9 @@ if ($info['type'] == Entite::TYPE_COLLECTIVITE) {
 
 	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
 	$formulaire = $documentType->getFormulaire();
-	$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_e.yml"); 
-	$donneesFormulaire->setFormulaire($formulaire);
+	
+	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+	
 	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 	$afficheurFormulaire->afficheTab($tab_number,"entite/detail.php?id_e=$id_e");

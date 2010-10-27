@@ -2,16 +2,14 @@
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
-require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
-require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
-require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
-require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 
 
 $recuperateur = new Recuperateur($_POST);
+
 $action = $recuperateur->get('action');
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
+
 
 $documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
 $theAction = $documentType->getAction();
@@ -19,8 +17,8 @@ $formulaire = $documentType->getFormulaire();
 
 $actionName = $theAction->getActionName($action);
 
-$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_e.yml");
-$donneesFormulaire->setFormulaire($formulaire);
+$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+
 
 $entite = new Entite($sqlQuery,$id_e);
 
@@ -36,19 +34,27 @@ if ( ! $actionPossible->isActionPossible($id_e,$action)) {
 }
 
 
-$action_script = $theAction->getActionScript($action);
 
-$action_file = dirname(__FILE__)."/../../action/$action_script";
+$action_class_name = $theAction->getActionClass($action);
 
-if (! file_exists($action_file )){
-		
-	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");
-	
+$action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
+
+if (! file_exists($action_class_file )){
+	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");	
 	header("Location: detail.php?id_e=$id_e&page=$page");
 	exit;
 }
-require($action_file);
 
+require_once($action_class_file);
 
+$actionClass = new $action_class_name($sqlQuery,$id_e,$id_e,$authentification->getId(),'collectivite-properties');
 
+$result = $actionClass->go();
 
+if ($result){
+	$lastMessage->setLastMessage($actionClass->getLastMessage());
+} else {
+	$lastError->setLastError($actionClass->getLastMessage());
+}
+
+header("Location: detail.php?id_e=$id_e&page=$page");

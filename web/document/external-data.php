@@ -37,8 +37,4 @@ $theField = $formulaire->getField($field);
 
 $script = $theField->getProperties('script');
 
-$page_title = "Choix d'un agent";
-include( PASTELL_PATH ."/include/haut.php");
 require_once(PASTELL_PATH . "/externaldata/$script");
-
-include( PASTELL_PATH ."/include/bas.php");
