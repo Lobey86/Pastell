@@ -32,10 +32,9 @@ $da['grade'] = $data_agent[4];
 
 $data = new Recuperateur($da);
 
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH  . "/$id_d.yml");
-$donneesFormulaire->setFormulaire($formulaire);
 
-	
-$donneesFormulaire->save($data,new FileUploader($_FILES));
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+
+$donneesFormulaire->saveTab($data,new FileUploader($_FILES),$page);
 
 header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");

@@ -31,3 +31,6 @@ $roleUtilisateur->setRoleDroit(new RoleDroit());
 
 require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 $documentTypeFactory = new DocumentTypeFactory();
+
+require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
+$donneesFormulaireFactory = new DonneesFormulaireFactory($documentTypeFactory,WORKSPACE_PATH);

@@ -24,7 +24,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'rh-messages:edition'
 		
-	envoi-col :
+	envoi :
 		name: Envoyer à une collectivité
 		rule:
 			last-action: 
@@ -32,9 +32,10 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'rh-messages:edition'
-		action-script: envoyer.php
+		action-class: Envoyer
+		action-selection: collectivite
 		
-	recu-col:
+	recu:
 		name: Reçu par une collectivité
 		rule:
 			role_id_e: no-role
@@ -44,10 +45,9 @@ action:
 		name: 	Accuser réception
 		rule:
 			last-action:
-				recu-col
+				recu
 			role_id_e: lecteur
 			droit_id_u: 'rh-messages:edition'
-			
-		action-script: accuse-de-reception.php
+		action-class: AccuserReception
 		
 		

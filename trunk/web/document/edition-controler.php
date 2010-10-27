@@ -5,8 +5,6 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
@@ -56,11 +54,9 @@ if (! $info){
 
 $fileUploader = new FileUploader($_FILES);
 
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH  . "/$id_d.yml");
-$donneesFormulaire->setFormulaire($formulaire);
-	
-$donneesFormulaire->save($recuperateur,$fileUploader);
+$donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 foreach($fileUploader->getAll() as $filename => $orig_filename){
 	$url = WORKSPACE_PATH . "/$id_d" . "_" . $filename;
@@ -74,15 +70,14 @@ $titre = $donneesFormulaire->get($titre_field);
 $document->setTitre($id_d,$titre);
 
 
-
-$type = $recuperateur->get('suivant');
-if ($type){
+if ( $recuperateur->get('suivant') ){
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=".($page+1));
 	exit;
 }
-$type = $recuperateur->get('precedent');
-if ($type){
+
+if ($recuperateur->get('precedent')){
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=".($page - 1));
 	exit;
 }
+
 header("Location: " . SITE_BASE . "document/detail.php?id_d=$id_d&id_e=$id_e&page=$page");

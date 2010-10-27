@@ -35,9 +35,7 @@ $documentType = $documentTypeFactory->getDocumentType('collectivite-properties')
 $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
 
-
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH  . "/$id_e.yml");
-$donneesFormulaire->setFormulaire($formulaire);
+$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
 $donneesFormulaire->removeFile($field);
 
 

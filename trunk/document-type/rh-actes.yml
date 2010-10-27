@@ -6,8 +6,9 @@ formulaire:
 	Informations générales:
 		Siren de la collectivité: {read-only: true, data: siren}
 		Objet: {requis: true, title: true}
+		
 	Agent:
-		Choisir les valeurs dans une liste: {type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
+		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
 		Matricule de l'agent: 
 		Nom patronymique: {requis: true}
 		Nom d'usage: 
@@ -21,6 +22,18 @@ formulaire:
 				non-titulaire
 		
 	Actes:
+		acte_nature:
+			name: Nature de l'acte
+			type: select
+			requis: true
+			value: 
+				3: Arrêtés Individuels
+				2: Arrêtés réglementaires
+				6: Autres
+				4: Contrats et conventions
+				1: Délibérations
+				5: Documents budgétaires et financiers
+				
 		Type:
 			type: select
 			value:	
@@ -28,6 +41,14 @@ formulaire:
 					arrete_avancement: Arretés d'avancement de grade
 					sanction: Decisions portant des sanctions disciplinaires
 					licenciement: Licenciement
+					
+		classification:  
+			name:Classification en matière et sous-matière
+			type: externalData
+			script: choix-classification.php
+			script-controler: choix-classification-controler.php
+			link_name: liste des matières et sous-matières
+	
 		Numéro de l'acte:  {requis: true}
 		Date de l'acte: {type: date, requis: true}
 		Envoi au contrôle de légalité: {type: checkbox}
@@ -71,8 +92,8 @@ action:
 			content: 
 				Envoi au contrôle de légalité: true
 	
-		action-script: envoyer_au_controle_de_legalite.php
-		auto-script: recup-from-tdt.php
+		action-class: TedetisEnvoie
+		auto-class: TedetisRecup
 		
 	acquiter-tdt:
 		name: Acquittement du contrôle de légalité reçu.
@@ -94,7 +115,7 @@ action:
 				Envoi au contrôle de légalité: false
 			role_id_e: editeur
 			droit_id_u: 'rh-actes:edition'
-		action-script: envoyer_au_cdg.php
+		action-class: EnvoieCDG
 			
 	send-cdg:
 	
@@ -110,7 +131,10 @@ action:
 		rule:
 			role_id_e: no-role
 		
-						
+	tdt-error:
+		name: Erreur sur le Tedetis
+		rule:
+			role_id_e: no-role					
 					
 	send-ged:
 		
@@ -129,7 +153,7 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			properties: 
 				has_ged: manuel
-		action-script: default.php
+		action-class: Defaut
 	
 	send-archive:
 	
@@ -146,6 +170,7 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			properties: 
 				has_archivage: manuel
-		action-script: default.php
+		action-class: Defaut
 			
-		
+	 
+	 	

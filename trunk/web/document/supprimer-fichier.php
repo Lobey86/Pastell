@@ -41,9 +41,7 @@ $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
 
 
-
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH  . "/$id_d.yml");
-$donneesFormulaire->setFormulaire($formulaire);
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 $donneesFormulaire->removeFile($field);
 
 

@@ -11,7 +11,8 @@ $id_d = $recuperateur->get('id_d');
 $field = $recuperateur->get('field');
 
 
-$donneesFormulaire = new DonneesFormulaire(WORKSPACE_PATH  . "/$id_d.yml");
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,'collectivite-properties');
+
 
 $file_path = $donneesFormulaire->getFilePath($field);
 $file_name = $donneesFormulaire->get($field);

@@ -5,8 +5,6 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
 
@@ -42,9 +40,7 @@ $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 $page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
 
-
-$donneesFormulaire = new DonneesFormulaire( WORKSPACE_PATH . "/$id_d.yml");
-$donneesFormulaire->setFormulaire($formulaire);
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $dataInjector = new DataInjector($formulaire,$donneesFormulaire);
 $dataInjector->inject($infoEntite['siren']);
@@ -57,6 +53,7 @@ $afficheurFormulaire->injectHiddenField("id_e",$id_e);
 
 
 include( PASTELL_PATH ."/include/haut.php");
+include(PASTELL_PATH . "/include/bloc_message.php");
 ?>
 <?php if ($info) : ?>
 <a href='document/detail.php?id_d=<?php echo $id_d?>&id_e=<?php echo $id_e?>&page=<?php echo $page?>'>« <?php echo $info['titre'] ?></a>
