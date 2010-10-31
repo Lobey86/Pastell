@@ -64,6 +64,9 @@ class AfficheurFormulaire {
 				if ($field->getProperties('read-only') && $field->getType() == 'file'){
 					continue;
 				}
+				if ($field->getProperties('no-show')){
+					continue;
+				}
 			?>
 				<tr>
 					<th>
@@ -184,6 +187,9 @@ class AfficheurFormulaire {
 					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
 						continue;
 					} 
+					if ($field->getProperties('no-show')){
+						continue;
+					}
 			
 			?>
 				<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
