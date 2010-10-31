@@ -13,6 +13,7 @@ if (! defined("PASTELL_PATH")){
 }
 
 //Emplacement du répertoire pour sauvegarder les fichiers temporaires
+//ATTENTION : CE REPERTOIRE DOIT ÊTRE ACCESSIBLE EN ECRITURE
 if (!defined("WORKSPACE_PATH")){
 	define("WORKSPACE_PATH" , PASTELL_PATH . "/workspace");
 }
@@ -40,13 +41,6 @@ if (! defined("BD_DSN_TEST")){
 	define("BD_DSN_TEST","mysql:dbname=pastell_test;host=127.0.0.1");
 	define("BD_USER_TEST",BD_USER);
 	define("BD_PASS_TEST",BD_PASS);
-}
-
-
-//Tédétis
-if (! defined("TEDETIS_URL")){
-	define("TEDETIS_URL","https://192.168.1.87/");
-	define("TEDETIS_CERTIFICATE","/etc/apache2/ssl/autorite_a_effacer-cert.pem");
 }
 
 

@@ -28,13 +28,16 @@ class Tedetis {
 		$this->setCurlProperties( CURLOPT_RETURNTRANSFER , 1); 
 		$this->setCurlProperties( CURLOPT_CAINFO , $collectiviteProperties->getFilePath('tdt_server_certificate')); 
 		$this->setCurlProperties( CURLOPT_SSL_VERIFYHOST , 0 ); 
-		
-		$this->setCurlProperties( CURLOPT_SSLCERT, $collectiviteProperties->getFilePath('tdt_user_certificat'));
-		$this->setCurlProperties( CURLOPT_SSLKEY, $collectiviteProperties->getFilePath('tdt_user_key'));
+			
+  		$this->setCurlProperties( CURLOPT_SSLCERT,$collectiviteProperties->getFilePath('tdt_user_certificat_pem'));
+		$this->setCurlProperties( CURLOPT_SSLKEY, $collectiviteProperties->getFilePath('tdt_user_key_pem'));
 		$this->setCurlProperties( CURLOPT_SSLKEYPASSWD, $collectiviteProperties->get('tdt_user_key_password'));
 		
 		$this->postData = array();
 	}
+	
+	
+
 	
 	private function setCurlProperties($properties,$values){
 		curl_setopt($this->curlHandle, $properties, $values); 
@@ -43,10 +46,7 @@ class Tedetis {
 	public function __destruct(){
 		curl_close($this->curlHandle);
 	}
-	
-	public function setUserCertificate($cert_file,$key_file,$key_file_password){	
-	
-	}
+
 
 	public function getLastError(){
 		return $this->lastError;
