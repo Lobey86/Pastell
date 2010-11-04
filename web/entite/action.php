@@ -47,7 +47,7 @@ if (! file_exists($action_class_file )){
 
 require_once($action_class_file);
 
-$actionClass = new $action_class_name($sqlQuery,$id_e,$id_e,$authentification->getId(),'collectivite-properties');
+$actionClass = new $action_class_name($zLog,$sqlQuery,$id_e,$id_e,$authentification->getId(),'collectivite-properties');
 
 $result = $actionClass->go();
 

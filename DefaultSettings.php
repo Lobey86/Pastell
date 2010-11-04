@@ -44,6 +44,24 @@ if (! defined("BD_DSN_TEST")){
 }
 
 
+//Définition de la connexion au SignServer
+if (! defined("SIGN_SERVER_URL")){
+	define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");
+}
+
+if (! defined("SIGN_SERVER_ENABLED")){
+	define("SIGN_SERVER_ENABLED",false);
+}
+
+if (! defined("SIGN_SERVER_CERTIFICATE")){
+	define("SIGN_SERVER_CERTIFICATE", "");
+}
+
+if (! defined("OPENSSL_PATH")){
+	define("OPENSSL_PATH","/home/eric/Logiciel/openssl-1.0.0a/apps/openssl");
+}
+
+
 //Racine du site Pastell
 //ex : http://pastell.sigmalis.com/
 //ex : http://www.sigmalis.com/pastell/

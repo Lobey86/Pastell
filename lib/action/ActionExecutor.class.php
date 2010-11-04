@@ -6,7 +6,10 @@ require_once( PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
-
+require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
+require_once( PASTELL_PATH ."/lib/base/CurlWrapper.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 
 abstract class ActionExecutor {
 	
@@ -35,7 +38,7 @@ abstract class ActionExecutor {
 	private $donneesFormulaireFactory;
 	
 	
-	public function __construct(SQLQuery $sqlQuery,$id_d,$id_e,$id_u,$type){
+	public function __construct(ZLog $zLog, SQLQuery $sqlQuery,$id_d,$id_e,$id_u,$type){
 		
 		$this->sqlQuery = $sqlQuery;
 		
@@ -44,9 +47,13 @@ abstract class ActionExecutor {
 		$this->id_u = $id_u;
 		$this->type = $type;
 		
+	
+		$signServer = new SignServer(SIGN_SERVER_URL,new OpensslTSWrapper(OPENSSL_PATH,$zLog));
+		
+		
 		$this->setEntite(new Entite($sqlQuery,$id_e));
 		$this->setDocumentEntite(new DocumentEntite($sqlQuery));
-		$this->setJournal(new Journal($sqlQuery,$id_u));
+		$this->setJournal(new Journal($signServer,$sqlQuery,$id_u));
 		$this->setActionCreator(new ActionCreator($sqlQuery,$this->journal,$id_d));		
 
 		

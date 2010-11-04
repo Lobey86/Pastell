@@ -1,0 +1,19 @@
+<?php
+require_once("../init.php");
+require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
+require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
+
+$certificatConnexion = new CertificatConnexion($sqlQuery);
+$id_u = $certificatConnexion->autoConnect();
+	
+if ( ! $id_u ) {
+	header("connexion.php");
+	exit;
+}
+
+$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$utilisateurInfo = $utilisateur->getInfo();
+
+$authentification->connexion($utilisateurInfo['login'],$id_u);
+
+header("Location: " . SITE_BASE);

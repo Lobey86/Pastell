@@ -1,5 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
+require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
+require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 
 $page="connexion";
 $page_title="Connexion";
@@ -11,7 +13,23 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php include (PASTELL_PATH."/include/bloc_message.php"); ?>
 
+<?php 
 
+$certificatConnexion = new CertificatConnexion($sqlQuery);
+$id_u = $certificatConnexion->autoConnect();
+	
+if ($id_u ): 
+$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$utilisateurInfo = $utilisateur->getInfo();
+?>
+<div class="box_contenu clearfix">
+	<h2>Connexion automatique</h2>
+
+	Votre certificat vous permet de automatiquement avec le compte 
+	<a href='connexion/autoconnect.php'><?php echo $utilisateurInfo['login'] ?></a>
+
+</div>
+<?php endif;?>
 
 <div class="box_contenu clearfix">
 	<div class="box_connexion">

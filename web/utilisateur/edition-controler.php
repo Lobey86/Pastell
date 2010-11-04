@@ -8,6 +8,7 @@ require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurCreator.class.php");
 require_once( PASTELL_PATH . '/lib/notification/Notification.class.php');
+require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');
@@ -41,6 +42,19 @@ if ($id_e){
 }
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
 
+
+
+if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
+	
+	$certificat_pem = file_get_contents($_FILES['certificat']['tmp_name']);
+	$certificat = new Certificat($certificat_pem);
+	
+	if ( ! $utilisateur->setCertificat($certificat)){
+		$lastError->setLastError("Le certificat n'est pas valide");
+		$redirection->redirect();
+	} 
+}
+
 if (! $id_e && $password && $password2 ){
 	if ($password != $password2){
 		$lastError->setLastError("Les mot de passes ne correspondent pas");
@@ -52,6 +66,8 @@ $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
 $utilisateur->setEmail($email);
 $utilisateur->setLogin($login);
+
+
 
 
 if ( $id_e ){

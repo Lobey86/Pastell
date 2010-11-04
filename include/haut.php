@@ -57,13 +57,17 @@ $type_e_menu = $recuperateur->get('type',"");
 <a href="<?php echo SITE_BASE ?>entite/" class="picto_collectivites">Collectivités</a>
 <a href="<?php echo SITE_BASE ?>document/index.php" class="picto_flux">Documents</a>
 <a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_journal">Journal des évènements</a>
-<a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_aide">Aide</a>
 <?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"fournisseur:lecture'")) : ?>
 	<a href="<?php echo SITE_BASE ?>entite/fournisseur.php" class="picto_fournisseurs">Fournisseurs</a>
 <?php endif; ?>
 <?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"utilisateur:lecture")) : ?>
 	<a href="<?php echo SITE_BASE ?>utilisateur/index.php" class="picto_utilisateurs">Utilisateurs</a>
 <?php endif; ?>
+<a href="<?php echo SITE_BASE ?>aide/index.php" class="picto_aide">Aide</a>
+<?php if  ($roleUtilisateur->hasDroit($authentification->getId(),'test:lecture',0)) : ?>
+	<a href="<?php echo SITE_BASE ?>test/index.php" class="picto_aide">Tests</a>
+<?php endif;?>
+
 <!-- <a href="<?php echo SITE_BASE ?>inscription-fournisseur/index.php" class="picto_fournisseurs">Mes informations</a> -->
 </div><!-- main_menu menu_2 -->
 <?php endif; ?>

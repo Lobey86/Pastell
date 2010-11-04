@@ -79,7 +79,7 @@ require_once($action_class_file);
 
 $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 
-$actionClass = new $action_class_name($sqlQuery,$id_d,$id_e,$authentification->getId(),$type);
+$actionClass = new $action_class_name($zLog,$sqlQuery,$id_d,$id_e,$authentification->getId(),$type);
 $actionClass->setNotificationMail($notificationMail);
 $actionClass->setAction($action);
 $actionClass->setDestinataire($id_destinataire);

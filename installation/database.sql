@@ -74,6 +74,8 @@ CREATE TABLE journal (
   message varchar(128) NOT NULL,
   `date` datetime NOT NULL,
   preuve text NOT NULL,
+  date_horodatage DATETIME NOT NULL,
+  message_horodate text NOT NULL,	
   PRIMARY KEY (id_j)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -142,6 +144,8 @@ CREATE TABLE utilisateur (
   mail_verifie tinyint(1) NOT NULL,
   nom varchar(128) NOT NULL,
   prenom varchar(128) NOT NULL,
+  certificat TEXT NOT NULL,
+  certificat_verif_number VARCHAR( 16 ) NOT NULL,
   PRIMARY KEY (id_u)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
