@@ -84,11 +84,11 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 		<th>Document</th>
 		<th>Action</th>
 		<th>Message</th>
-		<th>Preuve</th>
+		<th>Horodatage</th>
 	</tr>
 <?php foreach($all as $i => $ligne) : ?>
 	<tr  class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-		<td><?php echo $ligne['id_j']?></td>
+		<td><a href='journal/detail.php?id_j=<?php echo $ligne['id_j'] ?>'><?php echo $ligne['id_j']?></a></td>
 		<td><?php echo  $ligne['date']?></td>
 		<td><?php echo $journal->getTypeAsString($ligne['type']) ?></td>
 		<td><a href='entite/detail.php?id_e=<?php echo $ligne['id_e'] ?>'><?php echo  $ligne['denomination']?></a></td>
@@ -101,7 +101,12 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 		<td><?php echo  $ligne['action']?></td>
 		
 		<td><?php echo $ligne['message']?></td>
-		<td><a href='journal/preuve.php?id=<?php echo $ligne['id_j']?>'>voir</a></td>
+		<td><?php if ($ligne['preuve']) : ?> 
+			<?php echo $ligne['date_horodatage'] ?>
+			<?php else : ?>
+			en cours
+			<?php endif;?>
+		</td>
 	</tr>
 <?php endforeach;?>
 </table>

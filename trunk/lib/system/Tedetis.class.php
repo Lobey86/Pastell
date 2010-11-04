@@ -1,11 +1,11 @@
 <?php
 
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
+require_once( PASTELL_PATH . "/lib/base/CurlWrapper.class.php");
 
 class Tedetis {
 	
 	const STATUS_ACQUITTEMENT_RECU = 4;
-	
 	
 	const URL_TEST = "/modules/actes/";
 	const URL_CLASSIFICATION = "/modules/actes/actes_classification_fetch.php";
@@ -15,38 +15,26 @@ class Tedetis {
 	private $isActivate;
 	private $tedetisURL;
 	
-	private $curlHandle;
+	private $curlWrapper;
 	private $lastError;
-	private $postData;
 	
 	public function __construct(DonneesFormulaire $collectiviteProperties){
+		
+		$this->setCurlWrapper(new curlWrapper());
+		
 		$this->isActivate = $collectiviteProperties->get('tdt_activate');
 		$this->tedetisURL = $collectiviteProperties->get('tdt_url');
 		
-		$this->curlHandle = curl_init();
+		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('tdt_server_certificate'));
 		
-		$this->setCurlProperties( CURLOPT_RETURNTRANSFER , 1); 
-		$this->setCurlProperties( CURLOPT_CAINFO , $collectiviteProperties->getFilePath('tdt_server_certificate')); 
-		$this->setCurlProperties( CURLOPT_SSL_VERIFYHOST , 0 ); 
-			
-  		$this->setCurlProperties( CURLOPT_SSLCERT,$collectiviteProperties->getFilePath('tdt_user_certificat_pem'));
-		$this->setCurlProperties( CURLOPT_SSLKEY, $collectiviteProperties->getFilePath('tdt_user_key_pem'));
-		$this->setCurlProperties( CURLOPT_SSLKEYPASSWD, $collectiviteProperties->get('tdt_user_key_password'));
-		
-		$this->postData = array();
-	}
-	
-	
-
-	
-	private function setCurlProperties($properties,$values){
-		curl_setopt($this->curlHandle, $properties, $values); 
-	}
-	
-	public function __destruct(){
-		curl_close($this->curlHandle);
+		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('tdt_user_certificat_pem'),
+													$collectiviteProperties->getFilePath('tdt_user_key_pem'),
+													$collectiviteProperties->get('tdt_user_key_password'));
 	}
 
+	public function setCurlWrapper(CurlWrapper $curlWrapper){
+		$this->curlWrapper = $curlWrapper;
+	}
 
 	public function getLastError(){
 		return $this->lastError;
@@ -58,21 +46,11 @@ class Tedetis {
 			return false;
 		}
 		
-		$this->setCurlProperties(CURLOPT_URL,$this->tedetisURL . $url);
-		
-		if ($this->postData){
-				$this->setCurlProperties(CURLOPT_POST,true);
-				$this->setCurlProperties(CURLOPT_POSTFIELDS,$this->postData);
-		}
-		
-		$output = curl_exec($this->curlHandle);
-		
-		$this->lastError = curl_error($this->curlHandle);
-		if ($this->lastError){
-			$this->lastError = "Erreur de connexion au Tédetis : " . $this->lastError;
+		$output = $this->curlWrapper->get($this->tedetisURL .$url);
+		if ( ! $output){
+			$this->lastError = $this->curlWrapper->getLastError();
 			return false;
-		}	
-		
+		}		
 		return $output;
 	}
 	
@@ -84,25 +62,32 @@ class Tedetis {
 		return $this->exec( self::URL_CLASSIFICATION );
 	}
 	
+	
 	public function postActes(DonneesFormulaire $donneesFormulaire) {
 		
+		$this->curlWrapper->addPostData('api',1);
+		$this->curlWrapper->addPostData('nature_code',$donneesFormulaire->get('acte_nature'));
 		
-		$this->postData['api'] = 1;
-		$this->postData['nature_code'] = $donneesFormulaire->get('acte_nature');;
-		$this->postData['number'] = $donneesFormulaire->get('numero_de_lacte');
-		$this->postData['subject'] =$donneesFormulaire->get('objet');
-		$this->postData['decision_date'] = $donneesFormulaire->get('date_de_lacte');
+		$this->curlWrapper->addPostData('number',$donneesFormulaire->get('numero_de_lacte'));
+		$this->curlWrapper->addPostData('subject',$donneesFormulaire->get('objet'));
+		$this->curlWrapper->addPostData('decision_date',$donneesFormulaire->get('date_de_lacte'));
 		
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');
-		$this->postData['acte_pdf_file'] = "@$file_path;filename=$file_name" ;
+		$file_name = $file_name[0];
+		$this->curlWrapper->addPostFile('acte_pdf_file',$file_path,$file_name);
+				
+		foreach($donneesFormulaire->get('autre_document_attache') as $i => $file_name){
+			$file_path = $donneesFormulaire->getFilePath('autre_document_attache',$i);
+			$this->curlWrapper->addPostFile('acte_attachments[]', $file_path,$file_name) ;
+		}
 		
 		$classification  = $donneesFormulaire->get('classification');
 		$c1 = explode(" ",$classification);
 		$dataClassif = explode(".",$c1[0]);
 		
 		foreach($dataClassif as $i => $elementClassif){
-			$this->postData['classif' . ( $i + 1)] = $elementClassif;  
+			$this->curlWrapper->addPostData('classif' . ( $i + 1), $elementClassif);  
 		}
 		
 		$result = $this->exec( self::URL_POST_ACTES );	

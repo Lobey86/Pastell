@@ -22,19 +22,20 @@ action:
 				creation
 				modification
 			role_id_e: editeur
-			droit_id_u: 'messages-services:edition'
+			droit_id_u: 'message-service:edition'
 		
-	envoi-service :
+	envoi :
 		name: Envoyer à un groupe
 		rule:
 			last-action: 
 				creation
 				modification
 			role_id_e: editeur
-			droit_id_u: 'messages-services:edition'
-		action-script: envoyer-service.php
+			droit_id_u: 'message-service:edition'
+		action-class: Envoyer
+		action-selection: service
 		
-	recu-service:
+	recu:
 		name: Reçu par un utilisateur
 		rule:
 			role_id_e: no-role
@@ -44,10 +45,10 @@ action:
 		name: 	Accuser réception
 		rule:
 			last-action:
-				recu-col
+				recu
 			role_id_e: lecteur
-			droit_id_u: 'messages-services:edition'
+			droit_id_u: 'message-service:edition'
 			
-		action-script: accuse-de-reception.php
+		action-class: AccuserReception
 		
 		

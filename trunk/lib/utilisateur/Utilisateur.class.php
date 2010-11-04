@@ -75,4 +75,26 @@ class Utilisateur {
 		$this->sqlQuery->query($sql,$login,$this->id_u);
 	}
 	
+	public function removeCertificat(){
+		$this->updateCertificat("","");
+	}
+	
+	public function setCertificat(Certificat $certificat){
+		
+		if (! $certificat->isValid()){
+			return false;
+		}
+		
+		$certificatContent = $certificat->getContent();
+		$certificatVerifNumber = $certificat->getVerifNumber();
+		
+		$this->updateCertificat($certificatContent,$certificatVerifNumber);
+		return true;
+	}
+	
+	private function updateCertificat($content,$verif_number){
+		$sql = "UPDATE utilisateur SET certificat = ?, certificat_verif_number=? WHERE id_u = ?";
+		$this->sqlQuery->query($sql,$content,$verif_number,$this->id_u);
+	}
+	
 }

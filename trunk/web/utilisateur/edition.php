@@ -1,6 +1,7 @@
 <?php 
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -12,6 +13,7 @@ $infoUtilisateur = array('login' =>  $lastError->getLastInput('login'),
 					'nom' =>  $lastError->getLastInput('nom'),
 					'prenom' =>  $lastError->getLastInput('prenom'),
 					'email'=> $lastError->getLastInput('email'),
+					'certificat' => '',
 );
 
 
@@ -26,6 +28,10 @@ if (! $infoEntite && ! $infoUtilisateur){
 	header("Location: ".SITE_BASE . "index.php");
 	exit;
 }
+
+$certificat = new Certificat($infoUtilisateur['certificat']);
+
+
 $roleDroit = new RoleDroit();
 
 
@@ -55,7 +61,7 @@ include( PASTELL_PATH ."/include/haut.php");
 Veuillez remplir le formulaire ci-dessous afin de pouvoir créer un nouvel utilisateur.
 </h2>
 
-<form class="w700" action='utilisateur/edition-controler.php' method='post'>
+<form class="w700" action='utilisateur/edition-controler.php' method='post' enctype='multipart/form-data'>
 <input type='hidden' name='id_e' value='<?php echo $id_e?>'>
 <input type='hidden' name='id_u' value='<?php echo $id_u?>'>
 
@@ -90,6 +96,17 @@ Veuillez remplir le formulaire ci-dessous afin de pouvoir créer un nouvel utilis
 	<th><label for='prenom'>Prénom</label> </th>
 	<td> <input type='text' name='prenom' value='<?php echo $infoUtilisateur['prenom']?>'/></td>
 </tr>
+<tr>
+	<th><label for='certificat'>Certificat (PEM)</label> </th>
+	<td> <input type='file' name='certificat' /><br/>
+	<?php if ($certificat->isValid()) : ?>
+		<?php  echo $certificat->getFancy()?>&nbsp;-&nbsp;
+		<a href='utilisateur/supprimer-certificat.php?id_u=<?php echo $id_u?>'>supprimer</a>
+	<?php endif;?>
+	</td>
+</tr>
+
+
 <?php if($id_e) : ?>
 <tr>
 	<th>Entité de base</th>

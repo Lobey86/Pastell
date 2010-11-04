@@ -51,7 +51,7 @@ $classification = simplexml_load_file( $donneesFormulaire->getFilePath('classifi
 $namespaces = $classification->getNameSpaces(true);
 $actes = $classification->children($namespaces['actes']); 
 
-$classificationAfficheur = new ClassificationAfficheur("document/external-data-controler?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
+$classificationAfficheur = new ClassificationAfficheur("document/external-data-controler.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
 
   
 $page_title = "Choix de la classification en matière et sous matière";

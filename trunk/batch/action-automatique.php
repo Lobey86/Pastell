@@ -8,9 +8,13 @@ require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once (PASTELL_PATH . "/lib/journal/Journal.class.php");
 require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
+require_once( PASTELL_PATH ."/lib/base/CurlWrapper.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 
+$signServer = new SignServer(SIGN_SERVER_URL,new OpensslTSWrapper(OPENSSL_PATH,$zLog));
 
-$journal = new Journal($sqlQuery,0);
+$journal = new Journal($signServer, $sqlQuery,0);
 
 $zenMail = new ZenMail($zLog);
 $notification = new Notification($sqlQuery);
@@ -35,7 +39,7 @@ foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 			
 			require_once( dirname(__FILE__) . "/../action/$class.class.php" );
 			
-			$c = new $class($sqlQuery,$id_d,$id_e,0,$infoDocument['type']);
+			$c = new $class($zLog,$sqlQuery,$id_d,$id_e,0,$infoDocument['type']);
 			
 			$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 			$c->setCollectiviteProperties($collectiviteProperties);

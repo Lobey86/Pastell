@@ -1,6 +1,7 @@
 <?php
 require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 require_once( PASTELL_PATH . "/lib/base/Date.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 
 class Journal {
 	
@@ -25,18 +26,35 @@ class Journal {
 	
 	private $sqlQuery;
 	private $id_u;
+	private $signServer;
 	
-	public function __construct(SQLQuery $sqlQuery,$id_u){
+	public function __construct(SignServer $signServer, SQLQuery $sqlQuery, $id_u){
 		$this->sqlQuery = $sqlQuery;
 		$this->id_u = $id_u;
+		$this->signServer = $signServer;
 	}
 	
 	public function add($type,$id_e,$id_d,$action,$message){
 		$now = date(Date::DATE_ISO);
-		$proof= "";
-		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,preuve) VALUES (?,?,?,?,?,?,?,?)";
-		$this->sqlQuery->query($sql,array($type,$id_e,$this->id_u,$id_d,$action,$message,$now,$proof));
+		$message_horodate = "$type - $id_e - ".$this->id_u." - $id_d - $action - $message - $now";
+		
+		
+		$preuve = $this->signServer->getTimestampReply($message_horodate);
+		$date_horodatage = "";
+		if ($preuve){
+			$date_horodatage = $this->signServer->getLastTimestamp();
+		}
+		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		$this->sqlQuery->query($sql,array($type,$id_e,$this->id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage));
+		
+		return $preuve;
 	}
+	
+	public function addPreuve($id_j,$preuve,$date_horodatage){
+		$sql = "UPDATE journal SET preuve=?, date_horodatage=? WHERE id_j= ?";
+		$this->sqlQuery->query($sql,$preuve,$date_horodatage,$id_j);
+	}
+	
 	
 	public function getAll($id_e,$type,$id_d,$offset,$limit){
 		
@@ -101,4 +119,18 @@ class Journal {
 		$type_string = array(1=>"Action sur un document","Notification","Gestion des entités","Gestion des utilisateurs");
 		return $type_string[$type];
 	}
+	
+	public function getInfo($id_j){
+		$sql = "SELECT * FROM journal WHERE id_j=?";
+		return $this->sqlQuery->fetchOneLine($sql,$id_j);
+	}
+	public function getAllInfo($id_j){
+		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
+			" LEFT JOIN document ON journal.id_d = document.id_d " .
+			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
+			" LEFT JOIN utilisateur ON journal.id_u = utilisateur.id_u " .
+			" WHERE id_j=?"; 
+		return $this->sqlQuery->fetchOneLine($sql,$id_j);
+	}
+	
 }

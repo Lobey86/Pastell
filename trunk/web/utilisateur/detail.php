@@ -3,7 +3,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
-
+require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -15,6 +15,9 @@ $info = $utilisateur->getInfo();
 if (! $info){
 	header("Location: ".SITE_BASE . "index.php");
 }
+
+$certificat = new Certificat($info['certificat']);
+
 
 $roleDroit = new RoleDroit();
 
@@ -94,6 +97,14 @@ include( PASTELL_PATH ."/include/haut.php");
 <th>Date d'inscription</th>
 <td><?php echo $info['date_inscription'] ?></td>
 </tr>
+
+<?php if ($certificat->isValid()) : ?>
+<tr>
+<th>Certificat</th>
+<td><a href='utilisateur/certificat.php?verif_number=<?php echo $certificat->getVerifNumber() ?>'><?php echo $certificat->getFancy() ?></a></td>
+</tr>
+<?php endif;?>
+
 </table>
 </div>
 

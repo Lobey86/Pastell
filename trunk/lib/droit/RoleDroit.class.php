@@ -30,6 +30,8 @@ class RoleDroit {
 									'fournisseur-inscription:edition',
 									'fournisseur-message:lecture',
 									'fournisseur-message:edition',
+									'message-service:edition',
+									'message-service:lecture'
 					),
 					'lecteur' => array(
 									'entite:lecture',

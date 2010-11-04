@@ -9,6 +9,7 @@ class TedetisEnvoie  extends ActionExecutor {
 	public function go(){
 		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');
 		
+		
 		$tedetis = new Tedetis($collectiviteProperties);
 		
 		if (!  $tedetis->postActes($this->getDonneesFormulaire()) ){

@@ -37,4 +37,16 @@ class UtilisateurListe {
 		return $this->sqlQuery->fetchAll($sql,$id_e);
 	}
 	
+	public function getUtilisateurByCertificat($verif_number,$offset,$limit){
+		$sql = "SELECT * FROM utilisateur" .
+				" WHERE certificat_verif_number = ? " .
+				" ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
+		return $this->sqlQuery->fetchAll($sql,$verif_number);
+	}
+	
+	public function getNbUtilisateurByCertificat($verif_number){
+		$sql = "SELECT count(*) FROM utilisateur WHERE certificat_verif_number=?";
+		return $this->sqlQuery->fetchOneValue($sql,$verif_number);
+	}
+	
 }
