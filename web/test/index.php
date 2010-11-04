@@ -13,7 +13,13 @@ include( PASTELL_PATH ."/include/haut.php");
 
 include (PASTELL_PATH."/include/bloc_message.php"); ?>
 
+<?php if ( ENABLE_VERIF_ENVIRONNEMENT ) :  ?>
+
+<a href='test/verif-environnement.php'>Vérifier l'environnement</a>
+<br/><br/>
+<?php endif; ?>
 <div class="box_contenu clearfix">
+
 
 <h2>Test du SignServer</h2>
 <br/>

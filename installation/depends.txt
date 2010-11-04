@@ -1,5 +1,0 @@
-apache
-php5
-pear
-pear Mail
-php-apc (facultatif)
