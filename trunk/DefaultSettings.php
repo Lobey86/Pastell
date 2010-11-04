@@ -49,16 +49,18 @@ if (! defined("SIGN_SERVER_URL")){
 	define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");
 }
 
-if (! defined("SIGN_SERVER_ENABLED")){
-	define("SIGN_SERVER_ENABLED",false);
-}
-
 if (! defined("SIGN_SERVER_CERTIFICATE")){
 	define("SIGN_SERVER_CERTIFICATE", "");
 }
 
+//Attention, il faut une version d'openSSL > 1.0.0a 
 if (! defined("OPENSSL_PATH")){
 	define("OPENSSL_PATH","/home/eric/Logiciel/openssl-1.0.0a/apps/openssl");
+}
+
+//Si présent, alors il est possible de vérifier l'environnement sur la page de test
+if (! defined("ENABLE_VERIF_ENVIRONNEMENT")){
+	define("ENABLE_VERIF_ENVIRONNEMENT",false);
 }
 
 
