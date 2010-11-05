@@ -25,7 +25,7 @@ class NotificationMail {
 			$this->zenMail->setSujet("[Pastell] Notification");
 			$this->zenMail->setContenu(utf8_encode($message));
 			$this->zenMail->send();
-			$this->journal->add(Journal::NOTIFICATION,$id_e,$id_d,$action,"notification envoyée à $mail");
+			$this->journal->addActionAuto(Journal::NOTIFICATION,$id_e,$id_d,$action,"notification envoyée à $mail");
 		}
 		
 	}
