@@ -41,7 +41,6 @@ foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 			
 			$c = new $class($zLog,$sqlQuery,$id_d,$id_e,0,$infoDocument['type']);
 			
-			$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 			$c->setCollectiviteProperties($collectiviteProperties);
 			$c->setNotificationMail($notificationMail);
 			$c->go();			
