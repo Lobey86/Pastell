@@ -25,9 +25,7 @@ $documentTypeFactory = new DocumentTypeFactory();
 
 
 foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
-	foreach($tabAction as $action => $class){
-		
-		
+	foreach($tabAction as $action => $class){	
 		foreach ($documentEntite->getFromAction($type,$action) as $infoDocument){
 
 			$id_d = $infoDocument['id_d'];
