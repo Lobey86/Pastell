@@ -101,7 +101,7 @@ class EntiteListe {
 			} else {
 				$result[] = array(
 							'id_e' => 0,
-							'denomination' => "toutes les collecitivtés", 
+							'denomination' => "toutes les collectivités", 
 							'profondeur' => 0);
 			} 
 			

@@ -14,10 +14,6 @@ $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
 $tab_number = $recuperateur->getInt('page',0);
 
-if (! $id_e){
-	header("Location: index.php");
-	exit;
-}
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)){
 	header("Location: index.php");
@@ -25,7 +21,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$i
 }
 
 $entite = new Entite($sqlQuery,$id_e);
-if (! $entite->exists()){
+if ($id_e && ! $entite->exists()){
 	header("Location: index.php");
 	exit;
 }
@@ -41,9 +37,11 @@ if ($info['type'] == Entite::TYPE_FOURNISSEUR) {
 	$transactionFinder = new TransactionFinder($sqlQuery);
 	$lastTransaction = $transactionFinder->getLastTransactionBySiren($siren,FluxInscriptionFournisseur::TYPE);
 }
-
-$page_title = "Détail " . $info['denomination'];
-
+if ($id_e){
+	$page_title = "Détail " . $info['denomination'];
+} else {
+	$page_title = "Utilisateurs globaux";
+}
 $infoMere = false;
 if ($info['entite_mere']){
 	$entiteMere = new Entite($sqlQuery,$info['entite_mere']);
@@ -82,6 +80,7 @@ if ($info['type'] == Entite::TYPE_COLLECTIVITE) {
 	$afficheurFormulaire->afficheTab($tab_number,"entite/detail.php?id_e=$id_e");
 }	
 ?>
+<?php if ($id_e) : ?>
 <div class="box_contenu clearfix">
 
 <?php if ($tab_number == 0) : ?>
@@ -231,9 +230,17 @@ $actionPossible->setEntite($entite);
 <?php endif;?>
 
 </div>
+<?php endif;?>
+
 
 <div class="box_contenu">
-<h2>Liste des utilisateurs</h2>
+<h2>Liste des utilisateurs
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$id_e)) : ?>
+<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn_add'>
+		Nouveau
+	</a>
+<?php endif;?>
+</h2>
 
 <table class='<?php echo $info['type'] != Entite::TYPE_FOURNISSEUR?"tab_02":"tab_03" ?>'>
 <tr>

@@ -20,7 +20,6 @@ if (count($liste_collectivite) == 1){
 	}
 }
 
-
 $page_title = "Liste des collectivités";
 
 
@@ -59,6 +58,9 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php endforeach; ?>
 </table>
 
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",0)) : ?>
+Voir les <a href='entite/detail.php?id_e=0'>utilisateurs globaux</a>
+<?php endif;?>
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

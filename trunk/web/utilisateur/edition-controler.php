@@ -12,7 +12,7 @@ require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');
-$id_e = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e');
 $id_u = $recuperateur->get('id_u');
 
 $login = $recuperateur->get('login');
@@ -24,12 +24,11 @@ $role = $recuperateur->get('role');
 
 $redirection = new Redirection("edition.php?id_e=$id_e&id_u=$id_u");
 
-//$entite = new Entite($sqlQuery,$id_e);
 
-/*if (! $entite->exists() && ! $id_u){
-	$lastError->setLastError("L'entité est est inconnu");
-	$redirection->redirect();
-}*/
+if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$id_e)) {
+	header("Location: " . SITE_BASE . "index.php");
+	exit;
+}
 
 if (! $id_u){
 	$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
@@ -68,6 +67,13 @@ $utilisateur->setEmail($email);
 $utilisateur->setLogin($login);
 $utilisateur->setColBase($id_e);
 
+$roleUtilisateur = new RoleUtilisateur($sqlQuery);
+$allRole = $roleUtilisateur->getRole($id_u);
+if (! $allRole ){
+	$roleUtilisateur->addRole($id_u,RoleDroit::AUCUN_DROIT,$id_e);
+}
 
-
+$journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,$authentification->getId(),"edition",
+				"Edition de l'utilisateur $login ($id_u)");	
+	
 $redirection->redirect(SITE_BASE . "utilisateur/detail.php?id_u=$id_u");

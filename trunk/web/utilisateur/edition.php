@@ -6,6 +6,7 @@ require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_u = $recuperateur->get('id_u');
+$id_e = $recuperateur->getInt('id_e');
 
 
 $infoUtilisateur = array('login' =>  $lastError->getLastInput('login'),
@@ -13,7 +14,7 @@ $infoUtilisateur = array('login' =>  $lastError->getLastInput('login'),
 					'prenom' =>  $lastError->getLastInput('prenom'),
 					'email'=> $lastError->getLastInput('email'),
 					'certificat' => '',
-					'id_e' => '',
+					'id_e' => $id_e,
 );
 
 
@@ -26,6 +27,14 @@ if ($id_u){
 		exit;
 	}
 }
+
+if  (! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$infoUtilisateur['id_e'])){
+	header("Location: ". SITE_BASE . "index.php");
+	exit;
+}
+
+$entite =  new Entite($sqlQuery,$infoUtilisateur['id_e']);
+$infoEntite = $entite->getInfo();
 
 
 $certificat = new Certificat($infoUtilisateur['certificat']);
@@ -44,8 +53,11 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php if ($id_u) : ?>
 <a href='utilisateur/detail.php?id_u=<?php echo $id_u ?>'>« Revenir à <?php echo $infoUtilisateur['prenom']." ". $infoUtilisateur['nom']?></a>
+<?php elseif ($id_e) : ?>
+<a href='entite/detail.php?id_e=<?php echo $id_e ?>'>« Revenir à <?php echo $infoEntite['denomination'] ?></a>
 <?php else : ?>
-<a href='utilisateur/index.php'>« Revenir à la liste des utilisateurs</a>
+<a href='entite/detail.php?id_e=<?php echo $id_e ?>'>« Revenir à la liste des utilisateurs globaux</a>
+
 <?php endif;?>
 <br/><br/>
 

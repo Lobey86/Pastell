@@ -33,24 +33,14 @@ $notification = new Notification($sqlQuery);
 
 $roleInfo =  $roleUtilisateur->getRole($id_u);
 
-$utilisateur_edition = false;
-$utilisateur_lecture = false;
 
-foreach($roleInfo as $role){
-	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$role['id_e'])) {
-		$utilisateur_edition = true;
-	}
-	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$role['id_e'])) {
-		$utilisateur_lecture = true;
-	}
-}
-
-if (! $utilisateur_lecture){
-	header("Location: index.php");
+if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$info['id_e'])) {
+	header("Location: " . SITE_BASE . "index.php");
 	exit;
 }
 
-$denominationEntiteDeBase = "Aucune";
+$utilisateur_edition = $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$info['id_e']);
+
 
 if( $info['id_e'] ){
 	$entiteDeBase = new Entite($sqlQuery,$info['id_e']);
@@ -63,7 +53,6 @@ include( PASTELL_PATH ."/include/haut.php");
 
 
 ?>
-<a href='utilisateur/index.php'>« liste des utilisateurs</a>
 
 <br/><br/>
 
@@ -110,7 +99,15 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <tr>
 <th>Entité de base</th>
-<td><?php echo $denominationEntiteDeBase ?></td>
+<td>
+	<a href='entite/detail.php?id_e=<?php echo $info['id_e']?>'>
+		<?php if ($info['id_e']) : ?>
+			<?php echo $denominationEntiteDeBase ?>
+		<?php else : ?>
+			Utilisateur global
+		<?php endif;?>
+	</a> 
+</td>
 </tr>
 
 <?php if ($certificat->isValid()) : ?>

@@ -26,7 +26,7 @@ class OpensslTSWrapper {
 	}
 	
 	public function getTimestampQuery($data){
-		return $this->execute("echo $data | " . $this->opensslPath." ts -query");
+		return $this->execute("echo ".escapeshellcmd($data)." | " . $this->opensslPath." ts -query");
 	}
 	
 	public function getTimestampQueryString($timestampQuery){
