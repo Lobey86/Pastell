@@ -5,7 +5,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
-$fileName = PASTELL_PATH . "/base-agent/agent.csv";
+$fileName = PASTELL_PATH . "/data-exemple/agent.csv";
 if (! file_exists($fileName)){
 	exit;
 }

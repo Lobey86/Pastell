@@ -5,7 +5,7 @@ $agent = $recuperateur->get('agent');
 $matricule = $agent[0];
 
 
-$fileName = PASTELL_PATH . "/base-agent/agent.csv";
+$fileName = PASTELL_PATH . "/data-exemple/agent.csv";
 if (! file_exists($fileName)){
 	exit;
 }
