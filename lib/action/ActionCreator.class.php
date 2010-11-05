@@ -31,16 +31,21 @@ class ActionCreator {
 		$sql = "SELECT id_a FROM document_action WHERE id_d=? AND date=? AND action=? AND id_e=? AND id_u=?";
 		$this->id_a =  $this->sqlQuery->fetchOneValue($sql,$this->id_d,$now,$action,$id_e,$id_u);
 	
-		$this->addToEntite($id_e,$message_journal);
+		$this->addToSQL($id_e,$id_u,$message_journal);
 	}
 	
 	public function addToEntite($id_e,$message_journal){
+		$this->addToSQL($id_e,0,$message_journal);
+	}
+	
+	private function addToSQL($id_e,$id_u,$message_journal){
 		assert('$this->id_a');
 		
 		$sql = "INSERT INTO document_action_entite (id_a,id_e) VALUES (?,?)";
 		$this->sqlQuery->query($sql,$this->id_a,$id_e);
 		
-		$this->journal->add(Journal::DOCUMENT_ACTION,$id_e,$this->id_d,$this->lastAction,$message_journal);
+		$this->journal->addSQL(Journal::DOCUMENT_ACTION,$id_e,$id_u,$this->id_d,$this->lastAction,$message_journal);
+		
 	}
 		
 }

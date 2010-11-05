@@ -6,7 +6,7 @@ require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
 
-require_once (PASTELL_PATH . "/include/navigation_collectivite.php");
+require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -27,20 +27,14 @@ foreach($allDroit as $droit){
 	}
 }	
 
-$liste_collectivite = array();
 
-
-if ($id_e == 0){
-	$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),"entite:lecture");
+$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),"entite:lecture");
 	
-	if (count($liste_collectivite) == 1){
-		$id_e = $liste_collectivite[0];
-	}
-	
-} 
+if (! $id_e && count($liste_collectivite) == 1){
+	$id_e = $liste_collectivite[0];
+}
 
-
-if ($id_e == 0 && count($liste_collectivite) == 0){
+if ( ($id_e == 0) && (count($liste_collectivite) == 0)){
 	header("Location: ".SITE_BASE."/nodroit.php");
 	exit;
 }
@@ -71,13 +65,10 @@ if ($id_e != 0) {
 
 
 
-if ( ! $id_e   && $liste_collectivite[0] != 0){
-	navigation_racine($liste_collectivite,"document/index.php?a=a");
-	
-} else {
-	navigation_collectivite($entite,"document/index.php?a=a");
-	
-}
+$navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
+
+$navigationEntite->affiche("document/index.php?a=a");
+
 if ($id_e) : ?>
 <a href='journal/index.php?id_e=<?php echo $id_e?>'>Voir le journal des évènements</a>
 <br/><br/>

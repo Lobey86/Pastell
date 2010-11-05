@@ -151,7 +151,7 @@ CREATE TABLE utilisateur (
 
 CREATE TABLE utilisateur_role (
   id_u int(11) NOT NULL,
-  role varchar(16) NOT NULL,
+  role varchar(32) NOT NULL,
   id_e int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

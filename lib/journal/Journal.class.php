@@ -35,8 +35,16 @@ class Journal {
 	}
 	
 	public function add($type,$id_e,$id_d,$action,$message){
+		return $this->addSQL($type,$id_e,$this->id_u,$id_d,$action,$message);
+	}
+	
+	public function addActionAuto($type,$id_e,$id_d,$action,$message){
+		return $this->addSQL($type,$id_e,0,$id_d,$action,$message);
+	}
+	
+	public function addSQL($type,$id_e,$id_u,$id_d,$action,$message){
 		$now = date(Date::DATE_ISO);
-		$message_horodate = "$type - $id_e - ".$this->id_u." - $id_d - $action - $message - $now";
+		$message_horodate = "$type - $id_e - $id_u - $id_d - $action - $message - $now";
 		
 		$preuve = $this->signServer->getTimestampReply($message_horodate);
 		$date_horodatage = "";
@@ -44,10 +52,11 @@ class Journal {
 			$date_horodatage = $this->signServer->getLastTimestamp();
 		}
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
-		$this->sqlQuery->query($sql,array($type,$id_e,$this->id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage));
+		$this->sqlQuery->query($sql,array($type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage));
 		
 		return $preuve;
 	}
+	
 	
 	public function getAll($id_e,$type,$id_d,$offset,$limit){
 		

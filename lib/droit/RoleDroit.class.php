@@ -44,8 +44,27 @@ class RoleDroit {
 									'fournisseur-message:edition',
 									'journal:lecture',
 									'entite:lecture',
-								
 								),
+								
+								
+					'agent collectivite' => array(
+									'rh-actes:edition',
+									'rh-actes:lecture',
+									'rh-messages:edition',
+									'rh-messages:lecture',
+									'entite:lecture',
+									'journal:lecture',
+								),
+								
+					'agent centre de gestion' => array(
+								'rh-actes:edition',
+								'rh-actes:lecture',
+								'rh-messages:edition',
+								'rh-messages:lecture',
+								'entite:lecture',
+								'journal:lecture',
+							),		
+								
 					'testeur' => array('test:lecture','test:edition')
 
 			);

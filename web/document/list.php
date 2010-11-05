@@ -4,7 +4,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
-require_once (PASTELL_PATH . "/include/navigation_collectivite.php");
+require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
@@ -23,21 +23,18 @@ $limit = 20;
 
 $documentType = $documentTypeFactory->getDocumentType($type);
 
-$liste_collectivite = array();
+$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),$type.":lecture");
 
-if ($id_e == 0){
-	$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),$type.":lecture");
+if ( ! $liste_collectivite){
+	header("Location: ". SITE_BASE . "/index.php");
+	exit;
+}
 
-	if ( ! $liste_collectivite){
-		header("Location: ". SITE_BASE . "/index.php");
-		exit;
-	}
-
-	if (count($liste_collectivite) == 1){
+if (!$id_e && (count($liste_collectivite) == 1)){
 		$id_e = $liste_collectivite[0];
-	}
+}
 	
-} else if  (! $roleUtilisateur->hasDroit($authentification->getId(),$type.":lecture",$id_e)){
+if  (! $roleUtilisateur->hasDroit($authentification->getId(),$type.":lecture",$id_e)){
 	header("Location: ".SITE_BASE . "/index.php");
 	exit;
 }
@@ -84,12 +81,12 @@ if ($id_e != 0) {
 
 }
 
+$navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
 
-if (!$id_e && ! $roleUtilisateur->hasDroit($authentification->getId(),"$type:lecture",$id_e) ){
-	navigation_racine($liste_collectivite,"document/list.php?type=$type");
-} else {
-	navigation_collectivite($entite,"document/list.php?type=$type");
-}
+$navigationEntite->affiche("document/list.php?type=$type");
+
+
+
 if ($id_e) : ?>
 <a href='journal/index.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Voir le journal des évènements</a>
 <br/><br/>
