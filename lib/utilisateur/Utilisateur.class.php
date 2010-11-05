@@ -75,6 +75,11 @@ class Utilisateur {
 		$this->sqlQuery->query($sql,$login,$this->id_u);
 	}
 	
+	public function setColBase($id_e){
+		$sql = "UPDATE utilisateur SET id_e = ? WHERE id_u = ?";
+		$this->sqlQuery->query($sql,$id_e,$this->id_u);
+	}
+	
 	public function removeCertificat(){
 		$this->updateCertificat("","");
 	}

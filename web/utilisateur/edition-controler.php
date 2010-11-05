@@ -24,14 +24,14 @@ $role = $recuperateur->get('role');
 
 $redirection = new Redirection("edition.php?id_e=$id_e&id_u=$id_u");
 
-$entite = new Entite($sqlQuery,$id_e);
+//$entite = new Entite($sqlQuery,$id_e);
 
-if (! $entite->exists() && ! $id_u){
+/*if (! $entite->exists() && ! $id_u){
 	$lastError->setLastError("L'entité est est inconnu");
 	$redirection->redirect();
-}
+}*/
 
-if ($id_e){
+if (! $id_u){
 	$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
 	$id_u = $utilisateurCreator->create($login,$password,$password2,$email);
 	
@@ -55,7 +55,7 @@ if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
 	} 
 }
 
-if (! $id_e && $password && $password2 ){
+if ( $password && $password2 ){
 	if ($password != $password2){
 		$lastError->setLastError("Les mot de passes ne correspondent pas");
 		$redirection->redirect();
@@ -66,16 +66,8 @@ $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
 $utilisateur->setEmail($email);
 $utilisateur->setLogin($login);
+$utilisateur->setColBase($id_e);
 
 
-
-
-if ( $id_e ){
-	$infoUtilisateur = $utilisateur->getInfo();
-	$roleUtilisateur->addRole($id_u,$role,$id_e);
-	
-	$notification = new Notification($sqlQuery);
-	$notification->add($id_u,$id_e,0,0);
-}
 
 $redirection->redirect(SITE_BASE . "utilisateur/detail.php?id_u=$id_u");

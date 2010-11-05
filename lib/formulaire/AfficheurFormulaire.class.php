@@ -85,8 +85,10 @@ class AfficheurFormulaire {
 						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName())?></textarea>
 					<?php elseif($field->getType() == 'file') :?>
 						<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
+						<?php if ($field->isMultiple()): ?>
+							<input class='input_normal' type='submit' name='ajouter' value='Ajouter' />
+						<?php endif;?>
 						<br/>
-						
 					<?php 
 					
 						if ($this->donneesFormulaire->get($field->getName())) : 

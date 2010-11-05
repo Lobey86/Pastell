@@ -67,6 +67,10 @@ $titre = $donneesFormulaire->get($titre_field);
 $document->setTitre($id_d,$titre);
 
 
+if ( $recuperateur->get('ajouter') ){
+	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
+	exit;
+}
 if ( $recuperateur->get('suivant') ){
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=".($page+1));
 	exit;
