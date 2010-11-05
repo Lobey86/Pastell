@@ -36,10 +36,12 @@ abstract class ActionExecutor {
 	private $documentTypeFactory;
 	private $document;
 	private $donneesFormulaireFactory;
+	private $zLog;
 	
 	
 	public function __construct(ZLog $zLog, SQLQuery $sqlQuery,$id_d,$id_e,$id_u,$type){
 		
+		$this->zLog = $zLog;
 		$this->sqlQuery = $sqlQuery;
 		
 		$this->id_d = $id_d;
@@ -71,6 +73,10 @@ abstract class ActionExecutor {
 	
 	public function setAction($action){
 		$this->action = $action;
+	}
+	
+	public function getZLog(){
+		return $this->zLog;
 	}
 	
 	public function getSQLQuery(){

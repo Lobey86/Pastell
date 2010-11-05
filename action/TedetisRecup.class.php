@@ -40,7 +40,7 @@ class TedetisRecup extends ActionExecutor {
 		$this->notify('acquiter-tdt', 'rh-actes',$message);
 		
 		
-		$envoieCDG = new EnvoieCDG($this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
+		$envoieCDG = new EnvoieCDG($this->getZLog(), $this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
 		$envoieCDG->setNotificationMail($this->getNotificationMail());
 		$envoieCDG->go();
 		
