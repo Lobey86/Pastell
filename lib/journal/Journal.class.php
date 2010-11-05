@@ -38,7 +38,6 @@ class Journal {
 		$now = date(Date::DATE_ISO);
 		$message_horodate = "$type - $id_e - ".$this->id_u." - $id_d - $action - $message - $now";
 		
-		
 		$preuve = $this->signServer->getTimestampReply($message_horodate);
 		$date_horodatage = "";
 		if ($preuve){
@@ -49,12 +48,6 @@ class Journal {
 		
 		return $preuve;
 	}
-	
-	public function addPreuve($id_j,$preuve,$date_horodatage){
-		$sql = "UPDATE journal SET preuve=?, date_horodatage=? WHERE id_j= ?";
-		$this->sqlQuery->query($sql,$preuve,$date_horodatage,$id_j);
-	}
-	
 	
 	public function getAll($id_e,$type,$id_d,$offset,$limit){
 		

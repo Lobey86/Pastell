@@ -28,7 +28,6 @@ class SignServer {
 		$this->lastTimestamp = "";
 		$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);
 		
-		
 		$url = $this->url . "&encoding=base64&data=" . urlencode(base64_encode($timestampRequest));
 		$timestampReply = $this->curlWrapper->get($url);
 		
@@ -41,6 +40,12 @@ class SignServer {
 	  	
 	  	
 	  	preg_match("/Time stamp: (.*)\n/",$reply,$matches);
+	  	
+	  	if (! isset($matches[1])){
+	  		$this->lastTimestamp = false;
+	  		$this->lastError = "Le timestamp n'a pas pu être récupéré";
+	  		return false;
+	  	}
 	  	
 	  	$this->lastTimestamp = date(Date::DATE_ISO,strtotime($matches[1]));
 	  	

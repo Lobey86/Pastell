@@ -62,7 +62,6 @@ class UtilisateurCreator {
 		
 		$id_u =  $this->sqlQuery->fetchOneValue("SELECT id_u FROM utilisateur WHERE login=?",array($login));
 		
-		$this->journal->add(Journal::MODIFICATION_UTILISATEUR,0,0,"creation","Création de l'utilisateur $login ($id_u)");	
 		
 		return $id_u;
 	}

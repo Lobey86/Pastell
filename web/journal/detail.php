@@ -75,8 +75,10 @@ include( PASTELL_PATH ."/include/haut.php");
 		<th>Preuve </th>
 		<td>
 			<a href='journal/preuve.php?id_j=<?php echo $id_j?>'>Télécharger</a><br/><br/>
-				
-				<?php echo  $info['preuve']?></td>
+			<pre>
+				<?php echo  $opensslTSWrapper->getTimestampReplyString($info['preuve']) ?>
+			</pre>		
+		</td>
 </tr>
 </table>
 </div>

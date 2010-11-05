@@ -22,6 +22,7 @@ if (! $infoUtilisateur['mail_verifie']) {
 	exit;
 }
 
-$signServer = new SignServer(SIGN_SERVER_URL,new OpensslTSWrapper(OPENSSL_PATH,$zLog));
+$opensslTSWrapper = new OpensslTSWrapper(OPENSSL_PATH,$zLog);
+$signServer = new SignServer(SIGN_SERVER_URL,$opensslTSWrapper);
 
 $journal = new Journal($signServer,$sqlQuery,$authentification->getId());

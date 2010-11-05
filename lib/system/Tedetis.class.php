@@ -77,9 +77,11 @@ class Tedetis {
 		$file_name = $file_name[0];
 		$this->curlWrapper->addPostFile('acte_pdf_file',$file_path,$file_name);
 				
-		foreach($donneesFormulaire->get('autre_document_attache') as $i => $file_name){
-			$file_path = $donneesFormulaire->getFilePath('autre_document_attache',$i);
-			$this->curlWrapper->addPostFile('acte_attachments[]', $file_path,$file_name) ;
+		if ($donneesFormulaire->get('autre_document_attache')){
+			foreach($donneesFormulaire->get('autre_document_attache') as $i => $file_name){
+				$file_path = $donneesFormulaire->getFilePath('autre_document_attache',$i);
+				$this->curlWrapper->addPostFile('acte_attachments[]', $file_path,$file_name) ;
+			}
 		}
 		
 		$classification  = $donneesFormulaire->get('classification');
