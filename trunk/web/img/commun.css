@@ -262,7 +262,7 @@ float:right;
 height:28px;
 }
 
-/* divers élément de base */
+/* divers ï¿½lï¿½ment de base */
 
 hr {margin:10px 0 10px 0;border:0;border-bottom:1px solid #D3DBDE;height:1px;}
 img {border:0;}
@@ -368,3 +368,6 @@ height:24px;
 .w700 {width:700px;}
 
 .txt_rouge {color:#FF0000;}
+
+
+.input_normal {width: 100px;}

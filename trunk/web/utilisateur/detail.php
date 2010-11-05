@@ -50,6 +50,15 @@ if (! $utilisateur_lecture){
 	exit;
 }
 
+$denominationEntiteDeBase = "Aucune";
+
+if( $info['id_e'] ){
+	$entiteDeBase = new Entite($sqlQuery,$info['id_e']);
+	$infoEntiteDeBase = $entiteDeBase->getInfo();
+	$denominationEntiteDeBase = $infoEntiteDeBase['denomination'];
+}
+
+
 include( PASTELL_PATH ."/include/haut.php");
 
 
@@ -96,6 +105,12 @@ include( PASTELL_PATH ."/include/haut.php");
 <tr>
 <th>Date d'inscription</th>
 <td><?php echo $info['date_inscription'] ?></td>
+</tr>
+
+
+<tr>
+<th>Entité de base</th>
+<td><?php echo $denominationEntiteDeBase ?></td>
 </tr>
 
 <?php if ($certificat->isValid()) : ?>

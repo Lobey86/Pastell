@@ -25,7 +25,11 @@ suivant_precedent($offset,$limit,$count);
 
 <div class="box_contenu clearfix">
 
-<h2>Utilisateurs</h2>
+<h2>Utilisateurs<?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"entite:edition")) : ?>
+	<a href="utilisateur/edition.php?" class='btn_add'>
+		Nouveau
+	</a>
+<?php endif;?></h2>
 
 <table class="tab_01">
 	<tr>
@@ -65,10 +69,7 @@ suivant_precedent($offset,$limit,$count);
 <?php endforeach; ?>
 </table>
 
-</div>
-<div class='box_info'>
-<p>Vous pouvez créer un nouvel utilisateur en cliquant sur la collectivité à laquelle celui-ci sera rattaché</p>
-</div>
 
+</div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

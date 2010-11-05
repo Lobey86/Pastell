@@ -233,13 +233,7 @@ $actionPossible->setEntite($entite);
 </div>
 
 <div class="box_contenu">
-<h2>Liste des utilisateurs<?php if ($info['type'] != Entite::TYPE_FOURNISSEUR ) :?>
-<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
-	<a href="utilisateur/edition.php?id_e=<?php echo $id_e ?>" class='btn_add'>
-		Nouveau
-	</a>
-<?php endif;?>
-<?php endif;?></h2>
+<h2>Liste des utilisateurs</h2>
 
 <table class='<?php echo $info['type'] != Entite::TYPE_FOURNISSEUR?"tab_02":"tab_03" ?>'>
 <tr>
