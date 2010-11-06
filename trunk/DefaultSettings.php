@@ -46,11 +46,18 @@ if (! defined("BD_DSN_TEST")){
 
 //Définition de la connexion au SignServer
 if (! defined("SIGN_SERVER_URL")){
-	define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");
+	//define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");
+	define("SIGN_SERVER_URL", "http://127.0.0.1/pastell/web/demo/timestamp-server.php?workerId=1");	
 }
 
+//Certificat de signature des timestamps
 if (! defined("SIGN_SERVER_CERTIFICATE")){
-	define("SIGN_SERVER_CERTIFICATE", "");
+	define("SIGN_SERVER_CERTIFICATE", PASTELL_PATH . "/data-exemple/timestamp-cert.pem");
+}
+
+//Autorité de certification du certificat de timestamp
+if (! defined("SIGN_SERVER_CA_CERTIFICATE")){
+	define("SIGN_SERVER_CA_CERTIFICATE", PASTELL_PATH . "/data-exemple/autorite-cert.pem");
 }
 
 //Attention, il faut une version d'openSSL > 1.0.0a 
