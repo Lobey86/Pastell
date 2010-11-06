@@ -26,7 +26,10 @@ class OpensslTSWrapper {
 	}
 	
 	public function getTimestampQuery($data){
-		return $this->execute("echo ".escapeshellcmd($data)." | " . $this->opensslPath." ts -query");
+		$dataFilePath = $this->getTmpFile($data);
+		$result = $this->execute($this->opensslPath." ts -query -data $dataFilePath");
+		unlink($dataFilePath);
+		return $result;
 	}
 	
 	public function getTimestampQueryString($timestampQuery){
@@ -43,8 +46,21 @@ class OpensslTSWrapper {
 		return $result;
 	}
 	
-	public function verify(){
-		$this->lastError = "Pas encore implémenté";
+
+	public function verify($data,$timestampReply, $CAFilePath, $certFilePath){
+		$dataFilePath = $this->getTmpFile($data);
+		$timestampReplyFilePath = $this->getTmpFile($timestampReply);
+		
+		$command =  $this->opensslPath ." ts -verify " .
+					" -data $dataFilePath " . 
+					" -in $timestampReplyFilePath " . 
+					" -CAfile $CAFilePath" . 
+					" -untrusted $certFilePath 2>&1 ";
+		$result =  $this->execute( $command);
+		unlink($dataFilePath);
+		unlink($timestampReplyFilePath);
+				
+		$this->lastError = $result;
 		return false;	
 	}
 	

@@ -12,6 +12,7 @@ class CurlWrapper {
 	public function __construct(){
 		$this->curlHandle = curl_init();
 		$this->setProperties( CURLOPT_RETURNTRANSFER , 1); 
+		
 	}
 
 	public function __destruct(){

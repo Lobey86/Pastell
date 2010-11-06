@@ -80,6 +80,16 @@ include( PASTELL_PATH ."/include/haut.php");
 			</pre>		
 		</td>
 </tr>
+<tr>
+		<th>Vérification</th>
+		<td>
+			<?php if ($opensslTSWrapper->verify($info['message_horodate'],$info['preuve'], SIGN_SERVER_CA_CERTIFICATE, SIGN_SERVER_CERTIFICATE)) :?>
+				OK
+			<?php else : ?>
+				<?php echo  $opensslTSWrapper->getLastError() ?>
+			<?php endif;?>
+		</td>
+</tr>
 </table>
 </div>
 <?php 
