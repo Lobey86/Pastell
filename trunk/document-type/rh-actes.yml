@@ -78,6 +78,16 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'rh-actes:edition'
 
+	supression:
+		name: Supprimer
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+		action-class: Supprimer
+
 	send-tdt:
 		
 		name: Envoyer au contrôle de légalité
