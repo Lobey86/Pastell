@@ -23,7 +23,17 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'rh-messages:edition'
-		
+	
+	supression:
+		name: Supprimer
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+		action-class: Supprimer
+	
 	envoi :
 		name: Envoyer à une collectivité
 		rule:

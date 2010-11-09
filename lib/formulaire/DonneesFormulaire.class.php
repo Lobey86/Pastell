@@ -100,7 +100,11 @@ class DonneesFormulaire {
 	}
 	
 	public function removeFile($fieldName,$num = 0){
-		//TODO déplacement des fichiers
+		
+		for($i = $num + 1; $i < count($this->info[$fieldName]) ; $i++){
+			rename($this->getFilePath($fieldName,$i),$this->getFilePath($fieldName,$i - 1));
+		}
+		
 		array_splice($this->info[$fieldName],$num,1);
 		$dump = Spyc::YAMLDump($this->info);
 		file_put_contents($this->filePath,$dump);
@@ -129,6 +133,13 @@ class DonneesFormulaire {
 			}
 		}
 		return true;
+	}
+	
+	public function delete(){
+		$file_to_delete = glob($this->filePath."*");
+		foreach($file_to_delete as $file){
+			unlink($file);
+		}
 	}
 	
 }
