@@ -75,7 +75,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	</tr>
 	<tr>
 		<th>Révision</th>
-		<td><?php echo "$Revision$" ?></td>
+		<td><?php echo "" ?></td>
 	</tr>
 </table>
 
