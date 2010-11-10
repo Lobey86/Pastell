@@ -1,5 +1,5 @@
 <?php 
-
+ 
 //Ce fichier contient les valeurs par défaut
 
 if (file_exists( dirname( __FILE__) . "/../LocalSettings.php")){
