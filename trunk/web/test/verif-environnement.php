@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__)."/../init.php");
 
 
-$extensionNeeded = array("curl","mysql");
+$extensionNeeded = array("curl","mysql","openssl");
 
 $valeurMinimum = array(
 			"PHP" => "5.2",
