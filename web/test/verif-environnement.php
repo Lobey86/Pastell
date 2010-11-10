@@ -73,6 +73,10 @@ include( PASTELL_PATH ."/include/haut.php");
 		<th>OPENSSL_PATH</th>
 		<td><?php echo OPENSSL_PATH ?></td>
 	</tr>
+	<tr>
+		<th>Révision</th>
+		<td><?php echo "$Revision$" ?></td>
+	</tr>
 </table>
 
 
