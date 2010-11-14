@@ -20,6 +20,7 @@ formulaire:
 		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}
 		Archivage: {type: checkbox}
+		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
 		Objet: {requis: true, title: true}
 
 
@@ -42,6 +43,26 @@ formulaire:
 		Arreté: {type: file, requis: true}
 		Autre document attaché: {type: file, multiple: true}
 	
+			
+	Agent:
+		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
+		Matricule de l'agent: 
+		Nom patronymique: {requis: true}
+		Nom d'usage: 
+		Prénom : {requis: true}
+		Grade:
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+
+page-condition:
+	Agent:
+		show_page_agent: true
+		
+		
 action:
 	creation:
 		

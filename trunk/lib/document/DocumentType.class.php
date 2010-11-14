@@ -8,6 +8,7 @@ class DocumentType {
 	const NOM = 'nom';
 	const FORMULAIRE = 'formulaire';
 	const ACTION = 'action';
+	const PAGE_CONDITION = 'page-condition';
 	
 	private $type;
 	private $typeDefinition;
@@ -22,7 +23,11 @@ class DocumentType {
 	}
 	
 	public function getFormulaire(){
-		return new Formulaire($this->typeDefinition[self::FORMULAIRE]);
+		$formulaire =  new Formulaire($this->typeDefinition[self::FORMULAIRE]);
+		if (isset( $this->typeDefinition[self::PAGE_CONDITION])){
+			$formulaire->addPageCondition($this->typeDefinition[self::PAGE_CONDITION]);
+		}
+		return $formulaire;
 	}
 	
 	public function getAction(){

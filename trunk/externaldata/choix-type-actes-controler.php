@@ -9,7 +9,7 @@ $typeActes = new TypeActes(PASTELL_PATH . "/data-exemple/nomenclature.csv");
 
 $info = $typeActes->getInfo($classif);
 
-
+$info_classification = "";
 if ($info['transmission_actes']){
 
 	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,$type);	
