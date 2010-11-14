@@ -1,10 +1,11 @@
 Flux Généraux:
 	actes: Actes
-	message-service: Message
-	
-Flux RH:
-	rh-actes: Actes RH
+	message-service: Message Service
 	rh-messages: Message Centre de gestion
+	
+#Flux RH:
+	#rh-actes: Actes RH
+#	rh-messages: Message Centre de gestion
 	
 #Flux fournisseur :
 #	fournisseur-inscription: Inscription fournisseur
