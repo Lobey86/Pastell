@@ -5,10 +5,30 @@ class Formulaire {
 
 	private $formArray;
 	private $tabSelected;
+	private $pageCondition;
+	
 	
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
 		$this->setTabNumber(0);	
+	}
+	
+	public function addPageCondition(array $pageCondition){
+		$this->pageCondition = $pageCondition;
+	}
+	
+	public function addDonnesFormulaire(DonneesFormulaire $donnesFormulaire){
+		$page_a_enlever = array();
+		foreach($this->pageCondition as $page => $condition){
+			foreach($condition as $field => $value){
+				if ($donnesFormulaire->get($field) != $value){
+					$page_a_enlever[$page] = true;
+				}
+			}	
+		}
+		foreach($page_a_enlever as $page => $nb ){
+			unset($this->formArray[$page]);
+		}
 	}
 	
 	public function setTabNumber($tab_num){

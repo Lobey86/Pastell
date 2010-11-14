@@ -11,6 +11,7 @@ class AfficheurFormulaire {
 	public function __construct(Formulaire $formulaire, DonneesFormulaire $donneesFormulaire){
 		$this->formulaire = $formulaire;
 		$this->donneesFormulaire = $donneesFormulaire;
+		$this->formulaire->addDonnesFormulaire($donneesFormulaire);
 		$this->inject = array();	
 	}
 	

@@ -126,7 +126,7 @@ class DonneesFormulaire {
 	}
 	
 	public function isValidable(){
-		
+		$this->formulaire->addDonnesFormulaire($this);
 		foreach($this->formulaire->getAllFields() as $field){
 			if ($field->isRequired() && ! $this->get($field->getName())){
 				return false;
