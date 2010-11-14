@@ -15,6 +15,14 @@ $entiteListe = new EntiteListe($sqlQuery);
 
 $liste = $entiteListe->getAll($type);
 
+if (count($liste) == 0) {
+	
+	$lastError->setLastError("Aucune entité ($type) n'est disponible pour cette action");
+	header("Location: ".SITE_BASE."/document/detail.php?id_e=$id_e&id_d=$id_d");
+	exit;
+}
+
+
 $page_title = "Veuillez choisir le ou les destinataires du document ";
 
 include( PASTELL_PATH ."/include/haut.php");

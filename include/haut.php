@@ -53,8 +53,8 @@ $type_e_menu = $recuperateur->get('type',"");
 
 ?>
 <div id="main_menu">
-<a href="<?php echo SITE_BASE ?>index.php" class="picto_flux">Accueil</a>
-<a href="<?php echo SITE_BASE ?>entite/" class="picto_utilisateurs">Collectivités</a>
+<a href="<?php echo SITE_BASE ?>index.php" class="picto_flux">Documents</a>
+<a href="<?php echo SITE_BASE ?>entite/" class="picto_utilisateurs">Administration</a>
 <a href="<?php echo SITE_BASE ?>journal/index.php" class="picto_journal">Journal des évènements</a>
 <?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"fournisseur:lecture'")) : ?>
 	<a href="<?php echo SITE_BASE ?>entite/fournisseur.php" class="picto_fournisseurs">Fournisseurs</a>
