@@ -34,7 +34,14 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <div class="box_contenu clearfix">
 
+<h2>Information de version</h2>
+<table class='tab_04'>
 
+<tr>
+	<th>Révision</th>
+	<td><?php echo nl2br(file_get_contents( PASTELL_PATH."/revision.txt")) ?></td>
+</tr>
+</table>
 <h2>Extensions PHP</h2>
 
 <table class='tab_04'>
@@ -73,10 +80,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		<th>OPENSSL_PATH</th>
 		<td><?php echo OPENSSL_PATH ?></td>
 	</tr>
-	<tr>
-		<th>Révision</th>
-		<td><?php echo "" ?></td>
-	</tr>
+	
 </table>
 
 
