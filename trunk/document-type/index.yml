@@ -1,4 +1,5 @@
 Flux Généraux:
+	actes: Actes
 	message-service: Message
 	
 Flux RH:
