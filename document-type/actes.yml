@@ -1,0 +1,173 @@
+nom: Actes 
+
+type: Général
+
+formulaire:
+	Informations générales:
+		Siren de la collectivité: {read-only: true, data: siren}
+		type: 
+			name: Classification interne
+			type: externalData
+			script: choix-type-actes.php
+			script-controler: choix-type-actes-controler.php
+			link_name: Choisir un type d'Actes
+		classification:
+			name: Classification Actes
+			type: externalData
+			script: choix-classification.php
+			script-controler: choix-classification-controler.php
+			link_name: liste des matières et sous-matières
+		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
+		envoi_cdg: {name: Transmission au CDG, type: checkbox}
+		Archivage: {type: checkbox}
+		Objet: {requis: true, title: true}
+
+
+	Actes:
+		acte_nature:
+			name: Nature de l'acte
+			type: select
+			requis: true
+			value: 
+				3: Arrêtés Individuels
+				2: Arrêtés réglementaires
+				6: Autres
+				4: Contrats et conventions
+				1: Délibérations
+				5: Documents budgétaires et financiers
+				
+	
+		Numéro de l'acte:  {requis: true}
+		Date de l'acte: {type: date, requis: true}
+		Arreté: {type: file, requis: true}
+		Autre document attaché: {type: file, multiple: true}
+	
+action:
+	creation:
+		
+		name: Créer
+		
+		rule:
+			no-last-action:
+			droit_id_u: 'actes:edition'
+			type_id_e: 
+				service
+				collectivite
+		
+	modification:
+	
+		name: Modifier
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+
+	supression:
+		name: Supprimer
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: Supprimer
+
+	send-tdt:
+		
+		name: Envoyer au contrôle de légalité
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content: 
+				envoi_tdt: true
+	
+		action-class: TedetisEnvoie
+		auto-class: TedetisRecup
+		
+	acquiter-tdt:
+		name: Acquittement du contrôle de légalité reçu.
+		
+		rule:
+			role_id_e: no-role
+
+	
+	send-cdg-manuel:
+		name: Envoyer au CDG
+	
+		rule:
+			last-action: 
+				modification
+				creation
+			
+			document_is_valide: true
+			content: 
+				envoi_tdt: false
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+		action-class: EnvoieCDG
+			
+	send-cdg:
+	
+		name: Envoyer au CDG
+	
+		rule:
+			last-action: acquiter-tdt
+			role_id_e: no-role
+					
+					
+	recu-cdg:
+		name: Reçu par le CDG
+		rule:
+			role_id_e: no-role
+		
+	tdt-error:
+		name: Erreur sur le Tedetis
+		rule:
+			role_id_e: no-role					
+					
+	send-ged:
+		
+		name: Enregistrer dans la GED
+	
+		rule:
+			last-action: 
+				recu-cdg
+				send-archive 
+				
+			no-action:
+				send-ged
+				
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
+			droit_id_u: 'actes:edition'
+			properties: 
+				has_ged: manuel
+		action-class: Defaut
+	
+	send-archive:
+	
+		name: Archiver
+	
+		rule:
+			last-action: 
+				recu-cdg
+				send-ged
+			no-action:
+				send-archive	
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
+			droit_id_u: 'actes:edition'
+			properties: 
+				has_archivage: manuel
+		action-class: Defaut
+			
+	 
+	 	
