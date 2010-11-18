@@ -146,6 +146,7 @@ CREATE TABLE utilisateur (
   prenom varchar(128) NOT NULL,
   certificat TEXT NOT NULL,
   certificat_verif_number VARCHAR( 16 ) NOT NULL,
+	id_e int(11) NOT NULL,
   PRIMARY KEY (id_u)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
