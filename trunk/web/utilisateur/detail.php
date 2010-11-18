@@ -13,6 +13,7 @@ $utilisateur = new Utilisateur($sqlQuery,$id_u);
 
 $info = $utilisateur->getInfo();
 if (! $info){
+	$lastError->setLastError("Utilisateur $id_u inconnu");
 	header("Location: ".SITE_BASE . "index.php");
 }
 
@@ -35,6 +36,7 @@ $roleInfo =  $roleUtilisateur->getRole($id_u);
 
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$info['id_e'])) {
+	$lastError->setLastError("Vous n'avez pas le droit de lecture (".$info['id_e'].")");
 	header("Location: " . SITE_BASE . "index.php");
 	exit;
 }

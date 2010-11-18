@@ -8,7 +8,7 @@ $extensionNeeded = array("curl","mysql","openssl","simplexml");
 $valeurMinimum = array(
 			"PHP" => "5.2",
 			"OpenSSL" => '1.0.0a',
-			
+		
 );
 
 
@@ -24,8 +24,8 @@ if ( ! ENABLE_VERIF_ENVIRONNEMENT ){
 $cmd =  OPENSSL_PATH . " version";
 $openssl_version = `$cmd`;
 $valeurReel['OpenSSL'] = $openssl_version;
-
 $valeurReel['PHP'] = phpversion();
+
 
 include( PASTELL_PATH ."/include/haut.php");
 
@@ -80,10 +80,19 @@ include( PASTELL_PATH ."/include/haut.php");
 		<th>OPENSSL_PATH</th>
 		<td><?php echo OPENSSL_PATH ?></td>
 	</tr>
-	
+	<tr>
+		<th>WORKSPACE_PATH</th>
+		<td><?php echo WORKSPACE_PATH ?></td>
+	</tr>
 </table>
 
-
+<h2>Auto test</h2>
+<table class='tab_04'>
+	<tr>
+		<td><?php echo WORKSPACE_PATH ?> accessible en lecture/écriture ?</td>
+		<td><?php echo is_readable(WORKSPACE_PATH) && is_writable(WORKSPACE_PATH)?"ok":"NON"?></td>
+	</tr>
+</table>
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
