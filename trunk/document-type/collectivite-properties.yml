@@ -4,7 +4,7 @@ formulaire:
 	
 	Informations générales : {}
 	
-	Actes RH:
+	Tedetis:
 		tdt_activate: {name: "Module activé", type: checkbox}
 		tdt_url: {name: "URL du TDT"}
 		tdt_server_certificate: {name: "Certificat serveur du TDT (format PEM)", type: file}
@@ -14,16 +14,34 @@ formulaire:
 		tdt_user_key_pem: {type: file, no-show: true}
 		classification_file: {name: "Fichier de classification", type: file, read-only: true}
 	
+	GED:
+		ged_activate: {name: "Module activé", type: checkbox}
+		ged_url: {name: "URL du service CIMS"}
+		ged_user_login: {name: "login" }
+		ged_user_password: {name: "Mot de passe" , type: password}
+		ged_folder:  {name: "Répertoire de dépot" }
+	
 action:
 
 	test-tedetis:
 		name: Tester la connectivité au Tedetis
-		#tab: Actes RH
+		tab: Tedetis
 		action-class: TedetisTestAction
 		
 	
 	recup-classification:
 		name: Récuperer la classification
-		#tab: Actes RH
+		tab: Tedetis
 		action-class: TedetisRecupClassification
+		
+	test-ged:
+		name: Tester la connectivité à la GED
+		action-class: GEDTestConnect
+		tab: GED
+	
+	test-ged-folder:
+		name: Tester l'accès au répertoire
+		action-class: GEDTestFolder
+		tab: GED
+		
 		

@@ -11,6 +11,7 @@ class Formulaire {
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
 		$this->setTabNumber(0);	
+		$this->pageCondition = array();
 	}
 	
 	public function addPageCondition(array $pageCondition){
@@ -19,6 +20,7 @@ class Formulaire {
 	
 	public function addDonnesFormulaire(DonneesFormulaire $donnesFormulaire){
 		$page_a_enlever = array();
+		
 		foreach($this->pageCondition as $page => $condition){
 			foreach($condition as $field => $value){
 				if ($donnesFormulaire->get($field) != $value){
