@@ -218,7 +218,16 @@ $actionPossible->setEntite($entite);
 	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e"); ?>
 	
 <br/>
-<?php foreach($actionPossible->getActionPossible($id_e) as $action_name) : ?>
+<?php 
+
+
+
+foreach($actionPossible->getActionPossible($id_e) as $action_name) : 
+
+if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
+	continue;
+}
+?>
 <form action='entite/action.php' method='post' >
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
