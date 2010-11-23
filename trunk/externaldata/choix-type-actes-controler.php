@@ -17,11 +17,12 @@ if ($info['transmission_actes']){
 
 	if (! file_exists($file)){
 		$info_classification = "La classfication en matière et sous-matière n'est pas disponible";
-	}
-	$classificationActes= new ClassificationActes($file);
-	$info_classification = $classificationActes->getInfo($info['code_actes']);
-	if (! $info_classification){
-		$info_classification = "Cette classification (".$info['code_actes'].") n'existe pas sur le Tétédis";
+	} else {
+		$classificationActes= new ClassificationActes($file);
+		$info_classification = $classificationActes->getInfo($info['code_actes']);
+		if (! $info_classification){
+			$info_classification = "Cette classification (".$info['code_actes'].") n'existe pas sur le Tétédis";
+		}
 	}
 	
 }
