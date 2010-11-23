@@ -44,6 +44,4 @@ class Certificat {
 		}
 		return $this->certData['subject']['CN'] . " (signé par ".$this->certData['issuer']['CN'].")" ;
 	}
-		
-	
 }
