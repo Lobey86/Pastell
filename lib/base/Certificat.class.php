@@ -23,7 +23,9 @@ class Certificat {
 	}
 	
 	public function getVerifNumber(){
-		assert('$this->isValid()');
+		if (! $this->isValid()){
+			return false;
+		}
 		$chaine = "subject:";
 		foreach($this->certData['subject'] as $name => $value){
 			$chaine .= "$name=$value/";

@@ -41,8 +41,12 @@ class CertificatConnexion {
 	}
 	
 	public function autoConnect(){
+		$verifNumber = $this->certificat->getVerifNumber();
+		if (! $verifNumber){
+			return false;
+		}
 		$sql = "SELECT id_u FROM utilisateur WHERE certificat_verif_number = ?" ;
-		$all = $this->sqlQuery->fetchAll($sql,$this->certificat->getVerifNumber()); 
+		$all = $this->sqlQuery->fetchAll($sql,$verifNumber); 
 		if (count($all) == 1){
 			return $all[0]['id_u'];
 		}
