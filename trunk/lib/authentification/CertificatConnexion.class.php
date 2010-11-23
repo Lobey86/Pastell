@@ -37,7 +37,6 @@ class CertificatConnexion {
 		}
 		
 		return $certif_verif_number == $this->certificat->getVerifNumber();
-		
 	}
 	
 	public function autoConnect(){
