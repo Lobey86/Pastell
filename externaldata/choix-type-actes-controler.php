@@ -23,7 +23,7 @@ if ($info['transmission_actes']){
 		if (! $info_classification){
 			$info_classification = "Cette classification (".$info['code_actes'].") n'existe pas sur le Tétédis";
 		}
-	}
+	} 
 	
 }
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
