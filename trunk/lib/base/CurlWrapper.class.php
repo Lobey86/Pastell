@@ -32,6 +32,8 @@ class CurlWrapper {
 	}
 	
 	public function setClientCertificate($clientCertificate,$clientKey,$clientKeyPassword)	{
+		
+		
 		$this->setProperties( CURLOPT_SSLCERT, $clientCertificate);
 		$this->setProperties( CURLOPT_SSLKEY, $clientKey);
 		$this->setProperties( CURLOPT_SSLKEYPASSWD,$clientKeyPassword );

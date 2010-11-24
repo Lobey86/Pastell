@@ -7,7 +7,7 @@ formulaire:
 	Tedetis:
 		tdt_activate: {name: "Module activé", type: checkbox}
 		tdt_url: {name: "URL du TDT"}
-		tdt_server_certificate: {name: "Certificat serveur du TDT (format PEM)", type: file}
+		tdt_server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file}
 		tdt_user_certificat: {name: "Certificat utilisateur (format P12)", type: file}
 		tdt_user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
 		tdt_user_certificat_pem: {type: file, no-show: true}
