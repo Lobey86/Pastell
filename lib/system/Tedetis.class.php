@@ -29,7 +29,7 @@ class Tedetis {
 		
 		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('tdt_user_certificat_pem'),
 													$collectiviteProperties->getFilePath('tdt_user_key_pem'),
-													$collectiviteProperties->get('tdt_user_key_password'));
+													$collectiviteProperties->get('tdt_user_certificat_password'));
 	}
 
 	public function setCurlWrapper(CurlWrapper $curlWrapper){
