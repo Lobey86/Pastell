@@ -93,11 +93,11 @@ include( PASTELL_PATH ."/include/haut.php");
 	<td> <input type='text' name='email' value='<?php echo $infoUtilisateur['email']?>'/></td>
 </tr>
 <tr>
-	<th><label for='nom'>Nom</label> </th>
+	<th><label for='nom'>Nom<span>*</span></label> </th>
 	<td> <input type='text' name='nom' value='<?php echo $infoUtilisateur['nom']?>'/></td>
 </tr>
 <tr>
-	<th><label for='prenom'>Prénom</label> </th>
+	<th><label for='prenom'>Prénom<span>*</span></label> </th>
 	<td> <input type='text' name='prenom' value='<?php echo $infoUtilisateur['prenom']?>'/></td>
 </tr>
 <tr>

@@ -4,6 +4,7 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
+require_once (PASTELL_PATH . "/lib/helper/date.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -95,7 +96,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <tr>
 <th>Date d'inscription</th>
-<td><?php echo $info['date_inscription'] ?></td>
+<td><?php echo time_iso_to_fr($info['date_inscription']) ?></td>
 </tr>
 
 

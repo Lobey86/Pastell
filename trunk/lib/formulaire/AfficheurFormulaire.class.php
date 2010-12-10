@@ -1,6 +1,7 @@
 <?php
 require_once("Formulaire.class.php");
 require_once("DonneesFormulaire.class.php");
+require_once( PASTELL_PATH . "/lib/helper/date.php");
 
 class AfficheurFormulaire {
 	
@@ -123,6 +124,29 @@ class AfficheurFormulaire {
 						<?php if ($field->getProperties('read-only')) : ?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?> 
 							<input type='hidden' name='<?php echo $field->getName(); ?>' value='<?php echo $this->donneesFormulaire->geth($field->getName())?>'/>
+						<?php elseif( $field->getType() == 'date') : ?>
+							
+						<input 	type='text' 	
+								id='<?php echo $field->getName();?>' 
+								name='<?php echo $field->getName(); ?>' 
+								value='<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName()))?>' 
+								size='40'
+								/>
+									
+						<link type="text/css" href="jquery/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
+						
+						<script type='text/javascript' src='jquery/jquery-1.4.2.min.js'></script>
+							<script type='text/javascript' src='jquery/jquery-ui-1.8.2.custom.min.js'></script>
+						
+						
+							<script type="text/javascript">
+						   		 jQuery.datepicker.setDefaults(jQuery.datepicker.regional['fr']);
+								$(function() {
+									$("#<?php echo $field->getName()?>").datepicker( { dateFormat: 'dd/mm/yy' });
+									
+								});
+							</script>
+							
 						<?php else : ?>
 						<input 	type='text' 	
 								id='<?php echo $field->getName();?>' 
@@ -131,21 +155,7 @@ class AfficheurFormulaire {
 								size='40'
 								/>
 						<?php endif;?>
-						<?php if($field->getType() == 'date') : ?>
-						<link type="text/css" href="jquery/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
-						
-						<script type='text/javascript' src='jquery/jquery-1.4.2.min.js'></script>
-							<script type='text/javascript' src='jquery/jquery-ui-1.8.2.custom.min.js'></script>
-						
-						
-							<script type="text/javascript">
-								$(function() {
-									$("#<?php echo $field->getName()?>").datepicker( { dateFormat: 'yy-mm-dd' });
-									
-								});
-							</script>
-							
-						<?php endif;?>
+					
 					<?php endif;?>						
 					</td>
 				</tr>				
@@ -218,6 +228,8 @@ class AfficheurFormulaire {
 							?>
 						<?php elseif ($field->getType() == 'password') : ?>
 							*******
+						<?php elseif ($field->getType() == 'date') : ?>
+							<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName()))?>
 						<?php else:?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?>
 						<?php endif;?>			

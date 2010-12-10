@@ -2,6 +2,7 @@
 
 require_once( PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentTypeFactory.class.php");
+require_once (PASTELL_PATH . "/lib/helper/date.php");
 
 
 class DocumentListAfficheur {
@@ -84,7 +85,7 @@ class DocumentListAfficheur {
 						<?php echo $action->getActionName($document['last_action']) ?>
 					</td>
 					<td>
-						<?php echo $document['last_action_date']?>
+						<?php echo time_iso_to_fr($document['last_action_date']) ?>
 					</td>
 				</tr>
 			<?php endforeach;?>
