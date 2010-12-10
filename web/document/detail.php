@@ -10,6 +10,7 @@ require_once (PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
+require_once (PASTELL_PATH . "/lib/helper/date.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
@@ -132,7 +133,7 @@ endforeach;?>
 		<?php foreach($documentActionEntite->getAction($id_e,$id_d) as $action) : ?>
 			<tr>
 				<td><?php echo $theAction->getActionName($action['action']) ?></td>
-				<td><?php echo $action['date']?></td>
+				<td><?php echo time_iso_to_fr($action['date'])?></td>
 				<td><a href='entite/detail.php?id_e=<?php echo $action['id_e']?>'><?php echo $action['denomination']?></a></td>
 				<td>
 					<?php if ($action['id_u'] == 0) : ?>

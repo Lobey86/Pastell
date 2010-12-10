@@ -17,11 +17,11 @@ formulaire:
 			script: choix-classification.php
 			script-controler: choix-classification-controler.php
 			link_name: liste des matières et sous-matières
+		Objet: {requis: true, title: true}
 		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}
 		Archivage: {type: checkbox}
 		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
-		Objet: {requis: true, title: true}
 
 
 	Actes:

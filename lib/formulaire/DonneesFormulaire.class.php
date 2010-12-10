@@ -36,7 +36,11 @@ class DonneesFormulaire {
 		$this->formulaire->setTabNumber($pageNumber);
 		
 		foreach ($this->formulaire->getFields() as $field){
+			
+			
+			
 			$type = $field->getType();
+			
 			if ($type == 'externalData'){
 				continue;
 			}
@@ -52,7 +56,9 @@ class DonneesFormulaire {
 					if ($this->info[$name] != $value){
 						$this->isModified = true;
 					}
-				
+					if ($type == 'date'){
+						$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
+					}
 					$this->info[$name] = $value;
 				}
 			}

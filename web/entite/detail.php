@@ -10,6 +10,8 @@ require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
+require_once (PASTELL_PATH . "/lib/helper/date.php");
+
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
 $tab_number = $recuperateur->getInt('page',0);
@@ -130,7 +132,7 @@ if ($info['type'] == Entite::TYPE_COLLECTIVITE) {
 <?php endif;?>
 <tr>
 <th>Date d'inscription</th>
-<td><?php echo $info['date_inscription'] ?></td>
+<td><?php echo time_iso_to_fr($info['date_inscription']) ?></td>
 </tr>
 <?php if ($infoMere) : ?>
 <tr>

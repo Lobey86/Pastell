@@ -6,6 +6,7 @@ require_once( PASTELL_PATH ."/lib/journal/Journal.class.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
+require_once (PASTELL_PATH . "/lib/helper/date.php");
 
 $recuperateur = new Recuperateur($_GET);
 $offset = $recuperateur->getInt('offset',0);
@@ -86,7 +87,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 <?php foreach($all as $i => $ligne) : ?>
 	<tr  class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td><a href='journal/detail.php?id_j=<?php echo $ligne['id_j'] ?>'><?php echo $ligne['id_j']?></a></td>
-		<td><?php echo  $ligne['date']?></td>
+		<td><?php echo  time_iso_to_fr($ligne['date']) ?></td>
 		<td><?php echo $journal->getTypeAsString($ligne['type']) ?></td>
 		<td><a href='entite/detail.php?id_e=<?php echo $ligne['id_e'] ?>'><?php echo  $ligne['denomination']?></a></td>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo  $ligne['id_u']?>'><?php echo $ligne['prenom'] . " " . $ligne['nom']?></a></td>
@@ -99,7 +100,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 		
 		<td><?php echo $ligne['message']?></td>
 		<td><?php if ($ligne['preuve']) : ?> 
-			<?php echo $ligne['date_horodatage'] ?>
+			<?php echo time_iso_to_fr($ligne['date_horodatage']) ?>
 			<?php else : ?>
 			en cours
 			<?php endif;?>

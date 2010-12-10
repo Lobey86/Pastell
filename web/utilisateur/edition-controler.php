@@ -54,6 +54,16 @@ if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
 	} 
 }
 
+if (! $nom){
+	$lastError->setLastError("Le nom est obligatoire");
+	$redirection->redirect();
+}
+
+if (! $prenom){
+	$lastError->setLastError("Le prénom est obligatoire");
+	$redirection->redirect();
+}
+
 if ( $password && $password2 ){
 	if ($password != $password2){
 		$lastError->setLastError("Les mot de passes ne correspondent pas");

@@ -4,6 +4,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 
 require_once( PASTELL_PATH ."/lib/journal/Journal.class.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once (PASTELL_PATH . "/lib/helper/date.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -32,7 +33,7 @@ include( PASTELL_PATH ."/include/haut.php");
 </tr>
 <tr>
 		<th>Date</th>
-		<td><?php echo $info['date'] ?></td>
+		<td><?php echo time_iso_to_fr($info['date']) ?></td>
 </tr>
 <tr>		
 		<th>Type</th>
