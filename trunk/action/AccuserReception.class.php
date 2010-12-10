@@ -15,7 +15,7 @@ class AccuserReception extends ActionExecutor {
 		$this->getNotificationMail()->notify($id_ged,$this->id_d,$this->action, $this->type,$message);
 
 
-		$this->setLastMessage("L'accusé de réception a été envoyé a l'émmeteur du message");
+		$this->setLastMessage("L'accusé de réception a été envoyé a l'émeteur du message");
 		return true;
 	}
 }
