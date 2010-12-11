@@ -84,7 +84,7 @@ class AfficheurFormulaire {
 									<?php echo $this->donneesFormulaire->geth($field->getName())?"checked='checked'":'' ?>
 									/>
 					<?php elseif($field->getType() == 'textarea') : ?>
-						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName())?></textarea>
+						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName(),$field->getDefault())?></textarea>
 					<?php elseif($field->getType() == 'file') :?>
 						<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
 						<?php if ($field->isMultiple()): ?>
@@ -120,6 +120,9 @@ class AfficheurFormulaire {
 								value='' 
 								size='16'
 						/>
+					<?php elseif( $field->getType() == 'link') : ?>
+						<a href='<?php echo SITE_BASE . $field->getProperties('script')?>?id_e=<?php echo $id_e?>'><?php echo $field->getProperties('link_name')?></a>
+				
 					<?php else : ?>
 						<?php if ($field->getProperties('read-only')) : ?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?> 
@@ -129,7 +132,7 @@ class AfficheurFormulaire {
 						<input 	type='text' 	
 								id='<?php echo $field->getName();?>' 
 								name='<?php echo $field->getName(); ?>' 
-								value='<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName()))?>' 
+								value='<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName(),$field->getDefault()))?>' 
 								size='40'
 								/>
 									
@@ -146,12 +149,11 @@ class AfficheurFormulaire {
 									
 								});
 							</script>
-							
 						<?php else : ?>
 						<input 	type='text' 	
 								id='<?php echo $field->getName();?>' 
 								name='<?php echo $field->getName(); ?>' 
-								value='<?php echo $this->donneesFormulaire->geth($field->getName())?>' 
+								value='<?php echo $this->donneesFormulaire->geth($field->getName(),$field->getDefault())?>' 
 								size='40'
 								/>
 						<?php endif;?>
@@ -179,7 +181,10 @@ class AfficheurFormulaire {
 	
 	
 	public function afficheStatic($page,$recuperation_fichier_url){
-	
+		if (isset($this->inject['id_e'])){
+			$id_e = $this->inject['id_e'];
+		}
+		
 		if (! $this->donneesFormulaire->isValidable()){
 			?><div class="box_error">
 					<p>
@@ -230,8 +235,10 @@ class AfficheurFormulaire {
 							*******
 						<?php elseif ($field->getType() == 'date') : ?>
 							<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName()))?>
+						<?php elseif( $field->getType() == 'link') : ?>
+							<a href='<?php echo SITE_BASE . $field->getProperties('script')?>?id_e=<?php echo $id_e ?>'><?php echo $field->getProperties('link_name')?></a>
 						<?php else:?>
-							<?php echo $this->donneesFormulaire->geth($field->getName())?>
+							<?php echo $this->donneesFormulaire->geth($field->getName(),$field->getDefault())?>
 						<?php endif;?>			
 					</td>
 				</tr>				

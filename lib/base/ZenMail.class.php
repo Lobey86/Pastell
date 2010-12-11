@@ -3,7 +3,7 @@ require_once("ZLog.class.php");
 
 class ZenMail{
 	
-	const DEFAULT_CHARSET = 'UTF-8';
+	const DEFAULT_CHARSET = 'ISO-8859-15';
 	
 	private $zLog;
 	
@@ -38,14 +38,20 @@ class ZenMail{
 	}
 	
 	public function setSujet($sujet){
-		$this->sujet =  "=?utf-8?Q?".imap_8bit($sujet)."?=";
+		$this->sujet =  "=?iso-8859-15?Q?$sujet?=";
 	}
 	
-	public function setContenu($contenu){
-		$this->contenu = $contenu ;
-		$this->contenu .= "\n\n---------------------------------------------\n";
-		$this->contenu .= _("Cet email vous a été envoyé automatiquement, merci de ne pas y répondre.");
-		$this->contenu .="\n----------------------------------------------\n";
+	public function setContenu($script,$info){
+		ob_start();
+			include($script);
+			$this->contenu = ob_get_contents();
+		ob_end_clean();
+	
+	}	
+	
+	
+	public function setContenuText($content){
+		$this->contenu = $content;
 	}	
 	
 	public function send(){

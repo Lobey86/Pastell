@@ -34,6 +34,10 @@ class RoleDroit {
 									'message-service:lecture',
 									'actes:edition',
 									'actes:lecture',
+									'mailsec:edition',
+									'mailsec:lecture',
+									'annuaire:lecture',
+									'annuaire:edition'
 					),
 					'lecteur' => array(
 									'entite:lecture',
@@ -56,8 +60,10 @@ class RoleDroit {
 									'rh-messages:lecture',
 									'entite:lecture',
 									'journal:lecture',
-								'actes:edition',
+									'actes:edition',
 									'actes:lecture',
+									'mailsec:edition',
+									'mailsec:lecture'
 								),
 								
 					'agent centre de gestion' => array(
@@ -69,6 +75,8 @@ class RoleDroit {
 								'journal:lecture',
 								'actes:edition',
 									'actes:lecture',
+									'mailsec:edition',
+									'mailsec:lecture'
 							),		
 								
 					'testeur' => array('test:lecture','test:edition')

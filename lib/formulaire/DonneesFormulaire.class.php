@@ -75,8 +75,6 @@ class DonneesFormulaire {
 	private function saveFile(Field $field, FileUploader $fileUploader){
 		$fname = $field->getName();
 		
-		
-		
 		if ($fileUploader->getName($fname)){
 			
 			if ($field->isMultiple()){
@@ -120,15 +118,16 @@ class DonneesFormulaire {
 		return  $this->filePath."_".$field_name."_$num";
 	}
 	
-	public function get($item){
+	public function get($item,$default=false){
 		if (empty($this->info[$item])){
-			return false;
+			
+			return $default;
 		}
 		return $this->info[$item];
 	}
 	
-	public function geth($item){
-		return nl2br(htmlentities($this->get($item),ENT_QUOTES));
+	public function geth($item,$default = false){
+		return nl2br(htmlentities($this->get($item,$default),ENT_QUOTES));
 	}
 	
 	public function isValidable(){

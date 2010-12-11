@@ -1,0 +1,49 @@
+nom: Mail sécurisé 
+
+formulaire:
+	Message :			
+		to: {name: Destinataire(s), requis: true}
+		cc:  {name: Copie à}
+		bcc: {name: Copie cachée à}
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Document attaché: {type: file, multiple: true}
+		key: {no-show: true}
+		
+action:
+	creation:
+		name: Créer
+		rule:
+			no-last-action:
+			droit_id_u: 'mailsec:edition'
+
+	modification:
+		name: Modifier
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'mailsec:edition'
+		
+	envoi :
+		name: Envoyer
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'mailsec:edition'
+			document_is_valide: true
+		action-class: EnvoyerMailSec
+		
+	reception-partielle:
+		name: Réception partielle
+		rule:
+			role_id_e: no-role
+	
+	reception:
+		name: Réception
+		rule:
+			role_id_e: no-role
+	

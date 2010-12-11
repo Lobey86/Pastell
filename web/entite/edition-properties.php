@@ -35,10 +35,10 @@ $page_title="Edition des propriétés « " .$formulaire->getTabName($page). " » de 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
 
 
-
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 $afficheurFormulaire->injectHiddenField("form_type",'collectivite-properties');
 $afficheurFormulaire->injectHiddenField("id_e",$id_e);
+$afficheurFormulaire->injectHiddenField("id_d",$id_e);
 
 
 include( PASTELL_PATH ."/include/haut.php");

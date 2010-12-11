@@ -11,6 +11,7 @@ require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentEmail.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
@@ -26,7 +27,7 @@ $info = $document->getInfo($id_d);
 
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
-
+$documentEmail = new DocumentEmail($sqlQuery);
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 
@@ -117,6 +118,42 @@ endforeach;?>
 	</tbody>
 </table>
 </div>
+
+<?php 
+$infoDocumentEmail = $documentEmail->getInfo($id_d);
+if ($infoDocumentEmail) : 
+?>
+<div class="box_contenu clearfix">
+<h2>Utilisateurs destinataires du message</h2>
+
+<table class="tab_02">
+	<tbody>
+		<tr>
+			<th>Email</th>
+			<th>Date d'envoi</th>
+			<th>Lecture</th>
+		</tr>
+		
+<?php foreach($infoDocumentEmail as $infoEmail) : ?>
+	<tr>
+		<td><?php echo $infoEmail['email']?></td>
+		<td><?php echo time_iso_to_fr($infoEmail['date_envoie'])?></td>
+		<td>
+			<?php if ($infoEmail['lu']) : ?>
+				<?php echo time_iso_to_fr($infoEmail['date_lecture'])?>
+			<?php else : ?>
+				Non
+			<?php endif;?>
+		</td>
+	</tr>	
+<?php endforeach;?>
+	</tbody>
+</table>
+</div>
+
+
+<?php endif;?>
+
 
 <div class="box_contenu clearfix">
 <h2>Action sur le document</h2>

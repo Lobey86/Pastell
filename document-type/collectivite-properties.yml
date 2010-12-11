@@ -20,7 +20,27 @@ formulaire:
 		ged_user_login: {name: "login" }
 		ged_user_password: {name: "Mot de passe" , type: password}
 		ged_folder:  {name: "Répertoire de dépot" }
-	
+		
+	Mail sécurisé:
+		mailsec_from: {name: Email de l'emetteur, default: pastell@sigmalis.com}
+		mailsec_from_description: {name: Nom de l'emetteur, default: PASTELL}
+		mailsec_subject: {name: Sujet du mail sécurisé, default: "[Pastell] Vous avez reçu un mail sécurisé"}
+		mailsec_content: 
+			name: Contenu du mail
+			type: textarea
+			default: | 
+				Bonjour, 
+				
+				Le serveur sécurisé Paste-ll de l'ADULLACT vous informe qu'un message recommandé mail 
+				avec d'éventuelles pièces attachées vous a été posté. 
+				
+				Pour en prendre connaissance veuillez cliquer sur le lien suivant.
+		annuaire: 
+			name: Annuaire
+			type: link
+			script: mailsec/annuaire.php
+			link_name: Voir l'annuaire »
+			read-only: true
 action:
 
 	test-tedetis:

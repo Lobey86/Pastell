@@ -22,7 +22,7 @@ class Journal {
 	const NOTIFICATION = 2;
 	const MODIFICATION_ENTITE = 3;
 	const MODIFICATION_UTILISATEUR = 4;
-	
+	const MAIL_SECURISE = 5;
 	
 	private $sqlQuery;
 	private $id_u;
@@ -38,7 +38,7 @@ class Journal {
 		return $this->addSQL($type,$id_e,$this->id_u,$id_d,$action,$message);
 	}
 	
-	public function addActionAuto($type,$id_e,$id_d,$action,$message){
+	public function addActionAutomatique($type,$id_e,$id_d,$action,$message){
 		return $this->addSQL($type,$id_e,0,$id_d,$action,$message);
 	}
 	
@@ -118,7 +118,8 @@ class Journal {
 	}
 	
 	public function getTypeAsString($type){
-		$type_string = array(1=>"Action sur un document","Notification","Gestion des entités","Gestion des utilisateurs");
+		$type_string = array(1=>"Action sur un document",
+						"Notification","Gestion des entités","Gestion des utilisateurs","Mail sécurisé");
 		return $type_string[$type];
 	}
 	
