@@ -2,11 +2,8 @@ Flux Généraux:
 	actes: Actes
 	message-service: Message Service
 	rh-messages: Message Centre de gestion
-	
-#Flux RH:
-	#rh-actes: Actes RH
-#	rh-messages: Message Centre de gestion
-	
+	mailsec: Mail sécurisé
+
 #Flux fournisseur :
 #	fournisseur-inscription: Inscription fournisseur
 #	fournisseur-message: Message

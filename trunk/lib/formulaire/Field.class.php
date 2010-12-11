@@ -48,6 +48,11 @@ class Field {
 		return $this->properties['value'];
 	}
 	
+	public function getDefault(){
+		
+		return $this->getProperties('default');
+	}
+	
 	public function isTitle(){
 		return (! empty($this->properties['title']));
 	}

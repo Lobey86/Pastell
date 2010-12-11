@@ -70,7 +70,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/><br/>
 
 <?php 
-if ($info['type'] == Entite::TYPE_COLLECTIVITE) {
+if ($info['type'] != Entite::TYPE_FOURNISSEUR) {
 
 	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
 	$formulaire = $documentType->getFormulaire();
@@ -79,6 +79,8 @@ if ($info['type'] == Entite::TYPE_COLLECTIVITE) {
 	
 	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+	$afficheurFormulaire->injectHiddenField("id_e",$id_e);
+	
 	$afficheurFormulaire->afficheTab($tab_number,"entite/detail.php?id_e=$id_e");
 }	
 ?>

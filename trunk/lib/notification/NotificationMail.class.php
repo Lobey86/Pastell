@@ -23,9 +23,11 @@ class NotificationMail {
 			$this->zenMail->setEmmeteur("Pastell","pastell@sigmalis.com");
 			$this->zenMail->setDestinataire($mail);
 			$this->zenMail->setSujet("[Pastell] Notification");
-			$this->zenMail->setContenu(utf8_encode($message));
+			$info = array('message'=>$message);
+			$this->zenMail->setContenu(PASTELL_PATH . "/mail/notification.php",$info);
+			
 			$this->zenMail->send();
-			$this->journal->addActionAuto(Journal::NOTIFICATION,$id_e,$id_d,$action,"notification envoyée à $mail");
+			$this->journal->addActionAutomatique(Journal::NOTIFICATION,$id_e,$id_d,$action,"notification envoyée à $mail");
 		}
 		
 	}

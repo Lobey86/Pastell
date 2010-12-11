@@ -150,7 +150,7 @@ abstract class ActionExecutor {
 		$this->actionCreator->addAction($this->id_e,$id_u,$actionName,$message);
 	}
 	
-	public function setNotificationMail($notificationMail){
+	public function setNotificationMail(NotificationMail $notificationMail){
 		$this->notificationMail = $notificationMail;
 	}
 	
