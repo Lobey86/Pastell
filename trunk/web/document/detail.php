@@ -130,13 +130,15 @@ if ($infoDocumentEmail) :
 	<tbody>
 		<tr>
 			<th>Email</th>
+			<th>Type</th>
 			<th>Date d'envoi</th>
 			<th>Lecture</th>
 		</tr>
 		
 <?php foreach($infoDocumentEmail as $infoEmail) : ?>
 	<tr>
-		<td><?php echo $infoEmail['email']?></td>
+		<td><?php echo htmlentities($infoEmail['email'],ENT_QUOTES,"UTF-8")?></td>
+		<td><?php echo DocumentEmail::getChaineTypeDestinataire($infoEmail['type_destinataire']) ?></td>
 		<td><?php echo time_iso_to_fr($infoEmail['date_envoie'])?></td>
 		<td>
 			<?php if ($infoEmail['lu']) : ?>

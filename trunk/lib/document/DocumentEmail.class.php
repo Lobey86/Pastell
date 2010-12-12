@@ -7,18 +7,25 @@ require_once( PASTELL_PATH . "/lib/action/ActionCreator.class.php" );
 
 class DocumentEmail {
 	
+	const DESTINATAIRE = 'to';
+	
+	public static function getChaineTypeDestinataire($code){
+		$type = array('to' => 'Destinataire', 'cc' => 'Copie à' , 'bcc' => 'Copie caché à' );
+		return $type[$code]; 
+	}
+	
 	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery;
 	}
 
-	public function add($id_d,$email){
+	public function add($id_d,$email,$type){
 		$key = $this->getKey($id_d,$email);
 		if ($key){
 			return $key;
 		}
 		$key = md5($id_d . $email. mt_rand());
-		$sql = "INSERT INTO document_email(id_d,email,`key`,date_envoie) VALUES (?,?,?,now())";
-		$this->sqlQuery->query($sql,$id_d,$email,$key);	
+		$sql = "INSERT INTO document_email(id_d,email,`key`,date_envoie,type_destinataire) VALUES (?,?,?,now(),?)";
+		$this->sqlQuery->query($sql,$id_d,$email,$key,$type);	
 		return $key;
 	}
 	

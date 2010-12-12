@@ -168,4 +168,5 @@ CREATE TABLE document_email (
   PRIMARY KEY (`key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+ALTER TABLE `document_email` ADD `type_destinataire` VARCHAR( 4 ) NOT NULL;
 

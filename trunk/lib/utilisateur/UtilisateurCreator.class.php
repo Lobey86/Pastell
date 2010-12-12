@@ -1,18 +1,16 @@
 <?php
 require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
 require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
-require_once( PASTELL_PATH . "/lib/MailValidator.class.php");
+require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class UtilisateurCreator {
 	
 	private $sqlQuery;
 	private $passwordGenerator;
-	private $mailValidator;
 	
 	public function __construct(SQLQuery $sqlQuery,Journal $journal){
 		$this->sqlQuery = $sqlQuery;
 		$this->setPasswordGenertor(new PasswordGenerator());
-		$this->setMailValidator(new MailValidator());
 		$this->journal = $journal;
 	}
 	
@@ -20,9 +18,6 @@ class UtilisateurCreator {
 		$this->passwordGenerator = $passwordGenerator;
 	}
 	
-	public function setMailValidator(MailValidator $mailValidator){
-		$this->mailValidator = $mailValidator;
-	}
 	
 	public function getLastError(){
 		return $this->lastError;
@@ -44,7 +39,7 @@ class UtilisateurCreator {
 			return false;
 		}
 		
-		if (! $this->mailValidator->isValid($email)){
+		if (! is_mail($email)){
 			$this->lastError ="Votre adresse email ne semble pas valide";
 			return false;
 		}

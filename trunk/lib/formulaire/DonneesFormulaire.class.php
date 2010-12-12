@@ -5,13 +5,14 @@ require_once (PASTELL_PATH . "/ext/spyc.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
-
+require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 class DonneesFormulaire {
 	
 	private $formulaire;
 	private $filePath;
 	private $info;
 	private $isModified;
+	private $lastError;
 
 	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
@@ -134,10 +135,21 @@ class DonneesFormulaire {
 		$this->formulaire->addDonnesFormulaire($this);
 		foreach($this->formulaire->getAllFields() as $field){
 			if ($field->isRequired() && ! $this->get($field->getName())){
+				$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . "» est obligatoire.";
 				return false;
+			}
+			if ($field->getType() == 'mail-list' && $this->get($field->getName())){
+				if ( ! is_mail_list($this->get($field->getName()))){
+					$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . "» ne contient pas une liste d'email valide.";
+					return false;
+				}
 			}
 		}
 		return true;
+	}
+	
+	public function getLastError(){
+		return $this->lastError;
 	}
 	
 	public function delete(){
