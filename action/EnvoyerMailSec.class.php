@@ -2,6 +2,7 @@
 
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentEmail.class.php");
+require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class EnvoyerMailSec extends ActionExecutor {
 	
@@ -9,6 +10,7 @@ class EnvoyerMailSec extends ActionExecutor {
 	private $collectiviteForm;
 	private $zenMail;
 	private $message;
+	private $documentEmail;
 	
 	private function getProperties($propertieName){
 		$default = $this->collectiviteForm->getField($propertieName)->getDefault();
@@ -27,27 +29,31 @@ class EnvoyerMailSec extends ActionExecutor {
 		$this->message = $this->getProperties('mailsec_content');
 	}
 	
+	private function sendEmail($to,$type){
+		if ($this->documentEmail->getKey($this->id_d,$to)){
+			return;
+		}
+		$key = $this->documentEmail->add($this->id_d,$to,$type);
+		$link = SITE_BASE . "mailsec/index.php?key=$key";
+		$this->zenMail->setDestinataire($to);
+		$this->zenMail->setContenuText($this->message . "\n" . $link);
+		$this->zenMail->send();
+		$this->getJournal()->addActionAutomatique(Journal::MAIL_SECURISE,$this->id_e,$this->id_d,'envoi',"Mail sécurisé envoyée à $to");
+	}
+	
 	public function go(){
 		
 		$this->prepareMail();
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
+		$this->documentEmail = new DocumentEmail($this->getSQLQuery());
 		
-		$to = $donneesFormulaire->get('to');
-
-		
-		$documentEmail = new DocumentEmail($this->getSQLQuery());
-		$key = $documentEmail->add($this->id_d,$to);
-		
-		$link = SITE_BASE . "mailsec/index.php?key=$key";
-		
-		
-		$this->zenMail->setDestinataire($to);
-		$this->zenMail->setContenuText($this->message . "\n" . $link);
-		$this->zenMail->send();
-		$this->getJournal()->addActionAutomatique(Journal::MAIL_SECURISE,$this->id_e,$this->id_d,'envoi',"Mail sécurisé envoyée à $to");
-	
-		
+		foreach(array('to','cc','bcc') as $type){
+			$lesMails = get_mail_list($donneesFormulaire->get($type));
+			foreach($lesMails as $mail){
+				$this->sendEmail($mail,$type);
+			}
+		}
 		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'envoi', "Le document a été envoyé");
 		

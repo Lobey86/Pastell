@@ -188,7 +188,7 @@ class AfficheurFormulaire {
 		if (! $this->donneesFormulaire->isValidable()){
 			?><div class="box_error">
 					<p>
-						Le formulaire est incomplet.
+						 <?php  echo $this->donneesFormulaire->getLastError(); ?>
 					</p>
 						
 				</div>
