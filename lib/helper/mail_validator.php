@@ -32,7 +32,11 @@ function get_mail_list($scalar_mail_list){
 	}
 	$result = array();
 	foreach($mails as $mail){
-		$result[] = trim($mail);
+		$mail = trim($mail);
+		if ($mail) {
+			$result[] = $mail;
+		} 
+		
 	}
 	return array_unique($result);
 }

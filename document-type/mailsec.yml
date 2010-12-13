@@ -2,9 +2,9 @@ nom: Mail sécurisé
 
 formulaire:
 	Message :			
-		to: {name: Destinataire(s), requis: true, type: mail-list}
-		cc:  {name: Copie à, type: mail-list}
-		bcc: {name: Copie cachée à, type: mail-list}
+		to: {name: Destinataire(s), requis: true, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
+		cc:  {name: Copie à, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
+		bcc: {name: Copie cachée à, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
 		Objet: {requis: true, title: true}
 		Message: {type: textarea}
 		Document attaché: {type: file, multiple: true}

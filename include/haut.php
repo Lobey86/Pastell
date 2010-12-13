@@ -27,6 +27,12 @@ $type_e_menu = $recuperateur->get('type',"");
 <!--[if gte IE 6]>
 <link rel="stylesheet" type="text/css" href="img/style_IE6.css" media="screen" />
 <![endif]-->
+<link rel="stylesheet" href="img/jquery.autocomplete.css" type="text/css" />
+
+<script src="javascript/jquery-1.4.4.min.js"></script>
+<script src="javascript/jquery.autocomplete.min.js"></script>    
+<script src="javascript/htmlentities.js"></script>    
+
 </head>
 <body>
 

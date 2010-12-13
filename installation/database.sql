@@ -157,6 +157,7 @@ CREATE TABLE utilisateur_role (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
+-- 12 décembre 2010
 
 CREATE TABLE document_email (
   `key` varchar(32) NOT NULL,
@@ -165,8 +166,26 @@ CREATE TABLE document_email (
   lu tinyint(1) NOT NULL,
   date_envoie datetime NOT NULL,
   date_lecture datetime NOT NULL,
+  `type_destinataire` VARCHAR( 4 ) NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-ALTER TABLE `document_email` ADD `type_destinataire` VARCHAR( 4 ) NOT NULL;
 
+CREATE TABLE `pastell`.`annuaire` (
+`id_a` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`description` VARCHAR( 64 ) NOT NULL ,
+`email` VARCHAR( 64 ) NOT NULL ,
+`id_e` INT NOT NULL
+) ENGINE = MYISAM ;
+
+CREATE TABLE `pastell`.`annuaire_groupe` (
+`id_g` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`id_e` INT NOT NULL ,
+`nom` VARCHAR( 32 ) NOT NULL
+) ENGINE = MYISAM ;
+
+
+CREATE TABLE `pastell`.`annuaire_groupe_contact` (
+`id_a` INT NOT NULL ,
+`id_g` INT NOT NULL
+) ENGINE = MYISAM ;
