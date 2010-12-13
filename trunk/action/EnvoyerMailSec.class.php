@@ -3,6 +3,7 @@
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentEmail.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
+require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireGroupe.class.php");
 
 class EnvoyerMailSec extends ActionExecutor {
 	
@@ -43,6 +44,9 @@ class EnvoyerMailSec extends ActionExecutor {
 	
 	public function go(){
 		
+		$annuaireGroupe = new AnnuaireGroupe($this->getSQLQuery(),$this->id_e);
+		
+		
 		$this->prepareMail();
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
@@ -51,7 +55,16 @@ class EnvoyerMailSec extends ActionExecutor {
 		foreach(array('to','cc','bcc') as $type){
 			$lesMails = get_mail_list($donneesFormulaire->get($type));
 			foreach($lesMails as $mail){
-				$this->sendEmail($mail,$type);
+				if (preg_match("/^groupe: \"(.*)\"$/",$mail,$matches)){
+					$groupe = $matches[1];
+					$id_g = $annuaireGroupe->getFromNom($groupe);
+					$utilisateur = $annuaireGroupe->getUtilisateur($id_g);
+					foreach($utilisateur as $u){
+						$this->sendEmail($u['email'],$type);
+					}
+				} else {
+					$this->sendEmail($mail,$type);
+				}
 			}
 		}
 		

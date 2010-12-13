@@ -157,7 +157,25 @@ class AfficheurFormulaire {
 								size='40'
 								/>
 						<?php endif;?>
-					
+						<?php if ($field->getProperties('autocomplete')) : ?>
+						 <script>
+							 format_item = function (item, position, length){ 
+							    return htmlentities("" + item,"ENT_QUOTES");
+							  } 
+						 
+ 							 $(document).ready(function(){
+									$("#<?php echo $field->getName();?>").autocomplete("<?php echo $field->getProperties('autocomplete')?>",  
+											{multiple: true,
+											cacheLength:0, 
+											max: 20, 
+											extraParams: { id_e: <?php echo $id_e?>},
+											formatItem : format_item
+
+									});
+ 							 });
+						</script>
+						
+						<?php endif;?>
 					<?php endif;?>						
 					</td>
 				</tr>				

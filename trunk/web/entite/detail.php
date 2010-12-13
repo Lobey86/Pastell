@@ -70,7 +70,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/><br/>
 
 <?php 
-if ($info['type'] != Entite::TYPE_FOURNISSEUR) {
+if ($info['type'] != Entite::TYPE_FOURNISSEUR && $id_e != 0) {
 
 	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
 	$formulaire = $documentType->getFormulaire();
