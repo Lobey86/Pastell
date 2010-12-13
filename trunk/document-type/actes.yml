@@ -112,7 +112,17 @@ action:
 	
 		action-class: TedetisEnvoie
 		auto-class: TedetisRecup
-		
+	
+	verif-tdt:
+		name: Vérifier le status de la transaction
+		rule:
+			last-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisRecup
+	
+	
 	acquiter-tdt:
 		name: Acquittement du contrôle de légalité reçu.
 		
@@ -120,6 +130,17 @@ action:
 			role_id_e: no-role
 
 	
+	annulation-tdt:
+		name: Annuler la transaction
+		rule:
+			has-action:
+				acquiter-tdt
+			no-action:
+				annulation-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisAnnulation
+				
 	send-cdg-manuel:
 		name: Envoyer au CDG
 	

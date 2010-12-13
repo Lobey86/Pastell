@@ -25,25 +25,28 @@ class TedetisRecup extends ActionExecutor {
 		$tedetis = new Tedetis($this->getCollectiviteProperties());
 	
 		$status = $tedetis->getStatus($tedetis_transaction_id);
-		echo ">> $tedetis_transaction_id - $status";
+		
 		if ($status === false){
 			echo $tedetis->getLastError();
 			return false;
 		} 
 		
 		if ($status != Tedetis::STATUS_ACQUITTEMENT_RECU){
-			return false;
+			$this->setLastMessage("La transaction à comme status : " . Tedetis::getStatusString($status));
+			return true;
 		}
 			
 		$message = "L'acte a été acquitté par le contrôle de légalité";
 		$actionCreator->addAction($this->id_e,0,'acquiter-tdt',$message);
 		$this->notify('acquiter-tdt', 'rh-actes',$message);
 		
+		if ($this->getDonneesFormulaire()->get('envoi_cdg')) {
+			$envoieCDG = new EnvoieCDG($this->getZLog(), $this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
+			$envoieCDG->setNotificationMail($this->getNotificationMail());
+			$envoieCDG->go();
+		}
 		
-		$envoieCDG = new EnvoieCDG($this->getZLog(), $this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
-		$envoieCDG->setNotificationMail($this->getNotificationMail());
-		$envoieCDG->go();
-		
+		$this->setLastMessage("L'acquittement du contrôle de légalité a été reçu.");
 		return true;
 
 	}

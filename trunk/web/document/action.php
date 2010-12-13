@@ -75,6 +75,9 @@ if (! file_exists($action_class_file )){
 	exit;
 }
 
+$collectiviteProperties = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+
+
 require_once($action_class_file);
 
 $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
@@ -83,6 +86,7 @@ $actionClass = new $action_class_name($zLog,$sqlQuery,$id_d,$id_e,$authentificat
 $actionClass->setNotificationMail($notificationMail);
 $actionClass->setAction($action);
 $actionClass->setDestinataire($id_destinataire);
+$actionClass->setCollectiviteProperties($collectiviteProperties);
 
 $result = $actionClass->go();
 

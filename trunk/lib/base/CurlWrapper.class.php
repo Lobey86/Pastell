@@ -12,6 +12,7 @@ class CurlWrapper {
 	public function __construct(){
 		$this->curlHandle = curl_init();
 		$this->setProperties( CURLOPT_RETURNTRANSFER , 1); 
+		$this->postFile = array();
 	}
 
 	public function __destruct(){
@@ -95,6 +96,8 @@ class CurlWrapper {
 	            $body[] = $value;
 	    	}
 	    }
+	    
+	   
 	  	foreach ( $this->postFile as $name => $multipleValue ) {
 	    	foreach($multipleValue as $fileName => $filePath ){
 	    		$body[] = "--$boundary";
