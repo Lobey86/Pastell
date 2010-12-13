@@ -5,12 +5,30 @@ require_once( PASTELL_PATH . "/lib/base/CurlWrapper.class.php");
 
 class Tedetis {
 	
+	const STATUS_ERREUR = 1;
+	const STATUS_ANNULE = 0;
+	const STATUS_POSTE = 1;
+	const STATUS_EN_ATTENTE_DE_TRANSMISSION = 2;
+	const STATUS_TRANSMIS = 3;
 	const STATUS_ACQUITTEMENT_RECU = 4;
+	const STATUS_VALIDE = 5;
+	const STATUS_REFUSE = 6;
+	
 	
 	const URL_TEST = "/modules/actes/";
 	const URL_CLASSIFICATION = "/modules/actes/actes_classification_fetch.php";
 	const URL_POST_ACTES =  "/modules/actes/actes_transac_create.php";
 	const URL_STATUS = "/modules/actes/actes_transac_get_status.php";
+	const URL_ANNULATION = "/modules/actes/actes_transac_cancel.php";
+	
+	public static function getStatusString($status){
+		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
+		if (empty($statusString[$status])){
+			return "Status inconnu ($status)";
+		}
+		return $statusString[$status] ;
+	}
+	
 	
 	private $isActivate;
 	private $tedetisURL;
@@ -47,6 +65,7 @@ class Tedetis {
 		}
 		
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
+			
 		if ( ! $output){
 			$this->lastError = $this->curlWrapper->getLastError();
 			return false;
@@ -60,6 +79,22 @@ class Tedetis {
 	
 	public function getClassification(){
 		return $this->exec( self::URL_CLASSIFICATION );
+	}
+	
+	public function annulationActes($id_transaction){
+		$this->curlWrapper->addPostData('api',1);
+		$this->curlWrapper->addPostData('id',$id_transaction);
+		$result = $this->exec( self::URL_ANNULATION );	
+		if( ! $result ){
+			$this->lastError = "Erreur lors de la connexion au Tedetis (".$this->tedetisURL.")";
+			return false;
+		}	
+				
+		if (! preg_match("/^OK/",$result)){
+			$this->lastError = "Erreur lors de la transmission, Tédétis a répondu : $result";
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -94,6 +129,7 @@ class Tedetis {
 		
 		$result = $this->exec( self::URL_POST_ACTES );	
 		if( ! $result ){
+			$this->lastError = "Erreur lors de la connexion au Tedetis (".$this->tedetisURL.")";
 			return false;
 		}	
 				
@@ -114,7 +150,6 @@ class Tedetis {
 		if (! $result){
 			return false;
 		}
-		print_r($result);
 		$ligne = explode("\n",$result);
 		if (trim($ligne[0]) != 'OK'){
 			$this->lastError = trim($ligne[1]);

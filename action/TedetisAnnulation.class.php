@@ -2,24 +2,25 @@
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 
-
-
-class TedetisEnvoie  extends ActionExecutor {
+class TedetisAnnulation  extends ActionExecutor {
 
 	public function go(){
 		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');
 		
 		$tedetis = new Tedetis($collectiviteProperties);
 		
-		if (!  $tedetis->postActes($this->getDonneesFormulaire()) ){
+		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
+		
+		
+		if (!  $tedetis->annulationActes($tedetis_transaction_id) ){
 			$this->setLastMessage( $tedetis->getLastError());
 			return false;
 		}
-		
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au contrôle de légalité");
+		$message  = "Une notification d'annulation a été envoyé au contrôle de légalité";
+		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,$message);
 			
 		
-		$this->setLastMessage("Le document a été envoyé au contrôle de légalité");
+		$this->setLastMessage($message);
 		return true;			
 	}
 }
