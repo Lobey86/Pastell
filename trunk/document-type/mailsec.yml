@@ -16,7 +16,8 @@ action:
 		rule:
 			no-last-action:
 			droit_id_u: 'mailsec:edition'
-
+		
+			
 	modification:
 		name: Modifier
 		rule:
