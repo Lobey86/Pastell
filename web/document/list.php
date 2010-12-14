@@ -58,7 +58,7 @@ $actionPossible->setDocumentEntite($documentEntite);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
 $actionPossible->setEntite($entite);
 
-if ($actionPossible->isCreationPossible()){
+if ($id_e && $actionPossible->isCreationPossible()){
 	$nouveau_bouton_url = "document/edition.php?type=$type&id_e=$id_e";
 }
 

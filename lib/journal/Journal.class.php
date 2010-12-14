@@ -85,9 +85,13 @@ class Journal {
 	}
 	
 	public function countAll($id_e,$type,$id_d){
-		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d WHERE id_e = ?";
-		$value = array($id_e);
+		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
+		$value = array();
 		
+		if ($id_e){
+			"AND id_e = ?";
+			$value[] = $id_e;
+		}
 		if ($type){
 			$sql .= " AND document.type=?";
 			$value[] = $type;
