@@ -49,7 +49,9 @@ class Field {
 	}
 	
 	public function getDefault(){
-		
+		if ($this->getType() == 'date' && ! $this->getProperties('default') ){
+			return date("Y-m-d");
+		}
 		return $this->getProperties('default');
 	}
 	

@@ -5,12 +5,10 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
-
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
-
 $id_e = $recuperateur->get('id_e',0);
 $offset = $recuperateur->getInt('offset',0);
 $limit = 20;
@@ -20,6 +18,8 @@ $documentActionEntite = new DocumentActionEntite($sqlQuery);
 
 $liste_type = array();
 $allDroit = $roleUtilisateur->getDroit($authentification->getId());
+
+
 
 foreach($allDroit as $droit){
 	if (preg_match('/^(.*):lecture$/',$droit,$result)){

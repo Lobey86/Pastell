@@ -56,6 +56,16 @@ $entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 
 
 
+$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'entite:lecture');
+
+$has_many_collectivite = true;
+
+
+if (count($liste_collectivite) == 1){
+	if ($liste_collectivite[0] != 0) {
+		$has_many_collectivite = false;
+	}
+}
 
 
 include( PASTELL_PATH ."/include/haut.php");
@@ -64,7 +74,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php if ($info['type'] == Entite::TYPE_FOURNISSEUR) : ?>
 <a href='entite/fournisseur.php'>« liste des fournisseurs</a>
-<?php else :?>
+<?php elseif ($has_many_collectivite ) :?>
 <a href='entite/index.php'>« liste des collectivités</a>
 <?php endif;?>
 <br/><br/>
@@ -168,8 +178,8 @@ if ($info['type'] != Entite::TYPE_FOURNISSEUR && $id_e != 0) {
 	</td>
 	</tr>
 <?php endif;?>
-<?php if ($info['centre_de_gestion']) : 
-	$cdg = new Entite($sqlQuery,$info['centre_de_gestion']);
+<?php if ($theCDGId = $entite->getCDG()) : 
+	$cdg = new Entite($sqlQuery,$theCDGId);
 	$infoCDG = $cdg->getInfo();
 
 ?>

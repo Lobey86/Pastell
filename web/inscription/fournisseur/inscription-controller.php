@@ -13,12 +13,9 @@ require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurCreator.class.php");
 require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
 
-require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
-
-
 $redirection = new Redirection("index.php");
-$recuperateur = new Recuperateur($_POST);
 
+$recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');
 $siren = $recuperateur->get('siren');
 $login = $recuperateur->get('login');
@@ -45,8 +42,6 @@ if ( ! $denomination ){
 	$lastError->setLastError("Il faut saisir une raison sociale");
 	$redirection->redirect();
 }
-
-$journal = new Journal($sqlQuery,0);
 
 $utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
 $id_u = $utilisateurCreator->create($login,$password,$password2,$email);

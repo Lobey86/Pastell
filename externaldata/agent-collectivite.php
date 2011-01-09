@@ -64,7 +64,7 @@ suivant_precedent($offset,$limit,count($agent),"document/external-data.php?id_e=
 		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 			<td class="w30">
 				
-			<input type='checkbox' name='agent[]' id="label_agent_<?php echo $i ?>" value='<?php echo $agent[$i][0]?>'/></td>
+			<input type='radio' name='agent[]' id="label_agent_<?php echo $i ?>" value='<?php echo $agent[$i][0]?>'/></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][0] ?></label></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][2] ?></label></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][1] ?></label></td>

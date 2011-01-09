@@ -23,7 +23,6 @@ $sqlQuery->setLog($zLog);
 require_once( PASTELL_PATH . "/lib/authentification/Authentification.class.php");
 $authentification = new Authentification();
 
-require_once( PASTELL_PATH . "/lib/util.php");
 
 require_once( PASTELL_PATH . "/lib/droit/RoleUtilisateur.class.php");
 $roleUtilisateur = new RoleUtilisateur($sqlQuery);
@@ -35,21 +34,6 @@ $documentTypeFactory = new DocumentTypeFactory();
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 $donneesFormulaireFactory = new DonneesFormulaireFactory($documentTypeFactory,WORKSPACE_PATH);
 
-require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
-require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
-
-$id_u_journal = 0;
-
-if ($authentification->isConnected()) {
-	$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
-	$infoUtilisateur = $utilisateur->getInfo();
-	if (! $infoUtilisateur['mail_verifie']) {
-		header("Location: " . SITE_BASE . "inscription/fournisseur/inscription-mail-en-cours.php");
-		exit;
-	}
-	$id_u_journal = $authentification->getId();
-}
-
 require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
 $opensslTSWrapper = new OpensslTSWrapper(OPENSSL_PATH,$zLog);
 
@@ -57,5 +41,12 @@ require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 $signServer = new SignServer(SIGN_SERVER_URL,$opensslTSWrapper);
 
 require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
+$id_u_journal = 0;
+if ($authentification->isConnected()) {
+	$id_u_journal = $authentification->getId();
+}
 $journal = new Journal($signServer,$sqlQuery,$id_u_journal);
 
+require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
+require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
+require_once( PASTELL_PATH . "/lib/util.php");

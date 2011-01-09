@@ -10,6 +10,13 @@ require_once (PASTELL_PATH . "/lib/helper/date.php");
 $recuperateur = new Recuperateur($_GET);
 $id_j = $recuperateur->getInt('id_j',0);
 
+$offset = $recuperateur->getInt('offset',0);
+$id_e = $recuperateur->getInt('id_e',0);
+$type = $recuperateur->get('type');
+$id_d = $recuperateur->get('id_d');
+
+
+
 
 $info = $journal->getAllInfo($id_j);
 
@@ -21,7 +28,8 @@ if  (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$
 $page_title="Evenement numéro $id_j";
 include( PASTELL_PATH ."/include/haut.php");
 ?>
-
+<a href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>&type=<?php echo $type?>&offset=<?php echo $offset ?>'>« Retour au journal </a>
+<br/><br/>
 <div class="box_contenu clearfix">
 
 <h2>Détail de l'évenement <?php echo $id_j ?></h2>

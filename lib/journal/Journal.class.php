@@ -89,7 +89,7 @@ class Journal {
 		$value = array();
 		
 		if ($id_e){
-			"AND id_e = ?";
+			$sql .="AND id_e = ?";
 			$value[] = $id_e;
 		}
 		if ($type){
@@ -100,7 +100,6 @@ class Journal {
 			$sql .= " AND document.id_d = ? ";
 			$value[] = $id_d;
 		}
-		
 		return $this->sqlQuery->fetchOneValue($sql,$value);
 	}
 	

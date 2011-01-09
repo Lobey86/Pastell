@@ -13,7 +13,7 @@ class EnvoieCDG  extends ActionExecutor {
 	private function getId_cdg(){
 		if ( ! $this->id_cdg){
 			$infoEntite = $this->getEntite()->getInfo();
-			$this->id_cdg = $infoEntite['centre_de_gestion'];	
+			$this->id_cdg = $this->getEntite()->getCDG();	
 		}
 		return $this->id_cdg;
 	}

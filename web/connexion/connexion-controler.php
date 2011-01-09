@@ -32,7 +32,13 @@ if (! $certificatConnexion->connexionGranted($id_u)){
 	exit;
 }
 
+
+$infoUtilisateur = $utilisateur->getInfo();
+if (! $infoUtilisateur['mail_verifie']) {
+	$_SESSION['id_u'] = $id_u;
+	header("Location: " . SITE_BASE . "inscription/fournisseur/inscription-mail-en-cours.php?id_u=$id_u");
+	exit;
+}
+
 $authentification->connexion($login, $id_u);
-
-
 header("Location: " . SITE_BASE . "index.php");
