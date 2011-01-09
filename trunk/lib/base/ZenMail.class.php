@@ -38,7 +38,7 @@ class ZenMail{
 	}
 	
 	public function setSujet($sujet){
-		$this->sujet =  "=?iso-8859-15?Q?$sujet?=";
+		$this->sujet =  "=?UTF-8?Q?".utf8_encode($sujet)."?=";
 	}
 	
 	public function setContenu($script,$info){

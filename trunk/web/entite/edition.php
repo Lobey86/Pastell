@@ -32,6 +32,7 @@ $infoEntite = array('type' =>  $lastError->getLastInput('type'),
 if ($id_e){
 	$entite = new Entite($sqlQuery,$id_e);
 	$infoEntite = $entite->getInfo();
+	$infoEntite['centre_de_gestion'] = $entite->getCDG(); 
 	$page_title = "Modification de " . $infoEntite['denomination'];
 	$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 	
@@ -45,7 +46,7 @@ if ($id_e){
 } else {
 	$page_title = "Création d'une collectivité";
 } 
-
+	
 
 $entiteListe = new EntiteListe($sqlQuery);
 
@@ -81,11 +82,12 @@ include( PASTELL_PATH ."/include/haut.php");
 <input type='hidden' name='entite_mere' value='<?php echo $infoEntite['entite_mere'] ?>' />
 
 <?php endif;?>
+
 <table>
 	<tr>
 	<th>Type d'entité</th>
 	<td><select name='type'>
-	<?php foreach (array(Entite::TYPE_COLLECTIVITE, Entite::TYPE_CENTRE_DE_GESTION) as $type) :?>
+	<?php foreach (array(Entite::TYPE_COLLECTIVITE, Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE) as $type) :?>
 		<option value='<?php echo $type?>'
 			 <?php echo $infoEntite['type'] == $type?'selected="selected"':''?>> 
 		<?php echo Entite::getNom($type) ?> </option>	
@@ -127,6 +129,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <td>
 	<select name='has_ged'>
 	<?php 
+
 		$option = array('non'=>'non','manuel' => 'oui, manuellement' , 'auto' => 'oui, automatiquement');
 		foreach($option as $key => $values): ?>
 			<option value='<?php echo $key ?>' <?php echo $infoEntite['has_ged'] == $key?'selected="selected"':''?>><?php echo $values?></option>

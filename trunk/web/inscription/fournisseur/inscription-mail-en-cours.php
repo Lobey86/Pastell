@@ -1,12 +1,20 @@
 <?php 
 require_once("../../init.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
-$page_title = "Inscription non terminée";
+$recuperateur = new Recuperateur($_GET);
+
+if (empty($_SESSION['id_u'])){
+	header("Location: ".SITE_BASE."connexion/connexion.php");
+	exit;
+}
+
+$page_title = "Inscription en cours de finalisation";
 
 include( PASTELL_PATH ."/include/haut.php");
 
 require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
-$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
+$utilisateur = new Utilisateur($sqlQuery,$_SESSION['id_u']);
 $infoUtilisateur = $utilisateur->getInfo();
 ?>
 <div>

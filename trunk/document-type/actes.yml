@@ -6,7 +6,7 @@ formulaire:
 	Informations générales:
 		Siren de la collectivité: {read-only: true, data: siren}
 		type: 
-			name: Classification interne
+			name: Classification CDG
 			type: externalData
 			script: choix-type-actes.php
 			script-controler: choix-type-actes-controler.php
@@ -22,7 +22,6 @@ formulaire:
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}
 		Archivage: {type: checkbox}
 		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
-
 
 	Actes:
 		acte_nature:

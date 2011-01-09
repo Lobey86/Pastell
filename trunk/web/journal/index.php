@@ -86,7 +86,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 	</tr>
 <?php foreach($all as $i => $ligne) : ?>
 	<tr  class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-		<td><a href='journal/detail.php?id_j=<?php echo $ligne['id_j'] ?>'><?php echo $ligne['id_j']?></a></td>
+		<td><a href='journal/detail.php?id_j=<?php echo $ligne['id_j'] ?>&id_d=<?php echo $id_d?>&type=<?php echo $type ?>&id_e=<?php echo $id_e ?>&offset=<?php echo $offset?>'><?php echo $ligne['id_j']?></a></td>
 		<td><?php echo  time_iso_to_fr($ligne['date']) ?></td>
 		<td><?php echo $journal->getTypeAsString($ligne['type']) ?></td>
 		<td><a href='entite/detail.php?id_e=<?php echo $ligne['id_e'] ?>'><?php echo  $ligne['denomination']?></a></td>

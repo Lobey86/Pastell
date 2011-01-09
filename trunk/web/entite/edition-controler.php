@@ -33,7 +33,10 @@ if($id_e){
 	$entite = new Entite($sqlQuery,$id_e);
 }
 
+
+
 if ($type != Entite::TYPE_SERVICE) {
+	
 	if ( ! $siren ){
 		$lastError->setLastError("Le siren est obligatoire");
 		$redirection->redirect();
@@ -45,6 +48,9 @@ if ($type != Entite::TYPE_SERVICE) {
 		$redirection->redirect();
 	}
 } 
+
+
+
 
 if ($type == Entite::TYPE_SERVICE && ! $entite_mere){
 	$lastError->setLastError("Un service doit être ataché à une entité mère (collectivité, centre de gestion ou service)");

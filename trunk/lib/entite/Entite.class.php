@@ -66,6 +66,22 @@ class Entite  {
 		return $this->info;
 	}
 	
+	public function getCDG(){
+		$info = $this->getInfo();
+		if ($info['centre_de_gestion']){
+			return $info['centre_de_gestion'];
+		}
+		
+		$ancetre = $this->getAncetre();
+		foreach($ancetre as $id => $info){
+			if ($info['centre_de_gestion']){
+				return $info['centre_de_gestion'];
+			}
+		}
+		return false;
+	}
+	
+	
 	//TODO => mettre dans EntiteModifier ?
 	public function setEtat($etat){
 		$sql = "UPDATE entite SET etat=? WHERE id_e=?";
