@@ -153,6 +153,8 @@ action:
 				envoi_tdt: false
 			role_id_e: editeur
 			droit_id_u: 'rh-actes:edition'
+			content: 
+				envoi_cdg: true
 		action-class: EnvoieCDG
 			
 	send-cdg:
