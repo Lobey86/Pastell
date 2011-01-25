@@ -120,7 +120,7 @@ class EntiteListe {
 		if ($ancetre == 0){
 			return false;
 		}
-		return isAncestor($i,$ancetre);		
+		return $this->isAncestor($i,$ancetre);		
 	}
 	
 	public function getOnlyAncestor(array $tabId_e){

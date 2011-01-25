@@ -67,6 +67,8 @@ class RoleDroit {
 									'annuaire:lecture',
 									'utilisateur:lecture',
 									'entite:lecture',
+									'message-service:edition',
+									'message-service:lecture',
 								),
 								
 					'agent centre de gestion' => array(
@@ -77,12 +79,14 @@ class RoleDroit {
 								'entite:lecture',
 								'journal:lecture',
 								'actes:edition',
-									'actes:lecture',
-									'mailsec:edition',
-									'mailsec:lecture',
+								'actes:lecture',
+								'mailsec:edition',
+								'mailsec:lecture',
 								'annuaire:lecture',
-							'utilisateur:lecture',
+								'utilisateur:lecture',
 								'entite:lecture',
+								'message-service:edition',
+								'message-service:lecture',
 							),		
 								
 					'testeur' => array('test:lecture','test:edition')
