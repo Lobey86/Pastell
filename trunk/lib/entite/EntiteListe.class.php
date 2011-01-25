@@ -3,6 +3,8 @@ require_once("Entite.class.php");
 
 class EntiteListe {
 	
+	const NB_AFFICHABLE = 20;
+	
 	private $sqlQuery;
 	private $recherche;
 	
@@ -22,15 +24,21 @@ class EntiteListe {
 		return $this->sqlQuery->fetchOneValue($sql,Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION);
 	}
 	
-	public function getAllCollectiviteId(){
+	public function getAllCollectivite($offset,$denomination){
 		$result = array();
 		
-		$sql = "SELECT id_e FROM entite WHERE entite_mere=0 AND type != 'fournisseur' ORDER BY denomination" ;
-		$all= $this->sqlQuery->fetchAll($sql);
-		foreach($all as $info){
-			$result[] = $info['id_e'];
-		}
-		return $result;
+		$sql = "SELECT id_e,denomination,siren,type " . 
+				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur'  " .
+				" AND denomination LIKE ? ". 
+				" ORDER BY denomination" .
+				" LIMIT $offset,".self::NB_AFFICHABLE;
+		return $this->sqlQuery->fetchAll($sql,"%$denomination%");
+	}
+	
+	public function getNbCollectivite($search){
+		$sql = "SELECT count(*) " . 
+				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur'  AND denomination LIKE ? " ;
+		return $this->sqlQuery->fetchOneValue($sql,"%$search%");
 	}
 	
 	public function getAll($type){
@@ -139,5 +147,9 @@ class EntiteListe {
 		return array_diff($tabId_e,$entrop);
 	}
 	
+	public function getDenomination($part){
+		$sql = "SELECT denomination FROM `entite` WHERE denomination LIKE ? LIMIT 10";
+		return $this->sqlQuery->fetchAll($sql,"%$part%");
+	}
 	
 }

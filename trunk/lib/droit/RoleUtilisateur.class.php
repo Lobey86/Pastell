@@ -44,11 +44,21 @@ CREATE TABLE utilisateur_role (
 		
 	}
 	
+	private function getAllRole($id_u,$id_e){
+		static $allRole;
+		if ( ! isset($allRole[$id_u][$id_e])){
+			$sql = "SELECT role FROM utilisateur_role WHERE id_u = ? AND id_e = ? ";
+			$allRole[$id_u][$id_e] = $this->sqlQuery->fetchAll($sql,$id_u,$id_e);
+		}
+		return $allRole[$id_u][$id_e];
+	}
+	
+	
+	
 	
 	public function hasDroit($id_u,$droit,$id_e){
-		$sql = "SELECT role FROM utilisateur_role WHERE id_u = ? AND id_e = ? ";
-		$allRole = $this->sqlQuery->fetchAll($sql,$id_u,$id_e);
-		foreach($allRole as $role){
+	
+		foreach($this->getAllRole($id_u,$id_e) as $role){
 			if ($this->roleDroit->hasDroit($role['role'],$droit)){
 				return true;
 			}
@@ -65,19 +75,49 @@ CREATE TABLE utilisateur_role (
 	}
 	
 	public function getRole($id_u){
-		$sql = "SELECT utilisateur_role.*,denomination FROM utilisateur_role LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?";
-		return $this->sqlQuery->fetchAll($sql,$id_u);
+		static $allRole;
+		
+		if (! isset($allRole[$id_u])){
+			$sql = "SELECT utilisateur_role.*,denomination,siren,type FROM utilisateur_role LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?";
+			$allRole[$id_u] = $this->sqlQuery->fetchAll($sql,$id_u);
+		}
+		return $allRole[$id_u]; 
+	}
+	
+	private function getOneRole($id_u){
+		static $allRole;
+		if (! isset($allRole[$id_u])){
+			$sql = "SELECT role FROM utilisateur_role WHERE id_u = ?";
+			$allRole[$id_u] = $this->sqlQuery->fetchAll($sql,$id_u);
+		}
+		return $allRole[$id_u]; 
 	}
 	
 	public function hasOneDroit($id_u,$droit){
-		$sql = "SELECT role FROM utilisateur_role WHERE id_u = ?";
-		$allRole = $this->sqlQuery->fetchAll($sql,$id_u);
-		foreach($allRole as $role){
+		foreach($this->getOneRole($id_u) as $role){
 			if ($this->roleDroit->hasDroit($role['role'],$droit)){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public function getEntiteWithDenomination($id_u,$droit){
+		$result = array();
+		$allRole = $this->getRole($id_u);
+		foreach($allRole as $role){
+			if ($this->roleDroit->hasDroit($role['role'],$droit)){
+				$result[] = $role['id_e'];
+				$mon_result[$role['id_e']] = $role;
+			}
+		}	
+		$entiteListe = new EntiteListe($this->sqlQuery);
+		$result = $entiteListe->getOnlyAncestor($result);
+		$r = array();
+		foreach($result as $id_e){
+			$r[] = $mon_result[$id_e];
+		}
+		return $r;
 	}
 	
 	public function getEntite($id_u,$droit){
@@ -88,7 +128,6 @@ CREATE TABLE utilisateur_role (
 				$result[] = $role['id_e'];
 			}
 		}	
-		
 		$entiteListe = new EntiteListe($this->sqlQuery);
 		$result = $entiteListe->getOnlyAncestor($result);
 			
@@ -97,8 +136,8 @@ CREATE TABLE utilisateur_role (
 	
 	public function getDroit($id_u){
 		$result = array();
-		foreach($this->getRole($id_u) as $role){
-			$result += $this->roleDroit->getDroit($role['role']);
+		foreach($this->getRole($id_u) as $role){		
+			$result =array_merge($result, $this->roleDroit->getDroit($role['role']));
 		}
 		return $result;
 	}

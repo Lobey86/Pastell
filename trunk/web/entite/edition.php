@@ -3,6 +3,7 @@ require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteListeHTML.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -50,7 +51,11 @@ if ($id_e){
 
 $entiteListe = new EntiteListe($sqlQuery);
 
+$allCDG = $entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
+
 $mereListe = $entiteListe->getAllPossibleMother();
+
+$entiteListeHTML = new EntiteListeHTML();
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
@@ -115,12 +120,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <tr>
 	<th><label for="cdg">Centre de gestion</label></th>
 	<td>
-		<select name='centre_de_gestion'>
-			<option>...</option>
-			<?php foreach($entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION) as $cdg)  :?>
-				<option  <?php echo $infoEntite['centre_de_gestion'] == $cdg['id_e']?'selected="selected"':''?> value='<?php echo $cdg['id_e']?>'><?php echo $cdg['denomination']?></option>
-			<?php endforeach;?>
-		</select>
+		<?php $entiteListeHTML->getCDGasSelect($allCDG,$infoEntite['centre_de_gestion'])?>
 	</td>
 </tr>
 

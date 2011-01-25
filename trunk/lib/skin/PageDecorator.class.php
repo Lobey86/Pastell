@@ -15,9 +15,14 @@ class PageDecorator {
 	private $id_e;
 	private $type;
 	private $nouveauBouton;
+	private $version;
 	
 	public function setTitle($title){
 		$this->title = $title;
+	}
+	
+	public function setVersion($version){
+		$this->version = $version;
 	}
 	
 	public function setSiteBase($siteBase){
@@ -44,6 +49,10 @@ class PageDecorator {
 	}
 	
 	public function addNouveauBouton($nouveauBouton){
+		if (! is_array($nouveauBouton)){
+			$this->nouveauBouton['Nouveau'] = $nouveauBouton;
+			return;
+		}
 		$this->nouveauBouton = $nouveauBouton ;
 	}
 	
@@ -194,10 +203,14 @@ class PageDecorator {
 			<h1><?php echo $this->title; ?></h1>
 			</div>
 			<?php if ($this->nouveauBouton): ?>
-			<div id="bloc_boutons">
-				<a href="<?php echo $this->nouveauBouton ?>">
-					<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />Nouveau</a>
-			</div>
+				<div id="bloc_boutons">
+					<?php foreach ($this->nouveauBouton as $label => $url) : ?>
+						<a href="<?php echo $url ?>">
+							<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+							<?php echo $label?>
+						</a>
+					<?php endforeach;?>
+				</div>
 			<?php endif;?>
 		</div><!-- fin bloc_titre_bouton -->
 		<?php 
@@ -211,7 +224,7 @@ class PageDecorator {
 			
 			<div id="bloc_copyright">
 				<div id="bloc_mentions">
-					<p>	Copryright Sigmalis 2010. </p>
+					<p>	<a href='https://adullact.net/projects/pastell/'>Pastell</a> <?php echo $this->version ?> - Copyright <a href='http://www.sigmalis.com'>Sigmalis</a> 2010/2011 - Logiciel distribué sous les termes de la licence <a href='http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html'>CeCiLL V2</a> </p>
 				</div>
 				<div id="bloc_logo_adullact">
 					<a href='http://www.adullact.org/'><img src="img/commun/logo_adullact.png" alt="Adullact" /></a>

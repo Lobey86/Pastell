@@ -174,6 +174,10 @@ if ($info['type'] != Entite::TYPE_FOURNISSEUR && $id_e != 0) {
 		<a href="entite/edition.php?entite_mere=<?php echo $id_e?>" >
 			Ajouter une entité fille
 		</a>
+		<br/>
+		<a href="entite/import.php?id_e=<?php echo $id_e?>" >
+			Importer des entités filles
+		</a>
 		<?php endif;?>
 	</td>
 	</tr>

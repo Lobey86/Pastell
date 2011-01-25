@@ -2,8 +2,16 @@
 
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
+require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
-$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'entite:lecture');
+$recuperateur = new Recuperateur($_GET);
+
+$offset = $recuperateur->getInt('offset',0);
+$search = $recuperateur->get('search');
+
+
+$liste_collectivite = $roleUtilisateur->getEntiteWithDenomination($authentification->getId(),'entite:lecture');
+$nbCollectivite = count($liste_collectivite);
 
 if ( ! $liste_collectivite){
 	header("Location: ". SITE_BASE . "/index.php");
@@ -11,56 +19,66 @@ if ( ! $liste_collectivite){
 }
 
 if (count($liste_collectivite) == 1){
-	if ($liste_collectivite[0] == 0) {
+	if ($liste_collectivite[0]['id_e'] == 0 ) {
 		$entiteListe = new EntiteListe($sqlQuery);
-		$liste_collectivite = $entiteListe->getAllCollectiviteId();
+		$liste_collectivite = $entiteListe->getAllCollectivite($offset,$search);
+		$nbCollectivite = $entiteListe->getNbCollectivite($search);
 	} else {
-		header("Location: detail.php?id_e=".$liste_collectivite[0]);	
+		header("Location: detail.php?id_e=".$liste_collectivite[0]['id_e']);	
 		exit;
 	}
 }
+
 
 $page_title = "Liste des collectivités";
 
 
 if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",0)){
-	$nouveau_bouton_url = "entite/edition.php";
+	$nouveau_bouton_url = array("Importer" => "entite/import.php","Nouveau" => "entite/edition.php");
 }
 
 include( PASTELL_PATH ."/include/haut.php");
+
+?>
+<?php if ($search || $nbCollectivite > 20) : ?>
+<div>
+<form action='entite/index.php' method='get' >
+	<input type='text' name='search' value='<?php echo $search?>'/>
+	<input type='submit' value='Rechercher' />
+</form>
+</div>
+<?php endif;?>
+<?php 
+suivant_precedent($offset,count($liste_collectivite),$nbCollectivite,"entite/index.php?search=$search");
+
 ?>
 
 
 <div class="box_contenu clearfix">
 
 <h2>Collectivités</h2>
+	
+	<table class="tab_01">
+		<tr>
+			<th>Dénomination</th>
+			<th>Siren</th>
+			<th>Type</th>
+		</tr>
+	<?php foreach($liste_collectivite as $i => $info) : ?>
+		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
+			<td><a href='entite/detail.php?id_e=<?php echo  $info['id_e'] ?>'><?php hecho($info['denomination']) ?></a></td>
+			<td><?php 
+			echo $info['siren'] ?></td>
+			<td>
+				<?php echo Entite::getNom($info['type']) ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
 
-
-<table class="tab_01">
-	<tr>
-		<th>Dénomination</th>
-		<th>Siren</th>
-		<th>Type</th>
-	</tr>
-<?php foreach($liste_collectivite as $i=>$id_e) : 
-
-	$entite = new Entite($sqlQuery,$id_e);
-	$info = $entite->getInfo();
-?>
-	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-		<td><a href='entite/detail.php?id_e=<?php echo $info['id_e']?>'><?php hecho($info['denomination']) ?></a></td>
-		<td><?php 
-		echo $info['siren'] ?></td>
-		<td>
-			<?php echo Entite::getNom($info['type']) ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-</table>
-
-<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",0)) : ?>
-Voir les <a href='entite/detail.php?id_e=0'>utilisateurs globaux</a>
-<?php endif;?>
+	<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",0)) : ?>
+		Voir les <a href='entite/detail.php?id_e=0'>utilisateurs globaux</a>
+	<?php endif;?>
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
