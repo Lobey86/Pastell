@@ -4,6 +4,7 @@ require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH. "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
 require_once( PASTELL_PATH. "/lib/skin/PageDecorator.class.php");
+require_once( PASTELL_PATH. "/lib/helper/version.php");
 
 header("Content-type: text/html");
 
@@ -41,6 +42,8 @@ if ($authentification->isConnected()){
 	$allType = array();
 
 	$allDocType = $documentTypeFactory->getAllType();
+	$allDroit = $roleUtilisateur->getDroit($authentification->getId());
+
 	foreach($allDocType as $type_flux => $les_flux){
 		foreach($les_flux as $nom => $affichage) {
 			if ($roleUtilisateur->hasOneDroit($authentification->getId(),$nom.":lecture")){
@@ -53,7 +56,8 @@ if ($authentification->isConnected()){
 	if (isset($nouveau_bouton_url)){
 		$pageDecorator->addNouveauBouton($nouveau_bouton_url);
 	}
-	
+
+	$pageDecorator->setVersion(get_version());
 }
 
 
