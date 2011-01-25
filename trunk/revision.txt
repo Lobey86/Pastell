@@ -1,3 +1,3 @@
-$LastChangedDate$
+$LastChangedDate: 2011-01-09 10:12:34 +0100 (dim., 09 janv. 2011) $
 $Rev$
  
