@@ -17,7 +17,7 @@ $limit = 20;
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
 
 $liste_type = array();
-$allDroit = $roleUtilisateur->getDroit($authentification->getId());
+$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 
 
 
@@ -28,8 +28,9 @@ foreach($allDroit as $droit){
 }	
 
 
+
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),"entite:lecture");
-	
+
 if (! $id_e && count($liste_collectivite) == 1){
 	$id_e = $liste_collectivite[0];
 }

@@ -10,14 +10,15 @@ class RoleDroit {
 		self::$standard_role = array(
 					self::AUCUN_DROIT => array(),
 					'admin' => array(
+									'role:lecture',
+									'role:edition',
 									'entite:edition',
 									'entite:lecture',
 									'journal:lecture',
 									'fournisseur:lecture',
 									'utilisateur:lecture',
 									'utilisateur:edition',
-									'rh-actes:edition',
-									'rh-actes:lecture',
+									
 									'rh-messages:edition',
 									'rh-messages:lecture',
 									'gf-devis:lecture',
@@ -54,8 +55,7 @@ class RoleDroit {
 								
 								
 					'agent collectivite' => array(
-									'rh-actes:edition',
-									'rh-actes:lecture',
+									
 									'rh-messages:edition',
 									'rh-messages:lecture',
 									'entite:lecture',
@@ -72,8 +72,7 @@ class RoleDroit {
 								),
 								
 					'agent centre de gestion' => array(
-								'rh-actes:edition',
-								'rh-actes:lecture',
+
 								'rh-messages:edition',
 								'rh-messages:lecture',
 								'entite:lecture',
@@ -89,8 +88,8 @@ class RoleDroit {
 								'message-service:lecture',
 							),		
 								
-					'testeur' => array('test:lecture','test:edition')
-
+					'testeur' => array('test:lecture','test:edition'),
+					'gestionnaire_de_role' => array('role:lecture','role:edition')
 			);
 	}
 	
@@ -108,5 +107,16 @@ class RoleDroit {
 		}
 		return self::$standard_role[$role];
 	}
+	
+	public function getAllDroit(){
+		$allDroit = array();
+		foreach($this->getAllRole() as $role){
+			$allDroit = array_merge($allDroit,$role);
+		}
+		$result = array_values(array_unique($allDroit));
+		sort($result);
+		return $result;
+	}
+	
 	
 }

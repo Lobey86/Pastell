@@ -72,79 +72,8 @@ class EntiteListe {
 		return $this->sqlQuery->fetchAll($sql,$id_e);
 	}
 	
-	public function getArbreFille($id_e,$profondeur = 0){
-
-		$filles = $this->getAllFille($id_e);
-
-		$result = array();
-		foreach($filles as $filleInfo){
-			$result[] = 
-						array(
-							'id_e' => $filleInfo['id_e'],
-							'denomination' => $filleInfo['denomination'], 
-							'profondeur' => $profondeur);
-			$arbreFille = $this->getArbreFille($filleInfo['id_e'],$profondeur + 1);
-			if ($arbreFille){
-				$result =  array_merge($result,$arbreFille);
-			}	
-		}
-		return $result;
-	}
-	
-	public function getArbreFilleFromArray(array $tabId_e){
-		$result = array();
-		foreach($tabId_e as $id_e){
-			if ($id_e != 0) {
-				$sql = "SELECT * FROM entite WHERE id_e=? ORDER BY denomination";
-				$info = $this->sqlQuery->fetchOneLine($sql,$id_e);
-				$result[] = array(
-								'id_e' => $info['id_e'],
-								'denomination' => $info['denomination'], 
-							'profondeur' => 0);
-			} else {
-				$result[] = array(
-							'id_e' => 0,
-							'denomination' => "toutes les collectivités", 
-							'profondeur' => 0);
-			} 
-			
-			$result = array_merge($result,$this->getArbreFille($id_e,1));
-		}
-		return $result;
-	}
-	
-	
-	public function isAncestor($i,$j){
-		
-		$ancetre = $this->sqlQuery->fetchOneValue("SELECT entite_mere FROM entite WHERE id_e=?",$j);
-		if ($ancetre == $i){
-			return true;
-		}
-		if ($ancetre == 0){
-			return false;
-		}
-		return $this->isAncestor($i,$ancetre);		
-	}
-	
-	public function getOnlyAncestor(array $tabId_e){
-		$tabId_e = array_unique($tabId_e);
-		$entrop = array();
-		for($i=0; $i<count($tabId_e); $i++){
-			for($j=0; $j<count($tabId_e); $j++){
-				if ($i == $j){
-					continue;
-				}
-				if ($this->isAncestor($tabId_e[$i],$tabId_e[$j])){
-					$entrop[] = $tabId_e[$j];
-				}
-			}
-		}
-		return array_diff($tabId_e,$entrop);
-	}
-	
 	public function getDenomination($part){
 		$sql = "SELECT denomination FROM `entite` WHERE denomination LIKE ? LIMIT 10";
 		return $this->sqlQuery->fetchAll($sql,"%$part%");
 	}
-	
 }

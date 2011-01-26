@@ -51,12 +51,11 @@ if( $info['id_e'] ){
 	$denominationEntiteDeBase = $infoEntiteDeBase['denomination'];
 }
 
+$arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edition");
 
 include( PASTELL_PATH ."/include/haut.php");
 
-
 ?>
-
 <br/><br/>
 
 
@@ -170,7 +169,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		
 		<select name='id_e'>
 			<option value=''>...</option>
-			<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
+			<?php foreach($arbre as $entiteInfo): ?>
 			<option value='<?php echo $entiteInfo['id_e']?>'>
 				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
 				|_<?php echo $entiteInfo['denomination']?> </option>
@@ -232,7 +231,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		
 		<select name='id_e'>
 			<option value=''>...</option>
-			<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
+			<?php foreach($arbre as $entiteInfo): ?>
 			<option value='<?php echo $entiteInfo['id_e']?>'>
 				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
 				|_<?php echo $entiteInfo['denomination']?> </option>

@@ -17,7 +17,6 @@ if ( ! $liste_collectivite){
 	header("Location: ". SITE_BASE . "/index.php");
 	exit;
 }
-
 if (count($liste_collectivite) == 1){
 	if ($liste_collectivite[0]['id_e'] == 0 ) {
 		$entiteListe = new EntiteListe($sqlQuery);
