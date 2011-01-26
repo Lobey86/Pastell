@@ -2,7 +2,6 @@
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/CSV.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteModifier.class.php");
 
 
 $recuperateur = new Recuperateur($_POST);
@@ -31,11 +30,7 @@ $colList = $CSV->get($file_path);
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
 $nb_col = 0;
 foreach($colList as $col){
-	$the_id_e = $entiteCreator->create($col[1],$col[0],Entite::TYPE_COLLECTIVITE,$id_e);
-	if ($centre_de_gestion ){
-		$entiteModifier = new EntiteModifier($sqlQuery,$journal,$id_e);
-		$entiteModifier->setCentreDeGestion($centre_de_gestion);
-	}
+	$the_id_e = $entiteCreator->create(0,$col[1],$col[0],Entite::TYPE_COLLECTIVITE,$id_e,$centre_de_gestion);
 	$nb_col++;
 }
 

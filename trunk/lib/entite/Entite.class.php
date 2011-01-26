@@ -2,17 +2,6 @@
 require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 
 class Entite  {
-		
-	const CREATE_SQL = "CREATE TABLE entite (
-  id_e int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(32) NOT NULL,
-  denomination varchar(128) NOT NULL,
-  siren char(9) NOT NULL,
-  date_inscription datetime NOT NULL,
-  etat int(11) NOT NULL,
-  entite_mere varchar(9) DEFAULT NULL,
-  PRIMARY KEY (id_e)
-)";
 	
 	const TYPE_COLLECTIVITE = "collectivite";
 	const TYPE_FOURNISSEUR = "fournisseur";
@@ -48,14 +37,14 @@ class Entite  {
 		$this->sqlQuery = $sqlQuery;
 		$this->id_e = $id_e;
 	}
-	
 
 	public function exists(){
 		return $this->getInfo();
 	}
 	
 	public function getMere(){
-		return $this->sqlQuery->fetchOneValue("SELECT entite_mere FROM entite WHERE id_e=?",$this->id_e);
+		$info = $this->getInfo();
+		return $info['entite_mere'];
 	}
 	
 	public function getInfo(){
@@ -81,13 +70,6 @@ class Entite  {
 		return false;
 	}
 	
-	
-	//TODO => mettre dans EntiteModifier ?
-	public function setEtat($etat){
-		$sql = "UPDATE entite SET etat=? WHERE id_e=?";
-		$this->sqlQuery->query($sql,$etat,$this->id_e);
-	}
-	
 	public function desinscription(){
 		$info = $this->getInfo();
 		if ($info['etat'] != self::ETAT_INITIE){
@@ -103,29 +85,14 @@ class Entite  {
 	}
 	
 	public function getAncetre(){
-		$info = $this->getInfo();
-		$bc = array();
-		while ($info['entite_mere']){
-			$entite = new Entite($this->sqlQuery,$info['entite_mere']);
-			$info = $entite->getInfo();
-			$bc[] = $info;
+		static $ancetre;
+		if (! $ancetre){
+			$sql = "SELECT * FROM entite_ancetre " . 
+					" JOIN entite ON entite_ancetre.id_e_ancetre=entite.id_e " . 
+					" WHERE entite_ancetre.id_e=? ORDER BY niveau DESC";		
+			$ancetre = $this->sqlQuery->fetchAll($sql,$this->id_e);
 		}
-		
-		return array_reverse($bc);
+		return $ancetre;
 	}
 	
-	public function getBreadCrumbs(){
-		if (! $this->exists()){
-			return array();
-		}
-		$info = $this->getInfo();
-		$bc = array($info);
-		while ($info['entite_mere']){
-			$entite = new Entite($this->sqlQuery,$info['entite_mere']);
-			$info = $entite->getInfo();
-			$bc[] = $info;
-		}
-		
-		return array_reverse($bc);
-	}
 }

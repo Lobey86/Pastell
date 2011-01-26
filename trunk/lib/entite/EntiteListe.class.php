@@ -20,7 +20,7 @@ class EntiteListe {
 	}
 	
 	public function countCollectivite(){
-		$sql = "SELECT count(*) FROM entite WHERE type=? OR type=? ORDER BY denomination" ;
+		$sql = "SELECT count(*) FROM entite WHERE type=? OR type=?" ;
 		return $this->sqlQuery->fetchOneValue($sql,Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION);
 	}
 	
@@ -51,8 +51,6 @@ class EntiteListe {
 		}
 		
 		$sql .= " ORDER BY denomination";
-		
-		
 		return $this->sqlQuery->fetchAll($sql,$param);
 	}
 	
@@ -95,9 +93,6 @@ class EntiteListe {
 	
 	public function getArbreFilleFromArray(array $tabId_e){
 		$result = array();
-		
-	
-		
 		foreach($tabId_e as $id_e){
 			if ($id_e != 0) {
 				$sql = "SELECT * FROM entite WHERE id_e=? ORDER BY denomination";

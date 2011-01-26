@@ -66,7 +66,6 @@ if ($id_e != 0) {
 
 
 $navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
-
 $navigationEntite->affiche("document/index.php?a=a");
 
 if ($id_e) : ?>

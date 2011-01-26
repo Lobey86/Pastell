@@ -193,6 +193,9 @@ class PageDecorator {
 				<?php endforeach;?>
 				</div>
 			</div>
+			<?php 
+			
+			?>
 		</div><!-- main_gauche  -->
 		<?php 
 	}
