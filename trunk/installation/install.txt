@@ -2,4 +2,9 @@
 1. Installer les scripts PHP.
 2. Le serveur web doit "servir" le répertoire "web" (voir apache.conf pour un exemple)
 3. Installer la base de données (pastell.sql)
-4. Configurer l'application (voir le fichier DefaultSettings.php)
+4. Executer le script role_standard.sql sur la base de données
+5. Créer un administrateur : 
+
+
+
+6. Configurer l'application (voir le fichier DefaultSettings.php)

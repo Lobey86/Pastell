@@ -29,6 +29,10 @@ if ($authentification->isConnected()){
 	if ($roleUtilisateur->hasOneDroit($authentification->getId() ,"fournisseur:lecture'")) {
 		$pageDecorator->addToMainMenu("Fournisseurs", SITE_BASE . "entite/fournisseur.php","picto_fournisseurs");
 	}
+	if ($roleUtilisateur->hasDroit($authentification->getId(),"role:lecture",0)){
+		$pageDecorator->addToMainMenu("Rôles", SITE_BASE . "role/index.php","picto_collectivites");
+	}
+	
 	$pageDecorator->addToMainMenu("Aide", SITE_BASE . "aide/index.php","picto_aide");
 	if  ($roleUtilisateur->hasDroit($authentification->getId() ,'test:lecture',0)) {
 		$pageDecorator->addToMainMenu("Tests", SITE_BASE . "test/index.php","picto_collectivites");
@@ -42,7 +46,7 @@ if ($authentification->isConnected()){
 	$allType = array();
 
 	$allDocType = $documentTypeFactory->getAllType();
-	$allDroit = $roleUtilisateur->getDroit($authentification->getId());
+	$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 
 	foreach($allDocType as $type_flux => $les_flux){
 		foreach($les_flux as $nom => $affichage) {

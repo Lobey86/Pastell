@@ -41,7 +41,7 @@ $certificat = new Certificat($infoUtilisateur['certificat']);
 
 $roleDroit = new RoleDroit();
 
-
+$arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edition");
 $page_title = "Nouvel utilisateur ";
 
 if ($id_u){
@@ -121,7 +121,7 @@ $entiteListe = new EntiteListe($sqlQuery);
 	<td>
 		<select name='id_e'>
 			<option value=''>...</option>
-			<?php foreach($entiteListe->getArbreFilleFromArray($tabEntite) as $entiteInfo): ?>
+			<?php foreach($arbre as $entiteInfo): ?>
 			<option value='<?php echo $entiteInfo['id_e']?>' <?php echo $entiteInfo['id_e']==$infoUtilisateur['id_e']?"selected='selected'":""?>>
 				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
 				|_<?php echo $entiteInfo['denomination']?> </option>

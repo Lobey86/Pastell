@@ -2,6 +2,7 @@
 
 require_once("init.php");
 
+require_once(PASTELL_PATH . "/lib/droit/DroitChecker.class.php");
 
 if (! $authentification->isConnected()){
 	
@@ -9,3 +10,4 @@ if (! $authentification->isConnected()){
 		exit;
 }
 
+$droitChecker = new DroitChecker($roleUtilisateur,$authentification->getId());
