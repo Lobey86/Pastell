@@ -7,6 +7,7 @@ require_once( PASTELL_PATH . '/lib/transaction/TransactionSQL.class.php');
 require_once( PASTELL_PATH . '/lib/flux/FluxInscriptionFournisseur.class.php');
 require_once( PASTELL_PATH . '/lib/transaction/message/MessageSQL.class.php');
 require_once( PASTELL_PATH . '/lib/notification/Notification.class.php');
+require_once( PASTELL_PATH . '/lib/entite/EntiteCreator.class.php');
 
 if (! $donneesFormulaire->isValidable()) {
 	$lastError->setLastError("Le formulaire n'est pas terminé");
@@ -38,6 +39,7 @@ $transaction->addRole("160641569","detinataire");
 $notification->addNotification($infoEntite['siren'],$infoUtilisateur['email'],"default");
 */
 
-$entite->setEtat(Entite::ETAT_EN_COURS_VALIDATION);
+$entiteCreator = new EntiteCreator($sqlQuery,$journal);
+$entiteCreator->setEtat($id_e,Entite::ETAT_EN_COURS_VALIDATION);
 
 header("Location: valider-ok.php");

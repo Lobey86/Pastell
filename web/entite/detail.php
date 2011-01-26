@@ -16,8 +16,9 @@ $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
 $tab_number = $recuperateur->getInt('page',0);
 
+$droit_lecture = $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e);
 
-if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)){
+if ( ! $droit_lecture ){
 	header("Location: index.php");
 	exit;
 }
@@ -30,7 +31,6 @@ if ($id_e && ! $entite->exists()){
 
 
 $info = $entite->getInfo();
-
 
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 
@@ -49,15 +49,11 @@ if ($info['entite_mere']){
 	$entiteMere = new Entite($sqlQuery,$info['entite_mere']);
 	$infoMere = $entiteMere->getInfo();
 }
-
 $filles = $entite->getFille();
 
 $entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 
-
-
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'entite:lecture');
-
 $has_many_collectivite = true;
 
 
@@ -66,7 +62,6 @@ if (count($liste_collectivite) == 1){
 		$has_many_collectivite = false;
 	}
 }
-
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
@@ -80,6 +75,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/><br/>
 
 <?php 
+
 if ($info['type'] != Entite::TYPE_FOURNISSEUR && $id_e != 0) {
 
 	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');

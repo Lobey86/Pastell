@@ -1,16 +1,8 @@
 <?php
 
-
 class EntiteRelation {
 	
 	const IS_FOURNISSEUR = "is_fournisseur";
-	
-	const CREATE_SQL = "CREATE TABLE `pastell`.`entite_relation` (
-`id_e1` INT NOT NULL ,
-`relation` VARCHAR( 16 ) NOT NULL ,
-`id_e2` INT NOT NULL
-)";
-	
 	
 	public function __construct($sqlQuery){
 		$this->sqlQuery = $sqlQuery;
@@ -25,11 +17,5 @@ class EntiteRelation {
 		$sql = "SELECT id_e2 FROM entite_relation WHERE id_e1=? AND relation= ? LIMIT 1";
 		return $this->sqlQuery->fetchOneValue($sql,$id_e1,$relation);
 	}
-	
-	
-	
-	
-	
-	
 	
 }

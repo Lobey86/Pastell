@@ -35,7 +35,7 @@ if ($authentification->isConnected()){
 	}
 	
 	$entiteBC = new Entite($sqlQuery,$id_e_menu);
-	foreach( $entiteBC->getBreadCrumbs() as $infoEntiteBR){
+	foreach( $entiteBC->getAncetre() as $infoEntiteBR){
 		$pageDecorator->addToBreadCrumbs($infoEntiteBR['denomination']);
 	}
 	

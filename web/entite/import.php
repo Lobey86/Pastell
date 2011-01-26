@@ -57,7 +57,7 @@ include (PASTELL_PATH."/include/bloc_message.php");
 <div class="box_info">
 <p><strong>Format du fichier</strong></p>
 <p>Le fichier CSV doit contenir une collectivité par ligne.</p>
-<p>Les lignes sont formatés de la manière suivante : "libellé collectivité","siren"</p>
+<p>Les lignes sont formatés de la manière suivante : "libellé collectivité";"siren"</p>
 
 </div>
 

@@ -5,7 +5,6 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteModifier.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 
 $recuperateur = new Recuperateur($_POST);
@@ -33,8 +32,6 @@ if($id_e){
 	$entite = new Entite($sqlQuery,$id_e);
 }
 
-
-
 if ($type != Entite::TYPE_SERVICE) {
 	
 	if ( ! $siren ){
@@ -50,8 +47,6 @@ if ($type != Entite::TYPE_SERVICE) {
 } 
 
 
-
-
 if ($type == Entite::TYPE_SERVICE && ! $entite_mere){
 	$lastError->setLastError("Un service doit être ataché à une entité mère (collectivité, centre de gestion ou service)");
 	$redirection->redirect();
@@ -63,18 +58,8 @@ if (!$nom){
 	$redirection->redirect();
 }
 
-if ($id_e && $entite->exists()){
-	$entiteModifier = new EntiteModifier($sqlQuery,$journal,$id_e);
-	$entiteModifier->update($siren,$nom,$type,$entite_mere);
-} else {
-	$entiteCreator = new EntiteCreator($sqlQuery,$journal);
-	$id_e = $entiteCreator->create($siren,$nom,$type,$entite_mere);
-	$entiteModifier = new EntiteModifier($sqlQuery,$journal,$id_e);
-}
-
-if ($centre_de_gestion){
-	$entiteModifier->setCentreDeGestion($centre_de_gestion);
-}
+$entiteCreator = new EntiteCreator($sqlQuery,$journal);
+$id_e = $entiteCreator->edit($id_e,$siren,$nom,$type,$entite_mere,$centre_de_gestion);
 
 $entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 

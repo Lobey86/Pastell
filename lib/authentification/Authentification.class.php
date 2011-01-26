@@ -37,16 +37,4 @@ class Authentification {
 		unset($this->session['connexion']);
 	}
 
-	public function setBreadCrumbs($bc){
-		$this->session['connexion']['breadcrumbs'] = $bc;
-	}
-	
-	public function getBreadCrumbs(){
-		if (empty($this->session['connexion']['breadcrumbs'])){
-			return false;
-		}
-		return $this->session['connexion']['breadcrumbs'];
-	}
-	
-	
 }

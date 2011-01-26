@@ -1,5 +1,5 @@
 
 1. Installer les scripts PHP.
-2. Le serveur web doit "servir" le rÃ©pertoire "web" (voir apache.conf pour un exemple)
-3. Installer la base de donnÃ©es (database.sql)
+2. Le serveur web doit "servir" le répertoire "web" (voir apache.conf pour un exemple)
+3. Installer la base de données (pastell.sql)
 4. Configurer l'application (voir le fichier DefaultSettings.php)

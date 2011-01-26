@@ -17,6 +17,8 @@ class NavigationEntite {
 		
 		$ancetre = $entite->getAncetre();
 		
+		array_pop($ancetre);
+		
 		if (in_array(0,$this->listeCollectivite)){
 			return $ancetre;
 		}

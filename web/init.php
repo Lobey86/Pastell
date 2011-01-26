@@ -50,3 +50,6 @@ $journal = new Journal($signServer,$sqlQuery,$id_u_journal);
 require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/util.php");
+
+
+define("DATABASE_FILE", PASTELL_PATH."/installation/pastell.bin");
