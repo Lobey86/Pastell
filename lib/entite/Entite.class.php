@@ -49,10 +49,29 @@ class Entite  {
 	
 	public function getInfo(){
 		if (! $this->info){
-			$sql = "SELECT * FROM entite WHERE id_e=?";
-			$this->info = $this->sqlQuery->fetchOneLine($sql,$this->id_e);
+			$this->info = $this->getInfoWithId($this->id_e) ;
 		}
 		return $this->info;
+	}
+	
+	private function getInfoWithId($id_e){
+		$sql = "SELECT * FROM entite WHERE id_e=?";
+		return $this->sqlQuery->fetchOneLine($sql,$id_e);
+	}
+	
+	
+	public function getExtendedInfo(){
+		$result = $this->getInfo();
+		$cdg_id_e = $this->getCDG();
+		if ($cdg_id_e){
+			$result['cdg'] = $this->getInfoWithId($cdg_id_e) ;
+		}
+		if ($result['entite_mere']){
+			$result['entite_mere'] = $this->getInfoWithId($result['entite_mere']) ;
+		}
+		$result['filles'] = $this->getFille();
+		
+		return $result;
 	}
 	
 	public function getCDG(){
