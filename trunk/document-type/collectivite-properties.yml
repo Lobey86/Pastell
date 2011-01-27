@@ -4,6 +4,10 @@ formulaire:
 	
 	Informations générales : {}
 	
+	Utilisateurs : {}
+	
+	Agents: {}
+	
 	Tedetis:
 		tdt_activate: {name: "Module activé", type: checkbox}
 		tdt_url: {name: "URL du TDT"}
