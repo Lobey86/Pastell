@@ -7,6 +7,9 @@ require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteDetailHTML.class.php");
+require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
+require_once( PASTELL_PATH . "/lib/entite/AgentListHTML.class.php");
+
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListeHTML.class.php");
 
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
@@ -14,10 +17,12 @@ require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
+require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
 $tab_number = $recuperateur->getInt('page',0);
+$offset = $recuperateur->getInt('offset',0);
 
 $droit_lecture = $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e);
 
@@ -109,7 +114,25 @@ elseif($tab_number == 1) :
 	}
 	
 	$utilisateurListeHTML->display($utilisateurListe->getUtilisateurByEntite($id_e),$id_e);
-	
+elseif($tab_number == 2) :
+
+$agentListHTML = new AgentListHTML();
+$agentSQL = new AgentSQL($sqlQuery);
+
+$nbAgent = $agentSQL->getNbAgent($info['siren']);
+$listAgent = $agentSQL->getBySiren($info['siren'],$offset);
+
+?>
+<h2>Liste des agents</h2>
+<?php 
+suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$tab_number");
+
+$agentListHTML->display($listAgent);
+?>
+
+
+
+<?php 
 else: 
 
 

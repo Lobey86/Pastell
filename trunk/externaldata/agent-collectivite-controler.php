@@ -1,33 +1,24 @@
 <?php
 
+require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
 
-$agent = $recuperateur->get('agent');
-$matricule = $agent[0];
+$id_a = $recuperateur->get('id_a');
+
+$entite = new Entite($sqlQuery,$id_e);
+$info = $entite->getInfo();
+$siren = $info['siren'];
+
+$agentSQL = new AgentSQL($sqlQuery);
+$info = $agentSQL->getInfo($id_a,$siren);
 
 
-$fileName = PASTELL_PATH . "/data-exemple/agent.csv";
-if (! file_exists($fileName)){
-	exit;
-}
-
-$dataFile = explode("\n",file_get_contents($fileName));
-$agent = array();
-foreach($dataFile as $ligne){
-	if (! $ligne){
-		continue;
-	}
-	$l = explode(",",$ligne);	
-	$agent[$l[0]] = $l;	
-}
-
-$data_agent = $agent[$matricule];
-$da['matricule_de_lagent'] = $data_agent[0];
-$da['prenom'] = $data_agent[1];
-$da['nom_patronymique'] = $data_agent[2];
+$da['matricule_de_lagent'] = $info['matricule'];
+$da['prenom'] = $info['prenom'];
+$da['nom_patronymique'] = $info['nom_patronymique'];
 $status = array('titulaire' => 0,'stagiaire'=>1 , 
 				'non-titulaire' => 2);
-$da['statut']  = $status[$data_agent[3]];
-$da['grade'] = $data_agent[4];
+$da['statut']  = 0;
+$da['grade'] = $info['emploi_grade_libelle'];
 
 
 $data = new Recuperateur($da);

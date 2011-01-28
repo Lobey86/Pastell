@@ -1,32 +1,24 @@
 <?php 
 
-$page_title = "Choix d'un agent";
-include( PASTELL_PATH ."/include/haut.php");
 
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
 
-$fileName = PASTELL_PATH . "/data-exemple/agent.csv";
-if (! file_exists($fileName)){
-	exit;
-}
+$agentSQL = new AgentSQL($sqlQuery);
 
-$dataFile = explode("\n",file_get_contents($fileName));
-$agent = array();
-foreach($dataFile as $ligne){
-	if (! $ligne){
-		continue;
-	}
-	$l = explode(",",$ligne);	
-	$agent[$l[2]] = $l;	
-}
-
-
-ksort($agent);
-$agent = array_values($agent);
 $offset = $recuperateur->getInt('offset',0);
-$limit = 20;
+
+$entite = new Entite($sqlQuery,$id_e);
+$info = $entite->getInfo();
+$siren = $info['siren'];
 
 
+$nbAgent = $agentSQL->getNbAgent($siren);
+$listAgent = $agentSQL->getBySiren($siren,$offset);
+
+
+$page_title = "Choix d'un agent";
+include( PASTELL_PATH ."/include/haut.php");
 
 ?>
 <a href='document/edition.php?id_d=<?php echo $id_d ?>&id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à l'édition du document <em><?php echo $titre?></em></a>
@@ -34,7 +26,7 @@ $limit = 20;
 
 
 <?php 
-suivant_precedent($offset,$limit,count($agent),"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
+suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
 ?>
 
 
@@ -56,24 +48,19 @@ suivant_precedent($offset,$limit,count($agent),"document/external-data.php?id_e=
 		<th>Statut</th>
 		<th>Grade</th>
 	</tr>
-	<?php for ($i=$offset; $i<$offset+$limit;$i++) : 
-		if (! isset($agent[$i])){
-			break;
-		}
-	?>
+	<?php foreach ($listAgent as $i => $agent) : ?>
 		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-			<td class="w30">
-				
-			<input type='radio' name='agent[]' id="label_agent_<?php echo $i ?>" value='<?php echo $agent[$i][0]?>'/></td>
-			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][0] ?></label></td>
-			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][2] ?></label></td>
-			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][1] ?></label></td>
-			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][3] ?></label></td>
-			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent[$i][4] ?></label></td>
+			<td class="w30">				
+				<input type='radio' name='id_a' id="label_agent_<?php echo $i ?>" value='<?php echo $agent['id_a']?>'/></td>
+			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent["matricule"] ?></label></td>
+			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent['nom_patronymique'] ?></label></td>
+			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent['prenom'] ?></label></td>
+			<td><label for="label_agent_<?php echo $i ?>"><?php echo "unknow" ?></label></td>
+			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent['emploi_grade_libelle'] ?></label></td>
 			
 		</tr>
 	     
-	<?php endfor;?>
+	<?php endforeach;?>
 </table>
 <div class="align_right">
 <input type='submit' value='Choisir' class='submit' />
