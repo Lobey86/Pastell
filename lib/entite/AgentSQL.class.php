@@ -26,17 +26,18 @@ class AgentSQL {
 		return true;
 	}
 	
-	public function getBySiren($siren,$offset){
+	public function getBySiren($siren,$offset,$search){
 		$sql = "SELECT * FROM agent " . 
 				" WHERE siren=? " . 
+				" AND (nom_patronymique LIKE ? OR prenom LIKE ?) ".
 				" ORDER BY nom_patronymique,prenom".
 				" LIMIT $offset,".self::NB_MAX;
-		return $this->sqlQuery->fetchAll($sql,$siren);
+		return $this->sqlQuery->fetchAll($sql,$siren,"%$search%","%$search%");
 	}
 	
-	public function getNbAgent($siren){
-		$sql = "SELECT count(*) FROM agent WHERE siren=?";
-		return $this->sqlQuery->fetchOneValue($sql,$siren);
+	public function getNbAgent($siren,$search){
+		$sql = "SELECT count(*) FROM agent WHERE siren=? AND (nom_patronymique LIKE ? OR prenom LIKE ?)";
+		return $this->sqlQuery->fetchOneValue($sql,$siren,"%$search%","%$search%");
 	}
 	
 	public function getInfo($id_a,$siren){

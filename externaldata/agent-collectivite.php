@@ -7,15 +7,17 @@ require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
 $agentSQL = new AgentSQL($sqlQuery);
 
 $offset = $recuperateur->getInt('offset',0);
+$search = $recuperateur->get('search');
+
 
 $entite = new Entite($sqlQuery,$id_e);
 $info = $entite->getInfo();
 $siren = $info['siren'];
 
 
-$nbAgent = $agentSQL->getNbAgent($siren);
-$listAgent = $agentSQL->getBySiren($siren,$offset);
-
+$nbAgent = $agentSQL->getNbAgent($siren,$search);
+$listAgent = $agentSQL->getBySiren($siren,$offset,$search);
+$url = "document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field";
 
 $page_title = "Choix d'un agent";
 include( PASTELL_PATH ."/include/haut.php");
@@ -24,9 +26,20 @@ include( PASTELL_PATH ."/include/haut.php");
 <a href='document/edition.php?id_d=<?php echo $id_d ?>&id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à l'édition du document <em><?php echo $titre?></em></a>
 <br/><br/>
 
+<div>
+<form action='document/external-data.php' method='get' >
+	<input type='hidden' name='id_d' value='<?php echo $id_d?>' />
+	<input type='hidden' name='id_e' value='<?php echo $id_e?>' />
+	<input type='hidden' name='page' value='<?php echo $page?>' />
+	<input type='hidden' name='field' value='<?php echo $field?>' />
+	
+	<input type='text' name='search' value='<?php echo $search?>'/>
+	<input type='submit' value='Rechercher' />
+</form>
+</div>
 
 <?php 
-suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
+suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,$url);
 ?>
 
 
