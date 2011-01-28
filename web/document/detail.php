@@ -89,7 +89,7 @@ $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_
 	<input type='hidden' name='page' value='<?php echo $page ?>' />
 	
 	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
-	<input type='submit' value='<?php hecho($theAction->getActionName($action_name)) ?>'/>
+	<input type='submit' value='<?php hecho($theAction->getDoActionName($action_name)) ?>'/>
 </form>
 <?php endforeach;?>
 

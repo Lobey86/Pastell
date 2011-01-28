@@ -2,6 +2,7 @@
 class Action {
 	
 	const ACTION_DISPLAY_NAME = "name";
+	const ACTION_DO_DISPLAY_NAME= "name-action";
 	const ACTION_RULE = "rule";
 	const ACTION_SCRIPT = "action-script";
 	const AUTO_SCRIPT = "auto-script";
@@ -30,6 +31,15 @@ class Action {
 		}
 		return $tabAction[self::ACTION_DISPLAY_NAME];
 	}
+	
+	public function getDoActionName($action_internal_name){
+		$tabAction = $this->getActionArray($action_internal_name);
+		if (! isset($tabAction[self::ACTION_DO_DISPLAY_NAME])){
+			return $this->getActionName($action_internal_name);
+		}
+		return $tabAction[self::ACTION_DO_DISPLAY_NAME];
+	}
+	
 	
 	private function getActionArray($action_internal_name){
 		if (! isset($this->tabAction[$action_internal_name])){

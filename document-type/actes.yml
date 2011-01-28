@@ -65,7 +65,8 @@ page-condition:
 action:
 	creation:
 		
-		name: Créer
+		name-action: Créer
+		name: Création
 		
 		rule:
 			no-last-action:
@@ -76,7 +77,8 @@ action:
 		
 	modification:
 	
-		name: Modifier
+		name-action: Modifier
+		name: Modification
 		
 		rule:
 			last-action: 
@@ -86,7 +88,9 @@ action:
 			droit_id_u: 'actes:edition'
 
 	supression:
-		name: Supprimer
+		name-action: Supprimer
+		name: Supression
+		
 		rule:
 			last-action: 
 				creation
@@ -96,8 +100,8 @@ action:
 		action-class: Supprimer
 
 	send-tdt:
-		
-		name: Envoyer au contrôle de légalité
+		name-action: Transmettre à la préfecture
+		name: Transmis en préfecture 
 		
 		rule:
 			last-action: 
@@ -123,14 +127,15 @@ action:
 	
 	
 	acquiter-tdt:
-		name: Acquittement du contrôle de légalité reçu.
-		
+		name: Acquitté par la préfécture 
 		rule:
 			role_id_e: no-role
 
 	
 	annulation-tdt:
-		name: Annuler la transaction
+		name-action: Annuler la transaction
+		name: Transaction annulée
+		
 		rule:
 			has-action:
 				acquiter-tdt
@@ -141,7 +146,8 @@ action:
 		action-class: TedetisAnnulation
 				
 	send-cdg-manuel:
-		name: Envoyer au CDG
+		name-action: Transmettre au CDG
+		name: Transmis au CDG
 	
 		rule:
 			last-action: 
@@ -159,8 +165,9 @@ action:
 			
 	send-cdg:
 	
-		name: Envoyer au CDG
-	
+		name-action: Transmettre au CDG
+		name: Transmis au CDG
+		
 		rule:
 			last-action: acquiter-tdt
 			role_id_e: no-role
@@ -178,8 +185,9 @@ action:
 					
 	send-ged:
 		
-		name: Enregistrer dans la GED
-	
+		name-action: Verser en GED
+		name: Versé en GED
+			
 		rule:
 			last-action: 
 				recu-cdg
@@ -197,7 +205,8 @@ action:
 	
 	send-archive:
 	
-		name: Archiver
+		name-action: Verser au SAE
+		name: Versé au SAE
 	
 		rule:
 			last-action: 
