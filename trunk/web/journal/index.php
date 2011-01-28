@@ -22,11 +22,11 @@ if ( ! $liste_collectivite){
 	exit;
 }
 
-if (! $id_e && count($liste_collectivite) == 1){
+if (! $id_e && (count($liste_collectivite) == 1)){
 	$id_e = $liste_collectivite[0];
-}
-	
-if  (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)){
+} 
+
+if  ($id_e && ! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)){
 	header("Location: ".SITE_BASE . "index.php");
 	exit;
 }
@@ -38,7 +38,6 @@ $infoEntite = $entite->getInfo();
 
 
 $count = $journal->countAll($id_e,$type,$id_d);
-
 
 $page_title="Journal des évènements";
 if ($id_e){
