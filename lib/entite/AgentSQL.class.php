@@ -11,7 +11,11 @@ class AgentSQL {
 	//"Matricule (5)";"Titre";"Nom d'usage";"Nom patronymique";"Prénom";"Emploi / Grade (C)";
 	//"Emploi / Grade (L)";"Collectivité (C)";"Collectivité (L)";"SIREN";"Type de dossier";"Type de dossier (L)"
 	//;"Train de traitement (C)";"Train de traitement (L)"
-	public function add($info){
+	public function add($info,$infoCollectivite = array()){
+		
+		if ($infoCollectivite){
+			$info[9] = $infoCollectivite['siren'];
+		}
 		
 		$sql = "DELETE FROM agent WHERE siren=? AND matricule=?";
 		$this->sqlQuery->query($sql,$info[9],$info[0]);
@@ -40,5 +44,6 @@ class AgentSQL {
 			" WHERE id_a=? AND siren=? " ;
 		return $this->sqlQuery->fetchOneLine($sql,$id_a,$siren);
 	}
+	
 	
 }

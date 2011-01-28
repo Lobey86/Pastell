@@ -11,7 +11,7 @@ class ImportFormHTML {
 	
 
 	
-	public function displayImportCol($id_e,$denominations,$allCDG){
+	public function displayImportCol($id_e,$denomination,$allCDG){
 		?>
 		<div class="box_contenu clearfix">
 				
@@ -48,11 +48,19 @@ class ImportFormHTML {
 	<?php 
 		}
 		
-	public function displayImportAgent(){
+	public function displayImportAgent($id_e,$denomination){
 		?>
 		<div class="box_contenu clearfix">
 			<form class="w700" action="entite/import-agent-controler.php" method='post' enctype='multipart/form-data'>
+				<input type='hidden' name='id_e' value='<?php echo $id_e?>' />
+				
 				<table>
+				<?php if ($id_e) : ?>
+				<tr>
+					<th>Collectivité (écrasera le SIREN du fichier) :</th>
+					<td><?php echo $denomination ?></td>
+				</tr>
+				<?php endif;?>
 				<tr>
 					<th>Fichier CSV</th>
 					<td><input type='file' name='csv_agent'/></td>

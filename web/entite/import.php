@@ -12,6 +12,7 @@ $tabDecoratorHTML = new TabDecoratorHTML();
 
 $id_e = $recuperateur->getInt('id_e',0);
 $page =  $recuperateur->getInt('page',0);
+$page_retour =  $recuperateur->getInt('page_retour',0);
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e) ) {
 	header("Location: " . SITE_BASE ."index.php");
@@ -29,6 +30,19 @@ $page_title = "Importer";
 
 
 include( PASTELL_PATH ."/include/haut.php");
+if ($id_e) {
+	$lienRetourHTML->display($denomination,"entite/detail.php?id_e=$id_e&page=$page_retour");
+} else {
+		$lienRetourHTML->display("Liste des collectivités","entite/index.php");
+	
+}
+?>
+
+
+
+<?php 
+
+
 include (PASTELL_PATH."/include/bloc_message.php"); 
 
 $tabDecoratorHTML->display(array("Collectivités","Agents"),"entite/import.php?id_e=$id_e",$page);
@@ -37,7 +51,7 @@ if ($page == 0){
 	$allCDG = $entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
 	$importForm->displayImportCol($id_e,$denomination,$allCDG);
 } else {
-	$importForm->displayImportAgent();
+	$importForm->displayImportAgent($id_e,$denomination);
 }
 
 include( PASTELL_PATH ."/include/bas.php");
