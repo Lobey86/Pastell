@@ -132,7 +132,7 @@ class PageDecorator {
 	private function displayBlocLogin(){ ?>
 		<div id="bloc_login">
 			<img src="img/commun/picto_user.png" alt="" class="absmiddle" />
-			<strong><?php echo $this->login ?></strong>
+			<strong><a href='utilisateur/moi.php'><?php echo $this->login ?></a></strong>
 			&nbsp;&nbsp;|&nbsp;&nbsp;
 			<img src="img/commun/picto_logout.png" alt="" class="absmiddle" />
 			<a href="<?php echo  $this->siteBase ?>connexion/logout.php">Se déconnecter</a>
