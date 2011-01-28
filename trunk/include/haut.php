@@ -5,6 +5,7 @@ require_once( PASTELL_PATH. "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
 require_once( PASTELL_PATH. "/lib/skin/PageDecorator.class.php");
 require_once( PASTELL_PATH. "/lib/helper/version.php");
+require_once( PASTELL_PATH. "/lib/skin/LienRetourHTML.class.php");
 
 header("Content-type: text/html");
 
@@ -66,5 +67,7 @@ if ($authentification->isConnected()){
 
 
 $pageDecorator->displayHaut();
+
+$lienRetourHTML = new LienRetourHTML();
 ?>
 

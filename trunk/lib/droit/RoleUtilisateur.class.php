@@ -83,7 +83,6 @@ class RoleUtilisateur {
 		return in_array($droit,$allDroit);
 	}
 	
-	
 	private function linearize($line,&$all,$profondeur){
 		
 		return $result;
@@ -138,5 +137,17 @@ class RoleUtilisateur {
 		};
 		return $result;
 	}
+	
+	public function hasManyEntite($id_u,$role){
+		if ($this->hasDroit($id_u,$role,0)){
+			return true;
+		}
+		$sql = "SELECT count(distinct(id_e)) FROM utilisateur_role WHERE id_u = ?";
+		
+		$nb_entite = $this->sqlQuery->fetchOneValue($sql,$id_u);
+		
+		return ($nb_entite > 1);
+	}
+	
 	
 }

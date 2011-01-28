@@ -36,9 +36,7 @@ if ($id_e && ! $entite->exists()){
 	header("Location: index.php");
 	exit;
 }
-
-$info = $entite->getExtendedInfo();
-
+$info = $entite->getInfo();
 
 
 $lastTransaction = false;
@@ -53,26 +51,7 @@ if ($id_e){
 	$tab_number=1;
 }
 
-$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
-
-$liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'entite:lecture');
-$has_many_collectivite = true;
-
-
-if (count($liste_collectivite) == 1){
-	if ($liste_collectivite[0] != 0) {
-		$has_many_collectivite = false;
-	}
-}
-
-$entiteDetailHTML = new EntiteDetailHTML();
-if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)){
-	$entiteDetailHTML->addDroitEdition();
-}
-
-if (isset($info['cdg']['id_e']) && $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$info['cdg']['id_e'])){
-	$entiteDetailHTML->addDroitLectureCDG();
-}
+$has_many_collectivite = $roleUtilisateur->hasManyEntite($authentification->getId(),'entite:lecture');
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
@@ -104,6 +83,17 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 <div class="box_contenu clearfix">
 
 <?php if ($tab_number == 0) : 
+	$entiteDetailHTML = new EntiteDetailHTML();
+	if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)){
+		$entiteDetailHTML->addDroitEdition();
+	}
+	
+	if (isset($info['cdg']['id_e']) && $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$info['cdg']['id_e'])){
+		$entiteDetailHTML->addDroitLectureCDG();
+	}
+	$info = $entite->getExtendedInfo();
+	$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
+	
 	$entiteDetailHTML->display($info,$entiteProperties);
 elseif($tab_number == 1) : 
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
@@ -123,7 +113,13 @@ $nbAgent = $agentSQL->getNbAgent($info['siren']);
 $listAgent = $agentSQL->getBySiren($info['siren'],$offset);
 
 ?>
-<h2>Liste des agents</h2>
+<h2>Liste des agents
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
+<a href="entite/import.php?id_e=<?php echo $id_e?>&page=1&page_retour=2" class='btn_maj'>
+		Importer
+		</a>
+<?php endif;?>
+</h2>
 <?php 
 suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$tab_number");
 
