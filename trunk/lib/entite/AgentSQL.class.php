@@ -26,7 +26,7 @@ class AgentSQL {
 		return true;
 	}
 	
-	public function getBySiren($siren,$offset,$search){
+	public function getBySiren($siren,$offset,$search = ''){
 		$sql = "SELECT * FROM agent " . 
 				" WHERE siren=? " . 
 				" AND (nom_patronymique LIKE ? OR prenom LIKE ?) ".
@@ -35,7 +35,7 @@ class AgentSQL {
 		return $this->sqlQuery->fetchAll($sql,$siren,"%$search%","%$search%");
 	}
 	
-	public function getNbAgent($siren,$search){
+	public function getNbAgent($siren,$search = ''){
 		$sql = "SELECT count(*) FROM agent WHERE siren=? AND (nom_patronymique LIKE ? OR prenom LIKE ?)";
 		return $this->sqlQuery->fetchOneValue($sql,$siren,"%$search%","%$search%");
 	}

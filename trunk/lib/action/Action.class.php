@@ -33,7 +33,8 @@ class Action {
 	
 	private function getActionArray($action_internal_name){
 		if (! isset($this->tabAction[$action_internal_name])){
-			throw new Exception("L'action '$action_internal_name' est inconnue. Veuillez contacter votre administrateur Pastell");
+			//throw new Exception("L'action '$action_internal_name' est inconnue. Veuillez contacter votre administrateur Pastell");
+			return array();
 		}
 		return $this->tabAction[$action_internal_name];
 	}
