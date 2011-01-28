@@ -63,6 +63,7 @@ class Entite  {
 	public function getExtendedInfo(){
 		$result = $this->getInfo();
 		$cdg_id_e = $this->getCDG();
+		$result['cdg'] = array();
 		if ($cdg_id_e){
 			$result['cdg'] = $this->getInfoWithId($cdg_id_e) ;
 		}

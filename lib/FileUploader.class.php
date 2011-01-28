@@ -3,6 +3,7 @@
 class FileUploader {
 	
 	private $files;
+	private $lastError;
 	
 	public function __construct($files = null){
 		if (! $files){
@@ -19,7 +20,31 @@ class FileUploader {
 		return $this->getValue($filename,'name');
 	}
 	
+	public function getLastError(){
+		
+		switch($this->lastError){
+			case UPLOAD_ERR_INI_SIZE: return "Le fichier dépasse ". ini_get("upload_max_filesize");
+			case UPLOAD_ERR_FORM_SIZE : return "Le fichier dépasse la taille limite autorisé par le formulaire";
+			case UPLOAD_ERR_PARTIAL: return "Le fichier n'a été que partiellement reçu";
+			case UPLOAD_ERR_NO_FILE: return "Aucun fichier n'a été reçu";
+			case UPLOAD_ERR_NO_TMP_DIR: return "Erreur de configuration : le répertoire temporaire n'existe pas";
+			case UPLOAD_ERR_CANT_WRITE  : return "Erreur de configuration : Impossible d'écrire dans le répertoire temporaire";
+			case UPLOAD_ERR_EXTENSION  : return "Une extension PHP empeche l'upload du fichier!";
+			default: return "Aucun fichier reçu (code : {$this->lastError})";	
+		}
+		
+	}
+	
 	private function getValue($filename,$value){
+		
+		if (! isset($this->files[$filename]['error'])){
+			return false;
+		}
+		if ($this->files[$filename]['error'] != UPLOAD_ERR_OK){
+			$this->lastError = $this->files[$filename]['error'];
+			return false;
+		}
+		
 		if (empty($this->files[$filename][$value])){
 			return false;
 		}

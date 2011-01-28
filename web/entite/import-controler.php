@@ -19,12 +19,11 @@ $fileUploader = new FileUploader($_FILES);
 $file_path = $fileUploader->getFilePath('csv_col');
 if (! $file_path){
 	$lastError->setLastError("Impossible de lire le fichier");
-	header("Location: import.php");
+	header("Location: import.php?id_e=$id_e");
 	exit;	
 }
 
 $CSV = new CSV();
-
 $colList = $CSV->get($file_path);
 
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
