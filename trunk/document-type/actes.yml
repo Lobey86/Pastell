@@ -127,7 +127,7 @@ action:
 	
 	
 	acquiter-tdt:
-		name: Acquitté par la préfécture 
+		name: Acquitté par la préfecture 
 		rule:
 			role_id_e: no-role
 
