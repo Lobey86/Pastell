@@ -1,3 +1,23 @@
+CREATE TABLE agent (
+	`id_a` int(11) NOT NULL AUTO_INCREMENT,
+	`matricule` varchar(64) NOT NULL,
+	`titre` varchar(16) NOT NULL,
+	`nom_usage` varchar(128) NOT NULL,
+	`nom_patronymique` varchar(128) NOT NULL,
+	`prenom` varchar(128) NOT NULL,
+	`emploi_grade_code` varchar(16) NOT NULL,
+	`emploi_grade_libelle` varchar(128) NOT NULL,
+	`collectivite_code` varchar(16) NOT NULL,
+	`collectivite_libelle` varchar(128) NOT NULL,
+	`siren` varchar(16) NOT NULL,
+	`type_dossier_code` varchar(16) NOT NULL,
+	`type_dossier_libelle` varchar(128) NOT NULL,
+	`train_traitement_code` varchar(16) NOT NULL,
+	`train_traitement_libelle` varchar(128) NOT NULL,
+	PRIMARY KEY (`id_a`),
+	UNIQUE KEY siren (`siren`,`matricule`,`emploi_grade_code`),
+	KEY siren_2 (`siren`,`nom_patronymique`,`prenom`,`id_a`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE annuaire (
 	`id_a` int(11) NOT NULL AUTO_INCREMENT,
 	`description` varchar(64) NOT NULL,
@@ -78,7 +98,8 @@ CREATE TABLE entite_ancetre (
 	`id_e_ancetre` int(11) NOT NULL,
 	`id_e` int(11) NOT NULL,
 	`niveau` int(11) NOT NULL,
-	PRIMARY KEY (`id_e`,`id_e_ancetre`)
+	PRIMARY KEY (`id_e`,`id_e_ancetre`),
+	KEY id_e_ancetre (`id_e_ancetre`,`id_e`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE entite_properties (
 	`id_e` int(11) NOT NULL,
@@ -133,6 +154,16 @@ CREATE TABLE notification (
 	`type` varchar(16) NOT NULL,
 	`action` varchar(16) NOT NULL,
 	PRIMARY KEY (`id_n`)
+)  ENGINE=MyISAM  ;
+CREATE TABLE role (
+	`role` varchar(64) NOT NULL,
+	`libelle` varchar(255) NOT NULL,
+	PRIMARY KEY (`role`)
+)  ENGINE=MyISAM  ;
+CREATE TABLE role_droit (
+	`role` varchar(64) NOT NULL,
+	`droit` varchar(64) NOT NULL,
+	PRIMARY KEY (`role`,`droit`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE transaction (
 	`id_t` varchar(16) NOT NULL,
