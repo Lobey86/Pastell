@@ -46,5 +46,26 @@ class AgentSQL {
 		return $this->sqlQuery->fetchOneLine($sql,$id_a,$siren);
 	}
 	
+	public function getNbAllAgent($search){
+		$sql = "SELECT  count(*) FROM agent " . 
+		" JOIN entite ON entite.siren=agent.siren " . 
+		" JOIN entite_ancetre ON entite.id_e=entite_ancetre.id_e " .
+		" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e " . 
+		" JOIN role_droit ON utilisateur_role.role=role_droit.role " .
+		" WHERE droit='entite:lecture' AND utilisateur_role.id_u=1 AND (nom_patronymique LIKE ? OR prenom LIKE ?)";
+		return  $this->sqlQuery->fetchOneValue($sql,"%$search%","%$search%");
+	}
+	
+	public function getAllAgent($search,$offset){
+		$sql = "SELECT agent.*,entite.id_e,entite.denomination FROM agent " . 
+		" JOIN entite ON entite.siren=agent.siren " . 
+		" JOIN entite_ancetre ON entite.id_e=entite_ancetre.id_e " .
+		" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e " . 
+		" JOIN role_droit ON utilisateur_role.role=role_droit.role " .
+		" WHERE droit='entite:lecture' AND utilisateur_role.id_u=1 AND (nom_patronymique LIKE ? OR prenom LIKE ?)" .
+		" ORDER BY nom_patronymique,prenom".
+		" LIMIT $offset,".self::NB_MAX;;
+		return  $this->sqlQuery->fetchAll($sql,"%$search%","%$search%");
+	}
 	
 }

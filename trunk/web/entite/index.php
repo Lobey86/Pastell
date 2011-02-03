@@ -76,8 +76,9 @@ suivant_precedent($offset,count($liste_collectivite),$nbCollectivite,"entite/ind
 	</table>
 
 	<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",0)) : ?>
-		Voir les <a href='entite/detail.php?id_e=0'>utilisateurs globaux</a>
+	<p>Voir les <a href='entite/detail.php?id_e=0'>utilisateurs globaux</a></p>	
 	<?php endif;?>
+	<p>Voir les <a href='entite/agents.php'>agents</a></p>
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
