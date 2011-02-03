@@ -11,8 +11,9 @@ $info = $typeActes->getInfo($classif);
 
 $info_classification = "";
 if ($info['transmission_actes']){
-
-	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,$type);	
+	$entite = new Entite($sqlQuery,$id_e);
+	$id_e_col = $entite->getCollectiviteAncetre();
+	$donneesFormulaire = $donneesFormulaireFactory->get($id_e_col,$type);	
 	$file = $donneesFormulaire->getFilePath('classification_file');
 
 	if (! file_exists($file)){

@@ -2,8 +2,10 @@
 
 require_once(PASTELL_PATH."/externaldata/lib/ClassificationActes.class.php");
 
+$entite = new Entite($sqlQuery,$id_e);
+$ancetre = $entite->getCollectiviteAncetre();
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,$type);
+$donneesFormulaire = $donneesFormulaireFactory->get($ancetre['id_e'],$type);
 
 
 $file = $donneesFormulaire->getFilePath('classification_file');

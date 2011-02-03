@@ -7,9 +7,14 @@ require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 class TedetisEnvoie  extends ActionExecutor {
 
 	public function go(){
-		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');
 		
-		$tedetis = new Tedetis($collectiviteProperties);
+		/*$id_e_col = $this->getEntite()->getCollectiviteAncetre();
+				
+		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($id_e_col,'collectivite-properties');
+		*/
+		
+		
+		$tedetis = new Tedetis($this->getCollectiviteProperties());
 		
 		if (!  $tedetis->postActes($this->getDonneesFormulaire()) ){
 			$this->setLastMessage( $tedetis->getLastError());

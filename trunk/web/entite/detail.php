@@ -74,6 +74,13 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
 	
 	
+	if ($info['type'] == Entite::TYPE_SERVICE){
+		$formulaire->delTab('Agents');
+		$formulaire->delTab('Tedetis');
+		$formulaire->delTab('GED');
+	}
+	
+	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 	$afficheurFormulaire->injectHiddenField("id_e",$id_e);
 	

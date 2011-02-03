@@ -11,9 +11,7 @@ $search = $recuperateur->get('search');
 
 
 $entite = new Entite($sqlQuery,$id_e);
-$info = $entite->getInfo();
-$siren = $info['siren'];
-
+$siren =  $entite->getSiren();
 
 $nbAgent = $agentSQL->getNbAgent($siren,$search);
 $listAgent = $agentSQL->getBySiren($siren,$offset,$search);
