@@ -90,6 +90,9 @@ class RoleUtilisateur {
 	
 	private function linearizeTab($id_e,&$all,$profondeur){
 		$result = array();
+		if (empty($all[$id_e])){
+			return $result;
+		}
 		foreach($all[$id_e] as $line)  {
 			$line['profondeur'] = $profondeur;
 			$result[] = $line;

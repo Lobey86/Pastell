@@ -33,11 +33,11 @@ $notification = new Notification($sqlQuery);
 $roleInfo =  $roleUtilisateur->getRole($id_u);
 
 
-if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$info['id_e'])) {
+/*if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$info['id_e'])) {
 	$lastError->setLastError("Vous n'avez pas le droit de lecture (".$info['id_e'].")");
 	header("Location: " . SITE_BASE . "index.php");
 	exit;
-}
+}*/
 
 $utilisateur_edition = $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$info['id_e']);
 
