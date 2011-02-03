@@ -75,20 +75,29 @@ class Entite  {
 		return $result;
 	}
 	
+	public function getSiren(){
+		return $this->getHeritedInfo('siren');
+	}
+	
 	public function getCDG(){
+		return $this->getHeritedInfo('centre_de_gestion');
+	}
+	
+	private function getHeritedInfo($colname){
 		$info = $this->getInfo();
-		if ($info['centre_de_gestion']){
-			return $info['centre_de_gestion'];
+		if ($info[$colname]){
+			return $info[$colname];
 		}
 		
 		$ancetre = $this->getAncetre();
 		foreach($ancetre as $id => $info){
-			if ($info['centre_de_gestion']){
-				return $info['centre_de_gestion'];
+			if ($info[$colname]){
+				return $info[$colname];
 			}
 		}
 		return false;
 	}
+	
 	
 	public function desinscription(){
 		$info = $this->getInfo();
@@ -113,6 +122,19 @@ class Entite  {
 			$ancetre = $this->sqlQuery->fetchAll($sql,$this->id_e);
 		}
 		return $ancetre;
+	}
+	
+	public function getCollectiviteAncetre(){
+		$info = $this->getInfo();
+		if ($info['type'] == self::TYPE_COLLECTIVITE){
+			return $this->id_e;
+		}
+		foreach($this->getAncetre() as $ancetre){
+			if ($ancetre['type'] == self::TYPE_COLLECTIVITE){
+				return $ancetre['id_e'];
+			}
+		}
+		return false;
 	}
 	
 }

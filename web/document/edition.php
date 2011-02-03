@@ -35,8 +35,6 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 $documentType = $documentTypeFactory->getDocumentType($type);
 $formulaire = $documentType->getFormulaire();
 
-
-
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 $page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
@@ -44,8 +42,7 @@ $page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $i
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $dataInjector = new DataInjector($formulaire,$donneesFormulaire);
-$dataInjector->inject($infoEntite['siren']);
-
+$dataInjector->inject($entite->getSiren());
 
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 $afficheurFormulaire->injectHiddenField("id_d",$id_d);

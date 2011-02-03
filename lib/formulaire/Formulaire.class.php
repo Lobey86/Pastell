@@ -14,6 +14,10 @@ class Formulaire {
 		$this->pageCondition = array();
 	}
 	
+	public function delTab($page){
+		unset($this->formArray[$page]);
+	}
+	
 	public function addPageCondition(array $pageCondition){
 		$this->pageCondition = $pageCondition;
 	}

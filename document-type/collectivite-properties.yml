@@ -45,6 +45,8 @@ formulaire:
 			script: mailsec/annuaire.php
 			link_name: Voir l'annuaire »
 			read-only: true
+
+			
 action:
 
 	test-tedetis:

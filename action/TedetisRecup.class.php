@@ -14,6 +14,7 @@ class TedetisRecup extends ActionExecutor {
 
 	public function go(){
 
+			
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
 		
 		$actionCreator = $this->getActionCreator();
@@ -27,7 +28,7 @@ class TedetisRecup extends ActionExecutor {
 		$status = $tedetis->getStatus($tedetis_transaction_id);
 		
 		if ($status === false){
-			echo $tedetis->getLastError();
+			$this->setLastMessage($tedetis->getLastError());
 			return false;
 		} 
 		

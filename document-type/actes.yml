@@ -155,16 +155,15 @@ action:
 				creation
 			
 			document_is_valide: true
-			content: 
-				envoi_tdt: false
 			role_id_e: editeur
 			droit_id_u: 'rh-actes:edition'
-			content: 
+			content:
 				envoi_cdg: true
+			content:
+				envoi_tdt: false
 		action-class: EnvoieCDG
 			
 	send-cdg:
-	
 		name-action: Transmettre au CDG
 		name: Transmis au CDG
 		

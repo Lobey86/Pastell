@@ -75,7 +75,9 @@ if (! file_exists($action_class_file )){
 	exit;
 }
 
-$collectiviteProperties = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+
+$id_e_col = $entite->getCollectiviteAncetre();
+$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
 
 
 require_once($action_class_file);
