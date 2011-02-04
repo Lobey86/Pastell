@@ -43,10 +43,12 @@ class EntiteCreator {
 		$sql = "UPDATE entite SET siren= ? , denomination=?,type=?,entite_mere = ?, centre_de_gestion=? " . 
 				" WHERE id_e=?";
 		$this->sqlQuery->query($sql,$siren,$denomination,$type,$entite_mere,$id_e_centre_de_gestion,$id_e);
-		$this->journal->add(Journal::MODIFICATION_ENTITE,$this->id_e,0,"modification","");	
+		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"modification","");	
 	}
 	
 	public function updateAncetre($id_e,$entite_ancetre){		
+		$sql_delete = "DELETE FROM entite_ancetre WHERE id_e=?";
+		$this->sqlQuery->query($sql_delete,$id_e);
 		$sql_insert = "INSERT INTO entite_ancetre(id_e_ancetre,id_e,niveau) VALUES (?,?,?)";
 		$sql_select = "SELECT entite_mere FROM entite WHERE id_e=?";
 		$niveau = 0;
