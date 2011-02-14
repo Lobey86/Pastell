@@ -37,9 +37,9 @@ formulaire:
 				5: Documents budgétaires et financiers
 				
 	
-		Numéro de l'acte:  {requis: true}
+		Numéro de l'acte:  {requis: true, commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"}
 		Date de l'acte: {type: date, requis: true}
-		Arreté: {type: file, requis: true}
+		Arreté: {type: file, requis: true, commentaire: "format PDF uniquement"}
 		Autre document attaché: {type: file, multiple: true}
 	
 			

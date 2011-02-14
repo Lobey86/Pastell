@@ -376,3 +376,9 @@ height:24px;
 .lien_retour{
 	padding-bottom: 10px;
 }
+
+.form_commentaire {
+	padding: 0px;
+	margin: 0px;
+	color: #B2B2B2;
+}
