@@ -71,6 +71,12 @@ if ( $password && $password2 ){
 	}
 	$utilisateur->setPassword($password);
 }
+
+if (! is_mail($email)){
+	$lastError->setLastError("Votre adresse email ne semble pas valide");
+	$redirection->redirect();
+}
+
 $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
 $utilisateur->setEmail($email);
