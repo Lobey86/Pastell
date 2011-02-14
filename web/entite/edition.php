@@ -106,12 +106,16 @@ include( PASTELL_PATH ."/include/haut.php");
 	</select></td>
 	</tr>
 <tr>
-<th><label for="nom">Nom<span>*</span></label></th>
+<th><label for="nom">Nom<span>*</span></label>
+<p class='form_commentaire'>60 caractères max</p>
+</th>
 
 <td><input type="text" name="nom" id="nom" value='<?php echo $infoEntite['denomination']?>'/></td>
 </tr>
 <tr>
-<th><label for="siren">SIREN<span>*</span>(obligatoire pour une collectivité)</label></th>
+<th><label for="siren">SIREN<span>*</span></label>
+<p class='form_commentaire'>9 caractères obligatoires </p>
+<p class='form_commentaire'>obligatoire pour une collectivité</p></th>
 <td>
 	<input type="text" name="siren" id="siren" value='<?php echo $infoEntite['siren']?>'/></td>
 
