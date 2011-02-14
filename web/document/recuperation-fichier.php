@@ -8,9 +8,9 @@ require_once( PASTELL_PATH . "/lib/transaction/message/MessageRessource.class.ph
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');
+$id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num');
-
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,'collectivite-properties');
 
@@ -24,6 +24,14 @@ if (! file_exists($file_path)){
 	header("Location: index.php");
 	exit;
 }
+
+$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
+$infoUtilisateur = $utilisateur->getInfo();
+$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
+
+$journal->add(Journal::DOCUMENT_CONSULTATION,$id_e,$id_d,"consultation","$nom a consulté le document $file_name");
+
+
 
 header("Content-type: ".mime_content_type($file_path));
 header("Content-disposition: attachment; filename=$file_name");

@@ -156,7 +156,7 @@ $actionPossible->setEntite($entite);
 		</a></h2>
 	<?php endif;?>
 
-	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e"); ?>
+	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e"); ?>
 	
 <br/>
 <?php 
