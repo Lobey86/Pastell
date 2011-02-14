@@ -77,6 +77,9 @@ class AfficheurFormulaire {
 						<?php if ($field->isMultiple()): ?>
 							(plusieurs valeurs possibles)
 						<?php endif;?>
+						<?php if ($field->getProperties('commentaire')) : ?>
+							<p class='form_commentaire'><?php echo $field->getProperties('commentaire') ?></p>
+						<?php endif;?>
 					</th>
 					<td> 
 					<?php if ($field->getType() == 'checkbox') :?>
