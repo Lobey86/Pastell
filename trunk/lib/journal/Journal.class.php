@@ -5,24 +5,13 @@ require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 
 class Journal {
 	
-	const CREATE_SQL = "CREATE TABLE journal (
-  id_j int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(11) NOT NULL,
-  id_e int(11) NOT NULL,
-  id_u int(11) NOT NULL,
-  id_d varchar(16) NOT NULL,
-  `action` varchar(16) NOT NULL,
-  message varchar(128) NOT NULL,
-  `date` datetime NOT NULL,
-  preuve varchar(1024) NOT NULL,
-  PRIMARY KEY (id_j)
-)";
-	
 	const DOCUMENT_ACTION = 1;
 	const NOTIFICATION = 2;
 	const MODIFICATION_ENTITE = 3;
 	const MODIFICATION_UTILISATEUR = 4;
 	const MAIL_SECURISE = 5;
+	const CONNEXION = 6;
+	const DOCUMENT_CONSULTATION = 7 ;
 	
 	private $sqlQuery;
 	private $id_u;
@@ -30,8 +19,12 @@ class Journal {
 	
 	public function __construct(SignServer $signServer, SQLQuery $sqlQuery, $id_u){
 		$this->sqlQuery = $sqlQuery;
-		$this->id_u = $id_u;
 		$this->signServer = $signServer;
+		$this->setId($id_u);
+	}
+	
+	public function setId($id_u){
+		$this->id_u = $id_u;
 	}
 	
 	public function add($type,$id_e,$id_d,$action,$message){
@@ -122,7 +115,13 @@ class Journal {
 	
 	public function getTypeAsString($type){
 		$type_string = array(1=>"Action sur un document",
-						"Notification","Gestion des entités","Gestion des utilisateurs","Mail sécurisé");
+						"Notification",
+						"Gestion des entités",
+						"Gestion des utilisateurs",
+						"Mail sécurisé",
+						"Connexion",
+						"Consultation de document",
+		);
 		return $type_string[$type];
 	}
 	

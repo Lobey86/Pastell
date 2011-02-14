@@ -68,7 +68,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 
 <div class="box_contenu clearfix">
 <?php $afficheurFormulaire->affiche($page,"document/edition-controler.php",
-			"document/recuperation-fichier.php?id_d=$id_d",
+			"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e",
 			"document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page"
 			); ?>
 </div>

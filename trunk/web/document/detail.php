@@ -79,7 +79,7 @@ $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_
 <div class="box_contenu">
 
 <?php 
-$afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d");
+$afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e");
 ?>
 <br/>
 <?php foreach($actionPossible->getActionPossible($id_d) as $action_name) : ?>
