@@ -76,7 +76,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 		</tbody>
 	</table>
 	<script>
-		 format_item = function (item, position, length){ 
+		 var format_item = function (item, position, length){ 
 		    return htmlentities("" + item,"ENT_QUOTES");
 		  } 
 	 
