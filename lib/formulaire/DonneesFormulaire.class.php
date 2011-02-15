@@ -32,13 +32,13 @@ class DonneesFormulaire {
 	}
 	
 	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){	
+		
 		$this->isModified = false;
 		
+		$this->formulaire->addDonnesFormulaire($this);
 		$this->formulaire->setTabNumber($pageNumber);
-		
+				
 		foreach ($this->formulaire->getFields() as $field){
-			
-			
 			
 			$type = $field->getType();
 			
@@ -90,7 +90,7 @@ class DonneesFormulaire {
 		}
 	}
 	
-	public function setData($field_name,$field_value){
+	public function setData($field_name,$field_value){		
 		$this->info[$field_name] = $field_value;
 		$dump = Spyc::YAMLDump($this->info);
 		file_put_contents($this->filePath,$dump);

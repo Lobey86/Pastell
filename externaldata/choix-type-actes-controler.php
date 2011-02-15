@@ -31,6 +31,7 @@ $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 $donneesFormulaire->setData('type',$classif." ".$info['nom']);
 $donneesFormulaire->setData('classification',$info_classification);
 $donneesFormulaire->setData('envoi_tdt',$info['transmission_actes']);
+$donneesFormulaire->setData('envoi_tdt_obligatoire',$info['transmission_actes']);
 $donneesFormulaire->setData('envoi_cdg',$info['transmission_cdg']);
 $donneesFormulaire->setData('archivage',$info['archivage']);
 

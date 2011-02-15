@@ -55,7 +55,9 @@ $utilisateur = new Utilisateur($sqlQuery,$id_u);
 $utilisateur->setNomPrenom($nom,$prenom);
 
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
-$id_e = $entiteCreator->create($siren,$denomination,"fournisseur",0);
+$id_e = $entiteCreator->edit(false,$siren,$denomination,Entite::TYPE_FOURNISSEUR,0,0);
+
+//$id_e = $entiteCreator->create($siren,$denomination,"fournisseur",0);
 
 
 $roleUtilisateur->addRole($id_u,"admin",$id_e);

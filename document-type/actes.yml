@@ -22,7 +22,7 @@ formulaire:
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}
 		Archivage: {type: checkbox}
 		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
-
+		
 	Actes:
 		acte_nature:
 			name: Nature de l'acte
@@ -56,11 +56,27 @@ formulaire:
 				titulaire
 				stagiaire
 				non-titulaire
+	
+	Observation:
+		observation: 
+			name: Observation
+			requis: true
+			type: textarea 
+			commentaire: "Obligatoire pour justifier <br/>le non-envoi au contrôle de légalité"
+	
+	onglet_cache:
+		envoi_tdt_obligatoire: {no-show: true, type: checkbox}
 
 page-condition:
 	Agent:
 		show_page_agent: true
-		
+
+	Observation:
+		envoi_tdt: false
+		envoi_tdt_obligatoire: true
+	
+	onglet_cache:
+		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
 		
 action:
 	creation:
