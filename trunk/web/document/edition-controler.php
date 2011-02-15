@@ -31,6 +31,10 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 
 $documentType = $documentTypeFactory->getDocumentType($type);
 $formulaire = $documentType->getFormulaire();
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+
+$formulaire->addDonnesFormulaire($donneesFormulaire);
 $formulaire->setTabNumber($page);
 
 
@@ -41,10 +45,8 @@ if (! $info){
 }
 
 
-
 $fileUploader = new FileUploader($_FILES);
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 $documentEntite = new DocumentEntite($sqlQuery);
