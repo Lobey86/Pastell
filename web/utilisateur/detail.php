@@ -5,6 +5,7 @@ require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
+require_once( PASTELL_PATH . "/lib/droit/RoleSQL.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -154,7 +155,12 @@ include( PASTELL_PATH ."/include/haut.php");
 </table>
 
 
-<?php if ($utilisateur_edition) : ?>
+<?php if ($utilisateur_edition) :
+
+$roleSQL = new RoleSQL($sqlQuery);
+$allRole = $roleSQL->getAllRole();
+
+?>
 	<h3>Ajouter un rôle </h3>
 	
 	<form action='utilisateur/ajouter-role.php' method='post'>
@@ -162,8 +168,8 @@ include( PASTELL_PATH ."/include/haut.php");
 	
 		<select name='role'>
 			<option value=''>...</option>
-			<?php foreach($roleDroit->getAllRole() as $role => $lesDroits): ?>
-			<option value='<?php echo $role?>'> <?php echo $role ?> </option>
+			<?php foreach($allRole as $role ): ?>
+			<option value='<?php echo $role['role']?>'> <?php echo $role['role'] ?> </option>
 			<?php endforeach ; ?>
 		</select>
 		
