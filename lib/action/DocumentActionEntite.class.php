@@ -83,4 +83,13 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchOneValue($sql,$id_e);
 	}
 	
+	public function getUserFromAction($id_e,$id_d,$action){
+		$sql = "SELECT * FROM document_action_entite " .
+			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
+			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
+			" JOIN entite ON document_action.id_e  = entite.id_e ".
+			" WHERE document_action_entite.id_e = ? AND id_d=? AND document_action.action= ? LIMIT 1";
+		return $this->sqlQuery->fetchOneLine($sql,$id_e,$id_d,$action);
+	}
+	
 }
