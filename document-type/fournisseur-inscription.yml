@@ -73,9 +73,7 @@ action:
 	envoi :
 		name: Envoyer à une collectivité
 		rule:
-			last-action: 
-				creation
-				modification
+			
 			role_id_e: editeur
 			droit_id_u: 'fournisseur-inscription:edition'
 		action-class: Envoyer

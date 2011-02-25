@@ -5,7 +5,19 @@ require_once( PASTELL_PATH . "/externaldata/lib/ClassificationActes.class.php");
 
 $classif = $recuperateur->get('classif');
 
-$typeActes = new TypeActes(PASTELL_PATH . "/data-exemple/nomenclature.csv");
+
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_e,"collectivite-properties");
+$file = $donneesFormulaire->getFilePath('nomemclature_file');
+
+if (! file_exists($file)){
+	$lastError->setLastError("La nomemclature du CDG n'est pas disponible");
+	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
+	exit;
+}
+
+
+$typeActes = new TypeActes($file);
 
 $info = $typeActes->getInfo($classif);
 
@@ -17,7 +29,7 @@ if ($info['transmission_actes']){
 	$file = $donneesFormulaire->getFilePath('classification_file');
 
 	if (! file_exists($file)){
-		$info_classification = "La classfication en matière et sous-matière n'est pas disponible";
+		$info_classification = "La classification en matière et sous-matière n'est pas disponible";
 	} else {
 		$classificationActes= new ClassificationActes($file);
 		$info_classification = $classificationActes->getInfo($info['code_actes']);

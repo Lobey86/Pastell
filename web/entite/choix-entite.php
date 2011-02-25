@@ -12,7 +12,6 @@ $type = $recuperateur->get('type',Entite::TYPE_COLLECTIVITE);
 
 
 $entiteListe = new EntiteListe($sqlQuery);
-
 $liste = $entiteListe->getAll($type);
 
 if (count($liste) == 0) {

@@ -17,6 +17,7 @@ formulaire:
 		tdt_user_certificat_pem: {type: file, no-show: true}
 		tdt_user_key_pem: {type: file, no-show: true}
 		classification_file: {name: "Fichier de classification", type: file, read-only: true}
+		nomemclature_file: {name: "Fichier de nomemclature CDG", type: file}
 	
 	GED:
 		ged_activate: {name: "Module activé", type: checkbox}
