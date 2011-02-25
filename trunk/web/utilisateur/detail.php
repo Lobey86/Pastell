@@ -208,7 +208,8 @@ $allRole = $roleSQL->getAllRole();
 	</td> 
 	<td>
 		<?php if($infoNotification['type']): ?>
-			<?php echo $documentTypeFactory->getDocumentType($infoNotification['type'])->getName() ?>
+			<?php 
+			echo $documentTypeFactory->getDocumentType($infoNotification['type'])->getName() ?>
 		<?php else : ?>
 			Tous
 		<?php endif; ?>
@@ -247,11 +248,11 @@ $allRole = $roleSQL->getAllRole();
 		<select name='type'>
 			<option value=''>...</option>
 			<?php foreach($documentTypeFactory->getAllType() as $flux_type => $lesFlux ) : ?>
-			<?php foreach($lesFlux as $type => $description): ?>
-			<option value='<?php echo $type?>'> <?php echo $description ?> </option>
+				<?php foreach($lesFlux as $type => $description): ?>
+				<option value='<?php echo $type?>'> <?php echo $description ?> </option>
+				<?php endforeach ; ?>
 			<?php endforeach ; ?>
-						<?php endforeach ; ?>
-			
+			<option value='collectivite-properties'> Collectivite </option>
 		</select>
 		
 	

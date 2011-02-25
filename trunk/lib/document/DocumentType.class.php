@@ -19,6 +19,9 @@ class DocumentType {
 	}
 
 	public function getName(){
+		if (empty($this->typeDefinition[self::NOM])){
+			return $this->type;
+		}
 		return $this->typeDefinition[self::NOM];
 	}
 	

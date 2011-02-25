@@ -106,6 +106,7 @@ class DonneesFormulaire {
 	
 	public function removeFile($fieldName,$num = 0){
 		
+		unlink($this->getFilePath($fieldName,$num));
 		for($i = $num + 1; $i < count($this->info[$fieldName]) ; $i++){
 			rename($this->getFilePath($fieldName,$i),$this->getFilePath($fieldName,$i - 1));
 		}
