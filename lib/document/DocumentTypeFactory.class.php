@@ -23,6 +23,11 @@ class DocumentTypeFactory {
 		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory . self::INDEX_FILE);
 	}
 	
+	public function isTypePresent($type){
+		$all = $this->getAllType();
+		return isset($all[$type]);
+	}
+	
 	public function getTypeDocument(){
 		$result = array();
 		$allType = $this->getAllType();
