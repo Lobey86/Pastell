@@ -8,13 +8,11 @@ class TedetisEnvoie  extends ActionExecutor {
 
 	public function go(){
 		
-		/*$id_e_col = $this->getEntite()->getCollectiviteAncetre();
-				
-		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($id_e_col,'collectivite-properties');
-		*/
+		
+		$collectiviteProperties = $this->getCollectiviteProperties();
 		
 		
-		$tedetis = new Tedetis($this->getCollectiviteProperties());
+		$tedetis = new Tedetis($collectiviteProperties);
 		
 		if (!  $tedetis->postActes($this->getDonneesFormulaire()) ){
 			$this->setLastMessage( $tedetis->getLastError());

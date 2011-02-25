@@ -36,6 +36,8 @@ class Tedetis {
 	private $curlWrapper;
 	private $lastError;
 	
+	private $classificationFile;
+	
 	public function __construct(DonneesFormulaire $collectiviteProperties){
 		
 		$this->setCurlWrapper(new curlWrapper());
@@ -48,6 +50,7 @@ class Tedetis {
 		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('tdt_user_certificat_pem'),
 													$collectiviteProperties->getFilePath('tdt_user_key_pem'),
 													$collectiviteProperties->get('tdt_user_certificat_password'));
+		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');
 	}
 
 	public function setCurlWrapper(CurlWrapper $curlWrapper){
@@ -97,8 +100,24 @@ class Tedetis {
 		return true;
 	}
 	
+	public function verifClassif(){
+		
+		$usingClassif = file_get_contents($this->classificationFile);
+		$theClassif = $this->getClassification();
+	
+		if ($usingClassif != $theClassif){
+			$this->lastError = "La classification utilisée n'est plus à jour";
+			return false;
+		}
+		return true;
+	}
+	
 	
 	public function postActes(DonneesFormulaire $donneesFormulaire) {
+		
+		if ( ! $this->verifClassif()){
+			return false;
+		}
 		
 		$this->curlWrapper->addPostData('api',1);
 		$this->curlWrapper->addPostData('nature_code',$donneesFormulaire->get('acte_nature'));
