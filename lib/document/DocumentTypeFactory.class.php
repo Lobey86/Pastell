@@ -58,6 +58,16 @@ class DocumentTypeFactory {
 		$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($filename);	
 	}
 	
+	public function getAllAction(){ 
+		$result = array();	
+		foreach ( $this->getTypeDocument() as $typeName){
+			$action = $this->getDocumentType($typeName)->getAction();
+			foreach ($action->getAll() as $actionName){
+				$result[$actionName] = $action->getActionName($actionName);
+			}
+		}
+		return $result;
+	}
 	
 	public function getAutoAction(){ 
 		$result = array();	

@@ -94,4 +94,25 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchOneLine($sql,$id_e,$id_d,$action);
 	}
 	
+	
+	public function getNbDocumentBySearch($id_e,$type,$search){
+		$sql = "SELECT count(*) FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d" .
+				" WHERE document_entite.id_e = ? AND document.type=? AND document.titre LIKE ?" ;
+
+		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type,"%$search%");
+	}
+	
+	public function getListBySearch($id_e,$type,$offset,$limit,$search){
+		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d" .
+				" WHERE document_entite.id_e = ? AND document.type=? " . 
+				" AND document.titre LIKE ?" .
+				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
+			
+		$list = $this->sqlQuery->fetchAll($sql,$id_e,$type,"%$search%");
+		return $this->addEntiteToList($id_e,$list);
+	
+	}	
+	
 }

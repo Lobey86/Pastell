@@ -56,6 +56,7 @@ if ($id_e != 0) {
 	<input type='text' name='search' value='<?php echo $search?>'/>
 	<input type='submit' value='Rechercher' />
 </form>
+<p class='petit'><a href='document/search.php?id_e=<?php echo $id_e?>'>Recherche avancée</a></p>
 </div>
 <?php
 	
@@ -69,8 +70,6 @@ if ($id_e != 0) {
 	$documentListAfficheur->affiche($listDocument,$id_e);
 
 }
-
-
 
 
 $navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
