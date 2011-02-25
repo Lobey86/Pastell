@@ -24,7 +24,7 @@ $pageDecorator->setSiteBase(SITE_BASE);
 
 if ($authentification->isConnected()){
 	$pageDecorator->setUtilisateur($authentification->getId(),$authentification->getLogin());
-	$pageDecorator->addToMainMenu("Documents", SITE_BASE . "document/index.php","picto_flux");
+	$pageDecorator->addToMainMenu("Accueil", SITE_BASE . "document/index.php","picto_flux");
 	$pageDecorator->addToMainMenu("Administration", SITE_BASE . "entite/index.php","picto_utilisateurs");
 	$pageDecorator->addToMainMenu("Journal des évènements", SITE_BASE . "journal/index.php","picto_journal");
 	if ($roleUtilisateur->hasOneDroit($authentification->getId() ,"fournisseur:lecture'")) {
@@ -69,5 +69,4 @@ if ($authentification->isConnected()){
 $pageDecorator->displayHaut();
 
 $lienRetourHTML = new LienRetourHTML();
-?>
 
