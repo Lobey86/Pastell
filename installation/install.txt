@@ -8,3 +8,9 @@
 
 
 6. Configurer l'application (voir le fichier DefaultSettings.php)
+
+
+7. crontab : 
+
+*/5 * * * * action-automatique.php
+50 4 * * * recup-classification.php

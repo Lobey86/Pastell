@@ -54,6 +54,8 @@ class EntiteListe {
 		return $this->sqlQuery->fetchAll($sql,$param);
 	}
 	
+	
+	
 	public function getInfoFromArray(array $tabId_e){
 		$str = str_pad("",count($tabId_e),"?");
 		$array = implode(',',str_split ($str));

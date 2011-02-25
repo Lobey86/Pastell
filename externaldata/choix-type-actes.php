@@ -7,7 +7,7 @@ $donneesFormulaire = $donneesFormulaireFactory->get($id_e,"collectivite-properti
 $file = $donneesFormulaire->getFilePath('nomemclature_file');
 
 if (! file_exists($file)){
-	$lastError->setLastError("La nomemclature du CDG n'est pas disponible");
+	$lastError->setLastError("La nomemclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
