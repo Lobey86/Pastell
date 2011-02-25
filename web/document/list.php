@@ -17,6 +17,7 @@ $recuperateur = new Recuperateur($_GET);
 $type = $recuperateur->get('type');
 $id_e = $recuperateur->get('id_e',0);
 $offset = $recuperateur->getInt('offset',0);
+$search = $recuperateur->get('search');
 
 $limit = 20;
 
@@ -67,10 +68,19 @@ include( PASTELL_PATH ."/include/haut.php");
 
 if ($id_e != 0) {
 	
-
-	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit ) ;
+?>
+<div>
+<form action='document/list.php' method='get' >
+	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+	<input type='hidden' name='type' value='<?php echo $type?>'/>
+	<input type='text' name='search' value='<?php echo $search?>'/>
+	<input type='submit' value='Rechercher' />
+</form>
+</div>
+<?php
+	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search ) ;
 	
-	$count = $documentActionEntite->getNbDocument($id_e,$type);
+	$count = $documentActionEntite->getNbDocument($id_e,$type,$search);
 	
 	suivant_precedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type");
 
