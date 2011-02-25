@@ -80,5 +80,5 @@ if (!defined("SITE_BASE")){
 }
 
 
-
+define("PRODUCTION",true);
 

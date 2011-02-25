@@ -4,14 +4,14 @@ Flux Généraux:
 	rh-messages: Message Centre de gestion
 	mailsec: Mail sécurisé
 
-Flux fournisseur :
-	fournisseur-inscription: Inscription fournisseur
-	fournisseur-message: Message
+#Flux fournisseur :
+#	fournisseur-inscription: Inscription fournisseur
+#	fournisseur-message: Message
 
-Flux financier:
-	gf-devis: Demande de devis
-	gf-bon-de-commande: Bons de commande
-	gf-facture: Factures
+#Flux financier:
+#	gf-devis: Demande de devis
+#	gf-bon-de-commande: Bons de commande
+#	gf-facture: Factures
 	
 Test:
 	test: Test

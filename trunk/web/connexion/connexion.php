@@ -59,7 +59,7 @@ $utilisateurInfo = $utilisateur->getInfo();
 	
 	</div>
 </div>
-
+<?php if ($documentTypeFactory->isTypePresent('Flux fournisseur')) : ?>
 
 <div class="box_contenu clearfix">
 	<h2>Nouveau compte</h2>
@@ -72,7 +72,9 @@ $utilisateurInfo = $utilisateur->getInfo();
 		</div>
 	
 </div>
+<?php endif; ?>
 
+<?php if (! defined("PRODUCTION")) : ?>
 <div class="box_contenu clearfix">
 <h2>Version de démonstration</h2>
 
@@ -111,7 +113,7 @@ $utilisateurInfo = $utilisateur->getInfo();
 </table>
 </div>
 
-
+<?php endif;?>
 
 </div>
 
