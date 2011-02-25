@@ -4,7 +4,7 @@ type: Général
 
 formulaire:
 	Informations générales:
-		Siren de la collectivité: {read-only: true, data: siren}
+		Siren de la collectivité: {read-only: true, data: siren, no-show: true}
 		type: 
 			name: Classification CDG
 			type: externalData
@@ -17,13 +17,7 @@ formulaire:
 			script: choix-classification.php
 			script-controler: choix-classification-controler.php
 			link_name: liste des matières et sous-matières
-		Objet: {requis: true, title: true}
-		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
-		envoi_cdg: {name: Transmission au CDG, type: checkbox}
-		Archivage: {type: checkbox}
-		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
-		
-	Actes:
+			
 		acte_nature:
 			name: Nature de l'acte
 			type: select
@@ -38,6 +32,14 @@ formulaire:
 				
 	
 		Numéro de l'acte:  {requis: true, commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"}
+		
+		
+		Objet: {requis: true, title: true}
+		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
+		envoi_cdg: {name: Transmission au CDG, type: checkbox}
+		Archivage: {type: checkbox}
+		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
+		
 		Date de l'acte: {type: date, requis: true}
 		Arreté: {type: file, requis: true, commentaire: "format PDF uniquement"}
 		Autre document attaché: {type: file, multiple: true}
