@@ -42,7 +42,8 @@ CREATE TABLE document (
 	`creation` datetime NOT NULL,
 	`modification` datetime NOT NULL,
 	`last_action` varchar(64) NOT NULL,
-	PRIMARY KEY (`id_d`)
+	PRIMARY KEY (`id_d`),
+	FULLTEXT KEY titre (`titre`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE document_action (
 	`id_a` int(11) NOT NULL AUTO_INCREMENT,
@@ -55,7 +56,8 @@ CREATE TABLE document_action (
 )  ENGINE=MyISAM  ;
 CREATE TABLE document_action_entite (
 	`id_a` int(11) NOT NULL,
-	`id_e` int(11) NOT NULL
+	`id_e` int(11) NOT NULL,
+	KEY id_a (`id_a`,`id_e`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE document_email (
 	`key` varchar(32) NOT NULL,
@@ -72,7 +74,8 @@ CREATE TABLE document_entite (
 	`id_e` int(11) NOT NULL,
 	`role` varchar(16) NOT NULL,
 	`last_action` varchar(32) NOT NULL,
-	`last_action_date` datetime NOT NULL
+	`last_action_date` datetime NOT NULL,
+	KEY id_e (`id_e`,`id_d`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE droit (
 	`id_u` int(11) NOT NULL,
@@ -151,7 +154,7 @@ CREATE TABLE notification (
 	`id_n` int(11) NOT NULL AUTO_INCREMENT,
 	`id_u` int(11) NOT NULL,
 	`id_e` int(11) NOT NULL,
-	`type` varchar(16) NOT NULL,
+	`type` varchar(32) NOT NULL,
 	`action` varchar(16) NOT NULL,
 	PRIMARY KEY (`id_n`)
 )  ENGINE=MyISAM  ;

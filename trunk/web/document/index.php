@@ -11,6 +11,8 @@ require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->get('id_e',0);
 $offset = $recuperateur->getInt('offset',0);
+$search = $recuperateur->get('search');
+
 $limit = 20;
 
 
@@ -26,7 +28,6 @@ foreach($allDroit as $droit){
 		$liste_type[] = $result[1];
 	}
 }	
-
 
 
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),"entite:lecture");
@@ -47,16 +48,22 @@ $infoEntite = $entite->getInfo();
 $page_title= "Liste des documents <em>" . $infoEntite['denomination'] ."</em>";
 include( PASTELL_PATH ."/include/haut.php");
 
-
 if ($id_e != 0) {
+	?>
+<div>
+<form action='document/index.php' method='get' >
+	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+	<input type='text' name='search' value='<?php echo $search?>'/>
+	<input type='submit' value='Rechercher' />
+</form>
+</div>
+<?php
 	
+	$listDocument = $documentActionEntite->getListDocumentByEntite($id_e,$liste_type,$offset,$limit,$search);
 	
+	$count = $documentActionEntite->getNbDocumentByEntite($id_e,$liste_type,$search);
 	
-	$listDocument = $documentActionEntite->getListDocumentByEntite($id_e,$liste_type,$offset,$limit);
-	
-	$count = $documentActionEntite->getNbDocumentByEntite($id_e,$liste_type);
-	
-	suivant_precedent($offset,$limit,$count,"document/index.php?id_e=$id_e");
+	suivant_precedent($offset,$limit,$count,"document/index.php?id_e=$id_e&search=$search");
 	$documentListAfficheur = new DocumentListAfficheur($documentTypeFactory);
 	
 	$documentListAfficheur->affiche($listDocument,$id_e);

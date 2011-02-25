@@ -27,34 +27,36 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
 	}
 	
-	public function getNbDocument($id_e,$type){
+	public function getNbDocument($id_e,$type,$search){
 		$sql = "SELECT count(*) FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
-				" WHERE document_entite.id_e = ? AND document.type=? " ;
+				" WHERE document_entite.id_e = ? AND document.type=? AND document.titre LIKE ?" ;
 
-		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type);
+		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type,"%$search%");
 	}
 	
-	public function getListDocument($id_e,$type,$offset,$limit){
+	public function getListDocument($id_e,$type,$offset,$limit,$search){
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type=? " . 
+				" AND document.titre LIKE ?" .
 				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
 			
-		$list = $this->sqlQuery->fetchAll($sql,$id_e,$type);
+		$list = $this->sqlQuery->fetchAll($sql,$id_e,$type,"%$search%");
 		return $this->addEntiteToList($id_e,$list);
 	
 	}
 	
-	public function  getListDocumentByEntite($id_e,array $type_list,$offset,$limit){
+	public function  getListDocumentByEntite($id_e,array $type_list,$offset,$limit,$search){
 		
 		$type_list = "'" . implode("','",$type_list) . "'";
 		
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date  FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " . 
+				" AND document.titre LIKE ?" .
 				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
-		$list = $this->sqlQuery->fetchAll($sql,$id_e);
+		$list = $this->sqlQuery->fetchAll($sql,$id_e,"%$search%");
 		return $this->addEntiteToList($id_e,$list);
 	}
 	
@@ -72,15 +74,15 @@ class DocumentActionEntite {
 		return $list;
 	}
 	
-	public function getNbDocumentByEntite($id_e,array $type_list){
+	public function getNbDocumentByEntite($id_e,array $type_list,$search){
 		
 		$type_list = "'" . implode("','",$type_list) . "'";
 			
 		$sql = "SELECT count(*) FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
-				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " ;
+				" WHERE document_entite.id_e = ? AND document.titre LIKE ? AND document.type IN ($type_list) " ;
 
-		return $this->sqlQuery->fetchOneValue($sql,$id_e);
+		return $this->sqlQuery->fetchOneValue($sql,$id_e,"%$search%");
 	}
 	
 	public function getUserFromAction($id_e,$id_d,$action){
