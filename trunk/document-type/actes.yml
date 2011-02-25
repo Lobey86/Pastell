@@ -41,10 +41,9 @@ formulaire:
 		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
 		
 		Date de l'acte: {type: date, requis: true}
-		Arreté: {type: file, requis: true, commentaire: "format PDF uniquement"}
+		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF uniquement"}
 		Autre document attaché: {type: file, multiple: true}
-	
-			
+				
 	Agent:
 		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
 		Matricule de l'agent: 
@@ -54,6 +53,7 @@ formulaire:
 		Grade:
 		Statut:
 			type: select
+			requis: true
 			value: 
 				titulaire
 				stagiaire
