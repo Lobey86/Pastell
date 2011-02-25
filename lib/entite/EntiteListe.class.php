@@ -72,6 +72,14 @@ class EntiteListe {
 		return $this->sqlQuery->fetchAll($sql,$id_e);
 	}
 	
+	public function getAllDescendant($id_e){
+		$sql = "SELECT * FROM entite_ancetre " . 
+				" JOIN entite ON entite_ancetre.id_e=entite.id_e " .
+				" WHERE entite_ancetre.id_e_ancetre=? AND entite.id_e!=?" . 
+				" ORDER BY denomination" ;
+		return $this->sqlQuery->fetchAll($sql,$id_e,$id_e);
+	}
+	
 	public function getDenomination($part){
 		$sql = "SELECT denomination FROM `entite` WHERE denomination LIKE ? LIMIT 10";
 		return $this->sqlQuery->fetchAll($sql,"%$part%");
