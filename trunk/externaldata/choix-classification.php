@@ -12,7 +12,7 @@ $file = $donneesFormulaire->getFilePath('classification_file');
 
 
 if (! file_exists($file)){
-	$lastError->setLastError("La classfication en matière et sous-matière n'est pas disponible");
+	$lastError->setLastError("La classification en matière et sous-matière n'est pas disponible");
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
