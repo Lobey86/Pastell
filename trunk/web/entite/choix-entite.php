@@ -12,7 +12,13 @@ $type = $recuperateur->get('type',Entite::TYPE_COLLECTIVITE);
 
 
 $entiteListe = new EntiteListe($sqlQuery);
-$liste = $entiteListe->getAll($type);
+
+if ($type == 'service'){
+	$liste = $entiteListe->getAllDescendant($id_e);
+} else {
+	$liste = $entiteListe->getAll($type);
+}
+
 
 if (count($liste) == 0) {
 	
