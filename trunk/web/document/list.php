@@ -75,7 +75,9 @@ if ($id_e != 0) {
 	<input type='hidden' name='type' value='<?php echo $type?>'/>
 	<input type='text' name='search' value='<?php echo $search?>'/>
 	<input type='submit' value='Rechercher' />
+	
 </form>
+<p class='petit'><a href='document/search.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Recherche avancée</a></p>
 </div>
 <?php
 	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search ) ;

@@ -6,7 +6,9 @@ require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/droit/RoleSQL.class.php");
+require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
+$documentTypeHTML = new DocumentTypeHTML();
 
 $recuperateur = new Recuperateur($_GET);
 $id_u = $recuperateur->get('id_u');
@@ -244,19 +246,8 @@ $allRole = $roleSQL->getAllRole();
 				|_<?php echo $entiteInfo['denomination']?> </option>
 			<?php endforeach ; ?>
 		</select>
-		
-		<select name='type'>
-			<option value=''>...</option>
-			<?php foreach($documentTypeFactory->getAllType() as $flux_type => $lesFlux ) : ?>
-				<?php foreach($lesFlux as $type => $description): ?>
-				<option value='<?php echo $type?>'> <?php echo $description ?> </option>
-				<?php endforeach ; ?>
-			<?php endforeach ; ?>
-			<option value='collectivite-properties'> Collectivite </option>
-		</select>
-		
-	
-		
+		<?php  $documentTypeHTML->displaySelectWithCollectivite($documentTypeFactory); ?>
+			
 		<input type='submit' value='ajouter'/>
 	</form>
 <?php endif;?>

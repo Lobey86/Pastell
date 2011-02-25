@@ -97,10 +97,12 @@ class PageDecorator {
 				<link rel="stylesheet" type="text/css" href="img/style_IE6.css" media="screen" />
 			<![endif]-->
 			<link rel="stylesheet" href="img/jquery.autocomplete.css" type="text/css" />
+			<link type="text/css" href="jquery/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
 			
 			<script src="javascript/jquery-1.4.4.min.js"></script>
 			<script src="javascript/jquery.autocomplete.min.js"></script>    
-			<script src="javascript/htmlentities.js"></script>    
+			<script src="javascript/htmlentities.js"></script>   
+			<script type='text/javascript' src='jquery/jquery-ui-1.8.2.custom.min.js'></script> 
 		
 		</head>
 		<?php 
