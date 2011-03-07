@@ -18,6 +18,7 @@ $type = $recuperateur->get('type');
 $id_e = $recuperateur->get('id_e',0);
 $offset = $recuperateur->getInt('offset',0);
 $search = $recuperateur->get('search');
+$filtre = $recuperateur->get('filtre');
 
 $limit = 20;
 
@@ -40,7 +41,6 @@ if  (! $roleUtilisateur->hasDroit($authentification->getId(),$type.":lecture",$i
 	exit;
 }
 
-
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
@@ -59,6 +59,9 @@ $actionPossible->setDocumentEntite($documentEntite);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
 $actionPossible->setEntite($entite);
 
+
+$listeEtat = $documentType->getTabAction();
+
 if ($id_e && $actionPossible->isCreationPossible()){
 	$nouveau_bouton_url = "document/edition.php?type=$type&id_e=$id_e";
 }
@@ -74,15 +77,25 @@ if ($id_e != 0) {
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 	<input type='hidden' name='type' value='<?php echo $type?>'/>
 	<input type='text' name='search' value='<?php echo $search?>'/>
+	<select name='filtre'>
+		<option value=''>...</option>
+		<?php foreach($listeEtat as $etat => $libelle_etat) : ?>
+			<option value='<?php echo $etat?>'
+				<?php echo $filtre==$etat?"selected='selected'":""?>
+			
+			><?php echo $libelle_etat['name']?></option>
+		<?php endforeach;?>
+	</select>
 	<input type='submit' value='Rechercher' />
 	
 </form>
+
 <p class='petit'><a href='document/search.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Recherche avancée</a></p>
 </div>
 <?php
-	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search ) ;
+	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search,$filtre ) ;
 	
-	$count = $documentActionEntite->getNbDocument($id_e,$type,$search);
+	$count = $documentActionEntite->getNbDocument($id_e,$type,$search,$filtre);
 	
 	suivant_precedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type");
 

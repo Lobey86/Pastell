@@ -6,7 +6,7 @@ class Formulaire {
 	private $formArray;
 	private $tabSelected;
 	private $pageCondition;
-	
+	private $afficheOneTab;
 	
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
@@ -20,6 +20,14 @@ class Formulaire {
 	
 	public function addPageCondition(array $pageCondition){
 		$this->pageCondition = $pageCondition;
+	}
+	
+	public function setAfficheOneTab(){
+		$this->afficheOneTab = true;
+	}
+	
+	public function afficheOneTab(){
+		return $this->afficheOneTab;
 	}
 	
 	public function addDonnesFormulaire(DonneesFormulaire $donnesFormulaire){

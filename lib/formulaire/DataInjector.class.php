@@ -10,7 +10,7 @@ class DataInjector{
 	
 	public function inject($siren){
 		foreach( $this->formulaire->getAllFields() as $field){
-			if ($field->getProperties("read-only")) {
+			if ($field->getProperties("read-only") && $field->getName() == 'siren') {
 				$this->donneFormulaire->injectData($field->getName(),$siren);
 			}
 		}

@@ -2,21 +2,12 @@ nom: Actes
 
 type: Général
 
+affiche_one: true
+
 formulaire:
-	Informations générales:
+	Acte:
 		Siren de la collectivité: {read-only: true, data: siren, no-show: true}
-		type: 
-			name: Classification CDG
-			type: externalData
-			script: choix-type-actes.php
-			script-controler: choix-type-actes-controler.php
-			link_name: Choisir un type d'Actes
-		classification:
-			name: Classification Actes
-			type: externalData
-			script: choix-classification.php
-			script-controler: choix-classification-controler.php
-			link_name: liste des matières et sous-matières
+	
 			
 		acte_nature:
 			name: Nature de l'acte
@@ -31,34 +22,59 @@ formulaire:
 				5: Documents budgétaires et financiers
 				
 	
-		Numéro de l'acte:  {requis: true, commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"}
-		
-		
+		Numéro de l'acte:  {requis: true, commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"}	
 		Objet: {requis: true, title: true}
-		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
-		envoi_cdg: {name: Transmission au CDG, type: checkbox}
-		Archivage: {type: checkbox}
-		show_page_agent: {name: Nécessite le choix d'un agent, type: checkbox}
-		
 		Date de l'acte: {type: date, requis: true}
 		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF uniquement"}
 		Autre document attaché: {type: file, multiple: true}
+	Cheminement:
+		type: 
+			name: Classification CDG
+			type: externalData
+			script: choix-type-actes.php
+			script-controler: choix-type-actes-controler.php
+			link_name: Choisir un type d'Actes
+		classification:
+			name: Classification Actes
+			type: externalData
+			script: choix-classification.php
+			script-controler: choix-classification-controler.php
+			link_name: liste des matières et sous-matières
+		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
+		envoi_cdg: {name: Transmission au CDG, type: checkbox}
+		Archivage: {type: checkbox}
 				
 	Agent:
 		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
-		Matricule de l'agent: 
-		Nom patronymique: {requis: true}
-		Nom d'usage: 
-		Prénom : {requis: true}
-		Grade:
+		agent_non_reference: { name: Agent non-référencé, type: checkbox}
+		Matricule de l'agent: {read-only: true} 
+		Nom patronymique: {requis: true, read-only: true}
+		Nom d'usage: {read-only: true}
+		Prénom : {requis: true, read-only: true}
+		Grade: {read-only: true}
 		Statut:
 			type: select
-			requis: true
 			value: 
 				titulaire
 				stagiaire
 				non-titulaire
+			read-only:
+				true
 	
+	Agent non-référencé:
+		agent_non_reference: { name: Agent non-référencé, type: checkbox}
+		Matricule de l'agent:
+		Nom patronymique: {requis: true}
+		Nom d'usage: 
+		Prénom : {requis: true}
+		Grade: 
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+		
 	Observation:
 		observation: 
 			name: Observation
@@ -71,15 +87,23 @@ formulaire:
 
 page-condition:
 	Agent:
-		show_page_agent: true
-
+		envoi_cdg: true
+		agent_non_reference: false
+	
+	Agent non-référencé:
+		envoi_cdg: true
+		agent_non_reference: true
+		
 	Observation:
 		envoi_tdt: false
 		envoi_tdt_obligatoire: true
 	
+	
 	onglet_cache:
 		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
-		
+	
+	
+	
 action:
 	creation:
 		
@@ -96,7 +120,7 @@ action:
 	modification:
 	
 		name-action: Modifier
-		name: Modification
+		name: En cours de rédaction
 		
 		rule:
 			last-action: 
@@ -165,7 +189,7 @@ action:
 				
 	send-cdg-manuel:
 		name-action: Transmettre au CDG
-		name: Transmis au CDG
+		name: Transmis au CDG manuellement
 	
 		rule:
 			last-action: 
@@ -183,7 +207,7 @@ action:
 			
 	send-cdg:
 		name-action: Transmettre au CDG
-		name: Transmis au CDG
+		name: Transmis au CDG automatiquement
 		
 		rule:
 			last-action: acquiter-tdt
