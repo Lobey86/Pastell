@@ -16,8 +16,15 @@ $infoNotification = $notification->getInfo($id_n);
 $id_u = $infoNotification['id_u'];
 $id_e = $infoNotification['id_e'];
 
-if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {
+if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)
+	|| ($id_u==$authentification->getId() && $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)
+	))
+	{
 	$notification->remove($id_n);
 }
 
+if ($id_u == $authentification->getId()){
+	header("Location: moi.php");
+	exit;
+}
 header("Location: detail.php?id_u=$id_u");

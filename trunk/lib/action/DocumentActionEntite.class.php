@@ -27,24 +27,35 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
 	}
 	
-	public function getNbDocument($id_e,$type,$search){
+	public function getNbDocument($id_e,$type,$search,$etat = false){
 		$sql = "SELECT count(*) FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type=? AND document.titre LIKE ?" ;
+		$data = array($id_e,$type,"%$search%");
+		if ($etat){
+			$sql .= " AND document.last_action=?";
+			$data[] = $etat; 
+		}
 
-		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type,"%$search%");
+		return $this->sqlQuery->fetchOneValue($sql,$data);
 	}
 	
-	public function getListDocument($id_e,$type,$offset,$limit,$search){
+	public function getListDocument($id_e,$type,$offset,$limit,$search,$etat = false){
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type=? " . 
-				" AND document.titre LIKE ?" .
-				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
-			
-		$list = $this->sqlQuery->fetchAll($sql,$id_e,$type,"%$search%");
-		return $this->addEntiteToList($id_e,$list);
+				" AND document.titre LIKE ?" ;
+		$data = array($id_e,$type,"%$search%");
+		
+		if ($etat){
+			$sql .= " AND document.last_action=?";
+			$data[] = $etat; 
+		}	
 	
+		$sql .= " ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
+			
+		$list = $this->sqlQuery->fetchAll($sql,$data);
+		return $this->addEntiteToList($id_e,$list);
 	}
 	
 	public function  getListDocumentByEntite($id_e,array $type_list,$offset,$limit,$search){

@@ -24,7 +24,7 @@ $id_d = $recuperateur->get('id_d');
 $page = $recuperateur->get('page');
 $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
-$num = $recuperateur->get('num');
+$num = $recuperateur->getInt('num',0);
 
 
 $document = new Document($sqlQuery);

@@ -8,6 +8,7 @@ class AfficheurFormulaire {
 	private $formulaire;
 	private $donneesFormulaire;
 	private $inject;
+	private $onePage;
 	
 	public function __construct(Formulaire $formulaire, DonneesFormulaire $donneesFormulaire){
 		$this->formulaire = $formulaire;
@@ -20,9 +21,13 @@ class AfficheurFormulaire {
 		$this->inject[$name] = $value;
 	}
 
-	public function afficheTab($tab_selected,$page_url){ ?>
+	public function afficheTab($tab_selected,$page_url){ 
+		if ($this->formulaire->afficheOneTab()){
+			return;
+		}
+		?>
 	
-	<div id="bloc_onglet">
+		<div id="bloc_onglet">
 		<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
 					<a href='<?php echo $page_url ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_selected)?'class="onglet_on"':'' ?>>
 					<?php echo $name?>
@@ -89,11 +94,15 @@ class AfficheurFormulaire {
 					<?php elseif($field->getType() == 'textarea') : ?>
 						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName(),$field->getDefault())?></textarea>
 					<?php elseif($field->getType() == 'file') :?>
-						<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
+						<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
+							<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
+						<?php endif; ?>
 						<?php if ($field->isMultiple()): ?>
 							<input class='input_normal' type='submit' name='ajouter' value='Ajouter' />
 						<?php endif;?>
+						<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
 						<br/>
+						<?php endif;?>
 					<?php 
 					
 						if ($this->donneesFormulaire->get($field->getName())) : 
@@ -102,7 +111,7 @@ class AfficheurFormulaire {
 								&nbsp;&nbsp;<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>&num=<?php echo $num ?>'>supprimer</a>
 							<br/>
 						<?php endforeach; endif;?>
-					<?php elseif($field->getType() == 'select') : ?>
+					<?php elseif(($field->getType() == 'select') && ! $field->getProperties('read-only')) : ?>
 						<select name='<?php echo $field->getName()?>'>
 							<option>...</option>
 							<?php foreach($field->getSelect() as $value => $name) : ?>
@@ -221,8 +230,8 @@ class AfficheurFormulaire {
 		?>
 		<table class='tab_01'>
 			<?php
-			
-			foreach ($this->formulaire->getFields() as $i => $field) :
+			$i=0;
+			foreach ($this->formulaire->getAllFields() as $field) :
 					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
 						continue;
 					} 
@@ -231,7 +240,7 @@ class AfficheurFormulaire {
 					}
 			
 			?>
-				<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
+				<tr class='<?php echo $i++%2?'bg_class_gris':'bg_class_blanc'?>'>
 					<td>
 						<?php echo $field->getLibelle() ?>
 					</td>

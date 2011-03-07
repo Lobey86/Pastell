@@ -24,6 +24,7 @@ class Action {
 		return array_keys($this->tabAction);
 	}
 	
+	
 	public function getActionName($action_internal_name){
 		$tabAction = $this->getActionArray($action_internal_name);
 		if (! isset($tabAction[self::ACTION_DISPLAY_NAME])){

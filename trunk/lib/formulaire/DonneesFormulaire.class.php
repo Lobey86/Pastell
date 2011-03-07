@@ -28,7 +28,7 @@ class DonneesFormulaire {
 		if ( ! file_exists($this->filePath)){
 			return ;
 		}
-		$this->info = Spyc::YAMLLoad($this->filePath);		
+		$this->info = Spyc::YAMLLoad($this->filePath);	
 	}
 	
 	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){	
@@ -129,6 +129,7 @@ class DonneesFormulaire {
 	}
 	
 	public function geth($item,$default = false){
+
 		return nl2br(htmlentities($this->get($item,$default),ENT_QUOTES));
 	}
 	

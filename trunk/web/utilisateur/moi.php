@@ -5,10 +5,12 @@ require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
+require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
 $id_u = $authentification->getId();
 
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
+$documentTypeHTML = new DocumentTypeHTML();
 
 $info = $utilisateur->getInfo();
 if (! $info){
@@ -48,7 +50,7 @@ if( $info['id_e'] ){
 	$denominationEntiteDeBase = $infoEntiteDeBase['denomination'];
 }
 
-$arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edition");
+$arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:lecture");
 
 include( PASTELL_PATH ."/include/haut.php");
  include (PASTELL_PATH."/include/bloc_message.php"); ?>
@@ -138,7 +140,7 @@ include( PASTELL_PATH ."/include/haut.php");
 </div>
 
 <div class="box_contenu clearfix">
-<h2>Vos notification</h2>
+<h2>Vos notifications</h2>
 <table class='tab_02'>
 <tr>
 <th>Entité</th>
@@ -170,10 +172,31 @@ include( PASTELL_PATH ."/include/haut.php");
 			Toutes
 		<?php endif;?>
 	</td>
+	
+	<td>
+		
+			<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+				enlever cette notification
+			</a>
+	</td>
 </tr>
 <?php endforeach;?>
 </table>
-
+<form action='utilisateur/ajouter-notification.php' method='post'>
+		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+		
+		<select name='id_e'>
+			<option value=''>...</option>
+			<?php foreach($arbre as $entiteInfo): ?>
+			<option value='<?php echo $entiteInfo['id_e']?>'>
+				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
+				|_<?php echo $entiteInfo['denomination']?> </option>
+			<?php endforeach ; ?>
+		</select>
+		<?php  $documentTypeHTML->displaySelectWithCollectivite($documentTypeFactory); ?>
+			
+		<input type='submit' value='ajouter'/>
+	</form>
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

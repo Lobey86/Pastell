@@ -9,6 +9,7 @@ class DocumentType {
 	const FORMULAIRE = 'formulaire';
 	const ACTION = 'action';
 	const PAGE_CONDITION = 'page-condition';
+	const AFFICHE_ONE = 'affiche_one';
 	
 	private $type;
 	private $typeDefinition;
@@ -30,6 +31,9 @@ class DocumentType {
 		if (isset( $this->typeDefinition[self::PAGE_CONDITION])){
 			$formulaire->addPageCondition($this->typeDefinition[self::PAGE_CONDITION]);
 		}
+		if (! empty($this->typeDefinition[self::AFFICHE_ONE])){
+			$formulaire->setAfficheOneTab();
+		}
 		return $formulaire;
 	}
 	
@@ -37,5 +41,8 @@ class DocumentType {
 		return new Action($this->typeDefinition[self::ACTION]);
 	}
 	
+	public function getTabAction(){
+		return $this->typeDefinition[self::ACTION];
+	}
 	
 }
