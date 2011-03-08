@@ -209,6 +209,12 @@ class AfficheurFormulaire {
 		</form>
 	<?php }
 	
+	private function getFieldStatic(){
+		if ($this->formulaire->afficheOneTab()){
+			return $this->formulaire->getAllFields();
+		}
+		return $this->formulaire->getFields();
+	}
 	
 	public function afficheStatic($page,$recuperation_fichier_url){
 		if (isset($this->inject['id_e'])){
@@ -231,7 +237,7 @@ class AfficheurFormulaire {
 		<table class='tab_01'>
 			<?php
 			$i=0;
-			foreach ($this->formulaire->getAllFields() as $field) :
+			foreach ($this->getFieldStatic() as $field) :
 					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
 						continue;
 					} 
