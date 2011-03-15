@@ -159,7 +159,7 @@ action:
 		auto-class: TedetisRecup
 	
 	verif-tdt:
-		name: Vérifier le status de la transaction
+		name: Vérifier le statut de la transaction
 		rule:
 			last-action:
 				send-tdt

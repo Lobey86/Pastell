@@ -16,7 +16,7 @@ class TedetisTestAction extends ActionExecutor {
 			return false;
 		}
 
-		$this->setLastMessage("La connexion est réussi");
+		$this->setLastMessage("La connexion est réussie");
 		return true;
 	}
 	

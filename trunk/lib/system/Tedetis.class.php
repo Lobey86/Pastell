@@ -24,7 +24,7 @@ class Tedetis {
 	public static function getStatusString($status){
 		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
 		if (empty($statusString[$status])){
-			return "Status inconnu ($status)";
+			return "Statut inconnu ($status)";
 		}
 		return $statusString[$status] ;
 	}
