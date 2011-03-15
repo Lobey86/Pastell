@@ -33,15 +33,8 @@ include( PASTELL_PATH ."/include/haut.php");
 if ($id_e) {
 	$lienRetourHTML->display($denomination,"entite/detail.php?id_e=$id_e&page=$page_retour");
 } else {
-		$lienRetourHTML->display("Liste des collectivités","entite/index.php");
-	
+	$lienRetourHTML->display("Liste des collectivités","entite/index.php");
 }
-?>
-
-
-
-<?php 
-
 
 include (PASTELL_PATH."/include/bloc_message.php"); 
 

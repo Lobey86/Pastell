@@ -14,7 +14,6 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-
 $fileUploader = new FileUploader($_FILES);
 $file_path = $fileUploader->getFilePath('csv_col');
 if (! $file_path){
@@ -32,7 +31,6 @@ foreach($colList as $col){
 	$the_id_e = $entiteCreator->create(0,$col[1],$col[0],Entite::TYPE_COLLECTIVITE,$id_e,$centre_de_gestion);
 	$nb_col++;
 }
-
 
 $lastMessage->setLastMessage("$nb_col collectivités ont été créées");
 header("Location: index.php");

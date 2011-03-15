@@ -68,4 +68,9 @@ class AgentSQL {
 		return  $this->sqlQuery->fetchAll($sql,"%$search%","%$search%");
 	}
 	
+	public function clean($siren){
+		$sql =  "DELETE FROM agent WHERE siren = ?";
+		$this->sqlQuery->query($sql,$siren);
+	}
+	
 }
