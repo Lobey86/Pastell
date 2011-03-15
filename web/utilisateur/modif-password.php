@@ -13,7 +13,7 @@ $lienRetourHTML->display("Espace utilisateur","utilisateur/moi.php");
 <div class="box_contenu clearfix">
 
 <h2>Modifier votre mot de passe</h2>
-<form class="w700"  action='utilisateur/modif-password-controler.php' method='post' >
+<form  action='utilisateur/modif-password-controler.php' method='post' >
 <table >
 
 <tr>

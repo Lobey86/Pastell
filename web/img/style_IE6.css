@@ -23,3 +23,5 @@ margin:0;
 .clearfix {display:inline-block;}
 * html .clearfix {height:1%;} /* Hides from IE-mac \*/
 .clearfix {display:block;} /* Hides from IE-mac \*/
+
+form table th {width:48%;}
