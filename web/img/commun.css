@@ -203,7 +203,7 @@ padding-right:10px;
 line-height:2em;
 }
 
-#bloc_copyright {background:url(commun/back_copyright.png) repeat-x #B6E1F2;height:57px;text-align:right;}
+#bloc_copyright {background:url(commun/back_copyright.png) repeat-x #B6E1F2;height:57px;text-align:left;}
 
 
 #bloc_logo_adullact {margin:10px;float:right;}
