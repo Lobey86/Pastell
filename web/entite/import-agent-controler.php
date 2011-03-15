@@ -8,7 +8,6 @@ $recuperateur = new Recuperateur($_POST);
 
 $id_e = $recuperateur->getInt('id_e');
 
-
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",0) ) {
 	header("Location: " . SITE_BASE ."index.php");
 	exit;
@@ -28,6 +27,7 @@ $infoCollectivite = array();
 if ($id_e){
 	$entite = new Entite($sqlQuery,$id_e);
 	$infoCollectivite = $entite->getInfo();
+	$agentSQL->clean($infoCollectivite['siren']);
 }
 
 $fileContent = $CSV->get($file_path);
