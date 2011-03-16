@@ -7,8 +7,7 @@ require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 class TedetisEnvoie  extends ActionExecutor {
 
 	public function go(){
-		
-		
+			
 		$collectiviteProperties = $this->getCollectiviteProperties();
 		
 		

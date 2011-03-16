@@ -51,7 +51,7 @@ switch($page) {
 			$importForm->displayImportGrade();
 			break;
 	case 3:
-			$importFrom->displayImportClassificationCDG();
+			$importForm->displayImportClassificationCDG();
 			break;
 }
 

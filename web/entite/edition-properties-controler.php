@@ -14,6 +14,8 @@ $recuperateur = new Recuperateur($_POST);
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->get('page');
 
+$entite = new Entite($sqlQuery,$id_e);
+$entiteInfo = $entite->getInfo();
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {
 	header("Location: list.php");
@@ -32,6 +34,7 @@ $donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properti
 
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
+$donneesFormulaire->setData('type_id_e',$entiteInfo['type']);
 
 $pkcs12_file = $donneesFormulaire->getFilePath('tdt_user_certificat');
 if (file_exists($pkcs12_file)) {
@@ -58,6 +61,12 @@ if ($type){
 $type = $recuperateur->get('precedent');
 if ($type){
 	header("Location: edition-properties.php?id_e=$id_e&page=".($page - 1));
+	exit;
+}
+
+$type = $recuperateur->get('ajouter');
+if ($type){
+	header("Location: edition-properties.php?id_e=$id_e&page=$page");
 	exit;
 }
 header("Location: " . SITE_BASE . "entite/detail.php?id_e=$id_e&page=$page");

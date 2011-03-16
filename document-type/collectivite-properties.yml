@@ -2,13 +2,15 @@ Nom: Propriété de la collectivité
 	
 formulaire:
 	
-	Informations générales : {}
+	Informations générales : 
+		type_id_e: {name: type_id_e, type: text, no-show: true}
+		
 	
 	Utilisateurs : {}
 	
 	Agents: {}
 	
-	Tedetis:
+	Tedetis:		
 		tdt_activate: {name: "Module activé", type: checkbox}
 		tdt_url: {name: "URL du TDT"}
 		tdt_server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file}
@@ -17,8 +19,13 @@ formulaire:
 		tdt_user_certificat_pem: {type: file, no-show: true}
 		tdt_user_key_pem: {type: file, no-show: true}
 		classification_file: {name: "Fichier de classification", type: file, read-only: true}
-		nomemclature_file: {name: "Fichier de nomemclature CDG", type: file}
-	
+		nomemclature_file: 
+			name: "Fichier de nomemclature CDG"
+			type: externalData
+			script: fichier-nomemclature.php
+			script-controler: fichier-nomemclature-controler.php
+			link_name: liste des fichiers disponibles
+		
 	GED:
 		ged_activate: {name: "Module activé", type: checkbox}
 		ged_url: {name: "URL du service CIMS"}
@@ -46,7 +53,18 @@ formulaire:
 			script: mailsec/annuaire.php
 			link_name: Voir l'annuaire »
 			read-only: true
+			
+	Fichier de classification:
+		classification_cdg:
+			name: Fichier de classification fourni par le CDG
+			type: file
+			multiple: true
+			
 
+page-condition:
+	Fichier de classification:
+		type_id_e: centre_de_gestion
+	
 			
 action:
 

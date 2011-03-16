@@ -50,7 +50,7 @@ class AfficheurFormulaire {
 		<?php 
 	}
 	
-	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url ){
+	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url,$externalDataURL ){
 
 		$this->formulaire->setTabNumber($page_number);
 		
@@ -123,7 +123,7 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
-						<a href='document/external-data.php?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+						<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
 						<?php echo $this->donneesFormulaire->get($field->getName())?>
 					<?php elseif ($field->getType() == 'password') : ?>
 						<input 	type='password' 	
