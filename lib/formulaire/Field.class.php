@@ -65,6 +65,14 @@ class Field {
 		return $this->getProperties('onchange');
 	}
 	
+	public function pregMatch(){
+		return $this->getProperties('preg_match');
+	}
+	
+	public function pregMatchError(){
+		return $this->getProperties('preg_match_error');
+	}
+	
 	public function getProperties($properties){
 		if ( ! isset($this->properties[$properties])){
 			return false;
