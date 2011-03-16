@@ -157,7 +157,14 @@ class DonneesFormulaire {
 			}
 			if ($field->getType() == 'mail-list' && $this->get($field->getName())){
 				if ( ! is_mail_list($this->get($field->getName()))){
-					$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . "» ne contient pas une liste d'email valide.";
+					$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . " ne contient pas une liste d'email valide.";
+					return false;
+				}
+			}
+			if ($field->pregMatch()){
+			
+				if ( ! preg_match($field->pregMatch(),$this->get($field->getName()))){
+					$this->lastError = "Le champs «{$field->getLibelle()}» est incorect ({$field->pregMatchError()}) ";
 					return false;
 				}
 			}
