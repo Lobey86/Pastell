@@ -13,6 +13,7 @@ class DonneesFormulaire {
 	private $info;
 	private $isModified;
 	private $lastError;
+	private $onChangeHook;
 
 	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
@@ -50,12 +51,16 @@ class DonneesFormulaire {
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
+				if ( ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
+					$this->onChangeHook = $field->getOnChange();
+				}
 				if ( ($type != 'password' ) ||  $value){
 					if (! isset($this->info[$name])){
 						$this->info[$name] = "";
 					}
 					if ($this->info[$name] != $value){
 						$this->isModified = true;
+						
 					}
 					if ($type == 'date'){
 						$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
@@ -72,6 +77,9 @@ class DonneesFormulaire {
 		return $this->isModified;
 	}
 	
+	public function hasOnChangeHook(){
+		return $this->onChangeHook;
+	}
 	
 	private function saveFile(Field $field, FileUploader $fileUploader){
 		$fname = $field->getName();
@@ -96,6 +104,13 @@ class DonneesFormulaire {
 		file_put_contents($this->filePath,$dump);
 	}
 	
+	public function setTabData(array $field){
+		foreach($field as $name => $value){
+			$this->info[$name] = $value;
+		}
+		$dump = Spyc::YAMLDump($this->info);
+		file_put_contents($this->filePath,$dump);
+	}
 	
 	public function addFileFromData($field_name,$file_name,$raw_data){
 		$this->info[$field_name][0] = $file_name;

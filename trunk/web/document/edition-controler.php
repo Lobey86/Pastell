@@ -61,13 +61,16 @@ if (! $info){
 }
 
 
-
 $titre_field = $formulaire->getTitreField();
 
 $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
 
+if ($donneesFormulaire->hasOnChangeHook()){
+	require_once(PASTELL_PATH."/externaldata/".$donneesFormulaire->hasOnChangeHook());
+	exit;
+}
 
 if ( $recuperateur->get('ajouter') ){
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");

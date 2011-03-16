@@ -61,6 +61,10 @@ class Field {
 		return (! empty($this->properties['title']));
 	}
 	
+	public function getOnChange(){
+		return $this->getProperties('onchange');
+	}
+	
 	public function getProperties($properties){
 		if ( ! isset($this->properties[$properties])){
 			return false;

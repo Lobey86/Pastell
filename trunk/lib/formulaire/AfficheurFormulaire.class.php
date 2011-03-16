@@ -137,7 +137,7 @@ class AfficheurFormulaire {
 				
 					<?php else : ?>
 						<?php if ($field->getProperties('read-only')) : ?>
-							<?php echo $this->donneesFormulaire->geth($field->getName())?> 
+							<?php echo $this->donneesFormulaire->geth($field->getName())?>&nbsp;
 							<input type='hidden' name='<?php echo $field->getName(); ?>' value='<?php echo $this->donneesFormulaire->geth($field->getName())?>'/>
 						<?php elseif( $field->getType() == 'date') : ?>
 							
