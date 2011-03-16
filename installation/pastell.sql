@@ -115,6 +115,12 @@ CREATE TABLE entite_relation (
 	`relation` varchar(16) NOT NULL,
 	`id_e2` int(11) NOT NULL
 )  ENGINE=MyISAM  ;
+CREATE TABLE grade (
+	`libelle` varchar(256) NOT NULL,
+	`filiere` varchar(255) NOT NULL,
+	`cadre_emploi` varchar(255) NOT NULL,
+	KEY libelle (`filiere`,`cadre_emploi`,`libelle`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE journal (
 	`id_j` int(11) NOT NULL AUTO_INCREMENT,
 	`type` int(11) NOT NULL,
