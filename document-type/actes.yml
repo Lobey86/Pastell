@@ -67,7 +67,8 @@ formulaire:
 		Nom patronymique: {requis: true}
 		Nom d'usage: 
 		Prénom : {requis: true}
-		Grade: 
+		grade: {name: "Grade", type: externalData, script: grade.php, script-controler: grade-controler.php, link_name: liste des grades}
+			
 		Statut:
 			type: select
 			value: 
