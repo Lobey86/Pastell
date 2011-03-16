@@ -9,7 +9,7 @@ class Action {
 	const ACTION_CLASS = "action-class";
 	const AUTO_CLASS = "auto-class";
 	const ACTION_DESTINATAIRE = "action-selection";
-	
+	const WARNING = "warning";
 	
 	const CREATION = "creation";
 	const MODIFICATION = "modification";
@@ -97,4 +97,9 @@ class Action {
 		}
 		return $result;
 	}
+	
+	public function getWarning($action){
+		return $this->getProperties($action,self::WARNING);
+	}
+	
 }

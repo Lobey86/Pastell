@@ -157,6 +157,7 @@ action:
 	
 		action-class: TedetisEnvoie
 		auto-class: TedetisRecup
+		
 	
 	verif-tdt:
 		name: Vérifier le statut de la transaction
@@ -186,6 +187,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: TedetisAnnulation
+		warning: Attention cette action n'est pas réversible
 				
 	send-cdg-manuel:
 		name-action: Transmettre au CDG

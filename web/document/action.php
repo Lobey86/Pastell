@@ -13,6 +13,7 @@ $id_d = $recuperateur->get('id_d');
 $action = $recuperateur->get('action');
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
+$go = $recuperateur->getInt('go',0);
 
 
 $document = new Document($sqlQuery);
@@ -47,7 +48,6 @@ if ( ! $actionPossible->isActionPossible($id_d,$action)) {
 }
 
 if ($action == Action::MODIFICATION){
-	
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
@@ -65,6 +65,12 @@ if ($action_destinataire) {
 	}
 
 }
+
+if ($theAction->getWarning($action) && ! $go){
+	header("Location: warning.php?id_d=$id_d&id_e=$id_e&action=$action&page=$page");
+	exit;
+}
+
 $action_class_name = $theAction->getActionClass($action);
 
 $action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
