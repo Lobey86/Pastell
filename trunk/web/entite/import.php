@@ -38,13 +38,21 @@ if ($id_e) {
 
 include (PASTELL_PATH."/include/bloc_message.php"); 
 
-$tabDecoratorHTML->display(array("Collectivités","Agents"),"entite/import.php?id_e=$id_e",$page);
+$tabDecoratorHTML->display(array("Collectivités","Agents","Grades","Fichiers de classification"),"entite/import.php?id_e=$id_e",$page);
 
-if ($page == 0){
-	$allCDG = $entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
-	$importForm->displayImportCol($id_e,$denomination,$allCDG);
-} else {
-	$importForm->displayImportAgent($id_e,$denomination);
+switch($page) {
+	case 0 : $allCDG = $entiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
+			$importForm->displayImportCol($id_e,$denomination,$allCDG);
+			break;
+	case 1 :
+			$importForm->displayImportAgent($id_e,$denomination);
+			break;
+	case 2:
+			$importForm->displayImportGrade();
+			break;
+	case 3:
+			$importFrom->displayImportClassificationCDG();
+			break;
 }
 
 include( PASTELL_PATH ."/include/bas.php");
