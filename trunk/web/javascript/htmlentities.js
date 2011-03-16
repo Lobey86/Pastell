@@ -186,3 +186,8 @@ function htmlentities (string, quote_style) {
     
     return tmp_str;
 }
+
+format_item = function (item, position, length){ 
+    return htmlentities("" + item,"ENT_QUOTES");
+  } 
+

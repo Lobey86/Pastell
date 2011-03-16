@@ -21,39 +21,21 @@ if (! $info ){
 	exit;
 }
 
-
-$documentEntite = new DocumentEntite($sqlQuery);
-
-$id_e = $documentEntite->getEntiteWithRole($info['id_d'],'editeur');
-$entite = new Entite($sqlQuery,$id_e);
-
-$infoEntite = $entite->getInfo();
-
-$documentType = $documentTypeFactory->getDocumentType('mailsec-destinataire');
-$formulaire = $documentType->getFormulaire();
-$donneesFormulaire = $donneesFormulaireFactory->get($info['id_d'],'mailsec-destinataire');
-	$ip = $_SERVER['REMOTE_ADDR'];
-
-if ($donneesFormulaire->get('password') && (! apc_fetch("consult_ok_{$key}_{$ip}"))){
-	header("Location: password.php?key=$key");
-	exit;
-}
-$info  = $documentEmail->consulter($key,$journal);
-
-$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-
 $page= "Mail sécurisé";
-$page_title= $infoEntite['denomination'] . " - Mail sécurisé";
+$page_title= " Mail sécurisé";
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
-<?php 
+<?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
-$afficheurFormulaire->afficheTab(0,'');
-?>
-<div class="box_contenu"><?php 
-$afficheurFormulaire->afficheStatic(0,"mailsec/recuperation-fichier.php?key=$key");
-?>
+<div class="box_contenu">
+	Ce message est protégé par un mot de passe :
+	<form action='mailsec/password-controler.php' method='post'>
+		<input type='hidden' name='key' value='<?php echo $key?>' />
+		<input type='password' name='password' />
+		<input type='submit' />
+	</form>	
+
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

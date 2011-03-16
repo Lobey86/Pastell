@@ -147,12 +147,7 @@ class AfficheurFormulaire {
 								value='<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName(),$field->getDefault()))?>' 
 								size='40'
 								/>
-									
-						<link type="text/css" href="jquery/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
-						
-						<script type='text/javascript' src='jquery/jquery-1.4.2.min.js'></script>
-							<script type='text/javascript' src='jquery/jquery-ui-1.8.2.custom.min.js'></script>
-						
+														
 						
 							<script type="text/javascript">
 						   		 jQuery.datepicker.setDefaults(jQuery.datepicker.regional['fr']);
@@ -171,10 +166,7 @@ class AfficheurFormulaire {
 						<?php endif;?>
 						<?php if ($field->getProperties('autocomplete')) : ?>
 						 <script>
-							 format_item = function (item, position, length){ 
-							    return htmlentities("" + item,"ENT_QUOTES");
-							  } 
-						 
+							
  							 $(document).ready(function(){
 									$("#<?php echo $field->getName();?>").autocomplete("<?php echo $field->getProperties('autocomplete')?>",  
 											{multiple: true,
@@ -268,7 +260,13 @@ class AfficheurFormulaire {
 								}
 							?>
 						<?php elseif ($field->getType() == 'password') : ?>
-							*******
+							<?php 
+								if ($field->getProperties('may_be_null') && (! $this->donneesFormulaire->geth($field->getName()))){
+									echo "(aucun)";
+								} else {
+									echo "*********";
+								}
+							?>
 						<?php elseif ($field->getType() == 'date') : ?>
 							<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName()))?>
 						<?php elseif( $field->getType() == 'link') : ?>
