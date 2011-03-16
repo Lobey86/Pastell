@@ -46,7 +46,7 @@ formulaire:
 				
 	Agent:
 		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
-		agent_non_reference: { name: Agent non-référencé, type: checkbox}
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
 		Matricule de l'agent: {read-only: true} 
 		Nom patronymique: {requis: true, read-only: true}
 		Nom d'usage: {read-only: true}
@@ -62,8 +62,7 @@ formulaire:
 				true
 	
 	Agent non-référencé:
-		agent_non_reference: { name: Agent non-référencé, type: checkbox}
-		Matricule de l'agent:
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
 		Nom patronymique: {requis: true}
 		Nom d'usage: 
 		Prénom : {requis: true}

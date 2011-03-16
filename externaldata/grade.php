@@ -12,7 +12,7 @@ $cadre_emploi = $recuperateur->get('cadre_emploi');
 
 if ($cadre_emploi){
 	$url_prev = $url."&filiere=$filiere";
-	$url = "document/external-data-controler.php?id_d=$id_d&id_e=$id_e&page=$page&field=$field&filiere=$filiere&cadre_emploi=$cadre_emploi";	
+	$url = "document/external-data-controler.php?id_d=$id_d&id_e=$id_e&page=$page&field=$field&filiere=$filiere&cadre_emploi=". htmlentities($cadre_emploi,ENT_QUOTES,"UTF-8");	
 	$tabInfo = $gradeSQL->getLibelle($filiere,$cadre_emploi);
 	$next_info = "libelle";
 	$info_to_choice = "Choix du grade";
