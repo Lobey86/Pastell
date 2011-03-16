@@ -80,7 +80,7 @@ class AfficheurFormulaire {
 						<label for="<?php echo $field->getName() ?>"><?php echo $field->getLibelle() ?></label>
 						<?php if ($field->isRequired()) : ?>*<?php endif;?>
 						<?php if ($field->isMultiple()): ?>
-							(plusieurs valeurs possibles)
+							(plusieurs <?php echo ($field->getType() == 'file')?"ajouts":"valeurs" ?> possibles)
 						<?php endif;?>
 						<?php if ($field->getProperties('commentaire')) : ?>
 							<p class='form_commentaire'><?php echo $field->getProperties('commentaire') ?></p>
