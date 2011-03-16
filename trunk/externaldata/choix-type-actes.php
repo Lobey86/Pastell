@@ -2,9 +2,23 @@
 
 require_once( PASTELL_PATH . "/externaldata/lib/TypeActes.class.php");
 
-
 $donneesFormulaire = $donneesFormulaireFactory->get($id_e,"collectivite-properties");
-$file = $donneesFormulaire->getFilePath('nomemclature_file');
+$file = $donneesFormulaire->get('nomemclature_file');
+
+
+$entite = new Entite($sqlQuery,$id_e);
+$infoCDG = $entite->getCDG();
+$donneesFormulaireCDG = $donneesFormulaireFactory->get($infoCDG,'collectivite-properties');
+$classifCDG = $donneesFormulaireCDG->get("classification_cdg");
+
+foreach($classifCDG as $i => $nom_file){
+	if($nom_file == $file){
+		$file = $donneesFormulaireCDG->getFilePath('classification_cdg',$i);
+		break;
+	}
+}
+
+
 
 if (! file_exists($file)){
 	$lastError->setLastError("La nomemclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
