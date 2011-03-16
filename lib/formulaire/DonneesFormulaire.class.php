@@ -54,7 +54,7 @@ class DonneesFormulaire {
 				if ( isset($this->info[$name]) && ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
 					$this->onChangeHook = $field->getOnChange();
 				}
-				if ( ($type != 'password' ) ||  $value){
+				if ( ( ($type != 'password' ) || $field->getProperties('may_be_null')  ) ||  $value){
 					if (! isset($this->info[$name])){
 						$this->info[$name] = "";
 					}
@@ -165,6 +165,12 @@ class DonneesFormulaire {
 			
 				if ( ! preg_match($field->pregMatch(),$this->get($field->getName()))){
 					$this->lastError = "Le champs «{$field->getLibelle()}» est incorect ({$field->pregMatchError()}) ";
+					return false;
+				}
+			}
+			if ($field->getProperties('is_equal')){
+				if ($this->get($field->getProperties('is_equal')) != $this->get($field->getName())){
+					$this->lastError =$field->getProperties('is_equal_error');
 					return false;
 				}
 			}

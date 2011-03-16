@@ -5,6 +5,8 @@ formulaire:
 		to: {name: Destinataire(s), requis: true, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
 		cc:  {name: Copie à, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
 		bcc: {name: Copie cachée à, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
+		password : {name: Mot de passe, type: password, may_be_null: true}
+		password2 : {name: Mot de passe (confirmation), type: password, may_be_null: true, is_equal: password, is_equal_error: Les mots de passes ne correspondent pas}
 		Objet: {requis: true, title: true}
 		Message: {type: textarea}
 		Document attaché: {type: file, multiple: true}
@@ -36,6 +38,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'mailsec:edition'
 			document_is_valide: true
+			
 		action-class: EnvoyerMailSec
 		
 	reception-partielle:
