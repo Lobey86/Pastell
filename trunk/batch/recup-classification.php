@@ -27,7 +27,6 @@ foreach($liste_collectivite as $col){
 		
 			if ($result){
 				$donneesFormulaire->addFileFromData("classification_file","classification.xml",$result);
-				$donneesFormulaire->removeFile("nomemclature_file");
 				$message = "Classification de la collectivité {$col['denomination']} mise à jour";
 			} else {
 				$message =  "Problème lors de la récuperation de la classification de {$col['denomination']}";
