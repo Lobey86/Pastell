@@ -104,6 +104,11 @@ class Tedetis {
 	
 	public function verifClassif(){
 		
+		if (! is_file($this->classificationFile)){
+			$this->lastError = "Il n'y a pas de fichier de classification Actes";
+			return false;
+		}
+		
 		$usingClassif = file_get_contents($this->classificationFile);
 		$theClassif = $this->getClassification();
 	
