@@ -23,6 +23,8 @@ class ActionPossible {
 	private $donneesFormulaire;
 	private $entite;
 	private $entiteProperties;
+	private $collectiviteProperties;
+	
 	
 	public function __construct(SQLQuery $sqlQuery,$id_e,$id_u,Action $action){
 		
@@ -35,6 +37,11 @@ class ActionPossible {
 		$this->setRoleUtilisateur( new RoleUtilisateur($sqlQuery) );
 		$this->setEntite(new Entite($sqlQuery,$id_e));
 		$this->setEntiteProperties(new EntiteProperties($sqlQuery,$id_e));
+		
+		global $donneesFormulaireFactory;
+		$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+		
+		$this->setCollectiviteProperties($donneesFormulaire);
 		
 	}
 	
@@ -60,6 +67,10 @@ class ActionPossible {
 	
 	public function setEntiteProperties(EntiteProperties $entiteProperties){
 		$this->entiteProperties = $entiteProperties;
+	}
+	
+	public function setCollectiviteProperties(DonneesFormulaire  $donnesFormulaire){
+		$this->collectiviteProperties = $donnesFormulaire;
 	}
 	
 	public function getLastBadRule(){
@@ -94,7 +105,7 @@ class ActionPossible {
 	}
 	
 	private function verifRule($ruleName,$ruleValue){
-		if (is_array($ruleValue) && $ruleName != 'content' && $ruleName != 'properties'){
+		if (is_array($ruleValue) && ! in_array($ruleName,array('collectivite-properties','content','properties'))){
 			foreach($ruleValue as $ruleElement){
 				if ($this->verifRule($ruleName,$ruleElement)){					
 					return true;
@@ -114,6 +125,7 @@ class ActionPossible {
 			case 'type_id_e': return $this->veriTypeEntite($ruleValue); break;
 			case 'document_is_valide' : return $this->verifDocumentIsValide(); break;
 			case 'properties': return $this->verifProperties($ruleValue); break;
+			case 'collectivite-properties': return $this->verifCollectiviteProperties($ruleValue); break;
 			case 'automatique': return false;
 		}
 		throw new Exception("Règle d'action inconnue : $ruleName" );
@@ -167,6 +179,18 @@ class ActionPossible {
 	
 	private function verifProperties(array $properties){
 		foreach($properties as $key => $value) {}
+		echo $key . $this->entiteProperties->getProperties(EntiteProperties::ALL_FLUX,$key);	
 		return $value == $this->entiteProperties->getProperties(EntiteProperties::ALL_FLUX,$key);		
 	}
+	
+	public function verifCollectiviteProperties(array $properties){
+		foreach($properties as $key => $value) {
+			if ($this->collectiviteProperties->get($key) != $value){
+				return false;
+			}
+			return true;
+		}	
+	}
+	
+	
 }

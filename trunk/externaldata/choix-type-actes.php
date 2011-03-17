@@ -11,13 +11,17 @@ $infoCDG = $entite->getCDG();
 $donneesFormulaireCDG = $donneesFormulaireFactory->get($infoCDG,'collectivite-properties');
 $classifCDG = $donneesFormulaireCDG->get("classification_cdg");
 
+if (! $classifCDG){
+	$lastError->setLastError("Aucun fichier de classification CDG n'est disponible");
+	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
+	exit;
+}
 foreach($classifCDG as $i => $nom_file){
 	if($nom_file == $file){
 		$file = $donneesFormulaireCDG->getFilePath('classification_cdg',$i);
 		break;
 	}
 }
-
 
 
 if (! file_exists($file)){
