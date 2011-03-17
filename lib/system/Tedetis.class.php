@@ -20,6 +20,8 @@ class Tedetis {
 	const URL_POST_ACTES =  "/modules/actes/actes_transac_create.php";
 	const URL_STATUS = "/modules/actes/actes_transac_get_status.php";
 	const URL_ANNULATION = "/modules/actes/actes_transac_cancel.php";
+	const URL_BORDEREAU = "/modules/actes/actes_create_pdf.php";
+	
 	
 	public static function getStatusString($status){
 		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
@@ -176,5 +178,10 @@ class Tedetis {
 		}
 		
 		return trim($ligne[1]);
+	}
+	
+	public function getBordereau($id_transaction){
+		$result = $this->exec(self::URL_BORDEREAU."?trans_id=$id_transaction");
+		return $result;
 	}
 }

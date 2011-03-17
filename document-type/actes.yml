@@ -90,6 +90,10 @@ formulaire:
 	
 	onglet_cache:
 		envoi_tdt_obligatoire: {no-show: true, type: checkbox}
+		
+	Bordereau:
+		has_bordereau: {no-show: true}
+		bordereau: {name: Bordereau d'acquittement, type: file}
 
 page-condition:
 	Agent:
@@ -108,6 +112,8 @@ page-condition:
 	onglet_cache:
 		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
 	
+	Bordereau:
+		has_bordereau: true
 	
 	
 action:
