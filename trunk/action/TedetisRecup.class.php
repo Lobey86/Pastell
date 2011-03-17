@@ -46,6 +46,11 @@ class TedetisRecup extends ActionExecutor {
 		
 		$message .= "\n\nConsulter le détail de l'acte : " . SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e={$this->id_e}";
 		
+		$bordereau_data = $tedetis->getBordereau($tedetis_transaction_id);
+		
+		$donneesFormulaire = $this->getDonneesFormulaire();
+		$donneesFormulaire->setData('has_bordereau',true);
+		$donneesFormulaire->addFileFromData('bordereau', $infoDocument['titre']."-bordereau.pdf",$bordereau_data);
 		
 		$this->notify('acquiter-tdt', 'rh-actes',$message);
 		
