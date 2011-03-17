@@ -79,6 +79,9 @@ if (!defined("SITE_BASE")){
 	define("SITE_BASE","http://127.0.0.1/pastell/web/");
 }
 
+if (!defined("AGENT_FILE_PATH")){
+	define("AGENT_FILE_PATH","/tmp/agent");
+}
 
 define("PRODUCTION",true);
 
