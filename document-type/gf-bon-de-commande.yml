@@ -1,0 +1,62 @@
+nom: Bon de commande
+
+formulaire:
+	Message:
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Pièce jointe: {type: file}
+	
+action:
+	creation:
+		
+		name-action: Créer
+		name: Création
+		
+		rule:
+			no-last-action:
+			droit_id_u: 'gf-bon-de-commande:edition'
+			type_id_e: 
+				service
+				collectivite
+				centre_de_gestion
+
+	modification:	
+		name-action: Modifier
+		name: Modification
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'gf-bon-de-commande:edition'
+	
+	envoi :
+		name-action: Envoyer à des fournisseurs
+		name: Envoyé à des fournisseurs
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'gf-bon-de-commande:edition'
+		action-class: Envoyer
+		action-selection: fournisseur
+		
+	recu:
+		name: Reçu par un utilisateur
+		rule:
+			role_id_e: no-role
+		accuse_de_reception_action: accuse_de_reception
+	
+	accuse_de_reception:
+		name: 	Accuser réception
+		rule:
+			last-action:
+				recu
+			role_id_e: lecteur
+			droit_id_u: 'gf-bon-de-commande:edition'
+			
+		action-class: AccuserReception
+			
+	
