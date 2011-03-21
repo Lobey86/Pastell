@@ -42,7 +42,7 @@ $info = $entite->getInfo();
 $lastTransaction = false;
 if ($id_e && $info['type'] == Entite::TYPE_FOURNISSEUR) {
 	$transactionFinder = new TransactionFinder($sqlQuery);
-	$lastTransaction = $transactionFinder->getLastTransactionBySiren($siren,FluxInscriptionFournisseur::TYPE);
+	$lastTransaction = $transactionFinder->getLastTransactionBySiren($info['siren'],FluxInscriptionFournisseur::TYPE);
 }
 if ($id_e){
 	$page_title = "Détail " . $info['denomination'];
@@ -101,7 +101,7 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	$info = $entite->getExtendedInfo();
 	$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 	
-	$entiteDetailHTML->display($info,$entiteProperties);
+	$entiteDetailHTML->display($info,$entiteProperties,$lastTransaction);
 elseif($tab_number == 1) : 
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 

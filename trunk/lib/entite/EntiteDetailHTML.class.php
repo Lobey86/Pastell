@@ -13,7 +13,7 @@ class EntiteDetailHTML {
 		$this->droitLectureCDG = true;
 	}
 	
-	public function display(array $entiteExtendedInfo,$entiteProperties){
+	public function display(array $entiteExtendedInfo,$entiteProperties,$lastTransaction =false){
 		$id_e = $entiteExtendedInfo['id_e'];
 		?>
 		<h2>Informations générales
