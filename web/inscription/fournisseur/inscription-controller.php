@@ -60,7 +60,7 @@ $id_e = $entiteCreator->edit(false,$siren,$denomination,Entite::TYPE_FOURNISSEUR
 //$id_e = $entiteCreator->create($siren,$denomination,"fournisseur",0);
 
 
-$roleUtilisateur->addRole($id_u,"admin",$id_e);
+$roleUtilisateur->addRole($id_u,"fournisseur",$id_e);
 
 $infoUtilisateur = $utilisateur->getInfo();
 
