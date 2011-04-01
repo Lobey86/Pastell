@@ -7,6 +7,9 @@ require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 $recuperateur = new Recuperateur($_GET);
 
 $offset = $recuperateur->getInt('offset',0);
+if ($offset <0){
+	$offset = 0;
+}
 $search = $recuperateur->get('search');
 
 
@@ -48,8 +51,7 @@ include( PASTELL_PATH ."/include/haut.php");
 </div>
 <?php endif;?>
 <?php 
-suivant_precedent($offset,count($liste_collectivite),$nbCollectivite,"entite/index.php?search=$search");
-
+suivant_precedent($offset,20,$nbCollectivite,"entite/index.php?search=$search");
 ?>
 
 

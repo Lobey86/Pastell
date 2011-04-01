@@ -17,7 +17,7 @@ function suivant_precedent($offset,$limit,$nb_total,$link = null,$message=null) 
 <div class="box_suiv">
 	<div class="prec">
 		<?php if ( $offset) : ?>
-			<a href="<?php echo $link ?>offset=<?php echo $offset-$limit; ?>"><?php echo _("Précédent") ?></a>
+			<a href="<?php echo $link ?>offset=<?php echo max(0,$offset-$limit); ?>"><?php echo _("Précédent") ?></a>
 		<?php else : ?>
 			&nbsp;
 		<?php endif; ?>
