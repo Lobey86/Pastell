@@ -51,16 +51,17 @@ class DonneesFormulaire {
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
-				if ( isset($this->info[$name]) && ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
+				if (! isset($this->info[$name])){
+						$this->info[$name] = "";
+					}
+				
+				if ( ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
 					$this->onChangeHook = $field->getOnChange();
 				}
 				if ( ( ($type != 'password' ) || $field->getProperties('may_be_null')  ) ||  $value){
-					if (! isset($this->info[$name])){
-						$this->info[$name] = "";
-					}
+					
 					if ($this->info[$name] != $value){
 						$this->isModified = true;
-						
 					}
 					if ($type == 'date'){
 						$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
