@@ -25,7 +25,7 @@ formulaire:
 		Numéro de l'acte:
 			requis: true
 			commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"
-			preg_match: "#[0-9A-Z_]{1,15}#"
+			preg_match: "#^[0-9A-Z_]{1,15}$#"
 			preg_match_error: "15 caractères maxi, chiffres, lettres en majuscule ou _"
 				
 		Objet: {requis: true, title: true}
