@@ -32,6 +32,14 @@ if($id_e){
 	$entite = new Entite($sqlQuery,$id_e);
 }
 
+if ( ! $id_e && $siren){
+	$entiteListe = new EntiteListe($sqlQuery);
+	if ($entiteListe->getBySiren($siren)){
+		$lastError->setLastError("Ce SIREN est déjà utilisé");
+		$redirection->redirect();
+	}
+}
+
 if ($type != Entite::TYPE_SERVICE) {
 	
 	if ( ! $siren ){

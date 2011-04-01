@@ -86,4 +86,9 @@ class EntiteListe {
 		$sql = "SELECT denomination FROM `entite` WHERE denomination LIKE ? LIMIT 10";
 		return $this->sqlQuery->fetchAll($sql,"%$part%");
 	}
+	
+	public function getBySiren($siren){
+		$sql = "SELECT * FROM entite WHERE siren=?";
+		return $this->sqlQuery->fetchAll($sql,$siren);
+	}
 }
