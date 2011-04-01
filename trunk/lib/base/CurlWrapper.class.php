@@ -30,6 +30,8 @@ class CurlWrapper {
 	public function setServerCertificate($serverCertificate){
 		$this->setProperties( CURLOPT_CAINFO ,$serverCertificate ); 
 		$this->setProperties( CURLOPT_SSL_VERIFYHOST , 0 ); 
+				//$this->setProperties( CURLOPT_SSL_VERIFYPEER , 0 ); 
+		
 	}
 	
 	public function setClientCertificate($clientCertificate,$clientKey,$clientKeyPassword)	{
@@ -38,17 +40,18 @@ class CurlWrapper {
 		$this->setProperties( CURLOPT_SSLCERT, $clientCertificate);
 		$this->setProperties( CURLOPT_SSLKEY, $clientKey);
 		$this->setProperties( CURLOPT_SSLKEYPASSWD,$clientKeyPassword );
+		
+		
 	}
 	
 	public function get($url){
 		$this->setProperties(CURLOPT_URL, $url);
-		
+		$this->setProperties( CURLOPT_VERBOSE, 1); 
 		if ($this->postData || $this->postFile ){
 				$this->curlSetPostData();
 		}
 		
 		$output = curl_exec($this->curlHandle);
-		
 		$this->lastError = curl_error($this->curlHandle);
 		if ($this->lastError){
 			$this->lastError = "Erreur de connexion au serveur : " . $this->lastError;
