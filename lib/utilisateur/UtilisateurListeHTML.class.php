@@ -38,7 +38,7 @@ class UtilisateurListeHTML {
 				</td>
 				<td><?php echo $user['login']?></td>
 				<td><?php echo $user['email']?></td>
-				<td><?php echo $user['role']?></td>
+				<td><?php echo implode(", ",$user['all_role'])?></td>
 			</tr>
 		<?php endforeach; ?>
 		

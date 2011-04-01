@@ -34,7 +34,15 @@ class UtilisateurListe {
 				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
 				" WHERE utilisateur_role.id_e = ? " . 
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		return $this->sqlQuery->fetchAll($sql,$id_e);
+		$all= $this->sqlQuery->fetchAll($sql,$id_e);
+		
+		foreach($all as $ligne){	
+			if (empty($result[$ligne['id_u']])){
+				$result[$ligne['id_u']] = $ligne;
+			}
+			$result[$ligne['id_u']]['all_role'][] = $ligne['role'];			
+		}
+		return $result;
 	}
 	
 	public function getUtilisateurByCertificat($verif_number,$offset,$limit){
