@@ -88,5 +88,10 @@ action:
 		name: Tester l'accès au répertoire
 		action-class: GEDTestFolder
 		tab: GED
+	
+	demande-classification:
+		name: Envoyer une demande de classification à la préfécture
+		tab: Tedetis
+		action-class: TedetisDemandeClassification
 		
 		

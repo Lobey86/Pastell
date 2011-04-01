@@ -21,7 +21,7 @@ class Tedetis {
 	const URL_STATUS = "/modules/actes/actes_transac_get_status.php";
 	const URL_ANNULATION = "/modules/actes/actes_transac_cancel.php";
 	const URL_BORDEREAU = "/modules/actes/actes_create_pdf.php";
-	
+	const URL_DEMANDE_CLASSIFICATION = "/modules/actes/actes_classification_request.php";
 	
 	public static function getStatusString($status){
 		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
@@ -70,7 +70,7 @@ class Tedetis {
 		}
 		
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
-			
+		
 		if ( ! $output){
 			$this->lastError = $this->curlWrapper->getLastError();
 			return false;
@@ -83,7 +83,22 @@ class Tedetis {
 	}
 	
 	public function getClassification(){
-		return $this->exec( self::URL_CLASSIFICATION );
+		
+		$result = $this->exec( self::URL_CLASSIFICATION ."?api=1");
+		if (preg_match("/^KO/",$result)){
+			$this->lastError = "S²low a répondu : " .$result;
+			return false;
+		}
+		return $result;
+	}
+	
+	public function demandeClassification(){
+		$result = $this->exec( self::URL_DEMANDE_CLASSIFICATION ."?api=1");
+		if (preg_match("/^KO/",$result)){
+			$this->lastError = "S²low a répondu : " .$result;
+			return false;
+		}
+		return "S²low a répondu : " .$result;
 	}
 	
 	public function annulationActes($id_transaction){
@@ -91,12 +106,12 @@ class Tedetis {
 		$this->curlWrapper->addPostData('id',$id_transaction);
 		$result = $this->exec( self::URL_ANNULATION );	
 		if( ! $result ){
-			$this->lastError = "Erreur lors de la connexion au Tedetis (".$this->tedetisURL.")";
+			$this->lastError = "Erreur lors de la connexion a S²low (".$this->tedetisURL.")";
 			return false;
 		}	
 				
 		if (! preg_match("/^OK/",$result)){
-			$this->lastError = "Erreur lors de la transmission, Tédétis a répondu : $result";
+			$this->lastError = "Erreur lors de la transmission, S²low a répondu : $result";
 			return false;
 		}
 		return true;
@@ -155,12 +170,12 @@ class Tedetis {
 		
 		$result = $this->exec( self::URL_POST_ACTES );	
 		if( ! $result ){
-			$this->lastError = "Erreur lors de la connexion au Tedetis (".$this->tedetisURL.")";
+			$this->lastError = "Erreur lors de la connexion à S²low (".$this->tedetisURL.")";
 			return false;
 		}	
 				
 		if (! preg_match("/^OK/",$result)){
-			$this->lastError = "Erreur lors de la transmission, Tédétis a répondu : $result";
+			$this->lastError = "Erreur lors de la transmission, S²low a répondu : $result";
 			return false;
 		}
 		
