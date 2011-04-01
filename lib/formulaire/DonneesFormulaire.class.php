@@ -65,6 +65,9 @@ class DonneesFormulaire {
 					if ($type == 'date'){
 						$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
 					}
+					if ($type == 'password'){
+						$value = "'$value'";
+					}
 					$this->info[$name] = $value;
 				}
 			}
