@@ -102,4 +102,9 @@ class Utilisateur {
 		$this->sqlQuery->query($sql,$content,$verif_number,$this->id_u);
 	}
 	
+	public function reinitPassword($mailVerifPassword){
+		$sql = "UPDATE utilisateur SET mail_verif_password=? WHERE id_u=?";
+		$this->sqlQuery->query($sql,$mailVerifPassword,$this->id_u);
+	}
+	
 }

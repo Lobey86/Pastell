@@ -57,4 +57,14 @@ class UtilisateurListe {
 		return $this->sqlQuery->fetchOneValue($sql,$verif_number);
 	}
 	
+	public function getByLoginOrEmail($login,$email){
+		$sql = "SELECT id_u FROM utilisateur WHERE (login = ? OR email=?) AND mail_verifie=1";
+		return $this->sqlQuery->fetchOneValue($sql,$login,$email);
+	}
+	
+	public function getByVerifPassword($mail_verif_password){
+		$sql = "SELECT id_u FROM utilisateur WHERE mail_verif_password = ?  AND mail_verifie=1";
+		return $this->sqlQuery->fetchOneValue($sql,$mail_verif_password);
+	}
+	
 }

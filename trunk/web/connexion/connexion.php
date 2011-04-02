@@ -48,7 +48,7 @@ $utilisateurInfo = $utilisateur->getInfo();
 		</table>
 		
 		<div class="float_left">
-		<a href="#">J'ai oublié mes identifiants</a>
+		<a href="connexion/oublie-identifiant.php">J'ai oublié mes identifiants</a>
 		</div>
 		
 		<div class="align_right">
