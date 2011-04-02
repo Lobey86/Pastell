@@ -41,7 +41,7 @@ if (! $id_u){
 }
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
 
-
+$oldInfo = $utilisateur->getInfo();
 
 if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
 	
@@ -89,7 +89,20 @@ if (! $allRole ){
 	$roleUtilisateur->addRole($id_u,RoleDroit::AUCUN_DROIT,$id_e);
 }
 
+$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$newInfo = $utilisateur->getInfo();
+
+$infoToRetrieve = array('email','login','nom','prenom');
+$infoChanged = array();
+foreach($infoToRetrieve as $key){
+	if ($oldInfo[$key] != $newInfo[$key]){
+		$infoChanged[] = "$key : {$oldInfo[$key]} -> {$newInfo[$key]}";
+	}
+}
+$infoChanged  = implode("; ",$infoChanged);
+
+
 $journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,$authentification->getId(),"edition",
-				"Edition de l'utilisateur $login ($id_u)");	
+				"Edition de l'utilisateur $login ($id_u) : $infoChanged");	
 	
 $redirection->redirect(SITE_BASE . "utilisateur/detail.php?id_u=$id_u");
