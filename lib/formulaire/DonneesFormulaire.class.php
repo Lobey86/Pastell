@@ -193,4 +193,8 @@ class DonneesFormulaire {
 		}
 	}
 	
+	public function getRawData(){
+		return $this->info;
+	}
+	
 }

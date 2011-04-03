@@ -103,6 +103,17 @@ class RoleUtilisateur {
 		return $result;
 	}
 	
+	public function getAllEntiteWithFille($id_u,$droit){
+		$sql = "SELECT entite.id_e,entite.denomination,entite.siren,entite.centre_de_gestion,entite.entite_mere FROM entite_ancetre " .
+				" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e ".
+				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
+				" JOIN entite ON entite_ancetre.id_e=entite.id_e ".
+				" WHERE utilisateur_role.id_u=? AND droit=? ".
+				" ORDER BY entite_mere,denomination";
+		return $this->sqlQuery->fetchAll($sql,$id_u,$droit);
+	}
+	
+	
 	public function getArbreFille($id_u,$droit){
 		$sql = "SELECT entite.id_e,entite.denomination,entite.entite_mere FROM entite_ancetre " .
 				" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e ".
@@ -128,6 +139,7 @@ class RoleUtilisateur {
 				" LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?  AND droit=?";
 		return $this->sqlQuery->fetchAll($sql,$id_u,$droit);
 	}
+	
 	
 	public function getEntite($id_u,$droit){
 		$sql = "SELECT  utilisateur_role.id_e " . 

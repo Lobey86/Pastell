@@ -19,7 +19,7 @@ class DocumentActionEntite {
 	}
 	
 	public function getAction($id_e,$id_d){
-		$sql = "SELECT * FROM document_action_entite " .
+		$sql = "SELECT action,date,document_action_entite.id_e,document_action.id_u,denomination,nom,prenom FROM document_action_entite " .
 			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
 			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
 			" JOIN entite ON document_action.id_e  = entite.id_e ".
@@ -40,7 +40,7 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchOneValue($sql,$data);
 	}
 	
-	public function getListDocument($id_e,$type,$offset,$limit,$search,$etat = false){
+	public function getListDocument($id_e,$type,$offset,$limit,$search="",$etat = false){
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.type=? " . 
