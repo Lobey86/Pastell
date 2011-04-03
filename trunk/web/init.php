@@ -51,5 +51,8 @@ require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/util.php");
 
-
 define("DATABASE_FILE", PASTELL_PATH."/installation/pastell.bin");
+
+
+require_once( PASTELL_PATH. "/lib/helper/Versionning.class.php");
+$versionning = new Versionning(__DIR__."/../version.txt",__DIR__."/../revision.txt");
