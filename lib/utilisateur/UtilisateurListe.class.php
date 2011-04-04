@@ -36,6 +36,7 @@ class UtilisateurListe {
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
 		$all= $this->sqlQuery->fetchAll($sql,$id_e);
 		
+		$result = array();
 		foreach($all as $ligne){	
 			if (empty($result[$ligne['id_u']])){
 				$result[$ligne['id_u']] = $ligne;
