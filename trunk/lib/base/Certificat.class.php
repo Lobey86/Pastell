@@ -42,6 +42,6 @@ class Certificat {
 		if ( ! $this->isValid()){
 			return false;
 		}
-		return $this->certData['subject']['CN'] . " (signé par ".$this->certData['issuer']['CN'].")" ;
+		return $this->certData['name'];
 	}
 }

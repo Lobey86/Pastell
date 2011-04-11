@@ -37,7 +37,6 @@ include( PASTELL_PATH ."/include/haut.php");
 
 
 <?php 
-
 suivant_precedent($offset,$limit,$count);
 ?>
 
@@ -71,6 +70,18 @@ suivant_precedent($offset,$limit,$count);
 <h2>Détail du certificat </h2>
 <br/><br/>
 <table  class="tab_04">
+	<tr>
+		<th>Numéro de série</th>
+		<td>
+			<?php echo $certificatInfo['serialNumber'] ?>
+		</td>
+	</tr>
+		<tr>
+		<th>Nom</th>
+		<td>
+			<?php echo $certificatInfo['name'] ?>
+		</td>
+	</tr>
 	<tr>
 		<th>Emis pour </th>
 		<td>
