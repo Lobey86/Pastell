@@ -43,14 +43,25 @@ class ClassificationActes {
 	public function affiche($link){
 		$this->link = $link;
 		$actes = $this->getActes();
-		$this->afficheInternal($actes->Matieres,1,'');
+		?>
+		 <script>
+		  $(document).ready(function(){
+		    $("#classification").treeview( {collapsed: true,animated: "fast",control: "#container"});
+		  });
+ 		 </script>
+ 		 <div id='container'>
+ 		 	<a href='#'>Tous replier</a>
+			<a href='#'>Tous déplier</a>
+		</div>
+		<?php 
+		$this->afficheInternal($actes->Matieres,1,'','id="classification" class="filetree"');
 	}
 	
-	public function afficheInternal(SimpleXMLElement $xml,$niveau,$classif){
+	public function afficheInternal(SimpleXMLElement $xml,$niveau,$classif,$class=''){
 		$matiere = "Matiere$niveau";
 		//$matiere1['CodeMatiere'];
 		?>
-		<ul>
+		<ul <?php echo $class?>>
 		<?php foreach($xml->$matiere as $matiere1):
 			$libelle = utf8_decode($matiere1['Libelle']);
 		
