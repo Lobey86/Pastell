@@ -168,7 +168,7 @@ class DonneesFormulaire {
 			if ($field->pregMatch()){
 			
 				if ( ! preg_match($field->pregMatch(),$this->get($field->getName()))){
-					$this->lastError = "Le champs «{$field->getLibelle()}» est incorect ({$field->pregMatchError()}) ";
+					$this->lastError = "Le champ «{$field->getLibelle()}» est incorrect ({$field->pregMatchError()}) ";
 					return false;
 				}
 			}
