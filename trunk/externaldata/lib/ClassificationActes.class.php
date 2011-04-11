@@ -40,8 +40,6 @@ class ClassificationActes {
 		return false;
 	}
 	
-	
-	
 	public function affiche($link){
 		$this->link = $link;
 		$actes = $this->getActes();
