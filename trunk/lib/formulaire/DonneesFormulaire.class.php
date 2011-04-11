@@ -139,6 +139,15 @@ class DonneesFormulaire {
 		return  $this->filePath."_".$field_name."_$num";
 	}
 	
+	public function getContentType($field_name,$num  = 0){
+		$file_path = $this->getFilePath($field_name,$num);
+		if (! file_exists($file_path)){
+			return;
+		}
+		$fileInfo = new finfo();
+		return $fileInfo->file($file_path,FILEINFO_MIME_TYPE);
+	}
+	
 	public function get($item,$default=false){
 		if (empty($this->info[$item])){
 			
@@ -177,6 +186,14 @@ class DonneesFormulaire {
 					$this->lastError =$field->getProperties('is_equal_error');
 					return false;
 				}
+			}
+			if ($field->getProperties('content-type')){
+				$ctype = $this->getContentType($field->getName(),0);
+				if ($ctype && $ctype != $field->getProperties('content-type')){
+					$this->lastError = "Le fichier «{$field->getLibelle()}» n'est pas un fichier {$field->getProperties('content-type')} ($ctype trouvé)";
+					return false;
+				}
+			
 			}
 		}
 		return true;
