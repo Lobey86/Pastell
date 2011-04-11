@@ -1,30 +1,13 @@
 <?php
 
 require_once( PASTELL_PATH . "/externaldata/lib/TypeActes.class.php");
-
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,"collectivite-properties");
-$file = $donneesFormulaire->get('nomemclature_file');
+require_once( PASTELL_PATH . "/externaldata/lib/ClassificationCDGFinder.class.php");
 
 
-$entite = new Entite($sqlQuery,$id_e);
-$infoCDG = $entite->getCDG();
-$donneesFormulaireCDG = $donneesFormulaireFactory->get($infoCDG,'collectivite-properties');
-$classifCDG = $donneesFormulaireCDG->get("classification_cdg");
+$classificationCDGFinder = new ClassificationCDGFinder($sqlQuery,$donneesFormulaireFactory);
+$file = $classificationCDGFinder->get($id_e);
 
-if (! $classifCDG){
-	$lastError->setLastError("Aucun fichier de classification CDG n'est disponible");
-	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
-	exit;
-}
-foreach($classifCDG as $i => $nom_file){
-	if($nom_file == $file){
-		$file = $donneesFormulaireCDG->getFilePath('classification_cdg',$i);
-		break;
-	}
-}
-
-
-if (! file_exists($file)){
+if (!$file){
 	$lastError->setLastError("La nomemclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
