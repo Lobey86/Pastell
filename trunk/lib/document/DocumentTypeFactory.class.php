@@ -43,7 +43,7 @@ class DocumentTypeFactory {
 		return new DocumentType($type,$this->getDocumentTypeContent($type));
 	}
 	
-	private function getDocumentTypeContent($type){
+	public function getDocumentTypeContent($type){
 		if (! isset($this->formlulaireDefinition[$type])){
 			$this->loadFile($type);
 		}

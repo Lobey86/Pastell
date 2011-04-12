@@ -3,6 +3,7 @@ nom: Test
 formulaire:
 	Message:			
 		Test: {title: true}
+		test2: 
 		
 	
 action:
@@ -20,16 +21,16 @@ action:
 		
 	test-1 :
 		name: Test
-		action-script: default.php
+		action-class: Defaut
 		
 	test-2:
 		name: Test 2
 		rule:
 			content:
 				Test: toto
-		action-script: default.php
+		action-class: Defaut
 		
 	test-3:
 		name: Test 3
-		auto-script: toto.php
+		action-class: Defaut
 			

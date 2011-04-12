@@ -32,7 +32,17 @@ formulaire:
 		ged_user_login: {name: "login" }
 		ged_user_password: {name: "Mot de passe" , type: password}
 		ged_folder:  {name: "Répertoire de dépot" }
+	
+	SAE:
+		sae_activate: {name: "Module activé", type: checkbox}
+		sae_wsdl: {name: "URL du WSDL"}
+		sae_login: {name: "Login"}
+		sae_password: {name: "Mot de passe"}
+		sae_identifiant_versant: {name: "Identifiant service versant"}
+		sae_identifiant_archive: {name: "Identifiant archive"}
+		sae_numero_agrement: {name: "Numéro d'aggrément"}
 		
+	
 	Mail sécurisé:
 		mailsec_from: {name: Email de l'emetteur, default: pastell@sigmalis.com}
 		mailsec_from_description: {name: Nom de l'emetteur, default: PASTELL}
@@ -89,6 +99,12 @@ action:
 		action-class: GEDTestFolder
 		tab: GED
 	
+	test-sae:
+		name: Envoyer un document de test
+		action-class: SAETestSEDA
+		tab: SAE
+	
+			
 	demande-classification:
 		name: Envoyer une demande de classification à la préfécture
 		tab: Tedetis

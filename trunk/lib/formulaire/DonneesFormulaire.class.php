@@ -73,9 +73,28 @@ class DonneesFormulaire {
 				}
 			}
 		}
-		$dump = Spyc::YAMLDump($this->info);
-		file_put_contents($this->filePath,$dump);
+		$this->saveDataFile();
 	}
+	
+	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
+		$allField = $this->formulaire->getAllFields();
+		foreach($recuperateur->getAll() as $key => $value){
+			$key = Field::Canonicalize($key);
+			if (isset($allField[$key])){
+				$this->info[$key] = $value;
+				$this->isModified = true;
+			}
+		}
+		foreach($fileUploader->getAll() as $filename => $name){
+			if (isset($allField[$filename])){
+				$this->saveFile($allField[$filename],$fileUploader);
+			}
+		}
+		if ($this->isModified){
+			$this->saveDataFile();
+		}
+	}
+	
 	
 	public function isModified(){
 		return $this->isModified;
@@ -104,23 +123,20 @@ class DonneesFormulaire {
 	
 	public function setData($field_name,$field_value){		
 		$this->info[$field_name] = $field_value;
-		$dump = Spyc::YAMLDump($this->info);
-		file_put_contents($this->filePath,$dump);
+		$this->saveDataFile();
 	}
 	
 	public function setTabData(array $field){
 		foreach($field as $name => $value){
 			$this->info[$name] = $value;
 		}
-		$dump = Spyc::YAMLDump($this->info);
-		file_put_contents($this->filePath,$dump);
+		$this->saveDataFile();
 	}
 	
 	public function addFileFromData($field_name,$file_name,$raw_data){
 		$this->info[$field_name][0] = $file_name;
 		file_put_contents($this->getFilePath($field_name,0),$raw_data);
-		$dump = Spyc::YAMLDump($this->info);
-		file_put_contents($this->filePath,$dump);
+		$this->saveDataFile();
 	}
 	
 	public function removeFile($fieldName,$num = 0){
@@ -131,8 +147,7 @@ class DonneesFormulaire {
 		}
 		
 		array_splice($this->info[$fieldName],$num,1);
-		$dump = Spyc::YAMLDump($this->info);
-		file_put_contents($this->filePath,$dump);
+		$this->saveDataFile();
 	}
 	
 	public function getFilePath($field_name,$num = 0){
@@ -212,6 +227,11 @@ class DonneesFormulaire {
 	
 	public function getRawData(){
 		return $this->info;
+	}
+	
+	private function saveDataFile(){
+		$dump = Spyc::YAMLDump($this->info);
+		file_put_contents($this->filePath,$dump);
 	}
 	
 }

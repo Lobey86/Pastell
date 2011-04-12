@@ -89,7 +89,7 @@ class Formulaire {
 	public function getAllFields(){
 		foreach ($this->formArray as $name => $tab) {
 			foreach($tab as $libelle => $properties){
-				$fields[] = new Field($libelle,$properties);	
+				$fields[Field::Canonicalize($libelle)] = new Field($libelle,$properties);	
 			}
 		}
 		return $fields;
