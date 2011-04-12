@@ -47,6 +47,13 @@ $info = array(
 	"result"=>"document-type.php",
 	"param" => array()
 	),
+
+"document-type-info" => array(
+		"name" => "Information sur un type de document",
+		"script" => "document-type-info.php",
+		"result" => "document-type-info.php?type=actes",
+		"param" => array("type" => $paramInfo['type'])
+	),
 "list-entite" => array(
 		"name"=> "Listes des entités ",
 		"script"=> "list-entite.php",
@@ -73,15 +80,27 @@ $info = array(
 "create-document" => array(
 	"name"=> "Création d'un document",
 	"script"=> "create-document.php",
-	"result"=>"create-document.php?siren=576&type=test&test=aaaa",
+	"result"=>"create-document.php?id_e=576&type=test",
 	"param" => array("id_e" => $paramInfo['id_e'],"type"=>$paramInfo['type']),
 	),
+	
+"modif-document" => array(
+	"name"=> "Modification d'un document",
+	"script"=> "modif-document.php",
+	"result"=>"modif-document.php?id_e=576&id_d=TTlclOA&Test=333",
+	"param" => array("id_e" => $paramInfo['id_e'],"id_d"=>$paramInfo['id_d'],"autre" => array("required" => false,"default"=>"","comment"=>"tous les champs du document")),
+	),
+
 
 "action" => array(
 	"name"=> "Execute une action sur un document",
 	"script"=> "action.php",
-	"result"=>"action.php?siren=576&type=test&action=test3",
-	"param" => array("id_e" => $paramInfo['id_e'],"id_d"=>$paramInfo['id_d'],"action"=>$paramInfo['action']),	
+	"result"=>"action.php?id_e=576&id_d=TTlclOA&action=test-3",
+	"param" => array("id_e" => $paramInfo['id_e'],
+				"id_d"=>$paramInfo['id_d'],
+				"action"=>$paramInfo['action'],
+				"destinataire[]" => array("required" => false,"default"=>"","comment"=>"tableau contenant l'identifiant des destinataires pour les actions qui le requièrent")
+				),	
 	),	
 "journal" => array(
 	"name" => "Récupèrer le journal",

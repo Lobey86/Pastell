@@ -62,7 +62,6 @@ if (! $info){
 
 
 $titre_field = $formulaire->getTitreField();
-
 $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
