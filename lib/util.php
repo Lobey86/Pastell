@@ -4,12 +4,12 @@ function hecho($message,$quot_style=ENT_QUOTES){
 	echo htmlentities($message,$quot_style);
 }
 
-function dateInput($name){
+function dateInput($name,$value=''){
 	?>
 	<input 	type='text' 	
 								id='<?php echo $name?>' 
 								name='<?php echo $name?>' 
-								value='' 
+								value='<?php echo $value?>' 
 								class='date'
 								/>
 							<script type="text/javascript">
@@ -20,4 +20,11 @@ function dateInput($name){
 								});
 							</script>
 	<?php 
+}
+
+function getDateIso($value){
+	if ( ! $value){
+		return "";
+	}
+	return preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
 }
