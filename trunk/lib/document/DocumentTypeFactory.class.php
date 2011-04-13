@@ -69,6 +69,21 @@ class DocumentTypeFactory {
 		return $result;
 	}
 	
+	public function getActionByRole($allDroit){
+		foreach($allDroit as $droit){
+			$r = explode(":",$droit);
+			$allType[$r[0]] = true;
+		}
+		$allType = array_keys($allType);
+		foreach($allType as $typeName){
+			$action = $this->getDocumentType($typeName)->getAction();
+			foreach ($action->getAll() as $actionName){
+				$result[$actionName] = $action->getActionName($actionName);
+			}
+		}
+		return $result;
+	}
+	
 	public function getAutoAction(){ 
 		$result = array();	
 		foreach ( $this->getTypeDocument() as $typeName){

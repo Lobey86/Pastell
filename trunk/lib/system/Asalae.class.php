@@ -33,7 +33,8 @@ class Asalae {
 	}
 	
 	public function sendArchive($filename,$content,$description){
-		$seda = $this->generateSEDA();
+		$document = $this->getDocumentInfo($description);
+		$seda = $this->generateSEDA($document);
 		if (! $seda){
 			return false;
 		}
@@ -51,27 +52,28 @@ class Asalae {
 	
 	
 	
-	public function getDocumentInfo(){
-		return array('Attachment' => array(
-                                '@attributes' => array(
-                                    'format'=>'fmt/18',
-                                    'mimeCode'=>'application/pdf',
-                                    'filename'=>'archive.pdf'),
-                                '@value'=>''),
-                             'Description'=>'Acte',
-                             'Type'  => array(
-                                '@attributes' => array(
-                                   'listVersionID' => 'edition 2009'),
-                                '@value' => 'CDO'));
+	public function getDocumentInfo($description){
+		
+		$result['Description'] = utf8_encode($description);
+		$result['Attachment'] = array();
+		$result['Type']['@attributes']['listVersionID'] = "edition 2009";
+		$result['Type']['@value'] = "CDO";
+		$result['Attachment']['@attributes']['format'] = "fmt/18";
+		$result['Attachment']['@attributes']['mimeCode'] = "application/pdf";
+		$result['Attachment']['@attributes']['filename'] = "archive.pdf";
+		$result['Attachment']['@value'] = "";
+		return $result;
+		
 	}
 	
-	public function generateSEDA(){
+	public function generateSEDA($document){
+		
 		
 		$num_archive = mt_rand();
 		$objet_archive = "Test génération SEDA";
 		$provenance_archive = $this->identifiantVersant;
 		$identifiant_producteur = $this->identifiantArchive; 
-		$document = $this->getDocumentInfo();
+		
 		$options = array( 'TransferIdentifier' => $num_archive,
                       'Comment'            => utf8_encode($objet_archive),
                       'TransferringAgency' => array('Identification' => $this->identifiantVersant),

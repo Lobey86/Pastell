@@ -106,24 +106,66 @@ class DocumentActionEntite {
 	}
 	
 	
-	public function getNbDocumentBySearch($id_e,$type,$search){
-		$sql = "SELECT count(*) FROM document_entite " .  
-				" JOIN document ON document_entite.id_d = document.id_d" .
-				" WHERE document_entite.id_e = ? AND document.type=? AND document.titre LIKE ?" ;
-
-		return $this->sqlQuery->fetchOneValue($sql,$id_e,$type,"%$search%");
+	public function getNbDocumentBySearch($id_e,$type,$search,$state,$last_state_begin,$last_state_end){
+		$col = "count(*) as nb";
+		$order = "";	
+		$result = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end);
+		return $result[0]['nb'];
+		
 	}
 	
-	public function getListBySearch($id_e,$type,$offset,$limit,$search){
-		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
-				" JOIN document ON document_entite.id_d = document.id_d" .
-				" WHERE document_entite.id_e = ? AND document.type=? " . 
-				" AND document.titre LIKE ?" .
-				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
-			
-		$list = $this->sqlQuery->fetchAll($sql,$id_e,$type,"%$search%");
+	public function getListBySearch($id_e,$type,$offset,$limit,$search,$state,$last_state_begin,$last_state_end,$tri){
+		$col = "*,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date, entite.denomination as entite_base";
+		
+		switch($tri){
+			case 'entite': $tri="entite.denomination"; break;
+			case 'title': $tri = "document.titre,document.id_d"; break;
+			default: $tri =  "document_entite.last_action_date DESC";
+		}
+		
+		$order = " ORDER BY $tri  LIMIT $offset,$limit";	
+		$list = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end);
 		return $this->addEntiteToList($id_e,$list);
-	
 	}	
+	
+	private function getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end){
+		$sql = "SELECT $col " .
+				" FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d" .
+				" JOIN entite ON document_entite.id_e = entite.id_e" .
+				" WHERE 1=1 ";
+				
+		$binding = array();
+		if ($id_e){
+			$sql .= " AND document_entite.id_e = ? ";
+			$binding[] = $id_e;
+		}
+		if ($type){
+			$sql.= " AND document.type=? " ;
+			$binding[] = $type;
+		}
+		if ($search){
+			$sql .=" AND document.titre LIKE ?" ;
+			$binding[] = "%$search%";
+		}
+		if ($state) {
+			$sql .= " AND document_entite.last_action=?";
+			$binding[] = $state;
+		}
+		if ($last_state_begin){
+			$sql .= " AND document_entite.last_action_date>?";
+			$binding[] = $last_state_begin;
+		}
+		if ( $last_state_end){
+			$sql .= " AND document_entite.last_action_date<?";
+			$binding[] = $last_state_end;
+		}
+		
+		$sql .= $order;	
+		$list = $this->sqlQuery->fetchAll($sql,$binding);
+		return $list;
+	}
+	
+	
 	
 }

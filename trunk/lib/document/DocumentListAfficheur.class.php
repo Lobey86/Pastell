@@ -74,6 +74,9 @@ class DocumentListAfficheur {
 						<td><?php echo  $documentType->getName()?></td>
 					<?php endif;?>
 					<td>
+					<?php if (isset($document['entite_base']) && ! $my_id_e) : ?>
+						<a href='entite/detail.php?id_e=<?php echo $document['id_e']?>'><?php echo $document['entite_base']; ?></a>
+					<?php endif;?>
 					<?php foreach($document['entite'] as $entite) : ?>
 						<a href='entite/detail.php?id_e=<?php echo $entite['id_e']?>'>
 							<?php echo $entite['denomination']?>
