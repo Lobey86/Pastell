@@ -23,8 +23,7 @@ $recuperateur = new Recuperateur($_POST);
 $page = $recuperateur->get('page');
 $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
-
-
+$num = $recuperateur->getInt('num',0);
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {
 	header("Location: list.php");
@@ -36,7 +35,7 @@ $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
-$donneesFormulaire->removeFile($field);
+$donneesFormulaire->removeFile($field,$num);
 
 
 header("Location: " . SITE_BASE . "entite/edition-properties.php?id_e=$id_e&page=$page");
