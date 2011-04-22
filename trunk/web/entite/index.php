@@ -77,8 +77,11 @@ suivant_precedent($offset,20,$nbCollectivite,"entite/index.php?search=$search");
 	<?php endforeach; ?>
 	</table>
 
+	
 	<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",0)) : ?>
 	<p>Voir les <a href='entite/detail.php?id_e=0'>utilisateurs globaux</a></p>	
+	<p>Voir tous les <a href='utilisateur/index.php'>utilisateurs</a></p>
+	
 	<?php endif;?>
 	<p>Voir les <a href='entite/agents.php'>agents</a></p>
 </div>

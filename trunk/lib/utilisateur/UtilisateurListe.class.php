@@ -11,15 +11,27 @@ class UtilisateurListe {
 		$this->sqlQuery = $sqlQuery;
 	}
 	
-	public function getNbUtilisateur(){
+	public function getNbUtilisateur($search = false){
 		$sql = "SELECT count(*) FROM utilisateur ";
-		return $this->sqlQuery->fetchOneValue($sql);
+		$data = array();
+		if ($search){
+			$sql .= " WHERE nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
+			$data  = array("%$search%","%$search%","%$search%");
+		}
+		return $this->sqlQuery->fetchOneValue($sql,$data);
 	}
 	
-	public function getAll($offset,$limit){
-		$sql = "SELECT * FROM utilisateur" .
-				" ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
-		$result =  $this->sqlQuery->fetchAll($sql);
+	public function getAll($offset,$limit,$search = false){
+		$sql = "SELECT * FROM utilisateur LEFT JOIN entite ON utilisateur.id_e=entite.id_e";
+				
+		$data = array();
+		if ($search){
+			$sql .= " WHERE nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
+			$data  = array("%$search%","%$search%","%$search%");
+		}
+		$sql .= " ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
+		
+		$result =  $this->sqlQuery->fetchAll($sql,$data);
 	
 		return $result;
 	}
