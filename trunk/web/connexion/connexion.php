@@ -49,6 +49,8 @@ $utilisateurInfo = $utilisateur->getInfo();
 		
 		<div class="float_left">
 		<a href="connexion/oublie-identifiant.php">J'ai oublié mes identifiants</a>
+		<br/>
+		<a href='http://www.creatic59.fr/dematerialisation/aide'>Aide</a>
 		</div>
 		
 		<div class="align_right">
