@@ -115,7 +115,7 @@ class DocumentActionEntite {
 	}
 	
 	public function getListBySearch($id_e,$type,$offset,$limit,$search,$state,$last_state_begin,$last_state_end,$tri){
-		$col = "*,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date, entite.denomination as entite_base";
+		$col = "*,document.type as type,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date, entite.denomination as entite_base";
 		
 		switch($tri){
 			case 'entite': $tri="entite.denomination"; break;

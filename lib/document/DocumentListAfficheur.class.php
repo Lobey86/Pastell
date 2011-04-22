@@ -44,7 +44,9 @@ class DocumentListAfficheur {
 			
 			<?php foreach($listDocument as $i => $document ) : 			
 				$documentType = $this->documentTypeFactory->getDocumentType($document['type']);
+			
 				$action = $documentType->getAction();
+				
 			?>
 				<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
 				

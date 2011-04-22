@@ -11,7 +11,9 @@ class DocumentTypeHTML {
 	
 	private function getType($documentTypeFactory){
 		if ($this->allDroit){
-			return $documentTypeFactory->getTypeByDroit($this->allDroit);
+			$result =  $documentTypeFactory->getTypeByDroit($this->allDroit);
+		
+			return $result;
 		}
 		$allType = $documentTypeFactory->getAllType();
 		foreach($allType as $flux_type => $lesFlux){
