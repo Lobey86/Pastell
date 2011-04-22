@@ -74,13 +74,6 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
 	
 	
-	if ($info['type'] == Entite::TYPE_SERVICE){
-		$formulaire->delTab('Agents');
-		$formulaire->delTab('Tedetis');
-		$formulaire->delTab('GED');
-	}
-	
-	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 	$afficheurFormulaire->injectHiddenField("id_e",$id_e);
 	
@@ -113,11 +106,19 @@ elseif($tab_number == 1) :
 	$utilisateurListeHTML->display($utilisateurListe->getUtilisateurByEntite($id_e),$id_e);
 elseif($tab_number == 2) :
 
+$id_ancetre = $entite->getCollectiviteAncetre($id_e);
+if ($id_ancetre == $id_e){
+	$siren = $info['siren'];
+} else {
+	$ancetre = new Entite($sqlQuery,$id_ancetre);
+	$infoAncetre = $ancetre->getInfo();
+	$siren = $infoAncetre['siren'];
+}
 $agentListHTML = new AgentListHTML();
 $agentSQL = new AgentSQL($sqlQuery);
 
-$nbAgent = $agentSQL->getNbAgent($info['siren']);
-$listAgent = $agentSQL->getBySiren($info['siren'],$offset);
+$nbAgent = $agentSQL->getNbAgent($siren);
+$listAgent = $agentSQL->getBySiren($siren,$offset);
 
 ?>
 <h2>Liste des agents
@@ -127,56 +128,73 @@ $listAgent = $agentSQL->getBySiren($info['siren'],$offset);
 		</a>
 <?php endif;?>
 </h2>
-<?php 
-suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$tab_number");
-
-$agentListHTML->display($listAgent);
-?>
-
+<?php suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$tab_number"); ?>
+<?php if ($id_ancetre != $id_e): ?>
+<div class='box_info'><p>Informations hérités de <a href='entite/detail.php?id_e=<?php echo $id_ancetre?>'><?php echo $infoAncetre['denomination']?></a></p></div>
+<?php endif;?>
+<?php $agentListHTML->display($listAgent); ?>
 
 
 <?php 
 else: 
-
+$allTab = $formulaire->getTab();
+if (in_array($allTab[$tab_number],array('Agents','Tedetis','GED','SAE'))){
+	$id_e_to_show = $entite->getCollectiviteAncetre($id_e);
+	$entite_to_show = new Entite($sqlQuery,$id_e_to_show);
+	$infoAncetre = $entite_to_show->getInfo();
+	
+	if ($id_e != $id_e_to_show){
+		$donneesFormulaire = $donneesFormulaireFactory->get($id_e_to_show,'collectivite-properties');
+		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+		$afficheurFormulaire->injectHiddenField("id_e",$id_e_to_show);
+	}
+}else {
+	$id_e_to_show = $id_e;
+	$entite_to_show = $entite;
+}
 
 $theAction = $documentType->getAction();
 
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
+$actionPossible = new ActionPossible($sqlQuery,$id_e_to_show,$authentification->getId(),$theAction);
 //$actionPossible->setDocumentActionEntite($documentActionEntite);
 //$actionPossible->setDocumentEntite($documentEntite);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
 $actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite);
+$actionPossible->setEntite($entite_to_show);
 
 
 ?>
-	<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) : ?>
-	<h2><a href="entite/edition-properties.php?id_e=<?php echo $id_e?>&page=<?php echo $tab_number ?>" class='btn_maj'>
+	<?php if ($id_e_to_show == $id_e &&  $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e_to_show)) : ?>
+	<h2><a href="entite/edition-properties.php?id_e=<?php echo $id_e_to_show?>&page=<?php echo $tab_number ?>" class='btn_maj'>
 			Modifier
 		</a></h2>
 	<?php endif;?>
-
-	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e"); ?>
+	<?php if ($id_e_to_show != $id_e ) : ?>
+		<div class='box_info'><p>Informations hérités de <a href='entite/detail.php?id_e=<?php echo $id_e_to_show?>'><?php echo $infoAncetre['denomination']?></a></p></div>
+	
+	<?php endif;?>
+	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e_to_show&id_e=$id_e_to_show"); ?>
 	
 <br/>
 <?php 
 
 
+if ($id_e == $id_e_to_show) : 
+foreach($actionPossible->getActionPossible($id_e_to_show) as $action_name) : 
 
-foreach($actionPossible->getActionPossible($id_e) as $action_name) : 
-
-if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
-	continue;
-}
+	if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
+		continue;
+	}
 ?>
 <form action='entite/action.php' method='post' >
-	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+	<input type='hidden' name='id_e' value='<?php echo $id_e_to_show ?>' />
 	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
 	
 	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
 	<input type='submit' value='<?php hecho($theAction->getActionName($action_name)) ?>'/>
 </form>
 <?php endforeach;?>
+<?php endif;?>
 <?php endif;?>
 
 </div>
