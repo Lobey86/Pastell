@@ -109,7 +109,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 </table>
 </div>
 
-<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>'>Récuperer le journal (CVS)</a>
+<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>'>Récuperer le journal (CSV)</a>
 <br/><br/>
 <?php endif;?>
 <?php 
