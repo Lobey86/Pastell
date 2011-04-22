@@ -8,7 +8,6 @@ require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
-$documentTypeHTML = new DocumentTypeHTML();
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->get('id_e',0);
@@ -50,6 +49,9 @@ include( PASTELL_PATH ."/include/haut.php");
 
 $allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 $listeEtat = $documentTypeFactory->getActionByRole($allDroit);
+$documentTypeHTML = new DocumentTypeHTML();
+$documentTypeHTML->setDroit($allDroit);
+$liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 
 ?>
 
