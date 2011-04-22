@@ -101,7 +101,14 @@ class DocumentTypeFactory {
 			$allType[$r[0]] = true;
 		}
 		$allType = array_keys($allType);
-		return $allType;
+		foreach($this->getAllType() as $type_flux => $les_flux){
+			foreach($les_flux as $nom => $affichage) {
+				if (in_array($nom,$allType)){
+					$result[$nom] = $affichage;
+				}				
+			}
+		}
+		return $result;
 	}
 	
 }
