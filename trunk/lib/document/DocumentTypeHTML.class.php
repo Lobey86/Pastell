@@ -3,15 +3,32 @@
 
 class DocumentTypeHTML {
 	
+	private $allDroit;
+	
+	public function setDroit($allDroit){
+		$this->allDroit = $allDroit;
+	}
+	
+	private function getType($documentTypeFactory){
+		if ($this->allDroit){
+			return $documentTypeFactory->getTypeByDroit($this->allDroit);
+		}
+		$allType = $documentTypeFactory->getAllType();
+		foreach($allType as $flux_type => $lesFlux){
+			foreach($lesFlux as $type => $description){
+				$result[$type] = $description;
+			}
+		}
+		return $result;
+	}
+	
 	private function getOption($documentTypeFactory,$type_selected=""){
 		?>
 			<option value=''>Tous les types de document</option>
-				<?php foreach($documentTypeFactory->getAllType() as $flux_type => $lesFlux ) : ?>
-					<?php foreach($lesFlux as $type => $description): ?>
+				<?php foreach($this->getType($documentTypeFactory) as $type => $description) : ?>
 					<option value='<?php echo $type?>' <?php echo $type_selected==$type?"selected='selected'":""?>>
-						<?php echo $description ?>
-						</option>
-					<?php endforeach ; ?>
+					<?php echo $description ?>
+					</option>
 				<?php endforeach ; ?>
 		<?php 
 	}

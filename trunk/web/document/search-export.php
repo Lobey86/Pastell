@@ -6,10 +6,8 @@ require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 require_once( PASTELL_PATH . "/lib/api/CSVoutput.class.php");
 
-$documentTypeHTML = new DocumentTypeHTML();
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->get('id_e',0);

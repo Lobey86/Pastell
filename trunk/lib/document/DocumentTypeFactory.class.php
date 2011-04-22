@@ -94,4 +94,14 @@ class DocumentTypeFactory {
 		}
 		return $result;
 	}
+	
+	public function getTypeByDroit($allDroit){
+		foreach($allDroit as $droit){
+			$r = explode(":",$droit);
+			$allType[$r[0]] = true;
+		}
+		$allType = array_keys($allType);
+		return $allType;
+	}
+	
 }
