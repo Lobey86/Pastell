@@ -50,11 +50,15 @@ class TypeActes {
 	public function afficheSousArbre($url,$sousArbre){
 		?>
 			<li>
-				<?php echo $sousArbre['nom']; ?>
-				<?php if (strlen($sousArbre['code_interne']) > 2):?>
-				<a href='<?php echo $url?>&classif=<?php echo $sousArbre['code_interne'] ?>'>choisir
-				</a>
+				<?php if (strlen($sousArbre['code_interne']) <= 2):?>
+					<b ><?php echo $sousArbre['nom']; ?></b>
+				<?php else : ?>
+					<a href='<?php echo $url?>&classif=<?php echo $sousArbre['code_interne'] ?>'>
+						<?php echo $sousArbre['nom']; ?>
+					</a>
 				<?php endif;?>
+				
+			
 			
 			<?php if (isset($sousArbre['fils'])):?>
 				<ul>
@@ -77,8 +81,8 @@ class TypeActes {
 		  });
  		 </script>
  		 <div id='container'>
- 		 	<a href='#'>Tous replier</a>
-			<a href='#'>Tous déplier</a>
+ 		 	<a href='#'>Tout replier</a>
+			<a href='#'>Tout déplier</a>
 		</div>
 		<ul  id="classification" class="filetree">
 		<?php foreach($arbre['fils'] as $element):?>		
