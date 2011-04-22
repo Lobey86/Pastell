@@ -33,7 +33,7 @@ if ($authentification->isConnected()){
 		$pageDecorator->addToMainMenu("Rôles", SITE_BASE . "role/index.php","picto_collectivites");
 	}
 	
-	$pageDecorator->addToMainMenu("Aide", SITE_BASE . "aide/index.php","picto_aide");
+	$pageDecorator->addToMainMenu("Aide", "http://www.creatic59.fr/dematerialisation/aide","picto_aide");
 	if  ($roleUtilisateur->hasDroit($authentification->getId() ,'test:lecture',0)) {
 		$pageDecorator->addToMainMenu("Tests", SITE_BASE . "test/index.php","picto_collectivites");
 	}
