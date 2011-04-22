@@ -50,8 +50,8 @@ class ClassificationActes {
 		  });
  		 </script>
  		 <div id='container'>
- 		 	<a href='#'>Tous replier</a>
-			<a href='#'>Tous déplier</a>
+ 		 	<a href='#'>Tout replier</a>
+			<a href='#'>Tout déplier</a>
 		</div>
 		<?php 
 		$this->afficheInternal($actes->Matieres,1,'','id="classification" class="filetree"');
@@ -67,13 +67,14 @@ class ClassificationActes {
 		
 		?>
 			<li>
-				<?php if ($niveau > 1) : ?>
+				<?php if ($niveau == 1) : ?>
+					<b><?php echo $libelle; ?></b>
+				<?php else: ?>
 					<a href='<?php echo $this->link?>&classif=<?php echo $classif . $matiere1['CodeMatiere'].' ' .urlencode($libelle)?>'>
-				<?php endif;?>
-					<?php echo $libelle; ?>
-				<?php if ($niveau > 1) : ?>
+						<?php echo $libelle; ?>
 					</a>
 				<?php endif;?>
+				
 				<?php $this->afficheInternal($matiere1,$niveau +1 , $classif . $matiere1['CodeMatiere']."."); ?>
 			</li>
 		<?php  endforeach; ?>
