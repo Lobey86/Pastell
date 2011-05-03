@@ -36,10 +36,15 @@ $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $entite = new Entite($sqlQuery,$id_e);
 
+
+$id_e_col = $entite->getCollectiviteAncetre();
+$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
+
 $actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
 $actionPossible->setDonnesFormulaire($donneesFormulaire);
 $actionPossible->setEntite($entite);
+$actionPossible->setHeritedProperties($collectiviteProperties);
 
 if ( ! $actionPossible->isActionPossible($id_d,$action)) {
 	$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
@@ -82,8 +87,6 @@ if (! file_exists($action_class_file )){
 }
 
 
-$id_e_col = $entite->getCollectiviteAncetre();
-$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
 
 
 require_once($action_class_file);

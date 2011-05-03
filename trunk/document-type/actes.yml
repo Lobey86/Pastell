@@ -166,7 +166,7 @@ action:
 			document_is_valide: true
 			content: 
 				envoi_tdt: true
-			collectivite-properties:
+			herited-properties:
 				tdt_activate: true
 				
 				
