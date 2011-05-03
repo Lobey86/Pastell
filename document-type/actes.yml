@@ -29,7 +29,7 @@ formulaire:
 			preg_match_error: "15 caractères maxi, chiffres, lettres en majuscule ou _"
 				
 		Objet: {requis: true, title: true}
-		Date de l'acte: {type: date, requis: true}
+		Date de l'acte: {type: date, requis: true, commentaire: date de la décision}
 		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF uniquement"}
 		Autre document attaché: {type: file, multiple: true}
 		
