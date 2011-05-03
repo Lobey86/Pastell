@@ -63,8 +63,8 @@ class ClassificationActes {
 		?>
 		<ul <?php echo $class?>>
 		<?php foreach($xml->$matiere as $matiere1):
-			$libelle = utf8_decode($matiere1['Libelle']);
-		
+			$libelle =  $classif . $matiere1['CodeMatiere'] . "&nbsp;-&nbsp;" .utf8_decode($matiere1['Libelle']);
+
 		?>
 			<li>
 				<?php if ($niveau == 1) : ?>
