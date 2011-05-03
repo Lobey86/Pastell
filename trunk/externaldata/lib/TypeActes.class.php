@@ -56,10 +56,7 @@ class TypeActes {
 					<a href='<?php echo $url?>&classif=<?php echo $sousArbre['code_interne'] ?>'>
 						<?php echo $sousArbre['code_interne'] . "&nbsp;-&nbsp;" .$sousArbre['nom']; ?>
 					</a>
-				<?php endif;?>
-				
-			
-			
+				<?php endif;?>		
 			<?php if (isset($sousArbre['fils'])):?>
 				<ul>
 					<?php foreach($sousArbre['fils'] as $element):?>
