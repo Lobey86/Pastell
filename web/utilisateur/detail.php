@@ -122,6 +122,15 @@ include( PASTELL_PATH ."/include/haut.php");
 </tr>
 <?php endif;?>
 
+<?php if ( $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$info['id_e'])) : ?>
+	<tr>
+		<th>Dernières actions</th>
+		<td>
+		<a href='journal/index.php?id_u=<?php echo $id_u?>'>Dernières actions de <?php echo $info['prenom']." " . $info['nom']?> »</a>
+		</td>
+	</tr>
+<?php endif;?>
+
 </table>
 </div>
 
@@ -253,6 +262,7 @@ $allRole = $roleSQL->getAllRole();
 <?php endif;?>
 
 </div>
+
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
 
