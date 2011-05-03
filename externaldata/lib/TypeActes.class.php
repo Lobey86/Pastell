@@ -51,10 +51,10 @@ class TypeActes {
 		?>
 			<li>
 				<?php if (strlen($sousArbre['code_interne']) <= 2):?>
-					<b ><?php echo $sousArbre['nom']; ?></b>
+					<b ><?php echo $sousArbre['code_interne'] . "&nbsp;-&nbsp;" . $sousArbre['nom']; ?></b>
 				<?php else : ?>
 					<a href='<?php echo $url?>&classif=<?php echo $sousArbre['code_interne'] ?>'>
-						<?php echo $sousArbre['nom']; ?>
+						<?php echo $sousArbre['code_interne'] . "&nbsp;-&nbsp;" .$sousArbre['nom']; ?>
 					</a>
 				<?php endif;?>
 				
