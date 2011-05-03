@@ -51,7 +51,7 @@ class Journal {
 	}
 	
 	
-	public function getAll($id_e,$type,$id_d,$offset,$limit){
+	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit){
 		
 		$value = array();
 		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
@@ -72,12 +72,16 @@ class Journal {
 			$sql .= " AND document.id_d = ? ";
 			$value[] = $id_d;
 		}
+		if ($id_u){
+			$sql .= " AND journal.id_u = ? ";
+			$value[] = $id_u;
+		}
 		
 		$sql .= " ORDER BY id_j DESC LIMIT $offset,$limit";
 		return $this->sqlQuery->fetchAll($sql,$value);
 	}
 	
-	public function countAll($id_e,$type,$id_d){
+	public function countAll($id_e,$type,$id_d,$id_u){
 		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
 		$value = array();
 		
@@ -92,6 +96,10 @@ class Journal {
 		if ($id_d){
 			$sql .= " AND document.id_d = ? ";
 			$value[] = $id_d;
+		}
+		if ($id_u){
+			$sql .= " AND journal.id_u = ? ";
+			$value[] = $id_u;
 		}
 		return $this->sqlQuery->fetchOneValue($sql,$value);
 	}

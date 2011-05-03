@@ -110,7 +110,15 @@ $info = array(
 			"required" =>  false,
 			"default" => "",
 			"comment" => "Identifiant de l'entité (retourné par list-entite.php)",
-			),"id_d"=>array(
+			),
+			
+			"id_user" => array(
+			"required" =>  false,
+			"default" => "",
+			"comment" => "Identifiant de l'utilisateur",
+			),
+			
+			"id_d"=>array(
 			"required" =>  false,
 			"default" => "",
 			"comment" => "Identifiant unique du document  (retourné par list-document.php)",
@@ -123,7 +131,7 @@ $info = array(
 			"default" => "json",
 			"comment" => "Format du journal : json ou bien csv"),
 			"offset"=>$paramInfo['offset'],
-						"limit"=>$paramInfo['limit']),	
+			"limit"=>$paramInfo['limit']),	
 			)
 	
 );

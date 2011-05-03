@@ -13,6 +13,7 @@ $offset = $recuperateur->getInt('offset',0);
 $id_e = $recuperateur->getInt('id_e',0);
 $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
+$id_u = $recuperateur->get('id_u');
 
 
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'journal:lecture');
@@ -37,7 +38,7 @@ $infoEntite = $entite->getInfo();
 
 
 
-$count = $journal->countAll($id_e,$type,$id_d);
+$count = $journal->countAll($id_e,$type,$id_d,$id_u);
 
 $page_title="Journal des évènements";
 if ($id_e){
@@ -53,9 +54,15 @@ if ($id_d) {
 	
 	$page_title .= " - " . $documentInfo['titre'];
 }
+if ($id_u){
+	$utilisateur = new Utilisateur($sqlQuery,$id_u);
+	$infoUtilisateur = $utilisateur->getInfo();
+	$page_title .= " - " . $infoUtilisateur['prenom'] ." " . $infoUtilisateur['nom'];
+}
+
 
 $limit = 20;
-$all = $journal->getAll($id_e,$type,$id_d,$offset,$limit) ;
+$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit) ;
 
 include( PASTELL_PATH ."/include/haut.php");
 
@@ -64,7 +71,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <a href='journal/index.php?id_e=<?php echo $id_e?>'>« Journal de <?php echo $infoEntite['denomination']?></a>
 <?php endif;?>
 <?php if ($roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)) : 
-suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
+suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u");
 
 ?>
 <div class="box_contenu clearfix">
@@ -109,7 +116,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e");
 </table>
 </div>
 
-<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>'>Récuperer le journal (CSV)</a>
+<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>&id_u=<?php echo $id_u ?>'>Récuperer le journal (CSV)</a>
 <br/><br/>
 <?php endif;?>
 <?php 
