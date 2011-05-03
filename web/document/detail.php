@@ -22,6 +22,11 @@ $page = $recuperateur->getInt('page',0);
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
+
+
+$id_e_col = $entite->getCollectiviteAncetre();
+$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
+
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 
@@ -45,6 +50,7 @@ $actionPossible->setDocumentEntite($documentEntite);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
 $actionPossible->setDonnesFormulaire($donneesFormulaire);
 $actionPossible->setEntite($entite);
+$actionPossible->setHeritedProperties($collectiviteProperties);
 
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$info['type'].":edition",$id_e)) {
