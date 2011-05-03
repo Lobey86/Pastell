@@ -49,7 +49,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 	foreach($utilisateur as $u){
 		$r[] = htmlentities( '"' . $u['description'] .'"'. " <".$u['email'].">",ENT_QUOTES);
 	}
-	$utilisateur = implode(",",$r);
+	$utilisateur = implode(",<br/>",$r);
 ?>
 	<tr>
 		<td><input type='checkbox' name='id_g[]' value='<?php echo $groupe['id_g'] ?>'/>
