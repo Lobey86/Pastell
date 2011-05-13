@@ -14,6 +14,7 @@ require_once (PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once (PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 //Récupération des données
 $recuperateur = new Recuperateur($_POST);
@@ -42,6 +43,23 @@ $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
 if (! $info){
 	$document->save($id_d,$type);
+}
+
+
+$entite = new Entite($sqlQuery,$id_e);
+$theAction = $documentType->getAction();
+
+$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
+$actionPossible->setRoleUtilisateur($roleUtilisateur);
+$actionPossible->setDonnesFormulaire($donneesFormulaire);
+$actionPossible->setEntite($entite);
+//$actionPossible->setHeritedProperties($collectiviteProperties);
+
+
+if ( ! $actionPossible->isActionPossible($id_d,'modification') && ! $actionPossible->isActionPossible($id_d,'creation')) {
+	$lastError->setLastError("L'action « modification »  n'est pas permise : " .$actionPossible->getLastBadRule() );
+	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
+	exit;
 }
 
 

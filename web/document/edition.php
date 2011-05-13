@@ -7,6 +7,7 @@ require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
+require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -20,10 +21,12 @@ $document = new Document($sqlQuery);
 if ($id_d){
 	$info = $document->getInfo($id_d);
 	$type = $info['type'];
+	$action = 'modification';
 } else {
 	$info = array();
 	$id_d = $document->getNewId();	
 	$document->save($id_d,$type);
+	$action = 'creation';
 }
 
 
@@ -37,9 +40,28 @@ $formulaire = $documentType->getFormulaire();
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
-$page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+
+$theAction = $documentType->getAction();
+
+$id_e_col = $entite->getCollectiviteAncetre();
+$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
+
+$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
+$actionPossible->setRoleUtilisateur($roleUtilisateur);
+$actionPossible->setDonnesFormulaire($donneesFormulaire);
+$actionPossible->setEntite($entite);
+$actionPossible->setHeritedProperties($collectiviteProperties);
+
+if ( ! $actionPossible->isActionPossible($id_d,$action)) {
+	$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
+	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
+	exit;
+}
+
+$page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
+
 
 $dataInjector = new DataInjector($formulaire,$donneesFormulaire);
 $dataInjector->inject($entite->getSiren());

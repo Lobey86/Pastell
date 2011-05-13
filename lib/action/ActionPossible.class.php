@@ -84,6 +84,7 @@ class ActionPossible {
 	}
 	
 	public function isActionPossible($id_d,$action_name){
+		
 		$this->id_d = $id_d ;
 		$action_rule = $this->action->getActionRule($action_name);
 		foreach($action_rule as $ruleName => $ruleValue){
