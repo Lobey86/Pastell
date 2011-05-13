@@ -6,6 +6,7 @@ require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionPossibleFactory.class.php");
 
 
 $recuperateur = new Recuperateur($_POST);
@@ -39,6 +40,7 @@ $entite = new Entite($sqlQuery,$id_e);
 
 $id_e_col = $entite->getCollectiviteAncetre();
 $collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
+
 
 $actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
