@@ -126,6 +126,7 @@ class Entite  {
 	
 	public function getCollectiviteAncetre(){
 		$info = $this->getInfo();
+		
 		if ($info['type'] == self::TYPE_COLLECTIVITE){
 			return $this->id_e;
 		}
