@@ -1,5 +1,7 @@
 <?php
 
+require_once("BordereauSEDA.class.php");
+//mail : pastell@sigmalis.com AisohM6D
 
 class Asalae {
 	
@@ -10,7 +12,7 @@ class Asalae {
 	private $login;
 	private $password;
 	private $identifiantVersant;
-	
+	private $originatingAgency;
 	private $identifiantArchive;
 	private $numeroAgrement;
 	
@@ -22,89 +24,45 @@ class Asalae {
 		$this->identifiantVersant = $collectiviteProperties->get('sae_identifiant_versant');
 		$this->identifiantArchive = $collectiviteProperties->get('sae_identifiant_archive');
 		$this->numeroAgrement = $collectiviteProperties->get('sae_numero_agrement');
+		$this->originatingAgency = $collectiviteProperties->get('sae_originating_agency');
 	}
 
 	public function getLastError(){
 		return $this->lastError;
 	}
 	
-	public function testSEDA(){
-		return $this->sendArchive("test.txt","Ceci est un test","test de dépot");
-	}
-	
 	public function sendArchive($filename,$content,$description){
-		$document = $this->getDocumentInfo($description);
-		$seda = $this->generateSEDA($document);
+		$seda = base64_encode($this->generateSEDA($description));
 		if (! $seda){
 			return false;
 		}
 		$client = new SoapClient($this->WSDL);
 
-		$document  = "xyz";
-
-		$retour  = $client->__soapCall("wsDepot", array("bordereau.xml", $seda, "versement.tgz", $document, "",$this->login,$this->password));
-		if (intval($seda) ){			
-			$this->lastError = "Erreur lors du dépot :" . $this->getErrorString($seda);
-			return false;
+		$document_content  = base64_encode(file_get_contents("/home/eric/archive.tar.gz"));
+		
+		$retour  = $client->__soapCall("wsDepot", array("bordereau.xml", $seda, "archive.tar.gz", $document_content, "TARGZ",$this->login,$this->password));
+		if ($retour == 0){
+			return true;
 		}
-		return true;
+		
+		$this->lastError = "Erreur lors du dépot : le service d'archive a retourné :  $retour";
+		return false;
 	}
 	
+
+	public function generateSEDA($description){
 	
-	
-	public function getDocumentInfo($description){
-		
-		$result['Description'] = utf8_encode($description);
-		$result['Attachment'] = array();
-		$result['Type']['@attributes']['listVersionID'] = "edition 2009";
-		$result['Type']['@value'] = "CDO";
-		$result['Attachment']['@attributes']['format'] = "fmt/18";
-		$result['Attachment']['@attributes']['mimeCode'] = "application/pdf";
-		$result['Attachment']['@attributes']['filename'] = "archive.pdf";
-		$result['Attachment']['@value'] = "";
-		return $result;
-		
-	}
-	
-	public function generateSEDA($document){
-		
-		
-		$num_archive = mt_rand();
 		$objet_archive = "Test génération SEDA";
 		$provenance_archive = $this->identifiantVersant;
 		$identifiant_producteur = $this->identifiantArchive; 
 		
-		$options = array( 'TransferIdentifier' => $num_archive,
-                      'Comment'            => utf8_encode($objet_archive),
-                      'TransferringAgency' => array('Identification' => $this->identifiantVersant),
-                      'ArchivalAgency'     => array('Identification' => $this->identifiantArchive),
-                      'Contains'           => array( 'ArchivalAgreement' => $this->numeroAgrement,
-                                                     'DescriptionLanguage' => array(
-                                                     	'@attributes' => array('listVersionID' => 'edition 2009'),
-                                                     	'@value' => 'fr'),
-                                                     'DescriptionLevel' => array(
-                                                     	'@attributes' => array('listVersionID' => 'edition 2009'),
-                                                     	'@value' => 'file'),
-                                                     'Name'=> utf8_encode($objet_archive),
-                                                     'ContentDescription' => array('CustodialHistory' => utf8_encode($provenance_archive),
-                                                                                   'Description' => utf8_encode($objet_archive),
-                                                                                   'DescriptionAudience'  => 'external',
-                                                                                   'Language' => array(
-                                                                                      '@attributes' => array('listVersionID' => 'edition 2009'),
-                                                                                      '@value' => 'fr'),
-                                                                                   'OriginatingAgency'     => array('Identification'=>$identifiant_producteur),
-                                                                                                                    'ContentDescriptive' => array( 'KeywordAudience'=>'external',
-                                                                                                                                               'KeywordContent' =>'Deliberation',
-                                                                                                                                               'KeywordReference' =>'1',
-                                                                                                                                               'KeywordType' => 'genreform'),
-                                                                                                                    'Appraisal'=>array('Code'=>'001C',
-                                                                                                                                       'StartDate'=>date('c'))),
-                                                                                   'Document' => $document)
-                                                   );
-        
+		$bordereauSEDA = new BordereauSEDA($this->identifiantVersant, $this->identifiantArchive,$this->numeroAgrement,$this->originatingAgency);
+		
+		$bordereau = $bordereauSEDA->getBordereau($objet_archive,$description);
+
 		$client = new SoapClient($this->WSDL);
 
-		$seda = $client->wsGSeda($options,$this->login,$this->password);
+		$seda = $client->wsGSeda($bordereau,$this->login,$this->password);
 		if (intval($seda) ){			
 			$this->lastError = "Erreur lors de la génération du bordereau : " . $this->getErrorString($seda);
 			return false;

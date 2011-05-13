@@ -9,14 +9,14 @@ class SAETestSEDA extends ActionExecutor {
 				
 		$asalae = new Asalae($this->getDonneesFormulaire());
 		
-		$result = $asalae->testSEDA();
+		$result = $asalae->sendArchive("test.txt","Ceci est un test","test de dépot");
 		
 		if (! $result){
 			$this->setLastMessage("Le test a échoué : " . $asalae->getLastError());
 			return false;
 		}
 
-		$this->setLastMessage("Le test est réussie : ".htmlentities(utf8_decode($result))."");
+		$this->setLastMessage("Un document de test a été envoyé au service d'archive");
 		return true;
 	}
 	
