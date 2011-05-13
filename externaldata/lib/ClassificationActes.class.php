@@ -70,7 +70,7 @@ class ClassificationActes {
 				<?php if ($niveau == 1) : ?>
 					<b><?php echo $libelle; ?></b>
 				<?php else: ?>
-					<a href='<?php echo $this->link?>&classif=<?php echo $classif . $matiere1['CodeMatiere'].' ' .urlencode($libelle)?>'>
+					<a href='<?php echo $this->link?>&classif=<?php echo $classif . $matiere1['CodeMatiere'].' ' .utf8_decode($matiere1['Libelle']) ?>'>
 						<?php echo $libelle; ?>
 					</a>
 				<?php endif;?>
