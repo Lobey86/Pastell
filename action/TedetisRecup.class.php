@@ -33,7 +33,7 @@ class TedetisRecup extends ActionExecutor {
 		} 
 		
 		if ($status != Tedetis::STATUS_ACQUITTEMENT_RECU){
-			$this->setLastMessage("La transaction à comme statut : " . Tedetis::getStatusString($status));
+			$this->setLastMessage("La transaction a comme statut : " . Tedetis::getStatusString($status));
 			return true;
 		}
 		

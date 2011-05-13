@@ -130,7 +130,7 @@ $listAgent = $agentSQL->getBySiren($siren,$offset);
 </h2>
 <?php suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$tab_number"); ?>
 <?php if ($id_ancetre != $id_e): ?>
-<div class='box_info'><p>Informations hérités de <a href='entite/detail.php?id_e=<?php echo $id_ancetre?>'><?php echo $infoAncetre['denomination']?></a></p></div>
+<div class='box_info'><p>Informations héritées de <a href='entite/detail.php?id_e=<?php echo $id_ancetre?>'><?php echo $infoAncetre['denomination']?></a></p></div>
 <?php endif;?>
 <?php $agentListHTML->display($listAgent); ?>
 
@@ -170,7 +170,7 @@ $actionPossible->setEntite($entite_to_show);
 		</a></h2>
 	<?php endif;?>
 	<?php if ($id_e_to_show != $id_e ) : ?>
-		<div class='box_info'><p>Informations hérités de <a href='entite/detail.php?id_e=<?php echo $id_e_to_show?>'><?php echo $infoAncetre['denomination']?></a></p></div>
+		<div class='box_info'><p>Informations héritées de <a href='entite/detail.php?id_e=<?php echo $id_e_to_show?>'><?php echo $infoAncetre['denomination']?></a></p></div>
 	
 	<?php endif;?>
 	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e_to_show&id_e=$id_e_to_show"); ?>
