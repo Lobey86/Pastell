@@ -7,9 +7,17 @@ INSERT INTO utilisateur (id_u, email, login, password, mail_verif_password, date
 
 INSERT INTO `entite` (`id_e`, `type`, `denomination`, `siren`, `date_inscription`, `etat`, `entite_mere`, `centre_de_gestion`) VALUES(1, 'centre_de_gestion', 'Centre de gestion du Nord', '507484772', '2010-10-07 09:46:23', 0, '0', 0);
 INSERT INTO `entite` (`id_e`, `type`, `denomination`, `siren`, `date_inscription`, `etat`, `entite_mere`, `centre_de_gestion`) VALUES(3, 'collectivite', 'Saint-Amand-les-Eaux', '548729920', '2010-10-07 09:50:21', 0, '0', 1);
-INSERT INTO `entite` (`id_e`, `type`, `denomination`, `siren`, `date_inscription`, `etat`, `entite_mere`, `centre_de_gestion`) VALUES(4, 'collectivite', 'Conseil général du Nord', '678517129', '2010-10-07 10:00:14', 0, '0', 1);
+INSERT INTO `entite` (`id_e`, `type`, `denomination`, `siren`, `date_inscription`, `etat`, `entite_mere`, `centre_de_gestion`) VALUES(4, 'collectivite', 'Conseil gï¿½nï¿½ral du Nord', '678517129', '2010-10-07 10:00:14', 0, '0', 1);
 
 
 INSERT INTO `utilisateur_role` (`id_u`, `role`, `id_e`) VALUES(1, 'admin', 0);
 INSERT INTO `utilisateur_role` (`id_u`, `role`, `id_e`) VALUES(2, 'admin', 1);
 INSERT INTO `utilisateur_role` (`id_u`, `role`, `id_e`) VALUES(3, 'admin', 3);
+
+INSERT INTO `entite_ancetre` VALUES(0, 0, 0);
+INSERT INTO `entite_ancetre` VALUES(1, 1, 0);
+INSERT INTO `entite_ancetre` VALUES(0, 1, 1);
+INSERT INTO `entite_ancetre` VALUES(3, 3, 0);
+INSERT INTO `entite_ancetre` VALUES(0, 3, 1);
+INSERT INTO `entite_ancetre` VALUES(4, 4, 0);
+INSERT INTO `entite_ancetre` VALUES(0, 4, 1);
