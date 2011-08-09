@@ -76,7 +76,7 @@ if (! defined("ENABLE_VERIF_ENVIRONNEMENT")){
 //ex : http://www.sigmalis.com/pastell/
 //Toujours finir l'adresse par un /
 if (!defined("SITE_BASE")){
-	define("SITE_BASE","http://127.0.0.1/pastell/web/");
+	define("SITE_BASE","https://127.0.0.4/");
 }
 
 if (!defined("AGENT_FILE_PATH")){
