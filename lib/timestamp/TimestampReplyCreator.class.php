@@ -34,7 +34,6 @@ class TimestampReplyCreator {
 					" -passin pass:".$this->signerKeyPassword . 
 					" -out $timestampReplyFile " .
 					" -config " . $this->configFile;
-		
 		shell_exec($command);
 		
 		$timestampReply = file_get_contents($timestampReplyFile);
