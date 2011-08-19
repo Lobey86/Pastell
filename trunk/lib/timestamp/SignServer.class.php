@@ -30,7 +30,6 @@ class SignServer {
 		
 		$url = $this->url . "&encoding=base64&data=" . urlencode(base64_encode($timestampRequest));
 		$timestampReply = $this->curlWrapper->get($url);
-		
 	  	if (! $timestampReply){
 	  		$this->lastError = $this->curlWrapper->getLastError();
 	  		return false;
