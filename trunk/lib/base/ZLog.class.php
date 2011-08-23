@@ -1,5 +1,5 @@
 <?php
-require_once("Date.class.php");
+require_once( PASTELL_PATH."/lib/base/Date.class.php");
 
 class ZLog {
 

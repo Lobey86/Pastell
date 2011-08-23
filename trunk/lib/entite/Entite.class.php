@@ -7,6 +7,7 @@ class Entite  {
 	const TYPE_FOURNISSEUR = "fournisseur";
 	const TYPE_CENTRE_DE_GESTION = "centre_de_gestion";
 	const TYPE_SERVICE = "service";
+	const TYPE_CITOYEN = "citoyen";
 	
 	const ETAT_INITIE = 0;
 	const ETAT_EN_COURS_VALIDATION = 1;
@@ -24,7 +25,8 @@ class Entite  {
 		$type_nom = array(self::TYPE_COLLECTIVITE => "Collectivité", 
 							self::TYPE_FOURNISSEUR => "Fournisseur",
 							self::TYPE_CENTRE_DE_GESTION => "Centre de gestion",
-							self::TYPE_SERVICE => 'Service');
+							self::TYPE_SERVICE => 'Service',
+							self::TYPE_CITOYEN => 'Citoyen');
 		return $type_nom[$type];
 	}
 	

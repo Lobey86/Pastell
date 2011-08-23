@@ -8,6 +8,7 @@ require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_d = $recuperateur->get('id_d');
@@ -18,7 +19,6 @@ $page = $recuperateur->get('page');
 
 
 $document = new Document($sqlQuery);
-
 $info = $document->getInfo($id_d);
 $type = $info['type'];
 $titre = $info['titre'];
@@ -28,7 +28,6 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e");
 	exit;
 }
-
 
 $documentType = $documentTypeFactory->getDocumentType($type);
 $formulaire = $documentType->getFormulaire();

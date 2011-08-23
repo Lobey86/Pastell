@@ -38,7 +38,9 @@ class RoleDroit {
 									'mailsec:edition',
 									'mailsec:lecture',
 									'annuaire:lecture',
-									'annuaire:edition'
+									'annuaire:edition',
+									'citoyen-courrier:lecture',
+									'citoyen-courrier:edition',
 					),
 					'lecteur' => array(
 									'entite:lecture',
@@ -69,6 +71,8 @@ class RoleDroit {
 									'entite:lecture',
 									'message-service:edition',
 									'message-service:lecture',
+									'citoyen-courrier:lecture',
+									'citoyen-courrier:edition',
 								),
 								
 					'agent centre de gestion' => array(

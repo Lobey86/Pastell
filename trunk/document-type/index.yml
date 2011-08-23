@@ -13,6 +13,9 @@ Flux financier:
 	gf-bon-de-commande: Bons de commande
 	gf-facture: Factures
 	
+Flux citoyen:
+	citoyen-courrier: Courrier
+	
 Test:
 	test: Test
 
