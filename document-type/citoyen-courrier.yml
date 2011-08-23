@@ -1,0 +1,62 @@
+nom: Courrier citoyen
+
+formulaire:
+	Message:
+		messagetype:
+			name: Type de message
+			type: externalData
+			script: type-message-citoyen.php
+			script-controler: type-message-citoyen-controler.php
+			link_name: Choisir le type de messages
+			requis: true
+		Sujet: {requis: true, title: true}
+		Message: {type: textarea}
+		pj: {name: Pièce jointe, type: file}
+		messageSousTypeId: {read-only: true, no-show: true}
+action:
+	creation:		
+		name-action: Créer
+		name: Création
+		type_id_e: citoyen
+		rule:
+			no-last-action:
+
+	modification:	
+		name-action: Modifier
+		name: Modification
+		
+		rule:
+			type_id_e: citoyen
+			last-action: 
+				creation
+				modification	
+				
+	envoi:
+		name-action: Envoyer à une collectivité
+		name: Envoyé à une collectivité
+		rule:
+			role_id_e: editeur
+			droit_id_u: 'citoyen-courrier:edition'
+			last-action: 
+				creation
+				modification
+			document_is_valide: true
+		action-class: EnvoyerWebGFC
+		action-selection: collectivite
+		
+	recu:
+		name: Reçu par une collectivité
+		rule:
+			role_id_e: no-role
+		accuse_de_reception_action: accuse_de_reception
+	
+	accuse_de_reception:
+		name: 	Accuser réception
+		rule:
+			last-action:
+				recu
+			role_id_e: lecteur
+			
+		action-class: AccuserReception
+		
+	

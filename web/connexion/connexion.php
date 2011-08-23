@@ -72,9 +72,17 @@ $utilisateurInfo = $utilisateur->getInfo();
 		<div class="align_right">
 		<a class="btn" href="<?php echo SITE_BASE ?>inscription/fournisseur/index.php">Nouveau compte</a>
 		</div>
+			<br/>
+		<div class="float_left">
+		Créer un compte citoyen :
+		</div>
+		<div class="align_right">
+		<a class="btn" href="<?php echo SITE_BASE ?>inscription/citoyen/index.php">Nouveau compte</a>
+		</div>
 	
 </div>
 <?php endif; ?>
+
 
 <?php if (! defined("PRODUCTION")) : ?>
 <div class="box_contenu clearfix">

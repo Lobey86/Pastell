@@ -81,7 +81,6 @@ if ($theAction->getWarning($action) && ! $go){
 $action_class_name = $theAction->getActionClass($action);
 
 $action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
-
 if (! file_exists($action_class_file )){
 	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");	
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");

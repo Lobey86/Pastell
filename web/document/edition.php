@@ -1,4 +1,5 @@
 <?php
+
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
@@ -8,6 +9,7 @@ require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -26,9 +28,14 @@ if ($id_d){
 	$info = array();
 	$id_d = $document->getNewId();	
 	$document->save($id_d,$type);
-	$action = 'creation';
-}
 
+	$documentEntite = new DocumentEntite($sqlQuery);
+	$documentEntite->addRole($id_d,$id_e,"editeur");
+	$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
+	$actionCreator->addAction($id_e,$authentification->getId(),Action::CREATION,"Création du document");
+	
+	$action = 'modification';
+}
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$id_e)) {
 	header("Location: list.php");
@@ -42,6 +49,7 @@ $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+
 
 $theAction = $documentType->getAction();
 
