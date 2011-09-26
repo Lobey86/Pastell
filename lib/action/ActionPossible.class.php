@@ -188,7 +188,6 @@ class ActionPossible {
 	
 	private function verifProperties(array $properties){
 		foreach($properties as $key => $value) {}
-		echo $key . $this->entiteProperties->getProperties(EntiteProperties::ALL_FLUX,$key);	
 		return $value == $this->entiteProperties->getProperties(EntiteProperties::ALL_FLUX,$key);		
 	}
 	
