@@ -57,13 +57,15 @@ formulaire:
 	
 action:
 	creation:
-		name: Créer
+		name-action: Créer
+		name: Création
 		rule:
 			type_id_e: fournisseur
 			no-last-action:
 			
 	modification:
-		name: Modifier
+		name-action: Modifier
+		name: modification
 		rule:
 			type_id_e: fournisseur
 			last-action: 
@@ -71,7 +73,8 @@ action:
 				modification
 	
 	envoi :
-		name: Envoyer à une collectivité
+		name-action: Envoyer à une collectivité
+		name: Envoi à une collectivité
 		rule:
 			
 			role_id_e: editeur
@@ -85,7 +88,8 @@ action:
 			role_id_e: no-role
 
 	accepter:
-		name: Accepter l'inscription
+		name-action: Accepter l'inscription
+		name: Inscription acceptée
 		rule:
 			last-action: recu
 			role_id_e: lecteur
@@ -93,7 +97,8 @@ action:
 		action-class: AccepterFournisseur
 		
 	refuser:
-		name: Refuser l'inscription
+		name-action: Refuser l'inscription
+		name: Inscription refusé
 		rule:
 			last-action: recu
 			role_id_e: lecteur
