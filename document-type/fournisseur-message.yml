@@ -8,13 +8,15 @@ formulaire:
 		
 action:
 	creation:
-		name: Créer
+		name-action: Créer
+		name: Création
 		rule:
 			type_id_e: collectivite
 			no-last-action:
 	
 	modification:
-		name: Modifier
+		name-action: Modifier
+		name: Modification
 		rule:
 			type_id_e: collectivite
 			last-action: 
@@ -22,7 +24,8 @@ action:
 				modification
 				
 	envoi :
-		name: Envoyer à un fournisseur
+		name-action: Envoyer à un fournisseur
+		name: Envoie à un fournisseur
 		rule:
 			last-action: 
 				creation
