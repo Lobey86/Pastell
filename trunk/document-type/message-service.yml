@@ -25,7 +25,19 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'message-service:edition'
+	
+	supression:
+		name-action: Supprimer
+		name: Suppression
 		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: Supprimer
+	
 	envoi :
 		name-action: Envoyer à un groupe
 		name: Envoyé à un groupe
