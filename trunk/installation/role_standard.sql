@@ -5,7 +5,7 @@ INSERT INTO `role` VALUES('fournisseur', 'Fournisseur');
 INSERT INTO `role` VALUES('agent collectivite', 'Agent d''une collectivité');
 INSERT INTO `role` VALUES('agent centre de gestion', 'Agent d''un centre de gestion');
 INSERT INTO `role` VALUES('testeur', 'Testeur');
-
+INSERT INTO `role` VALUES('citoyen', 'Citoyen');
 
 INSERT INTO `role_droit` VALUES('admin', 'actes:edition');
 INSERT INTO `role_droit` VALUES('admin', 'actes:lecture');
@@ -74,4 +74,12 @@ INSERT INTO `role_droit` VALUES('lecteur', 'entite:lecture');
 INSERT INTO `role_droit` VALUES('lecteur', 'utilisateur:lecture');
 INSERT INTO `role_droit` VALUES('testeur', 'test:edition');
 INSERT INTO `role_droit` VALUES('testeur', 'test:lecture');
-
+INSERT INTO `role_droit` (`role`, `droit`) VALUES
+('citoyen', 'citoyen-courrier:edition'),
+('citoyen', 'citoyen-courrier:lecture'),
+('citoyen', 'entite:lecture'),
+('citoyen', 'journal:lecture'),
+('citoyen', 'utilisateur:lecture');
+INSERT INTO `role_droit` VALUES('admin', 'citoyen-courrier:lecture');
+INSERT INTO `role_droit` VALUES('admin', 'citoyen-courrier:edition');
+INSERT INTO `role_droit` VALUES('agent collectivite', 'citoyen-courrier:lecture');

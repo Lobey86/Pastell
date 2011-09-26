@@ -8,7 +8,7 @@ $classificationCDGFinder = new ClassificationCDGFinder($sqlQuery,$donneesFormula
 $file = $classificationCDGFinder->get($id_e);
 
 if (!$file){
-	$lastError->setLastError("La nomemclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
+	$lastError->setLastError("La nomenclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }

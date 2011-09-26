@@ -20,7 +20,7 @@ formulaire:
 		tdt_user_key_pem: {type: file, no-show: true}
 		classification_file: {name: "Fichier de classification", type: file, read-only: true}
 		nomemclature_file: 
-			name: "Fichier de nomemclature CDG"
+			name: "Fichier de nomenclature CDG"
 			type: externalData
 			script: fichier-nomemclature.php
 			script-controler: fichier-nomemclature-controler.php

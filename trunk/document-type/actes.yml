@@ -143,7 +143,7 @@ action:
 
 	supression:
 		name-action: Supprimer
-		name: Supression
+		name: Suppression
 		
 		rule:
 			last-action: 
