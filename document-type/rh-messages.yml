@@ -9,14 +9,16 @@ formulaire:
 	
 action:
 	creation:
-		name: Créer
+		name-action: Créer
+		name: Création
 		rule:
 			no-last-action:
 			type_id_e: centre_de_gestion
 			droit_id_u: 'rh-messages:edition'
 
 	modification:
-		name: Modifier
+		name-action: Modifier
+		name: Modification
 		rule:
 			last-action: 
 				creation
@@ -25,7 +27,8 @@ action:
 			droit_id_u: 'rh-messages:edition'
 	
 	supression:
-		name: Supprimer
+		name-action: Supprimer
+		name: Suppression
 		rule:
 			last-action: 
 				creation
@@ -35,7 +38,8 @@ action:
 		action-class: Supprimer
 	
 	envoi :
-		name: Envoyer à une collectivité
+		name-action: Envoyer à une collectivité
+		name: Envoie à une collectivité
 		rule:
 			last-action: 
 				creation
