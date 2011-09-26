@@ -9,14 +9,16 @@ formulaire:
 	
 action:
 	creation:
-		name: Créer
+		name-action: Créer
+		name: Création
 		rule:
 			no-last-action:
 			type_id_e: centre_de_gestion
 			droit_id_u: 'rh-messages:edition'
 
 	modification:
-		name: Modifier
+		name-action: Modifier
+		name: Modification
 		rule:
 			last-action: 
 				creation
@@ -25,7 +27,8 @@ action:
 			droit_id_u: 'message-service:edition'
 		
 	envoi :
-		name: Envoyer à un groupe
+		name-action: Envoyer à un groupe
+		name: Envoyé à un groupe
 		rule:
 			last-action: 
 				creation
