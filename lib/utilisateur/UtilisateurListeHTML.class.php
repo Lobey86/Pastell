@@ -24,7 +24,11 @@ class UtilisateurListeHTML {
 			<tr>
 				<td>
 					<a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'>
+						<?php if (empty($user['prenom']) && empty($user['nom'])) : ?>
+							[pas d'information]
+						<?php else : ?>
 						<?php echo $user['prenom']?> <?php echo $user['nom']?>
+						<?php endif; ?>
 					</a>
 				</td>
 				<td><?php echo $user['login']?></td>

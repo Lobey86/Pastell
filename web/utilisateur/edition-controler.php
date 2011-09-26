@@ -30,6 +30,29 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:editio
 	exit;
 }
 
+if (! $nom){
+	$lastError->setLastError("Le nom est obligatoire");
+	$redirection->redirect();
+}
+
+if (! $prenom){
+	$lastError->setLastError("Le prénom est obligatoire");
+	$redirection->redirect();
+}
+
+if ( $password && $password2 ){
+	if ($password != $password2){
+		$lastError->setLastError("Les mot de passes ne correspondent pas");
+		$redirection->redirect();
+	}
+	$utilisateur->setPassword($password);
+}
+
+if (! is_mail($email)){
+	$lastError->setLastError("Votre adresse email ne semble pas valide");
+	$redirection->redirect();
+}
+
 if (! $id_u){
 	$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
 	$id_u = $utilisateurCreator->create($login,$password,$password2,$email);
@@ -54,28 +77,6 @@ if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
 	} 
 }
 
-if (! $nom){
-	$lastError->setLastError("Le nom est obligatoire");
-	$redirection->redirect();
-}
-
-if (! $prenom){
-	$lastError->setLastError("Le prénom est obligatoire");
-	$redirection->redirect();
-}
-
-if ( $password && $password2 ){
-	if ($password != $password2){
-		$lastError->setLastError("Les mot de passes ne correspondent pas");
-		$redirection->redirect();
-	}
-	$utilisateur->setPassword($password);
-}
-
-if (! is_mail($email)){
-	$lastError->setLastError("Votre adresse email ne semble pas valide");
-	$redirection->redirect();
-}
 
 $utilisateur->validMailAuto();
 $utilisateur->setNomPrenom($nom,$prenom);
