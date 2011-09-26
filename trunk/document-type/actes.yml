@@ -69,10 +69,10 @@ formulaire:
 	
 	Agent non-référencé:
 		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
+		grade: {name: "Grade", type: externalData, script: grade.php, script-controler: grade-controler.php, link_name: liste des grades}		
 		Nom patronymique: {requis: true}
 		Nom d'usage: 
 		Prénom : {requis: true}
-		grade: {name: "Grade", type: externalData, script: grade.php, script-controler: grade-controler.php, link_name: liste des grades}
 			
 		Statut:
 			type: select
