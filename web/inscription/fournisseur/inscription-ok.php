@@ -8,7 +8,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <div class='box_confirm'>
 <p>
 Vous allez recevoir un email 
-qui vous permettras de valider et de poursuivre votre demande d'inscription.
+qui vous permettra de valider et de poursuivre votre demande d'inscription.
 </p>
 </div>
 <div class="box_contenu">

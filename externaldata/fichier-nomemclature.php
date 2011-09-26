@@ -21,7 +21,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 
 <div class="box_contenu clearfix">
-<h2>Choix de la nomemclature CDG</h2>
+<h2>Choix de la nomenclature CDG</h2>
 
 <table>
 	<?php 
