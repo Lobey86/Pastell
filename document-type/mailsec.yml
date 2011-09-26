@@ -14,14 +14,16 @@ formulaire:
 		
 action:
 	creation:
-		name: Créer
+		name-action: Créer
+		name: Creation
 		rule:
 			no-last-action:
 			droit_id_u: 'mailsec:edition'
 		
 			
 	modification:
-		name: Modifier
+		name-action: Modifier
+		name: Modification
 		rule:
 			last-action: 
 				creation
@@ -30,7 +32,8 @@ action:
 			droit_id_u: 'mailsec:edition'
 		
 	envoi :
-		name: Envoyer
+		name-action: Envoyer
+		name: Envoi
 		rule:
 			last-action: 
 				creation
