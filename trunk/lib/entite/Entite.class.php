@@ -129,7 +129,7 @@ class Entite  {
 	public function getCollectiviteAncetre(){
 		$info = $this->getInfo();
 		
-		if ($info['type'] == self::TYPE_COLLECTIVITE){
+		if ($info['type'] == self::TYPE_COLLECTIVITE || $info['type'] == self::TYPE_CENTRE_DE_GESTION){
 			return $this->id_e;
 		}
 		foreach($this->getAncetre() as $ancetre){

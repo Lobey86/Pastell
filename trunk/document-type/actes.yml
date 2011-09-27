@@ -220,6 +220,8 @@ action:
 				envoi_cdg: true
 			content:
 				envoi_tdt: false
+			content:
+				type: true
 		action-class: EnvoieCDG
 			
 	send-cdg:
