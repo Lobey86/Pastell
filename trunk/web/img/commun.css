@@ -294,6 +294,9 @@ form table tr.tr_box_error td p {font-weight:bold;}
 form table td input, form table td textarea, form table td select {width:98%;}
 
 input, textarea, select {padding:2px;font-size:100%;font-family:arial,helvetica,sans-serif;}
+input[type=checkbox], input[type=radio] {width:auto;}
+
+
 label span {color:#FF0000;font-size:140%;}
 
 .submit, .btn {

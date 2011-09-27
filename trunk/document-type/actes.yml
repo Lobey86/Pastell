@@ -218,10 +218,9 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			content:
 				envoi_cdg: true
+				type: true
 			content:
 				envoi_tdt: false
-			content:
-				type: true
 		action-class: EnvoieCDG
 			
 	send-cdg:
