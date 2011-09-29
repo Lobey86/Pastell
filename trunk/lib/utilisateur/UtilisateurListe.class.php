@@ -80,4 +80,23 @@ class UtilisateurListe {
 		return $this->sqlQuery->fetchOneValue($sql,$mail_verif_password);
 	}
 	
+	public function getUtilisateurByEntiteAndDroit($id_e,$droit){
+		$sql = "SELECT * FROM utilisateur_role " . 
+				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
+				" JOIN role_droit ON utilisateur_role.role=role_droit.role " .
+				" WHERE utilisateur_role.id_e = ? " . 
+				" AND role_droit.droit= ? " .
+				" ORDER BY utilisateur.nom,utilisateur.prenom";
+		$all= $this->sqlQuery->fetchAll($sql,$id_e,$droit);
+		
+		$result = array();
+		foreach($all as $ligne){	
+			if (empty($result[$ligne['id_u']])){
+				$result[$ligne['id_u']] = $ligne;
+			}
+			$result[$ligne['id_u']]['all_role'][] = $ligne['role'];			
+		}
+		return $result;
+	}
+	
 }

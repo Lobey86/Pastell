@@ -18,11 +18,14 @@ require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+require_once( PASTELL_PATH . "/lib/droit/RoleDroit.class.php");
+
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
 $tab_number = $recuperateur->getInt('page',0);
 $offset = $recuperateur->getInt('offset',0);
+$droit = $recuperateur->get('droit','');
 
 $droit_lecture = $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e);
 
@@ -96,14 +99,26 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	
 	$entiteDetailHTML->display($info,$entiteProperties,$lastTransaction);
 elseif($tab_number == 1) : 
-	$utilisateurListe = new UtilisateurListe($sqlQuery);
 
+	$roleDroit = new RoleDroit();
+	$all_droit =  $roleDroit->getAllDroit();
+
+	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$utilisateurListeHTML = new UtilisateurListeHTML();
+	$utilisateurListeHTML->addDroit($allDroit);
+	
 	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$id_e)){
 		$utilisateurListeHTML->addDroitEdition();
 	}
 	
-	$utilisateurListeHTML->display($utilisateurListe->getUtilisateurByEntite($id_e),$id_e);
+	if ($droit){
+		$allUtilisateur = $utilisateurListe->getUtilisateurByEntiteAndDroit($id_e,$droit);
+	} else {
+		$allUtilisateur = $utilisateurListe->getUtilisateurByEntite($id_e);
+	}
+	
+	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit);
+
 elseif($tab_number == 2) :
 
 $id_ancetre = $entite->getCollectiviteAncetre($id_e);

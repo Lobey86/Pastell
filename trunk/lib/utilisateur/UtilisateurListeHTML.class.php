@@ -2,10 +2,14 @@
 class UtilisateurListeHTML {
 	
 	private $droitEdition;
-	
-	
+	private $allDroit;
+
 	public function addDroitEdition(){
 		$this->droitEdition = true;
+	}
+	
+	public function addDroit($allDroit){
+		$this->allDroit = $allDroit;
 	}
 	
 	public function displayAll(array $liste_utilisateur){
@@ -42,7 +46,7 @@ class UtilisateurListeHTML {
 		<?php
 	}
 	
-	public function display(array $liste_utilisateur,$id_e){
+	public function display(array $liste_utilisateur,$id_e,$droit_selected=''){
 		
 		?>
 		
@@ -52,7 +56,28 @@ class UtilisateurListeHTML {
 				Nouveau
 			</a>
 		<?php endif;?>
+		<?php echo $droit_selected?" : $droit_selected":""?>
 		</h2>
+		
+	
+		<?php if ($this->allDroit) : ?>
+			<div>
+			<form action="entite/detail.php" method='get'>
+				<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+				<input type='hidden' name='page' value='1'/>
+				<select name='droit'>
+					<option value=''>Filtrer les droits</option>
+					<?php foreach($this->allDroit as $droit):?>
+						<option value='<?php echo $droit?>' <?php echo $droit_selected==$droit?'selected="selected"':''?>><?php echo $droit?></option>
+					<?php endforeach;?>
+				</select>
+				<input type='submit' value='Afficher'/>
+			</form>
+			</div>
+		<br/>
+		
+		<?php endif;?>
+		
 		
 		<table class='tab_02'>
 		<tr>
