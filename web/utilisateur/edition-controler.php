@@ -40,17 +40,17 @@ if (! $prenom){
 	$redirection->redirect();
 }
 
+
+if (! is_mail($email)){
+	$lastError->setLastError("Votre adresse email ne semble pas valide");
+	$redirection->redirect();
+}
+
 if ( $password && $password2 ){
 	if ($password != $password2){
 		$lastError->setLastError("Les mot de passes ne correspondent pas");
 		$redirection->redirect();
 	}
-	$utilisateur->setPassword($password);
-}
-
-if (! is_mail($email)){
-	$lastError->setLastError("Votre adresse email ne semble pas valide");
-	$redirection->redirect();
 }
 
 if (! $id_u){
@@ -63,7 +63,9 @@ if (! $id_u){
 	}
 }
 $utilisateur = new Utilisateur($sqlQuery,$id_u);
-
+if ( $password && $password2 ){
+	$utilisateur->setPassword($password);
+}
 $oldInfo = $utilisateur->getInfo();
 
 if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
