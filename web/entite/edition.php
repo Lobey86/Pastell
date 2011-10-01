@@ -142,7 +142,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	</select>
 </tr>
 <tr>
-<th><label for="has_ged">Utilisation d'un système d'archivage</label></th>
+<th><label for="has_archivage">Utilisation d'un SAE</label></th>
 <td>
 	<select name='has_archivage'>
 		<?php 
