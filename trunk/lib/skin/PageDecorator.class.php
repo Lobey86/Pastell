@@ -105,6 +105,7 @@ class PageDecorator {
 			<script src="js/jquery.autocomplete.min.js"></script>    
 			<script src="js/htmlentities.js"></script>   
 			<script src="js/jquery.treeview.js"></script>   
+			<script src="js/pastell.js"></script>   
 			
 				
 		</head>
