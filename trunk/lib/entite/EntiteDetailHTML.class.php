@@ -115,12 +115,12 @@ class EntiteDetailHTML {
 			<?php endif;?>
 			
 			<tr>
-			<th>Système de GED</th>
+			<th>GED</th>
 			<td><?php echo $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_ged') ?></td>
 			</tr>
 			
 			<tr>
-			<th>Système de d'archivage légal</th>
+			<th>SAE</th>
 			<td><?php echo $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_archivage') ?></td>
 			</tr>
 			
