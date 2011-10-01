@@ -14,6 +14,7 @@ $id_e = $recuperateur->getInt('id_e',0);
 $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
 $id_u = $recuperateur->get('id_u');
+$recherche = $recuperateur->get('recherche');
 
 
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'journal:lecture');
@@ -62,7 +63,7 @@ if ($id_u){
 
 
 $limit = 20;
-$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit) ;
+$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche) ;
 
 include( PASTELL_PATH ."/include/haut.php");
 
@@ -77,6 +78,15 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 <div class="box_contenu clearfix">
 
 <h2>Journal des évènements (extraits)</h2>
+
+<form action="/journal/index.php" method='get'>
+	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+	<input type='hidden' name='type' value='<?php echo $type?>'/>
+	<input type='hidden' name='id_d' value='<?php echo $id_d?>'/>
+	<input type='hidden' name='id_u' value='<?php echo $id_u?>'/>
+	<input type='text' name='recherche' value='<?php echo $recherche ?>'/>
+	<input type='submit' value='Chercher'/>
+</form>
 
 <table class="tab_01">
 	<tr>
@@ -116,7 +126,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 </table>
 </div>
 
-<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>&id_u=<?php echo $id_u ?>'>Récuperer le journal (CSV)</a>
+<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>&id_u=<?php echo $id_u ?>&recherche=<?php echo $recherche ?>'>Récuperer le journal (CSV)</a>
 <br/><br/>
 <?php endif;?>
 <?php 

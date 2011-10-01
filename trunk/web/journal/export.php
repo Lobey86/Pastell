@@ -13,6 +13,7 @@ $id_e = $recuperateur->getInt('id_e',0);
 $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
 $id_u = $recuperateur->get('id_u');
+$recherche = $recuperateur->get('recherche');
 
 
 if   (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)){
@@ -20,7 +21,7 @@ if   (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",
 	exit;
 }
 
-$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit) ;
+$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche) ;
 
 $CSVoutput = new CSVoutput();
 $CSVoutput->sendAttachment("pastell-export-journal-$id_e-$id_u-$type-$id_d.csv",$all);

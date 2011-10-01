@@ -51,7 +51,7 @@ class Journal {
 	}
 	
 	
-	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit){
+	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = ""){
 		
 		$value = array();
 		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
@@ -75,6 +75,10 @@ class Journal {
 		if ($id_u){
 			$sql .= " AND journal.id_u = ? ";
 			$value[] = $id_u;
+		}
+		if ($recherche){
+			$sql .= " AND journal.message_horodate LIKE ?";
+			$value[] = "%$recherche%";
 		}
 		
 		$sql .= " ORDER BY id_j DESC LIMIT $offset,$limit";

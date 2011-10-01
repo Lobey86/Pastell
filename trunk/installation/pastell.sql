@@ -134,7 +134,8 @@ CREATE TABLE journal (
 	`date_horodatage` datetime NOT NULL,
 	`message_horodate` text NOT NULL,
 	PRIMARY KEY (`id_j`),
-	KEY id_j (`id_u`,`id_j`)
+	KEY id_j (`id_u`,`id_j`),
+	FULLTEXT KEY message_horodate (`message_horodate`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE message (
 	`id_m` int(11) NOT NULL AUTO_INCREMENT,

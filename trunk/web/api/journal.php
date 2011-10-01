@@ -13,6 +13,7 @@ $id_e = $recuperateur->getInt('id_e',0);
 $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
 $id_user = $recuperateur->get('id_user');
+$recherche = $recuperateur->get('recherche');
 
 $format = $recuperateur->get('format');
 
@@ -21,7 +22,7 @@ if   (! $roleUtilisateur->hasDroit($id_u,"journal:lecture",$id_e)){
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, id_d=$id_d,id_u=$id_u,type=$type");
 }
 
-$all = $journal->getAll($id_e,$type,$id_d,$id_user,$offset,$limit) ;
+$all = $journal->getAll($id_e,$type,$id_d,$id_user,$offset,$limit,$recherche) ;
 
 
 if ($format == 'csv'){

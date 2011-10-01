@@ -76,7 +76,6 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	
 	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
 	
-	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 	$afficheurFormulaire->injectHiddenField("id_e",$id_e);
 	
