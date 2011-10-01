@@ -111,6 +111,11 @@ $info = array(
 			"default" => "",
 			"comment" => "Identifiant de l'entité (retourné par list-entite.php)",
 			),
+			"recherche" => array(
+			"required" =>  false,
+			"default" => "",
+			"comment" => "Champs de recherche sur le contenu du message horodaté",
+			),
 			
 			"id_user" => array(
 			"required" =>  false,
@@ -132,7 +137,8 @@ $info = array(
 			"comment" => "Format du journal : json ou bien csv"),
 			"offset"=>$paramInfo['offset'],
 			"limit"=>$paramInfo['limit']),	
-			)
+			),
+			
 	
 );
 
