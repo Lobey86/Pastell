@@ -37,7 +37,7 @@ foreach($liste_collectivite as $col){
 			echo "classification OK";
 		}
 	} else {
-		echo " Module tedetis desactivé";
+		echo " Module S²low desactivé";
 	}
 	echo "\n";
 	

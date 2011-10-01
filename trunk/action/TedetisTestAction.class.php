@@ -12,7 +12,7 @@ class TedetisTestAction extends ActionExecutor {
 		$result = $tedetis->testConnexion();
 		
 		if (! $result){
-			$this->setLastMessage("La connexion avec le Tedetis a échoué : " . $tedetis->getLastError());
+			$this->setLastMessage("La connexion avec S²low a échoué : " . $tedetis->getLastError());
 			return false;
 		}
 
