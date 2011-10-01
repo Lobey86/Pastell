@@ -1,0 +1,3 @@
+function jauge(){
+	return true;
+}

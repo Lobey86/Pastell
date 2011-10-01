@@ -67,7 +67,7 @@ if (! defined("OPENSSL_PATH")){
 
 //Si présent, alors il est possible de vérifier l'environnement sur la page de test
 if (! defined("ENABLE_VERIF_ENVIRONNEMENT")){
-	define("ENABLE_VERIF_ENVIRONNEMENT",false);
+	define("ENABLE_VERIF_ENVIRONNEMENT",true);
 }
 
 

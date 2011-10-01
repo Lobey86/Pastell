@@ -190,13 +190,13 @@ class AfficheurFormulaire {
 		<?php endif;?>
 		
 		<?php if ($page_number > 0 ): ?>
-				<input type='submit' name='precedent' value='« Précédent' />
+				<input type='submit' name='precedent' value='« Précédent' onclick='jauge()'/>
 		<?php endif; ?>
 		
-			<input type='submit' name='enregistrer' value='Enregistrer' />
+			<input type='submit' name='enregistrer' value='Enregistrer' onclick='jauge()'/>
 			
 		<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
-				<input type='submit' name='suivant' value='Suivant »' />
+				<input type='submit' name='suivant' value='Suivant »' onclick='jauge()'/>
 		<?php endif; ?>
 		</form>
 	<?php }
