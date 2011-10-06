@@ -5,7 +5,9 @@ require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 class TedetisAnnulation  extends ActionExecutor {
 
 	public function go(){
-		$collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');
+		
+		$collectiviteProperties = $this->getCollectiviteProperties();
+	
 		
 		$tedetis = new Tedetis($collectiviteProperties);
 		

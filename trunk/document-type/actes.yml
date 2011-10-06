@@ -117,8 +117,7 @@ page-condition:
 	
 	
 action:
-	creation:
-		
+	creation:		
 		name-action: Créer
 		name: Création
 		
@@ -203,7 +202,8 @@ action:
 			droit_id_u: 'actes:edition'
 		action-class: TedetisAnnulation
 		warning: Attention cette action n'est pas réversible
-				
+
+			
 	send-cdg-manuel:
 		name-action: Transmettre au CDG
 		name: Transmis au CDG manuellement
