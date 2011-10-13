@@ -2,8 +2,6 @@
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 
-
-
 class TedetisEnvoie  extends ActionExecutor {
 
 	public function go(){

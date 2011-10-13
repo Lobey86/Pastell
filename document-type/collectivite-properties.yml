@@ -25,7 +25,18 @@ formulaire:
 			script: fichier-nomemclature.php
 			script-controler: fichier-nomemclature-controler.php
 			link_name: liste des fichiers disponibles
+	
+	iparapheur:
+		iparapheur_activate: {name: "Module activé", type: checkbox}
+		iparapheur_wsdl: {name: "URL du WSDL"}
+		iparapheur_user_certificat: {name: "Certificat utilisateur (format P12)", type: file, content-type: application/octet-stream}
+		iparapheur_user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
+		iparapheur_user_key_pem: {type: file, no-show: true}
+		iparapheur_login: {name: "Login HTTP"}
+		iparapheur_password:  {name: "Mot de passe HTTP", type: password}
+	
 		
+	
 	GED:
 		ged_activate: {name: "Module activé", type: checkbox}
 		ged_url: {name: "URL du service CIMS"}
@@ -119,4 +130,13 @@ action:
 		tab: Tedetis
 		action-class: TedetisDemandeClassification
 		
+	test-iparapheur:
+		name: Test de la connexion
+		action-class: IParapheurTest
+		tab: iparapheur
+		
+	test-iparapheur-send:
+		name: Créer un document test
+		action-class: IParapheurTestSend
+		tab: iparapheur
 		

@@ -8,6 +8,7 @@ require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
+require_once (PASTELL_PATH . "/lib/base/PKCS12.class.php");
 
 //Récupération des données
 $recuperateur = new Recuperateur($_POST);
@@ -36,22 +37,22 @@ $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 $donneesFormulaire->setData('type_id_e',$entiteInfo['type']);
 
-$pkcs12_file = $donneesFormulaire->getFilePath('tdt_user_certificat');
-if (file_exists($pkcs12_file)) {
-	$pkcs12 = file_get_contents( $pkcs12_file );
-	
-	$result = openssl_pkcs12_read( $pkcs12, $certs, $donneesFormulaire->get('tdt_user_certificat_password') );
-	if (! $result){
-		$lastError->setLastError("Impossible de lire le certificat p12");
-		header("Location: edition-properties.php?id_e=$id_e&page=$page");
-		exit;
-	}
-	
-	openssl_pkey_export($certs['pkey'],$pkey,$donneesFormulaire->get('tdt_user_certificat_password'));
-	
-	$donneesFormulaire->addFileFromData("tdt_user_certificat_pem","tdt_user_certificat_pem",$certs['cert']); 
-	$donneesFormulaire->addFileFromData("tdt_user_key_pem","tdt_user_key_pem",$pkey); 
+$pkcs12 = new PKCS12();
+$p12_data = $pkcs12->getAll($donneesFormulaire->getFilePath('tdt_user_certificat'),$donneesFormulaire->get('tdt_user_certificat_password'));
+
+if ($p12_data){
+	$donneesFormulaire->addFileFromData("tdt_user_certificat_pem","tdt_user_certificat_pem",$p12_data['cert']); 
+	$donneesFormulaire->addFileFromData("tdt_user_key_pem","tdt_user_key_pem",$p12_data['pkey']); 
 }
+
+$p12_data = $pkcs12->getAll($donneesFormulaire->getFilePath('iparapheur_user_certificat'),$donneesFormulaire->get('iparapheur_user_certificat_password'));
+
+if ($p12_data){
+	$donneesFormulaire->addFileFromData("iparapheur_user_key_pem","iparapheur_user_key_pem",$p12_data['pkey'].$p12_data['cert']); 
+}
+
+
+
 
 $type = $recuperateur->get('suivant');
 if ($type){
