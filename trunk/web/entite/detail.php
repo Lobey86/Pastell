@@ -152,7 +152,7 @@ $listAgent = $agentSQL->getBySiren($siren,$offset);
 <?php 
 else: 
 $allTab = $formulaire->getTab();
-if (in_array($allTab[$tab_number],array('Agents','Tedetis','GED','SAE'))){
+if (in_array($allTab[$tab_number],array('Agents','Tedetis','iparapheur','GED','SAE'))){
 	$id_e_to_show = $entite->getCollectiviteAncetre($id_e);
 	$entite_to_show = new Entite($sqlQuery,$id_e_to_show);
 	$infoAncetre = $entite_to_show->getInfo();

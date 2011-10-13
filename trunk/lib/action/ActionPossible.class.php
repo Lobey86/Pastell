@@ -165,11 +165,11 @@ class ActionPossible {
 	private function verifContent($value){
 		assert('$this->donneesFormulaire');
 		foreach($value as $fieldName => $fieldValue){
-			if ($this->verifField($fieldName,$fieldValue)){
-				return true;
+			if (! $this->verifField($fieldName,$fieldValue)){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	private function verifDocumentIsValide(){

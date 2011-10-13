@@ -4,8 +4,6 @@ require_once(PASTELL_PATH."/externaldata/lib/ClassificationActes.class.php");
 
 $entite = new Entite($sqlQuery,$id_e);
 $ancetre = $entite->getCollectiviteAncetre();
-
-
 $donneesFormulaire = $donneesFormulaireFactory->get($ancetre,'collectivite-properties');
 
 

@@ -113,7 +113,7 @@ class AfficheurFormulaire {
 						<?php endforeach; endif;?>
 					<?php elseif(($field->getType() == 'select') && ! $field->getProperties('read-only')) : ?>
 						<select name='<?php echo $field->getName()?>'>
-							<option>...</option>
+							<option value=''>...</option>
 							<?php foreach($field->getSelect() as $value => $name) : ?>
 								<option <?php 
 									if ($this->donneesFormulaire->geth($field->getName()) == $value){

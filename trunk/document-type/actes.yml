@@ -46,9 +46,11 @@ formulaire:
 			script: choix-classification.php
 			script-controler: choix-classification-controler.php
 			link_name: liste des matières et sous-matières
+		envoi_iparapheur: {name: Transmission au parapheur, type: checkbox}
 		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}
 		Archivage: {type: checkbox}
+		
 				
 	Agent:
 		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
@@ -94,6 +96,28 @@ formulaire:
 	Bordereau:
 		has_bordereau: {no-show: true}
 		bordereau: {name: Bordereau d'acquittement, type: file}
+	
+	Signature:
+		has_signature: {no-show: true}
+		signature: {name: Signature de l'acte, type: file}
+	
+	iParapheur:
+		iparapheur_type: 
+			name: Type iParapheur
+			requis: true
+			type: externalData
+			script: iparapheur-type.php
+			script-controler: iparapheur-type-controler.php
+			link_name: liste des types
+			
+		iparapheur_sous_type:
+			name: Sous Type iParapheur
+			requis: true
+			type: externalData
+			script: iparapheur-sous-type.php
+			script-controler: iparapheur-sous-type-controler.php
+			link_name: liste des types
+		
 
 page-condition:
 	Agent:
@@ -114,6 +138,12 @@ page-condition:
 	
 	Bordereau:
 		has_bordereau: true
+	
+	Signature:
+		has_signature: true
+	
+	iParapheur:
+		envoi_iparapheur: true
 	
 	
 action:
@@ -151,7 +181,35 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: Supprimer
-
+	
+	send-iparapheur:
+		name-action: Transmettre au i-parapheur
+		name: Transmis au parapheur
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content:
+				envoi_iparapheur: true
+			herited-properties:
+				iparapheur_activate: true
+			
+		action-class: IParapheurEnvoie
+		auto-class: IParapheurRecup	
+								 	
+	verif-iparapheur:
+		name: Vérifier le statut de la transaction (iparapheur)
+		rule:
+			last-action:
+				send-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: IParapheurRecup
+		
+		
 	send-tdt:
 		name-action: Transmettre à la préfecture
 		name: Transmis en préfecture 
@@ -160,11 +218,33 @@ action:
 			last-action: 
 				creation
 				modification
+				recu-iparapheur
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 			document_is_valide: true
 			content: 
 				envoi_tdt: true
+				envoi_iparapheur: false
+			herited-properties:
+				tdt_activate: true
+				
+				
+		action-class: TedetisEnvoie
+		auto-class: TedetisRecup
+		
+	send-tdt-2:
+		name-action: Transmettre à la préfecture
+		name: Transmis en préfecture 
+		
+		rule:
+			last-action: 
+				recu-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content: 
+				envoi_tdt: true
+				envoi_iparapheur: true
 			herited-properties:
 				tdt_activate: true
 				
@@ -218,11 +298,27 @@ action:
 			droit_id_u: 'rh-actes:edition'
 			content:
 				envoi_cdg: true
-				type: true
-			content:
 				envoi_tdt: false
+				envoi_iparapheur: false
 		action-class: EnvoieCDG
+	
+	send-cdg-manuel-2:
+		name-action: Transmettre au CDG
+		name: Transmis au CDG manuellement
+	
+		rule:
+			last-action: 
+				recu-iparapheur
 			
+			document_is_valide: true
+			role_id_e: editeur
+			droit_id_u: 'rh-actes:edition'
+			content:
+				envoi_cdg: true
+				envoi_tdt: false
+				envoi_iparapheur: true
+		action-class: EnvoieCDG
+	
 	send-cdg:
 		name-action: Transmettre au CDG
 		name: Transmis au CDG automatiquement
@@ -236,7 +332,12 @@ action:
 		name: Reçu par le CDG
 		rule:
 			role_id_e: no-role
-		
+	
+	recu-iparapheur:
+		name: Signature récuperée sur le iparapheur
+		rule:
+			role_id_e: no-role
+	
 	tdt-error:
 		name: Erreur sur le Tedetis
 		rule:
