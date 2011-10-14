@@ -41,23 +41,6 @@ class UtilisateurListe {
 		return $this->sqlQuery->fetchOneValue($sql,$login);
 	}
 	
-	public function getUtilisateurByEntite($id_e){
-		$sql = "SELECT * FROM utilisateur_role " . 
-				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
-				" WHERE utilisateur_role.id_e = ? " . 
-				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		$all= $this->sqlQuery->fetchAll($sql,$id_e);
-		
-		$result = array();
-		foreach($all as $ligne){	
-			if (empty($result[$ligne['id_u']])){
-				$result[$ligne['id_u']] = $ligne;
-			}
-			$result[$ligne['id_u']]['all_role'][] = $ligne['role'];			
-		}
-		return $result;
-	}
-	
 	public function getUtilisateurByCertificat($verif_number,$offset,$limit){
 		$sql = "SELECT * FROM utilisateur" .
 				" WHERE certificat_verif_number = ? " .
@@ -80,14 +63,36 @@ class UtilisateurListe {
 		return $this->sqlQuery->fetchOneValue($sql,$mail_verif_password);
 	}
 	
-	public function getUtilisateurByEntiteAndDroit($id_e,$droit){
+	public function getUtilisateurByEntite(array $id_e){
+		$all_id_e = implode(',',$id_e);
 		$sql = "SELECT * FROM utilisateur_role " . 
 				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
+				" JOIN entite ON utilisateur.id_e = entite.id_e " .
+				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
+				" ORDER BY utilisateur.nom,utilisateur.prenom";
+		$all= $this->sqlQuery->fetchAll($sql);
+		
+		$result = array();
+		foreach($all as $ligne){	
+			if (empty($result[$ligne['id_u']])){
+				$result[$ligne['id_u']] = $ligne;
+			}
+			$result[$ligne['id_u']]['all_role'][] = $ligne['role'];			
+		}
+		return $result;
+	}
+	
+	
+	public function getUtilisateurByEntiteAndDroit(array $id_e,$droit){
+		$all_id_e = implode(',',$id_e);
+		$sql = "SELECT * FROM utilisateur_role " . 
+				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
+				" JOIN entite ON utilisateur.id_e = entite.id_e ".
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role " .
-				" WHERE utilisateur_role.id_e = ? " . 
+				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
 				" AND role_droit.droit= ? " .
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		$all= $this->sqlQuery->fetchAll($sql,$id_e,$droit);
+		$all= $this->sqlQuery->fetchAll($sql,$droit);
 		
 		$result = array();
 		foreach($all as $ligne){	

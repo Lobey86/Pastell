@@ -26,6 +26,8 @@ $id_e = $recuperateur->getInt('id_e');
 $tab_number = $recuperateur->getInt('page',0);
 $offset = $recuperateur->getInt('offset',0);
 $droit = $recuperateur->get('droit','');
+$descendance = $recuperateur->get('descendance','');
+
 
 $droit_lecture = $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e);
 
@@ -109,14 +111,19 @@ elseif($tab_number == 1) :
 	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$id_e)){
 		$utilisateurListeHTML->addDroitEdition();
 	}
-	
-	if ($droit){
-		$allUtilisateur = $utilisateurListe->getUtilisateurByEntiteAndDroit($id_e,$droit);
+	if ($descendance){
+		$all_id_e = $entite->getDescendance($id_e);
 	} else {
-		$allUtilisateur = $utilisateurListe->getUtilisateurByEntite($id_e);
+		$all_id_e = array($id_e);
 	}
 	
-	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit);
+	if ($droit){
+		$allUtilisateur = $utilisateurListe->getUtilisateurByEntiteAndDroit($all_id_e,$droit);
+	} else {
+		$allUtilisateur = $utilisateurListe->getUtilisateurByEntite($all_id_e);
+	}
+	
+	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance);
 
 elseif($tab_number == 2) :
 

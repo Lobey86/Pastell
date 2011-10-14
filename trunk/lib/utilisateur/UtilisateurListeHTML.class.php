@@ -46,7 +46,7 @@ class UtilisateurListeHTML {
 		<?php
 	}
 	
-	public function display(array $liste_utilisateur,$id_e,$droit_selected=''){
+	public function display(array $liste_utilisateur,$id_e,$droit_selected='',$descendance=''){
 		
 		?>
 		
@@ -65,6 +65,7 @@ class UtilisateurListeHTML {
 			<form action="entite/detail.php" method='get'>
 				<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 				<input type='hidden' name='page' value='1'/>
+				<input type='checkbox' name='descendance' <?php echo $descendance?"checked='checked'":""?>/>Afficher les utilisateurs des entités filles<br/>
 				<select name='droit'>
 					<option value=''>Filtrer les droits</option>
 					<?php foreach($this->allDroit as $droit):?>
@@ -85,7 +86,9 @@ class UtilisateurListeHTML {
 			<th>login</th>
 			<th>email</th>
 			<th>Role</th>
-			
+			<?php if ($descendance) : ?>
+				<th>Collectivité de base</th>
+			<?php endif;?>
 		</tr>
 		
 		<?php foreach($liste_utilisateur as $user) : ?>
@@ -98,6 +101,9 @@ class UtilisateurListeHTML {
 				<td><?php echo $user['login']?></td>
 				<td><?php echo $user['email']?></td>
 				<td><?php echo implode(", ",$user['all_role'])?></td>
+				<?php if ($descendance) : ?>
+					<td><a href='entite/detail.php?id_e=<?php echo $user['id_e']?>'><?php echo $user['denomination']?></a></td>
+				<?php endif;?>
 			</tr>
 		<?php endforeach; ?>
 		

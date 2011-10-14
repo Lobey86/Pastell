@@ -115,6 +115,16 @@ class Entite  {
 		return $this->sqlQuery->fetchAll($sql,$this->id_e);
 	}
 	
+	public function getDescendance($id_e){
+		$sql = "SELECT id_e FROM entite_ancetre WHERE id_e_ancetre=?";
+		$r = $this->sqlQuery->fetchAll($sql,$id_e);
+		$resulat = array();
+		foreach ($r as $entite){
+			$result[] = $entite['id_e'];
+		}
+		return $result;		
+	}
+	
 	public function getAncetre(){
 		static $ancetre;
 		if (! $ancetre){
