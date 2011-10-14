@@ -35,6 +35,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 
 <div class="box_contenu clearfix">
+<?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
 <h2><?php echo $type ?></h2>
 
@@ -56,9 +57,9 @@ foreach($liste as $i => $entite) :
 	?>
 	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td class="w30"><input type='checkbox' name='destinataire[]' id="label_denomination_<?php echo $cpt ?>" value='<?php echo $entite['id_e']?>'/></td>
-		<td><label for="label_denomination_<?php echo $cpt ?>"><?php echo $entite['denomination']?></label></td>
+		<td><label for="label_denomination_<?php echo $cpt ?>">	<a href='entite/detail.php?id_e=<?php echo $entite['id_e']?>'><?php echo $entite['denomination']?></a></label></td>
 		<td>
-		<a href='entite/detail.php?siren=<?php echo $entite['siren']?>'><?php echo $entite['siren']?></a>
+			<?php echo $entite['siren']?:""?>
 		</td>
 
 	</tr>
