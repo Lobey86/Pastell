@@ -26,7 +26,7 @@ $donneesFormulaire = $donneesFormulaireFactory->get($info['id_d'],'mailsec-desti
 
 if ($donneesFormulaire->get('password') == $password){
 	$ip = $_SERVER['REMOTE_ADDR'];
-	apc_add("consult_ok_{$key}_{$ip}","1",60*5);
+	$_SESSION["consult_ok_{$key}_{$ip}"] = 1;
 	header("Location: index.php?key=$key");
 	exit;
 } else {
