@@ -34,7 +34,7 @@ $formulaire = $documentType->getFormulaire();
 $donneesFormulaire = $donneesFormulaireFactory->get($info['id_d'],'mailsec-destinataire');
 	$ip = $_SERVER['REMOTE_ADDR'];
 
-if ($donneesFormulaire->get('password') && (! apc_fetch("consult_ok_{$key}_{$ip}"))){
+if ($donneesFormulaire->get('password') && (empty($_SESSION["consult_ok_{$key}_{$ip}"]))){
 	header("Location: password.php?key=$key");
 	exit;
 }
