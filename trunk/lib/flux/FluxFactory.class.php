@@ -75,7 +75,7 @@ class FluxFactory{
  									'gf_bon_de_commande'=> 'Bons de commande',
 									'gf_facture' => 'Factures',
 				
-									'rh-actes' => 'Actes RH',
+									'actes' => 'Actes',
 									'rh_message_cdg' => 'Message Centre de gestion'
 						);
 		
@@ -94,7 +94,7 @@ class FluxFactory{
 									'gf_facture' => 'Factures',
 								),
 			'Flux RH' => array(
-									'rh-actes' => 'Actes RH',
+									'actes' => 'Actes',
 									'rh-messages' => 'Message Centre de gestion'
 								)
 		

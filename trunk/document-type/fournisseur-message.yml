@@ -9,14 +9,14 @@ formulaire:
 action:
 	creation:
 		name-action: Créer
-		name: Création
+		name: Créé
 		rule:
 			type_id_e: collectivite
 			no-last-action:
 	
 	modification:
 		name-action: Modifier
-		name: Modification
+		name: En cours de rédaction
 		rule:
 			type_id_e: collectivite
 			last-action: 
@@ -24,8 +24,8 @@ action:
 				modification
 				
 	envoi :
-		name-action: Envoyer à un fournisseur
-		name: Envoie à un fournisseur
+		name-action: Envoyer
+		name: Envoyé
 		rule:
 			last-action: 
 				creation
@@ -36,13 +36,14 @@ action:
 		action-selection: fournisseur
 		
 	recu:
-		name: Reçu par un fournisseur
+		name: Reçu
 		rule:
 			role_id_e: no-role
 		accuse_de_reception_action: accuse_de_reception
 		
 	accuse_de_reception:
-		name: 	Accuser réception
+		name-action: Accuser réception
+		name: Accusé réception
 		rule:
 			last-action:
 				recu
@@ -51,5 +52,4 @@ action:
 			
 		action-class: AccuserReception
 
-		
 		

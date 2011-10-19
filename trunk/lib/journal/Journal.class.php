@@ -54,7 +54,7 @@ class Journal {
 	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = ""){
 		
 		$value = array();
-		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
+		$sql = "SELECT journal.*,document.titre,document.type as document_type,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
 			" LEFT JOIN document ON journal.id_d = document.id_d " .
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
 			" LEFT JOIN utilisateur ON journal.id_u = utilisateur.id_u " .

@@ -161,7 +161,7 @@ abstract class ActionExecutor {
 	
 	public function notify($actionName,$type,$message){
 		assert('$this->notificationMail');
-		$this->notificationMail->notify($this->id_e,$this->id_d,'acquiter-tdt', 'rh-actes',$message);
+		$this->notificationMail->notify($this->id_e,$this->id_d,$actionName,$type,$message);
 	}
 	
 	public function getLastMessage(){

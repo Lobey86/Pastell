@@ -61,8 +61,7 @@ class EnvoieCDG  extends ActionExecutor {
 		
 		$notificationMail = $this->getNotificationMail();
 		
-		$notificationMail->notify($id_cdg,$this->id_d,'recu-cdg', 'rh-actes',$message);
-		
+		$notificationMail->notify($id_cdg,$this->id_d,'recu-cdg', 'actes',$message);		
 		
 		$entiteProperties = new EntiteProperties($this->getSQLQuery(),$id_cdg);
 		

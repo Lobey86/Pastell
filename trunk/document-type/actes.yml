@@ -150,7 +150,7 @@ page-condition:
 action:
 	creation:		
 		name-action: Créer
-		name: Création
+		name: Créé
 		
 		rule:
 			no-last-action:
@@ -159,8 +159,7 @@ action:
 				service
 				collectivite
 		
-	modification:
-	
+	modification:	
 		name-action: Modifier
 		name: En cours de rédaction
 		
@@ -173,7 +172,7 @@ action:
 
 	supression:
 		name-action: Supprimer
-		name: Suppression
+		name: Supprimé
 		
 		rule:
 			last-action: 
@@ -184,8 +183,8 @@ action:
 		action-class: Supprimer
 	
 	send-iparapheur:
-		name-action: Transmettre au i-parapheur
-		name: Transmis au parapheur
+		name-action: Transmettre à la signature
+		name: Transmis à la signature
 		
 		rule:
 			last-action: 
@@ -202,7 +201,8 @@ action:
 		auto-class: IParapheurRecup	
 								 	
 	verif-iparapheur:
-		name: Vérifier le statut de la transaction (iparapheur)
+		name-action: Vérifier le statut de signature
+		name: Signature vérifié
 		rule:
 			last-action:
 				send-iparapheur
@@ -255,10 +255,12 @@ action:
 		
 	
 	verif-tdt:
-		name: Vérifier le statut de la transaction
+		name-action: Vérifier le statut de la transaction
+		name: Statut vérifié par le TdT		
 		rule:
 			last-action:
 				send-tdt
+				send-tdt-2
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: TedetisRecup
@@ -287,7 +289,7 @@ action:
 			
 	send-cdg-manuel:
 		name-action: Transmettre au CDG
-		name: Transmis au CDG manuellement
+		name: Transmis au CDG 
 	
 		rule:
 			last-action: 
@@ -296,7 +298,7 @@ action:
 			
 			document_is_valide: true
 			role_id_e: editeur
-			droit_id_u: 'rh-actes:edition'
+			droit_id_u: 'actes:edition'
 			content:
 				envoi_cdg: true
 				envoi_tdt: false
@@ -305,7 +307,7 @@ action:
 	
 	send-cdg-manuel-2:
 		name-action: Transmettre au CDG
-		name: Transmis au CDG manuellement
+		name: Transmis au CDG
 	
 		rule:
 			last-action: 
@@ -313,7 +315,7 @@ action:
 			
 			document_is_valide: true
 			role_id_e: editeur
-			droit_id_u: 'rh-actes:edition'
+			droit_id_u: 'actes:edition'
 			content:
 				envoi_cdg: true
 				envoi_tdt: false
@@ -322,7 +324,7 @@ action:
 	
 	send-cdg:
 		name-action: Transmettre au CDG
-		name: Transmis au CDG automatiquement
+		name: Transmis au CDG
 		
 		rule:
 			last-action: acquiter-tdt
@@ -335,7 +337,7 @@ action:
 			role_id_e: no-role
 	
 	recu-iparapheur:
-		name: Signature récuperée sur le iparapheur
+		name: Signature récuperée
 		rule:
 			role_id_e: no-role
 	

@@ -15,7 +15,7 @@ formulaire:
 action:
 	creation:
 		name-action: Créer
-		name: Creation
+		name: Créé
 		rule:
 			no-last-action:
 			droit_id_u: 'mailsec:edition'
@@ -23,7 +23,7 @@ action:
 			
 	modification:
 		name-action: Modifier
-		name: Modification
+		name: En cours de rédaction
 		rule:
 			last-action: 
 				creation
@@ -33,7 +33,7 @@ action:
 	
 	supression:
 		name-action: Supprimer
-		name: Suppression
+		name: Supprimé
 		
 		rule:
 			last-action: 
@@ -45,7 +45,7 @@ action:
 		
 	envoi :
 		name-action: Envoyer
-		name: Envoi
+		name: Envoyé
 		rule:
 			last-action: 
 				creation
@@ -57,12 +57,12 @@ action:
 		action-class: EnvoyerMailSec
 		
 	reception-partielle:
-		name: Réception partielle
+		name: Reçu partiellement
 		rule:
 			role_id_e: no-role
 	
 	reception:
-		name: Réception
+		name: Reçu
 		rule:
 			role_id_e: no-role
 	
