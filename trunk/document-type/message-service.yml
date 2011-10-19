@@ -1,4 +1,4 @@
-nom: Message à une entité fille
+nom: Message interne
 
 formulaire:
 	Message :			
@@ -34,11 +34,11 @@ action:
 				creation
 				modification
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'message-service:edition'
 		action-class: Supprimer
 	
 	envoi :
-		name-action: Envoyer à un groupe
+		name-action: Envoyer
 		name: Envoyé à un groupe
 		rule:
 			last-action: 

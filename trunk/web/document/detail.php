@@ -163,12 +163,12 @@ if ($infoDocumentEmail) :
 
 
 <div class="box_contenu clearfix">
-<h2>Action sur le document</h2>
+<h2>États sur le document</h2>
 
 <table class="tab_01">
 	<tbody>
 		<tr>
-			<th>Action</th>
+			<th>État</th>
 			<th>Date</th>
 			<th>Entité</th>
 			<th>Utilisateur</th>

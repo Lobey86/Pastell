@@ -10,7 +10,8 @@ class IParapheurRecup extends ActionExecutor {
 		$iParapheur = new IParapheur($collectiviteProperties);		
 		$actes = $this->getDonneesFormulaire();
 		
-		$result = $iParapheur->getHistorique($actes->get('numero_de_lacte'));				
+		$num = $actes->get('numero_de_lacte');
+		$result = $iParapheur->getHistorique($num);				
 		if (! $result){
 			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
 			return false;

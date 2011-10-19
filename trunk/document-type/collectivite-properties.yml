@@ -10,7 +10,7 @@ formulaire:
 		
 	Agents: {}
 	
-	Tedetis:		
+	TdT:		
 		tdt_activate: {name: "Module activé", type: checkbox}
 		tdt_url: {name: "URL du TDT"}
 		tdt_server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file, content-type: text/plain}
@@ -26,7 +26,7 @@ formulaire:
 			script-controler: fichier-nomemclature-controler.php
 			link_name: liste des fichiers disponibles
 	
-	iparapheur:
+	Signature:
 		iparapheur_activate: {name: "Module activé", type: checkbox}
 		iparapheur_wsdl: {name: "URL du WSDL"}
 		iparapheur_user_certificat: {name: "Certificat utilisateur (format P12)", type: file, content-type: application/octet-stream}
@@ -34,8 +34,6 @@ formulaire:
 		iparapheur_user_key_pem: {type: file, no-show: true}
 		iparapheur_login: {name: "Login HTTP"}
 		iparapheur_password:  {name: "Mot de passe HTTP", type: password}
-	
-		
 	
 	GED:
 		ged_activate: {name: "Module activé", type: checkbox}
@@ -54,8 +52,6 @@ formulaire:
 		sae_numero_agrement: {name: "Numéro d'aggrément"}
 		sae_originating_agency: {name: "OriginatingAgency" }
 		sae_mail: {name: serveur de mail}
-		
-		
 		sae_bordereau_test: {name: "Dernier bordereau de test",  type: file, read-only: true}
 	
 	Mail sécurisé:
@@ -95,13 +91,13 @@ action:
 
 	test-tedetis:
 		name: Tester la connectivité au Tedetis
-		tab: Tedetis
+		tab: TdT
 		action-class: TedetisTestAction
 		
 	
 	recup-classification:
 		name: Récupérer la classification
-		tab: Tedetis
+		tab: TdT
 		action-class: TedetisRecupClassification
 		
 	test-ged:
@@ -127,16 +123,16 @@ action:
 			
 	demande-classification:
 		name: Envoyer une demande de classification à la préfecture
-		tab: Tedetis
+		tab: TdT
 		action-class: TedetisDemandeClassification
 		
 	test-iparapheur:
 		name: Test de la connexion
 		action-class: IParapheurTest
-		tab: iparapheur
+		tab: Signature
 		
 	test-iparapheur-send:
 		name: Créer un document test
 		action-class: IParapheurTestSend
-		tab: iparapheur
+		tab: Signature
 		

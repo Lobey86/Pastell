@@ -19,8 +19,8 @@ $listGroupe = $annuaireGroupe->getGroupe();
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
-$page= "Carnet d'adresse";
-$page_title= $infoEntite['denomination'] . " - Carnet d'adresse";
+$page= "Carnet d'adresses";
+$page_title= $infoEntite['denomination'] . " - Carnet d'adresses";
 
 include( PASTELL_PATH ."/include/haut.php");
 include(PASTELL_PATH . "/include/bloc_message.php");
