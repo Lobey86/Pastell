@@ -79,7 +79,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 
 <h2>Journal des évènements (extraits)</h2>
 
-<form action="/journal/index.php" method='get'>
+<form action="journal/index.php" method='get'>
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 	<input type='hidden' name='type' value='<?php echo $type?>'/>
 	<input type='hidden' name='id_d' value='<?php echo $id_d?>'/>
