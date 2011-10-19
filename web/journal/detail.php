@@ -16,8 +16,6 @@ $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
 
 
-
-
 $info = $journal->getAllInfo($id_j);
 
 if  (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$info['id_e'])){

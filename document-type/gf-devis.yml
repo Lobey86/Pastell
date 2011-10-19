@@ -7,11 +7,9 @@ formulaire:
 		Pièce jointe: {type: file}
 	
 action:
-	creation:
-		
+	creation:		
 		name-action: Créer
-		name: Création
-		
+		name: Créé
 		rule:
 			no-last-action:
 			droit_id_u: 'gf-devis:edition'
@@ -22,7 +20,7 @@ action:
 
 	modification:	
 		name-action: Modifier
-		name: Modification
+		name: En cours de rédaction
 		
 		rule:
 			last-action: 
@@ -32,8 +30,8 @@ action:
 			droit_id_u: 'gf-devis:edition'
 	
 	envoi :
-		name-action: Envoyer à des fournisseurs
-		name: Envoyé à des fournisseurs
+		name-action: Envoyer
+		name: Envoyé
 		rule:
 			last-action: 
 				creation
@@ -44,13 +42,14 @@ action:
 		action-selection: fournisseur
 		
 	recu:
-		name: Reçu par un utilisateur
+		name: Reçu
 		rule:
 			role_id_e: no-role
 		accuse_de_reception_action: accuse_de_reception
 	
 	accuse_de_reception:
-		name: 	Accuser réception
+		name-action: Accuser réception
+		name: Accusé réception
 		rule:
 			last-action:
 				recu

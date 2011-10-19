@@ -16,14 +16,14 @@ formulaire:
 action:
 	creation:		
 		name-action: Créer
-		name: Création
+		name: Créé
 		type_id_e: citoyen
 		rule:
 			no-last-action:
 
 	modification:	
 		name-action: Modifier
-		name: Modification
+		name: En cours de rédaction
 		
 		rule:
 			type_id_e: citoyen
@@ -33,7 +33,7 @@ action:
 				
 	envoi:
 		name-action: Envoyer à une collectivité
-		name: Envoyé à une collectivité
+		name: Envoyé
 		rule:
 			role_id_e: editeur
 			droit_id_u: 'citoyen-courrier:edition'
@@ -45,13 +45,14 @@ action:
 		action-selection: collectivite
 		
 	recu:
-		name: Reçu par une collectivité
+		name: Reçu
 		rule:
 			role_id_e: no-role
 		accuse_de_reception_action: accuse_de_reception
 	
 	accuse_de_reception:
-		name: 	Accuser réception
+		name-action: Accuser réception
+		name: Accusé réception
 		rule:
 			last-action:
 				recu

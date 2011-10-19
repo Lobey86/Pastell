@@ -52,7 +52,7 @@ class TedetisRecup extends ActionExecutor {
 		$donneesFormulaire->setData('has_bordereau',true);
 		$donneesFormulaire->addFileFromData('bordereau', $infoDocument['titre']."-bordereau.pdf",$bordereau_data);
 		
-		$this->notify('acquiter-tdt', 'rh-actes',$message);
+		$this->notify('acquiter-tdt', 'actes',$message);
 		
 		if ($this->getDonneesFormulaire()->get('envoi_cdg')) {
 			$envoieCDG = new EnvoieCDG($this->getZLog(), $this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
