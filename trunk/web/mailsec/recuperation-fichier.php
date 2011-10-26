@@ -12,15 +12,28 @@ $key = $recuperateur->get('key');
 $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num');
 
-
 $documentEmail = new DocumentEmail($sqlQuery);
-$info  = $documentEmail->consulter($key,$journal);
-
+$info  = $documentEmail->getInfoFromKey($key);
 if (! $info ){
 	header("Location: invalid.php");
 	exit;
 }
 $id_d = $info['id_d'];
+
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,'mailsec-destinataire');
+
+$ip = $_SERVER['REMOTE_ADDR'];
+
+if ($donneesFormulaire->get('password') && (empty($_SESSION["consult_ok_{$key}_{$ip}"]))){
+	header("Location: password.php?key=$key");
+	exit;
+}
+
+
+$documentEmail->consulter($key,$journal);
+
+
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,'mailsec-destinataire');
 
