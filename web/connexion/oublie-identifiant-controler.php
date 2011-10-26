@@ -37,7 +37,7 @@ $infoMessage = array('mail_verif_password'=>$mailVerifPassword);
 $zenMail->setContenu(PASTELL_PATH . "/mail/changement-mdp.php",$infoMessage);
 $zenMail->send();
 
-$journal->addActionAutomatique(Journal::MODIFICATION_UTILISATEUR,$info['id_e'],0,'modification de mot de passe',"Procédure initiée pour {$info['email']}");
+$journal->addActionAutomatique(Journal::MODIFICATION_UTILISATEUR,$info['id_e'],0,'mot de passe modifié',"Procédure initiée pour {$info['email']}");
 
 
 $lastMessage->setLastMessage("Un email vous a été envoyé avec la suite de la procédure");

@@ -34,7 +34,7 @@ class EntiteCreator {
 		$sql = "SELECT id_e FROM entite WHERE siren = ? AND denomination=? AND type=? AND entite_mere=? AND date_inscription=?";
 		$id_e =  $this->sqlQuery->fetchOneValue($sql,$siren,$denomination,$type,$entite_mere,$date_inscription);
 	
-		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"creation","");
+		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"Créé","");
 		
 		return $id_e;
 	}
@@ -43,7 +43,7 @@ class EntiteCreator {
 		$sql = "UPDATE entite SET siren= ? , denomination=?,type=?,entite_mere = ?, centre_de_gestion=? " . 
 				" WHERE id_e=?";
 		$this->sqlQuery->query($sql,$siren,$denomination,$type,$entite_mere,$id_e_centre_de_gestion,$id_e);
-		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"modification","");	
+		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"Modifié","");	
 	}
 	
 	public function updateAncetre($id_e,$entite_ancetre){		

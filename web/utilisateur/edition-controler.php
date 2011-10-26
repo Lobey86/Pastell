@@ -105,7 +105,7 @@ foreach($infoToRetrieve as $key){
 $infoChanged  = implode("; ",$infoChanged);
 
 
-$journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,$authentification->getId(),"edition",
+$journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,$authentification->getId(),"Edité",
 				"Edition de l'utilisateur $login ($id_u) : $infoChanged");	
 	
 $redirection->redirect(SITE_BASE . "utilisateur/detail.php?id_u=$id_u");

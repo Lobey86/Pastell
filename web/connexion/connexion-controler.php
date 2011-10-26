@@ -42,7 +42,7 @@ if (! $infoUtilisateur['mail_verifie']) {
 
 $journal->setId($id_u);
 $nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
-$journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"connexion","$nom s'est connecté depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
+$journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
 
 $authentification->connexion($login, $id_u);
 header("Location: " . SITE_BASE . "index.php");

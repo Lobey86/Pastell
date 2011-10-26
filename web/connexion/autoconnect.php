@@ -16,7 +16,7 @@ $utilisateurInfo = $utilisateur->getInfo();
 
 $journal->setId($id_u);
 $nom = $utilisateurInfo['prenom']." ".$utilisateurInfo['nom'];
-$journal->add(Journal::CONNEXION,$utilisateurInfo['id_e'],0,"connexion","$nom s'est connecté automatiquement depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
+$journal->add(Journal::CONNEXION,$utilisateurInfo['id_e'],0,"Connecté","$nom s'est connecté automatiquement depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
 
 
 $authentification->connexion($utilisateurInfo['login'],$id_u);
