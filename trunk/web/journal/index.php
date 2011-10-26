@@ -96,7 +96,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 		<th>Entité</th>
 		<th>Utilisateur</th>
 		<th>Document</th>
-		<th>Action</th>
+		<th>État</th>
 		<th>Message</th>
 		<th>Horodatage</th>
 	</tr>

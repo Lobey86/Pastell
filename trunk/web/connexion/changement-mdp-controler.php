@@ -44,7 +44,7 @@ $passwordGenerator = new PasswordGenerator();
 $mailVerifPassword = $passwordGenerator->getPassword();
 $utilisateur->reinitPassword($mailVerifPassword);
 
-$journal->add(Journal::MODIFICATION_UTILISATEUR,$infoUtilisateur['id_e'],0,"modification du mot de passe","{$infoUtilisateur['login']} ({$infoUtilisateur['id_u']}) a modifié son mot de passe");
+$journal->add(Journal::MODIFICATION_UTILISATEUR,$infoUtilisateur['id_e'],0,"mot de passe modifié","{$infoUtilisateur['login']} ({$infoUtilisateur['id_u']}) a modifié son mot de passe");
 $lastMessage->setLastMessage("Votre mot de passe a été modifié");
 
 header("Location: connexion.php");
