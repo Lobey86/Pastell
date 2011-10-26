@@ -167,6 +167,8 @@ action:
 			last-action: 
 				creation
 				modification
+			no-action:
+				send-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 
@@ -178,6 +180,8 @@ action:
 			last-action: 
 				creation
 				modification
+			no-action:
+				send-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: Supprimer

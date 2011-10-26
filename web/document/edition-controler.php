@@ -56,7 +56,8 @@ $actionPossible->setEntite($entite);
 //$actionPossible->setHeritedProperties($collectiviteProperties);
 
 
-if ( ! $actionPossible->isActionPossible($id_d,'modification') && ! $actionPossible->isActionPossible($id_d,'creation')) {
+if ( ! $actionPossible->isActionPossible($id_d,'modification') && 
+	! $actionPossible->isActionPossible($id_d,'creation')) {
 	$lastError->setLastError("L'action « modification »  n'est pas permise : " .$actionPossible->getLastBadRule() );
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
