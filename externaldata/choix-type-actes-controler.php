@@ -5,11 +5,11 @@ require_once( PASTELL_PATH . "/externaldata/lib/ClassificationActes.class.php");
 
 $classif = $recuperateur->get('classif');
 
-require_once( PASTELL_PATH . "/externaldata/lib/ClassificationCDGFinder.class.php");
+require_once( PASTELL_PATH . "/controler/ChoixTypeActesControler.class.php");
 
 
-$classificationCDGFinder = new ClassificationCDGFinder($sqlQuery,$donneesFormulaireFactory);
-$file = $classificationCDGFinder->get($id_e);
+$choixTypeActesControler = new ChoixTypeActesControler($sqlQuery,$donneesFormulaireFactory);
+$file = $choixTypeActesControler->get($id_e);
 
 if (!$file){
 	$lastError->setLastError("La nomenclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
