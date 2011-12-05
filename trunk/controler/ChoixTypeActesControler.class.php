@@ -1,11 +1,28 @@
 <?php
+require_once( PASTELL_PATH . "/externaldata/lib/TypeActes.class.php");
 
-class ClassificationCDGFinder {
+
+class ChoixTypeActesControler {
 	
 	public function __construct(SQLQuery $sqlQuery, DonneesFormulaireFactory $donneesFormulaireFactory){
 		$this->sqlQuery = $sqlQuery; 
 		$this->donneesFormulaireFactory = $donneesFormulaireFactory;
 	}
+	
+	public function getData($id_e){
+		$file = $this->get($id_e);
+
+		if (!$file){
+			$lastError->setLastError("La nomenclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes");
+			header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
+			exit;
+		}
+		
+		$typeActes = new TypeActes($file);
+		$data = $typeActes->getData($file);
+		return $data;
+	}
+	
 	
 	public function get($id_e){
 		
@@ -54,5 +71,7 @@ class ClassificationCDGFinder {
 
 		
 	}
+
+	
 	
 }

@@ -8,14 +8,14 @@ class TypeActes {
 		$this->fileName = $fileName;
 	}
 	
-	private function getData(){		
+	public function getData($fileName){		
 		static $type;
 		
 		if ($type){
 			return $type;
 		}
 		
-		$file_handle = fopen($this->fileName,"r");
+		$file_handle = fopen($fileName,"r");
 		
 		$type = array();
 		while( $ligne = fgetcsv($file_handle)){
@@ -69,7 +69,7 @@ class TypeActes {
 	}
 	
 	public function afficheClassification($url){
-		$tab = $this->getData();
+		$tab = $this->getData($this->fileName);
 		$arbre = $this->getArbre($tab);
 		?>
 		 <script>
@@ -90,7 +90,7 @@ class TypeActes {
 	}
 	
 	public function getInfo($classif){
-		$tab = $this->getData();
+		$tab = $this->getData($this->fileName);
 		return $tab[$classif];
 	}
 }

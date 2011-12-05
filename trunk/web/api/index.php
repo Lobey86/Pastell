@@ -84,6 +84,14 @@ $info = array(
 	"param" => array("id_e" => $paramInfo['id_e'],"type"=>$paramInfo['type']),
 	),
 	
+	
+"external-data" => array(
+		"name" => "Récupération des choix possibles pour un champs spécial du document",
+		"script" => "external-data.php",
+		"result" => "external-data.php?id_e=3&id_d=Om70q95&field=type",
+		"param" => array("id_e" => $paramInfo['id_e'],"id_d" => $paramInfo['id_d'], "field"=> array("required" => true,"default"=>"","comment"=>"le nom d'un champ du document")),
+	),	
+	
 "modif-document" => array(
 	"name"=> "Modification d'un document",
 	"script"=> "modif-document.php",

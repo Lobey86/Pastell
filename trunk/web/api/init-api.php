@@ -11,7 +11,7 @@ $JSONoutput = new JSONoutput();
 $certificatConnexion = new CertificatConnexion($sqlQuery);
 $id_u = $certificatConnexion->autoConnect();
 
-if ( ! $id_u && $_SERVER['PHP_AUTH_USER']){
+if ( ! $id_u && ! empty($_SERVER['PHP_AUTH_USER'])){
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$id_u = $utilisateurListe->getUtilisateurByLogin($_SERVER['PHP_AUTH_USER']);
 	$utilisateur = new Utilisateur($sqlQuery, $id_u);

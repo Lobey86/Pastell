@@ -40,6 +40,7 @@ formulaire:
 			type: externalData
 			script: choix-type-actes.php
 			script-controler: choix-type-actes-controler.php
+			controler: ChoixTypeActes
 			link_name: Choisir un type d'Actes
 		classification:
 			name: Correspondance Actes
