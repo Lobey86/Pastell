@@ -1,12 +1,19 @@
 <?php
 require_once( PASTELL_PATH . "/externaldata/lib/TypeActes.class.php");
-
+require_once( PASTELL_PATH . "/externaldata/lib/TypeActes.class.php");
+require_once( PASTELL_PATH . "/externaldata/lib/ClassificationActes.class.php");
 
 class ChoixTypeActesControler {
+	
+	private $lastError;
 	
 	public function __construct(SQLQuery $sqlQuery, DonneesFormulaireFactory $donneesFormulaireFactory){
 		$this->sqlQuery = $sqlQuery; 
 		$this->donneesFormulaireFactory = $donneesFormulaireFactory;
+	}
+	
+	public function getLastError(){
+		return $this->lastError;
 	}
 	
 	public function getData($id_e){
@@ -68,9 +75,50 @@ class ChoixTypeActesControler {
 				return $file;
 			}
 		}
-
-		
 	}
+	
+	public function set($id_e,$id_d,$type,Recuperateur $recuperateur){
+		
+		$classif = $recuperateur->get('type');
+		$file = $this->get($id_e);
+
+		if (!$file){
+			$this->lastError = "La nomenclature du CDG n'est pas disponible - Veuillez utiliser la classification Actes";
+			return false;
+		}
+
+
+		$typeActes = new TypeActes($file);
+		$info = $typeActes->getInfo($classif);
+
+		$info_classification = "";
+		if ($info['transmission_actes']){
+			$entite = new Entite($this->sqlQuery,$id_e);
+			$id_e_col = $entite->getCollectiviteAncetre();
+			$donneesFormulaire = $this->donneesFormulaireFactory->get($id_e_col,$type);	
+			$file = $donneesFormulaire->getFilePath('classification_file');
+		
+			if (! file_exists($file)){
+				$info_classification = "La classification en matière et sous-matière n'est pas disponible";
+			} else {
+				$classificationActes= new ClassificationActes($file);
+				$info_classification = $classificationActes->getInfo($info['code_actes']);
+				if (! $info_classification){
+					$info_classification = "Cette classification (".$info['code_actes'].") n'existe pas sur le Tétédis";
+				}
+			}
+			
+		}
+		$donneesFormulaire = $this->donneesFormulaireFactory->get($id_d,$type);
+		$donneesFormulaire->setData('type',$classif." ".$info['nom']);
+		$donneesFormulaire->setData('classification',$info_classification);
+		$donneesFormulaire->setData('envoi_tdt',$info['transmission_actes']);
+		$donneesFormulaire->setData('envoi_tdt_obligatoire',$info['transmission_actes']);
+		$donneesFormulaire->setData('envoi_cdg',$info['transmission_cdg']);
+		$donneesFormulaire->setData('archivage',$info['archivage']);
+		return true;
+	}
+	
 
 	
 	

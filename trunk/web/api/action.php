@@ -54,6 +54,7 @@ if ( ! $actionPossible->isActionPossible($id_d,$action)) {
 
 $action_class_name = $theAction->getActionClass($action);
 
+
 $action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
 
 if (! file_exists($action_class_file )){

@@ -36,7 +36,6 @@ formulaire:
 	Cheminement:
 		type: 
 			name: Classification 
-			
 			type: externalData
 			script: choix-type-actes.php
 			script-controler: choix-type-actes-controler.php

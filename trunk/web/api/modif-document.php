@@ -20,7 +20,8 @@ if (!$info || ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 
 $fileUploader = new FileUploader($_FILES);
-$donneesFormulaire->saveAll($recuperateur,$fileUploader);
+$modif = $donneesFormulaire->saveAll($recuperateur,$fileUploader);
+
 
 $documentType = $documentTypeFactory->getDocumentType($info['type']);
 $formulaire = $documentType->getFormulaire();
@@ -29,6 +30,19 @@ $titre_field = $formulaire->getTitreField();
 $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
+
+foreach($modif as $field_name){
+	$field = $formulaire->getField($field_name);
+	$script = $field->getProperties('controler');
+	
+	$name = "{$script}Controler";
+	require_once(PASTELL_PATH."/controler/{$script}Controler.class.php");
+
+	$controler = new $name($sqlQuery,$donneesFormulaireFactory);
+	$controler->set($id_e,$id_d,$info['type'],$recuperateur);
+}
+
+
 $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 $actionCreator->addAction($id_e,$id_u,Action::MODIFICATION,"Modification du document [WS]");
 

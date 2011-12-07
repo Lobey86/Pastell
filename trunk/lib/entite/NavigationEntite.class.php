@@ -51,7 +51,6 @@ class NavigationEntite {
 			}
 		}
 		
-		
 	?>
 		<div class="box_contenu clearfix">
 			<h2>Navigation dans les collectivités</h2>
@@ -67,7 +66,7 @@ class NavigationEntite {
 			<ul>
 				
 				<?php if ($this->id_e != 0 || ($this->listeCollectivite[0] == 0)) :?>
-					<?php foreach($entite->getFille() as $fille): ?>
+					<?php foreach($entite->getFilleWithType(array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION)) as $fille): ?>
 						<li>
 							<a href='<?php echo $url ?>&id_e=<?php echo $fille['id_e']?>'>
 								<?php echo $fille['denomination']?>
@@ -94,62 +93,57 @@ class NavigationEntite {
 	}
 	
 	
-				/*if (($id_e == 0) && ! $roleUtilisateur->hasDroit($authentification->getId(),"$type:lecture",$id_e) ){
-					navigation_racine($liste_collectivite,"document/list.php?type=$type");
-				} else {
-					navigation_collectivite($entite,"document/list.php?type=$type");
-				}*/
-
-function navigation_racine($liste_collectivite,$url){
-	if (array(count($liste_collectivite) > 1)) : 
-	?>
-	<ul>
+				
 	
-		<?php foreach($liste_collectivite as $col):
-			global $sqlQuery;
-			$entite = new Entite($sqlQuery,$col);
-			$entiteInfo = $entite->getInfo();
+	public function navigation_racine($liste_collectivite,$url){
+		if (array(count($liste_collectivite) > 1)) : 
 		?>
-			<li>&nbsp;<a href='<?php echo $url ?>&id_e=<?php echo $col ?>'><?php echo $entiteInfo['denomination']?></a></li>
-		<?php endforeach; ?>
-	</ul>
-	<?php 
-	endif;
-}
-
-function navigation_collectivite(Entite $entite,$url){
-		$infoEntite = $entite->getInfo();
-		$i = 0;
-		
-	?>
-<div class="box_contenu clearfix">
-	<h2>Navigation dans les collectivités</h2>
-	<ul>
-		<li>
-		<?php if ($entite->exists() ) : ?>
-			<a href='<?php echo $url ?>'>
-		<?php else : ?>
-			<b>	
-		<?php endif;?>
-		Toutes les collectivités
-		<?php if ( ! $entite->exists()) : ?>
-			</b>
-		<?php else :?>
-			</a>
-		<?php endif;?>
-		</li>
-		<?php foreach($entite->getAncetre() as $i => $mere) : ?>
-		<li><?php for($j=0; $j<$i ; $j++) echo "&nbsp";?><a href='<?php echo $url ?>&id_e=<?php echo $mere['id_e']?>'><?php echo $mere['denomination']?></a></li>
-		<?php endforeach; ?>
-			<?php if ($entite->exists()) : ?>
-			<li><?php for($j=0; $j<$i+1 ; $j++) echo "&nbsp;";?></li>
-			<?php endif;?>
-		<?php foreach($entite->getFille() as $fille): ?>
-			<li><?php for($j=0; $j<$i+2 ; $j++) echo "&nbsp";?><a href='<?php echo $url ?>&id_e=<?php echo $fille['id_e']?>'><?php echo $fille['denomination']?></a></li>
-		<?php endforeach; ?>
-	</ul>
-</div>
-	<?php 
-}
+		<ul>
+			<?php foreach($liste_collectivite as $col):
+				global $sqlQuery;
+				$entite = new Entite($sqlQuery,$col);
+				$entiteInfo = $entite->getInfo();
+			?>
+				<li>&nbsp;<a href='<?php echo $url ?>&id_e=<?php echo $col ?>'><?php echo $entiteInfo['denomination']?></a></li>
+			<?php endforeach; ?>
+		</ul>
+		<?php 
+		endif;
+	}
 	
+	public function navigation_collectivite(Entite $entite,$url){
+			$infoEntite = $entite->getInfo();
+			$i = 0;
+			
+		?>
+	<div class="box_contenu clearfix">
+		<h2>Navigation dans les collectivités</h2>
+		<ul>
+			<li>
+			<?php if ($entite->exists() ) : ?>
+				<a href='<?php echo $url ?>'>
+			<?php else : ?>
+				<b>	
+			<?php endif;?>
+			Toutes les collectivités
+			<?php if ( ! $entite->exists()) : ?>
+				</b>
+			<?php else :?>
+				</a>
+			<?php endif;?>
+			</li>
+			<?php foreach($entite->getAncetre() as $i => $mere) : ?>
+			<li><?php for($j=0; $j<$i ; $j++) echo "&nbsp";?><a href='<?php echo $url ?>&id_e=<?php echo $mere['id_e']?>'><?php echo $mere['denomination']?></a></li>
+			<?php endforeach; ?>
+				<?php if ($entite->exists()) : ?>
+				<li><?php for($j=0; $j<$i+1 ; $j++) echo "&nbsp;";?></li>
+				<?php endif;?>
+			<?php foreach($entite->getFille() as $fille): ?>
+				<li><?php for($j=0; $j<$i+2 ; $j++) echo "&nbsp";?><a href='<?php echo $url ?>&id_e=<?php echo $fille['id_e']?>'><?php echo $fille['denomination']?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+		<?php 
+	}
+		
 }

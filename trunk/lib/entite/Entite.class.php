@@ -115,6 +115,17 @@ class Entite  {
 		return $this->sqlQuery->fetchAll($sql,$this->id_e);
 	}
 	
+	public function getFilleWithType(array $type){
+		foreach($type as $i => $t){
+			$type[$i] = "'$t'";
+		}
+		$sql = "SELECT * FROM entite " .
+				" WHERE entite_mere=? " .
+				" AND type IN (".implode(",",$type).")" .
+				" ORDER BY denomination";
+		return $this->sqlQuery->fetchAll($sql,$this->id_e);
+	}
+	
 	public function getDescendance($id_e){
 		$sql = "SELECT id_e FROM entite_ancetre WHERE id_e_ancetre=?";
 		$r = $this->sqlQuery->fetchAll($sql,$id_e);
