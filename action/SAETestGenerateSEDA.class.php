@@ -20,7 +20,7 @@ class SAETestGenerateSEDA extends ActionExecutor {
 		
 		$donneesFormulaire->addFileFromData('sae_bordereau_test','bordereau.xml',$result);
 		
-		$this->setLastMessage("Le bordereau a été crée");
+		$this->setLastMessage("Le bordereau a été créé");
 		return true;
 	}
 	
