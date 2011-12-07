@@ -1,6 +1,6 @@
 Flux Généraux:
 	actes: Actes
-	message-service: Message à une entité fille
+	message-service:  Message interne
 	rh-messages: Message Centre de gestion
 	mailsec: Mail sécurisé
 
