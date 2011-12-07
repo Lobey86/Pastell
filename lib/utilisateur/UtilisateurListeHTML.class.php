@@ -46,9 +46,7 @@ class UtilisateurListeHTML {
 		<?php
 	}
 	
-	public function display(array $liste_utilisateur,$id_e,$droit_selected='',$descendance=''){
-		
-		?>
+	public function display(array $liste_utilisateur,$id_e,$droit_selected='',$descendance=''){ ?>
 		
 		<h2>Liste des utilisateurs
 		<?php if ($this->droitEdition) : ?>

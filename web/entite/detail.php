@@ -177,8 +177,6 @@ if (in_array($allTab[$tab_number],array('Agents','Tedetis','iparapheur','GED','S
 $theAction = $documentType->getAction();
 
 $actionPossible = new ActionPossible($sqlQuery,$id_e_to_show,$authentification->getId(),$theAction);
-//$actionPossible->setDocumentActionEntite($documentActionEntite);
-//$actionPossible->setDocumentEntite($documentEntite);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
 $actionPossible->setDonnesFormulaire($donneesFormulaire);
 $actionPossible->setEntite($entite_to_show);

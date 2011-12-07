@@ -65,9 +65,9 @@ class UtilisateurListe {
 	
 	public function getUtilisateurByEntite(array $id_e){
 		$all_id_e = implode(',',$id_e);
-		$sql = "SELECT * FROM utilisateur_role " . 
-				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
-				" JOIN entite ON utilisateur.id_e = entite.id_e " .
+		$sql = "SELECT * FROM  utilisateur " . 
+				" LEFT JOIN utilisateur_role  ON utilisateur_role.id_u = utilisateur.id_u ".
+				" LEFT JOIN entite ON utilisateur.id_e = entite.id_e " .
 				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
 		$all= $this->sqlQuery->fetchAll($sql);
