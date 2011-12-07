@@ -77,22 +77,26 @@ class DonneesFormulaire {
 	}
 	
 	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
+		$modif = array();
 		$allField = $this->formulaire->getAllFields();
 		foreach($recuperateur->getAll() as $key => $value){
 			$key = Field::Canonicalize($key);
 			if (isset($allField[$key])){
 				$this->info[$key] = $value;
 				$this->isModified = true;
+				$modif[] = $key;
 			}
 		}
 		foreach($fileUploader->getAll() as $filename => $name){
 			if (isset($allField[$filename])){
 				$this->saveFile($allField[$filename],$fileUploader);
+				$modif[] = $filename;
 			}
 		}
 		if ($this->isModified){
 			$this->saveDataFile();
 		}
+		return $modif;
 	}
 	
 	

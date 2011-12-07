@@ -28,7 +28,7 @@ class EntiteListe {
 		$result = array();
 		
 		$sql = "SELECT id_e,denomination,siren,type " . 
-				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur'  " .
+				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur' AND type != 'citoyen'  " .
 				" AND denomination LIKE ? ". 
 				" ORDER BY denomination" .
 				" LIMIT $offset,".self::NB_AFFICHABLE;
@@ -37,7 +37,7 @@ class EntiteListe {
 	
 	public function getNbCollectivite($search){
 		$sql = "SELECT count(*) " . 
-				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur'  AND denomination LIKE ? " ;
+				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur' AND type != 'citoyen'  AND denomination LIKE ? " ;
 		return $this->sqlQuery->fetchOneValue($sql,"%$search%");
 	}
 	
