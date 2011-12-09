@@ -16,7 +16,7 @@ class IParapheurRecup extends ActionExecutor {
 			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
 			return false;
 		}
-		if (strstr("#[Archive]#",$result)){
+		if (strstr($result,"[Archive]")){
 			return $this->retrieveDossier();
 		}
 		$this->setLastMessage($result);

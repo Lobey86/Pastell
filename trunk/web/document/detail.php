@@ -73,7 +73,7 @@ include( PASTELL_PATH ."/include/haut.php" );
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
 
-<a href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>'>« Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
+<a href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>&last_id=<?php echo $id_d ?>'>« Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
 <br/><br/>
 <?php
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
