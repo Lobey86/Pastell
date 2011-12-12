@@ -44,6 +44,7 @@ if( $info['id_e'] ){
 
 $arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:lecture");
 
+
 include( PASTELL_PATH ."/include/haut.php");
  include (PASTELL_PATH."/include/bloc_message.php"); ?>
 
