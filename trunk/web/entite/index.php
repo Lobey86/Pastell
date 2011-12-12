@@ -14,6 +14,8 @@ $search = $recuperateur->get('search');
 
 
 $liste_collectivite = $roleUtilisateur->getEntiteWithDenomination($authentification->getId(),'entite:lecture');
+
+
 $nbCollectivite = count($liste_collectivite);
 
 if ( ! $liste_collectivite){
