@@ -133,7 +133,7 @@ class RoleUtilisateur {
 	}
 	
 	public function getEntiteWithDenomination($id_u,$droit){
-		$sql = "SELECT utilisateur_role.*,denomination,siren,type " . 
+		$sql = "SELECT DISTINCT entite.id_e,denomination,siren,type " . 
 				" FROM utilisateur_role " .
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
 				" LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?  AND droit=?";

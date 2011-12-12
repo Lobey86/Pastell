@@ -29,17 +29,9 @@ $entiteListe = new EntiteListe($sqlQuery);
 
 $tabEntite = $roleUtilisateur->getEntite($authentification->getId(),'entite:edition');
 
-
 $notification = new Notification($sqlQuery);
 
 $roleInfo =  $roleUtilisateur->getRole($id_u);
-
-
-/*if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",$info['id_e'])) {
-	$lastError->setLastError("Vous n'avez pas le droit de lecture (".$info['id_e'].")");
-	header("Location: " . SITE_BASE . "index.php");
-	exit;
-}*/
 
 $utilisateur_edition = $roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$info['id_e']);
 
@@ -193,7 +185,10 @@ include( PASTELL_PATH ."/include/haut.php");
 				|_<?php echo $entiteInfo['denomination']?> </option>
 			<?php endforeach ; ?>
 		</select>
-		<?php  $documentTypeHTML->displaySelectWithCollectivite($documentTypeFactory); ?>
+		<?php  
+		$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
+		$documentTypeHTML->setDroit($allDroit);		
+		$documentTypeHTML->displaySelectWithCollectivite($documentTypeFactory); ?>
 			
 		<input type='submit' value='ajouter'/>
 	</form>
