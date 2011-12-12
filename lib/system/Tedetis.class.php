@@ -68,9 +68,7 @@ class Tedetis {
 			$this->lastError = "Ce module n'est pas activé";
 			return false;
 		}
-		
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
-		
 		if ( ! $output){
 			$this->lastError = $this->curlWrapper->getLastError();
 			return false;

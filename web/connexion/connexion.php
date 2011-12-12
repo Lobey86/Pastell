@@ -39,7 +39,7 @@ $utilisateurInfo = $utilisateur->getInfo();
 		<table>
 		<tr>
 		<th class="w50pc"><label for="login">Identifiant</label></th>
-		<td class="w50pc"><input type="text" name="login" id="login" autocomplete='off'/></td>
+		<td class="w50pc"><input type="text" name="login" id="login" class='noautocomplete'/></td>
 		</tr>
 		<tr>
 		<th><label for="password">Mot de passe</label></th>
