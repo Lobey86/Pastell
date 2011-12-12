@@ -19,6 +19,7 @@ $id_e = $recuperateur->get('id_e',0);
 $offset = $recuperateur->getInt('offset',0);
 $search = $recuperateur->get('search');
 $filtre = $recuperateur->get('filtre');
+$last_id = $recuperateur->get('last_id');
 
 $limit = 20;
 
@@ -93,6 +94,10 @@ if ($id_e != 0) {
 <p class='petit'><a href='document/search.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Recherche avancée</a></p>
 </div>
 <?php
+	if ($last_id){
+		$offset = $documentActionEntite->getOffset($last_id,$id_e,$type,$limit);
+	}
+
 	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search,$filtre ) ;
 	
 	$count = $documentActionEntite->getNbDocument($id_e,$type,$search,$filtre);

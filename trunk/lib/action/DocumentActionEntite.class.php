@@ -40,6 +40,23 @@ class DocumentActionEntite {
 		return $this->sqlQuery->fetchOneValue($sql,$data);
 	}
 	
+	public function getOffset($last_id,$id_e,$type,$limit){
+		$sql = "SELECT document_entite.last_action_date FROM document_entite WHERE id_d=? AND id_e=?";
+		$last_date = $this->sqlQuery->fetchOneValue($sql,$last_id,$id_e);
+		if (!$last_date){
+			return 0;
+		}
+		
+		$sql = "SELECT count(*)" .
+				"  FROM document_entite " .  
+				" JOIN document ON document_entite.id_d = document.id_d " .
+				" WHERE document_entite.id_e = ? AND document.type=? AND document_entite.last_action_date > ?" ;
+		$nb =  $this->sqlQuery->fetchOneValue($sql,$id_e,$type,$last_date);
+		
+		$offset = floor($nb / $limit)*$limit;
+		return $offset;
+	}
+	
 	public function getListDocument($id_e,$type,$offset,$limit,$search="",$etat = false){
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
