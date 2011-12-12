@@ -18,8 +18,15 @@ class RoleUtilisateur {
 	}
 	
 	public function addRole($id_u,$role,$id_e){
+		
+		
+		
 		$sql = "INSERT INTO utilisateur_role(id_u,role,id_e) VALUES (?,?,?)";
 		$this->sqlQuery->query($sql,$id_u,$role,$id_e);
+		
+		$sql = "DELETE FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
+		$this->sqlQuery->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
+		
 	}
 	
 	public function removeRole($id_u,$role,$id_e) {		
