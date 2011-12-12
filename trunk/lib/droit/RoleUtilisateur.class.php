@@ -20,12 +20,12 @@ class RoleUtilisateur {
 	public function addRole($id_u,$role,$id_e){
 		
 		
-		
 		$sql = "INSERT INTO utilisateur_role(id_u,role,id_e) VALUES (?,?,?)";
 		$this->sqlQuery->query($sql,$id_u,$role,$id_e);
-		
-		$sql = "DELETE FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
-		$this->sqlQuery->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
+		if ($role != RoleDroit::AUCUN_DROIT) {
+			$sql = "DELETE FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
+			$this->sqlQuery->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
+		}
 		
 	}
 	
@@ -90,16 +90,18 @@ class RoleUtilisateur {
 		return in_array($droit,$allDroit);
 	}
 	
-	private function linearize($line,&$all,$profondeur){
-		
-		return $result;
-	}
+	
 	
 	private function linearizeTab($id_e,&$all,$profondeur){
+		
 		$result = array();
 		if (empty($all[$id_e])){
+			foreach($all as $id_e => $line){
+				$result =array_merge($result,$this->linearizeTab($id_e,$all,0));	
+			}
 			return $result;
 		}
+		
 		foreach($all[$id_e] as $line)  {
 			$line['profondeur'] = $profondeur;
 			$result[] = $line;
@@ -129,7 +131,7 @@ class RoleUtilisateur {
 				" WHERE utilisateur_role.id_u=? AND droit=? ".
 				" ORDER BY entite_mere,denomination";
 				$result = array();
-				
+
 		foreach($this->sqlQuery->fetchAll($sql,$id_u,$droit) as $line){
 			$result[$line['entite_mere']][] = array(
 												'id_e' => $line['id_e'],
