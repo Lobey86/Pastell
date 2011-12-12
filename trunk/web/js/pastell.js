@@ -1,3 +1,7 @@
-function jauge(){
-	return true;
-}
+
+$(document).ready(function() {
+	
+	$(".noautocomplete").attr('autocomplete','off');
+	
+});
+

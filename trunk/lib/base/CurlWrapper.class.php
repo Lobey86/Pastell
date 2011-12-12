@@ -12,6 +12,8 @@ class CurlWrapper {
 	public function __construct(){
 		$this->curlHandle = curl_init();
 		$this->setProperties( CURLOPT_RETURNTRANSFER , 1); 
+		$this->setProperties(CURLOPT_FOLLOWLOCATION, 1);
+		$this->setProperties(CURLOPT_MAXREDIRS, 5);
 		$this->postFile = array();
 	}
 
@@ -30,22 +32,19 @@ class CurlWrapper {
 	public function setServerCertificate($serverCertificate){
 		$this->setProperties( CURLOPT_CAINFO ,$serverCertificate ); 
 		$this->setProperties( CURLOPT_SSL_VERIFYHOST , 0 ); 
-				//$this->setProperties( CURLOPT_SSL_VERIFYPEER , 0 ); 
 		
 	}
 	
 	public function setClientCertificate($clientCertificate,$clientKey,$clientKeyPassword)	{
-		
-		
 		$this->setProperties( CURLOPT_SSLCERT, $clientCertificate);
 		$this->setProperties( CURLOPT_SSLKEY, $clientKey);
 		$this->setProperties( CURLOPT_SSLKEYPASSWD,$clientKeyPassword );
-		
-		
 	}
 	
 	public function get($url){
 		$this->setProperties(CURLOPT_URL, $url);
+		
+		//$this->setProperties(CURLOPT_HEADER, 1);
 		$this->setProperties( CURLOPT_VERBOSE, 1); 
 		if ($this->postData || $this->postFile ){
 				$this->curlSetPostData();
@@ -57,7 +56,6 @@ class CurlWrapper {
 			$this->lastError = "Erreur de connexion au serveur : " . $this->lastError;
 			return false;
 		}	
-		
 		return $output;
 	}
 	
@@ -85,8 +83,6 @@ class CurlWrapper {
 	   	//cURL ne permet pas de poster plusieurs fichiers avec le même nom ! 
 		//cette fonction est inspiré de http://blog.srcmvn.com/multiple-values-for-the-same-key-and-file-upl
 		$this->setProperties(CURLOPT_POST,true);
-		
-		
 	    $boundary = $this->getBoundary();
 	
 	    $body = array();

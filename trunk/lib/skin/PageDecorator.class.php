@@ -57,9 +57,9 @@ class PageDecorator {
 	}
 	
 	public function displayHaut(){
-		header("Content-type: text/html; charset=ISO-8859-15");	 ?>
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+		header("Content-type: text/html; charset=iso-8859-15");	 ?>
+		<!DOCTYPE html>
+		<html>
 			<?php $this->displayHead();?>	
 			<body>
 				<div id="global">
@@ -87,7 +87,7 @@ class PageDecorator {
 			
 			<meta name="description" content="Pastell est un logiciel de gestion de flux de documents. Les documents peuvent être crées via un système de formulaires configurables. Chaque document suit alors un workflow prédéfini, également configurable." />
 			<meta name="keywords" content="Pastell, collectivité territoriale, flux, document, données, logiciel, logiciel libre, open source" />
-			<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+			<meta http-equiv="content-type" content="text/html; charset=iso-8859-15" />
 			
 			<base href='<?php echo $this->siteBase ?>' />
 			
