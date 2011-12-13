@@ -85,3 +85,8 @@ if (!defined("AGENT_FILE_PATH")){
 
 define("PRODUCTION",true);
 
+if (!defined("PLATEFORME_MAIL")){
+	define("PLATEFORME_MAIL","pastell@sigmalis.com");
+}
+
+

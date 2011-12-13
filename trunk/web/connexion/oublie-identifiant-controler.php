@@ -30,7 +30,7 @@ $utilisateur->reinitPassword($mailVerifPassword);
 
 
 $zenMail = new ZenMail($zLog);
-$zenMail->setEmmeteur("Pastell","pastell@sigmalis.com");
+$zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
 $zenMail->setDestinataire($info['email']);
 $zenMail->setSujet("[Pastell] Procédure de modification de mot de passe");
 $infoMessage = array('mail_verif_password'=>$mailVerifPassword);
