@@ -59,6 +59,10 @@ $arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edit
 include( PASTELL_PATH ."/include/haut.php");
 
 ?>
+<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$info['id_e']) && $info['id_e']) : ?>
+<a href='entite/detail.php?id_e=<?php echo $info['id_e'] ?>&page=1'>« Revenir à <?php echo $infoEntiteDeBase['denomination'] ?></a>
+<?php endif; ?>
+
 <br/><br/>
 
 
