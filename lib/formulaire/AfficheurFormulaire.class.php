@@ -98,7 +98,7 @@ class AfficheurFormulaire {
 							<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
 						<?php endif; ?>
 						<?php if ($field->isMultiple()): ?>
-							<input class='input_normal' type='submit' name='ajouter' value='Ajouter' />
+							<input class='input_normal send_button' type='submit' name='ajouter' value='Ajouter' />
 						<?php endif;?>
 						<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
 						<br/>
@@ -190,13 +190,13 @@ class AfficheurFormulaire {
 		<?php endif;?>
 		
 		<?php if ($page_number > 0 ): ?>
-				<input type='submit' name='precedent' value='« Précédent' />
+				<input type='submit' name='precedent' value='« Précédent' class='send_button'/>
 		<?php endif; ?>
 		
-			<input type='submit' name='enregistrer' value='Enregistrer'/>
+			<input type='submit' name='enregistrer' value='Enregistrer' class='send_button' />
 			
 		<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
-				<input type='submit' name='suivant' value='Suivant »' />
+				<input type='submit' name='suivant' value='Suivant »' class='send_button' />
 		<?php endif; ?>
 		</form>
 	<?php }
