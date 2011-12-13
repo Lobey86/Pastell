@@ -18,14 +18,12 @@ class NotificationMail {
 	
 		$lesEmails = $this->notification->getMail($id_e,$type,$action);
 		
-		foreach($lesEmails as $mail){
-			
-			$this->zenMail->setEmmeteur("Pastell","pastell@sigmalis.com");
+		foreach($lesEmails as $mail){			
+			$this->zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
 			$this->zenMail->setDestinataire($mail);
 			$this->zenMail->setSujet("[Pastell] Notification");
 			$info = array('message'=>$message);
 			$this->zenMail->setContenu(PASTELL_PATH . "/mail/notification.php",$info);
-			
 			$this->zenMail->send();
 			$this->journal->addActionAutomatique(Journal::NOTIFICATION,$id_e,$id_d,$action,"notification envoyée à $mail");
 		}
