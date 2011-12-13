@@ -16,6 +16,8 @@ require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
+
+
 //Récupération des données
 $recuperateur = new Recuperateur($_POST);
 $id_d = $recuperateur->get('id_d');
