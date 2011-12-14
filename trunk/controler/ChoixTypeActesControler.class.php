@@ -16,6 +16,13 @@ class ChoixTypeActesControler {
 		return $this->lastError;
 	}
 	
+	public function isEnabled($id_e){
+		if (! $this->get($id_e)){
+			return false;
+		}
+		return true;
+	}
+	
 	public function getData($id_e){
 		$file = $this->get($id_e);
 

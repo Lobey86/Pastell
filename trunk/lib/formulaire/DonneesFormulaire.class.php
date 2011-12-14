@@ -48,6 +48,16 @@ class DonneesFormulaire {
 			}
 			if ( $type == 'file'){
 				$this->saveFile($field,$fileUploader);
+			} elseif($field->getProperties('depend')) {
+				foreach($this->get($field->getProperties('depend')) as $i => $file){
+					if (empty($this->info[$field->getName()."_$i"])){
+						$this->info[$field->getName()."_$i"] = false;
+					}
+					if ($this->info[$field->getName()."_$i"] != $recuperateur->get($field->getName()."_$i")){
+						$this->info[$field->getName()."_$i"] = $recuperateur->get($field->getName()."_$i");
+						$this->isModified = true;
+					}
+				}				
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
@@ -58,22 +68,28 @@ class DonneesFormulaire {
 				if ( ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
 					$this->onChangeHook = $field->getOnChange();
 				}
+				 
+				
 				if ( ( ($type != 'password' ) || $field->getProperties('may_be_null')  ) ||  $value){
-					
-					if ($this->info[$name] != $value){
-						$this->isModified = true;
-					}
-					if ($type == 'date'){
-						$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
-					}
-					if ($type == 'password'){
-						$value = "'$value'";
-					}
-					$this->info[$name] = $value;
+					$this->setInfo($field,$value);					
 				}
 			}
 		}
 		$this->saveDataFile();
+	}
+	
+	private function setInfo(Field $field, $value){
+		if ($this->info[$field->getName()] == $value){
+			return;
+		}
+		if ($field->getType() == 'date'){
+			$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
+		}
+		if ($field->getType() == 'password'){
+			$value = "'$value'";
+		}
+		$this->info[$field->getName()] = $value;
+		$this->isModified = true;
 	}
 	
 	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
@@ -82,8 +98,7 @@ class DonneesFormulaire {
 		foreach($recuperateur->getAll() as $key => $value){
 			$key = Field::Canonicalize($key);
 			if (isset($allField[$key])){
-				$this->info[$key] = $value;
-				$this->isModified = true;
+				$this->setInfo($allField[$key],$value);		
 				$modif[] = $key;
 			}
 		}

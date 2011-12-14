@@ -80,4 +80,18 @@ class Field {
 		return $this->properties[$properties];
 	}
 	
+	public function isEnabled($id_e){
+		if ( ! $this->getProperties('controler')){
+			return true;
+		}
+		$controler = $this->getProperties('controler') . "Controler";
+		require_once(__DIR__."/../../controler/$controler.class.php");
+		global $sqlQuery;
+		global $donneesFormulaireFactory;
+		$controlerInstance = new $controler($sqlQuery,$donneesFormulaireFactory);
+		return $controlerInstance->isEnabled($id_e);
+		
+	}
+	
+	
 }
