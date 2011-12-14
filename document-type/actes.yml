@@ -47,6 +47,7 @@ formulaire:
 			script: choix-classification.php
 			script-controler: choix-classification-controler.php
 			link_name: liste des matières et sous-matières
+			controler: ChoixClassification
 		envoi_iparapheur: {name: Transmission au parapheur, type: checkbox}
 		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}

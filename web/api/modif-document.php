@@ -33,6 +33,9 @@ $document->setTitre($id_d,$titre);
 
 foreach($modif as $field_name){
 	$field = $formulaire->getField($field_name);
+	if (!$field){
+		continue ;
+	}
 	$script = $field->getProperties('controler');
 	
 	$name = "{$script}Controler";

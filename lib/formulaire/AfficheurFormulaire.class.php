@@ -88,9 +88,18 @@ class AfficheurFormulaire {
 					</th>
 					<td> 
 					<?php if ($field->getType() == 'checkbox') :?>
+						<?php if ($field->getProperties('depend')) : ?>
+							<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?>
+								<input type='checkbox' name='<?php echo $field->getName()."_$i"; ?>' id='<?php echo $field->getName()."_$i";?>' 
+									<?php echo $this->donneesFormulaire->geth($field->getName()."_$i")?"checked='checked'":'' ?>
+									/><?php echo $file ?> 
+									<br/>
+							<?php endforeach;?>
+						<?php else:?>
 							<input type='checkbox' name='<?php echo $field->getName(); ?>' id='<?php echo $field->getName();?>' 
 									<?php echo $this->donneesFormulaire->geth($field->getName())?"checked='checked'":'' ?>
 									/>
+						<?php endif; ?>
 					<?php elseif($field->getType() == 'textarea') : ?>
 						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName(),$field->getDefault())?></textarea>
 					<?php elseif($field->getType() == 'file') :?>
@@ -123,7 +132,11 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
+						<?php if($field->isEnabled($this->inject['id_e'])) :?>
 						<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+							<?php else : ?>
+							non disponible
+						<?php endif;?>
 						<?php echo $this->donneesFormulaire->get($field->getName())?>
 					<?php elseif ($field->getType() == 'password') : ?>
 						<input 	type='password' 	
@@ -244,7 +257,14 @@ class AfficheurFormulaire {
 					</td>
 					<td>
 						<?php if ($field->getType() == 'checkbox') :?>
-							<?php echo $this->donneesFormulaire->geth($field->getName())?"OUI":"NON" ?>
+							<?php if ($field->getProperties('depend')) : ?>
+								<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?> 
+										<?php echo $file ?> : <?php echo $this->donneesFormulaire->geth($field->getName()."_$i")?"OUI":"NON" ?>
+										<br/>
+								<?php endforeach;?>
+							<?php else: ?>
+								<?php echo $this->donneesFormulaire->geth($field->getName())?"OUI":"NON" ?>
+							<?php endif; ?>
 						<?php elseif($field->getType() == 'file') : ?>
 							<?php if ($this->donneesFormulaire->get($field->getName())):
 									foreach($this->donneesFormulaire->get($field->getName()) as $num => $fileName ): ?>

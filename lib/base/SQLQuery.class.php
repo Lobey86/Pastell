@@ -15,10 +15,10 @@ class SQLQuery {
 	
 	private $zLog;
 	
-	public function __construct($dsn,$user = null,$password = null){
-		$this->dsn = $dsn;
-		$this->user = $user;
-		$this->password = $password;
+	public function __construct($bd_dsn,$bd_user = null,$bd_password = null){
+		$this->dsn = $bd_dsn;
+		$this->user = $bd_user;
+		$this->password = $bd_password;
 		$this->setLog(new ZLog());
 	}
 

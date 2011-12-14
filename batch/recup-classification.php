@@ -6,6 +6,7 @@ require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 
+
 $entiteListe = new EntiteListe($sqlQuery);
 
 $liste_collectivite = $entiteListe->getAll('collectivite');
@@ -27,7 +28,8 @@ foreach($liste_collectivite as $col){
 		
 			if ($result){
 				$donneesFormulaire->addFileFromData("classification_file","classification.xml",$result);
-				$message = "Classification de la collectivité {$col['denomination']} mise à jour";
+				$message = "Classification de la collectivité {$col['denomination']} mise à jour";				
+				$objectInstancier->ChoixClassificationControler->disabledClassificationCDG($col['id_e']);
 			} else {
 				$message =  "Problème lors de la récuperation de la classification de {$col['denomination']}";
 			}
@@ -40,5 +42,9 @@ foreach($liste_collectivite as $col){
 		echo " Module S²low desactivé";
 	}
 	echo "\n";
-	
 }
+
+
+
+
+
