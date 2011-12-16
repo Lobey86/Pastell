@@ -25,7 +25,6 @@ class AnnuaireGroupe {
 	}
 	
 	public function add($nom){
-		
 		$id_g = $this->getFromNom($nom);
 		if ( ! $id_g){
 			$sql = "INSERT INTO annuaire_groupe (id_e,nom) VALUES (?,?)";

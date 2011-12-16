@@ -4,6 +4,7 @@ require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentEmail.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireGroupe.class.php");
+require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireRoleSQL.class.php");
 
 class EnvoyerMailSec extends ActionExecutor {
 	
@@ -45,6 +46,7 @@ class EnvoyerMailSec extends ActionExecutor {
 	public function go(){
 		
 		$annuaireGroupe = new AnnuaireGroupe($this->getSQLQuery(),$this->id_e);
+		$annuaireRoleSQL = new AnnuaireRoleSQL($this->getSQLQuery());
 		
 		
 		$this->prepareMail();
@@ -59,6 +61,14 @@ class EnvoyerMailSec extends ActionExecutor {
 					$groupe = $matches[1];
 					$id_g = $annuaireGroupe->getFromNom($groupe);
 					$utilisateur = $annuaireGroupe->getUtilisateur($id_g);
+					foreach($utilisateur as $u){
+						$this->sendEmail($u['email'],$type);
+					}
+				} elseif(preg_match("/^role: \"(.*)\"$/",$mail,$matches)){
+					$role = $matches[1];
+					$id_r = $annuaireRoleSQL->getFromNom($this->id_e,$role);
+					$utilisateur = $annuaireRoleSQL->getUtilisateur($id_r);
+					
 					foreach($utilisateur as $u){
 						$this->sendEmail($u['email'],$type);
 					}
