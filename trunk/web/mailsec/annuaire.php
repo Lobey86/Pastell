@@ -27,7 +27,10 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 
 ?>
 <a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=3'>« Administration de <?php echo $infoEntite['denomination']?></a>
+<br/><br/>
 <a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes »</a>
+<br/>
+<a href='mailsec/groupe-role-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes basé sur les rôles »</a>
 
 <br/><br/>
 <div class="box_contenu">

@@ -12,6 +12,10 @@ function is_mail($mail){
 	if (preg_match('/^groupe: ".*"$/',$mail)){
 		return true;
 	}
+	
+	if (preg_match('/^role: ".*"$/',$mail)){
+		return true;
+	}
 
 	return false;
 }
