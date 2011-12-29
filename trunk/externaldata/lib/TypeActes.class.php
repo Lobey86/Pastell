@@ -19,8 +19,12 @@ class TypeActes {
 		
 		$type = array();
 		while( $ligne = fgetcsv($file_handle)){
-			if ($ligne[2] == 0 ){
+			if (empty($ligne[2]) ){
 				continue;
+			}
+			
+			if (empty($ligne[7]) ){
+				$ligne[7] = "non";
 			}
 			
 			$type[$ligne[2]] = array( 'nom' =>  trim($ligne[0]),
@@ -28,7 +32,8 @@ class TypeActes {
 									'code_actes' => trim($ligne[3]),
 									'transmission_actes' => ($ligne[4] == 'oui'),
 									'transmission_cdg' => ($ligne[5] == 'oui'),
-									'archivage' => ($ligne[6] == 'oui')
+									'archivage' => ($ligne[6] == 'oui'),
+									'signature' => ($ligne[7] == 'oui'),
 			);
 		}
 		return $type;

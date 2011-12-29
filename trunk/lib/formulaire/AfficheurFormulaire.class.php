@@ -88,7 +88,9 @@ class AfficheurFormulaire {
 					</th>
 					<td> 
 					<?php if ($field->getType() == 'checkbox') :?>
-						<?php if ($field->getProperties('depend')) : ?>
+						<?php if ($field->getProperties('depend') && $this->donneesFormulaire->get($field->getProperties('depend'))) : 
+						
+						?>
 							<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?>
 								<input type='checkbox' name='<?php echo $field->getName()."_$i"; ?>' id='<?php echo $field->getName()."_$i";?>' 
 									<?php echo $this->donneesFormulaire->geth($field->getName()."_$i")?"checked='checked'":'' ?>

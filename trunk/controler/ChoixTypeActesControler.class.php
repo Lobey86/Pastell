@@ -123,6 +123,8 @@ class ChoixTypeActesControler {
 		$donneesFormulaire->setData('envoi_tdt_obligatoire',$info['transmission_actes']);
 		$donneesFormulaire->setData('envoi_cdg',$info['transmission_cdg']);
 		$donneesFormulaire->setData('archivage',$info['archivage']);
+		$donneesFormulaire->setData('envoi_iparapheur',$info['signature']);
+		
 		return true;
 	}
 	
