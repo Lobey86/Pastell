@@ -29,9 +29,13 @@ class SignServer {
 		$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);
 		
 		$url = $this->url . "&encoding=base64&data=" . urlencode(base64_encode($timestampRequest));
-		$timestampReply = $this->curlWrapper->get($url);
+				
+		//$timestampReply = $this->curlWrapper->get($url);
+		$timestampReply = file_get_contents($url);
+		
 	  	if (! $timestampReply){
-	  		$this->lastError = $this->curlWrapper->getLastError();
+	  		$this->lastError = "Erreur lors de la connexion au signserver";
+	  		//$this->lastError = $this->curlWrapper->getLastError();
 	  		return false;
 	  	}
 	  	

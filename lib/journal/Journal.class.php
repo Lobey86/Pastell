@@ -150,4 +150,22 @@ class Journal {
 		return $this->sqlQuery->fetchOneLine($sql,$id_j);
 	}
 	
+	public function horodateAll(){
+		$sql = "SELECT * FROM journal WHERE preuve=?";
+		$all = $this->sqlQuery->fetchAll($sql,"");
+		$sql = "UPDATE journal set preuve=?,date_horodatage=? WHERE id_j=?";
+		foreach ($all as $info){
+			$preuve = $this->signServer->getTimestampReply($info['message_horodate']);
+			$date_horodatage = "";
+			if ($preuve){
+				$date_horodatage = $this->signServer->getLastTimestamp();
+				$this->sqlQuery->query($sql,$preuve,$date_horodatage,$info['id_j']);
+				echo "{$info['id_j']} horodaté : $date_horodatage \n";
+			}
+			
+		}
+		
+	}
+	
+	
 }
