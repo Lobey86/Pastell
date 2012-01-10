@@ -80,6 +80,14 @@ class Field {
 		return $this->properties[$properties];
 	}
 	
+	public function getAllProperties(){
+		$result = $this->properties;
+		if (empty($result['name'])){
+			$result['name'] = $this->getLibelle(); 
+		}
+		return $result;
+	}
+	
 	public function isEnabled($id_e){
 		if ( ! $this->getProperties('controler')){
 			return true;
