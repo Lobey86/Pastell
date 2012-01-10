@@ -6,7 +6,7 @@ require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 $recuperateur = new Recuperateur($_POST);
 $id_e = $recuperateur->get('id_e');
-$description = $recuperateur->get('description');
+$description = $recuperateur->get('description',"");
 $email = $recuperateur->get('email');
 
 

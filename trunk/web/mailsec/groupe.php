@@ -2,10 +2,12 @@
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireGroupe.class.php");
+require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');
 $id_g = $recuperateur->getInt('id_g');
+$offset = $recuperateur->getInt('offset');
 
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:lecture",$id_e)){
@@ -17,8 +19,9 @@ $annuaireGroupe = new AnnuaireGroupe($sqlQuery,$id_e);
 
 $infoGroupe = $annuaireGroupe->getInfo($id_g);
 
-$listUtilisateur = $annuaireGroupe->getUtilisateur($id_g);
+$listUtilisateur = $annuaireGroupe->getUtilisateur($id_g,$offset);
 
+$nbUtilisateur = $annuaireGroupe->getNbUtilisateur($id_g);
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
@@ -35,6 +38,10 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 <br/><br/>
 <div class="box_contenu">
 <h2>Liste des contacts de «<?php echo $infoGroupe['nom']?>» </h2>
+
+<?php suivant_precedent($offset,AnnuaireGroupe::NB_MAX,$nbUtilisateur,"mailsec/groupe.php?id_e=$id_e&id_g=$id_g"); ?>
+
+
 
 <form action='mailsec/del-contact-from-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
