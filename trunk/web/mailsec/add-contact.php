@@ -23,6 +23,12 @@ if ( ! is_mail($email)){
 
 $annuaire = new Annuaire($sqlQuery,$id_e);
 
+if($annuaire->getFromEmail($email)){
+	$lastError->setLastError("$email existe déjà dans l'annuaire");
+	header("Location: annuaire.php?id_e=$id_e");
+	exit;	
+}
+
 $annuaire->add($description,$email);
 
 $mail = htmlentities("\"$description\"<$email>",ENT_QUOTES);
