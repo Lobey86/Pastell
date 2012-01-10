@@ -24,6 +24,7 @@ if (! $timestamp_reply){
 }
 
 
+
 /*$result = $opensslTSWrapper->verify($data_to_horodate,$timestamp_reply,SIGN_SERVER_CERTIFICATE);
 
 
