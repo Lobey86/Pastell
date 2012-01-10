@@ -3,7 +3,6 @@
 require_once( PASTELL_PATH . "/externaldata/lib/IParapheurType.class.php");
 
 
-
 $page_title = "Choix d'un type de document";
 include( PASTELL_PATH ."/include/haut.php");
 

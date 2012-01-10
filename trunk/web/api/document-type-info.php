@@ -9,11 +9,12 @@ if ( ! $roleUtilisateur->hasOneDroit($id_u,"$type:lecture")) {
 }
 
 
-$documentType = $documentTypeFactory->getDocumentTypeContent($type);
+$documentType = $documentTypeFactory->getDocumentType($type);
+$formulaire = $documentType->getFormulaire();
 
-$field = array();
-foreach($documentType['formulaire'] as $onglet){
-	$field += $onglet;
+foreach($formulaire->getAllFields() as $key => $fields){	
+	$result[$key] = $fields->getAllProperties(); 	
 }
-$JSONoutput->display($field);
+
+$JSONoutput->display($result);
 
