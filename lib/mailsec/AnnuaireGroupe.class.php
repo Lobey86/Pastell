@@ -1,8 +1,11 @@
 <?php
 class AnnuaireGroupe {
 	
+	const NB_MAX = 5;
+	
 	private $sqlQuery;
 	private $id_e;
+	
 	
 	public function __construct($sqlQuery,$id_e){
 		$this->sqlQuery = $sqlQuery;
@@ -40,7 +43,7 @@ class AnnuaireGroupe {
 	public function getUtilisateur($id_g,$offset = 0){
 		$sql = "SELECT * FROM annuaire_groupe_contact " . 
 				" JOIN annuaire ON annuaire_groupe_contact.id_a=annuaire.id_a " .
-				" WHERE id_g=? LIMIT $offset,20";
+				" WHERE id_g=? LIMIT $offset,".self::NB_MAX;
 		return $this->sqlQuery->fetchAll($sql,$id_g);
 	}
 	
