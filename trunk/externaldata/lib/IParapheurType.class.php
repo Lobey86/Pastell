@@ -25,7 +25,7 @@ class IparapheurType {
 				<input type='hidden' name='page' value='<?php echo $page?>' />
 				<input type='hidden' name='field' value='<?php echo $field?>' />
 				
-				<select name='iparapheurtype'>
+				<select name='iparapheur_sous_type'>
 				<?php foreach($iparapheur_type as $num => $type_message) : ?>
 					<option value='<?php echo $num?>'><?php echo $type_message?></option>
 				<?php endforeach; ?>

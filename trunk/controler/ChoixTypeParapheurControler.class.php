@@ -34,7 +34,7 @@ class ChoixTypeParapheurControler {
 	public function get(){}
 	
 	public function set($id_e,$id_d,$type,Recuperateur $recuperateur){
-		$iparapheurtype = $recuperateur->getInt('iparapheurtype',0);
+		$iparapheurtype = $recuperateur->getInt('iparapheur_sous_type',0);
 		$iParapheurType= new IParapheurType();
 		$iParapheurType->setSousType($iparapheurtype,$this->sqlQuery,$this->donneesFormulaireFactory,$id_d,$id_e,$type);
 	}
