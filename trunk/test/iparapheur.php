@@ -10,5 +10,8 @@ $collectiviteProperties = $donneesFormulaireFactory->get(3,'collectivite-propert
 
 $iParapheur = new IParapheur($collectiviteProperties);
 
-$result = $iParapheur->getSignature("444");
+$result = $iParapheur->getSignature("1327659072"); //marche pas, ne renvoie rien
+
+//$result = $iParapheur->getSignature("1327646102"); //fonctionne normalement
+
 print_r($result);
