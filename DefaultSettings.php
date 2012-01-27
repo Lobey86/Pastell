@@ -47,7 +47,7 @@ if (! defined("BD_DSN_TEST")){
 //Définition de la connexion au SignServer
 if (! defined("SIGN_SERVER_URL")){
 	//define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");
-	define("SIGN_SERVER_URL", "http://127.0.0.4/demo/timestamp-server.php?workerId=1");	
+	define("SIGN_SERVER_URL", "http://127.0.0.1/adullact/pastell/web/demo/timestamp-server.php?workerId=1");	
 }
 
 //Certificat de signature des timestamps
@@ -76,7 +76,7 @@ if (! defined("ENABLE_VERIF_ENVIRONNEMENT")){
 //ex : http://www.sigmalis.com/pastell/
 //Toujours finir l'adresse par un /
 if (!defined("SITE_BASE")){
-	define("SITE_BASE","https://127.0.0.4/");
+	define("SITE_BASE","http://127.0.0.1/adullact/pastell/web/");
 }
 
 if (!defined("AGENT_FILE_PATH")){

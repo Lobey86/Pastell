@@ -7,7 +7,7 @@ class MySoapClient extends SoapClient {
 	
     public function __doRequest($request, $location, $action, $version, $one_way = 0)
     {
-        $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+        $response = parent::__doRequest($request, $location, $action, $version, $one_way);        
         // strip away everything but the xml.
         $response = preg_replace('#^.*(<\?xml.*>)[^>]*$#s', '$1', $response);
         return $response;
@@ -41,6 +41,7 @@ class IParapheur {
 	public function getSignature($dossierID){
 		try{
 			$result =  $this->getClient()->GetDossier($dossierID);
+				
 			if ($result->MessageRetour->codeRetour != 'OK'){
 				$message = "[{$result->MessageRetour->severite}] {$result->MessageRetour->message}";
 				$this->lastError = utf8_decode($message);
@@ -48,7 +49,7 @@ class IParapheur {
 			}
 			return $result->SignatureDocPrincipal->_;
 		} catch (Exception $e){
-		 	$this->lastError = $e->getMessage();
+		 	$this->lastError = "Erreur sur la récuperation de la signature : ".$e->getMessage();
 			return false;			
 		}
 	}
@@ -57,6 +58,7 @@ class IParapheur {
 	public function getHistorique($dossierID){
 		try{
 			$result =  $this->getClient()->GetHistoDossier($dossierID);
+			
 			if ( empty($result->LogDossier)){
 				$this->lastError = "Le dossier n'a pas été trouvé";
 				return false;
@@ -104,7 +106,7 @@ class IParapheur {
 	public function sendDocumentTest(){
 		$dossierID = mt_rand();
 		$document = file_get_contents(PASTELL_PATH . "/data-exemple/exemple.pdf");		
-		return $this->sendDocument("ACTES","Délibérations",$dossierID,$document,"application/pdf");
+		return $this->sendDocument("Actes","deliberation",$dossierID,$document,"application/pdf");
 	}
 	
 	
@@ -115,11 +117,11 @@ class IParapheur {
 		}
 		if ( ! $this->activate){
 			$this->lastError = "Le module n'est pas activé";
-			return false;
+			throw new Exception("Le module n'est pas activé");
 		}
 		if (! $this->wsdl ){
 			$this->lastError = "Le WSDL n'a pas été fourni";
-			return false;
+			throw new Exception("Le WSDL n'a pas été fourni");
 		}
 		try {
 			$client = new MySoapClient(
@@ -133,7 +135,7 @@ class IParapheur {
 	    		));
 		} catch (Exception $e){
 			$this->lastError = $e->getMessage();
-			return false;
+			throw new Exception($this->lastError );
 		}
 		return $client;
 	} 

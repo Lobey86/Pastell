@@ -28,7 +28,7 @@ class ChoixTypeParapheurControler {
 	
 	public function getData($id_e){
 		$iParapheur = $this->getIParapheur($id_e);
-		return $iParapheur->getSousType("ACTES");
+		return $iParapheur->getSousType("Actes");
 	}
 	
 	public function get(){}
