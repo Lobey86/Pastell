@@ -19,8 +19,8 @@ $delib['Deliberation']['num_delib']   = time();
 $delib['Deliberation']['code']        =  '1.1.3';
 
 
-$annexes[]                            = __DIR__."/annexe02.pdf";
-$annexes[]                            = __DIR__."/annexe01.pdf";;
+$annexes[]                            = __DIR__."/annexe_02.pdf";
+$annexes[]                            = __DIR__."/annexe_01.pdf";;
 
 /////////////////////////////////////
 // Actions envoyées à PASTELL
