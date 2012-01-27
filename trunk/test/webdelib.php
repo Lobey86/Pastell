@@ -7,7 +7,8 @@ ini_set('display_errors', 1);
 /////////////////////////////////////
 define('login',    'col1');
 define('password', 'col1');
-define('host',     'http://127.0.0.1/adullact/pastell');
+//define('host',     'http://127.0.0.1/adullact/pastell');
+define('host',     'http://pastell.test.adullact.org');
 $id_e         = 3;
 $circuit_id   = 2;
 
@@ -25,6 +26,13 @@ $annexes[]                            = __DIR__."/annexe.pdf";;
 // Actions envoyées à PASTELL
 /////////////////////////////////////
 $id_d   = createDocument($id_e);
+
+echo "Création du document : $id_d ";
+
+if (! $id_d){
+	exit;
+}
+
 $result = modifyDocument($id_e, $id_d, $delib, $annexes);
 insertInParapheur($id_e, $id_d);
 insertInCircuit($id_e, $id_d, $circuit_id);
