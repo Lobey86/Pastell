@@ -5,7 +5,7 @@ require_once(dirname(__FILE__)."/../DefaultSettings.php");
 set_include_path( __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
 
 function __autoload($class_name) {	
-	@ $result = include($class_name . '.class.php');
+	$result = include($class_name . '.class.php');
 	if(!$result){
 		throw new Exception("Impossible de trouver $class_name");
 	}
