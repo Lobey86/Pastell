@@ -7,8 +7,8 @@ ini_set('display_errors', 1);
 /////////////////////////////////////
 define('login',    'col1');
 define('password', 'col1');
-//define('host',     'http://127.0.0.1/adullact/pastell');
-define('host',     'http://pastell.sigmalis.com');
+define('host',     'http://127.0.0.1/adullact/pastell');
+//define('host',     'http://pastell.sigmalis.com');
 $id_e         = 3;
 $circuit_id   = 2;
 
@@ -19,8 +19,9 @@ $delib['Deliberation']['num_delib']   = time();
 $delib['Deliberation']['code']        =  '1.1.3';
 
 
-$annexes[]                            = __DIR__."/annexe_02.pdf";
-$annexes[]                            = __DIR__."/annexe_01.pdf";;
+$annexes = array();
+//$annexes[]                            = __DIR__."/annexe_02.pdf";
+//$annexes[]                            = __DIR__."/annexe_01.pdf";;
 
 /////////////////////////////////////
 // Actions envoyées à PASTELL
@@ -50,7 +51,7 @@ $curl = curl_init();
 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC) ;
 curl_setopt($curl, CURLOPT_USERPWD, login.":".password);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_URL, host."/api/$api");
+curl_setopt($curl, CURLOPT_URL, host."/web/api/$api");
 if (!empty($data)) {
 curl_setopt($curl, CURLOPT_POST, TRUE);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $data );
