@@ -30,7 +30,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 <br/><br/>
 <a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes »</a>
 <br/>
-<a href='mailsec/groupe-role-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes basé sur les rôles »</a>
+<a href='mailsec/groupe-role-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes basés sur les rôles »</a>
 
 <br/><br/>
 <div class="box_contenu">
