@@ -35,6 +35,14 @@ CREATE TABLE annuaire_groupe_contact (
 	`id_a` int(11) NOT NULL,
 	`id_g` int(11) NOT NULL
 )  ENGINE=MyISAM  ;
+CREATE TABLE annuaire_role (
+	`id_r` int(11) NOT NULL AUTO_INCREMENT,
+	`nom` varchar(64) NOT NULL,
+	`id_e_owner` int(11) NOT NULL,
+	`id_e` int(11) NOT NULL,
+	`role` varchar(32) NOT NULL,
+	PRIMARY KEY (`id_r`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE document (
 	`id_d` varchar(32) NOT NULL,
 	`type` varchar(32) NOT NULL,
