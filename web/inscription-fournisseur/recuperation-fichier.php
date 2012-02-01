@@ -17,7 +17,7 @@ if (! file_exists($file_path)){
 }
 
 header("Content-type: ".mime_content_type($file_path));
-header("Content-disposition: attachment; filename=$file_name");
+header("Content-disposition: attachment; filename=\"$file_name\"");
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Pragma: public");
