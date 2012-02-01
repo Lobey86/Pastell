@@ -38,7 +38,7 @@ class ZenMail{
 	}
 	
 	public function setSujet($sujet){
-		$this->sujet =  "=?UTF-8?Q?".utf8_encode($sujet)."?=";
+		$this->sujet =  "=?utf-8?Q?".imap_8bit(utf8_encode($sujet))."?=";
 	}
 	
 	public function setContenu($script,$info){
@@ -46,7 +46,6 @@ class ZenMail{
 			include($script);
 			$this->contenu = ob_get_contents();
 		ob_end_clean();
-	
 	}	
 	
 	
