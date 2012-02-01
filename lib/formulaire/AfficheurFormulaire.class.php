@@ -259,7 +259,7 @@ class AfficheurFormulaire {
 					</td>
 					<td>
 						<?php if ($field->getType() == 'checkbox') :?>
-							<?php if ($field->getProperties('depend')) : ?>
+							<?php if ($field->getProperties('depend') && $this->donneesFormulaire->get($field->getProperties('depend'))) : ?>
 								<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?> 
 										<?php echo $file ?> : <?php echo $this->donneesFormulaire->geth($field->getName()."_$i")?"OUI":"NON" ?>
 										<br/>

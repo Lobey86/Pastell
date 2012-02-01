@@ -166,8 +166,11 @@ class DocumentActionEntite {
 			$binding[] = "%$search%";
 		}
 		if ($state) {
-			$sql .= " AND document_entite.last_action=?";
-			$binding[] = $state;
+			foreach(explode(",",$state) as $s){
+				$r[]="'".addslashes($s)."'";
+			}
+			$sql .= " AND document_entite.last_action IN (".implode(",",$r).")";
+			//$binding[] = $state;
 		}
 		if ($last_state_begin){
 			$sql .= " AND document_entite.last_action_date>?";

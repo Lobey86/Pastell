@@ -78,9 +78,11 @@ class DocumentTypeFactory {
 		foreach($allType as $typeName){
 			$action = $this->getDocumentType($typeName)->getAction();
 			foreach ($action->getAll() as $actionName){
-				$result[$actionName] = $action->getActionName($actionName);
+				$affiche_name = $action->getActionName($actionName);
+				$result[$typeName][$affiche_name][] = $actionName;
 			}
 		}
+		
 		return $result;
 	}
 	
