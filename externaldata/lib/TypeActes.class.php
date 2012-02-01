@@ -19,7 +19,13 @@ class TypeActes {
 		
 		$type = array();
 		while( $ligne = fgetcsv($file_handle)){
+			
+			
+			
 			if (empty($ligne[2]) ){
+				continue;
+			}
+			if (! preg_match("#^[0-9\.]*$#",$ligne[1])){
 				continue;
 			}
 			
