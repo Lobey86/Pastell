@@ -82,11 +82,16 @@ $liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 		<th>Dernier état</th>
 		<td><select name='lastetat'>
 			<option value=''>N'importe quel état</option>
-			<?php foreach($listeEtat as $etat => $nameEtat): ?>
-				<option value='<?php echo $etat?>' <?php echo $etat == $lastEtat?"selected='selected'":"";?>>
+			<?php foreach($listeEtat as $typeDocument => $allEtat): ?>
+				<optgroup label="<?php hecho($typeDocument) ?>">
+				<?php foreach($allEtat as $nameEtat => $arrayEtat): ?>
+				<option value='<?php echo implode(",",$arrayEtat) ?>' <?php echo $lastEtat == implode(",",$arrayEtat)?"selected='selected'":"";?>>
 					<?php echo $nameEtat?>
 				</option>
+					<?php endforeach ; ?>
+				</optgroup>
 			<?php endforeach ; ?>
+			
 		</select></td>
 	</tr>
 	<tr>
@@ -99,11 +104,16 @@ $liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 		<th>Passé par l'état</th>
 		<td><select name='etatTransit'>
 			<option value=''>----</option>
-			<?php foreach($listeEtat as $etat => $nameEtat): ?>
-				<option value='<?php echo $etat?>' <?php echo $etat == $etatTransit?"selected='selected'":"";?>>
-					<?php echo $nameEtat?>
-				</option>
-			<?php endforeach ; ?>
+			<?php foreach($listeEtat as $typeDocument => $allEtat): ?>
+							<optgroup label="<?php hecho($typeDocument) ?>">
+							<?php foreach($allEtat as $nameEtat => $arrayEtat): ?>
+							<option value='<?php echo implode(",",$arrayEtat) ?>' <?php echo $etatTransit == implode(",",$arrayEtat)?"selected='selected'":"";?>>
+								<?php echo $nameEtat?>
+							</option>
+								<?php endforeach ; ?>
+							</optgroup>
+						<?php endforeach ; ?>
+
 		</select></td>
 	</tr>
 	<tr>
