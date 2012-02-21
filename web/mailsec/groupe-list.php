@@ -11,6 +11,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:lecture",
 	exit;
 }
 
+$can_edit = $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e);
 
 $annuaireGroupe = new AnnuaireGroupe($sqlQuery,$id_e);
 
@@ -64,7 +65,10 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 <?php endforeach;?>
 	
 </table>
+<?php if ($can_edit) : ?>
 <input type='submit' value='Supprimer'/>
+<?php endif; ?>
+
 </form>
 </div>
 

@@ -12,6 +12,9 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:lecture",
 	exit;
 }
 
+$can_edit = $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e);
+
+
 $arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edition");
 
 
@@ -68,7 +71,10 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 <?php endforeach;?>
 	
 </table>
+<?php if ($can_edit) : ?>
 <input type='submit' value='Supprimer'/>
+<?php endif; ?>
+
 </form>
 </div>
 
