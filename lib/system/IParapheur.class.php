@@ -66,6 +66,16 @@ class IParapheur {
 		return $result;
 	}
 	
+	public function effacerDossierRejete($dossierID){
+		try {
+			$result = $this->getClient()->EffacerDossierRejete($dossierID);
+		} catch(Exception $e){
+			$this->lastError = $e->getMessage();
+			return false;
+		}
+		return $result;
+	}
+	
 	
 	public function getHistorique($dossierID){
 		try{
