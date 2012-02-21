@@ -45,9 +45,16 @@ class IParapheur {
 				return false;
 			}
 
+			
 			$info['document'] = $result->DocPrincipal->_;
-			$info['signature'] = $result->SignatureDocPrincipal->_;
+			if (isset($result->SignatureDocPrincipal)){
+				$info['signature'] = $result->SignatureDocPrincipal->_;
+			} else {
+				$info['signature'] = false;
+			}
 			$info['nom_document'] = $result->NomDocPrincipal;
+			
+			
 			$this->archiver($dossierID);
 			return $info;
 		} catch (Exception $e){

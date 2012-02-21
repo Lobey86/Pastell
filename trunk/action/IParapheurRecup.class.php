@@ -46,7 +46,9 @@ class IParapheurRecup extends ActionExecutor {
 		}
 		
 		$actes->setData('has_signature',true);
-		$actes->addFileFromData('signature',"signature.zip",$info['signature']);
+		if ($info['signature']){
+			$actes->addFileFromData('signature',"signature.zip",$info['signature']);
+		}
 		$actes->addFileFromData('document_signe',$info['nom_document'],$info['document']);
 		
 		$this->setLastMessage("La signature a été récupérée");
