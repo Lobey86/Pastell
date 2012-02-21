@@ -19,7 +19,7 @@ class TedetisRecup extends ActionExecutor {
 		
 		$actionCreator = $this->getActionCreator();
 		if ( ! $tedetis_transaction_id){
-			$actionCreator->addAction($this->id_e,0,'tdt-error',"Une erreur est survenu lors de l'envoie au Tedetis");
+			$actionCreator->addAction($this->id_e,0,'tdt-error',"Une erreur est survenu lors de l'envoie à S²low");
 			return false;
 		}
 			

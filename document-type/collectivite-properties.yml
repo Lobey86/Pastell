@@ -95,7 +95,7 @@ page-condition:
 action:
 
 	test-tedetis:
-		name: Tester la connectivité au Tedetis
+		name: Tester la connectivité à S²low
 		tab: TdT
 		action-class: TedetisTestAction
 		
