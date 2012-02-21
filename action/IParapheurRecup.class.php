@@ -27,15 +27,16 @@ class IParapheurRecup extends ActionExecutor {
 		$collectiviteProperties = $this->getCollectiviteProperties();
 		$iParapheur = new IParapheur($collectiviteProperties);		
 		$actes = $this->getDonneesFormulaire();
-		$signature = $iParapheur->getSignature($actes->get('numero_de_lacte'));
-		if (! $signature){
-			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
+		$info = $iParapheur->getSignature($actes->get('numero_de_lacte'));
+		if (! $info ){
+			$this->setLastMessage("La signature n'a pas pu être récupéré : " . $iParapheur->getLastError());
 			return false;
 		}
 		
 		$actes->setData('has_signature',true);
-		$actes->addFileFromData('signature',"signature.zip",$signature);
-	
+		$actes->addFileFromData('signature',"signature.zip",$info['signature']);
+		$actes->addFileFromData('document_signe',$info['nom_document'],$info['document']);
+		
 		$this->setLastMessage("La signature a été récupérée");
 		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'recu-iparapheur',"La signature a été récupérée sur parapheur électronique");			

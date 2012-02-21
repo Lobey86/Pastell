@@ -101,6 +101,7 @@ formulaire:
 	Signature:
 		has_signature: {no-show: true}
 		signature: {name: Signature de l'acte, type: file}
+		document_signe: {name: Document signé, type: file}
 	
 	iParapheur:
 		iparapheur_type: 
@@ -180,6 +181,7 @@ action:
 			last-action: 
 				creation
 				modification
+				recu-iparapheur
 			no-action:
 				send-tdt
 			role_id_e: editeur

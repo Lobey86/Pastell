@@ -45,7 +45,11 @@ class IParapheur {
 				$this->lastError = utf8_decode($message);
 				return false;
 			}
-			return $result->SignatureDocPrincipal->_;
+
+			$info['document'] = $result->DocPrincipal->_;
+			$info['signature'] = $result->SignatureDocPrincipal->_;
+			$info['nom_document'] = $result->NomDocPrincipal;
+			return $info;
 		} catch (Exception $e){
 		 	$this->lastError = "Erreur sur la récuperation de la signature : ".$e->getMessage();
 			return false;			
