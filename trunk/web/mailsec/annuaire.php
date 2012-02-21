@@ -11,6 +11,8 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:lecture",
 	exit;
 }
 
+$can_edit = $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e);
+
 $annuaire = new Annuaire($sqlQuery,$id_e);
 
 $listUtilisateur = $annuaire->getUtilisateur();
@@ -48,13 +50,19 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 	</tr>
 <?php foreach($listUtilisateur as $utilisateur) : ?>
 	<tr>
-		<td><input type='checkbox' name='email[]' value='<?php echo $utilisateur['email'] ?>'/><?php echo $utilisateur['description']?></td>
+		<td>
+		<?php if ($can_edit) : ?>
+		<input type='checkbox' name='email[]' value='<?php echo $utilisateur['email'] ?>'/>
+		<?php endif; ?>
+		<?php echo $utilisateur['description']?></td>
 		<td><?php echo $utilisateur['email']?></td>
 	</tr>
 <?php endforeach;?>
 	
 </table>
+<?php if ($can_edit) : ?>
 <input type='submit' value='Supprimer'/>
+<?php endif; ?>
 </form>
 </div>
 
