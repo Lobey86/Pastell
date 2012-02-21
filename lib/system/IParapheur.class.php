@@ -39,7 +39,6 @@ class IParapheur {
 	public function getSignature($dossierID){
 		try{
 			$result =  $this->getClient()->GetDossier($dossierID);
-				
 			if ($result->MessageRetour->codeRetour != 'OK'){
 				$message = "[{$result->MessageRetour->severite}] {$result->MessageRetour->message}";
 				$this->lastError = utf8_decode($message);
@@ -49,11 +48,22 @@ class IParapheur {
 			$info['document'] = $result->DocPrincipal->_;
 			$info['signature'] = $result->SignatureDocPrincipal->_;
 			$info['nom_document'] = $result->NomDocPrincipal;
+			$this->archiver($dossierID);
 			return $info;
 		} catch (Exception $e){
 		 	$this->lastError = "Erreur sur la récuperation de la signature : ".$e->getMessage();
 			return false;			
 		}
+	}
+	
+	public function archiver($dossierID){
+		try {
+			$result = $this->getClient()->ArchiverDossier(array("DossierID" => $dossierID));
+		} catch(Exception $e){
+			$this->lastError = $e->getMessage();
+			return false;
+		}
+		return $result;
 	}
 	
 	

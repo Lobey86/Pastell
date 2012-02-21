@@ -11,9 +11,10 @@ $collectiviteProperties = $donneesFormulaireFactory->get(3,'collectivite-propert
 $iParapheur = new IParapheur($collectiviteProperties);
 
 $result = $iParapheur->getSignature("20120221A"); 
+print_r($result);
+echo $iParapheur->getLastError();
 
-foreach($result as $key => $value){
-	echo $key."\n";
-}
 
-//print_r($result);
+$result = $iParapheur->archiver("20120221A");
+
+print_r($result);

@@ -182,6 +182,7 @@ action:
 				creation
 				modification
 				recu-iparapheur
+				rejet-iparapheur
 			no-action:
 				send-tdt
 			role_id_e: editeur
@@ -346,6 +347,12 @@ action:
 		name: Signature récuperée
 		rule:
 			role_id_e: no-role
+	
+	rejet-iparapheur:
+		name: Signature refusée
+		rule: 
+			role_id_e: no-role
+	
 	
 	tdt-error:
 		name: Erreur sur le Tedetis
