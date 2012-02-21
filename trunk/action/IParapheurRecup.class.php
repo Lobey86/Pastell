@@ -19,8 +19,19 @@ class IParapheurRecup extends ActionExecutor {
 		if (strstr($result,"[Archive]")){
 			return $this->retrieveDossier();
 		}
+		if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
+			$this->rejeteDossier();
+		}
 		$this->setLastMessage($result);
 		return true;			
+	}
+	
+	public function rejeteDossier(){
+		$collectiviteProperties = $this->getCollectiviteProperties();
+		$iParapheur = new IParapheur($collectiviteProperties);
+		$actes = $this->getDonneesFormulaire();
+		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'rejet-iparapheur',"Le document a été rejeté dans le parapheur");
+		
 	}
 	
 	public function retrieveDossier(){
