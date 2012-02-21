@@ -189,8 +189,8 @@ action:
 		action-class: Supprimer
 	
 	send-iparapheur:
-		name-action: Transmettre à la signature
-		name: Transmis à la signature
+		name-action: Transmettre au parapheur
+		name: Transmis au parapheur
 		
 		rule:
 			last-action: 
