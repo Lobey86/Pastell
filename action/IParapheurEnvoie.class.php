@@ -14,12 +14,26 @@ class IParapheurEnvoie extends ActionExecutor {
 		$file_content = file_get_contents($actes->getFilePath('arrete'));
 		$finfo = new finfo(FILEINFO_MIME);
 		$content_type = $finfo->file($actes->getFilePath('arrete'),FILEINFO_MIME_TYPE);
+		
+		$annexe = array();
+		foreach($actes->get('autre_document_attache') as $num => $fileName ){
+			$annexe_content = $file_content = file_get_contents($actes->getFilePath('autre_document_attache',$num));
+			$annexe_content_type = $finfo->file($actes->getFilePath('autre_document_attache',$num),FILEINFO_MIME_TYPE);
+				
+			$annexe[] = array(
+				'name' => $fileName,
+				'file_content' => $annexe_content,
+				'content_type' => $annexe_content_type,
+			);
+			
+		}
+		
 
 		$result = $iParapheur->sendDocument($actes->get('iparapheur_type'),
 											$actes->get('iparapheur_sous_type'),
 											$actes->get('numero_de_lacte'),
 											$file_content,
-											$content_type);				
+											$content_type,$annexe);				
 		if (! $result){
 			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
 			return false;

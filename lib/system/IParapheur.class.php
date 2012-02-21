@@ -102,18 +102,40 @@ class IParapheur {
 		}
 	}
 	
-	public function sendDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type){
+	public function sendDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,array $all_annexes = array()){
 		$client = $this->getClient();		
 		try {
 			
-			$result =  $client->CreerDossier(
-				array(
+			$data = array(
 						"TypeTechnique"=>utf8_encode($typeTechnique),
 						"SousType"=> utf8_encode($sousType),
 						"DossierID" => $dossierID,
 						"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
 						"Visibilite" => "SERVICE",
-				));
+						
+				); 
+			if ($all_annexes){
+				$data["DocumentsAnnexes"] = array();
+			}
+			foreach($all_annexes as $annexe){
+				$data["DocumentsAnnexes"][] = array("nom"=>$annexe['name'],
+													"fichier" => array("_"=>$annexe['file_content'],
+																	"contentType"=>$annexe['content_type']),
+													"mimetype" => $annexe['content_type'],
+													"encoding" => "UTF-8"
+				);
+				
+			}
+			$result =  $client->CreerDossier($data);
+				
+			
+			/*"DocumentsAnnexes" => array(
+				nom=>"",
+				fichier=>"",
+				mimetype => "",
+			
+			)*/
+			
 			$messageRetour = $result->MessageRetour;
 			$message = "[{$messageRetour->severite}] {$messageRetour->message}";
 			if ($messageRetour->codeRetour == "KO"){
