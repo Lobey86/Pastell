@@ -59,7 +59,8 @@ class TedetisRecup extends ActionExecutor {
 			$envoieCDG->setNotificationMail($this->getNotificationMail());
 			$envoieCDG->go();
 		}
-		
+                $donneesFormulaire->setData('date_ar', $tedetis->getDateAR($tedetis_transaction_id));
+	
 		$this->setLastMessage("L'acquittement du contrôle de légalité a été reçu.");
 		return true;
 
