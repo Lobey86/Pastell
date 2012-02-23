@@ -157,7 +157,7 @@ class IParapheur {
 	public function sendDocumentTest(){
 		$dossierID = mt_rand();
 		$document = file_get_contents(PASTELL_PATH . "/data-exemple/exemple.pdf");		
-		return $this->sendDocument("Actes","deliberation",$dossierID,$document,"application/pdf");
+		return $this->sendDocument("Actes","Deliberation",$dossierID,$document,"application/pdf");
 	}
 	
 	
