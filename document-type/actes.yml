@@ -202,6 +202,7 @@ action:
 			document_is_valide: true
 			content:
 				envoi_iparapheur: true
+				classification: true
 			herited-properties:
 				iparapheur_activate: true
 			
