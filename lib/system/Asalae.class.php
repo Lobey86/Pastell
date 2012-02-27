@@ -1,13 +1,10 @@
 <?php
-
-require_once("BordereauSEDA.class.php");
-//mail : pastell@sigmalis.com AisohM6D
+////mail : pastell@sigmalis.com AisohM6D
 
 class Asalae {
 	
 	private $lastError;
 	
-	private $collectiviteProperties;
 	private $WDSL;
 	private $login;
 	private $password;
@@ -16,31 +13,27 @@ class Asalae {
 	private $identifiantArchive;
 	private $numeroAgrement;
 	
-	public function __construct(DonneesFormulaire $collectiviteProperties){
-		$this->collectiviteProperties = $collectiviteProperties;
-		$this->WSDL = $collectiviteProperties->get('sae_wsdl');
-		$this->login = $collectiviteProperties->get('sae_login');
-		$this->password = $collectiviteProperties->get('sae_password');
-		$this->identifiantVersant = $collectiviteProperties->get('sae_identifiant_versant');
-		$this->identifiantArchive = $collectiviteProperties->get('sae_identifiant_archive');
-		$this->numeroAgrement = $collectiviteProperties->get('sae_numero_agrement');
-		$this->originatingAgency = $collectiviteProperties->get('sae_originating_agency');
+	public function __construct(array $authorityInfo){
+		$this->WSDL = $authorityInfo['sae_wsdl'];
+		$this->login = $authorityInfo['sae_login'];
+		$this->password = $authorityInfo['sae_password'];
+		$this->numeroAgrement = $authorityInfo['sae_numero_aggrement'];
 	}
 
 	public function getLastError(){
 		return $this->lastError;
 	}
 	
-	public function sendArchive($filename,$content,$description){
-		$seda = base64_encode($this->generateSEDA($description));
+	public function sendArchive($bordereauSEDA,$archivePath){
+		$seda = base64_encode($bordereauSEDA);
 		if (! $seda){
 			return false;
 		}
 		$client = new SoapClient($this->WSDL);
 
-		$document_content  = base64_encode(file_get_contents("/home/eric/archive.tar.gz"));
+		$document_content  = base64_encode(file_get_contents($archivePath));
 		
-		$retour  = $client->__soapCall("wsDepot", array("bordereau.xml", $seda, "archive.tar.gz", $document_content, "TARGZ",$this->login,$this->password));
+		$retour  = $client->__soapCall("wsDepot", array("bordereau.xml", $seda,basename($archivePath), $document_content, "TARGZ",$this->login,$this->password));
 		if ($retour == 0){
 			return true;
 		}
@@ -49,25 +42,36 @@ class Asalae {
 		return false;
 	}
 	
-
-	public function generateSEDA($description){
+	public function getAcuseReception($id_transfert){
+		return $this->getMessage($id_transfert,'ArchiveTransferAcknowledgement');
+	}
 	
-		$objet_archive = "Test génération SEDA";
-		$provenance_archive = $this->identifiantVersant;
-		$identifiant_producteur = $this->identifiantArchive; 
-		
-		$bordereauSEDA = new BordereauSEDA($this->identifiantVersant, $this->identifiantArchive,$this->numeroAgrement,$this->originatingAgency);
-		
-		$bordereau = $bordereauSEDA->getBordereau($objet_archive,$description);
-
+	public function getReply($id_transfer){
+		return $this->getMessage($id_transfer,'ArchiveTransferReply');
+	}
+	
+	private function getMessage($id_transfer, $type_message){
 		$client = new SoapClient($this->WSDL);
-
-		$seda = $client->wsGSeda($bordereau,$this->login,$this->password);
-		if (intval($seda) ){			
-			$this->lastError = "Erreur lors de la génération du bordereau : " . $this->getErrorString($seda);
-			return false;
+		$resultat = $client->wsGetMessage(	'ArchiveTransfer', 
+											 $type_message,
+											$id_transfer, 
+											$this->login,
+											$this->password);
+		if ( intval($resultat) == 0){
+			return $resultat;
 		}
-		return $seda;
+		
+		$error = array( 1 => "identifiant de connexion non trouvé",
+							"mot de passe incorrect",
+							"connecteur non actif",
+							"type de l'échange non reconnu",
+							"type de message non reconnu",
+							"acteur Seda (service) non lié au connecteur dans as@lae",
+							"message origine non trouvé",
+							"message demandé non trouvé",
+		);
+		$this->lastError  = "Code $resultat : {$error[$resultat]}";
+		return false;
 	}
 	
 	public function getErrorString($number){
@@ -77,5 +81,11 @@ class Asalae {
 		}
 		return $error[$number];
 	}
+	
+	public function getURL($wsdl,$cote){
+		$tab = parse_url($wsdl);
+		return "{$tab['scheme']}://{$tab['host']}/archives/viewByArchiveIdentifier/$cote";
+	}
+	
 
 }

@@ -16,16 +16,18 @@ class IParapheurEnvoie extends ActionExecutor {
 		$content_type = $finfo->file($actes->getFilePath('arrete'),FILEINFO_MIME_TYPE);
 		
 		$annexe = array();
-		foreach($actes->get('autre_document_attache') as $num => $fileName ){
-			$annexe_content =  file_get_contents($actes->getFilePath('autre_document_attache',$num));
-			$annexe_content_type = $finfo->file($actes->getFilePath('autre_document_attache',$num),FILEINFO_MIME_TYPE);
+		if ($actes->get('autre_document_attache')) {
+			foreach($actes->get('autre_document_attache') as $num => $fileName ){
+				$annexe_content =  file_get_contents($actes->getFilePath('autre_document_attache',$num));
+				$annexe_content_type = $finfo->file($actes->getFilePath('autre_document_attache',$num),FILEINFO_MIME_TYPE);
+					
+				$annexe[] = array(
+					'name' => $fileName,
+					'file_content' => $annexe_content,
+					'content_type' => $annexe_content_type,
+				);
 				
-			$annexe[] = array(
-				'name' => $fileName,
-				'file_content' => $annexe_content,
-				'content_type' => $annexe_content_type,
-			);
-			
+			}
 		}
 		
 

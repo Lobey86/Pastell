@@ -39,6 +39,7 @@ class Tedetis {
 	private $lastError;
 	
 	private $classificationFile;
+	private $arActes;
 	
 	public function __construct(DonneesFormulaire $collectiviteProperties){
 		
@@ -144,7 +145,8 @@ class Tedetis {
 		
 		$this->curlWrapper->addPostData('number',$donneesFormulaire->get('numero_de_lacte'));
 		$this->curlWrapper->addPostData('subject',$donneesFormulaire->get('objet'));
-		$this->curlWrapper->addPostData('decision_date', date("Y-m-d", $donneesFormulaire->get('date_de_lacte')));
+		
+		$this->curlWrapper->addPostData('decision_date', date("Y-m-d", strtotime($donneesFormulaire->get('date_de_lacte'))));
 		
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');
@@ -189,22 +191,35 @@ class Tedetis {
 		if (! $result){
 			return false;
 		}
+		
 		$ligne = explode("\n",$result);
+		
 		if (trim($ligne[0]) != 'OK'){
 			$this->lastError = trim($ligne[1]);
 			return false;
 		}
 		
-		return trim($ligne[1]);
+		$result = trim($ligne[1]);
+		if ($result == 4){
+ 			array_shift($ligne);
+ 			array_shift($ligne);
+			$this->arActes = implode("\n",$ligne); 
+		}
+		
+		return $result;
+	}
+	
+	public function getARActes(){
+		return $this->arActes;
 	}
 
-        public function getDateAR($id_transaction){
-                $result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
-                if (! $result){
-                        return false;
-                }
-                return (substr($result, strpos($result, 'actes:DateReception')+21, 10));
-        }
+	public function getDateAR($id_transaction){
+		$result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
+		if (! $result){
+        	return false;
+		}
+		return (substr($result, strpos($result, 'actes:DateReception')+21, 10));
+	}
 
 	public function getBordereau($id_transaction){
 		$result = $this->exec(self::URL_BORDEREAU."?trans_id=$id_transaction");

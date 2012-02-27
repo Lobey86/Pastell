@@ -97,7 +97,8 @@ formulaire:
 	Bordereau:
 		has_bordereau: {no-show: true}
 		bordereau: {name: Bordereau d'acquittement, type: file}
-	
+		aractes: {no-show: true, type: file}
+		
 	Signature:
 		has_signature: {no-show: true}
 		signature: {name: Signature de l'acte, type: file}
@@ -385,9 +386,8 @@ action:
 		name: Versé au SAE
 	
 		rule:
-			last-action: 
+			has-action:
 				recu-cdg
-				send-ged
 			no-action:
 				send-archive	
 			type_id_e: centre_de_gestion
@@ -395,7 +395,9 @@ action:
 			droit_id_u: 'actes:edition'
 			properties: 
 				has_archivage: manuel
-		action-class: Defaut
+			herited-properties:
+				sae_activate: on
+		action-class: SAEEnvoi
 			
 	 
 	 	
