@@ -118,9 +118,9 @@ class IParapheur {
 				$data["DocumentsAnnexes"] = array();
 			}
 			foreach($all_annexes as $annexe){
-				$data["DocumentsAnnexes"][] = array("nom"=>$annexe['name'],
+					$data["DocumentsAnnexes"][] = array("nom"=>$annexe['name'],
 													"fichier" => array("_"=>$annexe['file_content'],
-																	"contentType"=>$annexe['content_type']),
+													"contentType"=>$annexe['content_type']),
 													"mimetype" => $annexe['content_type'],
 													"encoding" => "UTF-8"
 				);

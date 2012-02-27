@@ -17,7 +17,7 @@ class IParapheurEnvoie extends ActionExecutor {
 		
 		$annexe = array();
 		foreach($actes->get('autre_document_attache') as $num => $fileName ){
-			$annexe_content = $file_content = file_get_contents($actes->getFilePath('autre_document_attache',$num));
+			$annexe_content =  file_get_contents($actes->getFilePath('autre_document_attache',$num));
 			$annexe_content_type = $finfo->file($actes->getFilePath('autre_document_attache',$num),FILEINFO_MIME_TYPE);
 				
 			$annexe[] = array(
