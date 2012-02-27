@@ -36,6 +36,11 @@ class IParapheur {
 		return $this->lastError;
 	}
 	
+	public function getDossierID($id,$name){
+		$name = preg_replace("#[^a-zA-Z0-9_ ]#", "_", $name);
+		return "$id $name";
+	}
+	
 	public function getSignature($dossierID){
 		try{
 			$result =  $this->getClient()->GetDossier($dossierID);
@@ -185,7 +190,7 @@ class IParapheur {
 					'trace' => 1
 	    		));
 		} catch (Exception $e){
-			$this->lastError = $e->getMessage();
+			$this->lastError = "Connexion - " . $e->getMessage();
 			throw new Exception($this->lastError );
 		}
 		return $client;
