@@ -53,6 +53,7 @@ formulaire:
 		sae_originating_agency: {name: "OriginatingAgency" }
 		sae_mail: {name: serveur de mail}
 		sae_bordereau_test: {name: "Dernier bordereau de test",  type: file, read-only: true}
+		sae_archive_test: {no-show: true, read-only:true}
 	
 	Mail sécurisé:
 		mailsec_from: {name: Email de l'emetteur, default: pastell@sigmalis.com}
@@ -124,6 +125,7 @@ action:
 		name: Archiver un document de test
 		action-class: SAETestSEDA
 		tab: SAE
+		
 	
 			
 	demande-classification:

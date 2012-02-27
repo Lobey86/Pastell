@@ -1,6 +1,6 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/system/Asalae.class.php");
+require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
 class SAETestGenerateSEDA extends ActionExecutor {
@@ -9,17 +9,49 @@ class SAETestGenerateSEDA extends ActionExecutor {
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		
-		$asalae = new Asalae($donneesFormulaire);
+		$entite = $this->getEntite();
+		$entiteInfo = $entite->getInfo();
 		
-		$result = $asalae->generateSEDA("Ceci est un test");
+		$authorityInfo = array(
+			"sae_id_versant" =>  $donneesFormulaire->get("sae_identifiant_versant"),
+			"sae_id_archive" =>  $donneesFormulaire->get("sae_identifiant_archive"),
+			"sae_numero_aggrement" =>  $donneesFormulaire->get("sae_numero_agrement"),
+			"sae_originating_agency" =>  $donneesFormulaire->get("sae_originating_agency"),
+			"name" =>  $entiteInfo['denomination'],
+			"siren" => $entiteInfo['siren'],
+		);
+		$uniq_id = time();
+		$actesTransactionsStatusInfo = array(
+			'transaction_id' => $uniq_id,
+			'flux_retour' => '<empty></empty>',
+			'date' => date("Y-m-d")
+		);
 		
-		if (! $result){
-			$this->setLastMessage("Le test a échoué : " . $asalae->getLastError());
+		$transactionsInfo = array(
+			'unique_id' => $uniq_id,
+			'subject' => "bordereau de test",
+			'decision_date' => '2012-02-18',
+			'nature_descr' => 'Arretes individuels',
+			'nature_code' => '1',
+			'classification' => '1.1',
+		);
+		
+		$actesArchivesSEDA = new ActesArchiveSEDA("/tmp/");
+		$actesArchivesSEDA->setAuthorityInfo($authorityInfo);
+		copy(__DIR__."/../data-exemple/exemple.pdf","/tmp/exemple.pdf");
+		$actesArchivesSEDA->setActesFileName("exemple.pdf");
+		$actesArchivesSEDA->setTransactionStatusInfo($actesTransactionsStatusInfo);
+		
+		$archive_path = $actesArchivesSEDA->getArchive();
+		if (! $archive_path){
+			$this->setLastMessage("Le test a échoué : " . $actesArchivesSEDA->getLastError()); 
 			return false;
 		}
 		
-		$donneesFormulaire->addFileFromData('sae_bordereau_test','bordereau.xml',$result);
 		
+		$bordereau = $actesArchivesSEDA->getBordereau($transactionsInfo);
+		$donneesFormulaire->addFileFromData('sae_bordereau_test','bordereau.xml',$bordereau);
+		$donneesFormulaire->setData("sae_archive_test",$archive_path);
 		$this->setLastMessage("Le bordereau a été créé");
 		return true;
 	}

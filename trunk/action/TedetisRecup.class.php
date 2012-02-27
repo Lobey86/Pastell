@@ -37,6 +37,8 @@ class TedetisRecup extends ActionExecutor {
 			return true;
 		}
 		
+		$aractes = $tedetis->getARActes();
+		
 		$actionCreator->addAction($this->id_e,0,'acquiter-tdt',"L'acte a été acquitté par le contrôle de légalité");
 		
 		$infoDocument = $this->getDocument()->getInfo($this->id_d);
@@ -51,6 +53,10 @@ class TedetisRecup extends ActionExecutor {
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		$donneesFormulaire->setData('has_bordereau',true);
 		$donneesFormulaire->addFileFromData('bordereau', $infoDocument['titre']."-bordereau.pdf",$bordereau_data);
+		if ($aractes){
+			$donneesFormulaire->addFileFromData('aractes', "ARActes.xml",$aractes);
+		}
+		
 		
 		$this->notify('acquiter-tdt', 'actes',$message);
 		
