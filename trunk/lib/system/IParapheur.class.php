@@ -49,15 +49,22 @@ class IParapheur {
 				$this->lastError = utf8_decode($message);
 				return false;
 			}
-
 			
-			$info['document'] = $result->DocPrincipal->_;
+			
+			if (isset($result->DocumentsAnnexes)){
+				$info['document'] = $result->DocumentsAnnexes->DocAnnexe->fichier->_;
+				$info['nom_document'] = $result->DocumentsAnnexes->DocAnnexe->nom;
+			} else {
+				$info['document'] = false;
+				$info['nom_document'] = false;
+			}
+				
 			if (isset($result->SignatureDocPrincipal)){
 				$info['signature'] = $result->SignatureDocPrincipal->_;
 			} else {
 				$info['signature'] = false;
 			}
-			$info['nom_document'] = $result->NomDocPrincipal;
+			
 			
 			
 			$this->archiver($dossierID);
@@ -70,7 +77,7 @@ class IParapheur {
 	
 	public function archiver($dossierID){
 		try {
-			$result = $this->getClient()->ArchiverDossier(array("DossierID" => $dossierID));
+			$result = $this->getClient()->ArchiverDossier(array("DossierID" => $dossierID,"ArchivageAction"=>"EFFACER"));
 		} catch(Exception $e){
 			$this->lastError = $e->getMessage();
 			return false;

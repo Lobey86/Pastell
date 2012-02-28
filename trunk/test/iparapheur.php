@@ -10,10 +10,16 @@ $collectiviteProperties = $donneesFormulaireFactory->get(3,'collectivite-propert
 
 $iParapheur = new IParapheur($collectiviteProperties);
 
-//$result = $iParapheur->getSignature("20120221E"); 
-//print_r($result);
-//echo $iParapheur->getLastError();
-
-
-$result = $iParapheur->effacerDossierRejete("20120221F");
+$result = $iParapheur->archiver("20120228C Test C"); 
 print_r($result);
+
+echo $iParapheur->getLastError();
+
+/*foreach(get_object_vars($result) as $name => $value){
+	echo $name."\n";
+}*/
+
+
+
+//$result = $iParapheur->effacerDossierRejete("20120221F");
+//print_r($result);
