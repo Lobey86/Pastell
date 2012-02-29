@@ -12,6 +12,7 @@ require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
 require_once( PASTELL_PATH ."/lib/base/CurlWrapper.class.php");
 require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
+require_once( PASTELL_PATH ."/lib/document/Document.class.php");
 
 $signServer = new SignServer(SIGN_SERVER_URL,new OpensslTSWrapper(OPENSSL_PATH,$zLog));
 
