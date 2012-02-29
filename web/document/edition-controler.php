@@ -68,6 +68,8 @@ if ( ! $actionPossible->isActionPossible($id_d,'modification') &&
 
 $fileUploader = new FileUploader($_FILES);
 
+
+
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 $documentEntite = new DocumentEntite($sqlQuery);

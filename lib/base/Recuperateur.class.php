@@ -23,6 +23,14 @@ class Recuperateur {
 		if (get_magic_quotes_gpc()){
 			$value = $this->doSomethingOnValueOrArray("stripslashes",$value);
 		}		
+		if(is_array($value)){
+			foreach($value as $i => $v){
+				$value[$i] = str_replace("&#8217;","'",$v);
+			}
+		} else {
+			$value = str_replace("&#8217;","'",$value);
+		}
+		
 		return $this->doSomethingOnValueOrArray("trim",$value);
 	}
 	
