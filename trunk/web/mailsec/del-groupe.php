@@ -5,7 +5,7 @@ require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireGroupe.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 $id_e = $recuperateur->get('id_e');
-$id_g = $recuperateur->get('id_g');
+$id_g = $recuperateur->get('id_g',array());
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e)) {
 	header("Location: annuaire.php?id_e=$id_e");
@@ -16,5 +16,7 @@ $annuaireGroupe = new AnnuaireGroupe($sqlQuery,$id_e);
 
 $annuaireGroupe->delete($id_g);
 
-$lastMessage->setLastMessage("Les groupes sélectionnés ont été supprimés");
+if ($id_g) {
+	$lastMessage->setLastMessage("Les groupes sélectionnés ont été supprimés");
+}
 header("Location: groupe-list.php?id_e=$id_e");
