@@ -109,7 +109,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 		<td><a href='utilisateur/detail.php?id_u=<?php echo  $ligne['id_u']?>'><?php echo $ligne['prenom'] . " " . $ligne['nom']?></a></td>
 		<td>
 			<a href='document/detail.php?id_d=<?php echo $ligne['id_d']?>&id_e=<?php echo $ligne['id_e']?>'>
-				<?php echo $ligne['titre']?>
+				<?php echo $ligne['titre']?:$ligne['id_d']?>
 			</a>
 		</td>
 		<td>
