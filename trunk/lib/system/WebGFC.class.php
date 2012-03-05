@@ -5,7 +5,7 @@ class WebGFC {
 	
 	public function getTypes($collectiviteId){
 		$ws = new SoapClient(self::WSDL);
-		return $ws->getTypes(2);
+		return $ws->getGFCTypes(array('collectiviteId' => 2));
 	}
 	
 	public function getSousTypes($siren,$type_nom){
