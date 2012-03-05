@@ -21,8 +21,6 @@ $page = $recuperateur->getInt('page',0);
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
-
-
 $id_e_col = $entite->getCollectiviteAncetre();
 $collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
 
@@ -62,6 +60,8 @@ if (! $my_role ){
 	header("Location: list.php");
 	exit;
 }
+
+$journal->addConsultation($id_e,$id_d,$authentification->getId());
 
 
 $page_title =  $info['titre'] . " (".$documentType->getName().")";
