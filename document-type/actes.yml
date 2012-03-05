@@ -102,7 +102,7 @@ formulaire:
 	Signature:
 		has_signature: {no-show: true}
 		signature: {name: Signature de l'acte, type: file}
-		document_signe: {name: Document signé, type: file}
+		document_signe: {name: Bordereau de signature, type: file}
 	
 	iParapheur:
 		iparapheur_type: 

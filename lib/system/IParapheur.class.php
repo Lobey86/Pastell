@@ -41,6 +41,33 @@ class IParapheur {
 		return "$id $name";
 	}
 	
+	public function getDossier($dossierID){
+		return  $this->getClient()->GetDossier($dossierID);
+	}
+	
+	public function getBordereau($result){
+		$info = array();
+		if (! isset($result->DocumentsAnnexes)){
+			$info['document'] = false;
+			$info['nom_document'] = false;
+			return $info;
+		}
+		
+		if (isset($result->DocumentsAnnexes->DocAnnexe->fichier)){
+			$info['document'] = $result->DocumentsAnnexes->DocAnnexe->fichier->_;
+			$info['nom_document'] = $result->DocumentsAnnexes->DocAnnexe->nom;
+			return $info;
+		} 
+		
+		foreach($result->DocumentsAnnexes->DocAnnexe as $bordereau){}
+		$info['document'] = $bordereau->fichier->_;
+		$info['nom_document'] = $bordereau->nom;
+		return $info;
+		
+		
+		
+	}
+	
 	public function getSignature($dossierID){
 		try{
 			$result =  $this->getClient()->GetDossier($dossierID);
@@ -49,23 +76,13 @@ class IParapheur {
 				$this->lastError = utf8_decode($message);
 				return false;
 			}
-			
-			
-			if (isset($result->DocumentsAnnexes)){
-				$info['document'] = $result->DocumentsAnnexes->DocAnnexe->fichier->_;
-				$info['nom_document'] = $result->DocumentsAnnexes->DocAnnexe->nom;
-			} else {
-				$info['document'] = false;
-				$info['nom_document'] = false;
-			}
-				
+			$info = $this->getBordereau($result);
+
 			if (isset($result->SignatureDocPrincipal)){
 				$info['signature'] = $result->SignatureDocPrincipal->_;
 			} else {
 				$info['signature'] = false;
 			}
-			
-			
 			
 			$this->archiver($dossierID);
 			return $info;
