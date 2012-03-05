@@ -27,6 +27,20 @@ class Journal {
 		$this->id_u = $id_u;
 	}
 	
+	public function addConsultation($id_e,$id_d,$id_u){
+		
+		$sql  =  "SELECT count(*) FROM journal WHERE id_u=? AND id_d=?";
+		$nb = $this->sqlQuery->fetchOneValue($sql,$id_u,$id_d);
+		if ($nb){
+			return;
+		}
+		
+		$utilisateur = new Utilisateur($this->sqlQuery,$id_u);
+		$infoUtilisateur = $utilisateur->getInfo();
+		$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
+		$this->add(Journal::DOCUMENT_CONSULTATION,$id_e,$id_d,"Consulté","$nom a consulté le document");
+	}
+	
 	public function add($type,$id_e,$id_d,$action,$message){
 		return $this->addSQL($type,$id_e,$this->id_u,$id_d,$action,$message);
 	}

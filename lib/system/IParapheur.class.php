@@ -63,9 +63,6 @@ class IParapheur {
 		$info['document'] = $bordereau->fichier->_;
 		$info['nom_document'] = $bordereau->nom;
 		return $info;
-		
-		
-		
 	}
 	
 	public function getSignature($dossierID){
