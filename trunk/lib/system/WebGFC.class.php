@@ -3,19 +3,38 @@ class WebGFC {
 	
 	const WSDL = "http://webgfc.test.adullact.org/files/wsdl/webgfc.wsdl";
 	
+	const LOGIN = "pastell";
+	const PASSWORD = "pastell";
+	
+	private function getSoapClient(){
+		return new SoapClient(self::WSDL,array('login' => self::LOGIN, 'password' => self::PASSWORD));
+	}
+	
+	public function echoTest($string){
+		$ws = $this->getSoapClient();
+		return $ws->echotest($string);
+	}
+	
 	public function getTypes($collectiviteId){
-		$ws = new SoapClient(self::WSDL);
-		return $ws->getGFCTypes(array('collectiviteId' => 2));
+		$ws = $this->getSoapClient();
+		$data =  $ws->getGFCTypes(1);
+		foreach($data as $type){
+			$result[$type->anyType[0]] = $type->anyType[1];
+		}
+		return $result;
 	}
 	
 	public function getSousTypes($siren,$type_nom){
-		$ws = new SoapClient(self::WSDL);
-		//return $ws->getTypes(array('collectiviteId' => $siren));
-		return $ws->getSoustypes(2,'Courrier citoyen');
+		$ws = $this->getSoapClient();
+		$data = $ws->getGFCSoustypes(1,$type_nom);
+		foreach($data as $type){
+			$result[$type->string[0]] = utf8_decode($type->string[1]);
+		}
+		return $result;
 	}
 
 	public function createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username){
-		$ws = new SoapClient(self::WSDL);
+		$ws = $this->getSoapClient();
 		return $ws->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
 	}
 	

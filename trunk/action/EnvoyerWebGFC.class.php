@@ -14,10 +14,13 @@ class EnvoyerWebGFC extends Envoyer {
 		$username = $infoEntite['denomination'];
 		$titre = $formulaire->get("sujet");
 		$object  = $formulaire->get("message");
-		$fichier = base64_encode(file_get_contents($formulaire->getFilePath("pj")));
+		if ($formulaire->getFilePath("pj")){
+			$fichier = base64_encode(file_get_contents($formulaire->getFilePath("pj")));
+		} else {
+			$fichier = "";
+		}
 		$webGFC = new WebGFC();
-		$reponse = $webGFC->createCourrier(
-		$messageSousTypeId,$contact,$titre,$object,$fichier,$username);
+		$reponse = $webGFC->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
 		
 		if ( ! parent::go()) {
 			return false;
