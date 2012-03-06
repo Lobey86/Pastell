@@ -40,8 +40,9 @@ include( PASTELL_PATH ."/include/haut.php");
 	Veuillez sélectionner le sous type : 
 	<br/><br/><br/>
 	<select name='messagesoustype'>
-	<?php foreach($infoSousTypes as $num => $type_message) : ?>
-			<option value='<?php hecho ($webGFC->setInfo($type_message[0],$type_message[1])) ?>'><?php echo utf8_decode($type_message[1])?></option>
+	<?php 
+	foreach($infoSousTypes as $num => $type_message) : ?>
+			<option value='<?php hecho ($webGFC->setInfo($num,$type_message)) ?>'><?php echo $type_message ?></option>
 	<?php endforeach; ?>
 	</select>
 	<?php endif;?>
