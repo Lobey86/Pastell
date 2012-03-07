@@ -5,7 +5,6 @@ formulaire:
 	Informations générales : 
 		type_id_e: {name: type_id_e, type: text, no-show: true}
 		
-	
 	Utilisateurs : {}
 		
 	Agents: {}
@@ -86,8 +85,8 @@ formulaire:
 			type: checkbox
 			default: false
 			depend: classification_cdg
-			
-
+	
+	
 page-condition:
 	Fichier de classification:
 		type_id_e: centre_de_gestion
