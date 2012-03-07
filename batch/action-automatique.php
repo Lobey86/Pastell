@@ -1,5 +1,9 @@
 #! /usr/bin/php
 <?php
+$start = time();
+$min_exec_time = 60;
+
+
 require_once( dirname(__FILE__) . "/../web/init.php");
 
 require_once (PASTELL_PATH . "/lib/document/DocumentTypeFactory.class.php");
@@ -48,3 +52,14 @@ foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 		
 	}
 }
+
+
+$stop = time();
+$sleep = $min_exec_time - ($stop -$start);
+if ($sleep > 0){
+	echo "Arret du script : $sleep";
+	sleep($sleep);
+}
+
+
+

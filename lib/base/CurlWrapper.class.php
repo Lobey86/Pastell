@@ -45,7 +45,7 @@ class CurlWrapper {
 		$this->setProperties(CURLOPT_URL, $url);
 		
 		//$this->setProperties(CURLOPT_HEADER, 1);
-		$this->setProperties( CURLOPT_VERBOSE, 1); 
+		//$this->setProperties( CURLOPT_VERBOSE, 1); 
 		if ($this->postData || $this->postFile ){
 				$this->curlSetPostData();
 		}
