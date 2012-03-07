@@ -87,7 +87,7 @@ class DocumentListAfficheur {
 					<?php endforeach;?>
 					</td>
 					<td>
-						<?php echo $action->getActionName($document['last_action']) ?>
+						<?php echo $action->getActionName($document['last_action_display']) ?>
 					</td>
 					<td>
 						<?php echo time_iso_to_fr($document['last_action_date']) ?>

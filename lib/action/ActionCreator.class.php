@@ -31,11 +31,14 @@ class ActionCreator {
 		$sql = "SELECT id_a FROM document_action WHERE id_d=? AND date=? AND action=? AND id_e=? AND id_u=?";
 		$this->id_a =  $this->sqlQuery->fetchOneValue($sql,$this->id_d,$now,$action,$id_e,$id_u);
 	
+		$this->action = $action;
+		$this->date = $now;
+		
 		$this->addToSQL($id_e,$id_u,$message_journal);
 	}
 	
 	public function addToEntite($id_e,$message_journal){
-		$this->addToSQL($id_e,0,$message_journal);
+		$this->addToSQL($id_e,0,$message_journal);		
 	}
 	
 	private function addToSQL($id_e,$id_u,$message_journal){
