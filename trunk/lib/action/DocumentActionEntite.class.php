@@ -98,6 +98,13 @@ class DocumentActionEntite {
 					" JOIN entite ON entite.id_e=document_action.id_e ". 
 					" WHERE id_d= ? AND document_action_entite.id_e=? AND entite.id_e != ?";
 			$list[$i]['entite'] = $this->sqlQuery->fetchAll($sql,$id_d,$id_e,$id_e);
+			
+			$sql = "SELECT action  FROM document_action " .
+					" JOIN document_action_entite ON document_action.id_a = document_action_entite.id_a " .
+					" WHERE document_action_entite.id_e=? AND document_action.id_d= ? " .
+					" ORDER BY document_action.date DESC, document_action.id_a DESC LIMIT 1";
+			$list[$i]['last_action_display'] = $this->sqlQuery->fetchOneValue($sql,$id_e,$id_d); 
+			
 		}
 		return $list;
 	}
