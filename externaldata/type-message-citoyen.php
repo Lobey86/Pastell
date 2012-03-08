@@ -30,7 +30,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	<br/><br/>
 	<select name='messagetype'>
 	<?php foreach($infoTypes as $num => $type_message) : ?>
-			<option value='<?php hecho($webGFC->setInfo($num,$type_message)) ?>'><?php echo $type_message?></option>
+			<option value='<?php hecho($webGFC->setInfo($num,$type_message)) ?>'><?php echo utf8_decode($type_message) ?></option>
 	<?php endforeach; ?>
 	</select>
 	<?php else : ?>
@@ -42,7 +42,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	<select name='messagesoustype'>
 	<?php 
 	foreach($infoSousTypes as $num => $type_message) : ?>
-			<option value='<?php hecho ($webGFC->setInfo($num,$type_message)) ?>'><?php echo $type_message ?></option>
+			<option value='<?php hecho ($webGFC->setInfo($num,$type_message)) ?>'><?php echo utf8_decode($type_message) ?></option>
 	<?php endforeach; ?>
 	</select>
 	<?php endif;?>

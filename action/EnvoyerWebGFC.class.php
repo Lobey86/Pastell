@@ -6,6 +6,7 @@ require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
 class EnvoyerWebGFC extends Envoyer {
 	
 	public function go(){
+		
 		$formulaire = $this->getDonneesFormulaire();
 		$messageSousTypeId = $formulaire->get("messageSousTypeId");
 		$entite = $this->getEntite();
@@ -20,13 +21,18 @@ class EnvoyerWebGFC extends Envoyer {
 			$fichier = "";
 		}
 		$webGFC = new WebGFC();
-		$reponse = $webGFC->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
+		$courierID = $webGFC->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
+		$this->setLastMessage($webGFC->getLastMessage());
+		if (! $courierID){
+			return false;
+		}
+		$formulaire->setData("webgfc_courrier_id", $courierID);
 		
 		if ( ! parent::go()) {
 			return false;
 		}
-	
-		
+		$this->setLastMessage($webGFC->getLastMessage());
+		return true;
 	}
 	
 }

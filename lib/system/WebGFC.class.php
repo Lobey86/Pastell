@@ -6,8 +6,17 @@ class WebGFC {
 	const LOGIN = "pastell";
 	const PASSWORD = "pastell";
 	
+	const USERNAME = "pastell";
+	
+	private $lastMessage;
+	
 	private function getSoapClient(){
 		return new SoapClient(self::WSDL,array('login' => self::LOGIN, 'password' => self::PASSWORD));
+	}
+	
+	
+	public function getLastMessage(){
+		return $this->lastMessage;
 	}
 	
 	public function echoTest($string){
@@ -28,14 +37,30 @@ class WebGFC {
 		$ws = $this->getSoapClient();
 		$data = $ws->getGFCSoustypes(1,$type_nom);
 		foreach($data as $type){
-			$result[$type->string[0]] = utf8_decode($type->string[1]);
+			$result[$type->string[0]] = $type->string[1];
 		}
 		return $result;
 	}
 
 	public function createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username){
 		$ws = $this->getSoapClient();
-		return $ws->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
+		$response = $ws->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,self::USERNAME);
+		
+		if ($response->CourrierId != -1){
+			$this->lastMessage = $response->CodeRetour . " " .$response->Message;
+			return $response->CourrierId;
+		}
+		$this->lastMessage = $response->CodeRetour . " " .$response->Message; 
+		return false;
+	}
+	
+	public function getStatus($courrierID){
+		$ws = $this->getSoapClient();
+		$response = $ws->getStatut($courrierID);
+
+		$this->lastMessage = $response->CodeRetour . " " .utf8_decode($response->Message);
+		
+		return $response->CodeRetour;
 	}
 	
 	public function setInfo($type_num,$type_message){

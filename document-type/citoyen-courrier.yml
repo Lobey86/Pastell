@@ -11,8 +11,10 @@ formulaire:
 			requis: true
 		Sujet: {requis: true, title: true}
 		Message: {type: textarea}
-		pj: {name: Pièce jointe, type: file}
+		pj: {name: Pièce jointe, type: file, requis: true}
 		messageSousTypeId: {read-only: true, no-show: true}
+		webgfc_courrier_id: {read-only: true, no-show: true}
+		
 action:
 	creation:		
 		name-action: Créer
@@ -43,7 +45,22 @@ action:
 			document_is_valide: true
 		action-class: EnvoyerWebGFC
 		action-selection: collectivite
+	
+	status-webgfc:
+		name-action: Vérifier le status du document
+		name: Vérifié
+		rule:
+			role_id_e: editeur
+			droit_id_u: 'citoyen-courrier:edition'
+			last-action: 
+				recu
+		action-class: StatusWebGFC
 		
+	traite-webgfc: 
+		name: Traité
+		rule:
+			role_id_e: no-role
+	
 	recu:
 		name: Reçu
 		rule:
