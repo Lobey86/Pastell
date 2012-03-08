@@ -10,3 +10,10 @@ $webGFC = new WebGFC();
 //print_r($webGFC->getTypes(1));
 
 print_r($webGFC->getSousTypes(1,"Demandes citoyennes"));
+
+//$content = base64_encode("test");
+
+
+//$reponse = $webGFC->createCourrier(4,"eric@sigmalis.com","test","blalalal",$content,"pastell");
+
+//print_r($reponse);

@@ -17,7 +17,7 @@ $info = $message_type[1].":".$message_sous_type[1];
 
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-$donneesFormulaire->setData('messagetype',$info);
+$donneesFormulaire->setData('messagetype',utf8_decode($info));
 $donneesFormulaire->setData('messageSousTypeId',$message_sous_type[0]);
 
 header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
