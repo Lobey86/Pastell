@@ -4,7 +4,7 @@ require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
 
 
-class StatusWebGFC extends ActionExecutor {
+class WebGFCStatus extends ActionExecutor {
 
 	
 	public function go(){
@@ -18,12 +18,12 @@ class StatusWebGFC extends ActionExecutor {
 		
 		if ($result == "OK"){
 			
-			/*$entiteCollectivite = new Entite($this->getSQLQuery(),$id_col);
-			$infoCollectivite = $entiteCollectivite->getInfo();
-			$denomination_col = $infoCollectivite['denomination'];*/
+			$documentEntite = new DocumentEntite($this->getSQLQuery());
+			
+			$id_col = $documentEntite->getEntiteWithRole($this->id_d,"lecteur");
 			
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'traite-webgfc', "Le document a été traité ");
-			//$this->getActionCreator()->addToEntite($id_col,"Le document a été envoyé par $emmeteurName");
+			$this->getActionCreator()->addToEntite($id_col,"Le document a été traité");
 		}
 		
 		return true;
