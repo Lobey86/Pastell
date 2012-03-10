@@ -44,13 +44,13 @@ class WebGFC {
 
 	public function createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username){
 		$ws = $this->getSoapClient();
-		$response = $ws->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,self::USERNAME);
+		$response = $ws->createCourrier($messageSousTypeId,$contact,utf8_encode($titre),utf8_encode($object),$fichier,self::USERNAME);
 		
 		if ($response->CourrierId != -1){
-			$this->lastMessage = $response->CodeRetour . " " .$response->Message;
+			$this->lastMessage = $response->CodeRetour . " " . utf8_decode($response->Message);
 			return $response->CourrierId;
 		}
-		$this->lastMessage = $response->CodeRetour . " " .$response->Message; 
+		$this->lastMessage = $response->CodeRetour . " " .utf8_decode($response->Message); 
 		return false;
 	}
 	

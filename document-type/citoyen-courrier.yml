@@ -43,7 +43,7 @@ action:
 				creation
 				modification
 			document_is_valide: true
-		action-class: EnvoyerWebGFC
+		action-class: WebGFCEnvoie
 		action-selection: collectivite
 	
 	status-webgfc:
@@ -54,7 +54,7 @@ action:
 			droit_id_u: 'citoyen-courrier:edition'
 			last-action: 
 				recu
-		action-class: StatusWebGFC
+		action-class: WebGFCStatus
 		
 	traite-webgfc: 
 		name: Traité
@@ -65,16 +65,5 @@ action:
 		name: Reçu
 		rule:
 			role_id_e: no-role
-		accuse_de_reception_action: accuse_de_reception
-	
-	accuse_de_reception:
-		name-action: Accuser réception
-		name: Accusé réception
-		rule:
-			last-action:
-				recu
-			role_id_e: lecteur
-			
-		action-class: AccuserReception
 		
 	
