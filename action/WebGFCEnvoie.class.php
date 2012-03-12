@@ -16,7 +16,7 @@ class WebGFCEnvoie extends ActionExecutor {
 		$titre = $formulaire->get("sujet");
 		$object  = $formulaire->get("message");
 		if ($formulaire->getFilePath("pj")){
-			$fichier = base64_encode(file_get_contents($formulaire->getFilePath("pj")));
+			$fichier = file_get_contents($formulaire->getFilePath("pj"));
 		} else {
 			$fichier = "";
 		}
