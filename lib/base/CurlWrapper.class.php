@@ -15,6 +15,7 @@ class CurlWrapper {
 		$this->setProperties(CURLOPT_FOLLOWLOCATION, 1);
 		$this->setProperties(CURLOPT_MAXREDIRS, 5);
 		$this->postFile = array();
+		$this->postData = array();
 	}
 
 	public function __destruct(){
@@ -32,7 +33,6 @@ class CurlWrapper {
 	public function setServerCertificate($serverCertificate){
 		$this->setProperties( CURLOPT_CAINFO ,$serverCertificate ); 
 		$this->setProperties( CURLOPT_SSL_VERIFYHOST , 0 ); 
-		
 	}
 	
 	public function setClientCertificate($clientCertificate,$clientKey,$clientKeyPassword)	{

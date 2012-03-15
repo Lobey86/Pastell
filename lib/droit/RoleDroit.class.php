@@ -18,7 +18,6 @@ class RoleDroit {
 									'fournisseur:lecture',
 									'utilisateur:lecture',
 									'utilisateur:edition',
-									
 									'rh-messages:edition',
 									'rh-messages:lecture',
 									'gf-devis:lecture',

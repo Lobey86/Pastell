@@ -1,5 +1,6 @@
 Flux Généraux:
 	actes: Actes
+	helios: Helios
 	message-service:  Message interne
 	rh-messages: Message Centre de gestion
 	mailsec: Mail sécurisé
