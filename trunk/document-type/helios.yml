@@ -1,0 +1,190 @@
+nom: Helios 
+
+type: Général
+
+affiche_one: true
+
+formulaire:
+	PES:
+		iparapheur_type: 
+			name: Type iParapheur
+			no-show: true
+			read-only: true
+			type: externalData
+			
+		iparapheur_sous_type:
+			name: Sous Type iParapheur
+			requis: true
+			read-only: true
+			type: externalData
+			script: iparapheur-sous-type.php
+			script-controler: iparapheur-sous-type-controler.php
+			link_name: liste des types
+			controler: ChoixTypeParapheur
+			
+		Objet: {requis: true, title: true}	
+		fichier_pes: {name: Fichier PES, type: file, requis: true, commentaire: "format XML"}
+		visuel_pdf: {name: Visuel PDF, type: file, requis: true, commentaire: "format PDF"}
+		tedetis_transaction_id: {no-show: true}
+	
+	Signature:
+		has_signature: {no-show: true}
+		signature: {name: Signature de l'acte, type: file}
+		document_signe: {name: Bordereau de signature, type: file}
+	
+	Reponse:
+		has_reponse: {no-show: true}
+		fichier_reponse: {name: Fichier réponse, type: file}
+
+
+page-condition:
+	
+	Signature:
+		has_signature: true
+		
+	Reponse:
+		has_reponse: true
+
+action:
+	creation:		
+		name-action: Créer
+		name: Créé
+		
+		rule:
+			no-last-action:
+			droit_id_u: 'helios:edition'
+			type_id_e: 
+				service
+				collectivite
+		
+	modification:	
+		name-action: Modifier
+		name: En cours de rédaction
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			no-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'helios:edition'
+
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		
+		rule:
+			last-action: 
+				creation
+				modification
+				recu-iparapheur
+				rejet-iparapheur
+				tdt-error
+				refus-tdt
+			no-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'helios:edition'
+		action-class: Supprimer
+	
+	send-iparapheur:
+		name-action: Transmettre au parapheur
+		name: Transmis au parapheur
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			droit_id_u: 'helios:edition'
+			document_is_valide: true
+			herited-properties:
+				iparapheur_activate: true
+			
+		action-class: IParapheurEnvoieHelios
+		auto-class: IParapheurRecupHelios
+								 	
+	verif-iparapheur:
+		name-action: Vérifier le statut de signature
+		name: Signature vérifié
+		rule:
+			last-action:
+				send-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'helios:edition'
+		action-class: IParapheurRecupHelios
+		
+	recu-iparapheur:
+		name: Signature récuperée
+		rule:
+			role_id_e: no-role
+	
+	rejet-iparapheur:
+		name: Signature refusée
+		rule: 
+			role_id_e: no-role
+		
+	send-tdt:
+		name-action: Transmettre au TdT
+		name: Transmis au TdT
+		
+		rule:
+			last-action: 
+				recu-iparapheur
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'helios:edition'
+			herited-properties:
+				tdt_activate: true
+				
+		action-class: TedetisEnvoieHelios
+		auto-class: TedetisRecupHelios
+		
+	verif-tdt:
+		name-action: Vérifier le statut de la transaction
+		name: Statut vérifié par le TdT		
+		rule:
+			last-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'helios:edition'
+		action-class: TedetisRecupHelios
+	
+	
+	acquiter-tdt:
+		name: Le fichier PES a été acquitté 
+		rule:
+			role_id_e: no-role
+	
+	refus-tdt:
+		name: Le fichier PES a été refusé
+		rule:
+			role_id_e: no-role
+			
+	info-tdt:
+		name: Un fichier de réponse PES est disponible
+		rule:
+			role_id_e: no-role
+	
+	tdt-error:
+		name: Erreur sur le Tedetis
+		rule:
+			role_id_e: no-role					
+			
+	send-archive:
+		name-action: Verser au SAE
+		name: Versé au SAE
+	
+		rule:
+			has-action:
+				acquiter-tdt
+				info-tdt
+			no-action:
+				send-archive
+			role_id_e: editeur
+			droit_id_u: 'helios:edition'
+			herited-properties:
+				sae_activate: on
+		action-class: SAEEnvoiHelios
+			

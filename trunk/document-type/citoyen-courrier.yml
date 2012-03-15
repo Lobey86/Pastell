@@ -31,7 +31,20 @@ action:
 			type_id_e: citoyen
 			last-action: 
 				creation
-				modification	
+				modification
+				
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		
+		rule:
+			type_id_e: citoyen
+			last-action: 
+				creation
+				modification
+				traite-webgfc
+			
+		action-class: Supprimer	
 				
 	envoi:
 		name-action: Envoyer à une collectivité

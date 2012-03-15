@@ -79,3 +79,7 @@ INSERT INTO `role_droit` (`role`, `droit`) VALUES
 INSERT INTO `role_droit` VALUES('admin', 'citoyen-courrier:lecture');
 INSERT INTO `role_droit` VALUES('admin', 'citoyen-courrier:edition');
 INSERT INTO `role_droit` VALUES('agent collectivite', 'citoyen-courrier:lecture');
+
+INSERT INTO `role_droit` VALUES('admin', 'helios:edition');
+INSERT INTO `role_droit` VALUES('admin', 'helios:lecture');
+

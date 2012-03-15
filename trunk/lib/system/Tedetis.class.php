@@ -14,6 +14,9 @@ class Tedetis {
 	const STATUS_VALIDE = 5;
 	const STATUS_REFUSE = 6;
 	
+	const STATUS_HELIOS_TRAITEMENT = 7;
+	const STATUS_HELIOS_INFO = 8;
+	
 	
 	const URL_TEST = "/modules/actes/";
 	const URL_CLASSIFICATION = "/modules/actes/actes_classification_fetch.php";
@@ -22,6 +25,10 @@ class Tedetis {
 	const URL_ANNULATION = "/modules/actes/actes_transac_cancel.php";
 	const URL_BORDEREAU = "/modules/actes/actes_create_pdf.php";
 	const URL_DEMANDE_CLASSIFICATION = "/modules/actes/actes_classification_request.php";
+	const URL_POST_HELIOS = "/modules/helios/api/helios_importer_fichier.php";
+	const URL_STATUS_HELIOS =  "/modules/helios/api/helios_transac_get_status.php";
+	const URL_HELIOS_RETOUR = "/modules/helios/helios_download_acquit.php";
+	
 	
 	public static function getStatusString($status){
 		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
@@ -40,6 +47,8 @@ class Tedetis {
 	
 	private $classificationFile;
 	private $arActes;
+	private $reponseFile;
+	
 	
 	public function __construct(DonneesFormulaire $collectiviteProperties){
 		
@@ -133,6 +142,30 @@ class Tedetis {
 		return true;
 	}
 	
+	public function postHelios(DonneesFormulaire $donneesFormulaire){
+		$file_path = $donneesFormulaire->getFilePath('fichier_pes');
+		$file_name = $donneesFormulaire->get('fichier_pes');
+		$file_name = $file_name[0];
+		$this->curlWrapper->addPostFile('enveloppe',$file_path,$file_name);
+		$result = $this->exec( self::URL_POST_HELIOS );	
+		if( ! $result ){
+			$this->lastError = "Erreur lors de la connexion à S²low (".$this->tedetisURL.")";
+			return false;
+		}	
+		$xml = simplexml_load_string($result);
+		if (! $xml){
+			$this->lastError = "La réponse de S²low n'a pas pu être analysé : (".$result.")";
+			return false;
+		}
+		
+		if ($xml->resultat == "OK"){
+			$donneesFormulaire->setData('tedetis_transaction_id',$xml->id);
+			return true;
+		}
+		$this->lastError = "Erreur lors de l'envoi du PES : " . utf8_decode($xml->message);
+		return false;
+	}
+	
 	
 	public function postActes(DonneesFormulaire $donneesFormulaire) {
 		
@@ -186,6 +219,28 @@ class Tedetis {
 		return true;		
 	}
 	
+	public function getStatusHelios($id_transaction){
+		$result = $this->exec(self::URL_STATUS_HELIOS."?transaction=$id_transaction");
+		if( ! $result ){
+			$this->lastError = "Erreur lors de la connexion à S²low (".$this->tedetisURL.")";
+			return false;
+		}
+		$xml = simplexml_load_string($result);
+		if (! $xml){
+			$this->lastError = "La réponse de S²low n'a pas pu être analysé : (".$result.")";
+			return false;
+		}
+		
+		if ($xml->resultat == "KO"){
+			$this->lastError = $xml->message;
+			return false;
+		}
+		$this->reponseFile = $result;
+		
+		return strval($xml->status);
+	}
+	
+	
 	public function getStatus($id_transaction){
 		$result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
 		if (! $result){
@@ -209,6 +264,10 @@ class Tedetis {
 		return $result;
 	}
 	
+	public function getLastReponseFile(){
+		return $this->reponseFile;
+	}
+	
 	public function getARActes(){
 		return $this->arActes;
 	}
@@ -225,4 +284,19 @@ class Tedetis {
 		$result = $this->exec(self::URL_BORDEREAU."?trans_id=$id_transaction");
 		return $result;
 	}
+	
+	public function getStatusInfo($status_id){
+		$all_status = array (
+					-1 => "Erreur",0 =>"Annulé","Posté","status 2 invalide","Transmis","Acquittement reçu","status 5 invalide","Refusé","En traitement","Information disponible");
+		if (empty($all_status[$status_id])){
+			return "Status $status_id inconnu sur Pastell";
+		}
+		return $all_status[$status_id];
+	}
+	
+	public function getFichierRetour($transaction_id){
+		$result = $this->exec(self::URL_HELIOS_RETOUR."?id=$transaction_id");
+		return $result;
+	}
+	
 }

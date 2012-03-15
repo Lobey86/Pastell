@@ -128,6 +128,39 @@ class IParapheur {
 		}
 	}
 	
+	public function sendHeliosDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,$visuel_pdf){
+		$client = $this->getClient();		
+		try {
+			$data = array(
+					"TypeTechnique"=>utf8_encode($typeTechnique),
+					"SousType"=> utf8_encode($sousType),
+					"DossierID" => $dossierID,
+					"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
+					"VisuelPDF" => array("_" => $visuel_pdf, "contentType" => "application/pdf"),
+					"Visibilite" => "SERVICE",
+					
+			); 
+			$result =  $client->CreerDossier($data);
+
+			$messageRetour = $result->MessageRetour;
+			$message = "[{$messageRetour->severite}] {$messageRetour->message}";
+			if ($messageRetour->codeRetour == "KO"){
+				$this->lastError = utf8_decode($message);
+				return false;
+			} elseif($messageRetour->codeRetour == "OK") {
+				return utf8_decode($message);
+			} else {
+				$this->lastError = "Le iparapheur n'a pas retourné de code de retour : " . utf8_decode($message);
+				return false;
+			}		
+		} catch (Exception $e){
+			$this->lastError = $e->getMessage() . $client->__getLastResponse();
+			return false;			
+		}
+		
+	}
+	
+	
 	public function sendDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,array $all_annexes = array()){
 		$client = $this->getClient();		
 		try {
@@ -153,15 +186,7 @@ class IParapheur {
 				
 			}
 			$result =  $client->CreerDossier($data);
-				
-			
-			/*"DocumentsAnnexes" => array(
-				nom=>"",
-				fichier=>"",
-				mimetype => "",
-			
-			)*/
-			
+
 			$messageRetour = $result->MessageRetour;
 			$message = "[{$messageRetour->severite}] {$messageRetour->message}";
 			if ($messageRetour->codeRetour == "KO"){
@@ -185,7 +210,6 @@ class IParapheur {
 		$document = file_get_contents(PASTELL_PATH . "/data-exemple/exemple.pdf");		
 		return $this->sendDocument("Actes","Deliberation",$dossierID,$document,"application/pdf");
 	}
-	
 	
 	private function getClient(){
 		static $client;
