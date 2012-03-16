@@ -37,7 +37,7 @@ class WebGFC {
 		$ws = $this->getSoapClient();
 		$data = $ws->getGFCSoustypes(1,$type_nom);
 		foreach($data as $type){
-			$result[$type->string[0]] = $type->string[1];
+			$result[$type->anyType[0]] = $type->anyType[1];
 		}
 		return $result;
 	}
