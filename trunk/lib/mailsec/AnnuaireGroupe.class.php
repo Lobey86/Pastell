@@ -40,6 +40,13 @@ class AnnuaireGroupe {
 		return $this->sqlQuery->fetchOneValue($sql,$id_g);
 	}
 	
+	public function getAllUtilisateur($id_g){
+		$sql = "SELECT * FROM annuaire_groupe_contact " . 
+		" JOIN annuaire ON annuaire_groupe_contact.id_a=annuaire.id_a " .
+		" WHERE id_g=? ";
+		return $this->sqlQuery->fetchAll($sql,$id_g);
+	}
+	
 	public function getUtilisateur($id_g,$offset = 0){
 		$sql = "SELECT * FROM annuaire_groupe_contact " . 
 				" JOIN annuaire ON annuaire_groupe_contact.id_a=annuaire.id_a " .

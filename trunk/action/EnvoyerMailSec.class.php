@@ -60,7 +60,7 @@ class EnvoyerMailSec extends ActionExecutor {
 				if (preg_match("/^groupe: \"(.*)\"$/",$mail,$matches)){
 					$groupe = $matches[1];
 					$id_g = $annuaireGroupe->getFromNom($groupe);
-					$utilisateur = $annuaireGroupe->getUtilisateur($id_g);
+					$utilisateur = $annuaireGroupe->getAllUtilisateur($id_g);
 					foreach($utilisateur as $u){
 						$this->sendEmail($u['email'],$type);
 					}
