@@ -34,7 +34,7 @@ class ActesArchiveSEDA {
 		assert('$authorityInfo["sae_originating_agency"]');
 		assert('$authorityInfo["siren"]');
 		
-		$authorityInfo;
+		$this->authorityInfo = $authorityInfo;
 	}
 	
 	public function setActesFileName($actesFileName){

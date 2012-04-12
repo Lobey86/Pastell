@@ -11,6 +11,7 @@ formulaire:
 			no-show: true
 			read-only: true
 			type: externalData
+			default: PES
 			
 		iparapheur_sous_type:
 			name: Sous Type iParapheur
@@ -29,7 +30,7 @@ formulaire:
 	
 	Signature:
 		has_signature: {no-show: true}
-		signature: {name: Signature de l'acte, type: file}
+		fichier_pes_signe: {name: Fichier PES signé, type: file}
 		document_signe: {name: Bordereau de signature, type: file}
 	
 	Reponse:

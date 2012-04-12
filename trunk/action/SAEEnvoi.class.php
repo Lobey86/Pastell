@@ -50,7 +50,10 @@ class SAEEnvoi extends ActionExecutor {
 	
 		$actesArchivesSEDA = new ActesArchiveSEDA("/tmp/");
 		$actesArchivesSEDA->setAuthorityInfo($authorityInfo);
-		$filename = basename($donneesFormulaire->getFilePath('arrete'));
+		
+		$filename = $donneesFormulaire->get('arrete');
+		$filename = $filename[0];
+		//$filename = basename($donneesFormulaire->getFilePath('arrete'));
 		copy($donneesFormulaire->getFilePath('arrete'),"/tmp/$filename");
 		$actesArchivesSEDA->setActesFileName($filename);
 		$actesArchivesSEDA->setTransactionStatusInfo($actesTransactionsStatusInfo);
@@ -71,7 +74,7 @@ class SAEEnvoi extends ActionExecutor {
 			return false;
 		}
 		$bordereau = $actesArchivesSEDA->getBordereau($transactionsInfo);
-	
+
 		
 		$authorityInfo = array(
 							"sae_wsdl" =>  $collectiviteProperties->get("sae_wsdl"),

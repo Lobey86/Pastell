@@ -21,7 +21,8 @@ class IparapheurType {
 		$iParapheur = new IParapheur($donneesFormulaire);
 		
 		$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-		$this->type = "Actes";
+		$this->type = $donneesFormulaire->get('iparapheur_type');
+		
 		return $iParapheur;
 	}
 	
@@ -67,8 +68,12 @@ class IparapheurType {
 		}
 		
 		$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-		$donneesFormulaire->setData('iparapheur_type',"Actes");
 		$donneesFormulaire->setData('iparapheur_sous_type',$iparapheur_type[$iparapheurtype]);		
+	}
+	
+	public function setType($donneesFormulaireFactory, $id_d,$type_document,$type_iparapheur){
+		$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type_document);
+		$donneesFormulaire->setData('iparapheur_type',$type_iparapheur);
 	}
 	
 	

@@ -10,10 +10,16 @@ $collectiviteProperties = $donneesFormulaireFactory->get(3,'collectivite-propert
 
 $iParapheur = new IParapheur($collectiviteProperties);
 
-$result = $iParapheur->getDossier("20120304F Test F"); 
+$result = $iParapheur->getDossier("Test C pesA_xml"); 
 
-$info = $iParapheur->getBordereau($result);
-print_r($info);
+foreach($result as $k => $v){
+	echo $k."\n";
+}
+
+print_r($result->FichierPES);
+//print_r(array_keys($result));
+//$info = $iParapheur->getBordereau($result);
+//print_r($info);
 
 echo $iParapheur->getLastError();
 

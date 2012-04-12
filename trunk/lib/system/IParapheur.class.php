@@ -77,6 +77,8 @@ class IParapheur {
 
 			if (isset($result->SignatureDocPrincipal)){
 				$info['signature'] = $result->SignatureDocPrincipal->_;
+			} elseif ($result->FichierPES) {
+				$info['signature'] = $result->FichierPES->_;
 			} else {
 				$info['signature'] = false;
 			}
@@ -130,6 +132,7 @@ class IParapheur {
 	
 	public function sendHeliosDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,$visuel_pdf){
 		$client = $this->getClient();		
+
 		try {
 			$data = array(
 					"TypeTechnique"=>utf8_encode($typeTechnique),
@@ -138,6 +141,7 @@ class IParapheur {
 					"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
 					"VisuelPDF" => array("_" => $visuel_pdf, "contentType" => "application/pdf"),
 					"Visibilite" => "SERVICE",
+					"XPathPourSignatureXML" => ".",
 					
 			); 
 			$result =  $client->CreerDossier($data);
@@ -253,10 +257,15 @@ class IParapheur {
 	public function getSousType($type){
 		try{
 			$sousType = $this->getClient()->GetListeSousTypes($type)->SousType;
-			foreach($sousType as $n => $v){
-				$sousType[$n] = utf8_decode($v);
+			$result = array();
+			if (is_array($sousType)){
+				foreach($sousType as $n => $v){
+					$result[$n] = utf8_decode($v);
+				}
+			} else {
+				$result[0] = utf8_decode($sousType);
 			}
-			return $sousType;
+			return $result;
 		}  catch (Exception $e){
 			$this->lastError = $e->getMessage();
 			return false;			
