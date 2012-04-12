@@ -10,9 +10,13 @@ class IParapheurRecupHelios extends ActionExecutor {
 		$iParapheur = new IParapheur($collectiviteProperties);		
 		$helios = $this->getDonneesFormulaire();
 		
-		$dossierID = $iParapheur->getDossierID($helios->get('fichier_pes'),$helios->get('objet'));
+		$file_array = $helios->get('fichier_pes');
+		$filename = $file_array[0];
+		
+		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
 		
 		$result = $iParapheur->getHistorique($dossierID);				
+				
 		if (! $result){
 			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
 			return false;
@@ -39,7 +43,10 @@ class IParapheurRecupHelios extends ActionExecutor {
 		$collectiviteProperties = $this->getCollectiviteProperties();
 		$iParapheur = new IParapheur($collectiviteProperties);		
 		$helios = $this->getDonneesFormulaire();
-		$dossierID = $iParapheur->getDossierID($helios->get('fichier_pes'),$helios->get('objet'));
+		$file_array = $helios->get('fichier_pes');
+		$filename = $file_array[0];
+		
+		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
 		
 		$info = $iParapheur->getSignature($dossierID);
 		if (! $info ){
@@ -49,7 +56,7 @@ class IParapheurRecupHelios extends ActionExecutor {
 		
 		$helios->setData('has_signature',true);
 		if ($info['signature']){
-			$helios->addFileFromData('signature',"signature.zip",$info['signature']);
+			$helios->addFileFromData('fichier_pes_signe',$filename,$info['signature']);
 		}
 		$helios->addFileFromData('document_signe',$info['nom_document'],$info['document']);
 		

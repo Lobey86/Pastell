@@ -17,7 +17,11 @@ class IParapheurEnvoieHelios extends ActionExecutor {
 		
 		$visuel_pdf  = file_get_contents($helios->getFilePath('visuel_pdf'));
 		
-		$dossierID = $iParapheur->getDossierID($helios->get('fichier_pes'),$helios->get('objet'));
+		$file_array = $helios->get('fichier_pes');
+		$filename = $file_array[0];
+		
+		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
+		
 		
 		$result = $iParapheur->sendHeliosDocument($helios->get('iparapheur_type'),
 											$helios->get('iparapheur_sous_type'),

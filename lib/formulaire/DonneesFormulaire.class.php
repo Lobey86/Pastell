@@ -191,10 +191,9 @@ class DonneesFormulaire {
 	}
 	
 	public function geth($item,$default = false){
-
 		return nl2br(htmlentities($this->get($item,$default),ENT_QUOTES));
 	}
-	
+
 	public function isValidable(){
 		$this->formulaire->addDonnesFormulaire($this);
 		foreach($this->formulaire->getAllFields() as $field){

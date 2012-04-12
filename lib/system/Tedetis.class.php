@@ -143,8 +143,8 @@ class Tedetis {
 	}
 	
 	public function postHelios(DonneesFormulaire $donneesFormulaire){
-		$file_path = $donneesFormulaire->getFilePath('fichier_pes');
-		$file_name = $donneesFormulaire->get('fichier_pes');
+		$file_path = $donneesFormulaire->getFilePath('fichier_pes_signe');
+		$file_name = $donneesFormulaire->get('fichier_pes_signe');
 		$file_name = $file_name[0];
 		$this->curlWrapper->addPostFile('enveloppe',$file_path,$file_name);
 		$result = $this->exec( self::URL_POST_HELIOS );	
