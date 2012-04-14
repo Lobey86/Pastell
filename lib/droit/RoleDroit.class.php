@@ -40,6 +40,8 @@ class RoleDroit {
 									'annuaire:edition',
 									'citoyen-courrier:lecture',
 									'citoyen-courrier:edition',
+									'helios:edition',
+									'helios:lecture'
 					),
 					'lecteur' => array(
 									'entite:lecture',
