@@ -81,36 +81,23 @@ class HeliosArchiveSEDA {
 		
 		$archiveTransfer->Contains->ArchivalProfile = "Profil flux comptable PES V2";
 		$archiveTransfer->Contains->ArchivalProfile['schemeAgencyName'] = "Adullact Projet";
-		
-		$archiveTransfer->Contains->Name = "Flux comptable PES en date du {$transactionsInfo['date']} de la collectivité {$this->authorityInfo['name']}";
-		
+				
 		$archiveTransfer->Contains->DescriptionLanguage = "fr";
 		$archiveTransfer->Contains->DescriptionLanguage['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->DescriptionLevel = "file";
 		$archiveTransfer->Contains->DescriptionLevel['listVersionID'] = "edition 2009";
 		
-		$archiveTransfer->Contains->AccessRestriction->Code = "AR038";
-		$archiveTransfer->Contains->AccessRestriction->Code['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
+		$archiveTransfer->Contains->Name = "Flux comptable PES en date du {$transactionsInfo['date']} de la collectivité {$this->authorityInfo['name']}";
 		
-		$archiveTransfer->Contains->Appraisal->Code = "detruire";
-		$archiveTransfer->Contains->Appraisal->Code['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->Appraisal->Duration = "P10Y";
-		$archiveTransfer->Contains->Appraisal->StartDate =  date('Y-m-d',strtotime($transactionsInfo['date']));
-	
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = "Les pièces transférées au comptable public, sont intégrées au flux comptable PES V2 défini par le programme Helios et sont transférées pour archivage depuis le tiers de télétransmission ou la passerelle Helios pour le compte de {$this->authorityInfo['name']}. La description a été établie selon les règles du standard d'échange de données pour l'archivage électronique version 0.2, publié dans le référentiel général d'interopérabilité.";
 		$archiveTransfer->Contains->ContentDescription->Language = "fr";
 		$archiveTransfer->Contains->ContentDescription->Language['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->ContentDescription->LatestDate = date('Y-m-d',strtotime($transactionsInfo['date']));		
 		$archiveTransfer->Contains->ContentDescription->OldestDate = date('Y-m-d',strtotime($transactionsInfo['date']));		
-		$archiveTransfer->Contains->ContentDescription->LatestDate = date('Y-m-d',strtotime($transactionsInfo['date']));
-		
 		
 		$archiveTransfer->Contains->ContentDescription->Size = "{$this->fileSize}";
-		
 		$archiveTransfer->Contains->ContentDescription->Size['unitCode'] = '4L';
-		
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Identification = $this->authorityInfo['sae_originating_agency'];
-
 		
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordContent = $this->authorityInfo['name'];
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordReference = $this->authorityInfo['siren'];
@@ -146,51 +133,62 @@ class HeliosArchiveSEDA {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordType = "subject";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordType["listVersionID"] = "edition 2009";	
 		
+		$archiveTransfer->Contains->Appraisal->Code = "detruire";
+		$archiveTransfer->Contains->Appraisal->Code['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->Appraisal->Duration = "P10Y";
+		$archiveTransfer->Contains->Appraisal->StartDate =  date('Y-m-d',strtotime($transactionsInfo['date']));
+	
+		$archiveTransfer->Contains->AccessRestriction->Code = "AR038";
+		$archiveTransfer->Contains->AccessRestriction->Code['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
+		
 		$archiveTransfer->Contains->Contains[0]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[0]->DescriptionLevel['listVersionID'] = "edition2009";
+		$archiveTransfer->Contains->Contains[0]->DescriptionLevel['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->Contains[0]->Name = "Journal des transmissions";
-		$archiveTransfer->Contains->Contains[0]->Document->Description = "Journal des transmissions";
-		$archiveTransfer->Contains->Contains[0]->Document->Type = "CDO";
-		$archiveTransfer->Contains->Contains[0]->Document->Type['listVersionID'] = "edition2009";
+		
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['format'] = 'fmt/101';
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['mimeCode'] = 'text/xml';
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['filename'] = $this->file2Add['journal'];
-			
+		$archiveTransfer->Contains->Contains[0]->Document->Description = "Journal des transmissions";
+		$archiveTransfer->Contains->Contains[0]->Document->Type = "CDO";
+		$archiveTransfer->Contains->Contains[0]->Document->Type['listVersionID'] = "edition 2009";
+
 		
 		$archiveTransfer->Contains->Contains[1]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[1]->DescriptionLevel['listVersionID'] = "edition2009";
+		$archiveTransfer->Contains->Contains[1]->DescriptionLevel['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->Contains[1]->Name = "PES";
 		
 		$archiveTransfer->Contains->Contains[1]->ContentDescription->Description = $transactionsInfo['description'];
 		$archiveTransfer->Contains->Contains[1]->ContentDescription->Language='fr';
-		$archiveTransfer->Contains->Contains[1]->ContentDescription->Language['listVersionID'] = "edition2009";
+		$archiveTransfer->Contains->Contains[1]->ContentDescription->Language['listVersionID'] = "edition 2009";
 
-		$archiveTransfer->Contains->Contains[1]->Document->Description="PES";
-		$archiveTransfer->Contains->Contains[1]->Document->Type = "CDO";
-		$archiveTransfer->Contains->Contains[1]->Document->Type['listVersionID'] = "edition2009";
 		$archiveTransfer->Contains->Contains[1]->Document->Attachment['format'] = 'fmt/101';
 		$archiveTransfer->Contains->Contains[1]->Document->Attachment['mimeCode'] = 'text/xml';
 		$archiveTransfer->Contains->Contains[1]->Document->Attachment['filename'] = $this->file2Add['pes_aller'];;
+		$archiveTransfer->Contains->Contains[1]->Document->Description="PES";
+		$archiveTransfer->Contains->Contains[1]->Document->Type = "CDO";
+		$archiveTransfer->Contains->Contains[1]->Document->Type['listVersionID'] = "edition 2009";
+
 		
 		$archiveTransfer->Contains->Contains[1]->Contains[0]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[1]->Contains[0]->DescriptionLevel['listVersionID'] = "edition2009";
+		$archiveTransfer->Contains->Contains[1]->Contains[0]->DescriptionLevel['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->Contains[1]->Contains[0]->Name = "Bordereau et pièces justificatives";
 		
-		//TODO pes retour description
 		$archiveTransfer->Contains->Contains[1]->Contains[0]->ContentDescription->Description = $transactionsInfo['pes_retour_description'];
 		$archiveTransfer->Contains->Contains[1]->Contains[0]->ContentDescription->Language = "fr";
-		$archiveTransfer->Contains->Contains[1]->Contains[0]->ContentDescription->Language['listVersionID'] = "edition2009";
+		$archiveTransfer->Contains->Contains[1]->Contains[0]->ContentDescription->Language['listVersionID'] = "edition 2009";
 		
 		$archiveTransfer->Contains->Contains[1]->Contains[1]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[1]->Contains[1]->DescriptionLevel['listVersionID'] = "edition2009";
+		$archiveTransfer->Contains->Contains[1]->Contains[1]->DescriptionLevel['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->Contains[1]->Contains[1]->Name = "PES ACK/NACK";
 		
-		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Description="PES ACK/NACK";
-		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Type = "CDO";
-		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Type['listVersionID'] = "edition2009";
 		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Attachment['format'] = 'fmt/101';
 		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Attachment['mimeCode'] = 'text/xml';
 		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Attachment['filename'] = $this->file2Add['pes_retour'];
+		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Description="PES ACK/NACK";
+		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Type = "CDO";
+		$archiveTransfer->Contains->Contains[1]->Contains[1]->Document->Type['listVersionID'] = "edition 2009";
+
 		return $archiveTransfer->asXML();
 	}
 	
