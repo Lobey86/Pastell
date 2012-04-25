@@ -35,9 +35,6 @@ class SAEEnvoiHelios extends ActionExecutor {
 		$heliosArchivesSEDA = new HeliosArchiveSEDA("/tmp/");
 		$heliosArchivesSEDA->setAuthorityInfo($authorityInfo);
 		
-		$journalFilename = "journal.xml";
-		file_put_contents("/tmp/journal.xml", "<test></test>");
-		
 		$pes_aller = $donneesFormulaire->get('fichier_pes_signe');
 		$pes_aller = $pes_aller[0];
 		copy($donneesFormulaire->getFilePath('fichier_pes_signe'),"/tmp/$pes_aller");
@@ -46,9 +43,9 @@ class SAEEnvoiHelios extends ActionExecutor {
 		$pes_retour = $pes_retour[0];
 		copy($donneesFormulaire->getFilePath('fichier_reponse'),"/tmp/$pes_retour");
 		
-		$heliosArchivesSEDA->addFiles($journalFilename,$pes_aller,$pes_retour);
+		$heliosArchivesSEDA->addFiles($pes_aller,$pes_retour);
 		
-		$files_size_in_mo = sprintf("%0.3f",(filesize("/tmp/$pes_aller") + filesize("/tmp/$pes_retour") + filesize("/tmp/$journalFilename"))/1024/1024);
+		$files_size_in_mo = sprintf("%0.3f",(filesize("/tmp/$pes_aller") + filesize("/tmp/$pes_retour") )/1024/1024);
 		
 		
 		$heliosArchivesSEDA->setFileSize($files_size_in_mo);
