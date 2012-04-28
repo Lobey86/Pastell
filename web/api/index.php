@@ -110,6 +110,18 @@ $info = array(
 				"destinataire[]" => array("required" => false,"default"=>"","comment"=>"tableau contenant l'identifiant des destinataires pour les actions qui le requièrent")
 				),	
 	),	
+
+	"recuperation-fichier.php" => array(
+		"name" => "Récupère le contenu d'un fichier",
+		"script" => "recuperation-fichier.php",
+		"result" => "recuperation-fichier.php?id_d=7GUygPb&id_e=3&field=fichier_pes&num=0",
+		"param" => array("id_e" => $paramInfo['id_e'],
+						"id_d"=>$paramInfo['id_d'],
+						"field"=> array("required" => true,"default"=>"","comment"=>"le nom d'un champ du document"),
+						"num" => array("required" => false,"default"=>"0","comment"=>"le numéro du fichier, s'il s'agit d'un champ fichier multiple")
+					)
+	),
+	
 "journal" => array(
 	"name" => "Récupèrer le journal",
 	"script"=> "journal.php",
