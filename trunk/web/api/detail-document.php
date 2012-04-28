@@ -21,6 +21,6 @@ $actionPossible = $actionPossibleFactory->getInstance($id_u,$id_e,$id_d,$info['t
 
 $result['data'] = $donneesFormulaire->getRawData();
 $result['action-possible'] = $actionPossible->getActionPossible($id_d);
-
+$result['action_possible'] = $result['action-possible']; 
 
 $JSONoutput->display($result);
