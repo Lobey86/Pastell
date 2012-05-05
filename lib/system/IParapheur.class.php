@@ -1,6 +1,7 @@
 <?php 
 
 
+
 //http://stackoverflow.com/questions/5948402/having-issues-with-mime-headers-when-consuming-jax-ws-using-php-soap-client
 
 class MySoapClient extends SoapClient {
@@ -111,6 +112,25 @@ class IParapheur {
 		return $result;
 	}
 	
+	public function getAllHistoriqueInfo($dossierID){
+		try{
+			$result =  $this->getClient()->GetHistoDossier($dossierID);
+			if ( empty($result->LogDossier)){
+				$this->lastError = "Le dossier n'a pas été trouvé";
+				return false;
+			}
+			return $result;
+		}  catch (Exception $e){
+			$this->lastError = $e->getMessage();
+			return false;			
+		}
+	}
+	
+	public function getLastHistorique($all_historique){
+		$lastLog = end($all_historique->LogDossier);
+		$date = date("d/m/Y H:i:s",strtotime($lastLog->timestamp));
+		return utf8_decode($date . " : [" . $lastLog->status . "] ".$lastLog->annotation);
+	}
 	
 	public function getHistorique($dossierID){
 		try{
@@ -120,10 +140,7 @@ class IParapheur {
 				$this->lastError = "Le dossier n'a pas été trouvé";
 				return false;
 			}
-			
-			$lastLog = end($result->LogDossier);
-			$date = date("d/m/Y H:i:s",strtotime($lastLog->timestamp));
-			return utf8_decode($date . " : [" . $lastLog->status . "] ".$lastLog->annotation);
+			return $this->getLastHistorique($result);
 		}  catch (Exception $e){
 			$this->lastError = $e->getMessage();
 			return false;			

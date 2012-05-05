@@ -76,7 +76,18 @@ $info = array(
 	"result"=>"detail-document.php?id_d=CFA0o0U&id_e=576",
 	"param" => array("id_e" => $paramInfo['id_e'],"id_d"=>$paramInfo['id_d']),
 	),	
-	
+
+"detail-several-document" => array(
+	"name"=> "Détail sur plusieurs documents",
+	"script"=> "detail-several-document.php",
+	"result"=>"detail-several-document.php?id_d[]=CFA0o0U&id_d[]=SF45AQ&id_e=576",
+	"param" => array("id_e" => $paramInfo['id_e'],"id_d[]"=>array(
+			"required" =>  true,
+			"default" => "",
+			"comment" => "Tableau d'identifiants uniques de documents  (retourné par list-document.php)",
+			),),
+	),		
+		
 "create-document" => array(
 	"name"=> "Création d'un document",
 	"script"=> "create-document.php",

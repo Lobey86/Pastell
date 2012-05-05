@@ -2,6 +2,7 @@
 
 require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
+require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 
 class IParapheurRecupHelios extends ActionExecutor {
 	
@@ -15,12 +16,22 @@ class IParapheurRecupHelios extends ActionExecutor {
 		
 		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
 		
-		$result = $iParapheur->getHistorique($dossierID);				
-				
-		if (! $result){
+		$all_historique = $iParapheur->getAllHistoriqueInfo($dossierID);
+		
+		if (! $all_historique){
 			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
 			return false;
 		}
+		
+		$array2XML = new Array2XML();
+		$historique_xml = $array2XML->getXML('iparapheur_historique',json_decode(json_encode($all_historique),true));
+		
+		
+		$helios->setData('has_historique',true);
+		$helios->addFileFromData('iparapheur_historique',"iparapheur_historique.xml",$historique_xml);
+		
+		$result = $iParapheur->getLastHistorique($all_historique);
+		
 		if (strstr($result,"[Archive]")){
 			return $this->retrieveDossier();
 		}
@@ -57,6 +68,10 @@ class IParapheurRecupHelios extends ActionExecutor {
 		$helios->setData('has_signature',true);
 		if ($info['signature']){
 			$helios->addFileFromData('fichier_pes_signe',$filename,$info['signature']);
+		} else {
+			$fichier_pes_path = $helios->getFilePath('fichier_pes',0);
+			$fichier_pes_content = file_get_contents($fichier_pes_path);
+			$helios->addFileFromData('fichier_pes_signe',$filename,$fichier_pes_content);
 		}
 		$helios->addFileFromData('document_signe',$info['nom_document'],$info['document']);
 		
