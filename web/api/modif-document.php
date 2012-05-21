@@ -4,6 +4,7 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/document/Document.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_e = $recuperateur->getInt('id_e',0);
@@ -19,12 +20,23 @@ if (!$info || ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 
+$documentType = $documentTypeFactory->getDocumentType($info['type']);
+$formulaire = $documentType->getFormulaire();
+
+$entite = new Entite($sqlQuery,$id_e);
+$actionPossible = new ActionPossible($sqlQuery,$id_e,$id_u, $documentType->getAction());
+$actionPossible->setRoleUtilisateur($roleUtilisateur);
+$actionPossible->setDonnesFormulaire($donneesFormulaire);
+$actionPossible->setEntite($entite);
+
+if ( ! $actionPossible->isActionPossible($id_d,'modification')) {
+	$JSONoutput->displayErrorAndExit("L'action « modification »  n'est pas permise");
+}
+
 $fileUploader = new FileUploader($_FILES);
 $modif = $donneesFormulaire->saveAll($recuperateur,$fileUploader);
 
 
-$documentType = $documentTypeFactory->getDocumentType($info['type']);
-$formulaire = $documentType->getFormulaire();
 
 $titre_field = $formulaire->getTitreField();
 $titre = $donneesFormulaire->get($titre_field);
