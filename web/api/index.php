@@ -154,6 +154,18 @@ $info = array(
 			"comment" => "Identifiant de l'utilisateur",
 			),
 			
+				
+			"date_debut"=>array(
+			"required" =>  false,
+			"default" => "",
+			"comment" => "Date à partir de laquelle les informations sont récupérées.",
+			),
+			"date_fin"=>array(
+			"required" =>  false,
+			"default" => "",
+			"comment" => "Date au delà de laquelle les informations ne sont plus récupérées.",
+			),
+			
 			"id_d"=>array(
 			"required" =>  false,
 			"default" => "",
@@ -168,6 +180,8 @@ $info = array(
 			"comment" => "Format du journal : json ou bien csv"),
 			"offset"=>$paramInfo['offset'],
 			"limit"=>$paramInfo['limit']),	
+		
+			
 			),
 			
 	
