@@ -15,6 +15,8 @@ $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
 $id_u = $recuperateur->get('id_u');
 $recherche = $recuperateur->get('recherche');
+$date_debut = $recuperateur->get('date_debut');
+$date_fin = $recuperateur->get('date_fin');
 
 
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),'journal:lecture');
@@ -63,7 +65,7 @@ if ($id_u){
 
 
 $limit = 20;
-$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche) ;
+$all = $journal->getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche,$date_debut,$date_fin) ;
 
 include( PASTELL_PATH ."/include/haut.php");
 
