@@ -65,7 +65,7 @@ class Journal {
 	}
 	
 	
-	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = ""){
+	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		
 		$value = array();
 		$sql = "SELECT journal.*,document.titre,document.type as document_type,entite.denomination, utilisateur.nom, utilisateur.prenom " .
@@ -94,6 +94,14 @@ class Journal {
 		if ($recherche){
 			$sql .= " AND journal.message_horodate LIKE ?";
 			$value[] = "%$recherche%";
+		}
+		if ($date_debut){
+			$sql.= "AND journal.date_horodatage > ?";
+			$value[] = $date_debut;
+		}
+		if ($date_fin){
+			$sql.= "AND journal.date_horodatage < ?";
+			$value[] = $date_fin;
 		}
 		
 		$sql .= " ORDER BY id_j DESC LIMIT $offset,$limit";
