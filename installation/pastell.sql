@@ -70,7 +70,7 @@ CREATE TABLE document_action_entite (
 CREATE TABLE document_email (
 	`key` varchar(32) NOT NULL,
 	`id_d` varchar(32) NOT NULL,
-	`email` varchar(32) NOT NULL,
+	`email` varchar(256) NOT NULL,
 	`lu` tinyint(1) NOT NULL,
 	`date_envoie` datetime NOT NULL,
 	`date_lecture` datetime NOT NULL,

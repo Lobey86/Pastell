@@ -91,7 +91,6 @@ $document->setTitre($id_d,$titre);
 
 if ($donneesFormulaire->hasOnChangeHook()){
 	require_once(PASTELL_PATH."/externaldata/".$donneesFormulaire->hasOnChangeHook());
-	exit;
 }
 
 if ( $recuperateur->get('ajouter') ){
