@@ -66,7 +66,7 @@ class NavigationEntite {
 			<ul>
 				
 				<?php if ($this->id_e != 0 || ($this->listeCollectivite[0] == 0)) :?>
-					<?php foreach($entite->getFilleWithType(array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION)) as $fille): ?>
+					<?php foreach($entite->getFilleWithType(array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE)) as $fille): ?>
 						<li>
 							<a href='<?php echo $url ?>&id_e=<?php echo $fille['id_e']?>'>
 								<?php echo $fille['denomination']?>
