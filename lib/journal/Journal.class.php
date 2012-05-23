@@ -66,7 +66,12 @@ class Journal {
 	
 	
 	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
+		list($sql,$value) = $this->getQueryAll($id_e, $type, $id_d, $id_u, $offset, $limit,$recherche,$date_debut,$date_fin);
 		
+		return $this->sqlQuery->fetchAll($sql,$value);
+	}
+	
+	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		$value = array();
 		$sql = "SELECT journal.*,document.titre,document.type as document_type,entite.denomination, utilisateur.nom, utilisateur.prenom " .
 			" FROM journal " .
@@ -105,8 +110,10 @@ class Journal {
 		}
 		
 		$sql .= " ORDER BY id_j DESC LIMIT $offset,$limit";
-		return $this->sqlQuery->fetchAll($sql,$value);
+		return array($sql,$value);
 	}
+	
+	
 	
 	public function countAll($id_e,$type,$id_d,$id_u){
 		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
