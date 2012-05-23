@@ -2,6 +2,7 @@
 
 require_once( PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php" );
 require_once( PASTELL_PATH . "/lib/action/ActionCreator.class.php" );
+require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 
 //document_email(id_d,email,key,lu)
 
@@ -73,10 +74,30 @@ class DocumentEmail {
 		$documentActionEntite = new DocumentActionEntite($this->sqlQuery);
 		$action = $documentActionEntite->getLastAction($id_e,$result['id_d']);
 		
+		
+		$message_action = ($next_action == 'reception')?"Tous les destinataires ont consulté le message":"Un destinataire a consulter le message";
 		if ($action != $next_action){
 			$actionCreator = new ActionCreator($this->sqlQuery,$journal,$result['id_d']);
-			$actionCreator->addAction($id_e,0,$next_action,($next_action == 'reception')?"Tous les destinataires ont consulté le message":"Un destinataire a consulter le message");
+			$actionCreator->addAction($id_e,0,$next_action,$message_action);
 		}
+		
+		$document = new Document($this->sqlQuery);
+		$infoDocument = $document->getInfo($result['id_d']);
+		
+		
+		$message = "Le mail sécurisé {$infoDocument['titre']} a été consulté par {$result['email']}";
+		if ($next_action == 'reception'){
+			$message .= "\n\nTous les destinataires ont consulté le message";	
+		}
+		$message .= "\n\nConsulter le détail du document : " . SITE_BASE . "document/detail.php?id_d={$result['id_d']}&id_e=$id_e";
+	
+		
+		
+		global $zLog;
+		$zenMail = new ZenMail($zLog);
+		$notification = new Notification($this->sqlQuery);
+		$notificationMail = new NotificationMail($notification,$zenMail,$journal);
+		$notificationMail->notify($id_e, $result['id_d'], $next_action, 'mailsec', $message);
 		
 		return $this->getInfoFromKey($key);
 	}

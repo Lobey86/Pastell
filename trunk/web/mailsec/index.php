@@ -9,6 +9,9 @@ require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 require_once( PASTELL_PATH ."/lib/action/ActionCreator.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once( PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
+require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
+require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
+require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $key = $recuperateur->get('key');
@@ -40,6 +43,8 @@ if ($donneesFormulaire->get('password') && (empty($_SESSION["consult_ok_{$key}_{
 	exit;
 }
 $info  = $documentEmail->consulter($key,$journal);
+
+
 
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 
