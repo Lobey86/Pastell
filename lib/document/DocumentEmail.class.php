@@ -59,7 +59,7 @@ class DocumentEmail {
 		$sql = "SELECT id_e FROM document_entite WHERE id_d=?";
 		$id_e = $this->sqlQuery->fetchOneValue($sql,$result['id_d']);
 		
-		$journal->addActionAutomatique(Journal::MAIL_SECURISE,$id_e,$result['id_d'],'lu', $result['email'] . " a consulté le document");
+		$journal->addActionAutomatique(Journal::MAIL_SECURISE,$id_e,$result['id_d'],'Consulté', $result['email'] . " a consulté le document");
 		
 		$sql = "SELECT count(*) as nb_total,sum(lu) as nb_lu FROM document_email WHERE id_d=?";
 		$count = $this->sqlQuery->fetchOneLine($sql,$result['id_d']);
