@@ -5,9 +5,12 @@ class ChoixTypeParapheurControler {
 
 	private $lastError;
 	
-	public function __construct(SQLQuery $sqlQuery, DonneesFormulaireFactory $donneesFormulaireFactory){
+	private $formulaire;
+	
+	public function __construct(SQLQuery $sqlQuery, DonneesFormulaireFactory $donneesFormulaireFactory, Formulaire $formulaire = null){
 		$this->sqlQuery = $sqlQuery; 
 		$this->donneesFormulaireFactory = $donneesFormulaireFactory;
+		$this->formulaire = $formulaire;
 	}
 	
 	private function getIParapheur($id_e){
@@ -27,8 +30,11 @@ class ChoixTypeParapheurControler {
 	}
 	
 	public function getData($id_e){
+		
+		$type_iparapheur = $this->formulaire->getField('iparapheur_type')->getProperties('default');
 		$iParapheur = $this->getIParapheur($id_e);
-		return $iParapheur->getSousType("Actes");
+		
+		return $iParapheur->getSousType($type_iparapheur);
 	}
 	
 	public function get(){}

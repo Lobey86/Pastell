@@ -47,7 +47,7 @@ foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 			
 			$c->setCollectiviteProperties($collectiviteProperties);
 			$c->setNotificationMail($notificationMail);
-			$c->go();			
+			$c->go(true);			
 		}
 		
 	}

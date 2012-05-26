@@ -6,7 +6,12 @@ require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 
 class IParapheurRecupHelios extends ActionExecutor {
 	
-	public function go(){
+	public function go($action_automatique = false){
+		
+		if ($action_automatique == false){
+			$this->getJournal()->add(Journal::DOCUMENT_ACTION,$this->id_e,$this->id_d,'verif-iparapheur',"Vérification manuelle du retour iparapheur");
+		}
+		
 		$collectiviteProperties = $this->getCollectiviteProperties();
 		$iParapheur = new IParapheur($collectiviteProperties);		
 		$helios = $this->getDonneesFormulaire();
