@@ -115,7 +115,7 @@ action:
 								 	
 	verif-iparapheur:
 		name-action: Vérifier le statut de signature
-		name: Signature vérifié
+		name: Vérification de la signature
 		rule:
 			last-action:
 				send-iparapheur

@@ -31,6 +31,6 @@ $name = "{$script}Controler";
 
 require_once(PASTELL_PATH."/controler/{$script}Controler.class.php");
 
-$controler = new $name($sqlQuery,$donneesFormulaireFactory);
+$controler = new $name($sqlQuery,$donneesFormulaireFactory,$formulaire);
 
 $JSONoutput->display($controler->getData($id_e));
