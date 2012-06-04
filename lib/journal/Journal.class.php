@@ -115,7 +115,7 @@ class Journal {
 	
 	
 	
-	public function countAll($id_e,$type,$id_d,$id_u){
+	public function countAll($id_e,$type,$id_d,$id_u,$recherche){
 		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
 		$value = array();
 		
@@ -134,6 +134,10 @@ class Journal {
 		if ($id_u){
 			$sql .= " AND journal.id_u = ? ";
 			$value[] = $id_u;
+		}
+		if ($recherche){
+			$sql .= " AND journal.message_horodate LIKE ?";
+			$value[] = "%$recherche%";
 		}
 		return $this->sqlQuery->fetchOneValue($sql,$value);
 	}

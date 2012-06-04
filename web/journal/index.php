@@ -41,7 +41,7 @@ $infoEntite = $entite->getInfo();
 
 
 
-$count = $journal->countAll($id_e,$type,$id_d,$id_u);
+$count = $journal->countAll($id_e,$type,$id_d,$id_u,$recherche);
 
 $page_title="Journal des évènements";
 if ($id_e){
@@ -74,7 +74,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <a href='journal/index.php?id_e=<?php echo $id_e?>'>« Journal de <?php echo $infoEntite['denomination']?></a>
 <?php endif;?>
 <?php if ($roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)) : 
-suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u");
+suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u&recherche=$recherche&type=$type&id_d=$id_d");
 
 ?>
 <div class="box_contenu clearfix">
