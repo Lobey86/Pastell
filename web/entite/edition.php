@@ -97,12 +97,7 @@ include( PASTELL_PATH ."/include/haut.php");
 			 <?php echo $infoEntite['type'] == $type?'selected="selected"':''?>> 
 		<?php echo Entite::getNom($type) ?> </option>	
 		<?php endforeach;?>
-		<?php if($entite_mere) : ?>
-			<option value=<?php echo Entite::TYPE_SERVICE ?>
-				 <?php echo $infoEntite['type'] == Entite::TYPE_SERVICE?'selected="selected"':''?>> 
-			<?php echo Entite::getNom(Entite::TYPE_SERVICE) ?> 
-		</option>	
-		<?php endif;?>
+		
 	</select></td>
 	</tr>
 <tr>
