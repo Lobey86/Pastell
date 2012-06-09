@@ -136,7 +136,6 @@ page-condition:
 		envoi_tdt: false
 		envoi_tdt_obligatoire: true
 	
-	
 	onglet_cache:
 		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
 	
@@ -190,6 +189,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: Supprimer
+		warning: "Êtes-vous sûr ?"
 	
 	send-iparapheur:
 		name-action: Transmettre au parapheur

@@ -38,6 +38,8 @@ abstract class ActionExecutor {
 	private $donneesFormulaireFactory;
 	private $zLog;
 	
+	private $from_api;
+	
 	
 	public function __construct(ZLog $zLog, SQLQuery $sqlQuery,$id_d,$id_e,$id_u,$type){
 		
@@ -187,5 +189,12 @@ abstract class ActionExecutor {
 	
 	abstract public function go();
 	
+	public function setFromAPI(){
+		$this->from_api = 1;
+	}
+	
+	public function isFromAPI(){
+		return $this->from_api;
+	}
 	
 }

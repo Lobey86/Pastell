@@ -25,9 +25,11 @@ class Supprimer extends ActionExecutor {
 		
 		$this->setLastMessage("Document supprimé");
 
-
-		header("Location: list.php?id_e=" . $this->id_e . "&type=$type");
-		exit;
+		if (! $this->isFromAPI()) {
+			header("Location: list.php?id_e=" . $this->id_e . "&type=$type");
+			exit;
+		}
+		return true;
 	}
 
 }
