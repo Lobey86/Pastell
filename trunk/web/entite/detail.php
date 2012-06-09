@@ -28,6 +28,10 @@ $offset = $recuperateur->getInt('offset',0);
 $droit = $recuperateur->get('droit','');
 $descendance = $recuperateur->get('descendance','');
 
+if (! $id_e){
+	header("Location: detail0.php");
+	exit;
+}
 
 $droit_lecture = $roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e);
 

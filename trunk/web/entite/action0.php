@@ -6,24 +6,22 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 $recuperateur = new Recuperateur($_POST);
 
 $action = $recuperateur->get('action');
-$id_e = $recuperateur->get('id_e');
+$id_e = 0;
 $page = $recuperateur->getInt('page',0);
 
 
-$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+$documentType = $documentTypeFactory->getDocumentType('entite0-properties');
 $theAction = $documentType->getAction();
 $formulaire = $documentType->getFormulaire();
 
 $actionName = $theAction->getActionName($action);
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
 
-
-$entite = new Entite($sqlQuery,$id_e);
+$entite = new Entite($sqlQuery,0);
 
 $actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
 $actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
+//$actionPossible->setDonnesFormulaire($donneesFormulaire);
 $actionPossible->setEntite($entite);
 
 if ( ! $actionPossible->isActionPossible($id_e,$action)) {
@@ -40,7 +38,7 @@ $action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.p
 
 if (! file_exists($action_class_file )){
 	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");	
-	header("Location: detail.php?id_e=$id_e&page=$page");
+	header("Location: detail0.php?id_e=$id_e&page=$page");
 	exit;
 }
 
@@ -56,4 +54,4 @@ if ($result){
 	$lastError->setLastError($actionClass->getLastMessage());
 }
 
-header("Location: detail.php?id_e=$id_e&page=$page");
+header("Location: detail0.php?id_e=$id_e&page=$page");

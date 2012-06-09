@@ -358,7 +358,7 @@ action:
 	
 	
 	tdt-error:
-		name: Erreur sur le Tedetis
+		name: Erreur sur le TdT
 		rule:
 			role_id_e: no-role					
 					
