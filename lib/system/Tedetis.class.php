@@ -102,6 +102,9 @@ class Tedetis {
 	
 	public function demandeClassification(){
 		$result = $this->exec( self::URL_DEMANDE_CLASSIFICATION ."?api=1");
+		if (! $result){
+			return false;
+		}
 		if (preg_match("/^KO/",$result)){
 			$this->lastError = "S²low a répondu : " .$result;
 			return false;

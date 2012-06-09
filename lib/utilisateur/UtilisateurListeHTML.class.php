@@ -46,7 +46,7 @@ class UtilisateurListeHTML {
 		<?php
 	}
 	
-	public function display(array $liste_utilisateur,$id_e,$droit_selected='',$descendance=''){ ?>
+	public function display(array $liste_utilisateur,$id_e,$droit_selected='',$descendance='',$link="entite/detail.php",$page=1){ ?>
 		
 		<h2>Liste des utilisateurs
 		<?php if ($this->droitEdition) : ?>
@@ -60,9 +60,9 @@ class UtilisateurListeHTML {
 	
 		<?php if ($this->allDroit) : ?>
 			<div>
-			<form action="entite/detail.php" method='get'>
+			<form action="<?php echo $link?>" method='get'>
 				<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
-				<input type='hidden' name='page' value='1'/>
+				<input type='hidden' name='page' value='<?php echo $page?>'/>
 				<input type='checkbox' name='descendance' <?php echo $descendance?"checked='checked'":""?>/>Afficher les utilisateurs des entités filles<br/>
 				<select name='droit'>
 					<option value=''>Filtrer les droits</option>
