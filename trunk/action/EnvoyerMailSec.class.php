@@ -48,6 +48,7 @@ class EnvoyerMailSec extends ActionExecutor {
 		$annuaireGroupe = new AnnuaireGroupe($this->getSQLQuery(),$this->id_e);
 		$annuaireRoleSQL = new AnnuaireRoleSQL($this->getSQLQuery());
 		
+		$all_ancetre = $this->getEntite()->getAncetreId();
 		
 		$this->prepareMail();
 		
@@ -72,6 +73,19 @@ class EnvoyerMailSec extends ActionExecutor {
 					foreach($utilisateur as $u){
 						$this->sendEmail($u['email'],$type);
 					}
+				} elseif(preg_match('/^groupe hérité de (.*): "(.*)"$/',$mail,$matches) || preg_match('/^groupe global: ".*"$/',$mail)) {
+					$id_g = $annuaireGroupe->getFromNomDenomination($all_ancetre,$mail);
+					$utilisateur = $annuaireGroupe->getAllUtilisateur($id_g);
+					foreach($utilisateur as $u){
+						$this->sendEmail($u['email'],$type);
+					}
+				} elseif(preg_match('/^rôle hérité de .*: ".*"$/',$mail,$matches) || preg_match('/^rôle global: ".*"$/',$mail)){
+					$id_r = $annuaireRoleSQL->getFromNomDenomination($all_ancetre,$mail);
+					$utilisateur = $annuaireRoleSQL->getUtilisateur($id_r);
+					foreach($utilisateur as $u){
+						$this->sendEmail($u['email'],$type);
+					}
+					
 				} else {
 					$this->sendEmail($mail,$type);
 				}

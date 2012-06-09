@@ -24,6 +24,12 @@ $listGroupe = $annuaireRole->getAll($id_e);
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
+if ($id_e == 0){
+	$infoEntite = array("denomination"=>"Annuaire global");
+}
+
+$all_ancetre = $entite->getAncetreId();
+$groupe_herited = $annuaireRole->getGroupeHerite($all_ancetre);
 
 $page= "Carnet d'adresses";
 $page_title= $infoEntite['denomination'] . " - Carnet d'adresses";
@@ -38,7 +44,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 <div class="box_contenu">
 <h2>Liste des groupes basé sur des rôles  de <?php echo $infoEntite['denomination'] ?> </h2>
 
-<form action='mailsec/del-groupe-role.php' method='post' >		
+<form action='mailsec/operation-groupe-role.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 
 <table  class="tab_02">
@@ -46,7 +52,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 	
 		<th>Nom</th>
 		<th>Contact</th>
-		
+		<th>Partagé ?</th>
 	</tr>
 <?php foreach($listGroupe as $groupe) : 
 	
@@ -67,12 +73,17 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 				Ce groupe est vide
 			<?php endif;?>	
 		</td>
+		<td>
+			<?php echo $groupe['partage']?"OUI":"NON";?>	
+		</td>
 	</tr>
 <?php endforeach;?>
 	
 </table>
 <?php if ($can_edit) : ?>
-<input type='submit' value='Supprimer'/>
+<input type='submit' name='submit' value='Supprimer'/>
+<input type='submit' name='submit' value='Partager'/>
+<input type='submit' name='submit' value='Enlever le partage'/>
 <?php endif; ?>
 
 </form>
@@ -120,4 +131,43 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 </form>
 </div>
 <?php endif;?>
+
+<?php if($groupe_herited) : ?>
+
+<div class="box_contenu">
+<h2>Liste des groupes hérités</h2>
+
+<table  class="tab_02">
+	<tr>
+		<th>Entité</th>
+		<th>Nom</th>
+		<th>Contact</th>
+	</tr>
+<?php foreach($groupe_herited as $groupe) : 
+	$utilisateur = $annuaireRole->getUtilisateur($groupe['id_r']);
+	$nbUtilisateur = count($utilisateur); 
+	$r = array();
+	foreach($utilisateur as $u){
+		$r[] = htmlentities("\"{$u['nom']} {$u['prenom']}\" <{$u['email']}>",ENT_QUOTES);
+	}
+	$utilisateur = implode(",<br/>",$r);
+?>
+	<tr>
+		<td><?php echo $groupe['denomination']?></td>
+		<td>
+			<?php echo $groupe['nom']?></td>
+		<td><?php if ($nbUtilisateur) : ?>
+				<?php echo $utilisateur;?>
+			<?php else : ?>
+				Ce groupe est vide
+			<?php endif;?>	
+	
+	</tr>
+<?php endforeach;?>
+	
+</table></div>
+
+<?php endif;?>
+
+
 <?php include( PASTELL_PATH ."/include/bas.php");

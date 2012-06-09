@@ -19,6 +19,14 @@ $listGroupe = $annuaireGroupe->getGroupe();
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
+if ($id_e == 0){
+	$infoEntite = array("denomination"=>"Annuaire global");
+}
+
+$all_ancetre = $entite->getAncetreId();
+$groupe_herited = $annuaireGroupe->getGroupeHerite($all_ancetre);
+
+
 
 $page= "Carnet d'adresses";
 $page_title= $infoEntite['denomination'] . " - Carnet d'adresses";
@@ -41,7 +49,7 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 	
 		<th>Nom</th>
 		<th>Contact</th>
-		
+		<th>Partagé ?</th>
 	</tr>
 <?php foreach($listGroupe as $groupe) : 
 	$nbUtilisateur = $annuaireGroupe->getNbUtilisateur($groupe['id_g']); 
@@ -60,6 +68,9 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 			<?php else : ?>
 				Ce groupe est vide
 			<?php endif;?>	
+		</td>
+		<td>
+			<?php echo $groupe['partage']?"OUI":"NON";?>	
 		</td>
 	</tr>
 <?php endforeach;?>
@@ -91,4 +102,42 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 </form>
 </div>
 <?php endif;?>
+
+<?php if($groupe_herited) : ?>
+
+<div class="box_contenu">
+<h2>Liste des groupes hérités</h2>
+
+<table  class="tab_02">
+	<tr>
+		<th>Entité</th>
+		<th>Nom</th>
+		<th>Contact</th>
+	</tr>
+<?php foreach($groupe_herited as $groupe) : 
+	$nbUtilisateur = $annuaireGroupe->getNbUtilisateur($groupe['id_g']); 
+	$utilisateur = $annuaireGroupe->getUtilisateur($groupe['id_g']);
+	$r = array();
+	foreach($utilisateur as $u){
+		$r[] = htmlentities( '"' . $u['description'] .'"'. " <".$u['email'].">",ENT_QUOTES);
+	}
+	$utilisateur = implode(",<br/>",$r);
+?>
+	<tr>
+		<td><?php echo $groupe['denomination']?></td>
+		<td>
+			<?php echo $groupe['nom']?></td>
+		<td><?php if ($nbUtilisateur) : ?>
+				<?php echo $utilisateur;?>
+			<?php else : ?>
+				Ce groupe est vide
+			<?php endif;?>	
+	
+	</tr>
+<?php endforeach;?>
+	
+</table></div>
+
+<?php endif;?>
+
 <?php include( PASTELL_PATH ."/include/bas.php");

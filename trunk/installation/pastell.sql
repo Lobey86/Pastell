@@ -29,6 +29,7 @@ CREATE TABLE annuaire_groupe (
 	`id_g` int(11) NOT NULL AUTO_INCREMENT,
 	`id_e` int(11) NOT NULL,
 	`nom` varchar(32) NOT NULL,
+	`partage` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_g`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE annuaire_groupe_contact (

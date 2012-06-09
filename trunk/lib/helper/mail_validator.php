@@ -16,7 +16,23 @@ function is_mail($mail){
 	if (preg_match('/^role: ".*"$/',$mail)){
 		return true;
 	}
+	
+	if (preg_match('/^groupe hérité de .*: ".*"$/',$mail)){
+		return true;
+	}
 
+	if (preg_match('/^rôle hérité de .*: ".*"$/',$mail)){
+		return true;
+	}
+
+	if (preg_match('/^groupe global: ".*"$/',$mail)){
+		return true;
+	}
+	
+	if (preg_match('/^rôle global: ".*"$/',$mail)){
+		return true;
+	}
+	
 	return false;
 }
 

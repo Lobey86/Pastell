@@ -5,7 +5,7 @@ require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireGroupe.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 $recuperateur = new Recuperateur($_POST);
-$id_e = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e');
 $nom = $recuperateur->get('nom');
 
 

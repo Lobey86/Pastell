@@ -86,4 +86,47 @@ class AnnuaireGroupe {
 		return $this->sqlQuery->fetchAll($sql,$this->id_e,"$debut%");
 	}
 	
+	public function tooglePartage($id_g){
+		$sql = "UPDATE annuaire_groupe SET partage = 1 - partage WHERE id_g=?";
+		$this->sqlQuery->query($sql,$id_g);
+	}
+	
+	public function getGroupeHerite($all_ancetre,$debut = ""){
+		$result = array();
+		foreach($all_ancetre as $id_e){
+			$sql = "SELECT annuaire_groupe.*,entite.denomination FROM annuaire_groupe " .
+					" LEFT JOIN entite ON annuaire_groupe.id_e = entite.id_e".
+					" WHERE annuaire_groupe.id_e=? AND partage=1";
+			$data = array($id_e);
+			if($debut){
+				$sql.= " AND nom LIKE ?";
+				$data[] = "$debut%";
+			}
+			$all_g = $this->sqlQuery->fetchAll($sql,$data);
+			if ($all_g){
+				$result = array_merge($result,$all_g );
+			}
+		}
+		return $result;
+	}
+	
+	public function getChaineHerited($info){
+		if ($info['denomination']){
+			$debut = "groupe hérité de {$info['denomination']}";
+		} else {
+			$debut = "groupe global";
+		}
+		
+		return "$debut: \"".$info['nom'] . "\"";
+	}
+	
+	public function getFromNomDenomination($all_ancetre,$chaine){
+		foreach($this->getGroupeHerite($all_ancetre) as $info){
+			if ($chaine == $this->getChaineHerited($info)){
+				return $info['id_g'];
+			}
+		}
+		return false;
+	}
+	
 }

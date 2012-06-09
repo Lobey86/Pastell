@@ -20,6 +20,9 @@ $listUtilisateur = $annuaire->getUtilisateur();
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
+if ($id_e == 0){
+	$infoEntite = array("denomination"=>"Annuaire global");
+}
 
 $page= "Carnet d'adresses";
 $page_title= $infoEntite['denomination'] . " - Carnet d'adresses";

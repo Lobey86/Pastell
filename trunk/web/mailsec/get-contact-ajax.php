@@ -23,6 +23,15 @@ $annuaireRole = new AnnuaireRoleSQL($sqlQuery);
 
 header("Content-type: text/plain; charset=ISO-8859-1");
 
+$entite = new Entite($sqlQuery,$id_e);
+$infoEntite = $entite->getInfo();
+
+
+$all_ancetre = $entite->getAncetreId();
+
+$groupe_herited = $annuaireGroupe->getGroupeHerite($all_ancetre,$q);
+$role_herited = $annuaireRole->getGroupeHerite($all_ancetre,$q);
+
 if (! $mailOnly){
 	foreach($annuaireGroupe->getListGroupe($q) as $item){
 		echo "groupe: \"".$item['nom'] . "\"\n";
@@ -30,7 +39,12 @@ if (! $mailOnly){
 	foreach($annuaireRole->getList($id_e,$q) as $item){
 		echo "role: \"".$item['nom'] ."\"\n";
 	}
-	
+	foreach($groupe_herited as $item){
+		echo $annuaireGroupe->getChaineHerited($item)."\n"; 
+	}
+	foreach($role_herited as $item){
+		echo $annuaireRole->getChaineHerited($item)."\n"; 
+	}
 }
 
 foreach ($annuaire->getListeMail($q) as $item){

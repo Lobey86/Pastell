@@ -5,18 +5,25 @@ require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireRoleSQL.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 $all_id_r = $recuperateur->get('id_r',array());
-$id_e = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e');
+$submit = $recuperateur->get('submit');
 
 $annuaireRoleSQL = new AnnuaireRoleSQL($sqlQuery);
-
-
 
 foreach($all_id_r as $id_r) {
 	$info = $annuaireRoleSQL->getInfo($id_r);
 
 	if ( $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$info['id_e_owner'])) {
-		$annuaireRoleSQL->delete($id_r);
-		$lastMessage->setLastMessage("Les groupes sélectionnés ont été supprimés");
+		if ($submit == "Supprimer"){
+			$annuaireRoleSQL->delete($id_r);
+			$lastMessage->setLastMessage("Les groupes sélectionnés ont été supprimés");
+		} elseif($submit == "Partager"){
+			$annuaireRoleSQL->partage($id_r);
+			$lastMessage->setLastMessage("Les groupes sélectionnés sont accessibles aux entités filles");
+		} else {
+			$annuaireRoleSQL->unpartage($id_r);
+			$lastMessage->setLastMessage("Les groupes sélectionnés ne sont plus accessibles aux entités filles");
+		}		
 	}
 }
 
