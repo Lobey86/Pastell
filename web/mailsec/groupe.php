@@ -28,6 +28,10 @@ $nbUtilisateur = $annuaireGroupe->getNbUtilisateur($id_g);
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
+if ($id_e == 0){
+	$infoEntite = array("denomination"=>"Annuaire global");
+}
+
 
 $page= "Carnet d'adresses";
 $page_title= $infoEntite['denomination'] . " - Carnet d'adresses";
@@ -108,4 +112,32 @@ include(PASTELL_PATH . "/include/bloc_message.php");
 </form>
 </div>
 <?php endif;?>
+
+
+<div class="box_contenu">
+<h2>Partage</h2>
+
+<?php if ($infoGroupe['partage']) : ?>
+<div class='box_info'>
+<p>Ce groupe est actuellement partagé avec les entités-filles (services, collectivités) de <?php  echo $infoEntite['denomination'] ?> qui peuvent l'utiliser 
+pour leur propre mail.</p>
+</div>
+<form action='mailsec/partage-groupe.php' method='post' >		
+	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
+	<input type='submit' value='Supprimer le partage'/>
+</form>
+<?php else:?>
+<div class='box_info'>
+<p>Cliquer pour partager ce groupe avec les entités filles de <?php  echo $infoEntite['denomination'] ?>.</p>
+</div>
+<form action='mailsec/partage-groupe.php' method='post' >		
+	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
+	<input type='submit' value='Partager'/>
+</form>
+<?php endif;?>
+
+</div>
+
 <?php include( PASTELL_PATH ."/include/bas.php");

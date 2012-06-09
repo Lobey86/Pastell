@@ -4,7 +4,7 @@ require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireGroupe.class.php");
 
 $recuperateur = new Recuperateur($_POST);
-$id_e = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e');
 $id_g = $recuperateur->get('id_g',array());
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e)) {

@@ -106,9 +106,10 @@ if ($tab_number==1){
 	<?php 
 	
 	endforeach; 
-	
-}
-?>
+}?>
+<?php if ($tab_number == 2): ?>
+	<a href='mailsec/annuaire.php'>Annuaire global »</a>
+<?php endif; ?>
 </div>
 
 <?php 

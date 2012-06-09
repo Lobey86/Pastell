@@ -147,6 +147,16 @@ class Entite  {
 		return $ancetre;
 	}
 	
+	public function getAncetreId(){
+		$ancetre = $this->getAncetre();
+		array_pop($ancetre);
+		$result = array(0);
+		foreach($ancetre as $entite){
+			$result[] = $entite['id_e'];
+		}
+		return $result;
+	}
+	
 	public function getCollectiviteAncetre(){
 		$info = $this->getInfo();
 		

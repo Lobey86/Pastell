@@ -44,4 +44,52 @@ class AnnuaireRoleSQL {
 		return $this->sqlQuery->fetchOneValue($sql,$id_e,$nom);
 	}
 	
+	public function partage($id_r){
+		$sql= "UPDATE annuaire_role SET partage=1 WHERE id_r=?";
+		$this->sqlQuery->query($sql,$id_r);
+	}
+	
+	public function unpartage($id_r){
+		$sql= "UPDATE annuaire_role SET partage=0 WHERE id_r=?";
+		$this->sqlQuery->query($sql,$id_r);
+	}
+	
+	public function getGroupeHerite($all_ancetre,$debut = ""){
+		$result = array();
+		foreach($all_ancetre as $id_e){
+			$sql = "SELECT annuaire_role.*,entite.denomination FROM annuaire_role " .
+					" LEFT JOIN entite ON annuaire_role.id_e_owner = entite.id_e".
+					" WHERE annuaire_role.id_e_owner=? AND partage=1";
+			$data = array($id_e);
+			if($debut){
+				$sql.= " AND nom LIKE ?";
+				$data[] = "$debut%";
+			}
+			$all_g = $this->sqlQuery->fetchAll($sql,$data);
+			if ($all_g){
+				$result = array_merge($result,$all_g );
+			}
+		}
+		return $result;
+	}
+	
+	public function getChaineHerited($info){
+		if ($info['denomination']){
+			$debut = "rôle hérité de {$info['denomination']}";
+		} else {
+			$debut = "rôle global";
+		}
+		
+		return "$debut: \"".$info['nom'] . "\"";
+	}
+	
+	public function getFromNomDenomination($all_ancetre,$chaine){
+		foreach($this->getGroupeHerite($all_ancetre) as $info){
+			if ($chaine == $this->getChaineHerited($info)){
+				return $info['id_r'];
+			}
+		}
+		return false;
+	}
+	
 }
