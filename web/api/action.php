@@ -77,6 +77,7 @@ if ($id_destinataire){
 	$actionClass->setDestinataire($id_destinataire);
 }
 $actionClass->setCollectiviteProperties($collectiviteProperties);
+$actionClass->setFromAPI();
 
 $result = $actionClass->go();
 
