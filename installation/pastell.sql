@@ -42,6 +42,7 @@ CREATE TABLE annuaire_role (
 	`id_e_owner` int(11) NOT NULL,
 	`id_e` int(11) NOT NULL,
 	`role` varchar(32) NOT NULL,
+	`partage` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_r`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE document (
