@@ -50,11 +50,13 @@ foreach($modif as $field_name){
 	}
 	$script = $field->getProperties('controler');
 	
-	$name = "{$script}Controler";
-	require_once(PASTELL_PATH."/controler/{$script}Controler.class.php");
-
-	$controler = new $name($sqlQuery,$donneesFormulaireFactory);
-	$controler->set($id_e,$id_d,$info['type'],$recuperateur);
+	if ($script){
+		$name = "{$script}Controler";
+		require_once(PASTELL_PATH."/controler/{$script}Controler.class.php");
+	
+		$controler = new $name($sqlQuery,$donneesFormulaireFactory);
+		$controler->set($id_e,$id_d,$info['type'],$recuperateur);
+	}
 }
 
 
