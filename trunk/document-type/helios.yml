@@ -140,8 +140,6 @@ action:
 		rule:
 			last-action: 
 				recu-iparapheur
-				creation
-				modification
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
 			herited-properties:
