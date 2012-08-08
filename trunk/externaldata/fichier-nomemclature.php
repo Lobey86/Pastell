@@ -28,9 +28,15 @@ include( PASTELL_PATH ."/include/haut.php");
 	foreach ($classifCDG as $i => $info) : ?>
 		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 			<td class="w30">		
-			<a href='entite/external-data-controler.php?id_e=<?php echo $id_e?>&page=<?php echo $page?>&field=<?php echo $field ?>&nomemclature_file=<?php hecho($info) ?>'><?php echo $info?></a>		
+			<a href='entite/external-data-controler.php?id_e=<?php echo $id_e?>&page=<?php echo $page?>&field=<?php echo $field ?>&nomemclature_file=<?php hecho($info) ?>'><?php echo $info?></a>
+			</td>		
 		</tr>
 	<?php endforeach;?>
+	<tr>
+		<td class="w30">		
+			<a href='entite/external-data-controler.php?id_e=<?php echo $id_e?>&page=<?php echo $page?>&field=<?php echo $field ?>&nomemclature_file='>Supprimer le fichier </a>
+		</td>
+	</tr>
 </table>
 
 </div>
