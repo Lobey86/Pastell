@@ -29,7 +29,10 @@ class Envoyer extends ActionExecutor {
 			$this->getActionCreator()->addAction($id_col,0,'recu', "Le document a été reçu ");
 			$this->getActionCreator()->addToEntite($this->id_e,"Le document a été reçu par $denomination_col");
 			
-			$this->getNotificationMail()->notify($id_col,$this->id_d, $this->action, $this->type,"Vous avez un nouveau message");		
+			$message = $emmeteurName. " vous envoie un nouveau message.\n\n";
+			$message.= "Pour le consulter : " . SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e=$id_col";
+			
+			$this->getNotificationMail()->notify($id_col,$this->id_d, $this->action, $this->type,$message);		
 		}
 		
 		$this->setLastMessage("Le document a été envoyé au(x) entité(s) selectionnée(s)");
