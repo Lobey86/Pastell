@@ -87,7 +87,7 @@ class UtilisateurListe {
 		$all_id_e = implode(',',$id_e);
 		$sql = "SELECT * FROM utilisateur_role " . 
 				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
-				" JOIN entite ON utilisateur.id_e = entite.id_e ".
+				" LEFT JOIN entite ON utilisateur.id_e = entite.id_e ".
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role " .
 				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
 				" AND role_droit.droit= ? " .
