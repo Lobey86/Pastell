@@ -1,7 +1,7 @@
 #! /usr/bin/php
 <?php
 require_once( dirname(__FILE__) . "/../web/init.php");
-require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
+require_once( PASTELL_PATH . "/lib/connecteur/tedetis/Tedetis.class.php");
 require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
@@ -21,7 +21,8 @@ foreach($liste_collectivite as $col){
 	echo $col['denomination'] .": ";
 	$donneesFormulaire = $donneesFormulaireFactory->get($col['id_e'],'collectivite-properties');
 	if ( $donneesFormulaire->get('tdt_activate')) {
-		$tedetis = new Tedetis($donneesFormulaire);
+		$tedetis = TedetisFactory::getInstance($donneesFormulaire);
+		
 		if (! $tedetis->verifClassif()){
 			echo "la classification n'est pas à jour";
 			$result = $tedetis->getClassification();
@@ -39,7 +40,7 @@ foreach($liste_collectivite as $col){
 			echo "classification OK";
 		}
 	} else {
-		echo " Module S²low desactivé";
+		echo " Module TdT desactivé";
 	}
 	echo "\n";
 }

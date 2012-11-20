@@ -1,22 +1,8 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once( PASTELL_PATH . "/lib/base/CurlWrapper.class.php");
 
-class Tedetis {
-	
-	const STATUS_ERREUR = 1;
-	const STATUS_ANNULE = 0;
-	const STATUS_POSTE = 1;
-	const STATUS_EN_ATTENTE_DE_TRANSMISSION = 2;
-	const STATUS_TRANSMIS = 3;
-	const STATUS_ACQUITTEMENT_RECU = 4;
-	const STATUS_VALIDE = 5;
-	const STATUS_REFUSE = 6;
-	
-	const STATUS_HELIOS_TRAITEMENT = 7;
-	const STATUS_HELIOS_INFO = 8;
-	
+
+class S2low extends Tedetis {
 	
 	const URL_TEST = "/modules/actes/";
 	const URL_CLASSIFICATION = "/modules/actes/actes_classification_fetch.php";
@@ -28,54 +14,52 @@ class Tedetis {
 	const URL_POST_HELIOS = "/modules/helios/api/helios_importer_fichier.php";
 	const URL_STATUS_HELIOS =  "/modules/helios/api/helios_transac_get_status.php";
 	const URL_HELIOS_RETOUR = "/modules/helios/helios_download_acquit.php";
-	
-	
-	public static function getStatusString($status){
-		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
-		if (empty($statusString[$status])){
-			return "Statut inconnu ($status)";
-		}
-		return $statusString[$status] ;
-	}
-	
-	
-	private $isActivate;
-	private $tedetisURL;
-	
-	private $curlWrapper;
-	private $lastError;
-	
-	private $classificationFile;
+	const URL_LIST_LOGIN = "/admin/users/api-list-login.php";
+
 	private $arActes;
 	private $reponseFile;
 	
+	protected $curlWrapper;
+	
+	protected $ensureLogin;
+	
 	
 	public function __construct(DonneesFormulaire $collectiviteProperties){
-		
-		$this->setCurlWrapper(new curlWrapper());
-		
-		$this->isActivate = $collectiviteProperties->get('tdt_activate');
-		$this->tedetisURL = $collectiviteProperties->get('tdt_url');
-		
-		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('tdt_server_certificate'));
-		
+		parent::__construct($collectiviteProperties);
+		$this->curlWrapper = new CurlWrapper();
+		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('tdt_server_certificate'));	
 		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('tdt_user_certificat_pem'),
 													$collectiviteProperties->getFilePath('tdt_user_key_pem'),
 													$collectiviteProperties->get('tdt_user_certificat_password'));
-		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');
-	}
 
-	public function setCurlWrapper(CurlWrapper $curlWrapper){
-		$this->curlWrapper = $curlWrapper;
+		if ($collectiviteProperties->get("tdt_user_login")){
+			$this->curlWrapper->httpAuthentication($collectiviteProperties->get("tdt_user_login"), $collectiviteProperties->get("tdt_user_password"));
+			$this->ensureLogin = true;
+		}												
 	}
+	
+	
 
-	public function getLastError(){
-		return $this->lastError;
+	private function ensureLogin(){
+		if ($this->ensureLogin){
+			return true;
+		}
+		$output = $this->curlWrapper->get($this->tedetisURL .self::URL_LIST_LOGIN);
+		if (!$output){
+			$this->ensureLogin = true;
+			return true;
+		}
+		$this->lastError = "La connexion S²low nécessite un login/mot de passe ";
+		return false;
+		
 	}
 	
 	private function exec($url){
 		if (! $this->isActivate){
 			$this->lastError = "Ce module n'est pas activé";
+			return false;
+		}
+		if (! $this->ensureLogin()){
 			return false;
 		}
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
@@ -86,12 +70,16 @@ class Tedetis {
 		return $output;
 	}
 	
+	
+	public function getLogicielName(){
+		return "S²low";
+	}
+	
 	public function testConnexion(){
-		return $this->exec(self::URL_TEST);
+		return $this->exec(self::URL_TEST)?true:false;
 	}
 	
 	public function getClassification(){
-		
 		$result = $this->exec( self::URL_CLASSIFICATION ."?api=1");
 		if (preg_match("/^KO/",$result)){
 			$this->lastError = "S²low a répondu : " .$result;
@@ -187,6 +175,7 @@ class Tedetis {
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');
 		$file_name = $file_name[0];
+		
 		$this->curlWrapper->addPostFile('acte_pdf_file',$file_path,$file_name);
 				
 		if ($donneesFormulaire->get('autre_document_attache')){

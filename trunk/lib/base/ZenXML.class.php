@@ -18,7 +18,7 @@ class ZenXML implements ArrayAccess {
 		$this->multipleValue = false;
 	}
 	
-	public function __set($tag_name,$cdata){
+	public function set($tag_name,$cdata = false){
 		if (is_object($cdata)){
 			$this->child[$tag_name] = $cdata;
 		} else {
@@ -26,11 +26,19 @@ class ZenXML implements ArrayAccess {
 		}
 	}
 	
-	public function __get($tag_name){
+	public function __set($tag_name,$cdata){
+		$this->set($tag_name,$cdata);
+	}
+	
+	public function get($tag_name){
 		if (empty($this->child[$tag_name])){
 			$this->child[$tag_name] = new ZenXML($tag_name);
 		}
 		return $this->child[$tag_name];
+	}
+	
+	public function __get($tag_name){
+		return $this->get($tag_name);
 	}
 	
 	private function getCDATA($data){
