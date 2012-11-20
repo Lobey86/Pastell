@@ -44,4 +44,35 @@ class Certificat {
 		}
 		return $this->certData['name'];
 	}
+	
+	//http://stackoverflow.com/questions/6426438/php-ssl-certificate-serial-number-in-hexadecimal
+	public function getSerialNumber(){
+		$base = bcpow("2", "32");
+		$counter = 100;
+		$res = "";
+        $val = $this->certData['serialNumber'];
+		while($counter > 0 && $val > 0) {
+			$counter = $counter - 1;
+			$tmpres = dechex(bcmod($val, $base)) . "";
+			for ($i = 8-strlen($tmpres); $i > 0; $i = $i-1) {
+				$tmpres = "0$tmpres";
+			}
+			$res = $tmpres .$res;
+			$val = bcdiv($val, $base);
+		}
+		if ($counter <= 0) {
+			return false;
+		}
+		return strtoupper($res);
+	}
+	
+	public function getIssuer(){
+		$data = array();
+		foreach($this->certData['issuer'] as $name => $value){
+			$data[] = "$name=$value";
+		}
+		
+		return "/".implode('/',$data);
+	}
+	
 }

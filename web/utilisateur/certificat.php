@@ -73,7 +73,7 @@ suivant_precedent($offset,$limit,$count);
 	<tr>
 		<th>Numéro de série</th>
 		<td>
-			<?php echo $certificatInfo['serialNumber'] ?>
+			<?php echo $certificat->getSerialNumber() ?>
 		</td>
 	</tr>
 		<tr>

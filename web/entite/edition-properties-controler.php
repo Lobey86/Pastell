@@ -43,6 +43,7 @@ $p12_data = $pkcs12->getAll($donneesFormulaire->getFilePath('tdt_user_certificat
 if ($p12_data){
 	$donneesFormulaire->addFileFromData("tdt_user_certificat_pem","tdt_user_certificat_pem",$p12_data['cert']); 
 	$donneesFormulaire->addFileFromData("tdt_user_key_pem","tdt_user_key_pem",$p12_data['pkey']); 
+	$donneesFormulaire->addFileFromData("tdt_user_certificat_and_key_pem","tdt_user_certificat_and_key_pem",$p12_data['cert']."\n".$p12_data['pkey']);
 }
 
 $p12_data = $pkcs12->getAll($donneesFormulaire->getFilePath('iparapheur_user_certificat'),$donneesFormulaire->get('iparapheur_user_certificat_password'));

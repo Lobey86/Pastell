@@ -22,6 +22,11 @@ class CurlWrapper {
 		curl_close($this->curlHandle);
 	}
 	
+	public function httpAuthentication($username,$password){
+		$this->setProperties(CURLOPT_USERPWD, "$username:$password");
+		$this->setProperties(CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+	}
+	
 	public function getLastError(){
 		return $this->lastError;
 	}
@@ -100,7 +105,7 @@ class CurlWrapper {
 	  	foreach ( $this->postFile as $name => $multipleValue ) {
 	    	foreach($multipleValue as $fileName => $filePath ){
 	    		$body[] = "--$boundary";
-				$body[] = "Content-Disposition: form-data; name=$name; filename=$fileName";
+				$body[] = "Content-Disposition: form-data; name=$name; filename=\"$fileName\"";
 	            $body[] = 'Content-Type: application/octet-stream';
 	            $body[] = '';
 	            $body[] = file_get_contents($filePath);

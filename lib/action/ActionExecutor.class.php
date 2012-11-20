@@ -11,6 +11,9 @@ require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
 require_once( PASTELL_PATH ."/lib/base/CurlWrapper.class.php");
 require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 
+require_once( PASTELL_PATH . "/lib/connecteur/tedetis/TedetisFactory.class.php");
+
+
 abstract class ActionExecutor {
 	
 	private $sqlQuery;
