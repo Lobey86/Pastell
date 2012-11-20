@@ -1,0 +1,68 @@
+nom: Mail sécurisé 
+
+formulaire:
+	Message :			
+		to: {name: Destinataire(s), requis: true, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
+		cc:  {name: Copie à, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
+		bcc: {name: Copie cachée à, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}
+		password : {name: Mot de passe, type: password, may_be_null: true}
+		password2 : {name: Mot de passe (confirmation), type: password, may_be_null: true, is_equal: password, is_equal_error: Les mots de passes ne correspondent pas}
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Document attaché: {type: file, multiple: true}
+		key: {no-show: true}
+		
+action:
+	creation:
+		name-action: Créer
+		name: Créé
+		rule:
+			no-last-action:
+			droit_id_u: 'mailsec:edition'
+		
+			
+	modification:
+		name-action: Modifier
+		name: En cours de rédaction
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'mailsec:edition'
+	
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: Supprimer
+		
+	envoi :
+		name-action: Envoyer
+		name: Envoyé
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'mailsec:edition'
+			document_is_valide: true
+			
+		action-class: EnvoyerMailSec
+		
+	reception-partielle:
+		name: Reçu partiellement
+		rule:
+			role_id_e: no-role
+	
+	reception:
+		name: Reçu
+		rule:
+			role_id_e: no-role
+	
