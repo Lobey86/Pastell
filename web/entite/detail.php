@@ -4,7 +4,6 @@ require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/flux/FluxInscriptionFournisseur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
-require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteDetailHTML.class.php");
 require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
@@ -48,11 +47,6 @@ if ($id_e && ! $entite->exists()){
 $info = $entite->getInfo();
 
 
-$lastTransaction = false;
-if ($id_e && $info['type'] == Entite::TYPE_FOURNISSEUR) {
-	$transactionFinder = new TransactionFinder($sqlQuery);
-	$lastTransaction = $transactionFinder->getLastTransactionBySiren($info['siren'],FluxInscriptionFournisseur::TYPE);
-}
 if ($id_e){
 	$page_title = "Détail " . $info['denomination'];
 } else {
@@ -102,7 +96,7 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	$info = $entite->getExtendedInfo();
 	$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
 	
-	$entiteDetailHTML->display($info,$entiteProperties,$lastTransaction);
+	$entiteDetailHTML->display($info,$entiteProperties);
 elseif($tab_number == 1) : 
 
 	$roleDroit = new RoleDroit();
