@@ -1,9 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
-require_once( PASTELL_PATH . "/lib/base/ZenXML.class.php");
-
-
 class Stela extends Tedetis {
 	
 	const WSDL_ACTES = "ws-miat.wsdl"; 

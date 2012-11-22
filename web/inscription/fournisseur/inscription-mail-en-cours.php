@@ -1,6 +1,5 @@
 <?php 
 require_once("../../init.php");
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 

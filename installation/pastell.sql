@@ -147,15 +147,6 @@ CREATE TABLE journal (
 	KEY id_j (`id_u`,`id_j`),
 	FULLTEXT KEY message_horodate (`message_horodate`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE message (
-	`id_m` int(11) NOT NULL AUTO_INCREMENT,
-	`id_t` varchar(16) NOT NULL,
-	`type` varchar(32) NOT NULL,
-	`emetteur` varchar(64) NOT NULL,
-	`date_envoie` datetime NOT NULL,
-	`message` varchar(128) NOT NULL,
-	PRIMARY KEY (`id_m`)
-)  ENGINE=MyISAM  ;
 CREATE TABLE notification (
 	`id_n` int(11) NOT NULL AUTO_INCREMENT,
 	`id_u` int(11) NOT NULL,

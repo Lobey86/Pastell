@@ -1,11 +1,9 @@
 <?php
-
 require_once (PASTELL_PATH . "/ext/spyc.php");
-
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
+
 class DonneesFormulaire {
 	
 	private $formulaire;

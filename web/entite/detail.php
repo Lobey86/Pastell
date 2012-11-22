@@ -1,7 +1,6 @@
 <?php
 
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/flux/FluxInscriptionFournisseur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");

@@ -1,5 +1,4 @@
 <?php 
-require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 
 class MailVerification {
 	

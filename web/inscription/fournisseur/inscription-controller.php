@@ -1,10 +1,5 @@
 <?php
 include( dirname(__FILE__) . "/../../init.php");
-
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
-require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
-require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
-
 require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");

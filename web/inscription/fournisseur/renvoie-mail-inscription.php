@@ -1,7 +1,6 @@
 <?php 
 
 require_once("../../init.php");
-require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 

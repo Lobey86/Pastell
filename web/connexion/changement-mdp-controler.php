@@ -1,12 +1,10 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
 require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
-require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 

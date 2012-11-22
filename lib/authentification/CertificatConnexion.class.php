@@ -1,8 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
-require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
-
 class CertificatConnexion {
 	
 	private $sqlQuery;
