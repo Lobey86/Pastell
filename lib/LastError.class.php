@@ -1,5 +1,4 @@
 <?php 
-require_once("LastMessage.class.php");
 
 class LastError extends LastMessage {
 

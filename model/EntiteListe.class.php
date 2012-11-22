@@ -1,5 +1,4 @@
 <?php
-require_once("Entite.class.php");
 
 class EntiteListe {
 	

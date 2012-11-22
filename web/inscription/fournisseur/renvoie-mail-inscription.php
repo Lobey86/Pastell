@@ -2,7 +2,6 @@
 
 require_once("../../init.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
-require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 
 $utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
 $infoUtilisateur = $utilisateur->getInfo();

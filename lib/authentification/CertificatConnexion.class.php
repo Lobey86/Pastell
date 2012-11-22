@@ -22,10 +22,8 @@ class CertificatConnexion {
 	public function setCertificat(Certificat $certificat){
 		$this->certificat = $certificat;
 	}
-	
-	
-	public function connexionGranted($id_u){
 		
+	public function connexionGranted($id_u){		
 		$sql = "SELECT certificat_verif_number FROM utilisateur WHERE id_u=?";
 		$certif_verif_number = $this->sqlQuery->fetchOneValue($sql,$id_u);
 		

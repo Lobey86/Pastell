@@ -2,9 +2,6 @@
 include( dirname(__FILE__) . "/../../init.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
-require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
-require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurCreator.class.php");
-require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
 
 $redirection = new Redirection("index.php");

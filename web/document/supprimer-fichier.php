@@ -4,15 +4,6 @@ require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
-
-require_once (PASTELL_PATH . "/lib/document/Document.class.php");
-require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
-
-require_once (PASTELL_PATH . "/lib/notification/Notification.class.php");
-require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
-
-require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 //Récupération des données

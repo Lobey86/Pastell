@@ -1,7 +1,5 @@
 <?php 
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
-require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 

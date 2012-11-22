@@ -1,9 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
-require_once( PASTELL_PATH ."/lib/journal/Journal.class.php");
-require_once( PASTELL_PATH . "/lib/api/CSVoutput.class.php");
-
 
 $recuperateur = new Recuperateur($_REQUEST);
 $offset = $recuperateur->getInt('offset',0);
@@ -13,7 +10,6 @@ $type = $recuperateur->get('type');
 $id_d = $recuperateur->get('id_d');
 $id_u = $recuperateur->get('id_u');
 $recherche = $recuperateur->get('recherche');
-
 
 if   (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)){
 	header("Location: index.php");

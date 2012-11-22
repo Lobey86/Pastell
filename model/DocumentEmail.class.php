@@ -1,11 +1,4 @@
 <?php
-
-require_once( PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php" );
-require_once( PASTELL_PATH . "/lib/action/ActionCreator.class.php" );
-require_once (PASTELL_PATH . "/lib/document/Document.class.php");
-
-//document_email(id_d,email,key,lu)
-
 class DocumentEmail {
 	
 	const DESTINATAIRE = 'to';

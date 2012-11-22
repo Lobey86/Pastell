@@ -1,10 +1,8 @@
 <?php
 
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
-require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
 require_once( PASTELL_PATH . "/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 

@@ -1,8 +1,5 @@
 <?php
-
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/droit/RoleSQL.class.php");
-
 
 $recuperateur = new Recuperateur($_POST);
 $role = $recuperateur->get('role');
