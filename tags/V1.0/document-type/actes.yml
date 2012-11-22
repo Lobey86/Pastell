@@ -1,0 +1,405 @@
+nom: Actes 
+
+type: Général
+
+affiche_one: true
+
+formulaire:
+	Acte:
+		Siren de la collectivité: {read-only: true, data: siren, no-show: true}
+	
+		acte_nature:
+			name: Nature de l'acte
+			type: select
+			requis: true
+			value: 
+				3: Arrêtés Individuels
+				2: Arrêtés réglementaires
+				6: Autres
+				4: Contrats et conventions
+				1: Délibérations
+				5: Documents budgétaires et financiers
+				
+	
+		Numéro de l'acte:
+			requis: true
+			commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"
+			preg_match: "#^[0-9A-Z_]{1,15}$#"
+			preg_match_error: "15 caractères maxi, chiffres, lettres en majuscule ou _"
+				
+		Objet: {requis: true, title: true}
+		Date de l'acte: {type: date, requis: true, commentaire: date de la décision}
+		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF ou XML"}
+		Autre document attaché: {type: file, multiple: true, commentaire: "Attention ! La taille totale des documents acte + annexes ne peut pas dépasser 20 Mo."}
+		
+	Cheminement:
+		type: 
+			name: Classification 
+			type: externalData
+			script: choix-type-actes.php
+			script-controler: choix-type-actes-controler.php
+			controler: ChoixTypeActes
+			link_name: Choisir un type d'Actes
+		classification:
+			name: Correspondance Actes
+			type: externalData
+			script: choix-classification.php
+			script-controler: choix-classification-controler.php
+			link_name: liste des matières et sous-matières
+			controler: ChoixClassification
+		envoi_iparapheur: {name: Transmission au parapheur, type: checkbox, onchange: envoi-iparapheur-change.php}
+		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
+		envoi_cdg: {name: Transmission au CDG, type: checkbox}
+		Archivage: {type: checkbox}
+		
+				
+	Agent:
+		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
+		Matricule de l'agent: {read-only: true} 
+		Nom patronymique: {requis: true, read-only: true}
+		Nom d'usage: {read-only: true}
+		Prénom : {requis: true, read-only: true}
+		Grade: {read-only: true}
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+			read-only:
+				true
+	
+	Agent non-référencé:
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
+		grade: {name: "Grade", type: externalData, script: grade.php, script-controler: grade-controler.php, link_name: liste des grades}		
+		Nom patronymique: {requis: true}
+		Nom d'usage: 
+		Prénom : {requis: true}
+			
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+		
+	Observation:
+		observation: 
+			name: Observation
+			requis: true
+			type: textarea 
+			commentaire: "Obligatoire pour justifier <br/>le non-envoi au contrôle de légalité"
+	
+	onglet_cache:
+		envoi_tdt_obligatoire: {no-show: true, type: checkbox}
+		
+	Bordereau:
+		has_bordereau: {no-show: true}
+		bordereau: {name: Bordereau d'acquittement, type: file}
+		aractes: {no-show: true, type: file}
+		
+	Signature:
+		has_signature: {no-show: true}
+		signature: {name: Signature de l'acte, type: file}
+		document_signe: {name: Bordereau de signature, type: file}
+	
+	iParapheur:
+		iparapheur_type: 
+			name: Type iParapheur
+			no-show: true
+			read-only: true
+			type: externalData
+			default: Actes
+			
+		iparapheur_sous_type:
+			name: Sous Type iParapheur
+			requis: true
+			read-only: true
+			type: externalData
+			script: iparapheur-sous-type.php
+			script-controler: iparapheur-sous-type-controler.php
+			link_name: liste des types
+			controler: ChoixTypeParapheur
+		
+
+page-condition:
+	Agent:
+		envoi_cdg: true
+		agent_non_reference: false
+	
+	Agent non-référencé:
+		envoi_cdg: true
+		agent_non_reference: true
+		
+	Observation:
+		envoi_tdt: false
+		envoi_tdt_obligatoire: true
+	
+	onglet_cache:
+		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
+	
+	Bordereau:
+		has_bordereau: true
+	
+	Signature:
+		has_signature: true
+	
+	iParapheur:
+		envoi_iparapheur: true
+	
+	
+action:
+	creation:		
+		name-action: Créer
+		name: Créé
+		
+		rule:
+			no-last-action:
+			droit_id_u: 'actes:edition'
+			type_id_e: 
+				service
+				collectivite
+		
+	modification:	
+		name-action: Modifier
+		name: En cours de rédaction
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			no-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		
+		rule:
+			last-action: 
+				creation
+				modification
+				recu-iparapheur
+				rejet-iparapheur
+			no-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: Supprimer
+		warning: "Êtes-vous sûr ?"
+	
+	send-iparapheur:
+		name-action: Transmettre au parapheur
+		name: Transmis au parapheur
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content:
+				envoi_iparapheur: true
+				classification: true
+			herited-properties:
+				iparapheur_activate: true
+			
+		action-class: IParapheurEnvoie
+		auto-class: IParapheurRecup	
+								 	
+	verif-iparapheur:
+		name-action: Vérifier le statut de signature
+		name: Signature vérifié
+		rule:
+			last-action:
+				send-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: IParapheurRecup
+		
+		
+	send-tdt:
+		name-action: Transmettre à la préfecture
+		name: Transmis en préfecture 
+		
+		rule:
+			last-action: 
+				creation
+				modification
+				recu-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content: 
+				envoi_tdt: true
+				envoi_iparapheur: false
+			herited-properties:
+				tdt_activate: true
+				
+				
+		action-class: TedetisEnvoie
+		auto-class: TedetisRecup
+		
+	send-tdt-2:
+		name-action: Transmettre à la préfecture
+		name: Transmis en préfecture 
+		
+		rule:
+			last-action: 
+				recu-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content: 
+				envoi_tdt: true
+				envoi_iparapheur: true
+			herited-properties:
+				tdt_activate: true
+				
+				
+		action-class: TedetisEnvoie
+		auto-class: TedetisRecup
+		
+	
+	verif-tdt:
+		name-action: Vérifier le statut de la transaction
+		name: Statut vérifié par le TdT		
+		rule:
+			last-action:
+				send-tdt
+				send-tdt-2
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisRecup
+	
+	
+	acquiter-tdt:
+		name: Acquitté par la préfecture 
+		rule:
+			role_id_e: no-role
+
+	
+	annulation-tdt:
+		name-action: Annuler la transaction
+		name: Transaction annulée
+		
+		rule:
+			has-action:
+				acquiter-tdt
+			no-action:
+				annulation-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisAnnulation
+		warning: Attention cette action n'est pas réversible
+
+			
+	send-cdg-manuel:
+		name-action: Transmettre au CDG
+		name: Transmis au CDG 
+	
+		rule:
+			last-action: 
+				modification
+				creation
+			
+			document_is_valide: true
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			content:
+				envoi_cdg: true
+				envoi_tdt: false
+				envoi_iparapheur: false
+		action-class: EnvoieCDG
+	
+	send-cdg-manuel-2:
+		name-action: Transmettre au CDG
+		name: Transmis au CDG
+	
+		rule:
+			last-action: 
+				recu-iparapheur
+			
+			document_is_valide: true
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			content:
+				envoi_cdg: true
+				envoi_tdt: false
+				envoi_iparapheur: true
+		action-class: EnvoieCDG
+	
+	send-cdg:
+		name-action: Transmettre au CDG
+		name: Transmis au CDG
+		
+		rule:
+			last-action: acquiter-tdt
+			role_id_e: no-role
+					
+					
+	recu-cdg:
+		name: Reçu par le CDG
+		rule:
+			role_id_e: no-role
+	
+	recu-iparapheur:
+		name: Signature récuperée
+		rule:
+			role_id_e: no-role
+	
+	rejet-iparapheur:
+		name: Signature refusée
+		rule: 
+			role_id_e: no-role
+	
+	
+	tdt-error:
+		name: Erreur sur le TdT
+		rule:
+			role_id_e: no-role					
+					
+	send-ged:
+		
+		name-action: Verser en GED
+		name: Versé en GED
+			
+		rule:
+			last-action: 
+				recu-cdg
+				send-archive 
+				
+			no-action:
+				send-ged
+				
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
+			droit_id_u: 'actes:edition'
+			properties: 
+				has_ged: manuel
+		action-class: Defaut
+	
+	send-archive:
+	
+		name-action: Verser au SAE
+		name: Versé au SAE
+	
+		rule:
+			has-action:
+				recu-cdg
+			no-action:
+				send-archive	
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
+			droit_id_u: 'actes:edition'
+			properties: 
+				has_archivage: manuel
+			herited-properties:
+				sae_activate: on
+		action-class: SAEEnvoi
+			
+	 
+	 	

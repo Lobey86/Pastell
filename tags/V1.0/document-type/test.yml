@@ -1,0 +1,36 @@
+nom: Test
+
+formulaire:
+	Message:			
+		Test: {title: true}
+		test2: 
+		
+	
+action:
+	creation:
+		name: Créer
+		rule:
+			no-last-action:
+			
+	modification:
+		name: Modifier
+		rule:
+			last-action: 
+				creation
+				modification
+		
+	test-1 :
+		name: Test
+		action-class: Defaut
+		
+	test-2:
+		name: Test 2
+		rule:
+			content:
+				Test: toto
+		action-class: Defaut
+		
+	test-3:
+		name: Test 3
+		action-class: Defaut
+			
