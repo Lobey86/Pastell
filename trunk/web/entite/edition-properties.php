@@ -10,9 +10,8 @@ require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
 
-
 $recuperateur = new Recuperateur($_GET);
-$id_e = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e',0);
 $page = $recuperateur->getInt('page',0);
 
 $document = new Document($sqlQuery);
@@ -23,7 +22,11 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+if ($id_e) {
+	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+} else {
+	$documentType = $documentTypeFactory->getDocumentType('entite0-properties');
+}
 $formulaire = $documentType->getFormulaire();
 
 

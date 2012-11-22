@@ -86,15 +86,28 @@ if ($tab_number == 0){
 	}
 	
 	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance,"entite/detail0.php",0);
-}
-if ($tab_number==1){
+	} elseif ($tab_number == 2) { ?>
+	<a href='mailsec/annuaire.php'>Annuaire global »</a>
+<?php } else { ?>
+
+	<h2><a href="entite/edition-properties.php?id_e=0&page=<?php echo $tab_number ?>" class='btn_maj'>
+			Modifier
+		</a></h2>
+
+	<?php 
+	
+	$afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=0&id_e=0"); 
+	
 	$theAction = $documentType->getAction();
 	$actionPossible = new ActionPossible($sqlQuery,0,$authentification->getId(),$theAction);
 	$actionPossible->setRoleUtilisateur($roleUtilisateur);
-	//$actionPossible->setDonnesFormulaire($donneesFormulaire);
+	$actionPossible->setDonnesFormulaire($donneesFormulaire);
 	$actionPossible->setEntite($entite);
 
 	foreach($actionPossible->getActionPossible(0) as $action_name) :
+	if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
+		continue;
+	}
 	?>
 	<form action='entite/action0.php' method='post' >
 	<input type='hidden' name='id_e' value='0' />
@@ -106,10 +119,9 @@ if ($tab_number==1){
 	<?php 
 	
 	endforeach; 
-}?>
-<?php if ($tab_number == 2): ?>
-	<a href='mailsec/annuaire.php'>Annuaire global »</a>
-<?php endif; ?>
+
+	
+} ?>
 </div>
 
 <?php 

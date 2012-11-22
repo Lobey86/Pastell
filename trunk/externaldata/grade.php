@@ -63,7 +63,6 @@ include( PASTELL_PATH ."/include/haut.php");
 	<?php endforeach;?>
 </table>
 
-</form>
 </div>
 
 <?php 
