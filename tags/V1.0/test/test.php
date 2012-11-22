@@ -1,6 +1,0 @@
-<?php 
-
-$name="tjkdjsf &ççèèè___ --- &&& §!!!!$$$45465eç ''' AA3";
-
-echo preg_replace("#[^a-zA-Z0-9_ ]#", "_", $name);
-
