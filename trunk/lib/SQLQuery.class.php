@@ -1,7 +1,5 @@
 <?php
 
-require_once("ZLog.class.php");
-
 class SQLQuery {
 	
 	private $dsn;
@@ -30,7 +28,7 @@ class SQLQuery {
 		if (! $this->pdo) {
 			$this->pdo = new PDO($this->dsn,$this->user,$this->password);
 			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			$this->logDebug("Connexion Ã  la base de donnÃ©es ".$this->dsn);
+			$this->logDebug("Connexion à  la base de données ".$this->dsn);
 			
 		}
 		$this->lastResult = false;

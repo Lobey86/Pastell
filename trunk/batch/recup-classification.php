@@ -2,7 +2,6 @@
 <?php
 require_once( dirname(__FILE__) . "/../web/init.php");
 require_once( PASTELL_PATH . "/lib/connecteur/tedetis/Tedetis.class.php");
-require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
 require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
 

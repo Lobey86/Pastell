@@ -1,7 +1,6 @@
 <?php 
-require_once("ZLog.class.php");
 
-class ZenMail{
+class ZenMail {
 	
 	const DEFAULT_CHARSET = 'ISO-8859-15';
 	

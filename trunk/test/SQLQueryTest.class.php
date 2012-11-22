@@ -1,6 +1,5 @@
 <?php
 require_once('simpletest/autorun.php');
-require_once(dirname(__FILE__).'/../lib/base/SQLQuery.class.php');
 
 Mock::generate('ZLog');
 

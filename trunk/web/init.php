@@ -1,18 +1,16 @@
 <?php 
 require_once(__DIR__."/../DefaultSettings.php");
 
-
 set_include_path( __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
 
 function __autoload($class_name) {	
 	$result = include($class_name . '.class.php');
-	if(!$result){
+	if ( ! $result ){
 		throw new Exception("Impossible de trouver $class_name");
 	}
 }
 
 
-require_once( PASTELL_PATH . "/lib/base/Timer.class.php");
 $timer = new Timer();
 
 session_start();
@@ -26,7 +24,6 @@ $lastError = new LastError();
 require_once( PASTELL_PATH . "/lib/messageHTML/LastMessage.class.php");
 $lastMessage = new LastMessage();
 
-require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 $sqlQuery = new SQLQuery(BD_DSN,BD_USER,BD_PASS);
 $sqlQuery->setLog($zLog);
 

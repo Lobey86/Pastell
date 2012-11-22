@@ -1,6 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/base/PasswordGenerator.class.php");
-require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class UtilisateurCreator {

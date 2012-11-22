@@ -1,7 +1,5 @@
 <?php
-
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once( PASTELL_PATH . "/lib/base/CurlWrapper.class.php");
 
 abstract class Tedetis {
 	

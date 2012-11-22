@@ -1,6 +1,5 @@
 <?php
 
-require_once("SQLQuery.class.php");
 require_once("DatabaseDefinition.interface.php");
 
 class DatabaseDefinitionPostgreSQL implements DatabaseDefinition {

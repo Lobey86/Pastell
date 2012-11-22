@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentEmail.class.php");

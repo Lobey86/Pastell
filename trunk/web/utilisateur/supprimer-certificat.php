@@ -3,7 +3,6 @@
 
 include( dirname(__FILE__) . "/../init-authenticated.php");
 
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 
 

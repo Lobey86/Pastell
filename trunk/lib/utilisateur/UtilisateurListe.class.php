@@ -1,11 +1,7 @@
 <?php
-
-require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
-
 class UtilisateurListe {
 	
 	private $sqlQuery;
-	
 	
 	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery;

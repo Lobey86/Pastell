@@ -1,6 +1,5 @@
 <?php
 require_once( PASTELL_PATH . "/lib/timestamp/OpensslTSWrapper.class.php");
-require_once( PASTELL_PATH . "/lib/base/CurlWrapper.class.php");
 
 class SignServer {
 	

@@ -1,6 +1,5 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/base/ZenXML.class.php");
 
 class HeliosArchiveSEDA {
 	

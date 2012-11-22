@@ -1,8 +1,5 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-
-
-require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/entite/Entite.class.php");
