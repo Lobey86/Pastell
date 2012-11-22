@@ -1,5 +1,6 @@
 <?php
 require_once("init-api.php");
+require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_e = $recuperateur->get('id_e');

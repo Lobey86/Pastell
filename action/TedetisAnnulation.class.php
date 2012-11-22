@@ -1,5 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
+require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 
 class TedetisAnnulation  extends ActionExecutor {
 
@@ -7,8 +8,9 @@ class TedetisAnnulation  extends ActionExecutor {
 		
 		$collectiviteProperties = $this->getCollectiviteProperties();
 	
-		$tedetis = TedetisFactory::getInstance($collectiviteProperties);
-
+		
+		$tedetis = new Tedetis($collectiviteProperties);
+		
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
 		
 		

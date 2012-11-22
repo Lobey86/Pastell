@@ -1,5 +1,8 @@
 <?php 
+
+
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
 
 $agentSQL = new AgentSQL($sqlQuery);
 

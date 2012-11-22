@@ -1,5 +1,6 @@
 <?php 
 require_once('simpletest/autorun.php');
+require_once(dirname(__FILE__).'/../lib/base/PasswordGenerator.class.php');
 
 class PasswordGeneratorTest extends UnitTestCase {
 

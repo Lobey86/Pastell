@@ -1,9 +1,11 @@
 <?php
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
+require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 

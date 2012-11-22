@@ -1,6 +1,9 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+
+
 $recuperateur = new Recuperateur($_GET);
 
 $mail_verif_password = $recuperateur->get('mail_verif');

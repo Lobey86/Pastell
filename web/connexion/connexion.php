@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
+require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 
 $page="connexion";
 $page_title="Connexion";

@@ -120,6 +120,11 @@ CREATE TABLE entite_properties (
 	`properties` varchar(32) NOT NULL,
 	`values` varchar(32) NOT NULL
 )  ENGINE=MyISAM  ;
+CREATE TABLE entite_relation (
+	`id_e1` int(11) NOT NULL,
+	`relation` varchar(16) NOT NULL,
+	`id_e2` int(11) NOT NULL
+)  ENGINE=MyISAM  ;
 CREATE TABLE grade (
 	`libelle` varchar(256) NOT NULL,
 	`filiere` varchar(255) NOT NULL,
@@ -142,6 +147,27 @@ CREATE TABLE journal (
 	KEY id_j (`id_u`,`id_j`),
 	FULLTEXT KEY message_horodate (`message_horodate`)
 )  ENGINE=MyISAM  ;
+CREATE TABLE message (
+	`id_m` int(11) NOT NULL AUTO_INCREMENT,
+	`id_t` varchar(16) NOT NULL,
+	`type` varchar(32) NOT NULL,
+	`emetteur` varchar(64) NOT NULL,
+	`date_envoie` datetime NOT NULL,
+	`message` varchar(128) NOT NULL,
+	PRIMARY KEY (`id_m`)
+)  ENGINE=MyISAM  ;
+CREATE TABLE message_destinataire (
+	`id_m` int(11) NOT NULL,
+	`siren` varchar(9) NOT NULL
+)  ENGINE=MyISAM  ;
+CREATE TABLE message_ressource (
+	`id_r` int(11) NOT NULL AUTO_INCREMENT,
+	`id_m` int(11) NOT NULL,
+	`ressource` varchar(255) NOT NULL,
+	`type` varchar(32) NOT NULL,
+	`original_name` varchar(128) NOT NULL,
+	PRIMARY KEY (`id_r`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE notification (
 	`id_n` int(11) NOT NULL AUTO_INCREMENT,
 	`id_u` int(11) NOT NULL,
@@ -159,6 +185,25 @@ CREATE TABLE role_droit (
 	`role` varchar(64) NOT NULL,
 	`droit` varchar(64) NOT NULL,
 	PRIMARY KEY (`role`,`droit`)
+)  ENGINE=MyISAM  ;
+CREATE TABLE transaction (
+	`id_t` varchar(16) NOT NULL,
+	`type` varchar(32) NOT NULL,
+	`etat` varchar(32) NOT NULL,
+	`attente_traitement` tinyint(1) NOT NULL,
+	`date_changement_etat` datetime NOT NULL,
+	`objet` varchar(512) NOT NULL,
+	PRIMARY KEY (`id_t`)
+)  ENGINE=MyISAM  ;
+CREATE TABLE transaction_changement_etat (
+	`id_t` varchar(16) NOT NULL,
+	`etat` varchar(32) NOT NULL,
+	`date` datetime NOT NULL
+)  ENGINE=MyISAM  ;
+CREATE TABLE transaction_role (
+	`id_t` varchar(16) NOT NULL,
+	`siren` char(9) NOT NULL,
+	`role` varchar(16) NOT NULL
 )  ENGINE=MyISAM  ;
 CREATE TABLE utilisateur (
 	`id_u` int(11) NOT NULL AUTO_INCREMENT,

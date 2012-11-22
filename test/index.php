@@ -1,8 +1,8 @@
 <?php 
 
-require_once("ZenTest.class.php");
+require_once( dirname( __FILE__) . "/../lib/base/ZenTest.class.php");
 
-$zenTest = new ZenTest(__DIR__);
+$zenTest = new ZenTest(dirname(__FILE__));
 $zenTest->run();
 
 ?>

@@ -11,23 +11,12 @@ formulaire:
 	
 	TdT:		
 		tdt_activate: {name: "Module activé", type: checkbox}
-		tdt_type: 
-			name: "Logiciel de télétransmisssion"
-			type: select
-			value: 
-				s2low: S²low
-				stela: Stela
-			default:
-				s2low
-				
-		tdt_url: {name: "URL du service"}
+		tdt_url: {name: "URL du TDT"}
 		tdt_server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file, content-type: text/plain}
 		tdt_user_certificat: {name: "Certificat utilisateur (format P12)", type: file, content-type: application/octet-stream}
 		tdt_user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
 		tdt_user_certificat_pem: {type: file, no-show: true}
 		tdt_user_key_pem: {type: file, no-show: true}
-		tdt_user_login: {name: "Login de l'utilisateur"}
-		tdt_user_password: {type: password, name: "Mot de passe de l'utilisateur"}
 		classification_file: {name: "Fichier de classification", type: file, read-only: true}
 		nomemclature_file: 
 			name: "Fichier de nomenclature CDG"
@@ -97,7 +86,7 @@ formulaire:
 			default: false
 			depend: classification_cdg
 	
-
+	
 page-condition:
 	Fichier de classification:
 		type_id_e: centre_de_gestion
@@ -106,7 +95,7 @@ page-condition:
 action:
 
 	test-tedetis:
-		name: Tester la connectivité
+		name: Tester la connectivité à S²low
 		tab: TdT
 		action-class: TedetisTestAction
 		
@@ -135,7 +124,9 @@ action:
 		name: Archiver un document de test
 		action-class: SAETestSEDA
 		tab: SAE
+		
 	
+			
 	demande-classification:
 		name: Envoyer une demande de classification à la préfecture
 		tab: TdT

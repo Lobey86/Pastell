@@ -1,5 +1,7 @@
 <?php
 
+require_once("FormulaireData.interface.php");
+
 class Field {
 	
 	private $libelle;

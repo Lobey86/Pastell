@@ -1,5 +1,6 @@
 <?php
 
+require_once( PASTELL_PATH . "/lib/document/DocumentDelete.class.php");
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
  
 class Supprimer extends ActionExecutor {

@@ -3,8 +3,20 @@
 $start = time();
 $min_exec_time = 60;
 
+
 require_once( dirname(__FILE__) . "/../web/init.php");
+
 require_once (PASTELL_PATH . "/lib/document/DocumentTypeFactory.class.php");
+require_once (PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
+require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
+require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
+require_once (PASTELL_PATH . "/lib/journal/Journal.class.php");
+require_once (PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
+require_once( PASTELL_PATH ."/lib/base/CurlWrapper.class.php");
+require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
+require_once( PASTELL_PATH ."/lib/document/Document.class.php");
 
 $signServer = new SignServer(SIGN_SERVER_URL,new OpensslTSWrapper(OPENSSL_PATH,$zLog));
 

@@ -1,5 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
+require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 
 class TedetisEnvoieHelios  extends ActionExecutor {
 
@@ -8,8 +9,8 @@ class TedetisEnvoieHelios  extends ActionExecutor {
 		$collectiviteProperties = $this->getCollectiviteProperties();
 		
 		
-		$tedetis = TedetisFactory::getInstance($collectiviteProperties);
-				
+		$tedetis = new Tedetis($collectiviteProperties);
+		
 		if (!  $tedetis->postHelios($this->getDonneesFormulaire()) ){
 			$this->setLastMessage( $tedetis->getLastError());
 			return false;

@@ -1,6 +1,7 @@
 <?php 
 
 require_once('simpletest/autorun.php');
+require_once(dirname(__FILE__).'/../lib/base/Recuperateur.class.php');
 
 class RecuperateurTest extends UnitTestCase {	
 	

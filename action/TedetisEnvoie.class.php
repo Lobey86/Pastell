@@ -1,5 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
+require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 
 class TedetisEnvoie  extends ActionExecutor {
 
@@ -8,8 +9,8 @@ class TedetisEnvoie  extends ActionExecutor {
 		$collectiviteProperties = $this->getCollectiviteProperties();
 		
 		
-		$tedetis = TedetisFactory::getInstance($collectiviteProperties);
-				
+		$tedetis = new Tedetis($collectiviteProperties);
+		
 		if (!  $tedetis->postActes($this->getDonneesFormulaire()) ){
 			$this->setLastMessage( $tedetis->getLastError());
 			return false;

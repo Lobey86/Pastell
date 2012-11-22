@@ -1,6 +1,9 @@
 <?php
 include( dirname(__FILE__) . "/../init-authenticated.php");
 
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/droit/RoleSQL.class.php");
+
 $droitChecker->verifDroitOrRedirect("role:edition",0);
 
 $recuperateur = new Recuperateur($_POST);

@@ -2,8 +2,9 @@ nom: Test
 
 formulaire:
 	Message:			
-		Objet: {requis: true, title: true}	
-		fichier_pes_signe: {name: Fichier PES, type: file, requis: true, commentaire: "format XML"}
+		Test: {title: true}
+		test2: 
+		
 	
 action:
 	creation:
@@ -18,49 +19,18 @@ action:
 				creation
 				modification
 		
-	send-tdt:
-		name-action: Transmettre au TdT
-		name: Transmis au TdT
+	test-1 :
+		name: Test
+		action-class: Defaut
 		
+	test-2:
+		name: Test 2
 		rule:
-			last-action: 
-				creation
-				modification
-			role_id_e: editeur
-			droit_id_u: 'helios:edition'
-			herited-properties:
-				tdt_activate: true
-				
-		action-class: TedetisEnvoieHelios
-		auto-class: TedetisRecupHelios
+			content:
+				Test: toto
+		action-class: Defaut
 		
-	verif-tdt:
-		name-action: Vérifier le statut de la transaction
-		name: Statut vérifié par le TdT		
-		rule:
-			last-action:
-				send-tdt
-			role_id_e: editeur
-			droit_id_u: 'helios:edition'
-		action-class: TedetisRecupHelios
-	
-	
-	acquiter-tdt:
-		name: Le fichier PES a été acquitté 
-		rule:
-			role_id_e: no-role
-	
-	refus-tdt:
-		name: Le fichier PES a été refusé
-		rule:
-			role_id_e: no-role
+	test-3:
+		name: Test 3
+		action-class: Defaut
 			
-	info-tdt:
-		name: Un fichier de réponse PES est disponible
-		rule:
-			role_id_e: no-role
-	
-	tdt-error:
-		name: Erreur sur le Tedetis
-		rule:
-			role_id_e: no-role			

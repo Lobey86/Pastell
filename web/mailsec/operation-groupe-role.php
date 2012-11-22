@@ -1,5 +1,7 @@
 <?php 
 require_once(dirname(__FILE__)."/../init-authenticated.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireRoleSQL.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 $all_id_r = $recuperateur->get('id_r',array());

@@ -1,5 +1,6 @@
 <?php
 require_once("init-api.php");
+require_once (PASTELL_PATH . "/lib/action/DocumentActionEntite.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $type = $recuperateur->get('type');

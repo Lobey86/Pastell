@@ -75,7 +75,7 @@ class ImportFormHTML {
 			<p>Le fichier CSV doit contenir un agent par ligne.</p>
 			<p>Les lignes sont formatés de la manière suivante : 
 			"Matricule (5)";"Titre";"Nom d'usage";"Nom patronymique";"Prénom";"Emploi / Grade (C)";"Emploi / Grade (L)";"Collectivité (C)";"Collectivité (L)";"SIREN";"Type de dossier";"Type de dossier (L)";"Train de traitement (C)";"Train de traitement (L)"</p>
-			<p>Note: si le fichier est trop gros (&gt;  <?php echo ini_get("upload_max_filesize") ?>) 
+			<p>Note: si le fichier est trop gros (>  <?php echo ini_get("upload_max_filesize") ?>) 
 			vous pouvez le compresser avec gzip.
 			</p>
 		</div>
@@ -104,7 +104,7 @@ class ImportFormHTML {
 			<p>Les lignes sont formatés de la manière suivante : 
 			Filière (C);Filière (L);Cadre d'emplois (C);Cadre d'emplois (L);Grade (C);Grade (L)
 			</p>
-			<p>Note: si le fichier est trop gros (&gt;  <?php echo ini_get("upload_max_filesize") ?>) 
+			<p>Note: si le fichier est trop gros (>  <?php echo ini_get("upload_max_filesize") ?>) 
 			vous pouvez le compresser avec gzip.
 			</p>
 		</div>
@@ -133,7 +133,7 @@ class ImportFormHTML {
 			<p>Les lignes sont formatés de la manière suivante : 
 			Filière (C);Filière (L);Cadre d'emplois (C);Cadre d'emplois (L);Grade (C);Grade (L)
 			</p>
-			<p>Note: si le fichier est trop gros (&gt;  <?php echo ini_get("upload_max_filesize") ?>) 
+			<p>Note: si le fichier est trop gros (>  <?php echo ini_get("upload_max_filesize") ?>) 
 			vous pouvez le compresser avec gzip.
 			</p>
 		</div>

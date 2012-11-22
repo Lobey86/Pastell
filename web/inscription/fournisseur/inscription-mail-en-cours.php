@@ -1,5 +1,6 @@
 <?php 
 require_once("../../init.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 
@@ -12,6 +13,7 @@ $page_title = "Inscription en cours de finalisation";
 
 include( PASTELL_PATH ."/include/haut.php");
 
+require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 $utilisateur = new Utilisateur($sqlQuery,$_SESSION['id_u']);
 $infoUtilisateur = $utilisateur->getInfo();
 ?>

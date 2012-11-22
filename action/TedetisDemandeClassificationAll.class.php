@@ -1,4 +1,5 @@
 <?php 
+require_once( PASTELL_PATH . "/lib/system/Tedetis.class.php");
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
 class TedetisDemandeClassificationAll extends ActionExecutor {
@@ -16,7 +17,7 @@ class TedetisDemandeClassificationAll extends ActionExecutor {
 			$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($infoCollectivite['id_e'],'collectivite-properties');
 			
 			if ($donneesFormulaire->get('tdt_activate')){
-				$tedetis = TedetisFactory::getInstance($donneesFormulaire);
+				$tedetis = new Tedetis($donneesFormulaire);
 				$result = $tedetis->demandeClassification();
 				
 				if (! $result){

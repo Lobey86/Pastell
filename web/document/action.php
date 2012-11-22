@@ -1,6 +1,11 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/base/ZenMail.class.php");
+require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
+require_once( PASTELL_PATH . "/lib/notification/NotificationMail.class.php");
+require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossibleFactory.class.php");
 
 

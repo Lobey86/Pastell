@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 
@@ -44,12 +45,6 @@ if (! file_exists($action_class_file )){
 require_once($action_class_file);
 
 $actionClass = new $action_class_name($zLog,$sqlQuery,$id_e,$id_e,$authentification->getId(),'collectivite-properties');
-
-$zenMail = new ZenMail($zLog);
-$notification = new Notification($sqlQuery);
-$notificationMail = new NotificationMail($notification,$zenMail,$journal);
-
-$actionClass->setNotificationMail($notificationMail);
 
 $result = $actionClass->go();
 

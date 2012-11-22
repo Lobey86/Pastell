@@ -1,5 +1,6 @@
 <?php 
 
+require_once( PASTELL_PATH . "/lib/entite/GradeSQL.class.php");
 
 $gradeSQL = new GradeSQL($sqlQuery);
 
@@ -62,6 +63,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	<?php endforeach;?>
 </table>
 
+</form>
 </div>
 
 <?php 

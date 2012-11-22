@@ -1,8 +1,10 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
+require_once( PASTELL_PATH . "/lib/transaction/message/MessageRessource.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');

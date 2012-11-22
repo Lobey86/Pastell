@@ -1,5 +1,8 @@
 <?php
 
+require_once( PASTELL_PATH . "/lib/base/Certificat.class.php");
+require_once( PASTELL_PATH . "/lib/base/SQLQuery.class.php");
+
 class CertificatConnexion {
 	
 	private $sqlQuery;
@@ -22,8 +25,10 @@ class CertificatConnexion {
 	public function setCertificat(Certificat $certificat){
 		$this->certificat = $certificat;
 	}
+	
+	
+	public function connexionGranted($id_u){
 		
-	public function connexionGranted($id_u){		
 		$sql = "SELECT certificat_verif_number FROM utilisateur WHERE id_u=?";
 		$certif_verif_number = $this->sqlQuery->fetchOneValue($sql,$id_u);
 		

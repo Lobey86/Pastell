@@ -13,7 +13,7 @@ class EntiteDetailHTML {
 		$this->droitLectureCDG = true;
 	}
 	
-	public function display(array $entiteExtendedInfo,$entiteProperties){
+	public function display(array $entiteExtendedInfo,$entiteProperties,$lastTransaction =false){
 		$id_e = $entiteExtendedInfo['id_e'];
 		?>
 		<h2>Informations générales
@@ -42,7 +42,17 @@ class EntiteDetailHTML {
 			<?php if ($entiteExtendedInfo['type'] == Entite::TYPE_FOURNISSEUR ) : ?>
 				<tr>
 				<th>Etat</th>
-				<td><?php echo Entite::getChaineEtat($entiteExtendedInfo['etat']) ?></td>
+				
+				<td>
+				<?php if($lastTransaction) : ?>
+				<a href='<?php echo SITE_BASE ?>flux/detail-transaction.php?id_t=<?php echo $lastTransaction; ?>'>
+				<?php endif;?>
+				<?php echo Entite::getChaineEtat($entiteExtendedInfo['etat']) ?> 
+				<?php if($lastTransaction) : ?>
+				</a>
+				<?php endif;?>
+				
+				</td>
 				</tr>
 			<?php endif;?>
 			<tr>

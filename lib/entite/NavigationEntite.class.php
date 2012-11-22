@@ -1,4 +1,6 @@
 <?php
+
+
 class NavigationEntite {
 	
 	private $id_e ;

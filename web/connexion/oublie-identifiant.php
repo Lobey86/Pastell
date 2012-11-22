@@ -29,7 +29,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		<td class="w50pc"><input type="text" name="login" id="login" class='noautocomplete'/></td>
 		</tr>
 			<tr>
-		<th class="w50pc"><label for="email"><b>OU</b> Votre email</label></th>
+		<th class="w50pc"><label for=""email""><b>OU</b> Votre email</label></th>
 		<td class="w50pc"><input type="text" name="email" id="email" class='noautocomplete'/></td>
 		</tr>
 		</table>

@@ -1,5 +1,6 @@
 <?php 
 require_once('simpletest/autorun.php');
+require_once(dirname(__FILE__).'/../lib/base/ZLog.class.php');
 require_once("MockFile.class.php");
 
 class ZLogTest extends UnitTestCase {

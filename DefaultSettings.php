@@ -9,20 +9,20 @@ if (file_exists( __DIR__ . "/LocalSettings.php")){
 }
 
 if (! defined("PASTELL_PATH")){
-	define("PASTELL_PATH",__DIR__ ."/");
+	define("PASTELL_PATH",dirname(__FILE__) ."/");
 }
 
 //Emplacement du répertoire pour sauvegarder les fichiers temporaires
-//ATTENTION : CE RÉPERTOIRE DOIT ÊTRE ACCESSIBLE EN ECRITURE 
+//ATTENTION : CE REPERTOIRE DOIT ÊTRE ACCESSIBLE EN ECRITURE
 if (!defined("WORKSPACE_PATH")){
 	define("WORKSPACE_PATH" , PASTELL_PATH . "/workspace");
 }
 
-require_once( PASTELL_PATH . "/lib/ZLog.class.php");
+require_once( PASTELL_PATH . "/lib/base/ZLog.class.php");
 
 //Emplacement du fichier de Log
 if (!defined("LOG_FILE")){
-	define("LOG_FILE", __DIR__. "/log/pastell.log");
+	define("LOG_FILE", PASTELL_PATH. "/log/pastell.log");
 }
 
 //Niveau de Log enregistré
@@ -37,8 +37,16 @@ if (!defined("BD_DSN")){
 	define("BD_PASS","pastell");
 }
 
+if (! defined("BD_DSN_TEST")){
+	define("BD_DSN_TEST","mysql:dbname=pastell_test;host=127.0.0.1");
+	define("BD_USER_TEST",BD_USER);
+	define("BD_PASS_TEST",BD_PASS);
+}
+
+
 //Définition de la connexion au SignServer
 if (! defined("SIGN_SERVER_URL")){
+	//define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");
 	define("SIGN_SERVER_URL", "http://127.0.0.1/adullact/pastell/web/demo/timestamp-server.php?workerId=1");	
 }
 

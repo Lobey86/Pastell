@@ -1,5 +1,6 @@
 <?php
 require_once("init-api.php");
+require_once (PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionPossibleFactory.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);

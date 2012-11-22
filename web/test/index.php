@@ -27,7 +27,7 @@ include (PASTELL_PATH."/include/bloc_message.php"); ?>
 <br/>
 <br/>
 
-<form action='test/test-signserver.php' >
+<form action='test/test-signserver.php'/>
 	<input type='submit' value='Tester la signature'/>
 </form>
 <br/>

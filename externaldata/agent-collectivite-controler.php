@@ -1,4 +1,7 @@
 <?php
+
+require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
+
 $id_a = $recuperateur->get('id_a');
 
 $entite = new Entite($sqlQuery,$id_e);

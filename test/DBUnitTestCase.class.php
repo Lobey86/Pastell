@@ -1,10 +1,8 @@
 <?php
 
 
-
-define("BD_DSN_TEST","mysql:dbname=pastell_test;host=127.0.0.1");
-define("BD_USER_TEST",BD_USER);
-define("BD_PASS_TEST",BD_PASS);
+require_once( PASTELL_PATH . "lib/base/ZLog.class.php");
+require_once( PASTELL_PATH . "lib/base/SQLQuery.class.php");
 
 class DBUnitTestCase extends UnitTestCase {
 	

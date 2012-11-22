@@ -1,13 +1,18 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+
+require_once (PASTELL_PATH . "/lib/document/Document.class.php");
+
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
 
+
 $recuperateur = new Recuperateur($_GET);
-$id_e = $recuperateur->getInt('id_e',0);
+$id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
 
 $document = new Document($sqlQuery);
@@ -18,11 +23,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-if ($id_e) {
-	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
-} else {
-	$documentType = $documentTypeFactory->getDocumentType('entite0-properties');
-}
+$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
 $formulaire = $documentType->getFormulaire();
 
 

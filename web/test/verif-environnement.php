@@ -3,14 +3,17 @@
 require_once(dirname(__FILE__)."/../init.php");
 
 
-$extensionNeeded = array("curl","mysql","openssl","simplexml","imap","apc","soap","bcmath","ssh2","pdo","pdo_mysql");
+$extensionNeeded = array("curl","mysql","openssl","simplexml","imap","apc","soap");
 
 $valeurMinimum = array(
 			"PHP" => "5.3",
 			"OpenSSL" => '1.0.0a',
+		
 );
 
+
 $page_title = "Vérification de l'environnement";
+
 
 if ( ! ENABLE_VERIF_ENVIRONNEMENT ){
 	$lastError->setLastError("La vérification de l'environnement est désactivé sur ce serveur");
@@ -45,7 +48,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	<?php foreach($extensionNeeded as $extension) : ?>
 		<tr>
 			<th><?php echo $extension ?></th>
-			<td><?php echo extension_loaded($extension)?"ok":"<b style='color:red'>CETTE EXTENSION N'EST PAS INSTALLEE</b>"; ?></td>
+			<td><?php echo extension_loaded($extension)?"ok":"<b>CETTE EXTENSION N'EST PAS INSTALLE</b>"; ?></td>
 		</tr>
 	<?php endforeach;?>
 </table>

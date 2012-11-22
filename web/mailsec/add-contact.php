@@ -1,5 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
+require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
+require_once( PASTELL_PATH . "/lib/mailsec/Annuaire.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 $recuperateur = new Recuperateur($_POST);
