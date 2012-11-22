@@ -4,6 +4,7 @@ Flux Généraux:
 	message-service:  Message interne
 	rh-messages: Message Centre de gestion
 	mailsec: Mail sécurisé
+	megalis: e-mégalis
 
 Flux fournisseur :
 	fournisseur-inscription: Inscription fournisseur

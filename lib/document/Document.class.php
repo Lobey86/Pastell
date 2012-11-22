@@ -43,4 +43,10 @@ class Document {
 		$sql = "SELECT * FROM document WHERE id_d = ? ";
 		return $this->sqlQuery->fetchOneLine($sql,$id_d);
 	}
+	
+	public function getIdFromTitre($titre,$type){		
+		$sql = "SELECT id_d FROM document WHERE titre=? AND type=?";
+		return $this->sqlQuery->fetchOneValue($sql,$titre,$type);
+	}
+	
 }

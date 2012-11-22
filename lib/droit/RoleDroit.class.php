@@ -41,7 +41,9 @@ class RoleDroit {
 									'citoyen-courrier:lecture',
 									'citoyen-courrier:edition',
 									'helios:edition',
-									'helios:lecture'
+									'helios:lecture',
+									'megalis:lecture',
+									'megalis:edition',
 					),
 					'lecteur' => array(
 									'entite:lecture',

@@ -97,7 +97,7 @@ formulaire:
 			default: false
 			depend: classification_cdg
 	
-	
+
 page-condition:
 	Fichier de classification:
 		type_id_e: centre_de_gestion
@@ -135,9 +135,7 @@ action:
 		name: Archiver un document de test
 		action-class: SAETestSEDA
 		tab: SAE
-		
 	
-			
 	demande-classification:
 		name: Envoyer une demande de classification à la préfecture
 		tab: TdT

@@ -43,7 +43,6 @@ if (! defined("BD_DSN_TEST")){
 	define("BD_PASS_TEST",BD_PASS);
 }
 
-
 //Définition de la connexion au SignServer
 if (! defined("SIGN_SERVER_URL")){
 	//define("SIGN_SERVER_URL", "http://178.20.71.254:8080/signserver/process?workerId=1");

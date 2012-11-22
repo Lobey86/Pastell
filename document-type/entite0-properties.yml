@@ -8,8 +8,27 @@ formulaire:
 	
 	Mail sécurisé: {}
 	
+	E-Mégalis:
+		emegalis_activate: {name: "Module activé", type: checkbox}
+		emegalis_ssh_server : {name: Serveur SSH}
+		emegalis_ssh_fingerprint: {name: Empreinte du serveur}
+		emegalis_ssh_login: {name: Login}
+		emegalis_ssh_password: {name: Mot de passe, type: password}
+		emegalis_ssh_directory: {name: Répertoire contenant les enveloppes}
+	
+	
 action:
 	demande-classification:
 		name: Envoyer une demande de classifications pour toutes les collectivités
 		tab: TdT
 		action-class: TedetisDemandeClassificationAll
+		
+	megalis-test:
+		name: Tester la connexion SSH
+		action-class: MegalisTestSSH
+		tab: E-Mégalis
+		
+	megalis-recup:
+		name: Récuperer les enveloppes
+		action-class: MegalisRecup
+		tab: E-Mégalis

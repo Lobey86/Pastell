@@ -10,10 +10,9 @@ require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 require_once (PASTELL_PATH . "/lib/base/PKCS12.class.php");
 
-//Récupération des données
 $recuperateur = new Recuperateur($_POST);
-$id_e = $recuperateur->get('id_e');
-$page = $recuperateur->get('page');
+$id_e = $recuperateur->getInt('id_e',0);
+$page = $recuperateur->getInt('page');
 
 $entite = new Entite($sqlQuery,$id_e);
 $entiteInfo = $entite->getInfo();
@@ -23,7 +22,10 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+$config_file = $id_e?'collectivite-properties':'entite0-properties';
+
+$documentType = $documentTypeFactory->getDocumentType($config_file);
+
 $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
 
@@ -31,7 +33,7 @@ $formulaire->setTabNumber($page);
 $fileUploader = new FileUploader($_FILES);
 
 	
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+$donneesFormulaire = $donneesFormulaireFactory->get($id_e,$config_file);
 
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
@@ -51,8 +53,6 @@ $p12_data = $pkcs12->getAll($donneesFormulaire->getFilePath('iparapheur_user_cer
 if ($p12_data){
 	$donneesFormulaire->addFileFromData("iparapheur_user_key_pem","iparapheur_user_key_pem",$p12_data['pkey'].$p12_data['cert']); 
 }
-
-
 
 
 $type = $recuperateur->get('suivant');
