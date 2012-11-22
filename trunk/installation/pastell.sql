@@ -186,25 +186,6 @@ CREATE TABLE role_droit (
 	`droit` varchar(64) NOT NULL,
 	PRIMARY KEY (`role`,`droit`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE transaction (
-	`id_t` varchar(16) NOT NULL,
-	`type` varchar(32) NOT NULL,
-	`etat` varchar(32) NOT NULL,
-	`attente_traitement` tinyint(1) NOT NULL,
-	`date_changement_etat` datetime NOT NULL,
-	`objet` varchar(512) NOT NULL,
-	PRIMARY KEY (`id_t`)
-)  ENGINE=MyISAM  ;
-CREATE TABLE transaction_changement_etat (
-	`id_t` varchar(16) NOT NULL,
-	`etat` varchar(32) NOT NULL,
-	`date` datetime NOT NULL
-)  ENGINE=MyISAM  ;
-CREATE TABLE transaction_role (
-	`id_t` varchar(16) NOT NULL,
-	`siren` char(9) NOT NULL,
-	`role` varchar(16) NOT NULL
-)  ENGINE=MyISAM  ;
 CREATE TABLE utilisateur (
 	`id_u` int(11) NOT NULL AUTO_INCREMENT,
 	`email` varchar(128) NOT NULL,

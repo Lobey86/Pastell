@@ -4,7 +4,6 @@ require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/base/Recuperateur.class.php");
 require_once( PASTELL_PATH . "/lib/flux/FluxInscriptionFournisseur.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
-require_once( PASTELL_PATH . "/lib/transaction/TransactionFinder.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteDetailHTML.class.php");
 require_once( PASTELL_PATH . "/lib/entite/AgentSQL.class.php");
@@ -38,7 +37,7 @@ if ( ! $droit_lecture ){
 }
 
 
-$page_title = "Propriété globales";
+$page_title = "Propriétés globales";
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>

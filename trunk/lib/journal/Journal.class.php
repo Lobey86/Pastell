@@ -142,22 +142,6 @@ class Journal {
 		return $this->sqlQuery->fetchOneValue($sql,$value);
 	}
 	
-	public function getAllTransactionBySiren($siren,$offset,$limit){
-			$sql = "SELECT journal.* FROM transaction_role "  .  
-					" JOIN transaction ON transaction_role.id_t = transaction.id_t " . 
-					" AND transaction_role.siren=? " . 
-					" JOIN journal ON journal.id_t = transaction.id_t ".
-					" ORDER BY id_j DESC LIMIT $offset,$limit";
-		return $this->sqlQuery->fetchAll($sql,array($siren));		
-	}	
-	
-	public function countBySiren($siren){
-		$sql = "SELECT count(*) FROM transaction_role "  .  
-					" JOIN transaction ON transaction_role.id_t = transaction.id_t " . 
-					" AND transaction_role.siren=? " . 
-					" JOIN journal ON journal.id_t = transaction.id_t ";
-		return $this->sqlQuery->fetchOneValue($sql,array($siren));
-	}
 	
 	public function getTypeAsString($type){
 		$type_string = array(1=>"Action sur un document",
