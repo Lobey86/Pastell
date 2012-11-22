@@ -156,18 +156,6 @@ CREATE TABLE message (
 	`message` varchar(128) NOT NULL,
 	PRIMARY KEY (`id_m`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE message_destinataire (
-	`id_m` int(11) NOT NULL,
-	`siren` varchar(9) NOT NULL
-)  ENGINE=MyISAM  ;
-CREATE TABLE message_ressource (
-	`id_r` int(11) NOT NULL AUTO_INCREMENT,
-	`id_m` int(11) NOT NULL,
-	`ressource` varchar(255) NOT NULL,
-	`type` varchar(32) NOT NULL,
-	`original_name` varchar(128) NOT NULL,
-	PRIMARY KEY (`id_r`)
-)  ENGINE=MyISAM  ;
 CREATE TABLE notification (
 	`id_n` int(11) NOT NULL AUTO_INCREMENT,
 	`id_u` int(11) NOT NULL,
