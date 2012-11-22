@@ -1,5 +1,4 @@
 <?php 
-require_once( PASTELL_PATH ."/lib/flux/FluxFactory.class.php");
 require_once( PASTELL_PATH. "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
 require_once( PASTELL_PATH. "/lib/skin/PageDecorator.class.php");

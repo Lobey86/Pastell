@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/timestamp/OpensslTSWrapper.class.php");
 
 class SignServer {
 	
@@ -29,12 +28,10 @@ class SignServer {
 		
 		$url = $this->url . "&encoding=base64&data=" . urlencode(base64_encode($timestampRequest));
 				
-		//$timestampReply = $this->curlWrapper->get($url);
 		$timestampReply = file_get_contents($url);
 		
 	  	if (! $timestampReply){
 	  		$this->lastError = "Erreur lors de la connexion au signserver";
-	  		//$this->lastError = $this->curlWrapper->getLastError();
 	  		return false;
 	  	}
 	  	

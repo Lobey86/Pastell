@@ -1,15 +1,12 @@
 <?php
 
 require_once(dirname(__FILE__)."/../init.php");
-require_once( PASTELL_PATH . "/lib/timestamp/TimestampReplyCreator.class.php");
+require_once("TimestampReplyCreator.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $data = $recuperateur->get('data');
 
-
-
 $data = base64_decode($data);
-
 
 $signerKey = PASTELL_PATH . "data-exemple/timestamp-key.pem";
 $signerKeyPassword = "timestamp";

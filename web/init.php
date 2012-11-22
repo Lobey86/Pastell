@@ -41,10 +41,7 @@ $documentTypeFactory = new DocumentTypeFactory();
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 $donneesFormulaireFactory = new DonneesFormulaireFactory($documentTypeFactory,WORKSPACE_PATH);
 
-require_once( PASTELL_PATH ."/lib/timestamp/OpensslTSWrapper.class.php");
 $opensslTSWrapper = new OpensslTSWrapper(OPENSSL_PATH,$zLog);
-
-require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 $signServer = new SignServer(SIGN_SERVER_URL,$opensslTSWrapper);
 
 require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
