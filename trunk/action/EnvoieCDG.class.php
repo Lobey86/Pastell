@@ -1,9 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
-require_once (PASTELL_PATH . "/lib/entite/EntiteProperties.class.php");
-
-
 class EnvoieCDG  extends ActionExecutor {
 
 	private $collectivite;

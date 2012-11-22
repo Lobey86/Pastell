@@ -2,8 +2,6 @@
 
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-require_once( PASTELL_PATH ."/lib/journal/Journal.class.php");
-require_once( PASTELL_PATH . "/lib/document/Document.class.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 

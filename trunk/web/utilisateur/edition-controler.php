@@ -1,12 +1,8 @@
 <?php
 include( dirname(__FILE__) . "/../init-authenticated.php");
-
-
 require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
-require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurCreator.class.php");
-require_once( PASTELL_PATH . '/lib/notification/Notification.class.php');
 
 $recuperateur = new Recuperateur($_POST);
 $email = $recuperateur->get('email');

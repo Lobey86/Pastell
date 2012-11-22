@@ -1,6 +1,5 @@
 <?php
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/mailsec/Annuaire.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e');

@@ -1,6 +1,5 @@
 <?php
 require_once("../init.php");
-require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
 require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
 
 $certificatConnexion = new CertificatConnexion($sqlQuery);

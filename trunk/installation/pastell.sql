@@ -120,11 +120,6 @@ CREATE TABLE entite_properties (
 	`properties` varchar(32) NOT NULL,
 	`values` varchar(32) NOT NULL
 )  ENGINE=MyISAM  ;
-CREATE TABLE entite_relation (
-	`id_e1` int(11) NOT NULL,
-	`relation` varchar(16) NOT NULL,
-	`id_e2` int(11) NOT NULL
-)  ENGINE=MyISAM  ;
 CREATE TABLE grade (
 	`libelle` varchar(256) NOT NULL,
 	`filiere` varchar(255) NOT NULL,

@@ -6,7 +6,6 @@ require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 $id_e = $recuperateur->getInt('id_e',0);

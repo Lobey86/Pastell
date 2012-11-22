@@ -1,8 +1,5 @@
 <?php
 
-require_once("RoleDroit.class.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
-
 class RoleUtilisateur {
 	 
 	private $sqlQuery;

@@ -1,6 +1,5 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/entite/GradeSQL.class.php");
 
 $gradeSQL = new GradeSQL($sqlQuery);
 

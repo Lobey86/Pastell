@@ -1,8 +1,5 @@
 <?php
 require_once("init-api.php");
-require_once( PASTELL_PATH . "/lib/document/Document.class.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
-require_once (PASTELL_PATH . "/lib/action/ActionCreator.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_e = $recuperateur->getInt('id_e',0);

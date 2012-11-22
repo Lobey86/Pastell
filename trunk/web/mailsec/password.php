@@ -1,10 +1,6 @@
 <?php
 require_once( dirname(__FILE__) . "/../init.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentEmail.class.php");
-require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
-require_once( PASTELL_PATH ."/lib/action/ActionCreator.class.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
-require_once( PASTELL_PATH . "/lib/document/DocumentEntite.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $key = $recuperateur->get('key');

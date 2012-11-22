@@ -1,6 +1,5 @@
 <?php 
 
-
 class HeliosArchiveSEDA {
 	
 	private $lastError;

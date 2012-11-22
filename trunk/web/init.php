@@ -18,20 +18,14 @@ session_start();
 $zLog = new ZLog(LOG_FILE);		
 $zLog->setLogLevel(LOG_LEVEL);
 
-require_once( PASTELL_PATH . "/lib/messageHTML/LastError.class.php");
 $lastError = new LastError();
-
-require_once( PASTELL_PATH . "/lib/messageHTML/LastMessage.class.php");
 $lastMessage = new LastMessage();
 
 $sqlQuery = new SQLQuery(BD_DSN,BD_USER,BD_PASS);
 $sqlQuery->setLog($zLog);
 
-require_once( PASTELL_PATH . "/lib/authentification/Authentification.class.php");
 $authentification = new Authentification();
 
-
-require_once( PASTELL_PATH . "/lib/droit/RoleUtilisateur.class.php");
 $roleUtilisateur = new RoleUtilisateur($sqlQuery);
 $roleUtilisateur->setRoleDroit(new RoleDroit());
 
@@ -44,19 +38,15 @@ $donneesFormulaireFactory = new DonneesFormulaireFactory($documentTypeFactory,WO
 $opensslTSWrapper = new OpensslTSWrapper(OPENSSL_PATH,$zLog);
 $signServer = new SignServer(SIGN_SERVER_URL,$opensslTSWrapper);
 
-require_once( PASTELL_PATH . "/lib/journal/Journal.class.php");
 $id_u_journal = 0;
 if ($authentification->isConnected()) {
 	$id_u_journal = $authentification->getId();
 }
 $journal = new Journal($signServer,$sqlQuery,$id_u_journal);
 
-require_once( PASTELL_PATH . "/lib/utilisateur/Utilisateur.class.php");
-require_once( PASTELL_PATH . "/lib/entite/Entite.class.php");
 require_once( PASTELL_PATH . "/lib/util.php");
 
 define("DATABASE_FILE", PASTELL_PATH."/installation/pastell.bin");
-
 
 $objectInstancier = new ObjectInstancier();
 $objectInstancier->versionFile = __DIR__."/../version.txt";

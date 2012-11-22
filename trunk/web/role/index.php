@@ -1,7 +1,6 @@
 <?php
 
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/droit/RoleSQL.class.php");
 
 $droitChecker->verifDroitOrRedirect("role:lecture",0);
 

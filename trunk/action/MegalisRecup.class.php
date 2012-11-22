@@ -1,6 +1,5 @@
 <?php
 require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteListe.class.php");
 require_once( PASTELL_PATH . "/lib/connecteur/megalis/Megalis.class.php");
 
 class MegalisRecup extends ActionExecutor {

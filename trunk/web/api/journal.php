@@ -1,9 +1,6 @@
 <?php
 
 require_once("init-api.php");
-require_once( PASTELL_PATH ."/lib/journal/Journal.class.php");
-require_once( PASTELL_PATH . "/lib/api/CSVoutput.class.php");
-
 
 $recuperateur = new Recuperateur($_REQUEST);
 $offset = $recuperateur->getInt('offset',0);

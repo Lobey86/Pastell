@@ -2,8 +2,6 @@
 require_once(dirname(__FILE__)."/../init.php");
 
 require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
-require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListe.class.php");
-require_once( PASTELL_PATH . "/lib/api/JSONoutput.class.php");
 
 $JSONoutput = new JSONoutput();
 

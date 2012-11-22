@@ -1,6 +1,5 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/mailsec/AnnuaireRoleSQL.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 $recuperateur = new Recuperateur($_POST);

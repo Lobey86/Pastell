@@ -1,6 +1,5 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/notification/Notification.class.php");
 
 
 $recuperateur = new Recuperateur($_POST);

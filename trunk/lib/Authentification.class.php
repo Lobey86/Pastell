@@ -1,6 +1,4 @@
 <?php
-
-
 class Authentification {
 	
 	private $session;
@@ -32,9 +30,7 @@ class Authentification {
 		return $this->session['connexion']['id_u'];
 	}
 	
-	
 	public function deconnexion(){
 		unset($this->session['connexion']);
 	}
-
 }
