@@ -22,8 +22,7 @@ class TimestampReplyCreator {
   		return $file_path;
 	}
 	
-	public function createTimestampReply($timestampRequest){
-		
+	public function createTimestampReply($timestampRequest){		
 		$timestampRequestFile = $this->getTmpFile($timestampRequest);
 		$timestampReplyFile = $this->getTmpFile("");
 		
@@ -40,7 +39,5 @@ class TimestampReplyCreator {
 		unlink($timestampRequestFile);
 		unlink($timestampReplyFile);
 		return $timestampReply;
-	}
-	
-	
+	}	
 }

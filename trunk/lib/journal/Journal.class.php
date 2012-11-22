@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH ."/lib/timestamp/SignServer.class.php");
 
 class Journal {
 	
