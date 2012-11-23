@@ -1,8 +1,5 @@
 <?php
-
 require_once( PASTELL_PATH . "/lib/entite/EntiteRelation.class.php");
-
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
 class AccepterFournisseur extends ActionExecutor {
 

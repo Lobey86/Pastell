@@ -6,7 +6,14 @@ class LastError extends LastMessage {
 	private $lastError;
 	
 	public function __construct(){
-		parent::__construct(self::DEFAULT_SESSION_KEY);
+		$this->sessionKey = self::DEFAULT_SESSION_KEY;
+		if (isset($_SESSION[$this->sessionKey])){
+			$this->lastMessage = $_SESSION[$this->sessionKey];
+			unset($_SESSION[$this->sessionKey]);
+			$this->lastPost = $_SESSION['last_post'];
+			unset($_SESSION['last_post']);
+		}
+		$this->setEncodingInput(ENT_QUOTES);
 	}
 
 	public function getLastError(){

@@ -1,7 +1,5 @@
 <?php
 require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
-require_once( PASTELL_PATH . "/action/EnvoieCDG.class.php");
 
 class TedetisRecup extends ActionExecutor {
 
@@ -52,15 +50,9 @@ class TedetisRecup extends ActionExecutor {
 			$donneesFormulaire->addFileFromData('aractes', "ARActes.xml",$aractes);
 		}
 		
+		$donneesFormulaire->setData('date_ar', $tedetis->getDateAR($tedetis_transaction_id));
 		
 		$this->notify('acquiter-tdt', 'actes',$message);
-		
-		if ($this->getDonneesFormulaire()->get('envoi_cdg')) {
-			$envoieCDG = new EnvoieCDG($this->getZLog(), $this->getSQLQuery(),$this->id_d,$this->id_e,0,$this->type);
-			$envoieCDG->setNotificationMail($this->getNotificationMail());
-			$envoieCDG->go();
-		}
-		$donneesFormulaire->setData('date_ar', $tedetis->getDateAR($tedetis_transaction_id));
 	
 		$this->setLastMessage("L'acquittement du contrôle de légalité a été reçu.");
 		return true;

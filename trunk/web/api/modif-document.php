@@ -60,4 +60,11 @@ $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 $actionCreator->addAction($id_e,$id_u,Action::MODIFICATION,"Modification du document [WS]");
 
 $result['result'] = "ok";
+$result['formulaire_ok'] = $donneesFormulaire->isValidable()?1:0;
+if (! $result['formulaire_ok']){
+	$result['message'] = $donneesFormulaire->getLastError();
+} else {
+	$result['message'] = "";
+}
+
 $JSONoutput->display($result);

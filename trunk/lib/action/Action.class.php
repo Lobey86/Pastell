@@ -7,7 +7,7 @@ class Action {
 	const ACTION_SCRIPT = "action-script";
 	const AUTO_SCRIPT = "auto-script";
 	const ACTION_CLASS = "action-class";
-	const AUTO_CLASS = "auto-class";
+	const ACTION_AUTOMATIQUE = "action-automatique";
 	const ACTION_DESTINATAIRE = "action-selection";
 	const WARNING = "warning";
 	
@@ -76,7 +76,7 @@ class Action {
 	public function getActionClass($action_internal_name){
 		$tabAction = $this->getActionArray($action_internal_name);
 		if (! isset($tabAction[self::ACTION_CLASS])){
-			throw new Exception("L'action $action_internal_name n'est associé à aucun script");
+			return false;
 		}
 		return $tabAction[self::ACTION_CLASS];
 	}
@@ -89,7 +89,7 @@ class Action {
 	public function getAutoAction(){
 		$result = array();
 		foreach($this->getAll() as $actionName){
-			$autoClass = $this->getProperties($actionName,self::AUTO_CLASS);
+			$autoClass = $this->getProperties($actionName,self::ACTION_AUTOMATIQUE);
 			if ($autoClass){
 				$result[$actionName] = $autoClass;
 			}	

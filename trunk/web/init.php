@@ -1,6 +1,5 @@
 <?php 
 require_once(__DIR__."/../DefaultSettings.php");
-
 set_include_path( __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
 
 function __autoload($class_name) {	
@@ -10,50 +9,55 @@ function __autoload($class_name) {
 	}
 }
 
+session_start();
+require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
+require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
+require_once( PASTELL_PATH . "/lib/util.php");
+
+
 
 $timer = new Timer();
 
-session_start();
-
-$zLog = new ZLog(LOG_FILE);		
-$zLog->setLogLevel(LOG_LEVEL);
-
-$lastError = new LastError();
-$lastMessage = new LastMessage();
-
-$sqlQuery = new SQLQuery(BD_DSN,BD_USER,BD_PASS);
-$sqlQuery->setLog($zLog);
-
-$authentification = new Authentification();
-
-$roleUtilisateur = new RoleUtilisateur($sqlQuery);
-$roleUtilisateur->setRoleDroit(new RoleDroit());
-
-require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
-$documentTypeFactory = new DocumentTypeFactory();
-
-require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
-$donneesFormulaireFactory = new DonneesFormulaireFactory($documentTypeFactory,WORKSPACE_PATH);
-
-$opensslTSWrapper = new OpensslTSWrapper(OPENSSL_PATH,$zLog);
-$signServer = new SignServer(SIGN_SERVER_URL,$opensslTSWrapper);
-
-$id_u_journal = 0;
-if ($authentification->isConnected()) {
-	$id_u_journal = $authentification->getId();
-}
-$journal = new Journal($signServer,$sqlQuery,$id_u_journal);
-
-require_once( PASTELL_PATH . "/lib/util.php");
-
-define("DATABASE_FILE", PASTELL_PATH."/installation/pastell.bin");
 
 $objectInstancier = new ObjectInstancier();
 $objectInstancier->versionFile = __DIR__."/../version.txt";
 $objectInstancier->revisionFile = __DIR__."/../revision.txt";
-$objectInstancier->SQLQuery = $sqlQuery;
 $objectInstancier->workspacePath = WORKSPACE_PATH;
+$objectInstancier->action_class_directory = __DIR__ ."/../action/"; 
+$objectInstancier->opensslPath = OPENSSL_PATH;
+$objectInstancier->sign_server_url = SIGN_SERVER_URL;
 
+$objectInstancier->logFile = LOG_FILE;
+$objectInstancier->zLog->setLogLevel(LOG_LEVEL);
+
+$objectInstancier->bd_dsn = BD_DSN;
+$objectInstancier->bd_user = BD_USER;
+$objectInstancier->bd_password = BD_PASS;
+$objectInstancier->SQLQuery->setLog($objectInstancier->zLog);
+
+
+$id_u_journal = 0;
+if ($objectInstancier->Authentification->isConnected()) {
+	$id_u_journal = $objectInstancier->Authentification->getId();
+}
+$objectInstancier->Journal->setId($id_u_journal);
+
+$zLog = $objectInstancier->zLog;
+$sqlQuery = $objectInstancier->SQLQuery;
 $versionning = $objectInstancier->Versionning;
+$lastError = $objectInstancier->LastError;
+$lastMessage = $objectInstancier->LastMessage;
+$authentification = $objectInstancier->Authentification;
+$signServer = $objectInstancier->SignServer;
+$journal = $objectInstancier->Journal;
+$documentTypeFactory = $objectInstancier->DocumentTypeFactory;
+$donneesFormulaireFactory = $objectInstancier->DonneesFormulaireFactory;
+$roleUtilisateur = $objectInstancier->RoleUtilisateur;
+
+
+
+define("DATABASE_FILE", PASTELL_PATH."/installation/pastell.bin");
+
+
 
 

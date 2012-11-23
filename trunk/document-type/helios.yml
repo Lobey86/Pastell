@@ -111,7 +111,7 @@ action:
 				iparapheur_activate: true
 			
 		action-class: IParapheurEnvoieHelios
-		auto-class: IParapheurRecupHelios
+		action-automatique: verif-iparapheur
 								 	
 	verif-iparapheur:
 		name-action: Vérifier le statut de signature
@@ -146,7 +146,7 @@ action:
 				tdt_activate: true
 				
 		action-class: TedetisEnvoieHelios
-		auto-class: TedetisRecupHelios
+		action-automatique: verif-tdt
 		
 	verif-tdt:
 		name-action: Vérifier le statut de la transaction

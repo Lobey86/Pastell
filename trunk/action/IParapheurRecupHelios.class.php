@@ -1,7 +1,6 @@
 <?php
 
 require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 
 class IParapheurRecupHelios extends ActionExecutor {

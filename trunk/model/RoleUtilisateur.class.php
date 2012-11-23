@@ -21,7 +21,6 @@ class RoleUtilisateur {
 			$sql = "DELETE FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
 			$this->sqlQuery->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
 		}
-		
 	}
 	
 	public function removeRole($id_u,$role,$id_e) {		

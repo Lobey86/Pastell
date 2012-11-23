@@ -1,6 +1,5 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class EnvoyerMailSec extends ActionExecutor {

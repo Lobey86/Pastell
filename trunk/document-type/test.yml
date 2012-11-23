@@ -32,7 +32,7 @@ action:
 				tdt_activate: true
 				
 		action-class: TedetisEnvoieHelios
-		auto-class: TedetisRecupHelios
+		action-automatique: verif-tdt
 		
 	verif-tdt:
 		name-action: Vérifier le statut de la transaction

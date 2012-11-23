@@ -4,16 +4,13 @@ class LastMessage {
 
 	const DEFAULT_SESSION_KEY = 'last_message';
 	
-	private $lastMessage;
-	private $lastPost;
-	private $sessionKey;
-	private $encoding;
+	protected $lastMessage;
+	protected $lastPost;
+	protected $sessionKey;
+	protected $encoding;
 	
-	public function __construct($sessionKey = null){
-		if (empty($sessionKey)){
-			 $sessionKey = self::DEFAULT_SESSION_KEY;
-		}
-		$this->sessionKey = $sessionKey;
+	public function __construct(){
+		$this->sessionKey = self::DEFAULT_SESSION_KEY;
 		if (isset($_SESSION[$this->sessionKey])){
 			$this->lastMessage = $_SESSION[$this->sessionKey];
 			unset($_SESSION[$this->sessionKey]);

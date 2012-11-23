@@ -8,8 +8,8 @@ class SignServer {
 	private $opensslTSWrapper;
 	private $lastTimestamp;
 	
-	public function __construct($url,OpensslTSWrapper $opensslTSWrapper){
-		$this->url = $url;
+	public function __construct($sign_server_url,OpensslTSWrapper $opensslTSWrapper){
+		$this->url = $sign_server_url;
 		$this->setCurlWrapper(new CurlWrapper());
 		$this->opensslTSWrapper = $opensslTSWrapper;
 	}
