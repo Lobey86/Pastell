@@ -13,9 +13,7 @@ $go = $recuperateur->getInt('go',0);
 
 
 $document = new Document($sqlQuery);
-
 $infoDocument = $document->getInfo($id_d);
-
 $type = $infoDocument['type'];
 
 $zenMail = new ZenMail($zLog);
@@ -31,8 +29,6 @@ $actionName = $theAction->getActionName($action);
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $entite = new Entite($sqlQuery,$id_e);
-
-
 $id_e_col = $entite->getCollectiviteAncetre();
 $collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
 
@@ -65,42 +61,19 @@ if ($action_destinataire) {
 		header("Location: " . SITE_BASE . "/entite/choix-entite.php?id_d=$id_d&id_e=$id_e&action=$action&type=$action_destinataire");
 		exit;
 	}
-
 }
 
 if ($theAction->getWarning($action) && ! $go){
 	header("Location: warning.php?id_d=$id_d&id_e=$id_e&action=$action&page=$page");
 	exit;
 }
+$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$authentification->getId(),$id_d,$action,$id_destinataire);
+$message = $objectInstancier->ActionExecutorFactory->getLastMessage();
 
-$action_class_name = $theAction->getActionClass($action);
-
-$action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
-if (! file_exists($action_class_file )){
-	$lastError->setLastError("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");	
-	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
-	exit;
-}
-
-
-
-
-require_once($action_class_file);
-
-$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
-
-$actionClass = new $action_class_name($zLog,$sqlQuery,$id_d,$id_e,$authentification->getId(),$type);
-$actionClass->setNotificationMail($notificationMail);
-$actionClass->setAction($action);
-$actionClass->setDestinataire($id_destinataire);
-$actionClass->setCollectiviteProperties($collectiviteProperties);
-
-$result = $actionClass->go();
-
-if ($result){
-	$lastMessage->setLastMessage($actionClass->getLastMessage());
+if (! $result ){
+	$lastError->setLastError($message);	
 } else {
-	$lastError->setLastError($actionClass->getLastMessage());
+	$lastMessage->setLastMessage($message);	
 }
 
 header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");

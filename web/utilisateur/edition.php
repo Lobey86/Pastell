@@ -36,7 +36,6 @@ $infoEntite = $entite->getInfo();
 
 $certificat = new Certificat($infoUtilisateur['certificat']);
 
-$roleDroit = new RoleDroit();
 
 $arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edition");
 $page_title = "Nouvel utilisateur ";

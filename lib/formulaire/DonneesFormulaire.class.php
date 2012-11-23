@@ -171,6 +171,15 @@ class DonneesFormulaire {
 		return  $this->filePath."_".$field_name."_$num";
 	}
 	
+	public function getFileContent($field_name,$num=0){
+		$file_path = $this->getFilePath($field_name,$num);
+		if (! is_readable($file_path)){
+			$this->lastError = "Le fichier $file_path ne peut pas être lu";
+			return false;
+		}
+		return file_get_contents($file_path);
+	}
+	
 	public function getContentType($field_name,$num  = 0){
 		$file_path = $this->getFilePath($field_name,$num);
 		if (! file_exists($file_path)){

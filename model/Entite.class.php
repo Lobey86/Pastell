@@ -1,5 +1,7 @@
 <?php
 
+//DEPRECATED : Voir EntiteSQL.class.php
+
 class Entite  {
 	
 	const TYPE_COLLECTIVITE = "collectivite";

@@ -14,10 +14,9 @@ class Journal {
 	private $id_u;
 	private $signServer;
 	
-	public function __construct(SignServer $signServer, SQLQuery $sqlQuery, $id_u){
+	public function __construct(SignServer $signServer, SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery;
 		$this->signServer = $signServer;
-		$this->setId($id_u);
 	}
 	
 	public function setId($id_u){
@@ -25,7 +24,6 @@ class Journal {
 	}
 	
 	public function addConsultation($id_e,$id_d,$id_u){
-		
 		$sql  =  "SELECT count(*) FROM journal WHERE id_u=? AND id_d=?";
 		$nb = $this->sqlQuery->fetchOneValue($sql,$id_u,$id_d);
 		if ($nb){

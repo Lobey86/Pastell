@@ -100,7 +100,7 @@ if ($tab_number == 0){
 		continue;
 	}
 	?>
-	<form action='entite/action0.php' method='post' >
+	<form action='entite/action.php' method='post' >
 	<input type='hidden' name='id_e' value='0' />
 	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
 	

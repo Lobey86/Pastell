@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
 class EnvoieCDG  extends ActionExecutor {
 
@@ -27,16 +26,24 @@ class EnvoieCDG  extends ActionExecutor {
 	}
 	
 	public function go(){
+		$actionCreator = $this->getActionCreator();
 		
 		$id_cdg = $this->getId_cdg();
 		if (! $id_cdg){
 			$this->setLastMessage("La collectivité n'a pas de centre de gestion");
+			$actionCreator->addAction($this->id_e,$this->id_u,'termine',"Traitement terminé");						
 			return false;
 		}
 		
+		if (! $this->getDonneesFormulaire()->get('envoi_cdg')) {
+			$this->setLastMessage("Ce document ne doit pas être envoyé au centre de gestion");
+			$actionCreator->addAction($this->id_e,$this->id_u,'termine',"Traitement terminé");									
+			return false;
+		}
+		
+		
 		$this->getDocumentEntite()->addRole($this->id_d,$id_cdg,"lecteur");
 		
-		$actionCreator = $this->getActionCreator();
 		
 		$actionCreator->addAction($this->id_e,$this->id_u,'send-cdg',"Le document a été envoyé au centre de gestion");
 		$actionCreator->addToEntite($id_cdg,"Le document a été envoyé par la collectivité");

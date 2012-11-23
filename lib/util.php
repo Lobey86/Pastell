@@ -28,3 +28,21 @@ function getDateIso($value){
 	}
 	return preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
 }
+
+
+function rrmdir($dir) {	
+	if (! is_dir($dir)) {
+		return;
+	}
+	foreach ( scandir($dir) as $object) {
+		if (in_array($object,array(".",".."))) {
+			continue;
+		}
+		if (is_dir("$dir/$object")){
+			rrmdir("$dir/$object");
+		} else {
+			unlink("$dir/$object");
+		}
+	}
+	rmdir($dir);
+}

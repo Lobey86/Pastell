@@ -1,10 +1,8 @@
 <?php
-
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 require_once( PASTELL_PATH . "/lib/connecteur/tedetis/TedetisFactory.class.php");
-
 
 abstract class ActionExecutor {
 	
@@ -52,7 +50,9 @@ abstract class ActionExecutor {
 		
 		$this->setEntite(new Entite($sqlQuery,$id_e));
 		$this->setDocumentEntite(new DocumentEntite($sqlQuery));
-		$this->setJournal(new Journal($signServer,$sqlQuery,$id_u));
+		$this->setJournal(new Journal($signServer,$sqlQuery));
+		$this->getJournal()->setId($id_u);
+		
 		$this->setActionCreator(new ActionCreator($sqlQuery,$this->journal,$id_d));		
 
 		
@@ -184,8 +184,8 @@ abstract class ActionExecutor {
 	
 	abstract public function go();
 	
-	public function setFromAPI(){
-		$this->from_api = 1;
+	public function setFromAPI($from_api){
+		$this->from_api = $from_api;
 	}
 	
 	public function isFromAPI(){

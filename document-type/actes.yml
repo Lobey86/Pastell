@@ -208,7 +208,7 @@ action:
 				iparapheur_activate: true
 			
 		action-class: IParapheurEnvoie
-		auto-class: IParapheurRecup	
+		action-automatique: verif-iparapheur
 								 	
 	verif-iparapheur:
 		name-action: Vérifier le statut de signature
@@ -241,7 +241,7 @@ action:
 				
 				
 		action-class: TedetisEnvoie
-		auto-class: TedetisRecup
+		action-automatique: verif-tdt
 		
 	send-tdt-2:
 		name-action: Transmettre à la préfecture
@@ -261,7 +261,7 @@ action:
 				
 				
 		action-class: TedetisEnvoie
-		auto-class: TedetisRecup
+		action-automatique: verif-tdt
 		
 	
 	verif-tdt:
@@ -280,7 +280,12 @@ action:
 		name: Acquitté par la préfecture 
 		rule:
 			role_id_e: no-role
-
+		action-automatique: send-cdg
+	
+	termine:
+		name: Traitement terminé
+		rule:
+			role_id_e: no-role
 	
 	annulation-tdt:
 		name-action: Annuler la transaction
@@ -338,8 +343,8 @@ action:
 		
 		rule:
 			last-action: acquiter-tdt
-			role_id_e: no-role
-					
+			role_id_e: no-role					
+		action-class: EnvoieCDG
 					
 	recu-cdg:
 		name: Reçu par le CDG

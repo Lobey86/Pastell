@@ -148,9 +148,10 @@ class IParapheur {
 	}
 	
 	public function sendHeliosDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,$visuel_pdf){
-		$client = $this->getClient();		
+			
 
 		try {
+			$client = $this->getClient();	
 			$data = array(
 					"TypeTechnique"=>utf8_encode($typeTechnique),
 					"SousType"=> utf8_encode($sousType),
@@ -175,7 +176,10 @@ class IParapheur {
 				return false;
 			}		
 		} catch (Exception $e){
-			$this->lastError = $e->getMessage() . $client->__getLastResponse();
+			$this->lastError = $e->getMessage() ;
+			if (! empty($client)){
+				$this->lastError .= $client->__getLastResponse();
+			} 
 			return false;			
 		}
 		
@@ -183,8 +187,8 @@ class IParapheur {
 	
 	
 	public function sendDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,array $all_annexes = array()){
-		$client = $this->getClient();		
 		try {
+			$client = $this->getClient();		
 			
 			$data = array(
 						"TypeTechnique"=>utf8_encode($typeTechnique),
@@ -220,7 +224,10 @@ class IParapheur {
 				return false;
 			}		
 		} catch (Exception $e){
-			$this->lastError = $e->getMessage() . $client->__getLastResponse();
+			$this->lastError = $e->getMessage() ;
+			if (! empty($client)){
+				$this->lastError .= $client->__getLastResponse();
+			} 
 			return false;			
 		}
 		
@@ -246,18 +253,28 @@ class IParapheur {
 			throw new Exception("Le WSDL n'a pas été fourni");
 		}
 		try {
-			$client = new MySoapClient(
+			//PHP SUCKS : https://bugs.php.net/bug.php?id=47584
+			if (function_exists('xdebug_disable')) {
+  				xdebug_disable();
+			}
+			$client = @ new MySoapClient(
 				$this->wsdl,
 				array(
 	     			'local_cert' => $this->userCert,
 	     			'passphrase' => $this->userCertPassword,
 					'login' => $this->login_http,
 					'password' => $this->password_http,
-					'trace' => 1
+					'trace' => 1,
+					'exceptions' => 1,
 	    		));
+  			if (function_exists('xdebug_enable')) {
+  				xdebug_enable();
+			}
+	    	
 		} catch (Exception $e){
 			$this->lastError = "Connexion - " . $e->getMessage();
-			throw new Exception($this->lastError );
+			throw new Exception("Connexion impossible");
+			
 		}
 		return $client;
 	} 

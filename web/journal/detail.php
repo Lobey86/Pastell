@@ -81,17 +81,17 @@ include( PASTELL_PATH ."/include/haut.php");
 		<td>
 			<a href='journal/preuve.php?id_j=<?php echo $id_j?>'>Télécharger</a><br/><br/>
 			<pre>
-				<?php echo  $opensslTSWrapper->getTimestampReplyString($info['preuve']) ?>
+				<?php echo  $objectInstancier->OpensslTSWrapper->getTimestampReplyString($info['preuve']) ?>
 			</pre>		
 		</td>
 </tr>
 <tr>
 		<th>Vérification</th>
 		<td>
-			<?php if ($opensslTSWrapper->verify($info['message_horodate'],$info['preuve'], SIGN_SERVER_CA_CERTIFICATE, SIGN_SERVER_CERTIFICATE)) :?>
+			<?php if ($objectInstancier->OpensslTSWrapper->verify($info['message_horodate'],$info['preuve'], SIGN_SERVER_CA_CERTIFICATE, SIGN_SERVER_CERTIFICATE)) :?>
 				OK
 			<?php else : ?>
-				<?php echo  $opensslTSWrapper->getLastError() ?>
+				<?php echo  $objectInstancier->OpensslTSWrapper->getLastError() ?>
 			<?php endif;?>
 		</td>
 </tr>

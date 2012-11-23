@@ -1,6 +1,5 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
 
 

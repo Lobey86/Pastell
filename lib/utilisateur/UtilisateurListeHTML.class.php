@@ -14,8 +14,6 @@ class UtilisateurListeHTML {
 	
 	public function displayAll(array $liste_utilisateur){
 		?>
-	
-		
 		<table class='tab_02'>
 		<tr>
 			<th>Prénom Nom</th>

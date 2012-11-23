@@ -1,7 +1,6 @@
 <?php 
 
 require_once( PASTELL_PATH . "/lib/system/Asalae.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
 
 class SAEEnvoi extends ActionExecutor {
@@ -53,7 +52,6 @@ class SAEEnvoi extends ActionExecutor {
 		
 		$filename = $donneesFormulaire->get('arrete');
 		$filename = $filename[0];
-		//$filename = basename($donneesFormulaire->getFilePath('arrete'));
 		copy($donneesFormulaire->getFilePath('arrete'),"/tmp/$filename");
 		$actesArchivesSEDA->setActesFileName($filename);
 		$actesArchivesSEDA->setTransactionStatusInfo($actesTransactionsStatusInfo);

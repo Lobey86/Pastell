@@ -3,10 +3,12 @@ type: Général
 
 formulaire:
 	Archive:
-		archive: {name: Archive, type: file, title: true}
-		empreinte: {name: Empreinte}
+		archive: {name: Archive d'origine, type: file, title: true}
+		empreinte: {name: Empreinte de l'archive d'origine}
+		transfert_id: {name: Identifiant du transfert} 
+		bordereau: {name: Bordereau, type: file}
+		fichier_attache: {name: Archive, type: file} 
 		ar-sae: {name: Accusé de réception SAE, type: file}
-		
 		
 action:
 
@@ -21,7 +23,7 @@ action:
 		name-action: Récupérer		
 		rule:
 			role_id_e: no-role		
-		auto-class: SAEEnvoiMegalis	
+		action-automatique: send-archive	
 		
 	recuperation-erreur:
 		name: Erreur lors de la récupération
@@ -34,12 +36,34 @@ action:
 	
 		rule:
 			last-action:
+				erreur-envoie-sae
 				recuperation
 			no-action:
 				send-archive	
 			droit_id_u: 'megalis:edition'
 		action-class: SAEEnvoiMegalis
+		action-automatique: verif-sae
 
+	erreur-envoie-sae:
+		name: Erreur lors de l'envoi au SAE
+		rule:
+			role_id_e: no-role
+
+	verif-sae:
+		name-action: Vérifier le status du document sur le SAE
+		rule:
+			last-action:
+				send-archive
+				verif-sae-erreur
+			droit_id_u: 'megalis:edition'
+		action-class: SAEVerifMegalis
+
+	verif-sae-erreur:
+		name: Erreur lors de la récupération de l'AR
+		rule:
+			role_id_e: no-role
+		
+			
 	ar-recu-sae:
 		name: AR SAE reçu
 		rule:
@@ -65,6 +89,9 @@ action:
 				recuperation-erreur
 				accepter-sae
 				rejet-sae
+				erreur-envoie-sae
+				recuperation
+				verif-sae-erreur
 			role_id_e: editeur
 			droit_id_u: 'megalis:edition'
 		action-class: Supprimer

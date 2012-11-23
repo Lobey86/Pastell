@@ -16,9 +16,6 @@ if (! $info){
 
 $certificat = new Certificat($info['certificat']);
 
-
-$roleDroit = new RoleDroit();
-
 $page_title = "Espace utilisateur : ".$info['prenom']." " . $info['nom'];
 
 $entiteListe = new EntiteListe($sqlQuery);

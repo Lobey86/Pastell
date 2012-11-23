@@ -1,7 +1,6 @@
 <?php
 
 require_once( PASTELL_PATH . "/lib/system/Asalae.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
 class SAETestSEDA extends ActionExecutor {
 	
@@ -18,7 +17,7 @@ class SAETestSEDA extends ActionExecutor {
 		$asalae = new Asalae($authorityInfo);
 
 		$bordereau = file_get_contents($donneesFormulaire->getFilePath('sae_bordereau_test'));
-		
+				
 		$result = $asalae->sendArchive($bordereau,$donneesFormulaire->get('sae_archive_test'));
 		
 		if (! $result){

@@ -1,7 +1,5 @@
 <?php
 require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
-require_once( PASTELL_PATH . "/action/EnvoieCDG.class.php");
 
 class TedetisRecupHelios extends ActionExecutor {
 

@@ -1,13 +1,17 @@
 <?php
 
 require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
-require_once( PASTELL_PATH . "/lib/action/ActionExecutor.class.php");
 
 class SAETestGenerateSEDA extends ActionExecutor {
 	
 	public function go(){
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
+		
+		if (! $donneesFormulaire->get("sae_activate")){
+			$this->setLastMessage("Le module n'est pas activé");
+			return false;	
+		}
 		
 		$entite = $this->getEntite();
 		$entiteInfo = $entite->getInfo();

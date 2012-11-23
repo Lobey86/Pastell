@@ -9,9 +9,6 @@ if  (! $roleUtilisateur->hasDroit($authentification->getId(),'test:lecture',0)){
 
 $data_to_horodate = "toto";
 
-$opensslTSWrapper = new OpensslTSWrapper(OPENSSL_PATH,$zLog);
-$signServer = new SignServer(SIGN_SERVER_URL,$opensslTSWrapper);
-
 $timestamp_reply = $signServer->getTimestampReply($data_to_horodate);
 
 if (! $timestamp_reply){
@@ -19,8 +16,6 @@ if (! $timestamp_reply){
 	header("Location: index.php");
 	exit;
 }
-
-
 
 $lastMessage->setLastMessage("Ok timestamp = " . $signServer->getLastTimestamp());
 

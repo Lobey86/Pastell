@@ -1,36 +1,26 @@
 <?php
 class Authentification {
 	
-	private $session;
-	
-	public function __construct( & $_session = null){
-		if (! $_session){
-			$_session = & $_SESSION;
-		}
-		$this->session = & $_session;
-	}
-	
 	public function connexion($login,$id_u){
-		$this->session['connexion']['login'] = $login;
-		$this->session['connexion']['id_u'] = $id_u;
-		$this->session['connexion']['breadcrumbs'] = array();
+		$_SESSION['connexion']['login'] = $login;
+		$_SESSION['connexion']['id_u'] = $id_u;
+		$_SESSION['connexion']['breadcrumbs'] = array();
+		
 	}
 	
 	public function isConnected(){
-		return isset($this->session['connexion']);
+		return isset($_SESSION['connexion']);
 	}
 	
-	public function getLogin(){
-		assert('$this->isConnected()');
-		return $this->session['connexion']['login'];
+	public function getLogin(){		
+		return $_SESSION['connexion']['login'];
 	}
 	
 	public function getId(){
-		assert('$this->isConnected()');
-		return $this->session['connexion']['id_u'];
+		return $_SESSION['connexion']['id_u'];
 	}
 	
 	public function deconnexion(){
-		unset($this->session['connexion']);
+		unset($_SESSION['connexion']);
 	}
 }

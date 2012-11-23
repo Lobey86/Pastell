@@ -7,7 +7,9 @@ $id_e = $recuperateur->getInt('id_e',0);
 $id_d = $recuperateur->get('id_d');
 $action = $recuperateur->get('action');
 $id_destinataire = $recuperateur->get('destinataire');
-
+if (!$id_destinataire){
+	$id_destinataire = array();
+}
 
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
@@ -44,40 +46,13 @@ if ( ! $actionPossible->isActionPossible($id_d,$action)) {
 	$JSONoutput->displayErrorAndExit("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule());
 }
 
-
-$action_class_name = $theAction->getActionClass($action);
-
-
-$action_class_file = dirname(__FILE__)."/../../action/$action_class_name.class.php";
-
-if (! file_exists($action_class_file )){
-	$JSONoutput->displayErrorAndExit("L'action « $action » est inconnue, veuillez contacter votre administrateur Pastell");	
-}
-
-
-$id_e_col = $entite->getCollectiviteAncetre();
-$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
-
-
-require_once($action_class_file);
-
-$actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
-
-$actionClass = new $action_class_name($zLog,$sqlQuery,$id_d,$id_e,$id_u,$type);
-$actionClass->setNotificationMail($notificationMail);
-$actionClass->setAction($action);
-if ($id_destinataire){
-	$actionClass->setDestinataire($id_destinataire);
-}
-$actionClass->setCollectiviteProperties($collectiviteProperties);
-$actionClass->setFromAPI();
-
-$result = $actionClass->go();
+$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$id_u,$id_d,$action,$id_destinataire);
+$message = $objectInstancier->ActionExecutorFactory->getLastMessage();
 
 if ($result){
-	$JSONoutput->display(array("result" => $result));
+	$JSONoutput->display(array("result" => $result,"message"=>$message));
 } else {
-	$JSONoutput->displayErrorAndExit($actionClass->getLastMessage());
+	$JSONoutput->displayErrorAndExit($message);
 }
 
 
