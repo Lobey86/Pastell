@@ -1,6 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . "/action/Envoyer.class.php");
 require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
 
 class WebGFCEnvoie extends ActionExecutor {
@@ -28,7 +27,7 @@ class WebGFCEnvoie extends ActionExecutor {
 		}
 		$formulaire->setData("webgfc_courrier_id", $courierID);
 		
-		$id_col = $this->destinataire[0]; 
+		$id_col = $this->id_destinataire[0]; 
 		
 		$this->getDocumentEntite()->addRole($this->id_d,$id_col,"lecteur");
 		

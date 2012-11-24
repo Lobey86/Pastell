@@ -4,14 +4,14 @@ $start = time();
 $min_exec_time = 60;
 
 require_once( __DIR__ . "/../web/init.php");
-require_once (PASTELL_PATH . "/lib/document/DocumentTypeFactory.class.php");
 
 $zenMail = new ZenMail($zLog);
 $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $documentEntite = new DocumentEntite($sqlQuery);
-$documentTypeFactory = new DocumentTypeFactory();
+
+
 foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 	foreach($tabAction as $etat_actuel => $etat_cible){	
 		foreach ($documentEntite->getFromAction($type,$etat_actuel) as $infoDocument){

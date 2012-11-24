@@ -2,13 +2,15 @@
 class ActionExecutorFactory {
 	
 	private $action_class_directory;
+	private $module_path;
 	
 	private $lastMessage;
 	
 	private $objectInstancier;
 	
-	public function __construct($action_class_directory, ObjectInstancier $objectInstancier){
-		$this->action_class_directory = $action_class_directory;	
+	public function __construct($action_class_directory, $module_path, ObjectInstancier $objectInstancier){
+		$this->action_class_directory = $action_class_directory;
+		$this->module_path = $module_path;	
 		$this->objectInstancier = $objectInstancier;
 	}
 	
@@ -40,26 +42,20 @@ class ActionExecutorFactory {
 			return false;
 		}
 		
-		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
-	
-		if (! file_exists($action_class_file )){
-			$this->lastMessage = "Le fichier $action_class_file est manquant";	
-			return false;
+		$action_class_file = "{$this->module_path}/$type/action/$action_class_name.class.php";
+		
+		if (! file_exists($action_class_file)){		
+			$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
+			if (! file_exists($action_class_file )){
+				$this->lastMessage = "Le fichier $action_class_file est manquant";	
+				return false;
+			}
 		}
 		
-		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($id_e);
-		$collectiviteProperties = $this->objectInstancier->donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
+		require_once($action_class_file);		
+		$actionClass = new $action_class_name($this->objectInstancier,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
 		
-		require_once($action_class_file);
-		$actionClass = new $action_class_name($this->objectInstancier->zLog,$this->objectInstancier->sqlQuery,$id_d,$id_e,$id_u,$type);
-		$actionClass->setNotificationMail($this->objectInstancier->NotificationMail);
-		$actionClass->setAction($action_name);
-		$actionClass->setDestinataire($id_destinataire);
-		$actionClass->setCollectiviteProperties($collectiviteProperties);		
-		$actionClass->setFromAPI($from_api);
-		
-		
-		$result = $actionClass->go();
+		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();
 		return $result;
 	}

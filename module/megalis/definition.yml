@@ -51,6 +51,7 @@ action:
 
 	verif-sae:
 		name-action: Vérifier le status du document sur le SAE
+		name: Vérification du status du document sur le SAE
 		rule:
 			last-action:
 				send-archive

@@ -2,7 +2,7 @@
 
 class Notification {
 	
-	public function __construct(sqlQuery $sqlQuery){
+	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery;
 	}
 	

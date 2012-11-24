@@ -14,13 +14,13 @@ class EnvoieCDG  extends ActionExecutor {
 		return $this->id_cdg;
 	}
 	
-	public function setCDGProperties(EntiteProperties $cdgProperties) {
+	public function setCDGProperties(EntitePropertiesSQL $cdgProperties) {
 		$this->cdgProperties = $cdgProperties;	
 	}
 	
 	public function getCDGProperties(){
 		if ( ! $this->cdgProperties){
-			$this->setCDGProperties(new EntiteProperties($this->getSQLQuery(),$this->getId_cdg()));
+			$this->setCDGProperties(new EntitePropertiesSQL($this->getSQLQuery()));
 		}
 		return $this->cdgProperties;
 	}
@@ -71,14 +71,14 @@ class EnvoieCDG  extends ActionExecutor {
 		
 		$notificationMail->notify($id_cdg,$this->id_d,'recu-cdg', 'actes',$message);		
 		
-		$entiteProperties = new EntiteProperties($this->getSQLQuery(),$id_cdg);
+		$entiteProperties = new EntitePropertiesSQL($this->getSQLQuery());
 		
-		$has_ged = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_ged');
+		$has_ged = $entiteProperties->getProperties($id_cdg,EntitePropertiesSQL::ALL_FLUX,'has_ged');
 		if ($has_ged == 'auto'){	
 			$actionCreator->addAction($id_cdg,0,'send-ged',"Le document a été déposé dans la GED");
 		}
 		
-		$has_archivage = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_archivage');
+		$has_archivage = $entiteProperties->getProperties($id_cdg,EntitePropertiesSQL::ALL_FLUX,'has_archivage');
 		if ($has_archivage == 'auto'){	
 			$actionCreator->addAction($id_cdg,0,'send-archive',"Le document a été archivé");
 		}

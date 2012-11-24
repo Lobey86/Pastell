@@ -31,10 +31,10 @@ if ($id_e){
 	$infoEntite = $entite->getInfo();
 	$infoEntite['centre_de_gestion'] = $entite->getCDG(); 
 	$page_title = "Modification de " . $infoEntite['denomination'];
-	$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
+	$entiteProperties = new EntitePropertiesSQL($sqlQuery);
 	
-	$infoEntite['has_ged'] = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_ged');
-	$infoEntite['has_archivage'] = $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_archivage');
+	$infoEntite['has_ged'] = $entiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged');
+	$infoEntite['has_archivage'] = $entiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage');
 	
 } elseif ($entite_mere){
 	$entite = new Entite($sqlQuery,$entite_mere);

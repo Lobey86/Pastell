@@ -5,7 +5,7 @@ class DocumentActionEntite {
 	private $sqlQuery;
 	private $id_a;
 	
-	public function __construct($sqlQuery){
+	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery =$sqlQuery;
 	}
 	

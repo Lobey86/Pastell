@@ -1,6 +1,5 @@
 <?php
 require_once("init-api.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossibleFactory.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $all_id_d = $recuperateur->get('id_d');
@@ -17,11 +16,10 @@ foreach($all_id_d as $id_d) {
 	}
 	$donneesFormulaire  = $donneesFormulaireFactory->get($id_d,$info['type']);
 	
-	$actionPossibleFactory = new ActionPossibleFactory($sqlQuery);
-	$actionPossible = $actionPossibleFactory->getInstance($id_u,$id_e,$id_d,$info['type'],$donneesFormulaire,$roleUtilisateur);
-	
+	$actionPossible = $objectInstancier->ActionPossible;
+		
 	$result[$id_d]['data'] = $donneesFormulaire->getRawData();
-	$result[$id_d]['action_possible'] = $actionPossible->getActionPossible($id_d);
+	$result[$id_d]['action_possible'] = $actionPossible->getActionPossible($id_e,$id_u,$id_d);
 } 
 
 $JSONoutput->display($result);

@@ -4,19 +4,16 @@ require_once ( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 
 class DocumentTypeFactory {
 	
-	const DEFAULT_DIRECTORY  =  "/document-type/";
 	const DEFAULT_DOCUMENT_TYPE_FILE = "default.yml";
 	const INDEX_FILE = "index.yml";
 	
 	private $documentTypeDirectory;
 	private $formulaireDefinition;
+	private $module_path;
 	
-	public function __construct(){
-		$this->setDocumentTypeDirectory( PASTELL_PATH . self::DEFAULT_DIRECTORY );
-	}
-	
-	public function setDocumentTypeDirectory($documentTypeDirectory){
-		$this->documentTypeDirectory = $documentTypeDirectory;
+	public function __construct($document_type_path,$module_path){
+		$this->documentTypeDirectory = $document_type_path;
+		$this->module_path = $module_path;
 	}
 	
 	public function getAllType(){
@@ -51,7 +48,12 @@ class DocumentTypeFactory {
 	}
 	
 	private function loadFile($type){
-		$filename = $this->documentTypeDirectory."/$type.yml";
+		
+		if (file_exists($this->module_path."/$type/definition.yml")){
+			$filename = $this->module_path."/$type/definition.yml";
+		} else {
+			$filename = $this->documentTypeDirectory."/$type.yml";
+		}
 		if (! file_exists($filename)){
 			$filename = $this->documentTypeDirectory . self::DEFAULT_DOCUMENT_TYPE_FILE;
 		}	

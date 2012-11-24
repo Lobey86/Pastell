@@ -1,164 +1,30 @@
 <?php
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 require_once( PASTELL_PATH . "/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 abstract class ActionExecutor {
 	
-	private $sqlQuery;
-	
 	protected $id_d;
 	protected $id_e;
 	protected $id_u;
 	protected $action;
-	protected $destinataire;
+	protected $id_destinataire;
+	protected $from_api;
 	
-	
-	private $donneesFormulaire;
-	
-	
+	private $objectInstancier;
 	private $lastMessage; 
 	
-	private $entite;
-	private $documentEntite;
-	private $journal;
-	private $actionCreator;
-	private $collectiviteProperties;
-	private $notificationMail;
-	private $documentTypeFactory;
-	private $document;
-	private $donneesFormulaireFactory;
-	private $zLog;
-	
-	private $from_api;
-	
-	
-	public function __construct(ZLog $zLog, SQLQuery $sqlQuery,$id_d,$id_e,$id_u,$type){
-		
-		$this->zLog = $zLog;
-		$this->sqlQuery = $sqlQuery;
-		
+	//$type = type de document
+	public function __construct(ObjectInstancier $objectInstancier,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api){
+		$this->objectInstancier = $objectInstancier;
 		$this->id_d = $id_d;
 		$this->id_e = $id_e;		
 		$this->id_u = $id_u;
 		$this->type = $type;
-		
-	
-		$signServer = new SignServer(SIGN_SERVER_URL,new OpensslTSWrapper(OPENSSL_PATH,$zLog));
-		
-		
-		$this->setEntite(new Entite($sqlQuery,$id_e));
-		$this->setDocumentEntite(new DocumentEntite($sqlQuery));
-		$this->setJournal(new Journal($signServer,$sqlQuery));
-		$this->getJournal()->setId($id_u);
-		
-		$this->setActionCreator(new ActionCreator($sqlQuery,$this->journal,$id_d));		
-
-		
-		$this->setDocumentTypeFactory(new DocumentTypeFactory());
-		$this->setDocument(new Document($sqlQuery));
-		
-		$this->setDonneesFormulaireFactory(new DonneesFormulaireFactory($this->getDocumentTypeFactory(),WORKSPACE_PATH));
-		$this->setDonneesFormulaire($this->getDonneesFormulaireFactory()->get($id_d,$type));
-		
-	}
-	
-	public function setDestinataire(array $destinataire){
-		$this->destinataire = $destinataire;
-	}
-	
-	public function setAction($action){
-		$this->action = $action;
-	}
-	
-	public function getZLog(){
-		return $this->zLog;
-	}
-	
-	public function getSQLQuery(){
-		return $this->sqlQuery;
-	}
-
-	public function setDonneesFormulaire(DonneesFormulaire $donneesFormulaire){
-		$this->donneesFormulaire = $donneesFormulaire;
-	}
-	
-	public function setEntite(Entite $entite){
-		$this->entite = $entite;
-	}
-	
-	public function getEntite(){
-		return $this->entite;
-	}
-	
-	public function setDocumentEntite(DocumentEntite $documentEntite){
-		$this->documentEntite = $documentEntite;
-	}
-	
-	public function getDocumentEntite(){
-		return $this->documentEntite;
-	}
-	
-	public function setJournal(Journal $journal){
-		$this->journal = $journal;
-	}
-	
-	public function getJournal(){
-		return $this->journal;
-	}
-	
-	public function setActionCreator(ActionCreator $actionCreator){
-		$this->actionCreator = $actionCreator;
-	}
-	
-	public function getActionCreator(){
-		return $this->actionCreator;
-	}
-	
-	public function setDocumentTypeFactory(DocumentTypeFactory $documentTypeFactory){
-		$this->documentTypeFactory = $documentTypeFactory;
-	}
-	
-	public function getDocumentTypeFactory(){
-		return $this->documentTypeFactory;
-	}
-	
-	
-	public function setDocument(Document $document){
-		$this->document = $document;
-	}
-	
-	public function getDocument(){
-		return $this->document;
-	}
-	
-	public function setDonneesFormulaireFactory(DonneesFormulaireFactory $donneesFormulaireFactory){
-		$this->donneesFormulaireFactory = $donneesFormulaireFactory;
-	}
-	
-	public function getDonneesFormulaireFactory(){
-		return $this->donneesFormulaireFactory;
-	}
-	
-	
-	public function addAction($id_u,$actionName,$message){
-		assert('$this->actionCreator');		
-		$this->actionCreator->addAction($this->id_e,$id_u,$actionName,$message);
-	}
-	
-	public function setNotificationMail(NotificationMail $notificationMail){
-		$this->notificationMail = $notificationMail;
-	}
-	
-	public function getNotificationMail(){
-		assert('$this->notificationMail');
-		return $this->notificationMail;
-	}
-	
-	public function notify($actionName,$type,$message){
-		assert('$this->notificationMail');
-		$this->notificationMail->notify($this->id_e,$this->id_d,$actionName,$type,$message);
+		$this->id_destinataire = $id_destinataire;	
+		$this->action = $action_name;
+		$this->from_api = $from_api;
 	}
 	
 	public function getLastMessage(){
@@ -169,27 +35,74 @@ abstract class ActionExecutor {
 		$this->lastMessage = $message;
 	}
 	
-	public function getDonneesFormulaire(){
-		return $this->donneesFormulaire;
+	public function getEntite(){
+		static $entite;
+		if (! $entite){
+			$entite = new Entite($this->getSQLQuery(),$this->id_e);
+		}
+		return $entite;
 	}
 	
-	public function setCollectiviteProperties(DonneesFormulaire $collectiviteProperties){
-		$this->collectiviteProperties = $collectiviteProperties;
+	public function getActionCreator(){
+		static $actionCreator;
+		if (! $actionCreator){
+			$actionCreator = new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
+		}
+		return $actionCreator;	
+	}
+	
+	public function getDonneesFormulaire(){
+		static $donneesFormulaire;
+		if (! $donneesFormulaire){
+			$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,$this->type);
+		}
+		return $donneesFormulaire;	
+	}
+	
+	public function getZenMail(){
+		return $this->objectInstancier->ZenMail;
+	}
+
+	public function getSQLQuery(){
+		return $this->objectInstancier->SQLQuery;
+	}
+	
+	public function getDocumentEntite(){
+		return $this->objectInstancier->DocumentEntite;
+	}
+	
+	public function getJournal(){
+		return $this->objectInstancier->Journal;
+	}
+	
+	public function getDocumentTypeFactory(){
+		return $this->objectInstancier->DocumentTypeFactory;
+	}
+
+	public function getDocument(){
+		return $this->objectInstancier->Document;
+	}
+	
+	public function getDonneesFormulaireFactory(){
+		return $this->objectInstancier->DonneesFormulaireFactory;
+	}
+	
+	public function getNotificationMail(){
+		return $this->objectInstancier->NotificationMail;
 	}
 	
 	public function getCollectiviteProperties(){
-		assert('$this->collectiviteProperties');
-		return $this->collectiviteProperties;
+		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e);
+		return $this->objectInstancier->donneesFormulaireFactory->get($id_e_col,'collectivite-properties');	
 	}
 	
+	public function addAction($id_u,$actionName,$message){
+		$this->getActionCreator()->addAction($this->id_e,$id_u,$actionName,$message);
+	}
+	
+	public function notify($actionName,$type,$message){
+		$this->notificationMail->notify($this->id_e,$this->id_d,$actionName,$type,$message);
+	}
+
 	abstract public function go();
-	
-	public function setFromAPI($from_api){
-		$this->from_api = $from_api;
-	}
-	
-	public function isFromAPI(){
-		return $this->from_api;
-	}
-	
 }

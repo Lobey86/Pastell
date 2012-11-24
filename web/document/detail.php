@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 
 $recuperateur = new Recuperateur($_GET);
@@ -9,22 +8,16 @@ $id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
 
-
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
-$id_e_col = $entite->getCollectiviteAncetre();
-$collectiviteProperties = $donneesFormulaireFactory->get($id_e_col,'collectivite-properties');
-
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
-
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
 $documentEmail = new DocumentEmail($sqlQuery);
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
-
 
 $documentType = $documentTypeFactory->getDocumentType($info['type']);
 $formulaire = $documentType->getFormulaire();
@@ -32,15 +25,7 @@ $theAction = $documentType->getAction();
 
 $documentEntite = new DocumentEntite($sqlQuery);
 
-
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
-$actionPossible->setDocumentActionEntite($documentActionEntite);
-$actionPossible->setDocumentEntite($documentEntite);
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite);
-$actionPossible->setHeritedProperties($collectiviteProperties);
-
+$actionPossible = $objectInstancier->ActionPossible;
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$info['type'].":edition",$id_e)) {
 	header("Location: list.php");
@@ -79,7 +64,7 @@ $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_
 $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e");
 ?>
 <br/>
-<?php foreach($actionPossible->getActionPossible($id_d) as $action_name) : ?>
+<?php foreach($actionPossible->getActionPossible($id_e,$authentification->getId(),$id_d) as $action_name) : ?>
 <form action='document/action.php' method='post' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />

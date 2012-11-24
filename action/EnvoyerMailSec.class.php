@@ -19,7 +19,7 @@ class EnvoyerMailSec extends ActionExecutor {
 		$this->collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');	
 		$this->collectiviteForm = $this->getDocumentTypeFactory()->getDocumentType('collectivite-properties')->getFormulaire();		
 		
-		$this->zenMail = new zenMail($this->getZLog());
+		$this->zenMail = $this->getZenMail();
 		
 		$this->zenMail->setEmmeteur($this->getProperties('mailsec_from_description'),$this->getProperties('mailsec_from'));
 		$this->zenMail->setSujet($this->getProperties('mailsec_subject'));

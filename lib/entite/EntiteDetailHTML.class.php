@@ -106,12 +106,12 @@ class EntiteDetailHTML {
 			
 			<tr>
 			<th>GED</th>
-			<td><?php echo $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_ged') ?></td>
+			<td><?php echo $entiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged') ?></td>
 			</tr>
 			
 			<tr>
 			<th>SAE</th>
-			<td><?php echo $entiteProperties->getProperties(EntiteProperties::ALL_FLUX,'has_archivage') ?></td>
+			<td><?php echo $entiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage') ?></td>
 			</tr>
 			
 		</table>

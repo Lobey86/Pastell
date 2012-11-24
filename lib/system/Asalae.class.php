@@ -56,7 +56,7 @@ class Asalae {
 											 $type_message,
 											$id_transfer, 
 											$this->login,
-											$this->password);
+											$this->password);										
 		if ( intval($resultat) == 0){
 			return $resultat;
 		}

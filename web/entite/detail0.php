@@ -7,7 +7,6 @@ require_once( PASTELL_PATH . "/lib/entite/AgentListHTML.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListeHTML.class.php");
 
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
@@ -37,9 +36,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <a href='entite/index.php'>« liste des collectivités</a>
 <br/><br/>
-
-
-	<?php 
+<?php 
 	
 	$documentType = $documentTypeFactory->getDocumentType('entite0-properties');
 	$formulaire = $documentType->getFormulaire();
@@ -90,12 +87,9 @@ if ($tab_number == 0){
 	$afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=0&id_e=0"); 
 	
 	$theAction = $documentType->getAction();
-	$actionPossible = new ActionPossible($sqlQuery,0,$authentification->getId(),$theAction);
-	$actionPossible->setRoleUtilisateur($roleUtilisateur);
-	$actionPossible->setDonnesFormulaire($donneesFormulaire);
-	$actionPossible->setEntite($entite);
-
-	foreach($actionPossible->getActionPossible(0) as $action_name) :
+	$actionPossible = $objectInstancier->ActionPossible;
+	
+	foreach($actionPossible->getActionPossible(0,$authentification->getId(),0) as $action_name) :
 	if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
 		continue;
 	}
