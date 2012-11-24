@@ -1,6 +1,5 @@
 <?php
 require_once("init-api.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_e = $recuperateur->getInt('id_e',0);
@@ -17,32 +16,9 @@ if (!$info || ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, id_d=$id_d,id_u=$id_u");
 }
 
-$document = new Document($sqlQuery);
+$actionPossible = $objectInstancier->ActionPossible;
 
-$infoDocument = $document->getInfo($id_d);
-
-$type = $infoDocument['type'];
-
-$zenMail = new ZenMail($zLog);
-$notification = new Notification($sqlQuery);
-$notificationMail = new NotificationMail($notification,$zenMail,$journal);
-
-$documentType = $documentTypeFactory->getDocumentType($type);
-$theAction = $documentType->getAction();
-$formulaire = $documentType->getFormulaire();
-
-$actionName = $theAction->getActionName($action);
-
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-
-$entite = new Entite($sqlQuery,$id_e);
-
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$id_u,$theAction);
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite);
-
-if ( ! $actionPossible->isActionPossible($id_d,$action)) {
+if ( ! $actionPossible->isActionPossible($id_e,$id_u,$id_d,$action)) {
 	$JSONoutput->displayErrorAndExit("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule());
 }
 

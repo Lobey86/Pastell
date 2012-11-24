@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
 require_once( PASTELL_PATH . "/lib/action/Action.class.php");
@@ -9,7 +8,7 @@ require_once( PASTELL_PATH . "/lib/action/Action.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $type = $recuperateur->get('type');
-$id_e = $recuperateur->get('id_e',0);
+$id_e = $recuperateur->getInt('id_e',0);
 $offset = $recuperateur->getInt('offset',0);
 $search = $recuperateur->get('search');
 $filtre = $recuperateur->get('filtre');
@@ -47,17 +46,12 @@ if ($id_e){
 }
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);
-$theAction = $documentType->getAction();
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
-$actionPossible->setDocumentActionEntite($documentActionEntite);
-$actionPossible->setDocumentEntite($documentEntite);
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setEntite($entite);
+$actionPossible = $objectInstancier->ActionPossible;
 
 
 $listeEtat = $documentType->getTabAction();
 
-if ($id_e && $actionPossible->isCreationPossible()){
+if ($actionPossible->isCreationPossible($id_e,$authentification->getId(),$type)){
 	$nouveau_bouton_url = "document/edition.php?type=$type&id_e=$id_e";
 }
 

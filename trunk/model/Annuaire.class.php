@@ -5,7 +5,7 @@ class Annuaire {
 	private $sqlQuery;
 	private $id_e;
 	
-	public function __construct($sqlQuery,$id_e){
+	public function __construct(SQLQuery $sqlQuery,$id_e){
 		$this->sqlQuery = $sqlQuery;
 		$this->id_e = $id_e;
 	}

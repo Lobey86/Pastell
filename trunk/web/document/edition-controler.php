@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 
 //Récupération des données
@@ -35,17 +34,11 @@ if (! $info){
 
 
 $entite = new Entite($sqlQuery,$id_e);
-$theAction = $documentType->getAction();
 
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite);
-//$actionPossible->setHeritedProperties($collectiviteProperties);
+$actionPossible = $objectInstancier->ActionPossible;
 
-
-if ( ! $actionPossible->isActionPossible($id_d,'modification') && 
-	! $actionPossible->isActionPossible($id_d,'creation')) {
+if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,'modification') && 
+	! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,'creation')) {
 	$lastError->setLastError("L'action « modification »  n'est pas permise : " .$actionPossible->getLastBadRule() );
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;

@@ -28,7 +28,6 @@ class UtilisateurListe {
 		$sql .= " ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
 		
 		$result =  $this->sqlQuery->fetchAll($sql,$data);
-	
 		return $result;
 	}
 	

@@ -67,10 +67,10 @@ if (!$nom){
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
 $id_e = $entiteCreator->edit($id_e,$siren,$nom,$type,$entite_mere,$centre_de_gestion);
 
-$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
+$entiteProperties = new EntitePropertiesSQL($sqlQuery);
 
-$entiteProperties->setProperties(EntiteProperties::ALL_FLUX,'has_ged',$has_ged);
-$entiteProperties->setProperties(EntiteProperties::ALL_FLUX,'has_archivage',$has_archivage);
+$entiteProperties->setProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged',$has_ged);
+$entiteProperties->setProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage',$has_archivage);
 
 $lastError->deleteLastInput();
 

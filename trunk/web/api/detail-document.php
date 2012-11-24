@@ -1,6 +1,5 @@
 <?php
 require_once("init-api.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossibleFactory.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_d = $recuperateur->get('id_d');
@@ -15,11 +14,10 @@ if ( ! $roleUtilisateur->hasDroit($id_u,$info['type'].":edition",$id_e)) {
 }
 $donneesFormulaire  = $donneesFormulaireFactory->get($id_d,$info['type']);
 
-$actionPossibleFactory = new ActionPossibleFactory($sqlQuery);
-$actionPossible = $actionPossibleFactory->getInstance($id_u,$id_e,$id_d,$info['type'],$donneesFormulaire,$roleUtilisateur);
+$actionPossible = $objectInstancier->ActionPossible;
 
 $result['data'] = $donneesFormulaire->getRawData();
-$result['action-possible'] = $actionPossible->getActionPossible($id_d);
+$result['action-possible'] = $actionPossible->getActionPossible($id_e,$id_u,$id_d);
 $result['action_possible'] = $result['action-possible']; 
 
 $JSONoutput->display($result);

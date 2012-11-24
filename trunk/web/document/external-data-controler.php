@@ -3,7 +3,6 @@
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_d = $recuperateur->get('id_d');
@@ -22,20 +21,10 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 	exit;
 }
 
-
-$entite = new Entite($sqlQuery,$id_e);
-$documentType = $documentTypeFactory->getDocumentType($type);
-$theAction = $documentType->getAction();
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$authentification->getId(),$theAction);
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite);
-//$actionPossible->setHeritedProperties($collectiviteProperties);
+$actionPossible = $objectInstancier->ActionPossible;
 
 
-if ( ! $actionPossible->isActionPossible($id_d,'modification') ) {
+if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,'modification') ) {
 	$lastError->setLastError("L'action « modification »  n'est pas permise : " .$actionPossible->getLastBadRule() );
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;

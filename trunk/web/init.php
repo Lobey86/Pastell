@@ -24,6 +24,9 @@ $objectInstancier->versionFile = __DIR__."/../version.txt";
 $objectInstancier->revisionFile = __DIR__."/../revision.txt";
 $objectInstancier->workspacePath = WORKSPACE_PATH;
 $objectInstancier->action_class_directory = __DIR__ ."/../action/"; 
+$objectInstancier->document_type_path = __DIR__."/../document-type/";
+$objectInstancier->module_path = __DIR__."/../module/";
+
 $objectInstancier->opensslPath = OPENSSL_PATH;
 $objectInstancier->sign_server_url = SIGN_SERVER_URL;
 

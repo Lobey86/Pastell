@@ -7,7 +7,6 @@ require_once( PASTELL_PATH . "/lib/entite/AgentListHTML.class.php");
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListeHTML.class.php");
 
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
@@ -86,7 +85,7 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 		$entiteDetailHTML->addDroitLectureCDG();
 	}
 	$info = $entite->getExtendedInfo();
-	$entiteProperties = new EntiteProperties($sqlQuery,$id_e);
+	$entiteProperties = new EntitePropertiesSQL($sqlQuery);
 	
 	$entiteDetailHTML->display($info,$entiteProperties);
 elseif($tab_number == 1) : 
@@ -166,10 +165,7 @@ if (in_array($allTab[$tab_number],array('Agents','TdT','Signature','GED','SAE'))
 
 $theAction = $documentType->getAction();
 
-$actionPossible = new ActionPossible($sqlQuery,$id_e_to_show,$authentification->getId(),$theAction);
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite_to_show);
+$actionPossible = $objectInstancier->ActionPossible;
 
 
 ?>
@@ -189,7 +185,7 @@ $actionPossible->setEntite($entite_to_show);
 
 
 if ($id_e == $id_e_to_show) : 
-foreach($actionPossible->getActionPossible($id_e_to_show) as $action_name) : 
+foreach($actionPossible->getActionPossible($id_e_to_show,$authentification->getId(),$id_e_to_show) as $action_name) : 
 
 	if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
 		continue;

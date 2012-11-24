@@ -1,12 +1,10 @@
 <?php
 require_once("init-api.php");
-require_once (PASTELL_PATH . "/lib/action/ActionPossible.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 $id_e = $recuperateur->getInt('id_e',0);
 $id_d = $recuperateur->get('id_d');
 $type = $recuperateur->get('type');
-
 
 $document = new Document($sqlQuery);
 $info = $document->getInfo($id_d);
@@ -19,13 +17,9 @@ $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 $documentType = $documentTypeFactory->getDocumentType($info['type']);
 $formulaire = $documentType->getFormulaire();
 
-$entite = new Entite($sqlQuery,$id_e);
-$actionPossible = new ActionPossible($sqlQuery,$id_e,$id_u, $documentType->getAction());
-$actionPossible->setRoleUtilisateur($roleUtilisateur);
-$actionPossible->setDonnesFormulaire($donneesFormulaire);
-$actionPossible->setEntite($entite);
+$actionPossible = $objectInstancier->ActionPossible;
 
-if ( ! $actionPossible->isActionPossible($id_d,'modification')) {
+if ( ! $actionPossible->isActionPossible($id_e,$id_u,$id_d,'modification')) {
 	$JSONoutput->displayErrorAndExit("L'action « modification »  n'est pas permise");
 }
 

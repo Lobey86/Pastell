@@ -5,7 +5,7 @@ class Envoyer extends ActionExecutor {
 	
 	public function go(){
 		
-		if ( ! $this->destinataire ){
+		if ( ! $this->id_destinataire ){
 			$this->setLastMessage("Vous devez selectionner un destinataire");
 			return false;
 		}
@@ -14,7 +14,7 @@ class Envoyer extends ActionExecutor {
 		$emmeteurName = $infoEntite['denomination'];
 		
 		
-		foreach($this->destinataire  as $id_col) {
+		foreach($this->id_destinataire  as $id_col) {
 			
 			$this->getDocumentEntite()->addRole($this->id_d,$id_col,"lecteur");
 			
