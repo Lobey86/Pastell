@@ -11,7 +11,7 @@ $page = $recuperateur->getInt('page',0);
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
 
 $documentActionEntite = new DocumentActionEntite($sqlQuery);

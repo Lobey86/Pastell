@@ -1,20 +1,17 @@
 <?php
 
-class CertificatConnexion {
+//TODO new Certificat...
+
+class CertificatConnexion extends SQL {
 	
-	private $sqlQuery;
 	private $certificat;
 	
-	public function __construct(SQLQuery $sqlQuery, $server = false){
-		$this->sqlQuery = $sqlQuery;
-		
-		if ( ! $server){
-			$server = $_SERVER;
-		}
+	public function __construct(SQLQuery $sqlQuery){
+		parent::__construct($sqlQuery);
 		
 		$certificat_client = "";
-		if (isset($server['SSL_CLIENT_CERT'])){
-			$certificat_client = $server['SSL_CLIENT_CERT'];
+		if (isset($_SERVER['SSL_CLIENT_CERT'])){
+			$certificat_client = $_SERVER['SSL_CLIENT_CERT'];
 		}
 		$this->setCertificat(new Certificat($certificat_client));		
 	}
@@ -25,7 +22,7 @@ class CertificatConnexion {
 		
 	public function connexionGranted($id_u){		
 		$sql = "SELECT certificat_verif_number FROM utilisateur WHERE id_u=?";
-		$certif_verif_number = $this->sqlQuery->fetchOneValue($sql,$id_u);
+		$certif_verif_number = $this->queryOne($sql,$id_u);
 		
 		if (! $certif_verif_number){
 			return true;
@@ -40,7 +37,7 @@ class CertificatConnexion {
 			return false;
 		}
 		$sql = "SELECT id_u FROM utilisateur WHERE certificat_verif_number = ?" ;
-		$all = $this->sqlQuery->fetchAll($sql,$verifNumber); 
+		$all = $this->query($sql,$verifNumber); 
 		if (count($all) == 1){
 			return $all[0]['id_u'];
 		}

@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
 
 $recuperateur = new Recuperateur($_POST);
 
@@ -11,9 +10,9 @@ $password = $recuperateur->get('password');
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 $id_u = $utilisateurListe->getUtilisateurByLogin($login);
 
-$utilisateur = new Utilisateur($sqlQuery, $id_u);
+$utilisateur = new Utilisateur($sqlQuery);
 
-if ( ! $utilisateur->verifPassword($password) ){
+if ( ! $utilisateur->verifPassword($id_u,$password) ){
 	$lastError->setLastError("Login ou mot de passe incorrect.");
 	header("Location: connexion.php");
 	exit;
@@ -29,7 +28,7 @@ if (! $certificatConnexion->connexionGranted($id_u)){
 }
 
 
-$infoUtilisateur = $utilisateur->getInfo();
+$infoUtilisateur = $utilisateur->getInfo($id_u);
 if (! $infoUtilisateur['mail_verifie']) {
 	$_SESSION['id_u'] = $id_u;
 	header("Location: " . SITE_BASE . "inscription/fournisseur/inscription-mail-en-cours.php?id_u=$id_u");

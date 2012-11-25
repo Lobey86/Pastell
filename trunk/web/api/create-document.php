@@ -11,7 +11,7 @@ if ( ! $roleUtilisateur->hasDroit($id_u,"$type:edition",$id_e)) {
 
 
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 $id_d = $document->getNewId();	
 $document->save($id_d,$type);
 

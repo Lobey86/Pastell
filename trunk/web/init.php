@@ -36,8 +36,6 @@ $objectInstancier->zLog->setLogLevel(LOG_LEVEL);
 $objectInstancier->bd_dsn = BD_DSN;
 $objectInstancier->bd_user = BD_USER;
 $objectInstancier->bd_password = BD_PASS;
-$objectInstancier->SQLQuery->setLog($objectInstancier->zLog);
-
 
 $id_u_journal = 0;
 if ($objectInstancier->Authentification->isConnected()) {
@@ -56,8 +54,6 @@ $journal = $objectInstancier->Journal;
 $documentTypeFactory = $objectInstancier->DocumentTypeFactory;
 $donneesFormulaireFactory = $objectInstancier->DonneesFormulaireFactory;
 $roleUtilisateur = $objectInstancier->RoleUtilisateur;
-
-
 
 define("DATABASE_FILE", PASTELL_PATH."/installation/pastell.bin");
 

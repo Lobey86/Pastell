@@ -1,11 +1,5 @@
 <?php
-class UtilisateurListe {
-	
-	private $sqlQuery;
-	
-	public function __construct(SQLQuery $sqlQuery){
-		$this->sqlQuery = $sqlQuery;
-	}
+class UtilisateurListe extends SQL {
 	
 	public function getNbUtilisateur($search = false){
 		$sql = "SELECT count(*) FROM utilisateur ";
@@ -14,7 +8,7 @@ class UtilisateurListe {
 			$sql .= " WHERE nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
 			$data  = array("%$search%","%$search%","%$search%");
 		}
-		return $this->sqlQuery->fetchOneValue($sql,$data);
+		return $this->queryOne($sql,$data);
 	}
 	
 	public function getAll($offset,$limit,$search = false){
@@ -27,35 +21,35 @@ class UtilisateurListe {
 		}
 		$sql .= " ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
 		
-		$result =  $this->sqlQuery->fetchAll($sql,$data);
+		$result =  $this->query($sql,$data);
 		return $result;
 	}
 	
 	public function getUtilisateurByLogin($login){
 		$sql = "SELECT id_u FROM utilisateur WHERE login = ?";
-		return $this->sqlQuery->fetchOneValue($sql,$login);
+		return $this->queryOne($sql,$login);
 	}
 	
 	public function getUtilisateurByCertificat($verif_number,$offset,$limit){
 		$sql = "SELECT * FROM utilisateur" .
 				" WHERE certificat_verif_number = ? " .
 				" ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
-		return $this->sqlQuery->fetchAll($sql,$verif_number);
+		return $this->query($sql,$verif_number);
 	}
 	
 	public function getNbUtilisateurByCertificat($verif_number){
 		$sql = "SELECT count(*) FROM utilisateur WHERE certificat_verif_number=?";
-		return $this->sqlQuery->fetchOneValue($sql,$verif_number);
+		return $this->queryOne($sql,$verif_number);
 	}
 	
 	public function getByLoginOrEmail($login,$email){
 		$sql = "SELECT id_u FROM utilisateur WHERE (login = ? OR email=?) AND mail_verifie=1";
-		return $this->sqlQuery->fetchOneValue($sql,$login,$email);
+		return $this->queryOne($sql,$login,$email);
 	}
 	
 	public function getByVerifPassword($mail_verif_password){
 		$sql = "SELECT id_u FROM utilisateur WHERE mail_verif_password = ?  AND mail_verifie=1";
-		return $this->sqlQuery->fetchOneValue($sql,$mail_verif_password);
+		return $this->queryOne($sql,$mail_verif_password);
 	}
 	
 	public function getUtilisateurByEntite(array $id_e){
@@ -65,7 +59,7 @@ class UtilisateurListe {
 				" LEFT JOIN entite ON utilisateur.id_e = entite.id_e " .
 				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		$all= $this->sqlQuery->fetchAll($sql);
+		$all= $this->query($sql);
 		
 		$result = array();
 		foreach($all as $ligne){	
@@ -87,7 +81,7 @@ class UtilisateurListe {
 				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
 				" AND role_droit.droit= ? " .
 				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		$all= $this->sqlQuery->fetchAll($sql,$droit);
+		$all= $this->query($sql,$droit);
 		
 		$result = array();
 		foreach($all as $ligne){	

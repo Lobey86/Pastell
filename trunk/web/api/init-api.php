@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
 
 $JSONoutput = new JSONoutput();
 
@@ -12,9 +11,9 @@ $id_u = $certificatConnexion->autoConnect();
 if ( ! $id_u && ! empty($_SERVER['PHP_AUTH_USER'])){
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$id_u = $utilisateurListe->getUtilisateurByLogin($_SERVER['PHP_AUTH_USER']);
-	$utilisateur = new Utilisateur($sqlQuery, $id_u);
+	$utilisateur = new Utilisateur($sqlQuery);
 
-	if ( ! $utilisateur->verifPassword($_SERVER['PHP_AUTH_PW']) ){
+	if ( ! $utilisateur->verifPassword($id_u,$_SERVER['PHP_AUTH_PW']) ){
 		$id_u = false;
 	}
 }

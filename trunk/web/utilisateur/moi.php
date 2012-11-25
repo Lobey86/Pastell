@@ -5,10 +5,10 @@ require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
 $id_u = $authentification->getId();
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$utilisateur = new Utilisateur($sqlQuery);
 $documentTypeHTML = new DocumentTypeHTML();
 
-$info = $utilisateur->getInfo();
+$info = $utilisateur->getInfo($id_u);
 if (! $info){
 	$lastError->setLastError("Utilisateur $id_u inconnu");
 	header("Location: ".SITE_BASE . "index.php");

@@ -3,7 +3,6 @@ include( dirname(__FILE__) . "/../../init.php");
 require_once( PASTELL_PATH . "/lib/Siren.class.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
 
 $redirection = new Redirection("index.php");
 
@@ -35,26 +34,22 @@ if ( ! $denomination ){
 	$redirection->redirect();
 }
 
-$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
-$id_u = $utilisateurCreator->create($login,$password,$password2,$email);
+$id_u = $objectInstancier->UtilisateurCreator->create($login,$password,$password2,$email);
 
 if ( ! $id_u){
-	$lastError->setLastError($utilisateurCreator->getLastError());
+	$lastError->setLastError($objectInstancier->UtilisateurCreator->getLastError());
 	$redirection->redirect();
 }
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
-$utilisateur->setNomPrenom($nom,$prenom);
+$utilisateur = new Utilisateur($sqlQuery);
+$utilisateur->setNomPrenom($id_u,$nom,$prenom);
 
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
 $id_e = $entiteCreator->edit(false,$siren,$denomination,Entite::TYPE_FOURNISSEUR,0,0);
 
-//$id_e = $entiteCreator->create($siren,$denomination,"fournisseur",0);
-
-
 $roleUtilisateur->addRole($id_u,"fournisseur",$id_e);
 
-$infoUtilisateur = $utilisateur->getInfo();
+$infoUtilisateur = $utilisateur->getInfo($id_u);
 
 $zMail = new ZenMail($zLog);
 $mailVerification = new MailVerification($zMail);

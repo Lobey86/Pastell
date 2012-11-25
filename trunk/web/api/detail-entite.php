@@ -4,7 +4,7 @@ require_once("init-api.php");
 $recuperateur = new Recuperateur($_REQUEST);
 $id_e = $recuperateur->get('id_e');
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 
 
 if ( ! $roleUtilisateur->hasDroit($id_u,"entite:lecture",$id_e)) {

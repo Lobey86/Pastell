@@ -19,9 +19,9 @@ if (!$id_u){
 $passwordGenerator = new PasswordGenerator();
 $mailVerifPassword = $passwordGenerator->getPassword();
 
-$utilisateur = new Utilisateur($sqlQuery, $id_u);
-$info = $utilisateur->getInfo();
-$utilisateur->reinitPassword($mailVerifPassword);
+$utilisateur = new Utilisateur($sqlQuery);
+$info = $utilisateur->getInfo($id_u);
+$utilisateur->reinitPassword($id_u,$mailVerifPassword);
 
 
 $zenMail = new ZenMail($zLog);

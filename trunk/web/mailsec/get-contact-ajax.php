@@ -14,8 +14,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:lecture",
 
 $annuaireGroupe = new AnnuaireGroupe($sqlQuery,$id_e);
 $annuaire = new Annuaire($sqlQuery,$id_e);
-$annuaireRole = new AnnuaireRoleSQL($sqlQuery);
-
+$annuaireRole = $objectInstancier->AnnuaireRoleSQL;
 
 header("Content-type: text/plain; charset=ISO-8859-1");
 

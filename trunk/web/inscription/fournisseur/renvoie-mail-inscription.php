@@ -3,8 +3,8 @@
 require_once("../../init.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
 
-$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
-$infoUtilisateur = $utilisateur->getInfo();
+$utilisateur = new Utilisateur($sqlQuery);
+$infoUtilisateur = $utilisateur->getInfo($authentification->getId());
 
 if ( ! $infoUtilisateur || $infoUtilisateur['mail_verifie']){
 	header("Location: " . SITE_BASE ."index.php");

@@ -14,7 +14,7 @@ $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num',0);
 
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
 
 $type = $info['type'];

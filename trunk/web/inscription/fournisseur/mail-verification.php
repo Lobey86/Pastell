@@ -10,8 +10,8 @@ $login = $recuperateur->get('login');
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 $id_u = $utilisateurListe->getUtilisateurByLogin($login);
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
-$result = $utilisateur->validMail($password);
+$utilisateur = new Utilisateur($sqlQuery);
+$result = $utilisateur->validMail($id_u,$password);
 
 if ($result){
 	$lastMessage->setLastMessage("Votre mail est maintenant validé");

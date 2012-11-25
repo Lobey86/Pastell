@@ -8,7 +8,7 @@ $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
 $go = $recuperateur->getInt('go',0);
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 $infoDocument = $document->getInfo($id_d);
 $type = $infoDocument['type'];
 

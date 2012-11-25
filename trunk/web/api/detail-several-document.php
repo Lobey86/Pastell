@@ -5,7 +5,7 @@ $recuperateur = new Recuperateur($_REQUEST);
 $all_id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 
 foreach($all_id_d as $id_d) {
 	$info = $document->getInfo($id_d);

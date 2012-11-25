@@ -10,7 +10,7 @@ $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num');
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
 if ( ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e)) {
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, type={$info['type']},id_u=$id_u");
@@ -30,8 +30,8 @@ if (! file_exists($file_path)){
 	exit;
 }
 
-$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
-$infoUtilisateur = $utilisateur->getInfo();
+$utilisateur = new Utilisateur($sqlQuery);
+$infoUtilisateur = $utilisateur->getInfo($authentification->getId());
 $nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
 
 $journal->add(Journal::DOCUMENT_CONSULTATION,$id_e,$id_d,"Consulté","$nom a consulté le document $file_name");

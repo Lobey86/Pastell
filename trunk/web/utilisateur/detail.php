@@ -8,9 +8,9 @@ $documentTypeHTML = new DocumentTypeHTML();
 $recuperateur = new Recuperateur($_GET);
 $id_u = $recuperateur->get('id_u');
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$utilisateur = new Utilisateur($sqlQuery);
 
-$info = $utilisateur->getInfo();
+$info = $utilisateur->getInfo($id_u);
 if (! $info){
 	$lastError->setLastError("Utilisateur $id_u inconnu");
 	header("Location: ".SITE_BASE . "index.php");

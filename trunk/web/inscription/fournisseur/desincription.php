@@ -10,8 +10,8 @@ $entite = new Entite($sqlQuery, $utilisateurEntite->getSiren());
 $result = $entite->desinscription();
 
 if($result){
-	$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
-	$utilisateur->desinscription();
+	$utilisateur = new Utilisateur($sqlQuery);
+	$utilisateur->desinscription($authentification->getId());
 	
 }
 header("Location: index.php");

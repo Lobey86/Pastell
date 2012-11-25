@@ -1,6 +1,5 @@
 <?php
 require_once("../init.php");
-require_once( PASTELL_PATH . "/lib/authentification/CertificatConnexion.class.php");
 
 $certificatConnexion = new CertificatConnexion($sqlQuery);
 $id_u = $certificatConnexion->autoConnect();
@@ -10,8 +9,8 @@ if ( ! $id_u ) {
 	exit;
 }
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
-$utilisateurInfo = $utilisateur->getInfo();
+$utilisateur = new Utilisateur($sqlQuery);
+$utilisateurInfo = $utilisateur->getInfo($id_u);
 
 $journal->setId($id_u);
 $nom = $utilisateurInfo['prenom']." ".$utilisateurInfo['nom'];

@@ -1,75 +1,68 @@
 <?php
-class Utilisateur {
 
-	private $sqlQuery;
-	private $id_u;
-		
-	public function __construct(SQLQuery $sqlQuery,$id_u){
-		$this->sqlQuery = $sqlQuery;
-		$this->id_u = $id_u;
-	}
-	
-	public function setNomPrenom($nom,$prenom){
+class Utilisateur extends SQL {
+
+	public function setNomPrenom($id_u,$nom,$prenom){
 		$sql = "UPDATE utilisateur SET nom = ? , prenom = ? WHERE id_u = ?";
-		$this->sqlQuery->query($sql,array($nom,$prenom,$this->id_u));
+		$this->query($sql,array($nom,$prenom,$id_u));
 	}
 	
-	public function getInfo(){
+	public function getInfo($id_u){
 		$sql = "SELECT * FROM utilisateur WHERE id_u = ?";
-		return $this->sqlQuery->fetchOneLine($sql,array($this->id_u));
+		return $this->queryOne($sql,$id_u);
 	}
 	
-	public function validMail($password){
+	public function validMail($id_u,$password){
 		$sql = "SELECT id_u FROM utilisateur " . 
 				" WHERE id_u =? AND mail_verif_password= ? ";
-		$result = $this->sqlQuery->fetchOneValue($sql,array($this->id_u, $password));
+		$result = $this->queryOne($sql,$id_u, $password);
 		if ( ! $result){
 			return false;
 		}
-		$this->validMailAuto();
+		$this->validMailAuto($id_u);
 		return true;
 	}
 	
-	public function validMailAuto(){
+	public function validMailAuto($id_u){
 		$sql = "UPDATE utilisateur SET mail_verifie=1 WHERE id_u=?";
-		$this->sqlQuery->query($sql, array($this->id_u));
+		$this->query($sql,$id_u);
 	}
 	
-	public function verifPassword($password){
-		$info = $this->getInfo();
+	public function verifPassword($id_u,$password){
+		$info = $this->getInfo($id_u);
 		return  ($info['password'] == $password );
 	}
 	
-	public function desinscription(){
+	public function desinscription($id_u){
 		$sql = "DELETE FROM utilisateur WHERE id_u=?";
-		$this->sqlQuery->query($sql,array($this->id_u));
+		$this->query($sql,$id_u);
 	}
 	
-	public function setPassword($password){
+	public function setPassword($id_u,$password){
 		$sql = "UPDATE utilisateur SET password = ? WHERE id_u = ?";
-		$this->sqlQuery->query($sql,$password,$this->id_u);
+		$this->query($sql,$password,$id_u);
 	}
 	
-	public function setEmail($email){
+	public function setEmail($id_u,$email){
 		$sql = "UPDATE utilisateur SET email = ? WHERE id_u = ?";
-		$this->sqlQuery->query($sql,$email,$this->id_u);
+		$this->query($sql,$email,$id_u);
 	}
 	
-	public function setLogin($login){
+	public function setLogin($id_u,$login){
 		$sql = "UPDATE utilisateur SET login = ? WHERE id_u = ?";
-		$this->sqlQuery->query($sql,$login,$this->id_u);
+		$this->query($sql,$login,$id_u);
 	}
 	
-	public function setColBase($id_e){
+	public function setColBase($id_u,$id_e){
 		$sql = "UPDATE utilisateur SET id_e = ? WHERE id_u = ?";
-		$this->sqlQuery->query($sql,$id_e,$this->id_u);
+		$this->query($sql,$id_e,$id_u);
 	}
 	
-	public function removeCertificat(){
-		$this->updateCertificat("","");
+	public function removeCertificat($id_u){
+		$this->updateCertificat($id_u,"","");
 	}
 	
-	public function setCertificat(Certificat $certificat){
+	public function setCertificat($id_u,Certificat $certificat){
 		
 		if (! $certificat->isValid()){
 			return false;
@@ -78,18 +71,18 @@ class Utilisateur {
 		$certificatContent = $certificat->getContent();
 		$certificatVerifNumber = $certificat->getVerifNumber();
 		
-		$this->updateCertificat($certificatContent,$certificatVerifNumber);
+		$this->updateCertificat($id_u,$certificatContent,$certificatVerifNumber);
 		return true;
 	}
 	
-	private function updateCertificat($content,$verif_number){
+	private function updateCertificat($id_u,$content,$verif_number){
 		$sql = "UPDATE utilisateur SET certificat = ?, certificat_verif_number=? WHERE id_u = ?";
-		$this->sqlQuery->query($sql,$content,$verif_number,$this->id_u);
+		$this->query($sql,$content,$verif_number,$id_u);
 	}
 	
-	public function reinitPassword($mailVerifPassword){
+	public function reinitPassword($id_u,$mailVerifPassword){
 		$sql = "UPDATE utilisateur SET mail_verif_password=? WHERE id_u=?";
-		$this->sqlQuery->query($sql,$mailVerifPassword,$this->id_u);
+		$this->query($sql,$mailVerifPassword,$id_u);
 	}
 	
 }

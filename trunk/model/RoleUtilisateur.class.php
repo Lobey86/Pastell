@@ -1,37 +1,32 @@
 <?php
 
-class RoleUtilisateur {
+class RoleUtilisateur extends SQL {
 	 
-	private $sqlQuery;
 	private $roleDroit;
 	
-	public function __construct(SQLQuery $sqlQuery){
-		$this->sqlQuery = $sqlQuery;
-		$this->setRoleDroit(new RoleDroit());
-	}
-	
-	public function setRoleDroit(RoleDroit $roleDroit){
+	public function __construct(SQLQuery $sqlQuery,RoleDroit $roleDroit){
+		parent::__construct($sqlQuery);
 		$this->roleDroit = $roleDroit;
 	}
 	
 	public function addRole($id_u,$role,$id_e){
 		$sql = "INSERT INTO utilisateur_role(id_u,role,id_e) VALUES (?,?,?)";
-		$this->sqlQuery->query($sql,$id_u,$role,$id_e);
+		$this->query($sql,$id_u,$role,$id_e);
 		if ($role != RoleDroit::AUCUN_DROIT) {
 			$sql = "DELETE FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
-			$this->sqlQuery->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
+			$this->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
 		}
 	}
 	
 	public function removeRole($id_u,$role,$id_e) {		
 		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? ";
-		$nb_role= $this->sqlQuery->fetchOneValue($sql,$id_u);
+		$nb_role= $this->queryOne($sql,$id_u);
 		if ($nb_role == 1){
 			$sql = "UPDATE utilisateur_role SET role='".RoleDroit::AUCUN_DROIT."' WHERE id_u = ? AND role = ? AND id_e = ?";
 		} else {
 			$sql = "DELETE FROM utilisateur_role WHERE id_u = ? AND role = ? AND id_e = ?";
 		}
-		$this->sqlQuery->query($sql,$id_u,$role,$id_e);
+		$this->query($sql,$id_u,$role,$id_e);
 	}
 	
 	public function hasDroit($id_u,$droit,$id_e){
@@ -48,7 +43,7 @@ class RoleUtilisateur {
 				" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e ".
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
 				" WHERE entite_ancetre.id_e=? AND utilisateur_role.id_u=? ";
-			foreach($this->sqlQuery->fetchAll($sql,$id_e,$id_u) as $line){
+			foreach($this->query($sql,$id_e,$id_u) as $line){
 				$allDroit[$id_u."-".$id_e][] = $line['droit'];
 			}
 		}
@@ -60,7 +55,7 @@ class RoleUtilisateur {
 		
 		if (! isset($allRole[$id_u])){
 			$sql = "SELECT utilisateur_role.*,denomination,siren,type FROM utilisateur_role LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?";
-			$allRole[$id_u] = $this->sqlQuery->fetchAll($sql,$id_u);
+			$allRole[$id_u] = $this->query($sql,$id_u);
 		}
 		return $allRole[$id_u]; 
 	}
@@ -72,7 +67,7 @@ class RoleUtilisateur {
 			$sql = "SELECT droit FROM  utilisateur_role ".
 			" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
 			" WHERE  utilisateur_role.id_u=? ";
-			foreach($this->sqlQuery->fetchAll($sql,$id_u) as $line){
+			foreach($this->query($sql,$id_u) as $line){
 				$allDroit[$id_u][] = $line['droit']; 
 			}
 		}
@@ -111,7 +106,7 @@ class RoleUtilisateur {
 				" JOIN entite ON entite_ancetre.id_e=entite.id_e ".
 				" WHERE utilisateur_role.id_u=? AND droit=? ".
 				" ORDER BY entite_mere,denomination";
-		return $this->sqlQuery->fetchAll($sql,$id_u,$droit);
+		return $this->query($sql,$id_u,$droit);
 	}
 	
 	
@@ -124,7 +119,7 @@ class RoleUtilisateur {
 				" ORDER BY entite_mere,denomination";
 				$result = array();
 
-		foreach($this->sqlQuery->fetchAll($sql,$id_u,$droit) as $line){
+		foreach($this->query($sql,$id_u,$droit) as $line){
 			$result[$line['entite_mere']][] = array(
 												'id_e' => $line['id_e'],
 												'denomination' => $line['denomination'], 
@@ -138,7 +133,7 @@ class RoleUtilisateur {
 				" FROM utilisateur_role " .
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
 				" LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e WHERE id_u = ?  AND droit=?";
-		return $this->sqlQuery->fetchAll($sql,$id_u,$droit);
+		return $this->query($sql,$id_u,$droit);
 	}
 	
 	
@@ -149,7 +144,7 @@ class RoleUtilisateur {
 				" LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e " .
 				" WHERE id_u = ?  AND droit=? ";
 		$result = array();
-		foreach($this->sqlQuery->fetchAll($sql,$id_u,$droit) as $line){
+		foreach($this->query($sql,$id_u,$droit) as $line){
 			$result[] = $line['id_e'];
 		};
 		return $result;
@@ -161,7 +156,7 @@ class RoleUtilisateur {
 		}
 		$sql = "SELECT count(distinct(id_e)) FROM utilisateur_role WHERE id_u = ?";
 		
-		$nb_entite = $this->sqlQuery->fetchOneValue($sql,$id_u);
+		$nb_entite = $this->queryOne($sql,$id_u);
 		return ($nb_entite > 1);
 	}
 	
@@ -169,7 +164,7 @@ class RoleUtilisateur {
 		$sql = "SELECT * FROM utilisateur_role " .
 				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
 				" WHERE utilisateur_role.id_e=? AND role =?";
-		return $this->sqlQuery->fetchAll($sql,$id_e,$role);
+		return $this->query($sql,$id_e,$role);
 	}
 	
 	public function getAllUtilisateurHerite($id_e,$role){
@@ -178,7 +173,7 @@ class RoleUtilisateur {
 				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
 				" WHERE entite_ancetre.id_e_ancetre=? AND role =?"
 		;
-		return $this->sqlQuery->fetchAll($sql,$id_e,$role);
+		return $this->query($sql,$id_e,$role);
 	}
 	
 }
