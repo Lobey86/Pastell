@@ -42,7 +42,8 @@ class EnvoyerMailSec extends ActionExecutor {
 	public function go(){
 		
 		$annuaireGroupe = new AnnuaireGroupe($this->getSQLQuery(),$this->id_e);
-		$annuaireRoleSQL = new AnnuaireRoleSQL($this->getSQLQuery());
+		
+		$annuaireRoleSQL = $this->objectInstancier->AnnuaireRoleSQL;
 		
 		$all_ancetre = $this->getEntite()->getAncetreId();
 		

@@ -12,8 +12,8 @@ $page_title = "Inscription en cours de finalisation";
 
 include( PASTELL_PATH ."/include/haut.php");
 
-$utilisateur = new Utilisateur($sqlQuery,$_SESSION['id_u']);
-$infoUtilisateur = $utilisateur->getInfo();
+$utilisateur = new Utilisateur($sqlQuery);
+$infoUtilisateur = $utilisateur->getInfo($_SESSION['id_u']);
 ?>
 <div>
 <p>Vous devez cliquez sur le lien du mail qui a été envoyé à :

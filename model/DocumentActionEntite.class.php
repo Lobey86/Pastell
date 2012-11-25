@@ -1,21 +1,14 @@
 <?php
 
-class DocumentActionEntite {
-	
-	private $sqlQuery;
-	private $id_a;
-	
-	public function __construct(SQLQuery $sqlQuery){
-		$this->sqlQuery =$sqlQuery;
-	}
-	
+class DocumentActionEntite extends SQL {
+
 	public function getLastAction($id_e,$id_d){
 		$sql = "SELECT action FROM document_action_entite " .
 			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
 			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
 			" JOIN entite ON document_action.id_e  = entite.id_e ".
 			" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date DESC,document_action.id_a DESC LIMIT 1 ";
-		return $this->sqlQuery->fetchOneValue($sql,$id_e,$id_d);
+		return $this->queryOne($sql,$id_e,$id_d);
 	}
 	
 	public function getAction($id_e,$id_d){
@@ -24,7 +17,7 @@ class DocumentActionEntite {
 			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
 			" JOIN entite ON document_action.id_e  = entite.id_e ".
 			" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date,document_action_entite.id_a ";
-		return $this->sqlQuery->fetchAll($sql,$id_e,$id_d);
+		return $this->query($sql,$id_e,$id_d);
 	}
 	
 	public function getNbDocument($id_e,$type,$search,$etat = false){
@@ -37,12 +30,12 @@ class DocumentActionEntite {
 			$data[] = $etat; 
 		}
 
-		return $this->sqlQuery->fetchOneValue($sql,$data);
+		return $this->queryOne($sql,$data);
 	}
 	
 	public function getOffset($last_id,$id_e,$type,$limit){
 		$sql = "SELECT document_entite.last_action_date FROM document_entite WHERE id_d=? AND id_e=?";
-		$last_date = $this->sqlQuery->fetchOneValue($sql,$last_id,$id_e);
+		$last_date = $this->queryOne($sql,$last_id,$id_e);
 		if (!$last_date){
 			return 0;
 		}
@@ -51,7 +44,7 @@ class DocumentActionEntite {
 				"  FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d " .
 				" WHERE document_entite.id_e = ? AND document.type=? AND document_entite.last_action_date > ?" ;
-		$nb =  $this->sqlQuery->fetchOneValue($sql,$id_e,$type,$last_date);
+		$nb =  $this->queryOne($sql,$id_e,$type,$last_date);
 		
 		$offset = floor($nb / $limit)*$limit;
 		return $offset;
@@ -71,7 +64,7 @@ class DocumentActionEntite {
 	
 		$sql .= " ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
 			
-		$list = $this->sqlQuery->fetchAll($sql,$data);
+		$list = $this->query($sql,$data);
 		return $this->addEntiteToList($id_e,$list);
 	}
 	
@@ -84,7 +77,7 @@ class DocumentActionEntite {
 				" WHERE document_entite.id_e = ? AND document.type IN ($type_list) " . 
 				" AND document.titre LIKE ?" .
 				" ORDER BY document_entite.last_action_date DESC LIMIT $offset,$limit";	
-		$list = $this->sqlQuery->fetchAll($sql,$id_e,"%$search%");
+		$list = $this->query($sql,$id_e,"%$search%");
 		return $this->addEntiteToList($id_e,$list);
 	}
 	
@@ -97,13 +90,13 @@ class DocumentActionEntite {
 					" JOIN document_action_entite ON document_action.id_a = document_action_entite.id_a " . 
 					" JOIN entite ON entite.id_e=document_action.id_e ". 
 					" WHERE id_d= ? AND document_action_entite.id_e=? AND entite.id_e != ?";
-			$list[$i]['entite'] = $this->sqlQuery->fetchAll($sql,$id_d,$id_e,$id_e);
+			$list[$i]['entite'] = $this->query($sql,$id_d,$id_e,$id_e);
 			
 			$sql = "SELECT action  FROM document_action " .
 					" JOIN document_action_entite ON document_action.id_a = document_action_entite.id_a " .
 					" WHERE document_action_entite.id_e=? AND document_action.id_d= ? " .
 					" ORDER BY document_action.date DESC, document_action.id_a DESC LIMIT 1";
-			$list[$i]['last_action_display'] = $this->sqlQuery->fetchOneValue($sql,$id_e,$id_d); 
+			$list[$i]['last_action_display'] = $this->queryOne($sql,$id_e,$id_d); 
 			
 		}
 		return $list;
@@ -117,7 +110,7 @@ class DocumentActionEntite {
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.titre LIKE ? AND document.type IN ($type_list) " ;
 
-		return $this->sqlQuery->fetchOneValue($sql,$id_e,"%$search%");
+		return $this->queryOne($sql,$id_e,"%$search%");
 	}
 	
 	public function getUserFromAction($id_e,$id_d,$action){
@@ -126,7 +119,7 @@ class DocumentActionEntite {
 			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
 			" JOIN entite ON document_action.id_e  = entite.id_e ".
 			" WHERE document_action_entite.id_e = ? AND id_d=? AND document_action.action= ? LIMIT 1";
-		return $this->sqlQuery->fetchOneLine($sql,$id_e,$id_d,$action);
+		return $this->queryOne($sql,$id_e,$id_d,$action);
 	}
 	
 	
@@ -177,7 +170,6 @@ class DocumentActionEntite {
 				$r[]="'".addslashes($s)."'";
 			}
 			$sql .= " AND document_entite.last_action IN (".implode(",",$r).")";
-			//$binding[] = $state;
 		}
 		if ($last_state_begin){
 			$sql .= " AND document_entite.last_action_date>?";
@@ -189,7 +181,7 @@ class DocumentActionEntite {
 		}
 		
 		$sql .= $order;	
-		$list = $this->sqlQuery->fetchAll($sql,$binding);
+		$list = $this->query($sql,$binding);
 		return $list;
 	}
 	

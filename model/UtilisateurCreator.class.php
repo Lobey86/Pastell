@@ -1,22 +1,17 @@
 <?php
 require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
-class UtilisateurCreator {
+class UtilisateurCreator extends SQL {
 	
-	private $sqlQuery;
 	private $passwordGenerator;
+	private $journal;
 	
-	public function __construct(SQLQuery $sqlQuery,Journal $journal){
-		$this->sqlQuery = $sqlQuery;
-		$this->setPasswordGenertor(new PasswordGenerator());
+	public function __construct(SQLQuery $sqlQuery,Journal $journal,PasswordGenerator $passwordGenerator){
+		parent::__construct($sqlQuery);
+		$this->passwordGenerator = $passwordGenerator;
 		$this->journal = $journal;
 	}
-	
-	public function setPasswordGenertor(PasswordGenerator $passwordGenerator){
-		$this->passwordGenerator = $passwordGenerator;
-	}
-	
-	
+
 	public function getLastError(){
 		return $this->lastError;
 	}
@@ -51,9 +46,9 @@ class UtilisateurCreator {
 		
 		$sql = "INSERT INTO utilisateur(login,password,email,mail_verif_password,date_inscription) " . 
 				" VALUES (?,?,?,?,now())";
-		$this->sqlQuery->query($sql,array($login,$password,$email,$password_validation));
+		$this->query($sql,array($login,$password,$email,$password_validation));
 		
-		$id_u =  $this->sqlQuery->fetchOneValue("SELECT id_u FROM utilisateur WHERE login=?",array($login));
+		$id_u =  $this->queryOne("SELECT id_u FROM utilisateur WHERE login=?",array($login));
 		
 		
 		return $id_u;
@@ -61,7 +56,7 @@ class UtilisateurCreator {
 	
 	public function loginExists($login){
 		$sql = "SELECT count(*) FROM utilisateur WHERE login = ?";
-		return $this->sqlQuery->fetchOneValue($sql,array($login));
+		return $this->queryOne($sql,array($login));
 	}
 	
 }

@@ -10,7 +10,7 @@ $recuperateur = new Recuperateur($_GET);
 $id_e = $recuperateur->getInt('id_e',0);
 $page = $recuperateur->getInt('page',0);
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {

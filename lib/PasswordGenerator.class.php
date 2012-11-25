@@ -9,11 +9,8 @@ class PasswordGenerator {
 	private $signe;
 	private $lengthSigne;
 	
-	public function __construct($nbSigne = 0){
-		if ($nbSigne == 0){
-			$nbSigne = self::NB_SIGNE_DEFAULT;
-		}
-		$this->nbSigne = $nbSigne;	
+	public function __construct(){
+		$this->nbSigne = self::NB_SIGNE_DEFAULT;	
 		$this->setSigne(self::SIGNE);
 	}
 	

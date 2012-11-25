@@ -10,7 +10,7 @@ $type = $recuperateur->get('type');
 $id_e = $recuperateur->getInt('id_e');
 $page = $recuperateur->getInt('page',0);
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 
 if ($id_d){
 	$info = $document->getInfo($id_d);

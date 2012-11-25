@@ -48,46 +48,46 @@ if ( $password && $password2 ){
 }
 
 if (! $id_u){
-	$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
-	$id_u = $utilisateurCreator->create($login,$password,$password2,$email);
+	$id_u = $objectInstancier->UtilisateurCreator->create($login,$password,$password2,$email);
 	
 	if ( ! $id_u){
-		$lastError->setLastError($utilisateurCreator->getLastError());
+		$lastError->setLastError($objectInstancier->utilisateurCreator->getLastError());
 		$redirection->redirect();
 	}
 }
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$utilisateur = new Utilisateur($sqlQuery);
 if ( $password && $password2 ){
-	$utilisateur->setPassword($password);
+	$utilisateur->setPassword(id_u,$password);
 }
-$oldInfo = $utilisateur->getInfo();
+$oldInfo = $utilisateur->getInfo($id_u);
 
 if (isset($_FILES['certificat']) && $_FILES['certificat']['tmp_name']){
 	
 	$certificat_pem = file_get_contents($_FILES['certificat']['tmp_name']);
 	$certificat = new Certificat($certificat_pem);
 	
-	if ( ! $utilisateur->setCertificat($certificat)){
+	if ( ! $utilisateur->setCertificat($id_u,$certificat)){
 		$lastError->setLastError("Le certificat n'est pas valide");
 		$redirection->redirect();
 	} 
 }
 
 
-$utilisateur->validMailAuto();
-$utilisateur->setNomPrenom($nom,$prenom);
-$utilisateur->setEmail($email);
-$utilisateur->setLogin($login);
-$utilisateur->setColBase($id_e);
+$utilisateur->validMailAuto($id_u);
+$utilisateur->setNomPrenom($id_u,$nom,$prenom);
+$utilisateur->setEmail($id_u,$email);
+$utilisateur->setLogin($id_u,$login);
+$utilisateur->setColBase($id_u,$id_e);
 
-$roleUtilisateur = new RoleUtilisateur($sqlQuery);
+$roleUtilisateur = $objectInstancier->RoleUtilisateur;
+
 $allRole = $roleUtilisateur->getRole($id_u);
 if (! $allRole ){
 	$roleUtilisateur->addRole($id_u,RoleDroit::AUCUN_DROIT,$id_e);
 }
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
-$newInfo = $utilisateur->getInfo();
+$utilisateur = new Utilisateur($sqlQuery);
+$newInfo = $utilisateur->getInfo($id_u);
 
 $infoToRetrieve = array('email','login','nom','prenom');
 $infoChanged = array();

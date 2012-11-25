@@ -12,7 +12,8 @@ abstract class ActionExecutor {
 	protected $id_destinataire;
 	protected $from_api;
 	
-	private $objectInstancier;
+	protected $objectInstancier;
+	
 	private $lastMessage; 
 	
 	//$type = type de document

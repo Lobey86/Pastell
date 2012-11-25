@@ -5,7 +5,7 @@ $recuperateur = new Recuperateur($_GET);
 $id_u = $recuperateur->get('id_u');
 
 
-$utilisateur  = new Utilisateur($sqlQuery,$id_u);
-$utilisateur->removeCertificat();
+$utilisateur  = new Utilisateur($sqlQuery);
+$utilisateur->removeCertificat($id_u);
 
 header("Location: edition.php?id_u=$id_u");

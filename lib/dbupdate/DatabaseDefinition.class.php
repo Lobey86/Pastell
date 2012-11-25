@@ -12,7 +12,7 @@ class DatabaseDefinition {
 	public function getDefinition(){
 		
 		$result = array();
-		$tables = $this->sqlQuery->fetchAll('SHOW TABLE STATUS');
+		$tables = $this->sqlQuery->query('SHOW TABLE STATUS');
 		foreach ($tables as $table) {
 		
 			$tableName = $table['Name'];
@@ -28,7 +28,7 @@ class DatabaseDefinition {
 	
 	private function getColumnDefinition($tableName){
 		$r = array();
-		$result = $this->sqlQuery->fetchAll("SHOW COLUMNS FROM $tableName");
+		$result = $this->sqlQuery->query("SHOW COLUMNS FROM $tableName");
 		foreach($result as $line){
 			$r[$line['Field']] = $line;
 		}
@@ -38,7 +38,7 @@ class DatabaseDefinition {
 	private function getIndexDefinition($tableName){
 		$result = array();
 		$indexDefinition = array();
-		$r = $this->sqlQuery->fetchAll("SHOW INDEX FROM $tableName");
+		$r = $this->sqlQuery->query("SHOW INDEX FROM $tableName");
 		foreach ($r as $line){
 			if (empty($result[$line['Key_name']])){
 				$result[$line['Key_name']] = array('type'=>$line['Index_type'],

@@ -2,7 +2,6 @@
 include( dirname(__FILE__) . "/../../init.php");
 require_once( PASTELL_PATH . "/lib/Redirection.class.php");
 require_once( PASTELL_PATH . "/lib/MailVerification.class.php");
-require_once( PASTELL_PATH . "/lib/entite/EntiteCreator.class.php");
 
 $redirection = new Redirection("index.php");
 
@@ -24,25 +23,21 @@ if ($entite->exists()){
 }
 
 
-$utilisateurCreator = new UtilisateurCreator($sqlQuery,$journal);
-$id_u = $utilisateurCreator->create($email,$password,$password2,$email);
+$id_u = $objectInstancier->UtilisateurCreator->create($login,$password,$password2,$email);
 
 if ( ! $id_u){
-	$lastError->setLastError($utilisateurCreator->getLastError());
+	$lastError->setLastError($objectInstancier->UtilisateurCreator->getLastError());
 	$redirection->redirect();
 }
 
-$utilisateur = new Utilisateur($sqlQuery,$id_u);
+$utilisateur = new Utilisateur($sqlQuery);
 
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
 $id_e = $entiteCreator->edit(false,0,$email,Entite::TYPE_CITOYEN,0,0);
 
 $roleUtilisateur->addRole($id_u,"citoyen",$id_e);
 
-$infoUtilisateur = $utilisateur->getInfo();
-$utilisateur->validMailAuto();
-/*$zMail = new ZenMail($zLog);
-$mailVerification = new MailVerification($zMail);
-$mailVerification->send($infoUtilisateur);
-*/
+$infoUtilisateur = $utilisateur->getInfo($id_u);
+$utilisateur->validMailAuto($id_u);
+
 $redirection->redirect("inscription-ok.php");

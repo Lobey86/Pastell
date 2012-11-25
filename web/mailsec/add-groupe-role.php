@@ -27,7 +27,7 @@ if ($id_e != 0){
 	$nom = "$role - toutes les collectivités";
 }
 
-$annuaireRoleSQL = new AnnuaireRoleSQL($sqlQuery);
+$annuaireRoleSQL = $objectInstancier->AnnuaireRoleSQL;
 
 $annuaireRoleSQL->add($nom,$id_e_owner,$id_e,$role);
 

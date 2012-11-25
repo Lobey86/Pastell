@@ -1,6 +1,8 @@
 <?php
 
-class Journal {
+//Il y a un new Utilisateur en plein milieu !
+
+class Journal extends SQL {
 	
 	const DOCUMENT_ACTION = 1;
 	const NOTIFICATION = 2;
@@ -10,13 +12,14 @@ class Journal {
 	const CONNEXION = 6;
 	const DOCUMENT_CONSULTATION = 7 ;
 	
-	private $sqlQuery;
 	private $id_u;
 	private $signServer;
+	private $utilisateurSQL;
 	
 	public function __construct(SignServer $signServer, SQLQuery $sqlQuery){
-		$this->sqlQuery = $sqlQuery;
+		parent::__construct($sqlQuery);
 		$this->signServer = $signServer;
+		$this->utilisateurSQL = new Utilisateur($sqlQuery);
 	}
 	
 	public function setId($id_u){
@@ -25,13 +28,11 @@ class Journal {
 	
 	public function addConsultation($id_e,$id_d,$id_u){
 		$sql  =  "SELECT count(*) FROM journal WHERE id_u=? AND id_d=?";
-		$nb = $this->sqlQuery->fetchOneValue($sql,$id_u,$id_d);
+		$nb = $this->queryOne($sql,$id_u,$id_d);
 		if ($nb){
 			return;
 		}
-		
-		$utilisateur = new Utilisateur($this->sqlQuery,$id_u);
-		$infoUtilisateur = $utilisateur->getInfo();
+		$infoUtilisateur = $this->utilisateurSQL->getInfo($id_u);
 		$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
 		$this->add(Journal::DOCUMENT_CONSULTATION,$id_e,$id_d,"Consulté","$nom a consulté le document");
 	}
@@ -54,7 +55,7 @@ class Journal {
 			$date_horodatage = $this->signServer->getLastTimestamp();
 		}
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
-		$this->sqlQuery->query($sql,array($type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage));
+		$this->query($sql,array($type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage));
 		
 		return $preuve;
 	}
@@ -63,7 +64,7 @@ class Journal {
 	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		list($sql,$value) = $this->getQueryAll($id_e, $type, $id_d, $id_u, $offset, $limit,$recherche,$date_debut,$date_fin);
 		
-		return $this->sqlQuery->fetchAll($sql,$value);
+		return $this->query($sql,$value);
 	}
 	
 	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
@@ -134,7 +135,7 @@ class Journal {
 			$sql .= " AND journal.message_horodate LIKE ?";
 			$value[] = "%$recherche%";
 		}
-		return $this->sqlQuery->fetchOneValue($sql,$value);
+		return $this->queryOne($sql,$value);
 	}
 	
 	
@@ -152,7 +153,7 @@ class Journal {
 	
 	public function getInfo($id_j){
 		$sql = "SELECT * FROM journal WHERE id_j=?";
-		return $this->sqlQuery->fetchOneLine($sql,$id_j);
+		return $this->queryOne($sql,$id_j);
 	}
 	public function getAllInfo($id_j){
 		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
@@ -160,19 +161,19 @@ class Journal {
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
 			" LEFT JOIN utilisateur ON journal.id_u = utilisateur.id_u " .
 			" WHERE id_j=?"; 
-		return $this->sqlQuery->fetchOneLine($sql,$id_j);
+		return $this->queryOne($sql,$id_j);
 	}
 	
 	public function horodateAll(){
 		$sql = "SELECT * FROM journal WHERE preuve=?";
-		$all = $this->sqlQuery->fetchAll($sql,"");
+		$all = $this->query($sql,"");
 		$sql = "UPDATE journal set preuve=?,date_horodatage=? WHERE id_j=?";
 		foreach ($all as $info){
 			$preuve = $this->signServer->getTimestampReply($info['message_horodate']);
 			$date_horodatage = "";
 			if ($preuve){
 				$date_horodatage = $this->signServer->getLastTimestamp();
-				$this->sqlQuery->query($sql,$preuve,$date_horodatage,$info['id_j']);
+				$this->query($sql,$preuve,$date_horodatage,$info['id_j']);
 				echo "{$info['id_j']} horodaté : $date_horodatage \n";
 			}
 			

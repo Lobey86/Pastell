@@ -6,7 +6,7 @@ $all_id_r = $recuperateur->get('id_r',array());
 $id_e = $recuperateur->getInt('id_e');
 $submit = $recuperateur->get('submit');
 
-$annuaireRoleSQL = new AnnuaireRoleSQL($sqlQuery);
+$annuaireRoleSQL = $objectInstancier->AnnuaireRoleSQL;
 
 foreach($all_id_r as $id_r) {
 	$info = $annuaireRoleSQL->getInfo($id_r);

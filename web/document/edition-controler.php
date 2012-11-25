@@ -26,7 +26,7 @@ $formulaire->addDonnesFormulaire($donneesFormulaire);
 $formulaire->setTabNumber($page);
 
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
 if (! $info){
 	$document->save($id_d,$type);

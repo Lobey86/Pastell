@@ -2,7 +2,7 @@
 
 //DEPRECATED : Voir EntiteSQL.class.php
 
-class Entite  {
+class Entite  extends SQL {
 	
 	const TYPE_COLLECTIVITE = "collectivite";
 	const TYPE_FOURNISSEUR = "fournisseur";
@@ -16,7 +16,6 @@ class Entite  {
 	const ETAT_REFUSER = 3;
 	const ETAT_SUSPENDU = 4;
 	
-	private $sqlQuery;
 	
 	private $id_e;
 	
@@ -37,7 +36,7 @@ class Entite  {
 	}
 	
 	public function __construct(SQLQuery $sqlQuery,$id_e){
-		$this->sqlQuery = $sqlQuery;
+		parent::__construct($sqlQuery);
 		$this->id_e = $id_e;
 	}
 
@@ -59,7 +58,7 @@ class Entite  {
 	
 	private function getInfoWithId($id_e){
 		$sql = "SELECT * FROM entite WHERE id_e=?";
-		return $this->sqlQuery->fetchOneLine($sql,$id_e);
+		return $this->queryOne($sql,$id_e);
 	}
 	
 	
@@ -113,7 +112,7 @@ class Entite  {
 	
 	public function getFille(){
 		$sql = "SELECT * FROM entite WHERE entite_mere=? ORDER BY denomination";
-		return $this->sqlQuery->fetchAll($sql,$this->id_e);
+		return $this->query($sql,$this->id_e);
 	}
 	
 	public function getFilleWithType(array $type){
@@ -124,12 +123,12 @@ class Entite  {
 				" WHERE entite_mere=? " .
 				" AND type IN (".implode(",",$type).")" .
 				" ORDER BY denomination";
-		return $this->sqlQuery->fetchAll($sql,$this->id_e);
+		return $this->query($sql,$this->id_e);
 	}
 	
 	public function getDescendance($id_e){
 		$sql = "SELECT id_e FROM entite_ancetre WHERE id_e_ancetre=?";
-		$r = $this->sqlQuery->fetchAll($sql,$id_e);
+		$r = $this->query($sql,$id_e);
 		$resulat = array();
 		foreach ($r as $entite){
 			$result[] = $entite['id_e'];
@@ -143,7 +142,7 @@ class Entite  {
 			$sql = "SELECT * FROM entite_ancetre " . 
 					" JOIN entite ON entite_ancetre.id_e_ancetre=entite.id_e " . 
 					" WHERE entite_ancetre.id_e=? ORDER BY niveau DESC";		
-			$ancetre = $this->sqlQuery->fetchAll($sql,$this->id_e);
+			$ancetre = $this->query($sql,$this->id_e);
 		}
 		return $ancetre;
 	}

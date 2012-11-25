@@ -12,16 +12,16 @@ if ($password != $password2){
 	exit;
 }
 
-$utilisateur = new Utilisateur($sqlQuery,$authentification->getId());
+$utilisateur = new Utilisateur($sqlQuery);
 
-if ( ! $utilisateur->verifPassword($oldpassword)){
+if ( ! $utilisateur->verifPassword($authentification->getId(),$oldpassword)){
 	$lastError->setLastError("Votre ancien mot de passe est incorrecte");
 	header("Location: modif-password.php");
 	exit;
 }
 
 
-$utilisateur->setPassword($password);
+$utilisateur->setPassword($id_u,$password);
 
 
 $lastMessage->setLastMessage("Votre mot de passe a été modifié");

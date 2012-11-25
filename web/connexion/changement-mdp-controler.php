@@ -30,13 +30,13 @@ if ($password != $password2){
 }
 
 
-$utilisateur = new Utilisateur($sqlQuery, $id_u);
-$infoUtilisateur = $utilisateur->getInfo();
-$utilisateur->setPassword($password);
+$utilisateur = new Utilisateur($sqlQuery);
+$infoUtilisateur = $utilisateur->getInfo($id_u);
+$utilisateur->setPassword(id_u,$password);
 
 $passwordGenerator = new PasswordGenerator();
 $mailVerifPassword = $passwordGenerator->getPassword();
-$utilisateur->reinitPassword($mailVerifPassword);
+$utilisateur->reinitPassword($id_u,$mailVerifPassword);
 
 $journal->add(Journal::MODIFICATION_UTILISATEUR,$infoUtilisateur['id_e'],0,"mot de passe modifié","{$infoUtilisateur['login']} ({$infoUtilisateur['id_u']}) a modifié son mot de passe");
 $lastMessage->setLastMessage("Votre mot de passe a été modifié");

@@ -7,7 +7,7 @@ $action = $recuperateur->get('action');
 $id_e = $recuperateur->get('id_e');
 $page = $recuperateur->getInt('page',0);
 
-$document = new Document($sqlQuery);
+$document = $objectInstancier->Document;
 
 $infoDocument = $document->getInfo($id_d);
 

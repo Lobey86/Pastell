@@ -1,31 +1,26 @@
 <?php
-
-class RoleSQL {
-	
-	public function __construct(SQLQuery $sqlQuery){
-		$this->sqlQuery = $sqlQuery;
-	}
+class RoleSQL extends SQL {
 	
 	public function getAllRole(){
 		$sql = "SELECT * FROM role ORDER by libelle";
-		return $this->sqlQuery->fetchAll($sql);
+		return $this->query($sql);
 	}
 	
 	public function edit($role,$libelle){
 		$sql = "SELECT count(*) FROM role WHERE role=?";
-		if ($this->sqlQuery->fetchOneValue($sql,$role)){
+		if ($this->queryOne($sql,$role)){
 			$sql = "UPDATE role SET libelle = ? WHERE role = ? ";
-			$this->sqlQuery->query($sql,$libelle,$role);
+			$this->query($sql,$libelle,$role);
 		} else {
 			$sql = "INSERT INTO role (role,libelle) VALUES (?,?)";
-			$this->sqlQuery->query($sql,$role,$libelle);
+			$this->query($sql,$role,$libelle);
 		}
 	}
 	
 	public function getDroit(array $allDroit,$role){
 		$result = array_fill_keys($allDroit,false);
 		$sql = "SELECT * FROM role_droit WHERE role=?";
-		foreach($this->sqlQuery->fetchAll($sql,$role) as $line){
+		foreach($this->query($sql,$role) as $line){
 			$result[$line['droit']] = true;
 		}
 		return $result;
@@ -33,11 +28,10 @@ class RoleSQL {
 	
 	public function updateDroit($role,array $lesDroits){
 		$sql = "DELETE FROM role_droit WHERE role=?";
-		$this->sqlQuery->query($sql,$role);
+		$this->query($sql,$role);
 		foreach($lesDroits as $droit){
 			$sql="INSERT INTO role_droit(role,droit) VALUES (?,?)";
-			$this->sqlQuery->query($sql,$role,$droit);
+			$this->query($sql,$role,$droit);
 		}
 	}
-	
 }

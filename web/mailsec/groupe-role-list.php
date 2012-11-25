@@ -15,7 +15,7 @@ $can_edit = $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edit
 $arbre = $roleUtilisateur->getArbreFille($authentification->getId(),"entite:edition");
 
 
-$annuaireRole = new AnnuaireRoleSQL($sqlQuery);
+$annuaireRole = $objectInstancier->AnnuaireRoleSQL;
 
 $listGroupe = $annuaireRole->getAll($id_e);
 

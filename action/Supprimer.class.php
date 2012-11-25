@@ -3,15 +3,11 @@
 class Supprimer extends ActionExecutor {
 
 	public function go(){
-		
-		
 		$document = $this->getDocument();
 		$info = $document->getInfo($this->id_d);
-		
 		$type = $info['type'];
 		
-		$documentDelete = new DocumentDelete($this->getSQLQuery());
-		$documentDelete->delete($this->id_d);
+		$document->delete($this->id_d);
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		$donneesFormulaire->delete();

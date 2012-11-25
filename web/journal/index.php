@@ -49,14 +49,14 @@ if ($type){
 }
 if ($id_d) {
 	
-	$document = new Document($sqlQuery);
+	$document = $objectInstancier->Document;
 	$documentInfo = $document->getInfo($id_d);
 	
 	$page_title .= " - " . $documentInfo['titre'];
 }
 if ($id_u){
-	$utilisateur = new Utilisateur($sqlQuery,$id_u);
-	$infoUtilisateur = $utilisateur->getInfo();
+	$utilisateur = new Utilisateur($sqlQuery);
+	$infoUtilisateur = $utilisateur->getInfo($id_u);
 	$page_title .= " - " . $infoUtilisateur['prenom'] ." " . $infoUtilisateur['nom'];
 }
 

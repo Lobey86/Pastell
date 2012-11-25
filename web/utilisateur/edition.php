@@ -17,8 +17,8 @@ $infoUtilisateur = array('login' =>  $lastError->getLastInput('login'),
 
 
 if ($id_u){
-	$utilisateur = new Utilisateur($sqlQuery,$id_u);
-	$infoUtilisateur = $utilisateur->getInfo();
+	$utilisateur = new Utilisateur($sqlQuery);
+	$infoUtilisateur = $utilisateur->getInfo($id_u);
 	if (! $infoUtilisateur){
 		header("Location: ".SITE_BASE . "index.php");
 		exit;

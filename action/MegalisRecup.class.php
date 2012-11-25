@@ -17,7 +17,7 @@ class MegalisRecup extends ActionExecutor {
 			$file_result["Fichiers ignorés"] = $recup['file_ignored'];
 		}
 				
-		$document = new Document($this->getSQLQuery());
+		$document = $this->getDocument();
 		
 		foreach($recup['file_ok'] as $file_name){
 			$siren = $megalis->getSiren($file_name); 
@@ -53,7 +53,7 @@ class MegalisRecup extends ActionExecutor {
 	}
 	
 	private function retrieveDocument($id_e,$file_name,Megalis $megalis){
-		$document = new Document($this->getSQLQuery());
+		$document =  $this->getDocument();
 		$id_d = $document->getNewId();	
 		$document->save($id_d,'megalis');
 		$document->setTitre($id_d, $file_name);
