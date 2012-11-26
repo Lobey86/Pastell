@@ -16,11 +16,11 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+$documentType = $documentTypeFactory->getEntiteConfig($id_e);
 $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 $donneesFormulaire->removeFile($field,$num);
 
 

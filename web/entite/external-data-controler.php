@@ -14,7 +14,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getDocumentType("collectivite-properties");
+$documentType = $documentTypeFactory->getEntiteConfig($id_e);
 $formulaire = $documentType->getFormulaire();
 
 $theField = $formulaire->getField($field);

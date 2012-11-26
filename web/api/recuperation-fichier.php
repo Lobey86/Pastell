@@ -17,7 +17,7 @@ if ( ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e)) {
 }
 
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,'collectivite-properties');
+$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_d);
 
 
 $file_path = $donneesFormulaire->getFilePath($field,$num);

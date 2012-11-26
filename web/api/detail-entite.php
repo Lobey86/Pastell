@@ -11,10 +11,10 @@ if ( ! $roleUtilisateur->hasDroit($id_u,"entite:lecture",$id_e)) {
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, id_u=$id_u");	
 }
 
-$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+$documentType = $documentTypeFactory->getEntiteConfig($id_e);
 $formulaire = $documentType->getFormulaire();
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 
 $result['data'] = $donneesFormulaire->getRawData();
 

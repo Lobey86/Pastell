@@ -62,10 +62,10 @@ include( PASTELL_PATH ."/include/haut.php");
 
 if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 
-	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
+	$documentType = $documentTypeFactory->getEntiteConfig($id_e);
 	$formulaire = $documentType->getFormulaire();
 	
-	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+	$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 	$afficheurFormulaire->injectHiddenField("id_e",$id_e);
@@ -154,7 +154,7 @@ if (in_array($allTab[$tab_number],array('Agents','TdT','Signature','GED','SAE'))
 	$infoAncetre = $entite_to_show->getInfo();
 	
 	if ($id_e != $id_e_to_show){
-		$donneesFormulaire = $donneesFormulaireFactory->get($id_e_to_show,'collectivite-properties');
+		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e_to_show);
 		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 		$afficheurFormulaire->injectHiddenField("id_e",$id_e_to_show);
 	}

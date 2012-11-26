@@ -10,7 +10,12 @@ $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num');
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,'collectivite-properties');
+
+$document = $objectInstancier->Document;
+$info = $document->getInfo($id_d);
+
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 
 
 $file_path = $donneesFormulaire->getFilePath($field,$num);

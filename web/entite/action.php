@@ -14,7 +14,6 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_e,
 	header("Location: detail.php?id_e=$id_e&page=$page");
 	exit;
 }
-
 if ($id_e == 0){
 	$result = $objectInstancier->ActionExecutorFactory->executeOnGlobalProperties($authentification->getId(),$action);
 } else {

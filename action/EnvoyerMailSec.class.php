@@ -16,8 +16,8 @@ class EnvoyerMailSec extends ActionExecutor {
 	}
 	
 	private function prepareMail(){
-		$this->collectiviteProperties = $this->getDonneesFormulaireFactory()->get($this->id_e,'collectivite-properties');	
-		$this->collectiviteForm = $this->getDocumentTypeFactory()->getDocumentType('collectivite-properties')->getFormulaire();		
+		$this->collectiviteForm = $this->getDocumentTypeFactory()->getEntiteConfig($this->id_e)->getFormulaire();		
+		$this->collectiviteProperties = $this->getDonneesFormulaireFactory()->getEntiteFormulaire($this->id_e);	
 		
 		$this->zenMail = $this->getZenMail();
 		

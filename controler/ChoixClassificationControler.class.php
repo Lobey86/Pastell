@@ -35,14 +35,14 @@ class ChoixClassificationControler {
 	}
 	
 	private function getFileClassificationCDG($id_e){
-		$donneesFormulaire = $this->donneesFormulaireFactory->get($id_e,"collectivite-properties");
+		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
 		return $donneesFormulaire->get('nomemclature_file');
 	}
 	
 	private function getDonneedFormulaireCDG($id_e){
 		$entite = new Entite($this->sqlQuery,$id_e);
 		$infoCDG = $entite->getCDG();
-		return $this->donneesFormulaireFactory->get($infoCDG,'collectivite-properties');
+		return $this->donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
 	}
 	
 	private function getClassificationAJourFieldName($donneesFormulaireCDG,$file_classification_cdg){			

@@ -16,7 +16,7 @@ class ChoixTypeParapheurControler {
 	private function getIParapheur($id_e){
 		$entite = new Entite($this->sqlQuery,$id_e);
 		$ancetre = $entite->getCollectiviteAncetre();
-		$donneesFormulaire = $this->donneesFormulaireFactory->get($ancetre,'collectivite-properties');
+		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre);
 		$iParapheur = new IParapheur($donneesFormulaire);
 		return $iParapheur;
 	}
