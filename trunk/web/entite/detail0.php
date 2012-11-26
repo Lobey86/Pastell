@@ -1,11 +1,8 @@
 <?php
-
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/entite/EntiteDetailHTML.class.php");
 require_once( PASTELL_PATH . "/lib/entite/AgentListHTML.class.php");
-
 require_once( PASTELL_PATH . "/lib/utilisateur/UtilisateurListeHTML.class.php");
-
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
@@ -38,10 +35,10 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/><br/>
 <?php 
 	
-	$documentType = $documentTypeFactory->getDocumentType('entite0-properties');
+	$documentType =  $documentTypeFactory->getEntiteConfig($id_e);
 	$formulaire = $documentType->getFormulaire();
 	
-	$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+	$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 	
 	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 	
@@ -90,9 +87,9 @@ if ($tab_number == 0){
 	$actionPossible = $objectInstancier->ActionPossible;
 	
 	foreach($actionPossible->getActionPossible(0,$authentification->getId(),0) as $action_name) :
-	if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
-		continue;
-	}
+		if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
+			continue;
+		}
 	?>
 	<form action='entite/action.php' method='post' >
 	<input type='hidden' name='id_e' value='0' />

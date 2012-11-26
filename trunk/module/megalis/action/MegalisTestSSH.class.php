@@ -1,5 +1,5 @@
 <?php
-require_once( PASTELL_PATH . "/lib/connecteur/megalis/Megalis.class.php");
+require_once( __DIR__ . "/../connecteur/Megalis.class.php");
 
 class MegalisTestSSH extends ActionExecutor {
 	

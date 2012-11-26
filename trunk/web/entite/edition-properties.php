@@ -18,20 +18,14 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-if ($id_e) {
-	$documentType = $documentTypeFactory->getDocumentType('collectivite-properties');
-} else {
-	$documentType = $documentTypeFactory->getDocumentType('entite0-properties');
-}
+$documentType = $documentTypeFactory->getEntiteConfig($id_e);
 $formulaire = $documentType->getFormulaire();
-
-
 
 $entite = new Entite($sqlQuery,$id_e);
 $infoEntite = $entite->getInfo();
 $page_title="Edition des propriétés « " .$formulaire->getTabName($page). " » de  " . $infoEntite['denomination'] ;
 
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,'collectivite-properties');
+$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 
 
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);

@@ -16,7 +16,7 @@ $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 foreach($liste_collectivite as $col){
 	
 	echo $col['denomination'] .": ";
-	$donneesFormulaire = $donneesFormulaireFactory->get($col['id_e'],'collectivite-properties');
+	$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($col['id_e']);
 	if ( $donneesFormulaire->get('tdt_activate')) {
 		$tedetis = TedetisFactory::getInstance($donneesFormulaire);
 		

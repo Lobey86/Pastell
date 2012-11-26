@@ -12,7 +12,7 @@ class TedetisDemandeClassificationAll extends ActionExecutor {
 		
 		$envoye = array();
 		foreach($all_col as $infoCollectivite) {
-			$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($infoCollectivite['id_e'],'collectivite-properties');
+			$donneesFormulaire = $this->getDonneesFormulaireFactory()->getEntiteFormulaire($infoCollectivite['id_e']);
 			
 			if ($donneesFormulaire->get('tdt_activate')){
 				$tedetis = TedetisFactory::getInstance($donneesFormulaire);

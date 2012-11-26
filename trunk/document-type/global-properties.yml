@@ -1,0 +1,21 @@
+Nom: Propriété de la l'entité-racine
+
+formulaire:
+	
+	Utilisateurs : {}
+	
+	TdT: {}
+	
+	Mail sécurisé: {}
+	
+	test:
+		toto:
+	
+action:
+	demande-classification:
+		name: Envoyer une demande de classifications pour toutes les collectivités
+		tab: TdT
+		action-class: TedetisDemandeClassificationAll
+		rule:
+			droit_id_u: 'entite:edition'
+		

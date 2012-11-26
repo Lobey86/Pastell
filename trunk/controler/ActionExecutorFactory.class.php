@@ -19,11 +19,13 @@ class ActionExecutorFactory {
 	}
 	
 	public function executeOnGlobalProperties($id_u,$action_name){
-		return $this->execute(0, 0, $id_u, 'entite0-properties', $action_name);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getEntiteConfig(0);		
+		return $this->internExecute(0, 0, $id_u, '', $action_name, array(),false,$documentType);
 	}
 	
 	public function executeOnEntiteProperties($id_e,$id_u,$action_name){
-		return $this->execute($id_e, $id_e, $id_u, 'collectivite-properties', $action_name);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getEntiteConfig($id_e);		
+		return $this->internExecute($id_e, $id_e, $id_u, '', $action_name, array(),false,$documentType);
 	}
 	
 	public function executeOnDocument($id_e,$id_u,$id_d,$action_name,$id_destinataire=array()){
@@ -32,14 +34,22 @@ class ActionExecutorFactory {
 	}
 	
 	//type = type de document !
-	public function execute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false){
-		
+	public function execute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false){		
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);		
+		return $this->internExecute($id_d, $id_e, $id_u, $type, $action_name, $id_destinataire, $from_api,$documentType);
+		
+	}
+	
+	private function internExecute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false,$documentType){
 		$theAction = $documentType->getAction();		
 		$action_class_name = $theAction->getActionClass($action_name);
 		if (!$action_class_name){
 			$this->lastMessage = "L'action $action_name n'existe pas.";
 			return false;
+		}
+		
+		if (! $type){
+			$type = $theAction->getProperties($action_name,'type');
 		}
 		
 		$action_class_file = "{$this->module_path}/$type/action/$action_class_name.class.php";

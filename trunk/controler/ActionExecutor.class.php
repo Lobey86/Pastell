@@ -94,7 +94,7 @@ abstract class ActionExecutor {
 	
 	public function getCollectiviteProperties(){
 		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e);
-		return $this->objectInstancier->donneesFormulaireFactory->get($id_e_col,'collectivite-properties');	
+		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);	
 	}
 	
 	public function addAction($id_u,$actionName,$message){
@@ -102,7 +102,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function notify($actionName,$type,$message){
-		$this->notificationMail->notify($this->id_e,$this->id_d,$actionName,$type,$message);
+		$this->getNotificationMail()->notify($this->id_e,$this->id_d,$actionName,$type,$message);
 	}
 
 	abstract public function go();

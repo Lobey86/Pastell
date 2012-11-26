@@ -2,6 +2,8 @@
 require_once ( PASTELL_PATH . "/ext/spyc.php");
 require_once ( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 
+//Responsabilité: définir l'empacement des différents fichiers YML de configuration (documents, entités, propriétés globales)
+
 class DocumentTypeFactory {
 	
 	const DEFAULT_DOCUMENT_TYPE_FILE = "default.yml";
@@ -20,44 +22,43 @@ class DocumentTypeFactory {
 		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory . self::INDEX_FILE);
 	}
 	
-	public function isTypePresent($type){
-		$all = $this->getAllType();
-		return isset($all[$type]);
-	}
-	
-	public function getTypeDocument(){
-		$result = array();
-		$allType = $this->getAllType();
-		foreach($allType as $type => $docType){
-			foreach($docType as $name => $value){
-				$result[] = $name;
-			}
-		}
-		return $result;	
-	}
-	
 	public function getDocumentType($type){
 		return new DocumentType($type,$this->getDocumentTypeContent($type));
 	}
 	
-	public function getDocumentTypeContent($type){
-		if (! isset($this->formlulaireDefinition[$type])){
-			$this->loadFile($type);
+	public function getEntiteConfig($id_e){
+		if ($id_e){			
+			return $this->getGlobalProperties("collectivite-properties");
+		} else {
+			return $this->getGlobalProperties("global-properties");
 		}
-		return $this->formlulaireDefinition[$type] ;
 	}
 	
-	private function loadFile($type){
-		
-		if (file_exists($this->module_path."/$type/definition.yml")){
-			$filename = $this->module_path."/$type/definition.yml";
-		} else {
-			$filename = $this->documentTypeDirectory."/$type.yml";
+	private function getGlobalProperties($typename){
+		static $documentType;
+		if ( ! $documentType ){		
+			$full_config = $this->getYMLFile("{$this->documentTypeDirectory}/$typename.yml");
+			
+			foreach (glob("{$this->module_path}/*/$typename.yml") as $file_config){
+				$config = $this->getYMLFile($file_config);			
+				
+				$type =  basename(dirname($file_config));
+				foreach($config['action'] as $action => $value){
+					$config['action'][$action]['type'] = $type;
+				}
+				
+				$full_config = array_merge_recursive($full_config, $config);
+			}
+			$documentType = new DocumentType($typename,$full_config);
 		}
-		if (! file_exists($filename)){
-			$filename = $this->documentTypeDirectory . self::DEFAULT_DOCUMENT_TYPE_FILE;
-		}	
-		$this->formlulaireDefinition[$type] = Spyc::YAMLLoad($filename);	
+		return $documentType;
+	}
+	
+	/***********************/
+	
+	public function isTypePresent($type){
+		$all = $this->getAllType();
+		return isset($all[$type]);
 	}
 	
 	public function getAllAction(){ 
@@ -114,5 +115,51 @@ class DocumentTypeFactory {
 		}
 		return $result;
 	}
+	
+	/************************/
+	
+	private function getDocumentTypeContent($type){
+		if (! isset($this->formlulaireDefinition[$type])){
+			$this->loadFile($type);			
+		}		
+		return $this->formlulaireDefinition[$type] ;
+	}
+	
+	private function loadFile($type){		
+		if (file_exists($this->module_path."/$type/definition.yml")){
+			$filename = $this->module_path."/$type/definition.yml";
+		} else {
+			$filename = $this->documentTypeDirectory."/$type.yml";
+		}
+		if (! file_exists($filename)){
+			$filename = $this->documentTypeDirectory . self::DEFAULT_DOCUMENT_TYPE_FILE;
+		}	
+		
+		$this->formlulaireDefinition[$type] = $this->getYMLFile($filename);	
+		
+	}
+	
+	private function getYMLFile($filename){
+		static $cache;
+		if (! isset($cache[$filename])){
+			$cache[$filename] = Spyc::YAMLLoad($filename);
+		}
+		return $cache[$filename]; 
+	}
+	
+	
+	private function getTypeDocument(){
+		$result = array();
+		$allType = $this->getAllType();
+		foreach($allType as $type => $docType){
+			foreach($docType as $name => $value){
+				$result[] = $name;
+			}
+		}
+		return $result;	
+	}
+	
+	
+	
 	
 }

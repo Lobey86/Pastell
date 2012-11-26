@@ -19,9 +19,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$config_file = $id_e?'collectivite-properties':'entite0-properties';
-
-$documentType = $documentTypeFactory->getDocumentType($config_file);
+$documentType = $documentTypeFactory->getEntiteConfig($id_e);
 
 $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
@@ -30,7 +28,7 @@ $formulaire->setTabNumber($page);
 $fileUploader = new FileUploader($_FILES);
 
 	
-$donneesFormulaire = $donneesFormulaireFactory->get($id_e,$config_file);
+$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 

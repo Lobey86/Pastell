@@ -6,7 +6,8 @@ formulaire:
 		emegalis_ssh_login: {name: Login}
 		emegalis_ssh_password: {name: Mot de passe, type: password}
 		emegalis_ssh_directory: {name: Répertoire contenant les enveloppes}
-		
+	
+action:	
 	megalis-test:
 		name: Tester la connexion SSH
 		action-class: MegalisTestSSH

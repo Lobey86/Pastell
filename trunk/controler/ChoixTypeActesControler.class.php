@@ -44,7 +44,7 @@ class ChoixTypeActesControler {
 		
 		$file = $this->getFile($id_e,$entite);
 		$infoCDG = $entite->getCDG();
-		$donneesFormulaireCDG = $this->donneesFormulaireFactory->get($infoCDG,'collectivite-properties');
+		$donneesFormulaireCDG = $this->donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
 		$classifCDG = $donneesFormulaireCDG->get("classification_cdg");
 		
 		if (! $classifCDG){
@@ -63,7 +63,7 @@ class ChoixTypeActesControler {
 	
 	private function getFile($id_e,Entite $entite){
 	
-		$donneesFormulaire = $this->donneesFormulaireFactory->get($id_e,"collectivite-properties");
+		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
 		$file = $donneesFormulaire->get('nomemclature_file');
 		
 		if ($file){
@@ -76,7 +76,7 @@ class ChoixTypeActesControler {
 
 		
 		foreach($allAncetre as $ancetre){
-			$donneesFormulaireAncetre = $this->donneesFormulaireFactory->get($ancetre['id_e'],"collectivite-properties");
+			$donneesFormulaireAncetre = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre['id_e']);
 			$file = $donneesFormulaireAncetre->get('nomemclature_file');
 			if ($file){
 				return $file;
@@ -102,7 +102,7 @@ class ChoixTypeActesControler {
 		if ($info['transmission_actes']){
 			$entite = new Entite($this->sqlQuery,$id_e);
 			$id_e_col = $entite->getCollectiviteAncetre();
-			$donneesFormulaire = $this->donneesFormulaireFactory->get($id_e_col,$type);	
+			$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);	
 			$file = $donneesFormulaire->getFilePath('classification_file');
 		
 			if (! file_exists($file)){

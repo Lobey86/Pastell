@@ -1,5 +1,5 @@
 <?php
-require_once( PASTELL_PATH . "/lib/connecteur/megalis/Megalis.class.php");
+require_once( __DIR__ . "/../connecteur/Megalis.class.php");
 
 class MegalisRecup extends ActionExecutor {
 	
@@ -109,8 +109,8 @@ class MegalisRecup extends ActionExecutor {
 			$this->setLastMessage("Impossible d'ouvrir le fichier d'archive");
 			return false;
 		}
-		$bordereau = $zip->getFromName('archive.xml');
-		$zip->close();
+		$bordereau = @ $zip->getFromName('archive.xml');
+		@ $zip->close();
 		if (!$bordereau){
 			$this->setLastMessage("L'archive ne contient pas de fichier archive.xml");
 			return false;

@@ -6,7 +6,7 @@ $entite = new Entite($sqlQuery,$id_e);
 $infoCDG = $entite->getCDG();
 
 
-$donneesFormulaire = $donneesFormulaireFactory->get($infoCDG,'collectivite-properties');
+$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
 $classifCDG = $donneesFormulaire->get("classification_cdg");
 
 

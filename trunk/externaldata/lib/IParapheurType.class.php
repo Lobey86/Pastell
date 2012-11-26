@@ -8,7 +8,7 @@ class IparapheurType {
 	public function isEnabled($sqlQuery,$id_e,DonneesFormulaireFactory $donneesFormulaireFactory){
 		$entite = new Entite($sqlQuery,$id_e);
 		$ancetre = $entite->getCollectiviteAncetre();
-		$donneesFormulaire = $donneesFormulaireFactory->get($ancetre,'collectivite-properties');
+		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($ancetre);
 		$result = $donneesFormulaire->get('iparapheur_activate');
 		return $result;
 	}
@@ -16,7 +16,7 @@ class IparapheurType {
 	private function getIParapheur($sqlQuery,$id_e,$donneesFormulaireFactory,$type,$id_d){
 		$entite = new Entite($sqlQuery,$id_e);
 		$ancetre = $entite->getCollectiviteAncetre();
-		$donneesFormulaire = $donneesFormulaireFactory->get($ancetre,'collectivite-properties');
+		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($ancetre);
 		
 		$iParapheur = new IParapheur($donneesFormulaire);
 		
