@@ -1,4 +1,5 @@
 nom: Inscription fournisseur
+type: Flux Fournisseur
 
 formulaire:
 	Information sur la société:

@@ -30,7 +30,7 @@ class ActionExecutorFactory {
 	
 	public function executeOnDocument($id_e,$id_u,$id_d,$action_name,$id_destinataire=array()){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		return $this->execute($id_d, $id_e, $id_u, $infoDocument['type'], $action_name);
+		return $this->execute($id_d, $id_e, $id_u, $infoDocument['type'], $action_name,$id_destinataire);
 	}
 	
 	//type = type de document !

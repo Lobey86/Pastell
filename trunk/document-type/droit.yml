@@ -1,9 +1,0 @@
-
-droit:
-	'entite:edition'
-	'entite:lecture'
-	'journal:lecture'
-	'utilisateur:lecture'
-	'utilisateur:edition'
-	'role:lecture',
-	'role:edition',

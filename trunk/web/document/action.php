@@ -45,6 +45,7 @@ if ($theAction->getWarning($action) && ! $go){
 	header("Location: warning.php?id_d=$id_d&id_e=$id_e&action=$action&page=$page");
 	exit;
 }
+
 $result = $objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$authentification->getId(),$id_d,$action,$id_destinataire);
 $message = $objectInstancier->ActionExecutorFactory->getLastMessage();
 

@@ -1,4 +1,7 @@
 nom: Courrier citoyen
+type: Flux Citoyen
+
+
 
 formulaire:
 	Message:

@@ -93,7 +93,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function getCollectiviteProperties(){
-		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e);
+		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e)?:0;
 		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);	
 	}
 	

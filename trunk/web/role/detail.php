@@ -11,8 +11,8 @@ $role = $recuperateur->get('role');
 
 $roleSQL = new RoleSQL($sqlQuery);
 
-$roleDroit = new RoleDroit();
-$all_droit = $roleSQL->getDroit($roleDroit->getAllDroit(),$role);
+$all_droit = $objectInstancier->RoleDroit->getAllDroit();
+$all_droit_utilisateur = $roleSQL->getDroit($all_droit,$role);
 
 $page_title = "Droits associés au rôle <em>$role</em>";
 
@@ -32,7 +32,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		<tr>
 			<th>Droits</th>
 		</tr>
-		<?php foreach($all_droit as $droit => $ok) : ?>
+		<?php foreach($all_droit_utilisateur as $droit => $ok) : ?>
 			<tr class='<?php echo $i++%2?'bg_class_gris':'bg_class_blanc'?>'>
 				<td>
 					<?php if ($role_edition) : ?>

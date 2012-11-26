@@ -1,4 +1,6 @@
-nom: Test
+nom: Tests
+type: Flux de tests
+
 
 formulaire:
 	Message:			

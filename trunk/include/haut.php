@@ -23,9 +23,6 @@ if ($authentification->isConnected()){
 	$pageDecorator->addToMainMenu("Accueil", SITE_BASE . "document/index.php","picto_flux");
 	$pageDecorator->addToMainMenu("Administration", SITE_BASE . "entite/index.php","picto_utilisateurs");
 	$pageDecorator->addToMainMenu("Journal des évènements", SITE_BASE . "journal/index.php","picto_journal");
-	if ($roleUtilisateur->hasOneDroit($authentification->getId() ,"fournisseur:lecture'")) {
-		$pageDecorator->addToMainMenu("Fournisseurs", SITE_BASE . "entite/fournisseur.php","picto_fournisseurs");
-	}
 	if ($roleUtilisateur->hasDroit($authentification->getId(),"role:lecture",0)){
 		$pageDecorator->addToMainMenu("Rôles", SITE_BASE . "role/index.php","picto_collectivites");
 	}

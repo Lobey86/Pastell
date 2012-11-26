@@ -83,7 +83,7 @@ $roleUtilisateur = $objectInstancier->RoleUtilisateur;
 
 $allRole = $roleUtilisateur->getRole($id_u);
 if (! $allRole ){
-	$roleUtilisateur->addRole($id_u,RoleDroit::AUCUN_DROIT,$id_e);
+	$roleUtilisateur->addRole($id_u,RoleUtilisateur::AUCUN_DROIT,$id_e);
 }
 
 $utilisateur = new Utilisateur($sqlQuery);

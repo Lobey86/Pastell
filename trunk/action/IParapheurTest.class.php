@@ -6,7 +6,7 @@ class IParapheurTest extends ActionExecutor {
 	
 	public function go(){
 			
-		$iParapheur = new IParapheur($this->getDonneesFormulaire());
+		$iParapheur = new IParapheur($this->getCollectiviteProperties());
 		$result = $iParapheur->testConnexion();
 		
 		

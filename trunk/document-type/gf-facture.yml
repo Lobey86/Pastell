@@ -1,4 +1,5 @@
 nom: Facture
+type: Flux Financier
 
 formulaire:
 	Message:

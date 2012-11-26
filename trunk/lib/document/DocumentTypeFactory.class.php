@@ -7,7 +7,6 @@ require_once ( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 class DocumentTypeFactory {
 	
 	const DEFAULT_DOCUMENT_TYPE_FILE = "default.yml";
-	const INDEX_FILE = "index.yml";
 	
 	private $documentTypeDirectory;
 	private $formulaireDefinition;
@@ -19,8 +18,38 @@ class DocumentTypeFactory {
 	}
 	
 	public function getAllType(){
-		return $this->index = Spyc::YAMLLoad($this->documentTypeDirectory . self::INDEX_FILE);
+		static $all_type;
+		if ($all_type){
+			return $all_type;
+		}
+		
+		$all = glob("{$this->documentTypeDirectory}/*.yml");
+		$exlude = array('default.yml','global-properties.yml','collectivite-properties.yml');
+		
+		$all_type = array();
+		
+		foreach ($all as $file_config){
+			if( in_array(basename($file_config),$exlude)){
+				continue;
+			}
+			$config = $this->getYMLFile($file_config);	
+			$name = basename($file_config,".yml");		
+			$type = empty($config['type'])?"Flux Généraux":$config['type'];
+			$all_type[$type][$name] = $config['nom'];
+		}
+			
+		
+		$all_module = glob("{$this->module_path}/*/definition.yml");
+		foreach ($all_module as $file_config){			
+			$config = $this->getYMLFile($file_config);	
+			$name = basename(dirname($file_config));		
+			$type = empty($config['type'])?"Flux Généraux":$config['type'];
+			$all_type[$type][$name] = $config['nom'];
+		}
+		
+		return $all_type;
 	}
+	
 	
 	public function getDocumentType($type){
 		return new DocumentType($type,$this->getDocumentTypeContent($type));
@@ -140,13 +169,13 @@ class DocumentTypeFactory {
 	}
 	
 	private function getYMLFile($filename){
-		static $cache;
-		if (! isset($cache[$filename])){
-			$cache[$filename] = Spyc::YAMLLoad($filename);
-		}
-		return $cache[$filename]; 
+		$result = apc_fetch("yml_cache_$filename");
+		if (!$result){
+			$result = Spyc::YAMLLoad($filename);
+			apc_store("yml_cache_$filename",$result);
+		}		
+		return $result; 
 	}
-	
 	
 	private function getTypeDocument(){
 		$result = array();
@@ -158,8 +187,5 @@ class DocumentTypeFactory {
 		}
 		return $result;	
 	}
-	
-	
-	
 	
 }
