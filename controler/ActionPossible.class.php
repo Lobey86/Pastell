@@ -43,7 +43,9 @@ class ActionPossible {
 	}
 
 	public function getActionPossible($id_e,$id_u,$id_d){
-		$action = $this->getAction($id_e, $id_d);
+		$type_document = $this->getTypeDocument($id_e, $id_d);
+		
+		$action = $this->getAction($id_e, $id_d,$type_document);
 		$possible = array();
 		
 		foreach($action->getAll() as $action_name){
@@ -68,7 +70,7 @@ class ActionPossible {
 	}
 	
 	private function internIsActionPossible($id_e,$id_u,$id_d,$action_name,$type_document){
-		$action = $this->getAction($id_e, $id_d);
+		$action = $this->getAction($id_e, $id_d,$type_document);
 		$action_rule = $action->getActionRule($action_name);
 	
 		foreach($action_rule as $ruleName => $ruleValue){
@@ -80,11 +82,10 @@ class ActionPossible {
 		return true;
 	}
 	
-	private function getAction($id_e, $id_d){
+	private function getAction($id_e, $id_d,$type_document){
 		if ($id_e == $id_d){
 			return $this->documentTypeFactory->getEntiteConfig($id_e)->getAction();
 		}
-		$type_document = $this->getTypeDocument($id_e, $id_d);
 		return $this->documentTypeFactory->getDocumentType($type_document)->getAction();
 	}
 	

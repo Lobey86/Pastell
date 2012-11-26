@@ -48,8 +48,6 @@ include( PASTELL_PATH ."/include/haut.php");
 	
 <?php 
 if ($tab_number == 0){
-	$roleDroit = new RoleDroit();
-	$all_droit =  $roleDroit->getAllDroit();
 
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$utilisateurListeHTML = new UtilisateurListeHTML();

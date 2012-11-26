@@ -1,4 +1,6 @@
 nom: Message interne
+type: Flux Généraux
+
 
 formulaire:
 	Message :			

@@ -89,10 +89,6 @@ if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
 	
 	$entiteDetailHTML->display($info,$entiteProperties);
 elseif($tab_number == 1) : 
-
-	$roleDroit = new RoleDroit();
-	$all_droit =  $roleDroit->getAllDroit();
-
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$utilisateurListeHTML = new UtilisateurListeHTML();
 	$utilisateurListeHTML->addDroit($allDroit);

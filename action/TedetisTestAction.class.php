@@ -4,7 +4,7 @@
 class TedetisTestAction extends ActionExecutor {
 	
 	public function go(){
-		$tedetis = TedetisFactory::getInstance($this->getDonneesFormulaire());
+		$tedetis = TedetisFactory::getInstance($this->getCollectiviteProperties());
 		
 		$result = $tedetis->testConnexion();
 		

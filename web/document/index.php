@@ -45,6 +45,7 @@ $infoEntite = $entite->getInfo();
 
 $page_title= "Liste des documents <em>" . $infoEntite['denomination'] ."</em>";
 include( PASTELL_PATH ."/include/haut.php");
+include(PASTELL_PATH . "/include/bloc_message.php");
 
 if ($id_e != 0) {
 	?>

@@ -5,7 +5,7 @@ require_once( PASTELL_PATH . "/lib/system/Asalae.class.php");
 class SAETestSEDA extends ActionExecutor {
 	
 	public function go(){
-		$donneesFormulaire = $this->getDonneesFormulaire();
+		$donneesFormulaire = $this->getCollectiviteProperties();
 		
 		$authorityInfo = array(
 					"sae_wsdl" =>  $donneesFormulaire->get("sae_wsdl"),

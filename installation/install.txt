@@ -4,13 +4,15 @@
 3. Installer la base de données (pastell.sql)
 4. Executer le script role_standard.sql sur la base de données
 5. Créer un administrateur : 
-
-
-
 6. Configurer l'application (voir le fichier DefaultSettings.php)
-
-
 7. crontab : 
 
 */5 * * * * action-automatique.php
 50 4 * * * recup-classification.php
+
+
+Mise à jour des scripts, installation de nouveau module, 
+modification d'un fichier de configuration : 
+il peut être nécessaire de recharger Apache (afin de vider 
+le cache APC)
+(TODO : développer un script de vidange du cache)

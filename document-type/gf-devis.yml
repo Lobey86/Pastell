@@ -1,4 +1,5 @@
 nom: Devis fournisseur
+type: Flux Financier
 
 formulaire:
 	Message:

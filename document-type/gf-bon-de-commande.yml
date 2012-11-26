@@ -1,4 +1,6 @@
 nom: Bon de commande
+type: Flux Financier
+
 
 formulaire:
 	Message:

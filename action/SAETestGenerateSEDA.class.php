@@ -6,7 +6,7 @@ class SAETestGenerateSEDA extends ActionExecutor {
 	
 	public function go(){
 		
-		$donneesFormulaire = $this->getDonneesFormulaire();
+		$donneesFormulaire = $this->getCollectiviteProperties();
 		
 		if (! $donneesFormulaire->get("sae_activate")){
 			$this->setLastMessage("Le module n'est pas activé");

@@ -1,20 +1,16 @@
 <?php
 
 class RoleUtilisateur extends SQL {
-	 
-	private $roleDroit;
 	
-	public function __construct(SQLQuery $sqlQuery,RoleDroit $roleDroit){
-		parent::__construct($sqlQuery);
-		$this->roleDroit = $roleDroit;
-	}
+	const AUCUN_DROIT = 'aucun droit';
+	
 	
 	public function addRole($id_u,$role,$id_e){
 		$sql = "INSERT INTO utilisateur_role(id_u,role,id_e) VALUES (?,?,?)";
 		$this->query($sql,$id_u,$role,$id_e);
-		if ($role != RoleDroit::AUCUN_DROIT) {
+		if ($role != RoleUtilisateur::AUCUN_DROIT) {
 			$sql = "DELETE FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
-			$this->query($sql,$id_u,RoleDroit::AUCUN_DROIT,$id_e);
+			$this->query($sql,$id_u,RoleUtilisateur::AUCUN_DROIT,$id_e);
 		}
 	}
 	
@@ -22,7 +18,7 @@ class RoleUtilisateur extends SQL {
 		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? ";
 		$nb_role= $this->queryOne($sql,$id_u);
 		if ($nb_role == 1){
-			$sql = "UPDATE utilisateur_role SET role='".RoleDroit::AUCUN_DROIT."' WHERE id_u = ? AND role = ? AND id_e = ?";
+			$sql = "UPDATE utilisateur_role SET role='".RoleUtilisateur::AUCUN_DROIT."' WHERE id_u = ? AND role = ? AND id_e = ?";
 		} else {
 			$sql = "DELETE FROM utilisateur_role WHERE id_u = ? AND role = ? AND id_e = ?";
 		}
