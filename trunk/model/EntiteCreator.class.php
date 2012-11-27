@@ -61,4 +61,18 @@ class EntiteCreator extends SQL {
 		$this->query($sql,$etat,$id_e);
 	}
 	
+	public function updateAllEntiteAncetre(){		
+		$sql = "DELETE FROM entite_ancetre";
+		$this->query($sql);
+		
+		$sql = "INSERT INTO entite_ancetre(id_e_ancetre,id_e,niveau) VALUES (0,0,0)";
+		$this->query($sql);
+		
+		$sql = "SELECT entite_mere,id_e FROM entite";
+		$allEntite = $this->query($sql);
+		foreach($allEntite as $entite){
+			$this->updateAncetre($entite['id_e'],$entite['entite_mere']);
+		}
+	}
+	
 }

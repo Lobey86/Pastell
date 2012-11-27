@@ -14,7 +14,6 @@ class WebGFC {
 		return new SoapClient(self::WSDL,array('login' => self::LOGIN, 'password' => self::PASSWORD));
 	}
 	
-	
 	public function getLastMessage(){
 		return $this->lastMessage;
 	}

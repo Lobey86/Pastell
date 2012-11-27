@@ -3,25 +3,15 @@
 class Supprimer extends ActionExecutor {
 
 	public function go(){
-		$document = $this->getDocument();
-		$info = $document->getInfo($this->id_d);
-		$type = $info['type'];
+		$this->getDocument()->delete($this->id_d);
+		$this->getDonneesFormulaire()->delete();
 		
-		$document->delete($this->id_d);
+		$message = "Le document {$this->id_d} à été supprimé";
+		$this->getJournal()->add(Journal::DOCUMENT_ACTION,$this->id_e,$this->id_d,"supression",$message);
 		
-		$donneesFormulaire = $this->getDonneesFormulaire();
-		$donneesFormulaire->delete();
-		
-		$journal = $this->getJournal();
-		
-		$journal->add(Journal::DOCUMENT_ACTION,$this->id_e,$this->id_d,"supression","Le document ".$this->id_d." à été supprimé");
-		
-		$this->setLastMessage("Document supprimé");
+		$this->setLastMessage($message);
 
-		if (! $this->from_api) {
-			header("Location: list.php?id_e=" . $this->id_e . "&type=$type");
-			exit;
-		}
+		$this->redirect("list.php?id_e={$this->id_e}&type={$this->type}");
 		return true;
 	}
 

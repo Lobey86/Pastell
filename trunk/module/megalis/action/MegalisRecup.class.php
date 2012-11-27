@@ -6,9 +6,7 @@ class MegalisRecup extends ActionExecutor {
 	public function go(){		
 		$entiteListe = new EntiteListe($this->getSQLQuery());		
 		
-		print_r($this->getCollectiviteProperties());
-		
-		$megalis = new Megalis($this->getDonneesFormulaire(),new SSH2());
+		$megalis = new Megalis($this->getCollectiviteProperties(),new SSH2());
 		$recup = $megalis->recup();
 		if (! $recup){
 			$this->setLastMessage($megalis->getLastError());

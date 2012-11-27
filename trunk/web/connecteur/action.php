@@ -28,8 +28,5 @@ if (! $result ){
 	$lastMessage->setLastMessage($message);	
 }
 
-if ($id_e){
-	header("Location: detail.php?id_e=$id_e&page=$page");
-} else {
-	header("Location: detail0.php?id_e=$id_e&page=$page");
-}
+header("Location: detail.php?id_e=$id_e&page=$page");
+

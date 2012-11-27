@@ -9,8 +9,6 @@ if ( ! $roleUtilisateur->hasDroit($id_u,"$type:edition",$id_e)) {
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, type=$type,id_u=$id_u");
 }
 
-
-
 $document = $objectInstancier->Document;
 $id_d = $document->getNewId();	
 $document->save($id_d,$type);

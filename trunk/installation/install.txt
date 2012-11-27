@@ -1,14 +1,31 @@
 
-1. Installer les scripts PHP.
-2. Le serveur web doit "servir" le répertoire "web" (voir apache.conf pour un exemple)
-3. Installer la base de données (pastell.sql)
-4. Executer le script role_standard.sql sur la base de données
-5. Créer un administrateur : 
-6. Configurer l'application (voir le fichier DefaultSettings.php)
-7. crontab : 
+I. Installer la base de données
 
-*/5 * * * * action-automatique.php
+Le fichier pastell.sql contient le schéma de la base de données MySQL 
+
+II. Configurer l'application 
+
+Le fichier DefaultSettings.php contient l'ensemble des valeurs qu'il est possible de configurer.
+Il faut créer un fichier LocalSettings.php afin de mettre des valeurs correspondantes
+à l'environnement de l'installation.
+
+III. Configurer le serveur web
+
+Le serveur web doit "servir" le répertoire "web" (voir apache.conf pour un exemple)
+
+IV. Créer un administrateur
+
+Le script create-admin.php permet la création d'un administrateur initial
+ 
+V. Mettre en place le fichier upstart
+Copier le fichier batch pastell-upstart.conf vers le repertoire de configuration d'upstart
+
+(Il est possible de le mettre dans un crontab)
+
+VI. Mettre en place un crontab 
 50 4 * * * recup-classification.php
+
+
 
 
 Mise à jour des scripts, installation de nouveau module, 
