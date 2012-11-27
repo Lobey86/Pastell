@@ -38,7 +38,7 @@ class DocumentType {
 	}
 	
 	public function getAction(){
-		return new Action($this->typeDefinition[self::ACTION]);
+		return new Action((array) $this->typeDefinition[self::ACTION]);
 	}
 	
 	public function getTabAction(){

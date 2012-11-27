@@ -90,6 +90,21 @@ include( PASTELL_PATH ."/include/haut.php");
 		<td><?php echo is_readable(WORKSPACE_PATH) && is_writable(WORKSPACE_PATH)?"ok":"NON"?></td>
 	</tr>
 </table>
+
+
+
+<h2>Test du SignServer</h2>
+<br/>
+<b>URL du signServer : </b><a href='<?php echo SIGN_SERVER_URL ?>'><?php echo SIGN_SERVER_URL ?></a>
+<br/>
+<br/>
+
+<form action='system/test-signserver.php' >
+	<input type='submit' value='Tester la signature'/>
+</form>
+<br/>
+<br/>
+
 </div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
