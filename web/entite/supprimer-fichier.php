@@ -24,4 +24,4 @@ $donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
 $donneesFormulaire->removeFile($field,$num);
 
 
-header("Location: " . SITE_BASE . "entite/edition-properties.php?id_e=$id_e&page=$page");
+header("Location: " . SITE_BASE . "connecteur/edition-properties.php?id_e=$id_e&page=$page");

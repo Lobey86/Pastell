@@ -66,4 +66,4 @@ if ($type){
 	header("Location: edition-properties.php?id_e=$id_e&page=$page");
 	exit;
 }
-header("Location: " . SITE_BASE . "entite/detail.php?id_e=$id_e&page=$page");
+header("Location: " . SITE_BASE . "connecteur/detail.php?id_e=$id_e&page=$page");

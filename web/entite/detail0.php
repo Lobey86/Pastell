@@ -26,6 +26,9 @@ if ( ! $droit_lecture ){
 
 
 $page_title = "Propriétés globales";
+
+$formulaire_tab = array("Utilisateurs","Annuaire globale");
+
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>
@@ -33,17 +36,14 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <a href='entite/index.php'>« liste des collectivités</a>
 <br/><br/>
-<?php 
 	
-	$documentType =  $documentTypeFactory->getEntiteConfig($id_e);
-	$formulaire = $documentType->getFormulaire();
-	
-	$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
-	
-	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-	
-	$afficheurFormulaire->afficheTab($tab_number,"entite/detail0.php?id_e=0");
-	?>
+	<div id="bloc_onglet">
+		<?php foreach ($formulaire_tab as $page_num => $name) : ?>
+					<a href='entite/detail0.php?id_e=<?php echo $id_e ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_number)?'class="onglet_on"':'' ?>>
+					<?php echo $name?>
+					</a>
+		<?php endforeach;?>
+		</div>
 	<div class="box_contenu clearfix">
 	
 <?php 
@@ -69,36 +69,9 @@ if ($tab_number == 0){
 	}
 	
 	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance,"entite/detail0.php",0);
-	} elseif ($tab_number == 2) { ?>
+	} elseif ($tab_number == 1) { ?>
 	<a href='mailsec/annuaire.php'>Annuaire global »</a>
-<?php } else { ?>
-
-	<h2><a href="entite/edition-properties.php?id_e=0&page=<?php echo $tab_number ?>" class='btn_maj'>
-			Modifier
-		</a></h2>
-
-	<?php 
-	
-	$afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=0&id_e=0"); 
-	
-	$theAction = $documentType->getAction();
-	$actionPossible = $objectInstancier->ActionPossible;
-	
-	foreach($actionPossible->getActionPossible(0,$authentification->getId(),0) as $action_name) :
-		if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
-			continue;
-		}
-	?>
-	<form action='entite/action.php' method='post' >
-	<input type='hidden' name='id_e' value='0' />
-	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
-	
-	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
-	<input type='submit' value='<?php hecho($theAction->getActionName($action_name)) ?>'/>
-</form>
-	<?php 
-	
-	endforeach; 
+<?php 
 
 	
 } ?>

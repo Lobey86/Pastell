@@ -2,13 +2,10 @@ Nom: Propriété de la collectivité
 
 formulaire:
 	
-	Informations générales : 
-		type_id_e: {name: type_id_e, type: text, no-show: true}
+	info_generales : 
+		type_id_e: {name: type_id_e, type: text}
 		
-	Utilisateurs : {}
-		
-	Agents: {}
-	
+
 	TdT:		
 		tdt_activate: {name: "Module activé", type: checkbox}
 		tdt_type: 
@@ -101,6 +98,10 @@ formulaire:
 page-condition:
 	Fichier de classification:
 		type_id_e: centre_de_gestion
+	
+	info_generales:
+		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
+		
 	
 			
 action:

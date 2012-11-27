@@ -54,7 +54,7 @@ if (! defined("SIGN_SERVER_CA_CERTIFICATE")){
 
 //Attention, il faut une version d'openSSL > 1.0.0a 
 if (! defined("OPENSSL_PATH")){
-	define("OPENSSL_PATH","/home/eric/Logiciel/openssl-1.0.0a/apps/openssl");
+	define("OPENSSL_PATH","/usr/bin/openssl");
 }
 
 //Si présent, alors il est possible de vérifier l'environnement sur la page de test

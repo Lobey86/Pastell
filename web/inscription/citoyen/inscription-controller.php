@@ -23,7 +23,7 @@ if ($entite->exists()){
 }
 
 
-$id_u = $objectInstancier->UtilisateurCreator->create($login,$password,$password2,$email);
+$id_u = $objectInstancier->UtilisateurCreator->create($email,$password,$password2,$email);
 
 if ( ! $id_u){
 	$lastError->setLastError($objectInstancier->UtilisateurCreator->getLastError());

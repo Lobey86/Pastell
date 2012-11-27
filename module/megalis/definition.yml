@@ -62,8 +62,7 @@ action:
 	verif-sae-erreur:
 		name: Erreur lors de la récupération de l'AR
 		rule:
-			role_id_e: no-role
-		
+			role_id_e: no-role		
 			
 	ar-recu-sae:
 		name: AR SAE reçu

@@ -59,7 +59,7 @@ $utilisateurInfo = $utilisateur->getInfo($id_u);
 	
 	</div>
 </div>
-<?php if ($documentTypeFactory->isTypePresent('Flux fournisseur')) : ?>
+<?php if ($documentTypeFactory->isTypePresent('Flux Fournisseur')) : ?>
 
 <div class="box_contenu clearfix">
 	<h2>Nouveau compte</h2>

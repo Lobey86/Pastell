@@ -37,7 +37,7 @@ $afficheurFormulaire->injectHiddenField("id_d",$id_e);
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 
-<a href='entite/detail.php?id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à <?php echo  $infoEntite['denomination'];  ?></a>
+<a href='connecteur/detail.php?id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à <?php echo  $infoEntite['denomination'];  ?></a>
 <br/><br/>
 
 <?php 
@@ -45,7 +45,7 @@ include( PASTELL_PATH ."/include/haut.php");
 ?>
 
 <div class="box_contenu clearfix">
-<?php $afficheurFormulaire->affiche($page,"entite/edition-properties-controler.php","document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e","entite/supprimer-fichier.php?id_e=$id_e&page=$page","entite/external-data.php"); ?>
+<?php $afficheurFormulaire->affiche($page,"connecteur/edition-properties-controler.php","document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e","entite/supprimer-fichier.php?id_e=$id_e&page=$page","connecteur/external-data.php"); ?>
 </div>
 
 <?php 

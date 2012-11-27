@@ -2,14 +2,7 @@ Nom: Propriété de la l'entité-racine
 
 formulaire:
 	
-	Utilisateurs : {}
-	
 	TdT: {}
-	
-	Mail sécurisé: {}
-	
-	test:
-		toto:
 	
 action:
 	demande-classification:

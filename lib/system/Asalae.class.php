@@ -33,8 +33,8 @@ class Asalae {
 
 		$document_content  = base64_encode(file_get_contents($archivePath));
 		
-		$retour  = $client->__soapCall("wsDepot", array("bordereau.xml", $seda,basename($archivePath), $document_content, $file_type,$this->login,$this->password));
-		if ($retour == 0){
+		$retour  = @ $client->__soapCall("wsDepot", array("bordereau.xml", $seda,basename($archivePath), $document_content, $file_type,$this->login,$this->password));
+		if ($retour === 0){
 			return true;
 		}
 		

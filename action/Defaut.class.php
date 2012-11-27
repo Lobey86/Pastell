@@ -3,8 +3,7 @@
 
 class Defaut extends ActionExecutor {
 
-	public function go(){
-		
+	public function go(){		
 		$infoDocument = $this->getDocument()->getInfo($this->id_d);
 		$documentType = $this->getDocumentTypeFactory()->getDocumentType($infoDocument['type']);
 		$theAction = $documentType->getAction();

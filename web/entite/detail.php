@@ -58,21 +58,15 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php endif;?>
 <br/><br/>
 
-<?php 
+<?php $formulaire_tab = array("Informations générales","Utilisateurs","Agent")?>
 
-if ($id_e  && $info['type'] != Entite::TYPE_FOURNISSEUR) {
-
-	$documentType = $documentTypeFactory->getEntiteConfig($id_e);
-	$formulaire = $documentType->getFormulaire();
-	
-	$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
-	
-	$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-	$afficheurFormulaire->injectHiddenField("id_e",$id_e);
-	
-	$afficheurFormulaire->afficheTab($tab_number,"entite/detail.php?id_e=$id_e");
-}	
-?>
+<div id="bloc_onglet">
+		<?php foreach ($formulaire_tab as $page_num => $name) : ?>
+					<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_number)?'class="onglet_on"':'' ?>>
+					<?php echo $name?>
+					</a>
+		<?php endforeach;?>
+		</div>
 <div class="box_contenu clearfix">
 
 <?php if ($tab_number == 0) : 
@@ -142,61 +136,7 @@ $listAgent = $agentSQL->getBySiren($siren,$offset);
 
 
 <?php 
-else: 
-$allTab = $formulaire->getTab();
-if (in_array($allTab[$tab_number],array('Agents','TdT','Signature','GED','SAE'))){
-	$id_e_to_show = $entite->getCollectiviteAncetre($id_e);
-	$entite_to_show = new Entite($sqlQuery,$id_e_to_show);
-	$infoAncetre = $entite_to_show->getInfo();
-	
-	if ($id_e != $id_e_to_show){
-		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e_to_show);
-		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-		$afficheurFormulaire->injectHiddenField("id_e",$id_e_to_show);
-	}
-}else {
-	$id_e_to_show = $id_e;
-	$entite_to_show = $entite;
-}
-
-$theAction = $documentType->getAction();
-
-$actionPossible = $objectInstancier->ActionPossible;
-
-
-?>
-	<?php if ($id_e_to_show == $id_e &&  $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e_to_show)) : ?>
-	<h2><a href="entite/edition-properties.php?id_e=<?php echo $id_e_to_show?>&page=<?php echo $tab_number ?>" class='btn_maj'>
-			Modifier
-		</a></h2>
-	<?php endif;?>
-	<?php if ($id_e_to_show != $id_e ) : ?>
-		<div class='box_info'><p>Informations héritées de <a href='entite/detail.php?id_e=<?php echo $id_e_to_show?>'><?php echo $infoAncetre['denomination']?></a></p></div>
-	
-	<?php endif;?>
-	<?php $afficheurFormulaire->afficheStatic($tab_number,"document/recuperation-fichier.php?id_d=$id_e_to_show&id_e=$id_e_to_show"); ?>
-	
-<br/>
-<?php 
-
-
-if ($id_e == $id_e_to_show) : 
-foreach($actionPossible->getActionPossible($id_e_to_show,$authentification->getId(),$id_e_to_show) as $action_name) : 
-
-	if ($formulaire->getTabName($tab_number) != $theAction->getProperties($action_name,"tab") ){
-		continue;
-	}
-?>
-<form action='entite/action.php' method='post' >
-	<input type='hidden' name='id_e' value='<?php echo $id_e_to_show ?>' />
-	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
-	
-	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
-	<input type='submit' value='<?php hecho($theAction->getActionName($action_name)) ?>'/>
-</form>
-<?php endforeach;?>
-<?php endif;?>
-<?php endif;?>
+ endif;?>
 
 </div>
 
@@ -204,6 +144,11 @@ foreach($actionPossible->getActionPossible($id_e_to_show,$authentification->getI
 <?php if($id_e && $info['type'] == Entite::TYPE_FOURNISSEUR): ?>
 <a href='supprimer.php'>Redemander les informations</a>
 <?php endif; ?>
+
+<?php if($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)) : ?>
+	<a href='connecteur/detail.php?id_e=<?php echo $id_e ?>'>Configurer les connecteurs</a>
+<?php endif;?>
+
 
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

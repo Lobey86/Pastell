@@ -39,6 +39,9 @@ class ActionPossible {
 	}
 	
 	public function isCreationPossible($id_e,$id_u,$type_document){
+		if ($id_e==0){
+			return false;
+		}
 		return $this->internIsActionPossible($id_e, $id_u, 0, Action::CREATION, $type_document);
 	}
 

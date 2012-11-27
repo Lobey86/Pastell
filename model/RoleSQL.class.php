@@ -30,8 +30,21 @@ class RoleSQL extends SQL {
 		$sql = "DELETE FROM role_droit WHERE role=?";
 		$this->query($sql,$role);
 		foreach($lesDroits as $droit){
-			$sql="INSERT INTO role_droit(role,droit) VALUES (?,?)";
-			$this->query($sql,$role,$droit);
+			$this->insertDroit($role,$droit);
 		}
 	}
+	
+	private function insertDroit($role,$droit){
+		$sql="INSERT INTO role_droit(role,droit) VALUES (?,?)";
+		$this->query($sql,$role,$droit);
+	}
+	
+	public function addDroit($role,$droit){
+		$sql = "SELECT count(*) FROM role_droit WHERE role=? AND droit=?";
+		if($this->queryOne($sql,$role,$droit)){
+			return;
+		}
+		$this->insertDroit($role,$droit);
+	}
+	
 }

@@ -105,5 +105,13 @@ abstract class ActionExecutor {
 		$this->getNotificationMail()->notify($this->id_e,$this->id_d,$actionName,$type,$message);
 	}
 
+	public function redirect($to){
+		if (! $this->from_api) {
+			header("Location: $to");
+			exit;
+		}
+		
+	}
+	
 	abstract public function go();
 }

@@ -29,5 +29,4 @@ class RoleDroit {
 		return $droit;
 	}
 	
-	
 }
