@@ -62,7 +62,6 @@ if (! defined("ENABLE_VERIF_ENVIRONNEMENT")){
 	define("ENABLE_VERIF_ENVIRONNEMENT",true);
 }
 
-
 //Racine du site Pastell
 //ex : http://pastell.sigmalis.com/
 //ex : http://www.sigmalis.com/pastell/
@@ -83,5 +82,9 @@ if (!defined("PLATEFORME_MAIL")){
 
 if (!defined("UPSTART_TOUCH_FILE")){
 	define("UPSTART_TOUCH_FILE",__DIR__."/log/upstart.mtime");
+}
+
+if (!defined("AIDE_URL")){
+	define("AIDE_URL","aide/index.php");
 }
 
