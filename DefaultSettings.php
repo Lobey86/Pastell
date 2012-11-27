@@ -81,4 +81,7 @@ if (!defined("PLATEFORME_MAIL")){
 	define("PLATEFORME_MAIL","pastell@sigmalis.com");
 }
 
+if (!defined("UPSTART_TOUCH_FILE")){
+	define("UPSTART_TOUCH_FILE",__DIR__."/log/upstart.mtime");
+}
 

@@ -16,7 +16,7 @@ class Action {
 	
 	private $tabAction;
 	
-	public function __construct(array $tabAction){
+	public function __construct(array $tabAction = array()){
 		$this->tabAction = $tabAction;
 	}
 	

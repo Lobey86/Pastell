@@ -37,6 +37,8 @@ $objectInstancier->bd_dsn = BD_DSN;
 $objectInstancier->bd_user = BD_USER;
 $objectInstancier->bd_password = BD_PASS;
 
+$objectInstancier->upstart_touch_file = UPSTART_TOUCH_FILE;
+
 $id_u_journal = 0;
 if ($objectInstancier->Authentification->isConnected()) {
 	$id_u_journal = $objectInstancier->Authentification->getId();

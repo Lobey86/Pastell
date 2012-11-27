@@ -25,6 +25,7 @@ foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 	}
 }
 
+$objectInstancier->LastUpstart->updateMtime();
 
 $stop = time();
 $sleep = $min_exec_time - ($stop -$start);

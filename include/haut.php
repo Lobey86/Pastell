@@ -29,7 +29,7 @@ if ($authentification->isConnected()){
 	
 	$pageDecorator->addToMainMenu("Aide", "http://www.creatic59.fr/dematerialisation/aide","picto_aide");
 	if  ($roleUtilisateur->hasDroit($authentification->getId() ,'test:lecture',0)) {
-		$pageDecorator->addToMainMenu("Tests", SITE_BASE . "test/index.php","picto_collectivites");
+		$pageDecorator->addToMainMenu("Environnement système", SITE_BASE . "system/index.php","picto_collectivites");
 	}
 	
 	$entiteBC = new Entite($sqlQuery,$id_e_menu);
