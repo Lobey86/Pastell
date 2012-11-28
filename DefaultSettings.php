@@ -73,8 +73,9 @@ if (!defined("SITE_BASE")){
 if (!defined("AGENT_FILE_PATH")){
 	define("AGENT_FILE_PATH","/tmp/agent");
 }
-
-define("PRODUCTION",true);
+if (! defined("PRODUCTION")){
+	define("PRODUCTION",false);
+}
 
 if (!defined("PLATEFORME_MAIL")){
 	define("PLATEFORME_MAIL","pastell@sigmalis.com");

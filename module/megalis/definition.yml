@@ -11,7 +11,9 @@ formulaire:
 		transfert_id: {name: Identifiant du transfert} 
 		bordereau: {name: Bordereau, type: file}
 		fichier_attache: {name: Archive, type: file} 
-		ar-sae: {name: Accusé de réception SAE, type: file}
+		ar_sae: {type: file, name: Accusé de réception SAE}
+		reply_sae: {type: file, name: Réponse du SAE}
+		url_archive: {name: URL sur le système d'archive}
 		
 action:
 
@@ -53,8 +55,8 @@ action:
 			role_id_e: no-role
 
 	verif-sae:
-		name-action: Vérifier le status du document sur le SAE
-		name: Vérification du status du document sur le SAE
+		name-action: Récupérer l'AR du document sur le SAE
+		name: Récuperation de l'AR sur le SAE
 		rule:
 			last-action:
 				send-archive
@@ -71,14 +73,52 @@ action:
 		name: AR SAE reçu
 		rule:
 			role_id_e: no-role
+		action-automatique: validation-sae
 	
+	validation-sae:
+		name-action: Vérifier l'acceptation par le SAE
+		name: Vérification de l'acceptation par le SAE
+		rule:
+			last-action:
+				ar-recu-sae
+				validation-sae-erreur
+			droit_id_u: 'megalis:edition'
+		action-class: SAEValidationMegalis
+		
+	validation-sae-erreur:
+		name: Erreur lors de la vérification de la validité du transfert
+		rule:
+			role_id_e: no-role	
+		
 	accepter-sae:
 		name: Archive accepté par le SAE
 		rule:
 			role_id_e: no-role
+		action-automatique: supprimer-distant
 			
 	rejet-sae:
 		name: Archive rejeter par le SAE
+		rule: 
+			role_id_e: no-role
+			
+	supprimer-distant:
+		name: Suppresion du fichier sur le serveur Megalis
+		name-action: Supprimer le fichier sur le serveur Megalis
+		rule:
+			last-action:
+				accepter-sae
+				erreur-supprimer-distant
+				termine
+			droit_id_u: 'megalis:edition'
+		action-class: MegalisSupprime
+			
+	erreur-supprimer-distant:
+		name: Erreur lors de la suppression
+		rule:
+			role_id_e: no-role
+	
+	termine:
+		name: Integration SAE ok
 		rule: 
 			role_id_e: no-role
 	
@@ -95,6 +135,9 @@ action:
 				erreur-envoie-sae
 				recuperation
 				verif-sae-erreur
+				validation-sae-erreur
+				termine
+				erreur-supprimer-distant
 			role_id_e: editeur
 			droit_id_u: 'megalis:edition'
 		action-class: Supprimer

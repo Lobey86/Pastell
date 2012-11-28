@@ -6,7 +6,7 @@ class MegalisRecup extends ActionExecutor {
 	public function go(){		
 		$entiteListe = new EntiteListe($this->getSQLQuery());		
 		
-		$megalis = new Megalis($this->getCollectiviteProperties(),new SSH2());
+		$megalis = new Megalis($this->getGlobalProperties(),new SSH2());
 		$recup = $megalis->recup();
 		if (! $recup){
 			$this->setLastMessage($megalis->getLastError());
@@ -122,7 +122,7 @@ class MegalisRecup extends ActionExecutor {
 		return $bordereau;
 	}
 	
-	public function createFichierAttache($archive_path,$fichier_attache_path){		
+	private function createFichierAttache($archive_path,$fichier_attache_path){		
 		$passwordGenerator = new PasswordGenerator();
 		$tmp_dir = $passwordGenerator->getPassword();
 		$zip = new ZipArchive();
@@ -130,26 +130,12 @@ class MegalisRecup extends ActionExecutor {
 		$zip->extractTo("/tmp/$tmp_dir/");
 		$zip->close();
 		
-		$directory_name = false;
-		foreach(scandir("/tmp/$tmp_dir") as $dir){
-			
-			if (in_array($dir,array(".","..","style"))){
-				continue;
-			}
-			if (! is_dir("/tmp/$tmp_dir/$dir")){
-				continue;	
-			}			
-			$directory_name = $dir;			
-			break;
-		}
-		
-		if (! $directory_name){
-			$this->setLastMessage("Impossible de trouver le répertoire archive");
-			return false;
-		}
+		rrmdir("/tmp/$tmp_dir/styles");
+		@ unlink("/tmp/$tmp_dir/archive.xml");
+		@ unlink("/tmp/$tmp_dir/archive.xsl");
 		
 		$phar = new PharData("/tmp/$tmp_dir.zip");
-		$phar->buildFromDirectory("/tmp/$tmp_dir/$directory_name");
+		$phar->buildFromDirectory("/tmp/$tmp_dir");
 		
 		rename("/tmp/$tmp_dir.zip",$fichier_attache_path);
 		rrmdir("/tmp/$tmp_dir");		

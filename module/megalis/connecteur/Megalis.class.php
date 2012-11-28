@@ -1,5 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/connecteur/Connecteur.class.php");
+require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
 
 class Megalis extends Connecteur {
 	
@@ -7,7 +8,7 @@ class Megalis extends Connecteur {
 	private $ssh2;
 	
 	public function __construct(DonneesFormulaire $collectiviteProperties, SSH2 $ssh2){
-		$this->collectiviteProperties = $collectiviteProperties;
+		$this->collectiviteProperties = $collectiviteProperties;		
 		$this->ssh2 = $ssh2;
 	}
 	
@@ -15,9 +16,13 @@ class Megalis extends Connecteur {
 		return $this->collectiviteProperties->get($name);
 	}
 	
-	public function listDirectory(){
+	private function configSSH2(){
 		$this->ssh2->setServerName($this->getProperties('emegalis_ssh_server'),$this->getProperties('emegalis_ssh_fingerprint'));
 		$this->ssh2->setPasswordAuthentication($this->getProperties('emegalis_ssh_login'),$this->getProperties('emegalis_ssh_password'));
+	}
+	
+	public function listDirectory(){
+		$this->configSSH2();
 		$directory_listing = $this->ssh2->listDirectory($this->getProperties("emegalis_ssh_directory"));
 		if (!$directory_listing){
 			$this->lastError = $this->ssh2->getLastError();
@@ -52,6 +57,7 @@ class Megalis extends Connecteur {
 	}
 	
 	public function retrieveFile($file_name,$destination){
+		$this->configSSH2();
 		if (! $this->ssh2->retrieveFile($this->getProperties("emegalis_ssh_directory") . "/" . $file_name,$destination)){
 			$this->lastError = $this->ssh2->getLastError();
 			return false;
@@ -70,7 +76,6 @@ class Megalis extends Connecteur {
 		return $md5_content;
 	}
 	
-	
 	public function getSiren($file_name){
 		return substr($file_name,0,9);
 	}
@@ -82,6 +87,63 @@ class Megalis extends Connecteur {
 	
 	private function isValidFileName($file_name){
 		return preg_match("#^\d{9}.*\.zip#",$file_name);
+	}
+	
+	public function delete($filename){
+		$this->configSSH2();
+		$d1 = $this->ssh2->deleteFile($this->getProperties("emegalis_ssh_directory") . "/" . $filename);
+		$d2 = $this->ssh2->deleteFile($this->getProperties("emegalis_ssh_directory") . "/" . $filename.".md5");
+		return $d1 && $d2;
+	}
+	
+	public function createDepot(array $authorityInfo){
+		$passwordGenerator = new PasswordGenerator();
+		$tmp_dir = $passwordGenerator->getPassword();
+		$tmp_dir_path = "/tmp/$tmp_dir/";
+		mkdir($tmp_dir_path);
+		copy(__DIR__."/../../../data-exemple/exemple.pdf","$tmp_dir_path/exemple.pdf");
+		
+		$uniq_id = time();
+		$actesTransactionsStatusInfo = array(
+			'transaction_id' => $uniq_id,
+			'flux_retour' => '<empty></empty>',
+			'date' => date("Y-m-d")
+		);
+		
+		$transactionsInfo = array(
+			'unique_id' => $uniq_id,
+			'subject' => "bordereau de test",
+			'decision_date' => '2012-02-18',
+			'nature_descr' => 'Arretes individuels',
+			'nature_code' => '1',
+			'classification' => '1.1',
+		);			
+		$actesArchivesSEDA = new ActesArchiveSEDA($tmp_dir_path);
+		$actesArchivesSEDA->setAuthorityInfo($authorityInfo);
+		$actesArchivesSEDA->setActesFileName("exemple.pdf");
+		$actesArchivesSEDA->setTransactionStatusInfo($actesTransactionsStatusInfo);
+		$bordereau = $actesArchivesSEDA->getBordereau($transactionsInfo);
+		
+		file_put_contents($tmp_dir_path."/archive.xml", $bordereau);
+		
+		$zip_path = "/tmp/{$authorityInfo['siren']}_$uniq_id.zip";
+		
+		$phar = new PharData($zip_path);
+		$phar->buildFromDirectory($tmp_dir_path);
+		
+		$this->configSSH2();
+		$result = $this->ssh2->sendFile($zip_path,$this->getProperties("emegalis_ssh_directory"));
+		
+		$md5_path = $zip_path.".md5";
+		file_put_contents($md5_path,md5_file($zip_path));
+		$this->ssh2->sendFile($md5_path,$this->getProperties("emegalis_ssh_directory"));
+		
+		rrmdir($tmp_dir_path);
+		unlink($zip_path);
+		if ($result){
+			return "{$authorityInfo['siren']}_$uniq_id.zip";
+		}
+		return false;
 	}
 	
 }

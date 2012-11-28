@@ -88,8 +88,16 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->DonneesFormulaireFactory;
 	}
 	
+	public function getDocumentActionEntite(){
+		return $this->objectInstancier->DocumentActionEntite;
+	}
+	
 	public function getNotificationMail(){
 		return $this->objectInstancier->NotificationMail;
+	}
+	
+	public function getGlobalProperties(){
+		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire(0);	
 	}
 	
 	public function getCollectiviteProperties(){
