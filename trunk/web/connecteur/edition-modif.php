@@ -37,9 +37,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/><br/>
 <div class="box_contenu clearfix">
 <h2>Connecteur <?php hecho($libelle)?> (<?php hecho($connecteur['type']) ?>/<?php hecho($connecteur['name'])?>)
-<a href="connecteur/edition-modif.php?id_e=<?php echo $id_e?>&libelle=<?php echo $libelle ?>" class='btn_maj'>
-			Modifier
-		</a>
+
 
 </h2>
 <?php 
@@ -51,22 +49,11 @@ $donneesFormulaire = $objectInstancier->ConnecteurFactory->getDataFormulaire($id
 	
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 $afficheurFormulaire->injectHiddenField("id_e",$id_e);
+$afficheurFormulaire->injectHiddenField("id_d",$id_e);
+$afficheurFormulaire->injectHiddenField("old_libelle",$libelle);
 
-$afficheurFormulaire->afficheStatic(0,"document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e"); 
- 
+$afficheurFormulaire->affiche(0,"connecteur/edition-modif-controler.php","document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e","document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e","entite/supprimer-fichier.php?id_e=$id_e","connecteur/external-data.php"); 
 
-foreach($documentType->getAction()->getAll() as $action_name) : 
-
-?>
-<form action='connecteur/action2.php' method='post' >
-	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
-	<input type='hidden' name='libelle' value='<?php echo $libelle ?>' />
-	
-	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
-	<input type='submit' value='<?php hecho($documentType->getAction()->getActionName($action_name)) ?>'/>
-</form>
-<?php endforeach;?>
-
-</div>
+?></div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");
