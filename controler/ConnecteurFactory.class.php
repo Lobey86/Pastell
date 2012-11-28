@@ -124,5 +124,44 @@ class ConnecteurFactory  {
 		file_put_contents($this->workspace_path."/flux_{$id_e}.yml",$dump);
 	}
 	
+	public function getDocumentType($id_e,$libelle){
+		$all_connecteur = $this->getAll($id_e);
+		if (empty($all_connecteur[$libelle])){
+			$this->lastError = "Impossible de trouver le connecteur $libelle";
+			return false;
+		}
+ 		$type = $all_connecteur[$libelle]['type'];
+ 		$connecteur_id = $all_connecteur[$libelle]['connecteur_id'];
+		 
+		$definition = $this->loadConnecteurDefinition($connecteur_id);
+		
+		$definition['formulaire']['page0']['libelle'] = array('name'=>'Libellé'); 
+		 
+		 return new DocumentType($type,$definition);
+	}
+	public function getInfo($id_e,$libelle){
+		$all_connecteur = $this->getAll($id_e);
+		if (empty($all_connecteur[$libelle])){
+			$this->lastError = "Impossible de trouver le connecteur $libelle";
+			return false;
+		}
+		return $all_connecteur[$libelle];
+	}
+	
+	
+	public function getDataFormulaire($id_e,$libelle){
+		$all_connecteur = $this->getAll($id_e);
+		if (empty($all_connecteur[$libelle])){
+			$this->lastError = "Impossible de trouver le connecteur $libelle";
+			return false;
+		}
+		$formulaire = $this->getDocumentType($id_e,$libelle)->getFormulaire();
+		
+		$donneFormulaire = new DonneesFormulaire( $this->workspace_path  . "/connecteur_{$id_e}_$libelle.yml", $formulaire);
+		$donneFormulaire->injectData('id_e',$id_e);
+		$donneFormulaire->injectData('libelle',$libelle);		
+ 		return $donneFormulaire;
+	}
+	
 	
 }
