@@ -1,6 +1,11 @@
 nom: Helios 
 type: Flux Généraux
 
+connecteur:
+	SAE
+	TdT
+	signature
+
 type: Général
 
 affiche_one: true

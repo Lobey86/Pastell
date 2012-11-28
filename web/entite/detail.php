@@ -58,7 +58,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php endif;?>
 <br/><br/>
 
-<?php $formulaire_tab = array("Informations générales","Utilisateurs","Agent")?>
+<?php $formulaire_tab = array("Informations générales","Utilisateurs","Connecteurs","Flux", "Agents")?>
 
 <div id="bloc_onglet">
 		<?php foreach ($formulaire_tab as $page_num => $name) : ?>
@@ -104,7 +104,72 @@ elseif($tab_number == 1) :
 	
 	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance);
 
-elseif($tab_number == 2) :
+
+elseif($tab_number == 2) : $i=0;?>
+<h2>Listes des connecteurs
+<a href="connecteur/new.php?id_e=<?php echo $id_e?>&page=1&page_retour=2" class='btn_maj'>Nouveau</a>
+</h2>
+
+<table class="tab_01">
+<tr>
+			<th>Libellé</th>
+			<th>Nom </th>
+			<th>Type</th>
+			<th>&nbsp;</th>
+		</tr>
+<?php foreach($objectInstancier->ConnecteurFactory->getAll($id_e) as $libelle => $connecteur) : ?>
+	<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
+		<td><?php hecho($libelle);?></td>
+		<td><?php echo $connecteur['name'];?></td>
+		<td><?php echo $connecteur['type'];?></td>
+		<td>
+			<a class='btn' href='connecteur/edition.php?id_e=<?php echo $id_e?>&libelle=<?php hecho($libelle)?>&connecteur_id=<?php hecho($connecteur['connecteur_id']) ?>'>Modifier</a>
+		</td>
+	</tr>
+<?php endforeach;?>
+</table>
+
+
+<?php if($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)) : ?>
+	<a href='connecteur/detail.php?id_e=<?php echo $id_e ?>'>Configurer les connecteurs (ancienne méthode)</a>
+<?php endif;?>
+
+<?php elseif($tab_number==3) :
+$all_flux = $objectInstancier->ConnecteurFactory->getAllFlux($id_e);
+?>
+
+<h2>Listes des flux</h2>
+
+<table class="tab_01">
+<tr>
+			<th>Flux</th>
+			<th>Type de connecteur</th>
+			<th>Connecteur</th>
+			<th>&nbsp;</th>
+		</tr>
+<?php foreach($all_flux as $i => $connecteur) : ?>
+	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
+		<td>
+			<?php if ($i == 0 || $all_flux[$i-1]['flux'] != $connecteur['flux']) : ?>
+			<?php hecho($objectInstancier->DocumentTypeFactory->getDocumentType($connecteur['flux'])->getName() );?>
+			<?php endif;?>
+		
+		</td>
+		<td><?php echo $connecteur['type'];?></td>
+		<td>
+			<?php if ($connecteur['libelle']) : ?>
+				<?php hecho($connecteur['libelle']);?> (<?php echo $connecteur['connecteur'];?>)
+			<?php else : ?>
+				Aucun 
+			<?php endif;?>	
+		</td>		
+		<td>
+			<a class='btn' href='connecteur/flux-edition.php?id_e=<?php echo $id_e?>&flux=<?php hecho($connecteur['flux'])?>&type=<?php echo $connecteur['type']?>'>Modifier</a>
+		</td>
+	</tr>
+<?php endforeach;?>
+</table>
+<?php elseif($tab_number == 4) :
 
 $id_ancetre = $entite->getCollectiviteAncetre($id_e);
 if ($id_ancetre == $id_e){
@@ -135,8 +200,7 @@ $listAgent = $agentSQL->getBySiren($siren,$offset);
 <?php $agentListHTML->display($listAgent); ?>
 
 
-<?php 
- endif;?>
+<?php  endif;?>
 
 </div>
 
@@ -144,10 +208,6 @@ $listAgent = $agentSQL->getBySiren($siren,$offset);
 <?php if($id_e && $info['type'] == Entite::TYPE_FOURNISSEUR): ?>
 <a href='supprimer.php'>Redemander les informations</a>
 <?php endif; ?>
-
-<?php if($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)) : ?>
-	<a href='connecteur/detail.php?id_e=<?php echo $id_e ?>'>Configurer les connecteurs</a>
-<?php endif;?>
 
 
 <?php 

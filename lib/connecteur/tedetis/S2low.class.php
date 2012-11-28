@@ -45,7 +45,7 @@ class S2low extends Tedetis {
 			return true;
 		}
 		$output = $this->curlWrapper->get($this->tedetisURL .self::URL_LIST_LOGIN);
-		if (!$output){
+		if ($output){
 			$this->ensureLogin = true;
 			return true;
 		}

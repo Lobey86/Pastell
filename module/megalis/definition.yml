@@ -1,6 +1,9 @@
 nom: E-mégalis
 type: Flux Généraux
 
+connecteur:
+	SAE
+	
 formulaire:
 	Archive:
 		archive: {name: Archive d'origine, type: file, title: true}

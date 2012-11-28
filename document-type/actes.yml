@@ -4,6 +4,12 @@ type: Flux Généraux
 
 affiche_one: true
 
+connecteur:
+	SAE
+	TdT
+	signature
+	GED
+
 formulaire:
 	Acte:
 		Siren de la collectivité: {read-only: true, data: siren, no-show: true}

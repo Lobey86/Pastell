@@ -1,0 +1,7 @@
+name: CMIS
+type: GED
+ged_activate: {name: "Module activé", type: checkbox}
+ged_url: {name: "URL du service CIMS"}
+ged_user_login: {name: "login" }
+ged_user_password: {name: "Mot de passe" , type: password}
+ged_folder:  {name: "Répertoire de dépot" }

@@ -10,6 +10,7 @@ class DocumentType {
 	const ACTION = 'action';
 	const PAGE_CONDITION = 'page-condition';
 	const AFFICHE_ONE = 'affiche_one';
+	const CONNECTEUR = 'connecteur';
 	
 	private $type;
 	private $typeDefinition;
@@ -43,6 +44,13 @@ class DocumentType {
 	
 	public function getTabAction(){
 		return $this->typeDefinition[self::ACTION];
+	}
+	
+	public function getConnecteur(){
+		if (isset($this->typeDefinition[self::CONNECTEUR])){
+			return $this->typeDefinition[self::CONNECTEUR];
+		}
+		return array();
 	}
 	
 }

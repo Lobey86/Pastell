@@ -1,0 +1,15 @@
+name: Stela
+type: TdT
+url: {name: "URL du service"}
+server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file, content-type: text/plain}
+user_certificat: {name: "Certificat utilisateur (format P12)", type: file, content-type: application/octet-stream}
+user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
+user_certificat_pem: {type: file, no-show: true}
+user_key_pem: {type: file, no-show: true}
+classification_file: {name: "Fichier de classification", type: file, read-only: true}
+nomemclature_file: 
+	name: "Fichier de nomenclature CDG"
+	type: externalData
+	script: fichier-nomemclature.php
+	script-controler: fichier-nomemclature-controler.php
+	link_name: liste des fichiers disponibles
