@@ -1,0 +1,13 @@
+name: As@lae
+type: SAE
+activate: {name: "Module activé", type: checkbox}
+wsdl: {name: "URL du WSDL"}
+login: {name: "Login"}
+password: {name: "Mot de passe"}
+identifiant_versant: {name: "Identifiant service versant"}
+identifiant_archive: {name: "Identifiant archive"}
+numero_agrement: {name: "Numéro d'aggrément"}
+originating_agency: {name: "OriginatingAgency" }
+mail: {name: serveur de mail}
+bordereau_test: {name: "Dernier bordereau de test",  type: file, read-only: true}
+archive_test: {no-show: true, read-only:true}

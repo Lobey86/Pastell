@@ -101,6 +101,18 @@ class DocumentTypeFactory {
 		return $result;
 	}
 	
+	public function getAllConnecteur(){
+		$result = array();	
+		foreach ( $this->getTypeDocument() as $typeName){
+			$all_connecteur = $this->getDocumentType($typeName)->getConnecteur();
+			if ($all_connecteur){
+				$result[$typeName] = $all_connecteur;
+			}
+		}
+		return $result;
+	}
+	
+	
 	public function getActionByRole($allDroit){
 		foreach($allDroit as $droit){
 			$r = explode(":",$droit);
