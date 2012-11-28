@@ -83,4 +83,26 @@ class SSH2 {
 		
 		return $ssh_connexion;
 	}	
+	
+	public function deleteFile($filename){
+		$connexion = $this->getConnexion();
+		if ( ! $connexion ){
+			return false;
+		};
+		$sftp = ssh2_sftp($connexion);
+		if ( ! file_exists("ssh2.sftp://$filename")){
+			return true;
+		}
+		
+		return ssh2_sftp_unlink($sftp,$filename);
+	}
+	
+	public function sendFile($file_path,$directory){
+		$connexion = $this->getConnexion();
+		if ( ! $connexion ){
+			return false;
+		};
+		return ssh2_scp_send($connexion,$file_path,$directory . "/" .basename($file_path),0600);
+	}
+	
 }

@@ -224,6 +224,7 @@ class AfficheurFormulaire {
 	}
 	
 	public function afficheStatic($page,$recuperation_fichier_url){
+		
 		if (isset($this->inject['id_e'])){
 			$id_e = $this->inject['id_e'];
 		}
@@ -268,7 +269,8 @@ class AfficheurFormulaire {
 								<?php echo $this->donneesFormulaire->geth($field->getName())?"OUI":"NON" ?>
 							<?php endif; ?>
 						<?php elseif($field->getType() == 'file') : ?>
-							<?php if ($this->donneesFormulaire->get($field->getName())):
+							<?php 
+							if ($this->donneesFormulaire->get($field->getName())):
 									foreach($this->donneesFormulaire->get($field->getName()) as $num => $fileName ): ?>
 										<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>&num=<?php echo $num ?>'><?php echo $fileName ?></a>
 										<br/>	

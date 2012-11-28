@@ -13,6 +13,8 @@ class Asalae {
 	private $identifiantArchive;
 	private $numeroAgrement;
 	
+	private $lastErrorCode;
+	
 	public function __construct(array $authorityInfo){
 		$this->WSDL = $authorityInfo['sae_wsdl'];
 		$this->login = $authorityInfo['sae_login'];
@@ -22,6 +24,9 @@ class Asalae {
 
 	public function getLastError(){
 		return $this->lastError;
+	}
+	public function getLastErrorCode(){
+		return $this->lastErrorCode;
 	}
 	
 	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ"){
@@ -34,7 +39,7 @@ class Asalae {
 		$document_content  = base64_encode(file_get_contents($archivePath));
 		
 		$retour  = @ $client->__soapCall("wsDepot", array("bordereau.xml", $seda,basename($archivePath), $document_content, $file_type,$this->login,$this->password));
-		if ($retour === 0){
+		if ($retour === "0"){
 			return true;
 		}
 		
@@ -70,6 +75,7 @@ class Asalae {
 							"message origine non trouvé",
 							"message demandé non trouvé",
 		);
+		$this->lastErrorCode = $resultat;
 		$this->lastError  = "Code $resultat : {$error[$resultat]}";
 		return false;
 	}
@@ -82,8 +88,8 @@ class Asalae {
 		return $error[$number];
 	}
 	
-	public function getURL($wsdl,$cote){
-		$tab = parse_url($wsdl);
+	public function getURL($cote){
+		$tab = parse_url($this->WSDL);
 		return "{$tab['scheme']}://{$tab['host']}/archives/viewByArchiveIdentifier/$cote";
 	}
 	
