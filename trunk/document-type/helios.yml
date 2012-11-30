@@ -1,4 +1,5 @@
 nom: Helios 
+
 type: Flux Généraux
 
 connecteur:
@@ -6,7 +7,6 @@ connecteur:
 	TdT
 	signature
 
-type: Général
 
 affiche_one: true
 
