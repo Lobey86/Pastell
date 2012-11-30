@@ -13,7 +13,7 @@ formulaire:
 		fichier_attache: {name: Archive, type: file} 
 		ar_sae: {type: file, name: Accusé de réception SAE}
 		reply_sae: {type: file, name: Réponse du SAE}
-		url_archive: {name: URL sur le système d'archive}
+		url_archive: {name: URL sur le système d'archive, type: url}
 		
 action:
 
@@ -108,7 +108,6 @@ action:
 			last-action:
 				accepter-sae
 				erreur-supprimer-distant
-				termine
 			droit_id_u: 'megalis:edition'
 		action-class: MegalisSupprime
 			

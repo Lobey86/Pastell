@@ -1,0 +1,13 @@
+formulaire:
+	OpenSign:
+		opensign_wsdl: {name: "WSDL"}
+	
+action:	
+	opensign-test:
+		name: Tester la connexion 
+		action-class: OpenSignTest
+		tab: OpenSign
+		rule:
+			droit_id_u: 'entite:edition'
+		
+	
