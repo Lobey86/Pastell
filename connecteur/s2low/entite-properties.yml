@@ -1,5 +1,7 @@
 name: S²low
+
 type: TdT
+
 formulaire:
 	page0:
 		url: {name: "URL du service"}

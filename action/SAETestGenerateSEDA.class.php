@@ -5,9 +5,10 @@ require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
 class SAETestGenerateSEDA extends ActionExecutor {
 	
 	public function go(){
+		//
 		
-		$donneesFormulaire = $this->getCollectiviteProperties();
-		
+		$donneesFormulaire = $this->getConnecteurConfig();
+				
 		if (! $donneesFormulaire->get("sae_activate")){
 			$this->setLastMessage("Le module n'est pas activé");
 			return false;	

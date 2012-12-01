@@ -23,6 +23,11 @@ class ActionExecutorFactory {
 		return $this->internExecute(0, 0, $id_u, '', $action_name, array(),false,$documentType);
 	}
 	
+	public function executeOnEntiteProperties2($id_e,$id_u,$libelle,$action_name){
+		$documentType = $this->objectInstancier->ConnecteurFactory->getDocumentType($id_e,$libelle);
+		return $this->internExecute($id_e, $id_e, $id_u, '', $action_name, array(),false,$documentType,$libelle);
+	}
+	
 	public function executeOnEntiteProperties($id_e,$id_u,$action_name){
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getEntiteConfig($id_e);		
 		return $this->internExecute($id_e, $id_e, $id_u, '', $action_name, array(),false,$documentType);
@@ -40,7 +45,7 @@ class ActionExecutorFactory {
 		
 	}
 	
-	private function internExecute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false,$documentType){
+	private function internExecute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false,$documentType,$libelle=false){
 		$theAction = $documentType->getAction();		
 		$action_class_name = $theAction->getActionClass($action_name);
 		if (!$action_class_name){
@@ -63,7 +68,7 @@ class ActionExecutorFactory {
 		}
 		
 		require_once($action_class_file);		
-		$actionClass = new $action_class_name($this->objectInstancier,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
+		$actionClass = new $action_class_name($this->objectInstancier,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api,$libelle);
 		
 		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();

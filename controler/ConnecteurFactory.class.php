@@ -1,8 +1,6 @@
 <?php
 
-
 class ConnecteurFactory  {
-	
 	
 	private $module_path;
 	private $workspath_path;
@@ -31,6 +29,16 @@ class ConnecteurFactory  {
 		return $this->loadFile($filename);
 	}
 	
+	public function getConnecteur($id_e,$flux,$type_connecteur){
+		$all = $this->getFluxEntite($id_e);
+		if (empty($all[$flux][$type_connecteur])){
+			$this->lastError = "Impossible de trouver un connecteur $type_connecteur pour le flux $flux";
+			return false;
+		}
+		return $this->getDataFormulaire($id_e, $all[$flux][$type_connecteur]);
+	}
+	
+	
 	public function getAllFlux($id_e){
 		
 		$all_connecteur = $this->documentTypeFactory->getAllConnecteur();
@@ -50,8 +58,6 @@ class ConnecteurFactory  {
 					$line['libelle'] =  $entite_data[$flux][$connecteur];
 					$line['connecteur'] = $entite_data[$flux][$connecteur] = $entite_connecteur[$line['libelle']]['name']; 
 				}
-				
-				
 				$result[] = $line;
 			} 
 		}
@@ -69,8 +75,6 @@ class ConnecteurFactory  {
 		}
 		return $result;
 	}
-	
-	
 	
 	public function loadFile($filename){
 		if (! file_exists($filename)){
@@ -161,6 +165,14 @@ class ConnecteurFactory  {
 		$donneFormulaire->injectData('id_e',$id_e);
 		$donneFormulaire->injectData('libelle',$libelle);		
  		return $donneFormulaire;
+	}
+	
+	public function delete($id_e,$libelle){
+		$donneFormulaire = $this->getDataFormulaire($id_e, $libelle);
+		$donneFormulaire->delete();
+		$all = $this->getAll($id_e);
+		unset($all[$libelle]);
+		$this->saveAll($id_e,$all);		
 	}
 	
 	

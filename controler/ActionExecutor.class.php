@@ -11,13 +11,16 @@ abstract class ActionExecutor {
 	protected $action;
 	protected $id_destinataire;
 	protected $from_api;
+	protected $libelle;
 	
 	protected $objectInstancier;
 	
 	private $lastMessage; 
 	
 	//$type = type de document
-	public function __construct(ObjectInstancier $objectInstancier,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api){
+	public function __construct(ObjectInstancier $objectInstancier,
+									$id_d,$id_e,$id_u,$type,
+									$id_destinataire,$action_name,$from_api,$libelle = false){
 		$this->objectInstancier = $objectInstancier;
 		$this->id_d = $id_d;
 		$this->id_e = $id_e;		
@@ -26,6 +29,7 @@ abstract class ActionExecutor {
 		$this->id_destinataire = $id_destinataire;	
 		$this->action = $action_name;
 		$this->from_api = $from_api;
+		$this->libelle = $libelle;
 	}
 	
 	public function getLastMessage(){
@@ -104,7 +108,7 @@ abstract class ActionExecutor {
 	
 	public function getCollectiviteProperties(){
 		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e)?:0;
-		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);	
+		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);
 	}
 	
 	public function addAction($id_u,$actionName,$message){
@@ -124,4 +128,30 @@ abstract class ActionExecutor {
 	}
 	
 	abstract public function go();
+	
+	
+	//Fonction pour multi-connecteur
+	// ConnecteurAction
+	// Renvoie la configuration du connecteur. Ne fonctionne que sur les actions liées au connecteur 
+	// (et pas au document)
+	public function getPropertiesFromTypeConnecteur($type_connecteur){
+		return $this->objectInstancier->ConnecteurFactory->getConnecteur($this->id_e,$this->type,$type_connecteur);
+	}
+	
+	public function getEntiteConfig(){
+		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e)?:0;
+		if ($this->libelle){
+			return $this->objectInstancier->ConnecteurFactory->getDataFormulaire($this->id_e,$this->libelle);
+		}
+		
+		$donneeFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteur($this->id_e,$this->type);
+		if (!$donneeFormulaire){
+			$this->setLastMessage($this->objectInstancier->ConnecteurFactory->getLastError());
+			return false;
+		}
+		return $donneFormulaire;
+				 
+	}
+	
+	
 }

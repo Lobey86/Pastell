@@ -41,7 +41,8 @@ class OpensslTSWrapper {
 	
 	public function getTimestampReplyString($timestampReply){
 		$timestampReplyFilePath = $this->getTmpFile($timestampReply);
-		$result =  $this->execute( $this->opensslPath . " ts -reply -in $timestampReplyFilePath -text " );
+		$commande = $this->opensslPath . " ts -reply -in $timestampReplyFilePath -text " ;
+		$result =  $this->execute( $commande );
 		unlink($timestampReplyFilePath);
 		return $result;
 	}
@@ -59,7 +60,7 @@ class OpensslTSWrapper {
 		$result =  $this->execute( $command);
 		unlink($dataFilePath);
 		unlink($timestampReplyFilePath);
-				
+			
 		$this->lastError = $result;
 		return false;	
 	}

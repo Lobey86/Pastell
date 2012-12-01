@@ -11,6 +11,15 @@ $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $documentEntite = new DocumentEntite($sqlQuery);
 
+foreach($documentTypeFactory->getAutoActionOnGlobal() as $type => $action){
+	echo "Traitement de $action : ";
+	$result = $objectInstancier->ActionExecutorFactory->executeOnGlobalProperties(0,$action);
+	if (!$result){
+		echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
+	}
+	echo "\n";
+}
+
 
 foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 	foreach($tabAction as $etat_actuel => $etat_cible){	
