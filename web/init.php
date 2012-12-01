@@ -29,6 +29,7 @@ $objectInstancier->workspacePath = WORKSPACE_PATH;
 $objectInstancier->action_class_directory = __DIR__ ."/../action/"; 
 $objectInstancier->document_type_path = __DIR__."/../document-type/";
 $objectInstancier->module_path = __DIR__."/../module/";
+$objectInstancier->connecteur_path = __DIR__."/../connecteur/";
 
 $objectInstancier->opensslPath = OPENSSL_PATH;
 $objectInstancier->sign_server_url = SIGN_SERVER_URL;

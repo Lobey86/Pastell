@@ -2,30 +2,21 @@
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
 require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 
+
 $recuperateur = new Recuperateur($_GET);
-$id_e = $recuperateur->getInt('id_e');
-$libelle = $recuperateur->get('libelle');
+$id_ce = $recuperateur->getInt('id_ce');
+
+$objectInstancier->ConnecteurControler->hasDroitOnConnecteur($id_ce);
 
 
+$connecteur_entite_info = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
+$entite_info = $objectInstancier->EntiteSQL->getInfo($connecteur_entite_info['id_e']);
 
-$droit_ecriture = $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e);
-
-if ( ! $droit_ecriture ){
-	header("Location: index.php");
-	exit;
-}
-
-$entite = new Entite($sqlQuery,$id_e);
-if ($id_e && ! $entite->exists()){
-	header("Location: index.php");
-	exit;
-}
-$info = $entite->getInfo();
-
-$connecteur = $objectInstancier->ConnecteurFactory->getInfo($id_e,$libelle);
+$afficheurFormulaire = $objectInstancier->AfficheurFormulaireFactory->getFormulaireConnecteur($id_ce);
+$action = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur'])->getAction(); 
 
 
-$page_title = "Configuration des connecteurs pour « {$info['denomination']} »";
+$page_title = "Configuration des connecteurs pour « {$entite_info['denomination']} »";
 
 
 include( PASTELL_PATH ."/include/haut.php");
@@ -33,26 +24,17 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
 
-<a href='entite/detail.php?id_e=<?php echo $id_e?>&page=2'>« Revenir à <?php echo $info['denomination']?></a>
+<a href='connecteur/edition.php?id_ce=<?php echo $id_ce?>'>« Revenir à <?php echo $connecteur_entite_info['libelle']?></a>
 <br/><br/>
 <div class="box_contenu clearfix">
-<h2>Connecteur <?php hecho($libelle)?> (<?php hecho($connecteur['type']) ?>/<?php hecho($connecteur['name'])?>)
-
-
+<h2>Connecteur <?php hecho($connecteur_entite_info['type']) ?> - <?php hecho($connecteur_entite_info['id_connecteur'])?> : <?php hecho($connecteur_entite_info['libelle']) ?> 
 </h2>
 <?php 
 
-$documentType = $objectInstancier->ConnecteurFactory->getDocumentType($id_e,$libelle);
-$formulaire = $documentType->getFormulaire();
-
-$donneesFormulaire = $objectInstancier->ConnecteurFactory->getDataFormulaire($id_e,$libelle);
-	
-$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-$afficheurFormulaire->injectHiddenField("id_e",$id_e);
-$afficheurFormulaire->injectHiddenField("id_d",$id_e);
-$afficheurFormulaire->injectHiddenField("old_libelle",$libelle);
-
-$afficheurFormulaire->affiche(0,"connecteur/edition-modif-controler.php","document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e","document/recuperation-fichier.php?id_d=$id_e&id_e=$id_e","entite/supprimer-fichier.php?id_e=$id_e","connecteur/external-data.php"); 
+$afficheurFormulaire->affiche(0,"connecteur/edition-modif-controler.php",
+									"connecteur/recuperation-fichier.php?id_ce=$id_ce",
+									"connecteur/supprimer-fichier.php?id_ce=$id_ce",
+									"connecteur/external-data.php"); 
 
 ?></div>
 <?php 

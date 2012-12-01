@@ -134,9 +134,9 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
-						<?php if($field->isEnabled($this->inject['id_e'])) :?>
+						<?php if($field->isEnabled($this->inject['id_e']) && isset($id_e)) :?>
 						<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
-							<?php else : ?>
+						<?php else : ?>
 							non disponible
 						<?php endif;?>
 						<?php echo $this->donneesFormulaire->get($field->getName())?>
@@ -305,5 +305,7 @@ class AfficheurFormulaire {
 		</table>
 	<?php	
 	}
+
+
 	
 }

@@ -11,11 +11,26 @@ class DocumentTypeFactory {
 	private $documentTypeDirectory;
 	private $formulaireDefinition;
 	private $module_path;
+	private $connecteurDefinitionFiles;
 	
-	public function __construct($document_type_path,$module_path){
+	public function __construct($document_type_path,$module_path,ConnecteurDefinitionFiles $connecteurDefinitionFiles){
 		$this->documentTypeDirectory = $document_type_path;
 		$this->module_path = $module_path;
+		$this->connecteurDefinitionFiles = $connecteurDefinitionFiles;
 	}
+	
+	public function getDocumentType($type){
+		return new DocumentType($type,$this->getDocumentTypeContent($type));
+	}
+	
+	public function getEntiteDocumentType($id_connecteur){
+		$connecteur_definition = $this->connecteurDefinitionFiles->getInfo($id_connecteur); 
+		if (!$connecteur_definition){
+			throw new Exception("Impossible de trouver le connecteur");
+		}
+		return new DocumentType($id_connecteur,$connecteur_definition);
+	}
+	
 	
 	public function getAllType(){
 		static $all_type;
@@ -51,9 +66,8 @@ class DocumentTypeFactory {
 	}
 	
 	
-	public function getDocumentType($type){
-		return new DocumentType($type,$this->getDocumentTypeContent($type));
-	}
+
+	
 	
 	public function getEntiteConfig($id_e){
 		if ($id_e){			

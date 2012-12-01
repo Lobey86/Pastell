@@ -1,5 +1,6 @@
 <?php
 require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
+require_once(PASTELL_PATH."/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 class TedetisRecupHelios extends ActionExecutor {
 

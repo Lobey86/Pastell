@@ -1,5 +1,7 @@
 name: S²low
 
+extends: TdT 
+
 type: TdT
 
 formulaire:
@@ -24,9 +26,10 @@ action:
 	test-tedetis:
 		name: Tester la connectivité
 		tab: TdT
-		action-class: TedetisTestAction
+		action-class: TestConnexion
 		rule:
 			droit_id_u: 'entite:edition'
+			
 	
 	recup-classification:
 		name: Récupérer la classification

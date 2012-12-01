@@ -59,8 +59,7 @@ class Controler {
 	}
 	
 	public function redirect($to = ""){
-		$location = $this->Path->getPath($to);
-		header("Location: $location");
+		header("Location: ".SITE_BASE."$to");
 		exit;
 	}
 	

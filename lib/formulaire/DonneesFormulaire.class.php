@@ -259,4 +259,28 @@ class DonneesFormulaire {
 		file_put_contents($this->filePath,$dump);
 	}
 	
+	public function sendFile($field_name,$num=0){
+		$file_path = $this->getFilePath($field_name,$num);
+		$file_name_array = $this->get($field_name);
+		if (empty($file_name_array[$num])){
+			$this->lastError = "Ce fichier n'existe pas";
+			return false;
+		}
+		$file_name= $file_name_array[$num];
+
+		if (! file_exists($file_path)){
+			$this->lastError = "Ce fichier n'existe pas";
+			return false;
+		}
+
+		header("Content-type: ".mime_content_type($file_path));
+		header("Content-disposition: attachment; filename=\"$file_name\"");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+		header("Pragma: public");
+		
+		readfile($file_path);
+		return true;
+	}
+	
 }

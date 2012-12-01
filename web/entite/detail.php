@@ -117,13 +117,13 @@ elseif($tab_number == 2) : $i=0;?>
 			<th>Type</th>
 			<th>&nbsp;</th>
 		</tr>
-<?php foreach($objectInstancier->ConnecteurFactory->getAll($id_e) as $libelle => $connecteur) : ?>
+<?php foreach($objectInstancier->ConnecteurEntiteSQL->getAll($id_e) as $connecteur) : ?>
 	<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
-		<td><?php hecho($libelle);?></td>
-		<td><?php echo $connecteur['name'];?></td>
+		<td><?php hecho($connecteur['libelle']);?></td>
+		<td><?php echo $connecteur['id_connecteur'];?></td>
 		<td><?php echo $connecteur['type'];?></td>
 		<td>
-			<a class='btn' href='connecteur/edition.php?id_e=<?php echo $id_e?>&libelle=<?php hecho($libelle)?>&connecteur_id=<?php hecho($connecteur['connecteur_id']) ?>'>Modifier</a>
+			<a class='btn' href='connecteur/edition.php?id_ce=<?php echo $connecteur['id_ce']?>'>Configurer</a>
 		</td>
 	</tr>
 <?php endforeach;?>

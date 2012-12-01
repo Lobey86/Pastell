@@ -1,4 +1,5 @@
 <?php
+require_once(PASTELL_PATH."/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 class TedetisDemandeClassification extends ActionExecutor {
 	
