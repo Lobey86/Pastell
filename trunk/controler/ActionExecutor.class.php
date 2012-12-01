@@ -1,7 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
-require_once( PASTELL_PATH . "/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 abstract class ActionExecutor {
 	
@@ -12,6 +11,7 @@ abstract class ActionExecutor {
 	protected $id_destinataire;
 	protected $from_api;
 	protected $libelle;
+	protected $id_ce;
 	
 	protected $objectInstancier;
 	
@@ -20,7 +20,9 @@ abstract class ActionExecutor {
 	//$type = type de document
 	public function __construct(ObjectInstancier $objectInstancier,
 									$id_d,$id_e,$id_u,$type,
-									$id_destinataire,$action_name,$from_api,$libelle = false){
+									$id_destinataire,$action_name,$from_api,$libelle = false,$id_ce = false
+									
+									){
 		$this->objectInstancier = $objectInstancier;
 		$this->id_d = $id_d;
 		$this->id_e = $id_e;		
@@ -30,6 +32,7 @@ abstract class ActionExecutor {
 		$this->action = $action_name;
 		$this->from_api = $from_api;
 		$this->libelle = $libelle;
+		$this->id_ce = $id_ce;
 	}
 	
 	public function getLastMessage(){
@@ -104,6 +107,11 @@ abstract class ActionExecutor {
 	
 	public function getGlobalProperties(){
 		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire(0);	
+	}
+	
+	public function getConnecteurProperties(){
+		assert('$this->id_ce');
+		return $this->objectInstancier->DonneesFormulaireFactory->getEntiteFormulaire($this->id_ce);
 	}
 	
 	public function getCollectiviteProperties(){

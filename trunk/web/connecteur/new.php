@@ -18,7 +18,7 @@ if ($id_e && ! $entite->exists()){
 }
 $info = $entite->getInfo();
 
-$all_connecteur_dispo = $objectInstancier->ConnecteurFactory->getAllDispo();
+$all_connecteur_dispo = $objectInstancier->ConnecteurDefinitionFiles->getAll();
 
 $page_title = "Ajout d'un connecteur";
 
@@ -33,7 +33,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <div class="box_contenu clearfix">
 
 <h2>Ajouter un connecteur</h2>
-<form class="w700" action='connecteur/new_controler.php' method='post' >
+<form class="w700" action='connecteur/new-controler.php' method='post' >
 <input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 <table >
 

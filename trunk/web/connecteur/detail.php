@@ -108,7 +108,7 @@ foreach($actionPossible->getActionPossible($id_e_to_show,$authentification->getI
 		continue;
 	}
 ?>
-<form action='connecteur/action.php' method='post' >
+<form action='connecteur/action-old.php' method='post' >
 	<input type='hidden' name='id_e' value='<?php echo $id_e_to_show ?>' />
 	<input type='hidden' name='page' value='<?php echo $tab_number ?>' />
 	

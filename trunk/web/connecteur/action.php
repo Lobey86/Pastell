@@ -4,21 +4,17 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 $recuperateur = new Recuperateur($_POST);
 
 $action = $recuperateur->get('action');
-$id_e = $recuperateur->getInt('id_e',0);
-$page = $recuperateur->getInt('page',0);
+$id_ce = $recuperateur->getInt('id_ce',0);
 
 $actionPossible = $objectInstancier->ActionPossible;
 
-if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_e,$action)) {
+if ( ! $actionPossible->isActionPossibleOnConnecteur($id_ce,$authentification->getId(),$action)) {
 	$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
-	header("Location: detail.php?id_e=$id_e&page=$page");
+	header("Location: edition.php?id_ce=$id_ce");
 	exit;
 }
-if ($id_e == 0){
-	$result = $objectInstancier->ActionExecutorFactory->executeOnGlobalProperties($authentification->getId(),$action);
-} else {
-	$result = $objectInstancier->ActionExecutorFactory->executeOnEntiteProperties($id_e,$authentification->getId(),$action);
-}
+
+$result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($id_ce,$authentification->getId(),$action);
 
 $message = $objectInstancier->ActionExecutorFactory->getLastMessage();
 
@@ -28,5 +24,4 @@ if (! $result ){
 	$lastMessage->setLastMessage($message);	
 }
 
-header("Location: detail.php?id_e=$id_e&page=$page");
-
+header("Location: edition.php?id_ce=$id_ce");

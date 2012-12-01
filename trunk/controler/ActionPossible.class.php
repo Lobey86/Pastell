@@ -17,6 +17,7 @@ class ActionPossible {
 	public function __construct(){		
 		/*****/
 		global $objectInstancier;
+		$this->objectInstancier = $objectInstancier;
 		/*****/
 		
 		$this->entiteProperties = $objectInstancier->EntitePropertiesSQL;
@@ -32,6 +33,12 @@ class ActionPossible {
 
 	public function getLastBadRule(){
 		return $this->lastBadRule;
+	}
+	
+	public function isActionPossibleOnConnecteur($id_ce,$id_u,$action_name){		
+		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);		
+		$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		return $this->internIsActionPossible($connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_e'],$action_name,$documentType);		
 	}
 	
 	public function isActionPossibleOnEntite($id_e,$id_u,$libelle,$action_name){
@@ -80,9 +87,12 @@ class ActionPossible {
 	}
 	
 	private function internIsActionPossible($id_e,$id_u,$id_d,$action_name,$type_document){
-		$action = $this->getAction($id_e, $id_d,$type_document);
+		if (is_object($type_document)){
+			$action = $type_document->getAction();
+		} else {
+			$action =  $this->getAction($id_e, $id_d, $type_document);
+		}
 		$action_rule = $action->getActionRule($action_name);
-	
 		foreach($action_rule as $ruleName => $ruleValue){
 			if ( ! $this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleValue) ){
 				$this->lastBadRule = "$ruleName:$ruleValue ne correspond pas";

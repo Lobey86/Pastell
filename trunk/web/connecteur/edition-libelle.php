@@ -9,7 +9,7 @@ $objectInstancier->ConnecteurControler->hasDroitOnConnecteur($id_ce);
 
 $connecteur_entite_info = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
 
-$page_title = "Supression du connecteur  « {$connecteur_entite_info['libelle']} »";
+$page_title = "Modification du connecteur  « {$connecteur_entite_info['libelle']} »";
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
@@ -23,13 +23,19 @@ include( PASTELL_PATH ."/include/haut.php");
 <h2>Connecteur <?php hecho($connecteur_entite_info['type']) ?> - <?php hecho($connecteur_entite_info['id_connecteur'])?> : <?php hecho($connecteur_entite_info['libelle']) ?> 
 </h2>
 <br/><br/>
-<div class='box_alert'>
-<p>Attention, la supression du connecteur est irréversible!</p>
-</div>
-<br/><br/>
-<form action='connecteur/delete-controler.php' method='post' >
+
+<form class="w700" action='connecteur/edition-libelle-controler.php' method='post' >
 	<input type='hidden' name='id_ce' value='<?php echo $connecteur_entite_info['id_ce'] ?>' />
-	<input type='submit' value='Supprimer le connecteur'/>
+<table >
+
+<tr>
+<th>Libellé</th>
+<td><input type='text' name='libelle' value='<?php hecho($connecteur_entite_info['libelle']) ?>'/></td>
+</tr>
+
+</table>
+	
+	<input type='submit' value='Modifier le libellé'/>
 </form>
 
 </div>
