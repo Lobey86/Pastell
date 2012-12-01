@@ -19,6 +19,12 @@ action:
 			last-action: 
 				creation
 				modification
+	send-sae:
+		name-action: Envoi au SAE
+		name: Envoyer au SAE
+		action-class: SAEEnvoiMegalis
+		
+	
 		
 	send-tdt:
 		name-action: Transmettre au TdT

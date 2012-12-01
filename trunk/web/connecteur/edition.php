@@ -68,5 +68,13 @@ foreach($documentType->getAction()->getAll() as $action_name) :
 <?php endforeach;?>
 
 </div>
+
+<div class="box_contenu clearfix">
+<h2>Supression</h2>
+<a href="connecteur/delete.php?id_e=<?php echo $id_e?>&libelle=<?php echo $libelle ?>" class='btn_maj'>
+			Supprimer ce connecteur 
+</a>
+</div>
+
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

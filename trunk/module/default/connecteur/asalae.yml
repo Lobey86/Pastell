@@ -2,17 +2,17 @@ name: As@lae
 type: SAE
 formulaire:
 	page0:
-		activate: {name: "Module activé", type: checkbox}
-		wsdl: {name: "URL du WSDL"}
-		login: {name: "Login"}
-		password: {name: "Mot de passe"}
-		identifiant_versant: {name: "Identifiant service versant"}
-		identifiant_archive: {name: "Identifiant archive"}
-		numero_agrement: {name: "Numéro d'aggrément"}
-		originating_agency: {name: "OriginatingAgency" }
-		mail: {name: serveur de mail}
-		bordereau_test: {name: "Dernier bordereau de test",  type: file, read-only: true}
-		archive_test: {no-show: true, read-only:true}
+		sae_activate: {name: "Module activé", type: checkbox}
+		sae_wsdl: {name: "URL du WSDL"}
+		sae_login: {name: "Login"}
+		sae_password: {name: "Mot de passe"}
+		sae_identifiant_versant: {name: "Identifiant service versant"}
+		sae_identifiant_archive: {name: "Identifiant archive"}
+		sae_numero_agrement: {name: "Numéro d'aggrément"}
+		sae_originating_agency: {name: "OriginatingAgency" }
+		sae_mail: {name: serveur de mail}
+		sae_bordereau_test: {name: "Dernier bordereau de test",  type: file, read-only: true}
+		sae_archive_test: {no-show: true, read-only:true}
 		
 action:
 	test-sae-bordereau:

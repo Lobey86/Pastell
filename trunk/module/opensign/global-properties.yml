@@ -1,7 +1,11 @@
 formulaire:
 	OpenSign:
 		opensign_wsdl: {name: "WSDL"}
-	
+		opensign_ca: 
+			name: "Autorité de certification"
+			commentaire: "Le certificat X509 au format PEM qui a signé le certificat du timestamp"
+			type: file
+
 action:	
 	opensign-test:
 		name: Tester la connexion 
@@ -10,4 +14,16 @@ action:
 		rule:
 			droit_id_u: 'entite:edition'
 		
-	
+	opensign-test-token:
+		name: Tester la création d'un token 
+		action-class: OpenSignTestToken
+		tab: OpenSign
+		rule:
+			droit_id_u: 'entite:edition'
+
+	opensign-test-verif:
+		name: Créer et vérifier un token 
+		action-class: OpenSignTestVerifToken
+		tab: OpenSign
+		rule:
+			droit_id_u: 'entite:edition'

@@ -140,6 +140,10 @@ class DocumentTypeFactory {
 		}
 		return $result;
 	}
+
+	public function getAutoActionOnGlobal(){
+		return $this->getGlobalProperties("global-properties")->getAction()->getAutoAction();
+	}
 	
 	public function getTypeByDroit($allDroit){
 		foreach($allDroit as $droit){

@@ -1,4 +1,6 @@
 <?php 
+
+
 require_once(__DIR__."/../DefaultSettings.php");
 set_include_path( __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
 
@@ -8,8 +10,9 @@ function __autoload($class_name) {
 		throw new Exception("Impossible de trouver $class_name");
 	}
 }
-
 session_start();
+
+
 require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 require_once( PASTELL_PATH . "/lib/util.php");

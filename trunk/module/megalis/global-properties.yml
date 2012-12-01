@@ -21,3 +21,4 @@ action:
 		tab: E-Mégalis
 		rule:
 			droit_id_u: 'entite:edition'
+		action-automatique: megalis-recup

@@ -12,7 +12,7 @@ class ActionPossible {
 	private $document;
 	private $entiteSQL;
 	private $donneesFormulaireFactory;
-	
+	private $connecteurFactory;
 	
 	public function __construct(){		
 		/*****/
@@ -27,11 +27,18 @@ class ActionPossible {
 		$this->entiteSQL = $objectInstancier->EntiteSQL;
 		$this->documentTypeFactory = $objectInstancier->DocumentTypeFactory;
 		$this->donneesFormulaireFactory = $objectInstancier->DonneesFormulaireFactory;
+		$this->connecteurFactory = $objectInstancier->ConnecteurFactory;
 	}
 
 	public function getLastBadRule(){
 		return $this->lastBadRule;
 	}
+	
+	public function isActionPossibleOnEntite($id_e,$id_u,$libelle,$action_name){
+		$documentType = $this->connecteurFactory->getDocumentType($id_e,$libelle);
+		return $this->internIsActionPossible($id_e,$id_u,$id_e,$action_name,$documentType);
+	}
+	
 		
 	public function isActionPossible($id_e,$id_u,$id_d,$action_name){
 		$type_document = $this->getTypeDocument($id_e, $id_d);
@@ -86,7 +93,7 @@ class ActionPossible {
 	}
 	
 	private function getAction($id_e, $id_d,$type_document){
-		if ($id_e == $id_d){
+		if ($id_e == $id_d){						
 			return $this->documentTypeFactory->getEntiteConfig($id_e)->getAction();
 		}
 		return $this->documentTypeFactory->getDocumentType($type_document)->getAction();

@@ -6,6 +6,9 @@ class SAEVerifMegalis extends ActionExecutor {
 	public function go(){
 		
 		$collectiviteProperties = $this->getCollectiviteProperties();		
+		if (!$collectiviteProperties){
+			return false;
+		}
 		$authorityInfo = array(
 							"sae_wsdl" =>  $collectiviteProperties->get("sae_wsdl"),
 							"sae_login" =>  $collectiviteProperties->get("sae_login"),
