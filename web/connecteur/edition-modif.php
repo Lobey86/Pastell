@@ -13,7 +13,12 @@ $connecteur_entite_info = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce
 $entite_info = $objectInstancier->EntiteSQL->getInfo($connecteur_entite_info['id_e']);
 
 $afficheurFormulaire = $objectInstancier->AfficheurFormulaireFactory->getFormulaireConnecteur($id_ce);
-$action = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur'])->getAction(); 
+
+if ($connecteur_entite_info['id_e']){
+	$action = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur'])->getAction();
+} else {
+	$action = $objectInstancier->DocumentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur'])->getAction();
+} 
 
 
 $page_title = "Configuration des connecteurs pour « {$entite_info['denomination']} »";

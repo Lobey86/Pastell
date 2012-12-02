@@ -18,7 +18,8 @@ if ($id_e && ! $entite->exists()){
 }
 $info = $entite->getInfo();
 
-$all_connecteur_dispo = $objectInstancier->ConnecteurDefinitionFiles->getAll();
+$all_connecteur_dispo = $objectInstancier->ConnecteurDefinitionFiles->getAllByIdE($id_e);
+
 
 $page_title = "Ajout d'un connecteur";
 

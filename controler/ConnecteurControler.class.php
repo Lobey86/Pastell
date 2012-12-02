@@ -6,12 +6,12 @@ class ConnecteurControler extends Controler {
 		$droit_ecriture = $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),
 															"entite:edition",$id_e);
 		if ( ! $droit_ecriture ){
-			$this->lastError->setLastError("Vous n'avez pas le droit d'édition sur cette entité");
+			$this->LastError->setLastError("Vous n'avez pas le droit d'édition sur cette entité");
 			$this->redirect("/entite/detail.php?id_e=$id_e&page=2");
 		}
 
-		if ( ! $this->EntiteSQL->getInfo($id_e)){
-			$this->lastError->setLastError("L'entité $id_e n'existe pas");
+		if ( $id_e && ! $this->EntiteSQL->getInfo($id_e)){
+			$this->LastError->setLastError("L'entité $id_e n'existe pas");
 			$this->redirect("/entite/index.php");
 		}
 	}
@@ -33,10 +33,15 @@ class ConnecteurControler extends Controler {
 		
 		$this->hasDroitEdition($id_e);
 		
-		$connecteur_info = $this->ConnecteurDefinitionFiles->getInfo($id_connecteur);
+		if ($id_e){
+			$connecteur_info = $this->ConnecteurDefinitionFiles->getInfo($id_connecteur);
+		} else {
+			$connecteur_info = $this->ConnecteurDefinitionFiles->getInfoGlobal($id_connecteur);
+		}
+		
 		if (!$connecteur_info){
 			$this->lastError->setLastError("Aucun connecteur de ce type.");	
-			} else {
+		} else {
 			$this->ConnecteurEntiteSQL->addConnecteur($id_e,$id_connecteur,$connecteur_info['type'],$libelle);
 			$this->lastMessage->setLastMessage("Connecteur ajouté avec succès");
 		}
@@ -74,6 +79,7 @@ class ConnecteurControler extends Controler {
 		$this->hasDroitOnConnecteur($id_ce);
 		$fileUploader = new FileUploader($_FILES);
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
+		
 		$donneesFormulaire->saveTab($recuperateur,$fileUploader,0);
 		$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 	}

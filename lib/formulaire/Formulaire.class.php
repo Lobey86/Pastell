@@ -71,6 +71,9 @@ class Formulaire {
 	
 	public function getFields(){
 		$fields = array();	
+		if (! $this->tabSelected){
+			return $fields;
+		}
 		foreach($this->formArray[$this->tabSelected] as $libelle => $properties){
 			$fields[] = new Field($libelle,$properties);	
 		}
@@ -87,6 +90,7 @@ class Formulaire {
 	}
 	
 	public function getAllFields(){
+		$fields = array();
 		foreach ($this->formArray as $name => $tab) {
 			foreach($tab as $libelle => $properties){
 				$fields[Field::Canonicalize($libelle)] = new Field($libelle,$properties);	

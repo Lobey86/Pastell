@@ -27,8 +27,15 @@ class DocumentType {
 		return $this->typeDefinition[self::NOM];
 	}
 	
+	private function getFormulaireArray(){
+		if (empty($this->typeDefinition[self::FORMULAIRE])){
+			return array();
+		}
+		return $this->typeDefinition[self::FORMULAIRE];
+	}
+	
 	public function getFormulaire(){
-		$formulaire =  new Formulaire($this->typeDefinition[self::FORMULAIRE]);
+		$formulaire =  new Formulaire($this->getFormulaireArray());
 		if (isset( $this->typeDefinition[self::PAGE_CONDITION])){
 			$formulaire->addPageCondition($this->typeDefinition[self::PAGE_CONDITION]);
 		}

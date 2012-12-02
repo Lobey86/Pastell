@@ -37,7 +37,12 @@ class ActionPossible {
 	
 	public function isActionPossibleOnConnecteur($id_ce,$id_u,$action_name){		
 		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);		
-		$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		if ($connecteur_entite_info['id_e']){
+			$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		} else {
+			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+		}
+		
 		return $this->internIsActionPossible($connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_e'],$action_name,$documentType);		
 	}
 	
