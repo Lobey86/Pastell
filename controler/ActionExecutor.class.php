@@ -111,7 +111,7 @@ abstract class ActionExecutor {
 	
 	public function getConnecteurProperties(){
 		assert('$this->id_ce');
-		return $this->objectInstancier->DonneesFormulaireFactory->getEntiteFormulaire($this->id_ce);
+		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($this->id_ce);
 	}
 	
 	public function getCollectiviteProperties(){
