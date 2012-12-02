@@ -2,6 +2,8 @@
 
 require_once(__DIR__."/../../lib/connecteur/Connecteur.class.php");
 
+class S2lowException extends Exception {}
+
 class S2low  extends Connecteur {
 	
 	const URL_TEST = "/modules/actes/";
@@ -26,47 +28,46 @@ class S2low  extends Connecteur {
 	
 	public function __construct(DonneesFormulaire $collectiviteProperties){
 		$this->curlWrapper = new CurlWrapper();
-		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('tdt_server_certificate'));	
-		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('tdt_user_certificat_pem'),
-													$collectiviteProperties->getFilePath('tdt_user_key_pem'),
-													$collectiviteProperties->get('tdt_user_certificat_password'));
+		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('server_certificate'));	
+		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('user_certificat_pem'),
+													$collectiviteProperties->getFilePath('user_key_pem'),
+													$collectiviteProperties->get('user_certificat_password'));
 
-		if ($collectiviteProperties->get("tdt_user_login")){
-			$this->curlWrapper->httpAuthentication($collectiviteProperties->get("tdt_user_login"), $collectiviteProperties->get("tdt_user_password"));
+		if ($collectiviteProperties->get("user_login")){
+			$this->curlWrapper->httpAuthentication($collectiviteProperties->get("user_login"), $collectiviteProperties->get("user_password"));
 			$this->ensureLogin = true;
 		}						
-		$this->isActivate = $collectiviteProperties->get('tdt_activate');
-		$this->tedetisURL = $collectiviteProperties->get('tdt_url');
+		$this->isActivate = $collectiviteProperties->get('activate');
+		$this->tedetisURL = $collectiviteProperties->get('url');
 		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');						
 	}
 	
 
-	private function ensureLogin(){
+	private function ensureLogin(){		
 		if ($this->ensureLogin){
 			return true;
 		}
 		$output = $this->curlWrapper->get($this->tedetisURL .self::URL_LIST_LOGIN);
+		
+		
+		if ($this->curlWrapper->getLastError()){
+			throw new S2lowException($this->curlWrapper->getLastError());
+		}
+
 		if ($output){
 			$this->ensureLogin = true;
 			return true;
 		}
-		$this->lastError = "La connexion S²low nécessite un login/mot de passe ";
-		return false;
-		
+		throw new S2lowException("La connexion S²low nécessite un login/mot de passe ");		
 	}
 	
 	private function exec($url){
-		if (! $this->isActivate){
-			$this->lastError = "Ce module n'est pas activé";
-			return false;
-		}
 		if (! $this->ensureLogin()){
 			return false;
 		}
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
 		if ( ! $output){
-			$this->lastError = $this->curlWrapper->getLastError();
-			return false;
+			throw new S2lowException($this->curlWrapper->getLastError());			
 		}		
 		return $output;
 	}
@@ -83,8 +84,7 @@ class S2low  extends Connecteur {
 	public function getClassification(){
 		$result = $this->exec( self::URL_CLASSIFICATION ."?api=1");
 		if (preg_match("/^KO/",$result)){
-			$this->lastError = "S²low a répondu : " .$result;
-			return false;
+			throw new S2lowException("S²low a répondu : " .$result);
 		}
 		return $result;
 	}
@@ -95,8 +95,7 @@ class S2low  extends Connecteur {
 			return false;
 		}
 		if (preg_match("/^KO/",$result)){
-			$this->lastError = "S²low a répondu : " .$result;
-			return false;
+			throw new S2lowException("S²low a répondu : " .$result);
 		}
 		return "S²low a répondu : " .$result;
 	}
@@ -106,13 +105,11 @@ class S2low  extends Connecteur {
 		$this->curlWrapper->addPostData('id',$id_transaction);
 		$result = $this->exec( self::URL_ANNULATION );	
 		if( ! $result ){
-			$this->lastError = "Erreur lors de la connexion a S²low (".$this->tedetisURL.")";
-			return false;
+			throw new S2lowException("Erreur lors de la connexion a S²low (".$this->tedetisURL.")");
 		}	
 				
 		if (! preg_match("/^OK/",$result)){
-			$this->lastError = "Erreur lors de la transmission, S²low a répondu : $result";
-			return false;
+			throw new S2lowException("Erreur lors de la transmission, S²low a répondu : $result");
 		}
 		return true;
 	}
@@ -128,8 +125,7 @@ class S2low  extends Connecteur {
 		$theClassif = $this->getClassification();
 	
 		if ($usingClassif != $theClassif){
-			$this->lastError = "La classification utilisée n'est plus à jour";
-			return false;
+			throw new S2lowException("La classification utilisée n'est plus à jour");
 		}
 		return true;
 	}
