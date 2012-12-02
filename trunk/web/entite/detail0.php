@@ -27,7 +27,7 @@ if ( ! $droit_lecture ){
 
 $page_title = "Propriétés globales";
 
-$formulaire_tab = array("Utilisateurs","Annuaire globale");
+$formulaire_tab = array("Utilisateurs","Annuaire globale","Connecteur globaux");
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
@@ -47,7 +47,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	<div class="box_contenu clearfix">
 	
 <?php 
-if ($tab_number == 0){
+if ($tab_number == 0):
 
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$utilisateurListeHTML = new UtilisateurListeHTML();
@@ -69,12 +69,35 @@ if ($tab_number == 0){
 	}
 	
 	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance,"entite/detail0.php",0);
-	} elseif ($tab_number == 1) { ?>
+	 elseif ($tab_number == 1) : ?>
 	<a href='mailsec/annuaire.php'>Annuaire global »</a>
 <?php 
 
 	
-} ?>
+elseif($tab_number == 2) : $i=0;?>
+<h2>Listes des connecteurs
+<a href="connecteur/new.php?id_e=<?php echo $id_e?>&page=1&page_retour=2" class='btn_maj'>Nouveau</a>
+</h2>
+
+<table class="tab_01">
+<tr>
+			<th>Libellé</th>
+			<th>Nom </th>
+			<th>Type</th>
+			<th>&nbsp;</th>
+		</tr>
+<?php foreach($objectInstancier->ConnecteurEntiteSQL->getAll($id_e) as $connecteur) : ?>
+	<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
+		<td><?php hecho($connecteur['libelle']);?></td>
+		<td><?php echo $connecteur['id_connecteur'];?></td>
+		<td><?php echo $connecteur['type'];?></td>
+		<td>
+			<a class='btn' href='connecteur/edition.php?id_ce=<?php echo $connecteur['id_ce']?>'>Configurer</a>
+		</td>
+	</tr>
+<?php endforeach;?>
+</table>
+<?php endif;?>
 </div>
 
 <?php 

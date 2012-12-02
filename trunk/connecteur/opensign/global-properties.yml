@@ -1,3 +1,7 @@
+name: OpenSign
+
+type: horodateur
+
 formulaire:
 	OpenSign:
 		opensign_wsdl: {name: "WSDL"}

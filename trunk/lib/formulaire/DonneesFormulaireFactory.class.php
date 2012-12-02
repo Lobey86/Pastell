@@ -22,12 +22,17 @@ class DonneesFormulaireFactory{
 	
 	public function getConnecteurEntiteFormulaire($id_ce){
 		$connecteur_entite_info = $this->connecteurEntiteSQL->getInfo($id_ce);
-		$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']); 
+		if ($connecteur_entite_info['id_e']){		
+			$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		} else {
+			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+		} 
 		$id_document = "connecteur_$id_ce";
 		return $this->getFromCache($id_document,$documentType->getFormulaire());
 	}
 	
-		
+	
+	
 	public function getEntiteFormulaire($id_e){
 		$formulaire = $this->documentTypeFactory->getEntiteConfig($id_e)->getFormulaire();
 		return $this->getFromCache($id_e, $formulaire); 

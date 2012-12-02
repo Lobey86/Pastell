@@ -31,8 +31,12 @@ class ActionExecutorFactory {
 	}
 	
 	private function executeOnConnecteurThrow($id_ce,$id_u,$action_name){
-		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);				
-		$documentType = $this->objectInstancier->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
+		if ($connecteur_entite_info['id_e']){				
+			$documentType = $this->objectInstancier->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		} else {
+			$documentType = $this->objectInstancier->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+		}
 		$theAction = $documentType->getAction();		
 		$action_class_name = $theAction->getActionClass($action_name);
 		if (!$action_class_name){
