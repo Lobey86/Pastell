@@ -138,28 +138,5 @@ abstract class ActionExecutor {
 	abstract public function go();
 	
 	
-	//Fonction pour multi-connecteur
-	// ConnecteurAction
-	// Renvoie la configuration du connecteur. Ne fonctionne que sur les actions liées au connecteur 
-	// (et pas au document)
-	public function getPropertiesFromTypeConnecteur($type_connecteur){
-		return $this->objectInstancier->ConnecteurFactory->getConnecteur($this->id_e,$this->type,$type_connecteur);
-	}
-	
-	public function getEntiteConfig(){
-		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e)?:0;
-		if ($this->libelle){
-			return $this->objectInstancier->ConnecteurFactory->getDataFormulaire($this->id_e,$this->libelle);
-		}
-		
-		$donneeFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteur($this->id_e,$this->type);
-		if (!$donneeFormulaire){
-			$this->setLastMessage($this->objectInstancier->ConnecteurFactory->getLastError());
-			return false;
-		}
-		return $donneFormulaire;
-				 
-	}
-	
 	
 }

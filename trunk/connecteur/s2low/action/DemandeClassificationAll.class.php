@@ -29,7 +29,6 @@ class DemandeClassificationAll extends ActionExecutor {
 			}
 		}
 		
-				
 		$this->setLastMessage("Demandes envoyées à <br/>".implode("<br/>",$envoye));
 		return true;
 

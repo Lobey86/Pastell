@@ -45,6 +45,14 @@ CREATE TABLE annuaire_role (
 	`partage` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_r`)
 )  ENGINE=MyISAM  ;
+CREATE TABLE connecteur_entite (
+	`id_ce` int(11) NOT NULL AUTO_INCREMENT,
+	`id_e` int(11) NOT NULL,
+	`libelle` varchar(32) NOT NULL,
+	`id_connecteur` varchar(32) NOT NULL,
+	`type` varchar(32) NOT NULL,
+	PRIMARY KEY (`id_ce`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE document (
 	`id_d` varchar(32) NOT NULL,
 	`type` varchar(32) NOT NULL,
@@ -119,6 +127,13 @@ CREATE TABLE entite_properties (
 	`flux` varchar(16) NOT NULL,
 	`properties` varchar(32) NOT NULL,
 	`values` varchar(32) NOT NULL
+)  ENGINE=MyISAM  ;
+CREATE TABLE flux_entite (
+	`id_fe` int(11) NOT NULL AUTO_INCREMENT,
+	`id_e` int(11) NOT NULL,
+	`flux` varchar(32) NOT NULL,
+	`id_ce` int(11) NOT NULL,
+	PRIMARY KEY (`id_fe`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE grade (
 	`libelle` varchar(256) NOT NULL,

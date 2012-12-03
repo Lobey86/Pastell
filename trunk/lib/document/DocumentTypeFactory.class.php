@@ -12,11 +12,13 @@ class DocumentTypeFactory {
 	private $formulaireDefinition;
 	private $module_path;
 	private $connecteurDefinitionFiles;
+	private $fluxDefinitionFiles;
 	
-	public function __construct($document_type_path,$module_path,ConnecteurDefinitionFiles $connecteurDefinitionFiles){
+	public function __construct($document_type_path,$module_path,ConnecteurDefinitionFiles $connecteurDefinitionFiles,FluxDefinitionFiles $fluxDefinitionFiles){
 		$this->documentTypeDirectory = $document_type_path;
 		$this->module_path = $module_path;
 		$this->connecteurDefinitionFiles = $connecteurDefinitionFiles;
+		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
 	}
 	
 	public function getDocumentType($type){
@@ -37,6 +39,14 @@ class DocumentTypeFactory {
 			throw new Exception("Impossible de trouver le connecteur");
 		}
 		return new DocumentType($id_connecteur,$connecteur_definition);
+	}
+	
+	public function getFluxDocumentType($id_flux){
+		$flux_defintion = $this->fluxDefinitionFiles->getInfo($id_flux);
+		if (!$flux_defintion){
+			throw new Exception("Impossible de trouver la défintion du flux");
+		}
+		return new DocumentType($id_flux,$flux_defintion);
 	}
 	
 	

@@ -1,4 +1,8 @@
 <?php
+
+//TODO ancienne méthode à supprimer
+
+
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
 require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
