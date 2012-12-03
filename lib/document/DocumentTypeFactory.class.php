@@ -2,7 +2,10 @@
 require_once ( PASTELL_PATH . "/ext/spyc.php");
 require_once ( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 
-//Responsabilité: définir l'empacement des différents fichiers YML de configuration (documents, entités, propriétés globales)
+//Responsabilité: Appeller les bons objects qui connaissent l'emplacement des fichier de conf
+//et construire un DocumentType
+//(documents, entités, propriétés globales)
+
 
 class DocumentTypeFactory {
 	
@@ -42,50 +45,16 @@ class DocumentTypeFactory {
 	}
 	
 	public function getFluxDocumentType($id_flux){
-		$flux_defintion = $this->fluxDefinitionFiles->getInfo($id_flux);
-		if (!$flux_defintion){
-			throw new Exception("Impossible de trouver la défintion du flux");
+		$flux_definition = $this->fluxDefinitionFiles->getInfo($id_flux);
+		if (!$flux_definition){
+			throw new Exception("Impossible de trouver la défintion du flux $id_flux");
 		}
-		return new DocumentType($id_flux,$flux_defintion);
+		return new DocumentType($id_flux,$flux_definition);
 	}
-	
 	
 	public function getAllType(){
-		static $all_type;
-		if ($all_type){
-			return $all_type;
-		}
-		
-		$all = glob("{$this->documentTypeDirectory}/*.yml");
-		$exlude = array('default.yml','global-properties.yml','collectivite-properties.yml');
-		
-		$all_type = array();
-		
-		foreach ($all as $file_config){
-			if( in_array(basename($file_config),$exlude)){
-				continue;
-			}
-			$config = $this->getYMLFile($file_config);	
-			$name = basename($file_config,".yml");		
-			$type = empty($config['type'])?"Flux Généraux":$config['type'];
-			$all_type[$type][$name] = $config['nom'];
-		}
-			
-		
-		$all_module = glob("{$this->module_path}/*/definition.yml");
-		foreach ($all_module as $file_config){			
-			$config = $this->getYMLFile($file_config);	
-			$name = basename(dirname($file_config));		
-			$type = empty($config['type'])?"Flux Généraux":$config['type'];
-			$all_type[$type][$name] = $config['nom'];
-		}
-		
-		return $all_type;
+		return $this->fluxDefinitionFiles->getAllType();
 	}
-	
-	
-
-	
 	
 	public function getEntiteConfig($id_e){
 		if ($id_e){			
