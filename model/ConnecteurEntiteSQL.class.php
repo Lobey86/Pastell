@@ -26,4 +26,9 @@ class ConnecteurEntiteSQL extends SQL {
 		$this->query($sql,$libelle,$id_ce);
 	}
 	
+	public function getDisponible($id_e,$type){
+		$sql = "SELECT * FROM connecteur_entite " .
+				" WHERE id_e=? AND type=?";
+		return $this->query($sql,$id_e,$type);
+	}
 }

@@ -65,12 +65,7 @@ class ActionExecutorFactory {
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getEntiteConfig(0);		
 		return $this->internExecute(0, 0, $id_u, '', $action_name, array(),false,$documentType);
 	}
-	
-	public function executeOnEntiteProperties2($id_e,$id_u,$libelle,$action_name){
-		$documentType = $this->objectInstancier->ConnecteurFactory->getDocumentType($id_e,$libelle);
-		return $this->internExecute($id_e, $id_e, $id_u, '', $action_name, array(),false,$documentType,$libelle);
-	}
-	
+
 	public function executeOnEntiteProperties($id_e,$id_u,$action_name){
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getEntiteConfig($id_e);		
 		return $this->internExecute($id_e, $id_e, $id_u, '', $action_name, array(),false,$documentType);
