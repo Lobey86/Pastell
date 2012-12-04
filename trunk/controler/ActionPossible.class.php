@@ -100,9 +100,6 @@ class ActionPossible {
 	}
 	
 	private function getAction($id_e, $id_d,$type_document){
-		if ($id_e == $id_d){						
-			return $this->documentTypeFactory->getEntiteConfig($id_e)->getAction();
-		}
 		return $this->documentTypeFactory->getDocumentType($type_document)->getAction();
 	}
 	
@@ -127,8 +124,7 @@ class ActionPossible {
 			case 'type_id_e': return $this->veriTypeEntite($id_e,$ruleValue); break;
 			case 'document_is_valide' : return $this->verifDocumentIsValide($id_d,$type_document); break;
 			case 'properties': return $this->verifProperties($id_e,$ruleValue); break;
-			case 'collectivite-properties': return $this->verifCollectiviteProperties($ruleValue); break;
-			case 'herited-properties': return $this->verifHeritedProperties($id_e,$ruleValue); break;
+			case 'herited-properties': return $this->verifHeritedProperties($id_e,$type_document,$ruleValue); break;
 			
 			case 'automatique': return false;
 		}
@@ -184,24 +180,17 @@ class ActionPossible {
 		return $value == $this->entiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,$key);		
 	}
 	
-	private function verifCollectiviteProperties(array $properties){
-		$collectiviteProperties = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
+	private function verifHeritedProperties($id_e,$type_document,array $properties){
+		throw new Exception("herited-properties Not Implemented !");
 		
+		$id_e = $this->entiteSQL->getCollectiviteAncetre($id_e);
+		$heritedProperties = $this->ConnecteurFactory->getConnecteurConfigByType($id_e,$type_document,'TdT');
+				
 		foreach($properties as $key => $value) {
-			if ($collectiviteProperties->get($key) != $value){
-				return false;
-			}
-			return true;
-		}	
-	}
-	
-	private function verifHeritedProperties($id_e,array $properties){
-			$heritedProperties = $this->donneesFormulaireFactory->getEntiteFormulaire($this->entiteSQL->getCollectiviteAncetre($id_e));		
-			foreach($properties as $key => $value) {
 			if ($heritedProperties->get($key) != $value){
 				return false;
 			}
-			return true;
+		return true;
 		}	
 	}
 	

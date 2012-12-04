@@ -46,6 +46,9 @@ class DocumentType {
 	}
 	
 	public function getAction(){
+		if (empty($this->typeDefinition[self::ACTION])){
+			return new Action();
+		}
 		return new Action((array) $this->typeDefinition[self::ACTION]);
 	}
 	

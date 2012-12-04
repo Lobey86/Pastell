@@ -1,12 +1,13 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
-$id_e = $recuperateur->get('id_e');
+$id_ce = $recuperateur->get('id_ce');
 $field = $recuperateur->get('field');
-$page = $recuperateur->get('page');
+
+
+$connecteur_info = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
+$id_e  = $connecteur_info['id_e'];
 
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$id_e)) {
 	$lastError->setLastError("Vous n'avez pas le droit de faire cette action (entite:edition)");
@@ -14,9 +15,8 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getEntiteConfig($id_e);
+$documentType = $documentTypeFactory->getEntiteDocumentType($connecteur_info['id_connecteur']);
 $formulaire = $documentType->getFormulaire();
-
 $theField = $formulaire->getField($field);
 
 $script = $theField->getProperties('script-controler');

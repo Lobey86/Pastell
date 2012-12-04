@@ -1,11 +1,9 @@
 <?php
 
-
 $fieldValue = $recuperateur->get($field);
 
-
-$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
+$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfig($id_ce);
 $donneesFormulaire->setData($field,$fieldValue);
 
-header("Location: edition-properties.php?id_e=$id_e&page=$page");
-exit;
+header("Location: edition-modif.php?id_ce=$id_ce");
+

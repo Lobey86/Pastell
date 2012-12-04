@@ -5,8 +5,6 @@ require_once ( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 //Responsabilité: Appeller les bons objects qui connaissent l'emplacement des fichier de conf
 //et construire un DocumentType
 //(documents, entités, propriétés globales)
-
-
 class DocumentTypeFactory {
 	
 	const DEFAULT_DOCUMENT_TYPE_FILE = "default.yml";
@@ -39,7 +37,7 @@ class DocumentTypeFactory {
 	public function getEntiteDocumentType($id_connecteur){
 		$connecteur_definition = $this->connecteurDefinitionFiles->getInfo($id_connecteur); 
 		if (!$connecteur_definition){
-			throw new Exception("Impossible de trouver le connecteur");
+			throw new Exception("Impossible de trouver le connecteur $id_connecteur");
 		}
 		return new DocumentType($id_connecteur,$connecteur_definition);
 	}
@@ -55,34 +53,7 @@ class DocumentTypeFactory {
 	public function getAllType(){
 		return $this->fluxDefinitionFiles->getAllType();
 	}
-	
-	public function getEntiteConfig($id_e){
-		if ($id_e){			
-			return $this->getGlobalProperties("collectivite-properties");
-		} else {
-			return $this->getGlobalProperties("global-properties");
-		}
-	}
-	
-	private function getGlobalProperties($typename){
-		static $documentType;
-		if ( ! $documentType ){		
-			$full_config = $this->getYMLFile("{$this->documentTypeDirectory}/$typename.yml");
-			
-			foreach (glob("{$this->module_path}/*/$typename.yml") as $file_config){
-				$config = $this->getYMLFile($file_config);			
-				
-				$type =  basename(dirname($file_config));
-				foreach($config['action'] as $action => $value){
-					$config['action'][$action]['type'] = $type;
-				}
-				
-				$full_config = array_merge_recursive($full_config, $config);
-			}
-			$documentType = new DocumentType($typename,$full_config);
-		}
-		return $documentType;
-	}
+
 	
 	/***********************/
 	
@@ -91,29 +62,7 @@ class DocumentTypeFactory {
 		return isset($all[$type]);
 	}
 	
-	public function getAllAction(){ 
-		$result = array();	
-		foreach ( $this->getTypeDocument() as $typeName){
-			$action = $this->getDocumentType($typeName)->getAction();
-			foreach ($action->getAll() as $actionName){
-				$result[$actionName] = $action->getActionName($actionName);
-			}
-		}
-		return $result;
-	}
-	
-	public function getAllConnecteur(){
-		$result = array();	
-		foreach ( $this->getTypeDocument() as $typeName){
-			$all_connecteur = $this->getDocumentType($typeName)->getConnecteur();
-			if ($all_connecteur){
-				$result[$typeName] = $all_connecteur;
-			}
-		}
-		return $result;
-	}
-	
-	
+
 	public function getActionByRole($allDroit){
 		foreach($allDroit as $droit){
 			$r = explode(":",$droit);
@@ -142,10 +91,6 @@ class DocumentTypeFactory {
 		return $result;
 	}
 
-	public function getAutoActionOnGlobal(){
-		return $this->getGlobalProperties("global-properties")->getAction()->getAutoAction();
-	}
-	
 	public function getTypeByDroit($allDroit){
 		foreach($allDroit as $droit){
 			$r = explode(":",$droit);

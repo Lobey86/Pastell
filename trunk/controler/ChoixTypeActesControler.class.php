@@ -44,7 +44,10 @@ class ChoixTypeActesControler {
 		
 		$file = $this->getFile($id_e,$entite);
 		$infoCDG = $entite->getCDG();
-		$donneesFormulaireCDG = $this->donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
+		//$donneesFormulaireCDG = $this->donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
+		global $objectInstancier;
+		$donneesFormulaireCDG = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');
+		
 		$classifCDG = $donneesFormulaireCDG->get("classification_cdg");
 		
 		if (! $classifCDG){
@@ -63,7 +66,12 @@ class ChoixTypeActesControler {
 	
 	private function getFile($id_e,Entite $entite){
 	
-		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
+//		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
+		global $objectInstancier;
+		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,'actes','TdT');
+		
+		
+		
 		$file = $donneesFormulaire->get('nomemclature_file');
 		
 		if ($file){
@@ -76,12 +84,19 @@ class ChoixTypeActesControler {
 
 		
 		foreach($allAncetre as $ancetre){
-			$donneesFormulaireAncetre = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre['id_e']);
+			//$donneesFormulaireAncetre = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre['id_e']);
+			$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre['id_e'],'actes','TdT');
+			
 			$file = $donneesFormulaireAncetre->get('nomemclature_file');
 			if ($file){
 				return $file;
 			}
 		}
+	}
+	
+	private function getDonneesFormulaire($id_e){
+		global $objectInstancier;
+		return $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,'actes','TdT');
 	}
 	
 	public function set($id_e,$id_d,$type,Recuperateur $recuperateur){
@@ -102,7 +117,8 @@ class ChoixTypeActesControler {
 		if ($info['transmission_actes']){
 			$entite = new Entite($this->sqlQuery,$id_e);
 			$id_e_col = $entite->getCollectiviteAncetre();
-			$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);	
+			$donneesFormulaire = $this->getDonneesFormulaire($id_e_col);	
+				
 			$file = $donneesFormulaire->getFilePath('classification_file');
 		
 			if (! file_exists($file)){

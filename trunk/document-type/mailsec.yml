@@ -1,7 +1,9 @@
 nom: Mail sécurisé 
 type: Flux Généraux
 
-
+connecteur:
+	mailsec
+	
 formulaire:
 	Message :			
 		to: {name: Destinataire(s), requis: true, type: mail-list, autocomplete: mailsec/get-contact-ajax.php}

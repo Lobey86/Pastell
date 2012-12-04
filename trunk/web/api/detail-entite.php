@@ -11,12 +11,17 @@ if ( ! $roleUtilisateur->hasDroit($id_u,"entite:lecture",$id_e)) {
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, id_u=$id_u");	
 }
 
-$documentType = $documentTypeFactory->getEntiteConfig($id_e);
-$formulaire = $documentType->getFormulaire();
 
-$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_e);
+$all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAll($id_e);
+foreach($all_connecteur as $connecteur){
+	$documentType = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($connecteur['id_connecteur']);
 
-$result['data'] = $donneesFormulaire->getRawData();
+	$formulaire = $documentType->getFormulaire();
+	$donneesFormulaire = $donneesFormulaireFactory->getConnecteurEntiteFormulaire($connecteur['id_ce']);
+	$result[$connecteur['libelle']] = $donneesFormulaire->getRawData();
+	
+}
+
 
 
 $JSONoutput->display($result);

@@ -50,14 +50,20 @@ class AfficheurFormulaire {
 		<?php 
 	}
 	
+	
+	private function getInjectedField($name){
+		if(isset($this->inject[$name])){
+			return $this->inject[$name];
+		}
+		return false;
+	}
+	
 	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url,$externalDataURL ){
-
 		$this->formulaire->setTabNumber($page_number);
 		
-		if (isset($this->inject['id_d'])){
-			$id_d = $this->inject['id_d'];
-			$id_e = $this->inject['id_e'];
-		}
+		$id_d = $this->getInjectedField('id_d');
+		$id_e = $this->getInjectedField('id_e');
+		$id_ce = $this->getInjectedField('id_ce');
 		
 		?>
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
@@ -134,9 +140,11 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
-						<?php if($field->isEnabled($this->inject['id_e']) && isset($id_e)) :?>
-						<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
-						<?php else : ?>
+						<?php if($id_ce) : ?>
+							<a href='<?php echo  $externalDataURL ?>?id_ce=<?php echo $id_ce ?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+						<?php elseif($field->isEnabled($this->inject['id_e']) && isset($id_e)) :?>
+							<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+						<?php else:?>
 							non disponible
 						<?php endif;?>
 						<?php echo $this->donneesFormulaire->get($field->getName())?>
