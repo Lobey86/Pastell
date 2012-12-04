@@ -1,4 +1,5 @@
 <?php 
+require_once( PASTELL_PATH . "/externaldata/lib/IParapheurType.class.php");
 
 class ChoixTypeParapheurControler {
 
@@ -40,8 +41,11 @@ class ChoixTypeParapheurControler {
 	public function get(){}
 	
 	public function set($id_e,$id_d,$type,Recuperateur $recuperateur){
+		global $objectInstancier;
+		$signature = $objectInstancier->ConnecteurFactory->getConnecteurByType($id_e,$type,'signature');
+		$iParapheurType= new IParapheurType($signature);
+		
 		$iparapheurtype = $recuperateur->getInt('iparapheur_sous_type',0);
-		$iParapheurType= new IParapheurType();
 		$iParapheurType->setSousType($iparapheurtype,$this->sqlQuery,$this->donneesFormulaireFactory,$id_d,$id_e,$type);
 	}
 	

@@ -1,8 +1,8 @@
 <?php
 class SoapClientFactory {
 	
-	public function getInstance($wsdl,array $options = array()){
-		return new NotBuggySoapClient($wsdl, $options);
+	public function getInstance($wsdl,array $options = array(),$is_jax_ws){
+		return new NotBuggySoapClient($wsdl, $options,$is_jax_ws);
 	}
 	
 }
@@ -12,7 +12,7 @@ class NotBuggySoapClient extends SoapClient {
 	private $is_jax_ws;
 	
 	//PHP SUCKS : https://bugs.php.net/bug.php?id=47584	
-	public function __construct($wsdl,array $options = array(),$is_jax_ws = false){
+	public function __construct($wsdl,array $options = array(),$is_jax_ws = false){		
 		$this->is_jax_ws = $is_jax_ws;
 		$options['exceptions'] = 1;
 		if (function_exists('xdebug_disable')) {

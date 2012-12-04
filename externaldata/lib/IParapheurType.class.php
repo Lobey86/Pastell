@@ -1,13 +1,23 @@
 <?php
-require_once( PASTELL_PATH . "/connecteur/iParapheur/IParapheur.class.php");
 
 class IparapheurType {
 	
 	private $type;
+	private $iParapheur;
 	
-	public function __construct(){
 		
+	public function __construct(IParapheur $iParapheur){
+		$this->iParapheur = $iParapheur;
 	}
+	
+	private function getIParapheur($sqlQuery,$id_e,$donneesFormulaireFactory,$type,$id_d){
+		$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+		
+		$this->type = $donneesFormulaire->get('iparapheur_type');
+		
+		return $this->iParapheur;
+	}
+	
 	
 	public function isEnabled($sqlQuery,$id_e,DonneesFormulaireFactory $donneesFormulaireFactory){
 		$entite = new Entite($sqlQuery,$id_e);
@@ -17,21 +27,6 @@ class IparapheurType {
 		return $result;
 	}
 	
-	private function getIParapheur($sqlQuery,$id_e,$donneesFormulaireFactory,$type,$id_d){
-		$entite = new Entite($sqlQuery,$id_e);
-		$ancetre = $entite->getCollectiviteAncetre();
-		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($ancetre);
-		
-		//$donneesFormulaireFactory->get				
-		$iParapheur = new IParapheur(new SoapClientFactory());
-		$iParapheur->setConnecteurConfig($donneesFormulaire);
-		
-		
-		$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
-		$this->type = $donneesFormulaire->get('iparapheur_type');
-		
-		return $iParapheur;
-	}
 	
 	private function display($id_d,$id_e,$page,$field,$iparapheur_type){
 		?>

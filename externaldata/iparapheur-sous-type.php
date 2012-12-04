@@ -1,7 +1,12 @@
 <?php
 
 require_once( PASTELL_PATH . "/externaldata/lib/IParapheurType.class.php");
-$iParapheurType= new IParapheurType();
+
+
+$signature = $objectInstancier->ConnecteurFactory->getConnecteurByType($id_e,$type,'signature');
+
+
+$iParapheurType= new IParapheurType($signature);
 
 $page_title = "Choix d'un type de document";
 include( PASTELL_PATH ."/include/haut.php");

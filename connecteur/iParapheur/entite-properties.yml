@@ -24,3 +24,10 @@ action:
 		tab: Signature
 		rule:
 			droit_id_u: 'entite:edition'
+			
+	update-certificate:
+		name: Mettre à jour les certificats
+		tab: TdT
+		action-class: UpdateCertificate
+		rule:
+			droit_id_u: 'entite:edition'

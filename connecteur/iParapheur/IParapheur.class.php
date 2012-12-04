@@ -239,12 +239,8 @@ class IParapheur extends Connecteur {
 			$this->lastError = "Le WSDL n'a pas été fourni";
 			throw new Exception("Le WSDL n'a pas été fourni");
 		}
-		try {
-			//PHP SUCKS : https://bugs.php.net/bug.php?id=47584
-			if (function_exists('xdebug_disable')) {
-  				xdebug_disable();
-			}
-			$client = $this->soapClientFactory->getInstance(
+		
+		return $this->soapClientFactory->getInstance(
 				$this->wsdl,
 				array(
 	     			'local_cert' => $this->userCert,
@@ -254,16 +250,6 @@ class IParapheur extends Connecteur {
 					'trace' => 1,
 					'exceptions' => 1,
 	    		),true);
-  			if (function_exists('xdebug_enable')) {
-  				xdebug_enable();
-			}
-	    	
-		} catch (Exception $e){
-			$this->lastError = "Connexion - " . $e->getMessage();
-			throw new Exception("Connexion impossible");
-			
-		}
-		return $client;
 	} 
 	
 	public function getType(){
@@ -294,12 +280,7 @@ class IParapheur extends Connecteur {
 	}
 	
 	public function testConnexion(){
-		try{
-			return $this->getClient()->echo("test_connexion_pastell");
-		}  catch (Exception $e){
-			$this->lastError = $e->getMessage() . $this->getClient()->__getLastResponse();
-			return false;
-		}
+		return $this->getClient()->echo("test_connexion_pastell");
 	}
 	
 }
