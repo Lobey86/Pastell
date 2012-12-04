@@ -67,8 +67,6 @@ abstract class ActionExecutor {
 		return $donneesFormulaire;	
 	}
 	
-	
-	
 	public function getZenMail(){
 		return $this->objectInstancier->ZenMail;
 	}
@@ -105,10 +103,6 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->NotificationMail;
 	}
 	
-	public function getGlobalProperties(){
-		return $this->objectInstancier->DonneesFormulaireFactory->getEntiteFormulaire(0);	
-	}
-	
 	public function getConnecteurProperties(){
 		assert('$this->id_ce');
 		return $this->getConnecteurConfig($this->id_ce);
@@ -140,11 +134,6 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 	}
 	
-	public function getCollectiviteProperties(){
-		$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e)?:0;
-		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire($id_e_col);
-	}
-	
 	public function addAction($id_u,$actionName,$message){
 		$this->getActionCreator()->addAction($this->id_e,$id_u,$actionName,$message);
 	}
@@ -153,9 +142,6 @@ abstract class ActionExecutor {
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,$message);
 		$this->setLastMessage($message);
 	}
-		
-	
-	
 	
 	public function notify($actionName,$type,$message){
 		$this->getNotificationMail()->notify($this->id_e,$this->id_d,$actionName,$type,$message);

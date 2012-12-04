@@ -5,7 +5,8 @@ class MegalisSupprime extends ActionExecutor{
 	
 	public function go(){
 		
-		$megalis = new Megalis($this->getGlobalProperties(),new SSH2());		
+		$megalis =  $this->getConnecteur('Megalis');
+				
 		$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,'megalis');
 		$archive = $donneesFormulaire->get('archive');
 		$filename = $archive[0];

@@ -92,8 +92,7 @@ class ActionExecutorFactory {
 		return $this->execute($id_d, $id_e, $id_u, $infoDocument['type'], $action_name,$id_destinataire);
 	}
 	
-	//type = type de document !
-	public function execute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false){
+	private function execute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false){
 		try {		
 			$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);		
 			return $this->internExecute($id_d, $id_e, $id_u, $type, $action_name, $id_destinataire, $from_api,$documentType);
