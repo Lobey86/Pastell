@@ -1,5 +1,4 @@
 <?php 
-require_once( PASTELL_PATH . "/externaldata/lib/IParapheurType.class.php");
 
 class ChoixTypeParapheurControler {
 
@@ -17,6 +16,7 @@ class ChoixTypeParapheurControler {
 		$entite = new Entite($this->sqlQuery,$id_e);
 		$ancetre = $entite->getCollectiviteAncetre();
 		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre);
+		//TODO !!!
 		$iParapheur = new IParapheur($donneesFormulaire);
 		return $iParapheur;
 	}

@@ -5,7 +5,7 @@ class FluxEntiteSQL extends SQL {
 	public function getConnecteur($id_e,$flux,$connecteur_type){
 		$sql = "SELECT * FROM flux_entite " .
 				" JOIN connecteur_entite ON flux_entite.id_ce=connecteur_entite.id_ce " .
-				" WHERE flux_entite.id_e=? AND flux=? AND type=?";
+				" WHERE flux_entite.id_e=? AND flux=? AND flux_entite.type=?";
 		
 		return $this->queryOne($sql,$id_e,$flux,$connecteur_type);
 	}
@@ -21,9 +21,12 @@ class FluxEntiteSQL extends SQL {
 		return $result;
 	}
 
-	public function addConnecteur($id_e,$flux,$id_ce){
-		$sql = "INSERT INTO flux_entite(id_e,flux,id_ce) VALUES (?,?,?)";
-		$this->query($sql,$id_e,$flux,$id_ce);
+	public function addConnecteur($id_e,$flux,$type,$id_ce){
+		$sql = "DELETE FROM flux_entite " .
+				" WHERE id_e=? AND type=? AND flux=?";
+		$this->query($sql,$id_e,$type,$flux);
+		$sql = "INSERT INTO flux_entite(id_e,flux,type,id_ce) VALUES (?,?,?,?)";
+		$this->query($sql,$id_e,$flux,$type,$id_ce);
 	}
 	
 }

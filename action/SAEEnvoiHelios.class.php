@@ -1,22 +1,22 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/system/Asalae.class.php");
 require_once( PASTELL_PATH . "/lib/system/HeliosArchivesSEDA.class.php");
 
 class SAEEnvoiHelios extends ActionExecutor {
 	
 	public function go(){
 	
-		$collectiviteProperties = $this->getCollectiviteProperties();
+		$sae_config = $this->getConnecteurConfigByType('SAE');
+		
 	
 		$entite = $this->getEntite();
 		$entiteInfo = $entite->getInfo();
 	
 		$authorityInfo = array(
-				"sae_id_versant" =>  $collectiviteProperties->get("sae_identifiant_versant"),
-				"sae_id_archive" =>  $collectiviteProperties->get("sae_identifiant_archive"),
-				"sae_numero_aggrement" =>  $collectiviteProperties->get("sae_numero_agrement"),
-				"sae_originating_agency" =>  $collectiviteProperties->get("sae_originating_agency"),
+				"sae_id_versant" =>  $sae_config->get("sae_identifiant_versant"),
+				"sae_id_archive" =>  $sae_config->get("sae_identifiant_archive"),
+				"sae_numero_aggrement" =>  $sae_config->get("sae_numero_agrement"),
+				"sae_originating_agency" =>  $sae_config->get("sae_originating_agency"),
 				"name" =>  $entiteInfo['denomination'],
 				"siren" => $entiteInfo['siren'],
 		);
@@ -57,20 +57,13 @@ class SAEEnvoiHelios extends ActionExecutor {
 		
 		$bordereau = $heliosArchivesSEDA->getBordereau($transactionsInfo);
 	
-
-		$authorityInfo = array(
-							"sae_wsdl" =>  $collectiviteProperties->get("sae_wsdl"),
-							"sae_login" =>  $collectiviteProperties->get("sae_login"),
-							"sae_password" =>  $collectiviteProperties->get("sae_password"),
-							"sae_numero_aggrement" =>  $collectiviteProperties->get("sae_numero_agrement"),				
-		);
-			
-		$asalae = new Asalae($authorityInfo);
+		$sae = $this->getConnecteur('SAE');
 		
-		$result = $asalae->sendArchive($bordereau,$archive_path);
+		
+		$result = $sae->sendArchive($bordereau,$archive_path);
 		
 		if (! $result){
-			$this->setLastMessage("L'envoi du bordereau a échoué : " . $asalae->getLastError());
+			$this->setLastMessage("L'envoi du bordereau a échoué : " . $sae->getLastError());
 			return false;
 		} 
 		

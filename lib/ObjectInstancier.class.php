@@ -19,7 +19,7 @@ class ObjectInstancier {
 		$this->objects[$name] = $value;
 	}
 
-	private function newInstance($className){
+	public function newInstance($className){
 		try {
 		$reflexionClass = new ReflectionClass($className);
 		if (! $reflexionClass->hasMethod('__construct')){

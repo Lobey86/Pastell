@@ -1,13 +1,11 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
 
 class IParapheurEnvoieHelios extends ActionExecutor {
 	
 	public function go(){
-		$collectiviteProperties = $this->getCollectiviteProperties();
+		$signature = $this->getConnecteur('signature');
 		
-		$iParapheur = new IParapheur($collectiviteProperties);		
 		$helios = $this->getDonneesFormulaire();
 		
 		$file_content = file_get_contents($helios->getFilePath('fichier_pes'));
@@ -19,16 +17,16 @@ class IParapheurEnvoieHelios extends ActionExecutor {
 		$file_array = $helios->get('fichier_pes');
 		$filename = $file_array[0];
 		
-		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
+		$dossierID = $signature->getDossierID($helios->get('objet'),$filename);
 		
 		
-		$result = $iParapheur->sendHeliosDocument($helios->get('iparapheur_type'),
+		$result = $signature->sendHeliosDocument($helios->get('iparapheur_type'),
 											$helios->get('iparapheur_sous_type'),
 											$dossierID,
 											$file_content,
 											$content_type,$visuel_pdf);				
 		if (! $result){
-			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
+			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $signature->getLastError());
 			return false;
 		}
 		

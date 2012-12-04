@@ -1,30 +1,20 @@
 <?php 
 
-
-
-//http://stackoverflow.com/questions/5948402/having-issues-with-mime-headers-when-consuming-jax-ws-using-php-soap-client
-
-class MySoapClient extends SoapClient {
+class IParapheur extends Connecteur {
 	
-    public function __doRequest($request, $location, $action, $version, $one_way = 0) {	
-    	$response = parent::__doRequest($request, $location, $action, $version, $one_way);
-		$response = strstr($response,"<?xml");
-        $response = strstr($response,"--uuid:",true);
-		return $response;
-    }
-}
-
-
-class IParapheur {
-	
-	private $lastError;
 	private $wsdl;
 	private $userCert;
 	private $userCertPassword;
 	private $login_http;
 	private $password_http;
 	
-	public function __construct(DonneesFormulaire $collectiviteProperties){
+	private $soapClientFactory;
+	
+	public function __construct(SoapClientFactory $soapClientFactory){
+		$this->soapClientFactory = $soapClientFactory;
+	}
+	
+	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->wsdl = $collectiviteProperties->get("iparapheur_wsdl");
 		$this->activate = $collectiviteProperties->get("iparapheur_activate");
 		$this->userCert = $collectiviteProperties->getFilePath("iparapheur_user_key_pem");
@@ -33,9 +23,6 @@ class IParapheur {
 		$this->password_http = $collectiviteProperties->get("iparapheur_password");
 	}
 	
-	public function getLastError(){
-		return $this->lastError;
-	}
 	
 	public function getDossierID($id,$name){
 		$name = preg_replace("#[^a-zA-Z0-9_ ]#", "_", $name);
@@ -257,7 +244,7 @@ class IParapheur {
 			if (function_exists('xdebug_disable')) {
   				xdebug_disable();
 			}
-			$client = @ new MySoapClient(
+			$client = $this->soapClientFactory->getInstance(
 				$this->wsdl,
 				array(
 	     			'local_cert' => $this->userCert,
@@ -266,7 +253,7 @@ class IParapheur {
 					'password' => $this->password_http,
 					'trace' => 1,
 					'exceptions' => 1,
-	    		));
+	    		),true);
   			if (function_exists('xdebug_enable')) {
   				xdebug_enable();
 			}

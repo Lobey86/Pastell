@@ -1,5 +1,7 @@
 <?php
-class WebGFC {
+
+
+class WebGFC extends Connecteur {
 	
 	/*const WSDL = "http://webgfc.test.adullact.org/files/wsdl/webgfc.wsdl";
 	
@@ -7,11 +9,12 @@ class WebGFC {
 	const PASSWORD = "pastell";*/
 	
 
-	public function __construct(DonneesFormulaire $donneesFormulaire){
+	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
 		$this->wsdl = $donneesFormulaire->get('wsdl');
 		$this->login  = $donneesFormulaire->get('login');
 		$this->password  = $donneesFormulaire->get('password');
 	}
+	
 	
 	private $lastMessage;
 	

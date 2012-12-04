@@ -1,13 +1,12 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
 
 class IParapheurEnvoie extends ActionExecutor {
 	
 	public function go(){
-		$collectiviteProperties = $this->getCollectiviteProperties();
 		
-		$iParapheur = new IParapheur($collectiviteProperties);		
+		$signature = $this->getConnecteur('signature');
+		
 		$actes = $this->getDonneesFormulaire();
 		
 		$file_content = file_get_contents($actes->getFilePath('arrete'));
@@ -29,15 +28,15 @@ class IParapheurEnvoie extends ActionExecutor {
 			}
 		}
 		
-		$dossierID = $iParapheur->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
+		$dossierID = $signature->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
 		
-		$result = $iParapheur->sendDocument($actes->get('iparapheur_type'),
+		$result = $signature->sendDocument($actes->get('iparapheur_type'),
 											$actes->get('iparapheur_sous_type'),
 											$dossierID,
 											$file_content,
 											$content_type,$annexe);				
 		if (! $result){
-			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
+			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $signature->getLastError());
 			return false;
 		}
 		

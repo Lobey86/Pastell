@@ -1,10 +1,8 @@
 <?php
-require_once( __DIR__ . "/../Megalis.class.php");
-
 class MegalisTestSSH extends ActionExecutor {
 	
 	public function go(){
-		$megalis = new Megalis($this->getConnecteurProperties(),new SSH2());
+		$megalis = $this->getMyConnecteur();
 		$directory_listing = $megalis->listDirectory();
 		if (! $directory_listing ){
 			$this->setLastMessage($megalis->getLastError());

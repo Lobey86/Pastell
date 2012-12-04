@@ -4,18 +4,14 @@ require_once( __DIR__ . "/../OpenSign.class.php");
 class OpenSignTestToken extends ActionExecutor {
 	
 	public function go(){
-		$opensign = new OpenSign($this->getConnecteurProperties()->get('opensign_wsdl'), $this->objectInstancier->SoapClientFactory);
+		$opensign = $this->getMyConnecteur();
+		
 		$timestampRequest = $this->objectInstancier->OpensslTSWrapper->getTimestampQuery(mt_rand(0,mt_getrandmax()));
 			
-		$result = $opensign->getToken($timestampRequest);
-		if (! $result ){
-			$this->setLastMessage($opensign->getLastError());
-			return false;	
-		}
+		$token = $opensign->getToken($timestampRequest);
+		$token_text = $this->objectInstancier->OpensslTSWrapper->getTimestampReplyString($token);
 		
-		$result = $this->objectInstancier->OpensslTSWrapper->getTimestampReplyString($result);
-		
-		$this->setLastMessage("Connexion OpenSign OK: <br/><br/>" . nl2br($result));
+		$this->setLastMessage("Connexion OpenSign OK: <br/><br/>" . nl2br($token_text));
 		return true;
 	}
 	

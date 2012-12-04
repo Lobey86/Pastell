@@ -1,20 +1,8 @@
 <?php
 class SoapClientFactory {
 	
-	private $lastError;
-	
-	public function getLastError(){
-		return $this->lastError;
-	}
-	
 	public function getInstance($wsdl,array $options = array()){
-		try {
-			$soapClient = new NotBuggySoapClient($wsdl, $options);
-		} catch(Exception $e){
-			$this->lastError = $e->getMessage();
-			return false;
-		}
-		return $soapClient;
+		return new NotBuggySoapClient($wsdl, $options);
 	}
 	
 }

@@ -1,6 +1,5 @@
 <?php
 
-require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
 
 class WebGFCEnvoie extends ActionExecutor {
 	
@@ -19,7 +18,9 @@ class WebGFCEnvoie extends ActionExecutor {
 		} else {
 			$fichier = "";
 		}
-		$webGFC = new WebGFC();
+		
+		$webGFC = $this->getConnecteur('GFC');
+		
 		$courierID = $webGFC->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
 		$this->setLastMessage($webGFC->getLastMessage());
 		if (! $courierID){

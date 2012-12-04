@@ -30,6 +30,26 @@ class ActionExecutorFactory {
 		}
 	}
 	
+	private function findClassFile($id_connecteur, $action_class_name){
+		$action_class_file = "{$this->connecteur_path}/$id_connecteur/action/$action_class_name.class.php";
+		if (file_exists($action_class_file)){
+			return $action_class_file;
+		}
+					
+		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
+		if (file_exists($action_class_file )){
+			return $action_class_file;	
+		}
+		
+		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");
+		
+		if (count($find) == 0){				
+			throw new Exception( "Le fichier $action_class_name est manquant");
+		}
+		return $find[0];
+	}
+	
+	
 	private function executeOnConnecteurThrow($id_ce,$id_u,$action_name){
 		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
 		if ($connecteur_entite_info['id_e']){				
@@ -43,11 +63,7 @@ class ActionExecutorFactory {
 			throw new Exception("L'action $action_name n'existe pas.");
 		}
 		
-		$action_class_file = "{$this->connecteur_path}/{$connecteur_entite_info['id_connecteur']}/action/$action_class_name.class.php";
-		
-		if (! file_exists($action_class_file)){		
-			throw new Exception( "Le fichier $action_class_file est manquant");
-		}
+		$action_class_file = $this->findClassFile($connecteur_entite_info['id_connecteur'], $action_class_name);
 		
 		require_once($action_class_file);		
 		$actionClass = new $action_class_name($this->objectInstancier,
@@ -77,9 +93,14 @@ class ActionExecutorFactory {
 	}
 	
 	//type = type de document !
-	public function execute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false){		
-		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);		
-		return $this->internExecute($id_d, $id_e, $id_u, $type, $action_name, $id_destinataire, $from_api,$documentType);
+	public function execute($id_d,$id_e,$id_u,$type,$action_name,$id_destinataire = array(),$from_api = false){
+		try {		
+			$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);		
+			return $this->internExecute($id_d, $id_e, $id_u, $type, $action_name, $id_destinataire, $from_api,$documentType);
+		} catch (Exception $e){
+			$this->lastMessage = $e->getMessage();
+			return false;	
+		}
 		
 	}
 	
@@ -95,15 +116,7 @@ class ActionExecutorFactory {
 			$type = $theAction->getProperties($action_name,'type');
 		}
 		
-		$action_class_file = "{$this->module_path}/$type/action/$action_class_name.class.php";
-		
-		if (! file_exists($action_class_file)){		
-			$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
-			if (! file_exists($action_class_file )){
-				$this->lastMessage = "Le fichier $action_class_file est manquant";	
-				return false;
-			}
-		}
+		$action_class_file = $this->findClassFile($type,$action_class_name);
 		
 		require_once($action_class_file);		
 		$actionClass = new $action_class_name($this->objectInstancier,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api,$libelle);

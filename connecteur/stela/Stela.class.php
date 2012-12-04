@@ -1,9 +1,11 @@
 <?php
 
-require_once(__DIR__."/../../lib/connecteur/Connecteur.class.php");
+require_once(__DIR__."/../../connecteur-type/TdtConnecteur.class.php");
+
+class StelaException extends TdTException {}
 
 
-class Stela extends Connecteur {
+class Stela extends TdtConnecteur {
 	
 	const WSDL_ACTES = "ws-miat.wsdl"; 
 	const WSDL_HELIOS = "ws-helios.wsdl";
@@ -14,10 +16,8 @@ class Stela extends Connecteur {
 	private $tdt_user_certificat_password;
 	private $tdt_user_certificat_and_key_pem;
 	
-	
-	
-	public function __construct(DonneesFormulaire $collectiviteProperties){
-		
+
+	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){				
 		$this->tdt_server_certificate = $collectiviteProperties->getFilePath('server_certificate');	
 		$this->tdt_user_certificat = $collectiviteProperties->getFilePath('user_certificat');
 		$this->tdt_user_certificat_pem = $collectiviteProperties->getFilePath('user_certificat_pem');
@@ -25,8 +25,8 @@ class Stela extends Connecteur {
 		$this->tdt_user_certificat_and_key_pem = $collectiviteProperties->get('user_certificat_and_key_pem');
 		$this->tedetisURL = $collectiviteProperties->get('url');
 		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');
-		
 	}
+	
 
 	public function getLogicielName(){
 		return "Stela";
@@ -70,7 +70,7 @@ class Stela extends Connecteur {
 		if ($result[0] == "OK"){
 			return $result[1];
 		} 
-		$this->lastError = $result[1];
+		throw new StelaException($result[1]);
 		return false;
 	}
 	
@@ -233,8 +233,7 @@ class Stela extends Connecteur {
 	}
 	
 	public function demandeClassification(){
-		$this->lastError = "STELA ne propose pas cette fonctionalité.";
-		return false;
+		throw new StelaException("STELA ne propose pas cette fonctionalité.");
 	}
 	
 	public function annulationActes($id_transaction){
@@ -246,8 +245,7 @@ class Stela extends Connecteur {
 	}
 	
 	public function verifClassif(){
-		$this->lastError = "Not implemented";
-		return false;
+		throw new StelaException("Not implemented");
 	}
 	
 	public function postHelios(DonneesFormulaire $donneesFormulaire){
@@ -289,23 +287,19 @@ class Stela extends Connecteur {
 	}
 	
 	public function getStatusHelios($id_transaction){
-		$this->lastError = "Not implemented";
-		return false;
+		throw new StelaException("Not implemented");
 	}
 	
 	public function getLastReponseFile(){
-		$this->lastError = "Not implemented";
-		return false;
+		throw new StelaException("Not implemented");	
 	}
 	
 	public function getStatusInfo($status_id){
-		$this->lastError = "Not implemented";
-		return false;
+		throw new StelaException("Not implemented");
 	}
 	
 	public function getFichierRetour($transaction_id){
-		$this->lastError = "Not implemented";
-		return false;
+		throw new StelaException("Not implemented");
 	}
 	
 }

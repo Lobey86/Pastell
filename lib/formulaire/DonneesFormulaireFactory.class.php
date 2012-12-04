@@ -31,8 +31,7 @@ class DonneesFormulaireFactory{
 		return $this->getFromCache($id_document,$documentType->getFormulaire());
 	}
 	
-	
-	
+
 	public function getEntiteFormulaire($id_e){
 		$formulaire = $this->documentTypeFactory->getEntiteConfig($id_e)->getFormulaire();
 		return $this->getFromCache($id_e, $formulaire); 

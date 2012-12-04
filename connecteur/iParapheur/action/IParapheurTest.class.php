@@ -1,14 +1,12 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
-
 class IParapheurTest extends ActionExecutor {
 	
 	public function go(){
 			
-		$iParapheur = new IParapheur($this->getConnecteurProperties());
-		$result = $iParapheur->testConnexion();
+		$iParapheur = $this->getMyConnecteur();
 		
+		$result = $iParapheur->testConnexion();
 		
 		
 		if (! $result){

@@ -106,12 +106,38 @@ abstract class ActionExecutor {
 	}
 	
 	public function getGlobalProperties(){
-		return $this->objectInstancier->donneesFormulaireFactory->getEntiteFormulaire(0);	
+		return $this->objectInstancier->DonneesFormulaireFactory->getEntiteFormulaire(0);	
 	}
 	
 	public function getConnecteurProperties(){
 		assert('$this->id_ce');
-		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($this->id_ce);
+		return $this->getConnecteurConfig($this->id_ce);
+	}
+	
+	public function getGlobalConnecteur($type){
+		$dispo = $this->objectInstancier->ConnecteurEntiteSQL->getDisponible(0,$type);
+		return $this->objectInstancier->ConnecteurFactory->getConnecteurById($dispo[0]['id_ce']);
+	}
+	
+	public function getMyConnecteur(){
+		assert('$this->id_ce');
+		return $this->objectInstancier->ConnecteurFactory->getConnecteurById($this->id_ce);
+	}
+	
+	public function getConnecteur($type_connecteur){
+		return $this->objectInstancier->ConnecteurFactory->getConnecteurByType($this->id_e,$this->type,$type_connecteur);
+	}
+	
+	public function getConnecteurConfigByType($type_connecteur){
+		$connecteur_info = $this->objectInstancier->FluxEntiteSQL->getConnecteur($this->id_e,$this->type,$type_connecteur);
+		if (! $connecteur_info){
+			throw new Exception("Aucun connecteur $type_connecteur n'est défini pour le flux {$this->type}");
+		}
+		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($connecteur_info['id_ce']);		
+	}
+	
+	public function getConnecteurConfig($id_ce){
+		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 	}
 	
 	public function getCollectiviteProperties(){
@@ -122,6 +148,14 @@ abstract class ActionExecutor {
 	public function addAction($id_u,$actionName,$message){
 		$this->getActionCreator()->addAction($this->id_e,$id_u,$actionName,$message);
 	}
+
+	public function addActionOK($message){
+		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,$message);
+		$this->setLastMessage($message);
+	}
+		
+	
+	
 	
 	public function notify($actionName,$type,$message){
 		$this->getNotificationMail()->notify($this->id_e,$this->id_d,$actionName,$type,$message);

@@ -1,10 +1,10 @@
 <?php
 
-require_once(__DIR__."/../../lib/connecteur/Connecteur.class.php");
+require_once(__DIR__."/../../connecteur-type/TdtConnecteur.class.php");
 
-class S2lowException extends Exception {}
+class S2lowException extends TdTException {}
 
-class S2low  extends Connecteur {
+class S2low  extends TdtConnecteur {
 	
 	const URL_TEST = "/modules/actes/";
 	const URL_CLASSIFICATION = "/modules/actes/actes_classification_fetch.php";
@@ -25,8 +25,8 @@ class S2low  extends Connecteur {
 	
 	protected $ensureLogin;
 	
-	
-	public function __construct(DonneesFormulaire $collectiviteProperties){
+	public function setConnecteurConfig(DonneesFormulaire $donnesFormulaire){
+		$collectiviteProperties = $donnesFormulaire;
 		$this->curlWrapper = new CurlWrapper();
 		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('server_certificate'));	
 		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('user_certificat_pem'),
@@ -39,7 +39,7 @@ class S2low  extends Connecteur {
 		}						
 		$this->isActivate = $collectiviteProperties->get('activate');
 		$this->tedetisURL = $collectiviteProperties->get('url');
-		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');						
+		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');	
 	}
 	
 
@@ -62,9 +62,7 @@ class S2low  extends Connecteur {
 	}
 	
 	private function exec($url){
-		if (! $this->ensureLogin()){
-			return false;
-		}
+		$this->ensureLogin();
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
 		if ( ! $output){
 			throw new S2lowException($this->curlWrapper->getLastError());			
@@ -78,7 +76,7 @@ class S2low  extends Connecteur {
 	}
 	
 	public function testConnexion(){
-		return $this->exec(self::URL_TEST)?true:false;
+		$this->exec(self::URL_TEST);
 	}
 	
 	public function getClassification(){
@@ -91,9 +89,6 @@ class S2low  extends Connecteur {
 	
 	public function demandeClassification(){
 		$result = $this->exec( self::URL_DEMANDE_CLASSIFICATION ."?api=1");
-		if (! $result){
-			return false;
-		}
 		if (preg_match("/^KO/",$result)){
 			throw new S2lowException("S²low a répondu : " .$result);
 		}
@@ -117,8 +112,7 @@ class S2low  extends Connecteur {
 	public function verifClassif(){
 		
 		if (! is_file($this->classificationFile)){
-			$this->lastError = "Il n'y a pas de fichier de classification Actes";
-			return false;
+			throw new S2lowException("Il n'y a pas de fichier de classification Actes");
 		}
 		
 		$usingClassif = file_get_contents($this->classificationFile);
@@ -136,30 +130,21 @@ class S2low  extends Connecteur {
 		$file_name = $file_name[0];
 		$this->curlWrapper->addPostFile('enveloppe',$file_path,$file_name);
 		$result = $this->exec( self::URL_POST_HELIOS );	
-		if( ! $result ){
-			$this->lastError = "Erreur lors de la connexion à S²low (".$this->tedetisURL.")";
-			return false;
-		}	
 		$xml = simplexml_load_string($result);
 		if (! $xml){
-			$this->lastError = "La réponse de S²low n'a pas pu être analysé : (".$result.")";
-			return false;
+			throw new S2lowException("La réponse de S²low n'a pas pu être analysé : (".$result.")");
 		}
 		
 		if ($xml->resultat == "OK"){
 			$donneesFormulaire->setData('tedetis_transaction_id',$xml->id);
 			return true;
 		}
-		$this->lastError = "Erreur lors de l'envoi du PES : " . utf8_decode($xml->message);
-		return false;
+		throw new S2lowException( "Erreur lors de l'envoi du PES : " . utf8_decode($xml->message));
 	}
 	
 	
 	public function postActes(DonneesFormulaire $donneesFormulaire) {
-		
-		if ( ! $this->verifClassif()){
-			return false;
-		}
+		$this->verifClassif();
 		
 		$this->curlWrapper->addPostData('api',1);
 		$this->curlWrapper->addPostData('nature_code',$donneesFormulaire->get('acte_nature'));
@@ -192,55 +177,43 @@ class S2low  extends Connecteur {
 		
 		$result = $this->exec( self::URL_POST_ACTES );	
 		if( ! $result ){
-			$this->lastError = "Erreur lors de la connexion à S²low (".$this->tedetisURL.")";
-			return false;
+			throw new S2lowException("Erreur lors de la connexion à S²low (".$this->tedetisURL.")");
 		}	
 				
 		if (! preg_match("/^OK/",$result)){
-			$this->lastError = "Erreur lors de la transmission, S²low a répondu : $result";
-			return false;
+			throw new S2lowException("Erreur lors de la transmission, S²low a répondu : $result");
 		}
 		
 		$ligne = explode("\n",$result);
 		$id_transaction = trim($ligne[1]);
 		$donneesFormulaire->setData('tedetis_transaction_id',$id_transaction);
-		
 		return true;		
 	}
 	
 	public function getStatusHelios($id_transaction){
-		$result = $this->exec(self::URL_STATUS_HELIOS."?transaction=$id_transaction");
-		if( ! $result ){
-			$this->lastError = "Erreur lors de la connexion à S²low (".$this->tedetisURL.")";
-			return false;
-		}
+		$result = $this->exec(self::URL_STATUS_HELIOS."?transaction=$id_transaction");		
 		$xml = simplexml_load_string($result);
 		if (! $xml){
-			$this->lastError = "La réponse de S²low n'a pas pu être analysé : (".$result.")";
-			return false;
+			throw new S2lowException("La réponse de S²low n'a pas pu être analysé : (".$result.")");
 		}
 		
 		if ($xml->resultat == "KO"){
-			$this->lastError = $xml->message;
+			throw new S2lowException($xml->message);
 			return false;
 		}
 		$this->reponseFile = $result;
-		
 		return strval($xml->status);
 	}
 	
 	
 	public function getStatus($id_transaction){
 		$result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
-		if (! $result){
-			return false;
-		}
+		
 		
 		$ligne = explode("\n",$result);
 		
 		if (trim($ligne[0]) != 'OK'){
-			$this->lastError = trim($ligne[1]);
-			return false;
+			throw new S2lowException(trim($ligne[1]));
 		}
 		
 		$result = trim($ligne[1]);
@@ -263,9 +236,6 @@ class S2low  extends Connecteur {
 
 	public function getDateAR($id_transaction){
 		$result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
-		if (! $result){
-        	return false;
-		}
 		return (substr($result, strpos($result, 'actes:DateReception')+21, 10));
 	}
 

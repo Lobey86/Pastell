@@ -1,7 +1,11 @@
 nom: Tests
 type: Flux de tests
 
-
+connecteur:
+	SAE
+	TdT
+	
+	
 formulaire:
 	Message:			
 		Objet: {requis: true, title: true}	

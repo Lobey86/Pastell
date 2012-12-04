@@ -2,7 +2,7 @@
 $collectivite_id = 2;
 
 
-require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
+//TODO !
 $webGFC = new WebGFC();
 
 $message_type = $webGFC->getInfo($recuperateur->get('messagetype'));

@@ -1,29 +1,29 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
 require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 
 class IParapheurRecupHelios extends ActionExecutor {
 	
-	public function go($action_automatique = false){
+	public function go(){
 		
-		if ($action_automatique == false){
+		if ($this->from_api == false){
 			$this->getJournal()->add(Journal::DOCUMENT_ACTION,$this->id_e,$this->id_d,'verif-iparapheur',"Vérification manuelle du retour iparapheur");
 		}
 		
-		$collectiviteProperties = $this->getCollectiviteProperties();
-		$iParapheur = new IParapheur($collectiviteProperties);		
+		$signature = $this->getConnecteur('signature');
+		
+		
 		$helios = $this->getDonneesFormulaire();
 		
 		$file_array = $helios->get('fichier_pes');
 		$filename = $file_array[0];
 		
-		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
+		$dossierID = $signature->getDossierID($helios->get('objet'),$filename);
 		
-		$all_historique = $iParapheur->getAllHistoriqueInfo($dossierID);
+		$all_historique = $signature->getAllHistoriqueInfo($dossierID);
 		
 		if (! $all_historique){
-			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
+			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $signature->getLastError());
 			return false;
 		}
 		
@@ -34,38 +34,35 @@ class IParapheurRecupHelios extends ActionExecutor {
 		$helios->setData('has_historique',true);
 		$helios->addFileFromData('iparapheur_historique',"iparapheur_historique.xml",$historique_xml);
 		
-		$result = $iParapheur->getLastHistorique($all_historique);
+		$result = $signature->getLastHistorique($all_historique);
 		
 		if (strstr($result,"[Archive]")){
 			return $this->retrieveDossier();
 		}
 		if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
 			$this->rejeteDossier($result);
-			$iParapheur->effacerDossierRejete($dossierID);
+			$signature->effacerDossierRejete($dossierID);
 		}
 		$this->setLastMessage($result);
 		return true;			
 	}
 	
 	public function rejeteDossier($result){
-		$collectiviteProperties = $this->getCollectiviteProperties();
-		$iParapheur = new IParapheur($collectiviteProperties);
-		$actes = $this->getDonneesFormulaire();
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'rejet-iparapheur',"Le document a été rejeté dans le parapheur : $result");
 	}
 	
 	public function retrieveDossier(){
-		$collectiviteProperties = $this->getCollectiviteProperties();
-		$iParapheur = new IParapheur($collectiviteProperties);		
+		$signature = $this->getConnecteur('signature');
+		
 		$helios = $this->getDonneesFormulaire();
 		$file_array = $helios->get('fichier_pes');
 		$filename = $file_array[0];
 		
-		$dossierID = $iParapheur->getDossierID($helios->get('objet'),$filename);
+		$dossierID = $signature->getDossierID($helios->get('objet'),$filename);
 		
-		$info = $iParapheur->getSignature($dossierID);
+		$info = $signature->getSignature($dossierID);
 		if (! $info ){
-			$this->setLastMessage("La signature n'a pas pu être récupéré : " . $iParapheur->getLastError());
+			$this->setLastMessage("La signature n'a pas pu être récupéré : " . $signature->getLastError());
 			return false;
 		}
 		
