@@ -3,6 +3,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 
 $recuperateur = new Recuperateur($_POST);
 
+
 $action = $recuperateur->get('action');
 $id_ce = $recuperateur->getInt('id_ce',0);
 
@@ -13,6 +14,8 @@ if ( ! $actionPossible->isActionPossibleOnConnecteur($id_ce,$authentification->g
 	header("Location: edition.php?id_ce=$id_ce");
 	exit;
 }
+
+
 
 $result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($id_ce,$authentification->getId(),$action);
 

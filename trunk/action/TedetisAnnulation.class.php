@@ -1,18 +1,14 @@
 <?php
-require_once(PASTELL_PATH."/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 class TedetisAnnulation  extends ActionExecutor {
 
 	public function go(){
 		
-		$collectiviteProperties = $this->getCollectiviteProperties();
-	
-		$tedetis = TedetisFactory::getInstance($collectiviteProperties);
-
+		$tdT = $this->getConnecteur("TdT"); 
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
 		
 		
-		if (!  $tedetis->annulationActes($tedetis_transaction_id) ){
+		if (!  $tdT->annulationActes($tedetis_transaction_id) ){
 			$this->setLastMessage( $tedetis->getLastError());
 			return false;
 		}

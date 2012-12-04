@@ -1,12 +1,10 @@
 <?php
-require_once (PASTELL_PATH . "/lib/document/DocumentType.class.php");
-require_once(PASTELL_PATH."/lib/connecteur/tedetis/TedetisFactory.class.php");
 
 class TedetisRecup extends ActionExecutor {
 
 	public function go(){
-
-		$tedetis = TedetisFactory::getInstance($this->getCollectiviteProperties());	
+		$tdT = $this->getConnecteur("TdT"); 
+		
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
 		
 		$actionCreator = $this->getActionCreator();
@@ -16,19 +14,19 @@ class TedetisRecup extends ActionExecutor {
 		}
 			
 			
-		$status = $tedetis->getStatus($tedetis_transaction_id);
+		$status = $tdT->getStatus($tedetis_transaction_id);
 		
 		if ($status === false){
-			$this->setLastMessage($tedetis->getLastError());
+			$this->setLastMessage($tdT->getLastError());
 			return false;
 		} 
 		
-		if ($status != Tedetis::STATUS_ACQUITTEMENT_RECU){
-			$this->setLastMessage("La transaction a comme statut : " . Tedetis::getStatusString($status));
+		if ($status != TdtConnecteur::STATUS_ACQUITTEMENT_RECU){
+			$this->setLastMessage("La transaction a comme statut : " . TdtConnecteur::getStatusString($status));
 			return true;
 		}
 		
-		$aractes = $tedetis->getARActes();
+		$aractes = $tdT->getARActes();
 		
 		$actionCreator->addAction($this->id_e,0,'acquiter-tdt',"L'acte a été acquitté par le contrôle de légalité");
 		
@@ -39,7 +37,7 @@ class TedetisRecup extends ActionExecutor {
 		
 		$message .= "\n\nConsulter le détail de l'acte : " . SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e={$this->id_e}";
 		
-		$bordereau_data = $tedetis->getBordereau($tedetis_transaction_id);
+		$bordereau_data = $tdT->getBordereau($tedetis_transaction_id);
 		
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
@@ -51,7 +49,7 @@ class TedetisRecup extends ActionExecutor {
 			$donneesFormulaire->addFileFromData('aractes', "ARActes.xml",$aractes);
 		}
 		
-		$donneesFormulaire->setData('date_ar', $tedetis->getDateAR($tedetis_transaction_id));
+		$donneesFormulaire->setData('date_ar', $tdT->getDateAR($tedetis_transaction_id));
 		
 		$this->notify('acquiter-tdt', 'actes',$message);
 	

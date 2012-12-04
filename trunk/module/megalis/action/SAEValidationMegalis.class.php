@@ -1,18 +1,10 @@
 <?php
-require_once( PASTELL_PATH . "/lib/system/Asalae.class.php");
 
 class SAEValidationMegalis extends ActionExecutor {
 	
 	public function go(){
-		
-		$collectiviteProperties = $this->getCollectiviteProperties();		
-		$authorityInfo = array(
-							"sae_wsdl" =>  $collectiviteProperties->get("sae_wsdl"),
-							"sae_login" =>  $collectiviteProperties->get("sae_login"),
-							"sae_password" =>  $collectiviteProperties->get("sae_password"),
-							"sae_numero_aggrement" =>  $collectiviteProperties->get("sae_numero_agrement"),				
-		);
-			
+		$sae = $this->getConnecteur('SAE');
+		$sae_config = $this->getConnecteurConfigByType('SAE');
 		
 		$id_transfert = $this->getDonneesFormulaire()->get('transfert_id');
 		if (!$id_transfert){
@@ -22,15 +14,11 @@ class SAEValidationMegalis extends ActionExecutor {
 			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
 			return false;
 		}
-		
-		$asalae = new Asalae($authorityInfo);
-		
-		
-		$validation = $asalae->getReply($id_transfert);
+		$validation = $sae->getReply($id_transfert);
 		
 		if (! $validation){
-			if ($asalae->getLastErrorCode() == 8){
-				$max_delai_ar = $collectiviteProperties->get("max_delai_validation") * 24 * 60 * 60;
+			if ($sae->getLastErrorCode() == 8){
+				$max_delai_ar = $sae_config->get("max_delai_validation") * 24 * 60 * 60;
 				$lastAction = $this->getDocumentActionEntite()->getLastAction($this->id_e,$this->id_d);
 				$time_action = strtotime($lastAction['date']);
 				if (time() - $time_action < $max_delai_ar){
@@ -39,7 +27,7 @@ class SAEValidationMegalis extends ActionExecutor {
 				}
 			}
 			
-			$message = $asalae->getLastError();
+			$message = $sae->getLastError();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'validation-sae-erreur',$message);	
 			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);										
@@ -54,7 +42,7 @@ class SAEValidationMegalis extends ActionExecutor {
 		
 		$nodeName = strval($xml->getName());
 		if ($nodeName == 'ArchiveTransferAcceptance'){
-			$url = $asalae->getURL(strval($xml->Archive->ArchivalAgencyArchiveIdentifier));
+			$url = $sae->getURL(strval($xml->Archive->ArchivalAgencyArchiveIdentifier));
 			$donneesFormulaire->setData('url_archive', $url);
 			$message = "La transaction a été acceptée par le SAE";
 			$next_action = "accepter-sae";			

@@ -5,10 +5,8 @@ require_once(__DIR__."/../WebGFC.class.php");
 class TestConnexion extends ActionExecutor {
 	
 	public function go(){
+		$webGFC = $this->getMyConnecteur();
 		
-		$connecteur_properties = $this->getConnecteurProperties();
-		
-		$webGFC = new WebGFC($connecteur_properties); 
 		$result = $webGFC->echoTest("Test de connection");
 		
 		if (! $result){

@@ -1,5 +1,4 @@
 <?php
-////mail : pastell@sigmalis.com AisohM6D
 
 class Asalae {
 	
@@ -15,11 +14,11 @@ class Asalae {
 	
 	private $lastErrorCode;
 	
-	public function __construct(array $authorityInfo){
-		$this->WSDL = $authorityInfo['sae_wsdl'];
-		$this->login = $authorityInfo['sae_login'];
-		$this->password = $authorityInfo['sae_password'];
-		$this->numeroAgrement = $authorityInfo['sae_numero_aggrement'];
+	public function  setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
+		$this->WSDL = $collectiviteProperties->get('sae_wsdl');
+		$this->login = $collectiviteProperties->get('sae_login');
+		$this->password = $collectiviteProperties->get('sae_password');
+		$this->numeroAgrement = $collectiviteProperties->get('sae_numero_aggrement');
 	}
 
 	public function getLastError(){

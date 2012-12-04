@@ -1,9 +1,13 @@
 <?php
-require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
+require_once( PASTELL_PATH . "/connecteur/iParapheur/IParapheur.class.php");
 
 class IparapheurType {
 	
 	private $type;
+	
+	public function __construct(){
+		
+	}
 	
 	public function isEnabled($sqlQuery,$id_e,DonneesFormulaireFactory $donneesFormulaireFactory){
 		$entite = new Entite($sqlQuery,$id_e);
@@ -18,7 +22,10 @@ class IparapheurType {
 		$ancetre = $entite->getCollectiviteAncetre();
 		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($ancetre);
 		
-		$iParapheur = new IParapheur($donneesFormulaire);
+		//$donneesFormulaireFactory->get				
+		$iParapheur = new IParapheur(new SoapClientFactory());
+		$iParapheur->setConnecteurConfig($donneesFormulaire);
+		
 		
 		$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 		$this->type = $donneesFormulaire->get('iparapheur_type');

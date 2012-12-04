@@ -1,19 +1,19 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/system/IParapheur.class.php");
 
 class IParapheurRecup extends ActionExecutor {
 	
 	public function go(){
-		$collectiviteProperties = $this->getCollectiviteProperties();
-		$iParapheur = new IParapheur($collectiviteProperties);		
+		
+		$signature = $this->getConnecteur('signature');
+
 		$actes = $this->getDonneesFormulaire();
 		
-		$dossierID = $iParapheur->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
+		$dossierID = $signature->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
 		
-		$result = $iParapheur->getHistorique($dossierID);				
+		$result = $signature->getHistorique($dossierID);				
 		if (! $result){
-			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $iParapheur->getLastError());
+			$this->setLastMessage("La connexion avec le iParapheur a échoué : " . $signature->getLastError());
 			return false;
 		}
 		if (strstr($result,"[Archive]")){
@@ -21,29 +21,26 @@ class IParapheurRecup extends ActionExecutor {
 		}
 		if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
 			$this->rejeteDossier($result);
-			$iParapheur->effacerDossierRejete($dossierID);
+			$signature->effacerDossierRejete($dossierID);
 		}
 		$this->setLastMessage($result);
 		return true;			
 	}
 	
-	public function rejeteDossier($result){
-		$collectiviteProperties = $this->getCollectiviteProperties();
-		$iParapheur = new IParapheur($collectiviteProperties);
-		$actes = $this->getDonneesFormulaire();
+	public function rejeteDossier($result){		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'rejet-iparapheur',"Le document a été rejeté dans le parapheur : $result");
-		
 	}
 	
 	public function retrieveDossier(){
-		$collectiviteProperties = $this->getCollectiviteProperties();
-		$iParapheur = new IParapheur($collectiviteProperties);		
-		$actes = $this->getDonneesFormulaire();
-		$dossierID = $iParapheur->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
 		
-		$info = $iParapheur->getSignature($dossierID);
+		$signature = $this->getConnecteur('signature');
+		
+		$actes = $this->getDonneesFormulaire();
+		$dossierID = $signature->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
+		
+		$info = $signature->getSignature($dossierID);
 		if (! $info ){
-			$this->setLastMessage("La signature n'a pas pu être récupéré : " . $iParapheur->getLastError());
+			$this->setLastMessage("La signature n'a pas pu être récupéré : " . $signature->getLastError());
 			return false;
 		}
 		

@@ -46,4 +46,15 @@ class ConnecteurDefinitionFiles {
 		return Spyc::YAMLLoad($filename);	
 	}
 	
+	public function getConnecteurClass($id_connecteur){
+		$all = glob("{$this->connecteur_path}/$id_connecteur/*.class.php");
+		if (! $all){
+			throw new Exception("Impossible de trouver une classe pour le connecteur $id_connecteur");
+		}
+		$class_file = $all[0];
+		$class_name = basename($class_file,".class.php");
+		require_once($class_file);
+		return $class_name;
+	}
+	
 }

@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/connecteur/Connecteur.class.php");
 require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
 
 class Megalis extends Connecteur {
@@ -7,10 +6,15 @@ class Megalis extends Connecteur {
 	private $collectiviteProperties;
 	private $ssh2;
 	
-	public function __construct(DonneesFormulaire $collectiviteProperties, SSH2 $ssh2){
-		$this->collectiviteProperties = $collectiviteProperties;		
+	public function __construct(SSH2 $ssh2){
 		$this->ssh2 = $ssh2;
+		
 	}
+	
+	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
+		$this->collectiviteProperties = $collectiviteProperties;		
+	}
+	
 	
 	private function getProperties($name){
 		return $this->collectiviteProperties->get($name);
@@ -101,7 +105,7 @@ class Megalis extends Connecteur {
 		$tmp_dir = $passwordGenerator->getPassword();
 		$tmp_dir_path = "/tmp/$tmp_dir/";
 		mkdir($tmp_dir_path);
-		copy(__DIR__."/../../../data-exemple/exemple.pdf","$tmp_dir_path/exemple.pdf");
+		copy(__DIR__."/../../data-exemple/exemple.pdf","$tmp_dir_path/exemple.pdf");
 		
 		$uniq_id = time();
 		$actesTransactionsStatusInfo = array(

@@ -1,12 +1,12 @@
 <?php
-require_once( __DIR__ . "/../Megalis.class.php");
 
 class MegalisRecup extends ActionExecutor {
 	
 	public function go(){		
+		$megalis = $this->getMyConnecteur();
+		
 		$entiteListe = new EntiteListe($this->getSQLQuery());		
 		
-		$megalis = new Megalis($this->getConnecteurProperties(),new SSH2());
 		$recup = $megalis->recup();
 		if (! $recup){
 			$this->setLastMessage($megalis->getLastError());

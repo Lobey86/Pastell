@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/connecteur/Connecteur.class.php");
 require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
 
 class Megalis extends Connecteur {

@@ -1,6 +1,5 @@
 <?php 
 
-require_once(PASTELL_PATH . "/lib/system/WebGFC.class.php");
 
 
 class WebGFCStatus extends ActionExecutor {
@@ -10,7 +9,7 @@ class WebGFCStatus extends ActionExecutor {
 		$webgfc_courrier_id = $this->getDonneesFormulaire()->get('webgfc_courrier_id');
 		
 		
-		$webGFC = new WebGFC();
+		$webGFC = $this->getConnecteur('GFC');
 		$result = $webGFC->getStatus($webgfc_courrier_id);
 		
 		$this->setLastMessage($webGFC->getLastMessage());

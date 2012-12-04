@@ -11,10 +11,11 @@ class CMIS {
 	
 	private $lastError;
 	
-	public function __construct($url,$login,$password){
-		$this->url = $url;
-		$this->login = $login;
-		$this->password = $password;
+	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
+		$this->url = $collectiviteProperties->get('ged_url');
+		$this->login =$collectiviteProperties->get('ged_user_login');
+		$this->password = $collectiviteProperties->get('ged_user_password');
+		$this->folder = $collectiviteProperties->get('ged_folder');
 	}
 	
 	public function getRepositoryRetrieveInfo(){
@@ -88,6 +89,10 @@ class CMIS {
 		}
 		
 		return $result;
+	}
+	
+	public function testObject(){
+		return $this->getObjectByPath($this->folder);
 	}
 	
 	public function getObjectByPath($path)
