@@ -25,7 +25,7 @@ class ActionExecutorFactory {
 		try {
 			return $this->executeOnConnecteurThrow($id_ce,$id_u,$action_name);
 		} catch(Exception $e){
-			$this->lastMessage = $e->getMessage();
+			$this->lastMessage = $e->getMessage() . $e->getTraceAsString();
 			return false;	
 		}
 	}
