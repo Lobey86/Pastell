@@ -113,8 +113,6 @@ action:
 				modification
 			droit_id_u: 'helios:edition'
 			document_is_valide: true
-			herited-properties:
-				iparapheur_activate: true
 			
 		action-class: IParapheurEnvoieHelios
 		action-automatique: verif-iparapheur
@@ -148,8 +146,6 @@ action:
 				recu-iparapheur
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
-			herited-properties:
-				tdt_activate: true
 				
 		action-class: TedetisEnvoieHelios
 		action-automatique: verif-tdt
@@ -197,7 +193,5 @@ action:
 				send-archive
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
-			herited-properties:
-				sae_activate: on
 		action-class: SAEEnvoiHelios
 			

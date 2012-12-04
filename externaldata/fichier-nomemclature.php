@@ -1,12 +1,8 @@
 <?php 
-
-
 $entite = new Entite($sqlQuery,$id_e);
-
 $infoCDG = $entite->getCDG();
+$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');
 
-
-$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
 $classifCDG = $donneesFormulaire->get("classification_cdg");
 
 
@@ -16,7 +12,7 @@ $page_title = "Choix de la nomenclature";
 include( PASTELL_PATH ."/include/haut.php");
 
 ?>
-<a href='connecteur/edition-properties.php?id_e=<?php echo $id_e ?>&page=<?php echo $page ?>'>« Revenir à l'entité</a>
+<a href='connecteur/edition-modif.php?id_ce=<?php echo $id_ce ?>'>« Revenir à l'entité</a>
 <br/><br/>
 
 
@@ -28,13 +24,13 @@ include( PASTELL_PATH ."/include/haut.php");
 	foreach ($classifCDG as $i => $info) : ?>
 		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 			<td class="w30">		
-			<a href='connecteur/external-data-controler.php?id_e=<?php echo $id_e?>&page=<?php echo $page?>&field=<?php echo $field ?>&nomemclature_file=<?php hecho($info) ?>'><?php echo $info?></a>
+			<a href='connecteur/external-data-controler.php?id_ce=<?php echo $id_ce?>&field=<?php echo $field ?>&nomemclature_file=<?php hecho($info) ?>'><?php echo $info?></a>
 			</td>		
 		</tr>
 	<?php endforeach;?>
 	<tr>
 		<td class="w30">		
-			<a href='connecteur/external-data-controler.php?id_e=<?php echo $id_e?>&page=<?php echo $page?>&field=<?php echo $field ?>&nomemclature_file='>Supprimer le fichier </a>
+			<a href='connecteur/external-data-controler.php?id_ce=<?php echo $id_ce?>&field=<?php echo $field ?>&nomemclature_file='>Supprimer le fichier </a>
 		</td>
 	</tr>
 </table>

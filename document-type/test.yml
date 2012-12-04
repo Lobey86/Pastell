@@ -40,8 +40,6 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
-			herited-properties:
-				tdt_activate: true
 				
 		action-class: TedetisEnvoieHelios
 		action-automatique: verif-tdt

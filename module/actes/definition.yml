@@ -241,8 +241,7 @@ action:
 			content: 
 				envoi_tdt: true
 				envoi_iparapheur: false
-			herited-properties:
-				tdt_activate: true
+
 				
 				
 		action-class: TedetisEnvoie
@@ -261,8 +260,7 @@ action:
 			content: 
 				envoi_tdt: true
 				envoi_iparapheur: true
-			herited-properties:
-				tdt_activate: true
+
 				
 				
 		action-class: TedetisEnvoie
@@ -408,8 +406,6 @@ action:
 			droit_id_u: 'actes:edition'
 			properties: 
 				has_archivage: manuel
-			herited-properties:
-				sae_activate: on
 		action-class: SAEEnvoi
 			
 	 

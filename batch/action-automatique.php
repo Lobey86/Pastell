@@ -10,17 +10,23 @@ $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $documentEntite = new DocumentEntite($sqlQuery);
+$all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAll(0);
 
-foreach($documentTypeFactory->getAutoActionOnGlobal() as $type => $action){
-	echo "Traitement de $action : ";
-	$result = $objectInstancier->ActionExecutorFactory->executeOnGlobalProperties(0,$action);
-	if (!$result){
-		echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
+foreach($all_connecteur as $connecteur){
+	echo "Connecteur {$connecteur['libelle']} : ";
+	$documentType = $objectInstancier->DocumentTypeFactory->getGlobalDocumentType($connecteur['id_connecteur']);
+	$all_action = $documentType->getAction()->getAutoAction();
+	foreach($all_action as $action){
+		$result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($connecteur['id_ce'],0,$action);
+		if (!$result){
+			echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
+		} else {
+			echo "ok";
+		}
+		
 	}
 	echo "\n";
 }
-
-
 foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
 	foreach($tabAction as $etat_actuel => $etat_cible){	
 		foreach ($documentEntite->getFromAction($type,$etat_actuel) as $infoDocument){
@@ -42,6 +48,3 @@ if ($sleep > 0){
 	echo "Arret du script : $sleep";
 	sleep($sleep);
 }
-
-
-

@@ -10,7 +10,6 @@ abstract class ActionExecutor {
 	protected $action;
 	protected $id_destinataire;
 	protected $from_api;
-	protected $libelle;
 	protected $id_ce;
 	
 	protected $objectInstancier;
@@ -20,20 +19,25 @@ abstract class ActionExecutor {
 	//$type = type de document
 	public function __construct(ObjectInstancier $objectInstancier,
 									$id_d,$id_e,$id_u,$type,
-									$id_destinataire,$action_name,$from_api,$libelle = false,$id_ce = false
+									$id_destinataire,$action_name,$from_api,
+									$id_ce = false
 									
 									){
 		$this->objectInstancier = $objectInstancier;
 		$this->id_d = $id_d;
-		$this->id_e = $id_e;		
+			$this->id_e = $id_e;	
 		$this->id_u = $id_u;
 		$this->type = $type;
 		$this->id_destinataire = $id_destinataire;	
 		$this->action = $action_name;
 		$this->from_api = $from_api;
-		$this->libelle = $libelle;
 		$this->id_ce = $id_ce;
 	}
+	
+	public function setEntite($id_e){
+		$this->id_e = $id_e;	
+	}
+	
 	
 	public function getLastMessage(){
 		return $this->lastMessage;

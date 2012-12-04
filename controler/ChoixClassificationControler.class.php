@@ -35,14 +35,17 @@ class ChoixClassificationControler {
 	}
 	
 	private function getFileClassificationCDG($id_e){
-		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
+		global $objectInstancier;
+		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,'actes','TdT');
 		return $donneesFormulaire->get('nomemclature_file');
 	}
 	
 	private function getDonneedFormulaireCDG($id_e){
 		$entite = new Entite($this->sqlQuery,$id_e);
 		$infoCDG = $entite->getCDG();
-		return $this->donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
+		global $objectInstancier;
+		return $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');
+	
 	}
 	
 	private function getClassificationAJourFieldName($donneesFormulaireCDG,$file_classification_cdg){			

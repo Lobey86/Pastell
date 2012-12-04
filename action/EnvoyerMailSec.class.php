@@ -4,27 +4,17 @@ require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class EnvoyerMailSec extends ActionExecutor {
 	
-	private $collectiviteProperties;
-	private $collectiviteForm;
 	private $zenMail;
 	private $message;
 	private $documentEmail;
 	
-	private function getProperties($propertieName){
-		$default = $this->collectiviteForm->getField($propertieName)->getDefault();
-		return $this->collectiviteProperties->get($propertieName,$default);
-	}
-	
-	private function prepareMail(){
-		$this->collectiviteForm = $this->getDocumentTypeFactory()->getEntiteConfig($this->id_e)->getFormulaire();		
-		$this->collectiviteProperties = $this->getDonneesFormulaireFactory()->getEntiteFormulaire($this->id_e);	
-		
+
+	private function prepareMail(){		
+		$mailsec_config = $this->getConnecteurConfigByType('mailsec');
 		$this->zenMail = $this->getZenMail();
-		
-		$this->zenMail->setEmmeteur($this->getProperties('mailsec_from_description'),$this->getProperties('mailsec_from'));
-		$this->zenMail->setSujet($this->getProperties('mailsec_subject'));
-		
-		$this->message = $this->getProperties('mailsec_content');
+		$this->zenMail->setEmmeteur($mailsec_config->get('mailsec_from_description'),$mailsec_config->get('mailsec_from'));
+		$this->zenMail->setSujet($mailsec_config->get('mailsec_subject'));
+		$this->message = $mailsec_config->get('mailsec_content');
 	}
 	
 	private function sendEmail($to,$type){
@@ -40,7 +30,6 @@ class EnvoyerMailSec extends ActionExecutor {
 	}
 	
 	public function go(){
-		
 		$annuaireGroupe = new AnnuaireGroupe($this->getSQLQuery(),$this->id_e);
 		
 		$annuaireRoleSQL = $this->objectInstancier->AnnuaireRoleSQL;
