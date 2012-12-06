@@ -43,7 +43,11 @@ class ActionExecutorFactory {
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
 		$type = $infoDocument['type'];
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);
-		return $this->goInstance($documentType,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api,false);				
+		$actionClass = $this->goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
+		$actionClass->setDocumentId($id_d);
+		$result = $actionClass->go();		
+		$this->lastMessage = $actionClass->getLastMessage();		
+		return $result;						
 	}
 
 	
@@ -55,13 +59,20 @@ class ActionExecutorFactory {
 			$documentType = $this->objectInstancier->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
 		}
 		
-		return $this->goInstance($documentType,
-			$connecteur_entite_info['id_e'],$connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_connecteur'],
-			array(),$action_name,false,$id_ce);		
+		$actionClass = $this->goInstance($documentType,
+			$connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_connecteur'],
+			array(),$action_name,false);
+
+		$actionClass->setConnecteurId($id_ce);
+			
+		$result = $actionClass->go();		
+		$this->lastMessage = $actionClass->getLastMessage();		
+		return $result;		
+		
 	}
 
 	
-	private function goInstance($documentType,$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api,$id_ce){
+	private function goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api){
 		$theAction = $documentType->getAction();		
 		$action_class_name = $theAction->getActionClass($action_name);
 		if (!$action_class_name){
@@ -73,10 +84,10 @@ class ActionExecutorFactory {
 		
 		require_once($action_class_file);		
 		$actionClass = new $action_class_name($this->objectInstancier,
-		$id_d,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api,$id_ce);
-		$result = $actionClass->go();		
-		$this->lastMessage = $actionClass->getLastMessage();		
-		return $result;		
+		$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
+		
+		return $actionClass;
+		
 	}
 	
 	

@@ -1,6 +1,5 @@
 <?php 
 
-//TODO ! 
 $webGFC = new WebGFC();
 $message_type = $recuperateur->get('messagetype');
 $message_sous_type = $recuperateur->get('messagesoustype');
