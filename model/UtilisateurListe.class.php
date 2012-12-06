@@ -1,29 +1,7 @@
 <?php
 class UtilisateurListe extends SQL {
 	
-	public function getNbUtilisateur($search = false){
-		$sql = "SELECT count(*) FROM utilisateur ";
-		$data = array();
-		if ($search){
-			$sql .= " WHERE nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
-			$data  = array("%$search%","%$search%","%$search%");
-		}
-		return $this->queryOne($sql,$data);
-	}
-	
-	public function getAll($offset,$limit,$search = false){
-		$sql = "SELECT * FROM utilisateur LEFT JOIN entite ON utilisateur.id_e=entite.id_e";
-				
-		$data = array();
-		if ($search){
-			$sql .= " WHERE nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
-			$data  = array("%$search%","%$search%","%$search%");
-		}
-		$sql .= " ORDER BY utilisateur.nom,prenom,login LIMIT $offset,$limit";
-		
-		$result =  $this->query($sql,$data);
-		return $result;
-	}
+	const NB_UTILISATEUR_DISPLAY = 50;
 	
 	public function getUtilisateurByLogin($login){
 		$sql = "SELECT id_u FROM utilisateur WHERE login = ?";
@@ -52,45 +30,77 @@ class UtilisateurListe extends SQL {
 		return $this->queryOne($sql,$mail_verif_password);
 	}
 	
-	public function getUtilisateurByEntite(array $id_e){
-		$all_id_e = implode(',',$id_e);
-		$sql = "SELECT * FROM  utilisateur " . 
-				" LEFT JOIN utilisateur_role  ON utilisateur_role.id_u = utilisateur.id_u ".
-				" LEFT JOIN entite ON utilisateur.id_e = entite.id_e " .
-				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
-				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		$all= $this->query($sql);
+	public function getNbUtilisateur($id_e,$with_fille = false,$role = false,$search = false){
 		
-		$result = array();
-		foreach($all as $ligne){	
-			if (empty($result[$ligne['id_u']])){
-				$result[$ligne['id_u']] = $ligne;
-			}
-			$result[$ligne['id_u']]['all_role'][] = $ligne['role'];			
+		$sql = "SELECT count(DISTINCT utilisateur.id_u)" .				 
+				" FROM utilisateur " .
+				" JOIN utilisateur_role ON utilisateur.id_u=utilisateur_role.id_u ";
+				
+		if ($with_fille){
+				$sql .= " JOIN entite_ancetre ON utilisateur_role.id_e=entite_ancetre.id_e " .
+				" WHERE entite_ancetre.id_e_ancetre=?";
+				$data = array($id_e);
+		} else {
+			$sql .= "WHERE utilisateur_role.id_e=?";
+			$data = array($id_e);
+		}	
+		if ($role){
+			$sql.= "AND utilisateur_role.role = ?";
+			$data[] = $role;
 		}
-		return $result;
+		if($search){
+			$sql .= " AND nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
+			$data[]  = "%$search%";
+			$data[]  = "%$search%";
+			$data[]  = "%$search%";
+		}
+		
+		return $this->queryOne($sql,$data);
 	}
 	
-	
-	public function getUtilisateurByEntiteAndDroit(array $id_e,$droit){
-		$all_id_e = implode(',',$id_e);
-		$sql = "SELECT * FROM utilisateur_role " . 
-				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
-				" LEFT JOIN entite ON utilisateur.id_e = entite.id_e ".
-				" JOIN role_droit ON utilisateur_role.role=role_droit.role " .
-				" WHERE utilisateur_role.id_e IN ($all_id_e) " . 
-				" AND role_droit.droit= ? " .
-				" ORDER BY utilisateur.nom,utilisateur.prenom";
-		$all= $this->query($sql,$droit);
-		
-		$result = array();
-		foreach($all as $ligne){	
-			if (empty($result[$ligne['id_u']])){
-				$result[$ligne['id_u']] = $ligne;
-			}
-			$result[$ligne['id_u']]['all_role'][] = $ligne['role'];			
+	public function getAllUtilisateur($id_e,$with_fille = false,$role = false,$search = false,$offset=0){
+		$sql = "SELECT utilisateur.id_u,nom,prenom,login,utilisateur_role.role," .
+				" email,utilisateur.id_e,entite.denomination ". 
+				" FROM utilisateur " .
+				" LEFT JOIN entite ON entite.id_e=utilisateur.id_e " .
+				" JOIN utilisateur_role ON utilisateur.id_u=utilisateur_role.id_u ";
+				
+		if ($with_fille){
+				$sql .= " JOIN entite_ancetre ON utilisateur_role.id_e=entite_ancetre.id_e " .
+				" WHERE entite_ancetre.id_e_ancetre=?";
+				$data = array($id_e);
+		} else {
+			$sql .= "WHERE utilisateur_role.id_e=?";
+			$data = array($id_e);
+		}	
+		if ($role){
+			$sql.= "AND utilisateur_role.role = ?";
+			$data[] = $role;
 		}
-		return $result;
+		if($search){
+			$sql .= " AND nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
+			$data[]  = "%$search%";
+			$data[]  = "%$search%";
+			$data[]  = "%$search%";
+		}
+		
+		$sql .= " GROUP BY utilisateur.id_u ";
+		$sql .= " ORDER BY nom,prenom ";
+		$sql .= " LIMIT $offset,".self::NB_UTILISATEUR_DISPLAY;
+		
+		$all= $this->query($sql,$data);
+		
+		$sql = "SELECT utilisateur_role.*,entite.denomination, role.libelle " .
+				" FROM utilisateur_role " .
+				" LEFT JOIN entite on utilisateur_role.id_e=entite.id_e " .
+				" LEFT JOIN role ON utilisateur_role.role = role.role" .
+				" WHERE id_u=? ";
+		foreach($all as $i => $utilisateur){
+			$all[$i]['all_role'] = $this->query($sql,$utilisateur['id_u']);
+		}
+		return $all;
 	}
+
+	
 	
 }

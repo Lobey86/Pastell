@@ -133,6 +133,7 @@ CREATE TABLE flux_entite (
 	`id_e` int(11) NOT NULL,
 	`flux` varchar(32) NOT NULL,
 	`id_ce` int(11) NOT NULL,
+	`type` varchar(32) NOT NULL,
 	PRIMARY KEY (`id_fe`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE grade (
@@ -188,7 +189,8 @@ CREATE TABLE utilisateur (
 	`certificat` text NOT NULL,
 	`certificat_verif_number` varchar(32) NOT NULL,
 	`id_e` int(11) NOT NULL,
-	PRIMARY KEY (`id_u`)
+	PRIMARY KEY (`id_u`),
+	KEY id_e (`id_e`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE utilisateur_role (
 	`id_u` int(11) NOT NULL,

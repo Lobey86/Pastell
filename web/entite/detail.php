@@ -12,7 +12,7 @@ require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 
 
 $recuperateur = new Recuperateur($_GET);
-$id_e = $recuperateur->getInt('id_e');
+$id_e = $recuperateur->getInt('id_e',0);
 $tab_number = $recuperateur->getInt('page',0);
 $offset = $recuperateur->getInt('offset',0);
 $droit = $recuperateur->get('droit','');
@@ -83,28 +83,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	
 	$entiteDetailHTML->display($info,$entiteProperties);
 elseif($tab_number == 1) : 
-	$utilisateurListe = new UtilisateurListe($sqlQuery);
-	$utilisateurListeHTML = new UtilisateurListeHTML();
-	$utilisateurListeHTML->addDroit($allDroit);
-	
-	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$id_e)){
-		$utilisateurListeHTML->addDroitEdition();
-	}
-	if ($descendance){
-		$all_id_e = $entite->getDescendance($id_e);
-	} else {
-		$all_id_e = array($id_e);
-	}
-	
-	if ($droit){
-		$allUtilisateur = $utilisateurListe->getUtilisateurByEntiteAndDroit($all_id_e,$droit);
-	} else {
-		$allUtilisateur = $utilisateurListe->getUtilisateurByEntite($all_id_e);
-	}
-	
-	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance);
-
-
+	$objectInstancier->EntiteControler->listUtilisateur();
 elseif($tab_number == 2) : $i=0;?>
 <h2>Listes des connecteurs
 <a href="connecteur/new.php?id_e=<?php echo $id_e?>&page=1&page_retour=2" class='btn_maj'>Nouveau</a>

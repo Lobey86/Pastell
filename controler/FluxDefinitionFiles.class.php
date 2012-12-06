@@ -10,7 +10,7 @@ class FluxDefinitionFiles {
 	
 	public function getAll(){
 		$all = glob("{$this->documentTypeDirectory}/*.yml");
-		$exlude = array('default.yml','global-properties.yml','collectivite-properties.yml');
+		$exlude = array('default.yml');
 		
 		$all_type = array();
 		
