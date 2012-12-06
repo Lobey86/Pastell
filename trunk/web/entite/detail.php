@@ -109,10 +109,6 @@ elseif($tab_number == 2) : $i=0;?>
 </table>
 
 
-<?php if($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",$id_e)) : ?>
-	<a href='connecteur/detail.php?id_e=<?php echo $id_e ?>'>Configurer les connecteurs (ancienne méthode)</a>
-<?php endif;?>
-
 <?php elseif($tab_number==3) :
 
 $all_flux = $objectInstancier->FluxDefinitionFiles->getAll();
