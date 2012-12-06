@@ -48,28 +48,9 @@ include( PASTELL_PATH ."/include/haut.php");
 	
 <?php 
 if ($tab_number == 0):
+	$objectInstancier->EntiteControler->listUtilisateur();
 
-	$utilisateurListe = new UtilisateurListe($sqlQuery);
-	$utilisateurListeHTML = new UtilisateurListeHTML();
-	$utilisateurListeHTML->addDroit($allDroit);
-	
-	if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:edition",$id_e)){
-		$utilisateurListeHTML->addDroitEdition();
-	}
-	if ($descendance){
-		$all_id_e = $entite->getDescendance($id_e);
-	} else {
-		$all_id_e = array($id_e);
-	}
-	
-	if ($droit){
-		$allUtilisateur = $utilisateurListe->getUtilisateurByEntiteAndDroit($all_id_e,$droit);
-	} else {
-		$allUtilisateur = $utilisateurListe->getUtilisateurByEntite($all_id_e);
-	}
-	
-	$utilisateurListeHTML->display($allUtilisateur,$id_e,$droit,$descendance,"entite/detail0.php",0);
-	 elseif ($tab_number == 1) : ?>
+elseif ($tab_number == 1) : ?>
 	<a href='mailsec/annuaire.php'>Annuaire global »</a>
 <?php 
 
