@@ -1,11 +1,11 @@
 <?php
-require_once( __DIR__ . "/../connecteur/Megalis.class.php");
 
 class MegalisSupprime extends ActionExecutor{
 	
 	public function go(){
 		
-		$megalis =  $this->getConnecteur('Megalis');
+		$megalis = $this->getGlobalConnecteur('Megalis');
+		
 				
 		$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,'megalis');
 		$archive = $donneesFormulaire->get('archive');

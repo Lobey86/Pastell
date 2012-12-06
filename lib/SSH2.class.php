@@ -90,7 +90,7 @@ class SSH2 {
 			return false;
 		};
 		$sftp = ssh2_sftp($connexion);
-		if ( ! file_exists("ssh2.sftp://$filename")){
+		if ( ! file_exists("ssh2.sftp://{$sftp}{$filename}")){
 			return true;
 		}
 		
