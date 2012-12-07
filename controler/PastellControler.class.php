@@ -12,7 +12,21 @@ class PastellControler extends Controler {
 
 		if ( $id_e && ! $this->EntiteSQL->getInfo($id_e)){
 			$this->LastError->setLastError("L'entité $id_e n'existe pas");
+			$this->redirect("/index.php");
+		}
+	}
+	
+	public function hasDroitLecture($id_e){
+		$droit_lecture = $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),
+															"entite:lecture",$id_e);
+		if ( ! $droit_lecture ){
+			$this->LastError->setLastError("Vous n'avez pas le droit de lecture sur cette entité");
 			$this->redirect("/entite/detail.php?id_e=$id_e");
+		}
+
+		if ( $id_e && ! $this->EntiteSQL->getInfo($id_e)){
+			$this->LastError->setLastError("L'entité $id_e n'existe pas");
+			$this->redirect("/index.php");
 		}
 	}
 	

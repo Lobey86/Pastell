@@ -86,7 +86,9 @@ class UtilisateurListe extends SQL {
 		
 		$sql .= " GROUP BY utilisateur.id_u ";
 		$sql .= " ORDER BY nom,prenom ";
-		$sql .= " LIMIT $offset,".self::NB_UTILISATEUR_DISPLAY;
+		if ($offset != -1){
+			$sql .= " LIMIT $offset,".self::NB_UTILISATEUR_DISPLAY;
+		}
 		
 		$all= $this->query($sql,$data);
 		

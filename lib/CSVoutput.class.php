@@ -19,6 +19,11 @@ class CSVoutput {
 		$this->end();
 	}
 	
+	public function send($filename,array $info ){
+		$this->displayHTTPHeader($filename);
+		$this->display($info);
+	}
+	
 	
 	public function begin(){
 		$this->outstream = fopen("php://output", 'w');
