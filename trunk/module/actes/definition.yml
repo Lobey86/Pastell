@@ -53,7 +53,10 @@ formulaire:
 			script-controler: choix-classification-controler.php
 			link_name: liste des matières et sous-matières
 			controler: ChoixClassification
-		envoi_iparapheur: {name: Transmission au parapheur, type: checkbox, onchange: envoi-iparapheur-change.php}
+		envoi_iparapheur:
+			name: Transmission au parapheur
+			type: checkbox
+			onchange: envoi-iparapheur-change
 		envoi_tdt: {name: Transmission au contrôle de légalité , type: checkbox}
 		envoi_cdg: {name: Transmission au CDG, type: checkbox}
 		Archivage: {type: checkbox}
@@ -61,7 +64,7 @@ formulaire:
 				
 	Agent:
 		agent: {name: "Choisir les valeurs dans une liste" , type: externalData, script: agent-collectivite.php, script-controler: agent-collectivite-controler.php, link_name: liste des agents}
-		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
 		Matricule de l'agent: {read-only: true} 
 		Nom patronymique: {requis: true, read-only: true}
 		Nom d'usage: {read-only: true}
@@ -77,7 +80,7 @@ formulaire:
 				true
 	
 	Agent non-référencé:
-		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference.php}
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
 		grade: {name: "Grade", type: externalData, script: grade.php, script-controler: grade-controler.php, link_name: liste des grades}		
 		Nom patronymique: {requis: true}
 		Nom d'usage: 
@@ -415,6 +418,18 @@ action:
 			properties: 
 				has_archivage: manuel
 		action-class: SAEEnvoi
+		
+	envoi-iparapheur-change:		
+		name: Modification envoi-iparapheur
+		rule:
+			role_id_e: no-role	
+		action-class: EnvoieIparapheurChange
+	
+	agent-non-reference:
+		name: Agent non référencé
+		rule:
+			role_id_e: no-role
+		action-class: AgentNonReference
 			
 	 
 	 	

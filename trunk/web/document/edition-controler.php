@@ -47,8 +47,6 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,
 
 $fileUploader = new FileUploader($_FILES);
 
-
-
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 $documentEntite = new DocumentEntite($sqlQuery);
@@ -68,8 +66,8 @@ $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
 
-if ($donneesFormulaire->hasOnChangeHook()){
-	require_once(PASTELL_PATH."/externaldata/".$donneesFormulaire->hasOnChangeHook());
+foreach($donneesFormulaire->getOnChangeAction() as $action) {	
+	$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$authentification->getId(),$id_d,$action);
 }
 
 if ( $recuperateur->get('ajouter') ){
