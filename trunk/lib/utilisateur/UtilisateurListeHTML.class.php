@@ -93,7 +93,8 @@ class UtilisateurListeHTML {
 		<?php endforeach; ?>
 		
 		</table>
-		
+		<br/><br/>
+		<a href='utilisateur/export.php?id_e=<?php echo $id_e?>&descendance=<?php echo $descendance?>&role_selected=<?php echo $role_selected?>&search=<?php echo $search ?>'>Exporter (CSV)</a>
 		<?php
 	}
 	
