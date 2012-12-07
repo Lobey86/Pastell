@@ -44,6 +44,7 @@ class ActionExecutorFactory {
 		$type = $infoDocument['type'];
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);
 		$actionClass = $this->goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
+		
 		$actionClass->setDocumentId($id_d);
 		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();		

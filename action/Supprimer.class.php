@@ -11,7 +11,7 @@ class Supprimer extends ActionExecutor {
 		
 		$this->setLastMessage($message);
 
-		$this->redirect("list.php?id_e={$this->id_e}&type={$this->type}");
+		$this->redirect("/document/list.php?id_e={$this->id_e}&type={$this->type}");
 		return true;
 	}
 

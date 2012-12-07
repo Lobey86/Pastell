@@ -8,6 +8,7 @@ class ConnecteurControler extends PastellControler {
 			$this->redirect("/entite/detail0.php");
 		}
 		$this->hasDroitEdition($connecteur_entite_info['id_e']);		
+		return $connecteur_entite_info;
 	}
 	
 	public function doNouveau(){
@@ -62,10 +63,15 @@ class ConnecteurControler extends PastellControler {
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');
 		$this->hasDroitOnConnecteur($id_ce);
+		
 		$fileUploader = new FileUploader($_FILES);
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
-		
 		$donneesFormulaire->saveTab($recuperateur,$fileUploader,0);
+		
+		foreach($donneesFormulaire->getOnChangeAction() as $action) {	
+			$result = $this->ActionExecutorFactory->executeOnConnecteur($id_ce,$this->Authentification->getId(),$action);
+		}
+		
 		$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 	}
 	

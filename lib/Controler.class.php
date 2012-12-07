@@ -46,12 +46,6 @@ class Controler {
 		return $this->selectedView;
 	}
 	
-	public function exitIfNotConnected(){
-		if (! $this->connexion->isConnected()){
-			$this->LastMessage->setLastError("Vous devez vous connecter pour utiliser cette fonctionnalité");
-			$this->redirect("Login","index");
-		}
-	}
 	
 	public function exitToIndex(){
 		header("Location: ".$this->objectInstancier->site_index);

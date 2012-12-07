@@ -70,6 +70,24 @@ class ActionPossible {
 		return $possible;
 	}
 	
+	public function getActionPossibleOnConnecteur($id_ce,$id_u){
+		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);		
+		
+		if ($connecteur_entite_info['id_e']){
+			$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		} else {
+			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+		}
+		
+		$action = $documentType->getAction();
+		foreach($action->getAll() as $action_name){
+			if ($this->isActionPossibleOnConnecteur($id_ce,$id_u,$action_name)){
+				$possible[] = $action_name;
+			}
+		}
+		return $possible;
+	}
+	
 	private function getTypeDocument($id_e,$id_d){
 		$infoDocument = $this->document->getInfo($id_d);
 		if (!$infoDocument){

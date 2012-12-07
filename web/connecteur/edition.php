@@ -43,8 +43,9 @@ include( PASTELL_PATH ."/include/haut.php");
 
 $afficheurFormulaire->afficheStatic(0,"connecteur/recuperation-fichier.php?id_ce=$id_ce"); 
  
-
-foreach($action->getAll() as $action_name) : ?>
+$action_possible = $objectInstancier->ActionPossible->getActionPossibleOnConnecteur($id_ce,$authentification->getId());
+ 
+foreach($action_possible as $action_name) : ?>
 <form action='connecteur/action.php' method='post' >
 	<input type='hidden' name='id_ce' value='<?php echo $id_ce ?>' />
 	<input type='hidden' name='action' value='<?php echo $action_name ?>' />

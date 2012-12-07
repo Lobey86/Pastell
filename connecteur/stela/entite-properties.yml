@@ -6,8 +6,15 @@ formulaire:
 	page0:
 		url: {name: "URL du service"}
 		server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file, content-type: text/plain}
-		user_certificat: {name: "Certificat utilisateur (format P12)", type: file, content-type: application/octet-stream}
-		user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
+		user_certificat: 
+			name: "Certificat utilisateur (format P12)"
+			type: file
+			content-type: application/octet-stream
+			onchange: update-certificate
+		user_certificat_password: 
+			name: "Mot de passe du certificat utilisateur" 
+			type: password
+			onchange: update-certificate
 		user_certificat_pem: {type: file, no-show: true}
 		user_key_pem: {type: file, no-show: true}		
 		classification_file: {name: "Fichier de classification", type: file, read-only: true}
@@ -39,5 +46,5 @@ action:
 		tab: TdT
 		action-class: UpdateCertificate
 		rule:
-			droit_id_u: 'entite:edition'
+			role_id_e: no-role
 		

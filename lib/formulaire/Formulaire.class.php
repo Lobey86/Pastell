@@ -119,6 +119,17 @@ class Formulaire {
 		return false;
 	}
 	
+	public function getTabNumber($tab_name){
+		$i = 0;
+		foreach ($this->formArray as $name => $tab) {
+			if ($name == $tab_name){
+				return $i;
+			}
+			$i ++;
+		}
+		return false;
+	}
+	
 	
 	
 }

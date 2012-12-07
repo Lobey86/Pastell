@@ -65,11 +65,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function getDonneesFormulaire(){
-		static $donneesFormulaire;
-		if (! $donneesFormulaire){
-			$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,$this->type);
-		}
-		return $donneesFormulaire;	
+		return $this->getDonneesFormulaireFactory()->get($this->id_d,$this->type);
 	}
 	
 	public function getZenMail(){
@@ -94,6 +90,13 @@ abstract class ActionExecutor {
 
 	public function getDocument(){
 		return $this->objectInstancier->Document;
+	}
+	
+	public function getFormulaire(){
+		$formulaire = $this->objectInstancier->DocumentTypeFactory->getDocumentType($this->type)->getFormulaire();
+		$formulaire->addDonnesFormulaire($this->getDonneesFormulaire());
+		return $formulaire;
+		
 	}
 	
 	public function getDonneesFormulaireFactory(){
@@ -154,7 +157,7 @@ abstract class ActionExecutor {
 
 	public function redirect($to){
 		if (! $this->from_api) {
-			header("Location: $to");
+			header("Location: ".SITE_BASE."$to");
 			exit;
 		}
 		

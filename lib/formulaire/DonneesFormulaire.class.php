@@ -11,12 +11,13 @@ class DonneesFormulaire {
 	private $info;
 	private $isModified;
 	private $lastError;
-	private $onChangeHook;
+	private $onChangeAction;
 
 	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
 		$this->formulaire = $formulaire;
 		$this->retrieveInfo();
+		$this->onChangeAction = array();
 	}
 	
 	public function injectData($field,$data){
@@ -64,10 +65,11 @@ class DonneesFormulaire {
 					}
 				
 				if ( ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
-					$this->onChangeHook = $field->getOnChange();
+					if (! in_array($field->getOnChange(),$this->onChangeAction)){
+						$this->onChangeAction[] = $field->getOnChange();
+					}
 				}
-				 
-				
+
 				if ( ( ($type != 'password' ) || $field->getProperties('may_be_null')  ) ||  $value){
 					$this->setInfo($field,$value);					
 				}
@@ -84,7 +86,8 @@ class DonneesFormulaire {
 			$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
 		}
 		if ($field->getType() == 'password'){
-			$value = "'$value'";
+			//Bug potentiel ?
+			//$value = "'$value'";
 		}
 		$this->info[$field->getName()] = $value;
 		$this->isModified = true;
@@ -117,8 +120,8 @@ class DonneesFormulaire {
 		return $this->isModified;
 	}
 	
-	public function hasOnChangeHook(){
-		return $this->onChangeHook;
+	public function getOnChangeAction(){
+		return $this->onChangeAction;
 	}
 	
 	private function saveFile(Field $field, FileUploader $fileUploader){
@@ -135,12 +138,13 @@ class DonneesFormulaire {
 			$num = count($this->info[$fname]) - 1 ;
 			$fileUploader->save($fname , $this->getFilePath($fname,$num));
 			$this->isModified = true;
+			$this->onChangeAction[] = $field->getOnChange();
 		}
 	}
 	
 	public function setData($field_name,$field_value){		
 		$this->info[$field_name] = $field_value;
-		$this->saveDataFile();
+		$this->saveDataFile();		
 	}
 	
 	public function setTabData(array $field){
@@ -214,8 +218,7 @@ class DonneesFormulaire {
 					return false;
 				}
 			}
-			if ($field->pregMatch()){
-			
+			if ($field->pregMatch()){			
 				if ( ! preg_match($field->pregMatch(),$this->get($field->getName()))){
 					$this->lastError = "Le champ «{$field->getLibelle()}» est incorrect ({$field->pregMatchError()}) ";
 					return false;
