@@ -43,48 +43,7 @@ if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",0)){
 include( PASTELL_PATH ."/include/haut.php");
 
 ?>
-<?php if ($search || $nbCollectivite > 20) : ?>
-<div>
-<form action='entite/index.php' method='get' >
-	<input type='text' name='search' value='<?php echo $search?>'/>
-	<input type='submit' value='Rechercher' />
-</form>
-</div>
-<?php endif;?>
-<?php 
-suivant_precedent($offset,20,$nbCollectivite,"entite/index.php?search=$search");
-?>
 
 
-<div class="box_contenu clearfix">
-
-<h2>Collectivités</h2>
-	
-	<table class="tab_01">
-		<tr>
-			<th>Dénomination</th>
-			<th>Siren</th>
-			<th>Type</th>
-		</tr>
-	<?php foreach($liste_collectivite as $i => $info) : ?>
-		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
-			<td><a href='entite/detail.php?id_e=<?php echo  $info['id_e'] ?>'><?php hecho($info['denomination']) ?></a></td>
-			<td><?php 
-			echo $info['siren'] ?></td>
-			<td>
-				<?php echo Entite::getNom($info['type']) ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-
-	
-	<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"utilisateur:lecture",0)) : ?>
-	
-	<p>Voir les <a href='entite/detail0.php'>Propriétés globales</a></p>	
-	
-	<?php endif;?>
-	<p>Voir les <a href='entite/agents.php'>agents</a></p>
-</div>
 <?php 
 include( PASTELL_PATH ."/include/bas.php");

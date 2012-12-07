@@ -97,6 +97,7 @@ action:
 				rejet-iparapheur
 				tdt-error
 				refus-tdt
+				erreur-verif-iparapheur
 			no-action:
 				send-tdt
 			role_id_e: editeur
@@ -122,11 +123,17 @@ action:
 		name: Vérification de la signature
 		rule:
 			last-action:
+				erreur-verif-iparapheur
 				send-iparapheur
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
 		action-class: IParapheurRecupHelios
-		
+	
+	erreur-verif-iparapheur:
+		name: Erreur lors de la vérification du statut de signature
+		rule:
+			role_id_e: no-role
+	
 	recu-iparapheur:
 		name: Signature récuperée
 		rule:

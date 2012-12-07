@@ -39,7 +39,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php if($id_e): ?>
 <a href='entite/detail.php?id_e=<?php echo $id_e?>'>« Revenir à <?php echo $info['denomination']?></a>
 <?php else: ?>
-<a href='entite/index.php'>« Revenir à la liste des collectivités</a>
+<a href='entite/detail0.php'>« Revenir à la liste des collectivités</a>
 <?php endif;?>
 
 <br/><br/>

@@ -210,8 +210,6 @@ action:
 			content:
 				envoi_iparapheur: true
 				classification: true				
-
-			
 		action-class: IParapheurEnvoie
 		action-automatique: verif-iparapheur
 								 	
@@ -221,11 +219,16 @@ action:
 		rule:
 			last-action:
 				send-iparapheur
+				erreur-verif-iparapheur
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: IParapheurRecup
 		
-		
+	erreur-verif-iparapheur:
+		name: Erreur lors de la vérification du statut de signature
+		rule:
+			role_id_e: no-role
+				
 	send-tdt:
 		name-action: Transmettre à la préfecture
 		name: Transmis en préfecture 
@@ -274,10 +277,15 @@ action:
 			last-action:
 				send-tdt
 				send-tdt-2
+				erreur-verif-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: TedetisRecup
 	
+	erreur-verif-tdt:
+		name: Erreur lors de la vérification du status de l'acte
+		rule:
+			role_id_e: no-role
 	
 	acquiter-tdt:
 		name: Acquitté par la préfecture 

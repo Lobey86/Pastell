@@ -13,11 +13,13 @@ class TedetisRecup extends ActionExecutor {
 			return false;
 		}
 			
-			
-		$status = $tdT->getStatus($tedetis_transaction_id);
-		
-		if ($status === false){
-			$this->setLastMessage($tdT->getLastError());
+		try {
+			$status = $tdT->getStatus($tedetis_transaction_id);
+		} catch (Exception $e) {
+			$message = "Echec de la récupération des informations : " .  $e->getMessage();
+			$this->setLastMessage($message);
+			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-tdt',$message);		
+			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
 			return false;
 		} 
 		

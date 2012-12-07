@@ -209,7 +209,6 @@ class S2low  extends TdtConnecteur {
 	public function getStatus($id_transaction){
 		$result = $this->exec(self::URL_STATUS."?transaction=$id_transaction");
 		
-		
 		$ligne = explode("\n",$result);
 		
 		if (trim($ligne[0]) != 'OK'){
