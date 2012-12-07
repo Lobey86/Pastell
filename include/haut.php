@@ -21,7 +21,7 @@ $pageDecorator->setSiteBase(SITE_BASE);
 if ($authentification->isConnected()){
 	$pageDecorator->setUtilisateur($authentification->getId(),$authentification->getLogin());
 	$pageDecorator->addToMainMenu("Accueil", SITE_BASE . "document/index.php","picto_flux");
-	$pageDecorator->addToMainMenu("Administration", SITE_BASE . "entite/index.php","picto_utilisateurs");
+	$pageDecorator->addToMainMenu("Administration", SITE_BASE . "entite/detail0.php","picto_utilisateurs");
 	$pageDecorator->addToMainMenu("Journal des évènements", SITE_BASE . "journal/index.php","picto_journal");
 	if ($roleUtilisateur->hasDroit($authentification->getId(),"role:lecture",0)){
 		$pageDecorator->addToMainMenu("Rôles", SITE_BASE . "role/index.php","picto_collectivites");

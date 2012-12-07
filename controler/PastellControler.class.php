@@ -12,7 +12,7 @@ class PastellControler extends Controler {
 
 		if ( $id_e && ! $this->EntiteSQL->getInfo($id_e)){
 			$this->LastError->setLastError("L'entité $id_e n'existe pas");
-			$this->redirect("/entite/index.php");
+			$this->redirect("/entite/detail.php?id_e=$id_e");
 		}
 	}
 	

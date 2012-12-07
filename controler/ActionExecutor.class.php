@@ -61,11 +61,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function getActionCreator(){
-		static $actionCreator;
-		if (! $actionCreator){
-			$actionCreator = new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
-		}
-		return $actionCreator;	
+		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
 	}
 	
 	public function getDonneesFormulaire(){

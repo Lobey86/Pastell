@@ -53,9 +53,9 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php if ($id_e && $info['type'] == Entite::TYPE_FOURNISSEUR) : ?>
 <a href='entite/fournisseur.php'>« liste des fournisseurs</a>
-<?php elseif ($has_many_collectivite ) :?>
-<a href='entite/index.php'>« liste des collectivités</a>
-<?php endif;?>
+<?php else : ?>
+<a href='entite/detail0.php'>« Administration</a>
+<?php endif; ?>
 <br/><br/>
 
 <?php $formulaire_tab = array("Informations générales","Utilisateurs","Connecteurs","Flux", "Agents")?>

@@ -5,7 +5,7 @@ class ConnecteurControler extends PastellControler {
 		$connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
 		if (! $connecteur_entite_info) {
 			$this->LastError->setLastError("Ce connecteur n'existe pas");
-			$this->redirect("/entite/index.php");
+			$this->redirect("/entite/detail0.php");
 		}
 		$this->hasDroitEdition($connecteur_entite_info['id_e']);		
 	}

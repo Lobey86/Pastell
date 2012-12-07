@@ -14,6 +14,7 @@ class ActionCreator extends SQL {
 	}
 	
 	public function addAction($id_e,$id_u,$action,$message_journal){
+		
 		$now = date(Date::DATE_ISO);
 		$this->lastAction = $action;
 		
