@@ -39,12 +39,15 @@ class ChoixTypeActesControler {
 	
 	
 	public function get($id_e){
-		
 		$entite = new Entite($this->sqlQuery,$id_e);
-		
 		$file = $this->getFile($id_e,$entite);
 		$infoCDG = $entite->getCDG();
-		//$donneesFormulaireCDG = $this->donneesFormulaireFactory->getEntiteFormulaire($infoCDG);
+
+		if (! $infoCDG){
+	
+			return false;
+		}
+		
 		global $objectInstancier;
 		$donneesFormulaireCDG = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');
 		
@@ -66,11 +69,12 @@ class ChoixTypeActesControler {
 	
 	private function getFile($id_e,Entite $entite){
 	
-//		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($id_e);
 		global $objectInstancier;
 		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,'actes','TdT');
 		
-		
+		if (! $donneesFormulaire){
+			return false;
+		}
 		
 		$file = $donneesFormulaire->get('nomemclature_file');
 		
@@ -84,7 +88,6 @@ class ChoixTypeActesControler {
 
 		
 		foreach($allAncetre as $ancetre){
-			//$donneesFormulaireAncetre = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre['id_e']);
 			$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre['id_e'],'actes','TdT');
 			
 			$file = $donneesFormulaireAncetre->get('nomemclature_file');

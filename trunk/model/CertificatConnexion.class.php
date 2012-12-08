@@ -1,7 +1,5 @@
 <?php
 
-//TODO new Certificat...
-
 class CertificatConnexion extends SQL {
 	
 	private $certificat;

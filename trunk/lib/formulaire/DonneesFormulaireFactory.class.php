@@ -31,12 +31,6 @@ class DonneesFormulaireFactory{
 		return $this->getFromCache($id_document,$documentType->getFormulaire());
 	}
 	
-	//DEPRECATED !
-	public function getEntiteFormulaire($id_e){
-		throw new Exception("DEPRECATED ...");
-	}
-	
-	
 	private function getFromCache($id_document,Formulaire $formulaire){
 		static $cache;
 		if (empty($cache[$id_document])){

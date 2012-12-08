@@ -24,11 +24,12 @@ class SAEEnvoiHelios extends ActionExecutor {
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		
+		//TODO : je n'ai pas d'information là-dessus
 		$transactionsInfo = array(
 				'unique_id' => $donneesFormulaire->get('tedetis_transaction_id'),
-				'date' => date("Y-m-d"), //TODO
-				'description' => 'bla', //TODO
-				'pes_retour_description' => 'bla', //TODO
+				'date' => date("Y-m-d"), 
+				'description' => 'bla', 
+				'pes_retour_description' => 'bla', 
 		);
 	
 		$heliosArchivesSEDA = new HeliosArchiveSEDA("/tmp/");

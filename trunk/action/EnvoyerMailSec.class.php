@@ -11,10 +11,11 @@ class EnvoyerMailSec extends ActionExecutor {
 
 	private function prepareMail(){		
 		$mailsec_config = $this->getConnecteurConfigByType('mailsec');
+		
 		$this->zenMail = $this->getZenMail();
-		$this->zenMail->setEmmeteur($mailsec_config->get('mailsec_from_description'),$mailsec_config->get('mailsec_from'));
-		$this->zenMail->setSujet($mailsec_config->get('mailsec_subject'));
-		$this->message = $mailsec_config->get('mailsec_content');
+		$this->zenMail->setEmmeteur($mailsec_config->getWithDefault('mailsec_from_description'),$mailsec_config->getWithDefault('mailsec_from'));
+		$this->zenMail->setSujet($mailsec_config->getWithDefault('mailsec_subject'));
+		$this->message = $mailsec_config->getWithDefault('mailsec_content');
 	}
 	
 	private function sendEmail($to,$type){

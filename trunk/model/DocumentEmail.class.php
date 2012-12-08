@@ -41,8 +41,6 @@ class DocumentEmail extends SQL {
 		return $this->queryOne($sql,$key);
 	}
 	
-	
-	//TODO !!!
 	public function consulter($key, Journal $journal){
 		$result = $this->getInfoFromKey($key);
 		if (! $result){
@@ -67,8 +65,6 @@ class DocumentEmail extends SQL {
 		} else {
 			$next_action = 'reception-partielle';
 		}
-		
-		
 		
 		$documentActionEntite = new DocumentActionEntite($this->sqlQuery);
 		$action = $documentActionEntite->getLastAction($id_e,$result['id_d']);

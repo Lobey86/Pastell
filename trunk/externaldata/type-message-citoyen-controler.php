@@ -1,6 +1,6 @@
 <?php 
 
-$webGFC = new WebGFC();
+$webGFC = $objectInstancier->ConnecteurFactory->getConnecteurByType(12,'citoyen-courrier','GFC');
 $message_type = $recuperateur->get('messagetype');
 $message_sous_type = $recuperateur->get('messagesoustype');
 

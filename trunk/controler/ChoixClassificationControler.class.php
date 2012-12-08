@@ -37,6 +37,9 @@ class ChoixClassificationControler {
 	private function getFileClassificationCDG($id_e){
 		global $objectInstancier;
 		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,'actes','TdT');
+		if (! $donneesFormulaire){
+			return false;
+		}
 		return $donneesFormulaire->get('nomemclature_file');
 	}
 	

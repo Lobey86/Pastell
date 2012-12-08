@@ -4,7 +4,8 @@ require_once(PASTELL_PATH."/externaldata/lib/ClassificationActes.class.php");
 
 $entite = new Entite($sqlQuery,$id_e);
 $ancetre = $entite->getCollectiviteAncetre();
-$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($ancetre);
+
+$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre,'actes','TdT');
 
 
 $file = $donneesFormulaire->getFilePath('classification_file');
