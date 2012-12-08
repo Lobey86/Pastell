@@ -27,6 +27,44 @@ class EntiteSQL extends SQL {
 		return false;
 	}
 	
+	public function getCDG($id_e){
+		return $this->getHeritedInfo($id_e,'centre_de_gestion');
+	}
+	
+	private function getHeritedInfo($id_e,$colname){
+		$info = $this->getInfo($id_e);
+		if ($info[$colname]){
+			return $info[$colname];
+		}
+		
+		$ancetre = $this->getAncetre($id_e);
+		foreach($ancetre as $id => $info){
+			if ($info[$colname]){
+				return $info[$colname];
+			}
+		}
+		return false;
+	}
+
+	public function getExtendedInfo($id_e){
+		$result = $this->getInfo($id_e);
+		$cdg_id_e = $this->getCDG($id_e);
+		$result['cdg'] = array();
+		if ($cdg_id_e){
+			$result['cdg'] = $this->getInfo($cdg_id_e) ;
+		}
+		if ($result['entite_mere']){
+			$result['entite_mere'] = $this->getInfo($result['entite_mere']) ;
+		}
+		$result['filles'] = $this->getFille($id_e);
+		
+		return $result;
+	}
+	
+	public function getFille($id_e){
+		$sql = "SELECT * FROM entite WHERE entite_mere=? ORDER BY denomination";
+		return $this->query($sql,$id_e);
+	}
 	
 	
 }

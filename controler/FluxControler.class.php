@@ -37,5 +37,15 @@ class FluxControler extends PastellControler {
 		$this->redirect("/entite/detail.php?id_e=$id_e&page=3");
 	}
 	
+	public function listFlux(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_e = $recuperateur->getInt('id_e');
+		$this->hasDroitLecture($id_e);
+		$this->all_flux = $this->FluxDefinitionFiles->getAll();
+		$this->all_flux_entite = $this->FluxEntiteSQL->getAll($id_e);
+		$this->id_e = $id_e;
+		$this->render("FluxList");
+	}
+	
 	
 }

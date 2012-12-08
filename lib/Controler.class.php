@@ -70,4 +70,10 @@ class Controler {
 		$this->Gabarit->render("Page");
 	}
 	
+	public function render($template){
+		$this->Gabarit->setParameters($this->getViewParameter());
+		$this->Gabarit->render($template);
+	}
+	
+	
 }

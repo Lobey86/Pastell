@@ -77,14 +77,13 @@ class UtilisateurListe extends SQL {
 			$sql.= "AND utilisateur_role.role = ?";
 			$data[] = $role;
 		}
+		$sql .= " GROUP BY utilisateur.id_u ";
 		if($search){
-			$sql .= " AND nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
+			$sql .= " HAVING nom LIKE ? OR prenom LIKE ? OR login LIKE ?";
 			$data[]  = "%$search%";
 			$data[]  = "%$search%";
 			$data[]  = "%$search%";
 		}
-		
-		$sql .= " GROUP BY utilisateur.id_u ";
 		$sql .= " ORDER BY nom,prenom ";
 		if ($offset != -1){
 			$sql .= " LIMIT $offset,".self::NB_UTILISATEUR_DISPLAY;

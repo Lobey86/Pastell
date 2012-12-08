@@ -266,9 +266,6 @@ action:
 			content: 
 				envoi_tdt: true
 				envoi_iparapheur: true
-
-				
-				
 		action-class: TedetisEnvoie
 		action-automatique: verif-tdt
 		

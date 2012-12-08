@@ -1,6 +1,5 @@
 <?php
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 
 $recuperateur = new Recuperateur($_GET);
 $id_ce = $recuperateur->getInt('id_ce');
@@ -9,7 +8,12 @@ $objectInstancier->ConnecteurControler->hasDroitOnConnecteur($id_ce);
 
 
 $connecteur_entite_info = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
-$entite_info = $objectInstancier->EntiteSQL->getInfo($connecteur_entite_info['id_e']);
+
+if ($connecteur_entite_info['id_e']){
+	$entite_info = $objectInstancier->EntiteSQL->getInfo($connecteur_entite_info['id_e']);
+} else {
+	$entite_info['denomination'] = "Entité racine";
+}
 
 
 $afficheurFormulaire = $objectInstancier->AfficheurFormulaireFactory->getFormulaireConnecteur($id_ce);
@@ -30,7 +34,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
 
-<a href='entite/detail.php?id_e=<?php echo $connecteur_entite_info['id_e']?>&page=2'>« Revenir à <?php echo $entite_info['denomination']?></a>
+<a href='entite/detail.php?id_e=<?php echo $connecteur_entite_info['id_e']?>&page=3'>« Revenir à <?php echo $entite_info['denomination']?></a>
 <br/><br/>
 <div class="box_contenu clearfix">
 <h2>Connecteur <?php hecho($connecteur_entite_info['type']) ?> - <?php hecho($connecteur_entite_info['id_connecteur'])?> : <?php hecho($connecteur_entite_info['libelle']) ?> 

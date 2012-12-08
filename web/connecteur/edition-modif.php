@@ -1,6 +1,5 @@
 <?php
 require_once( dirname(__FILE__) . "/../init-authenticated.php");
-require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 
 
 $recuperateur = new Recuperateur($_GET);
@@ -21,6 +20,9 @@ if ($connecteur_entite_info['id_e']){
 } 
 
 
+if (! $connecteur_entite_info['id_e']){
+	$entite_info['denomination'] = "Entité racine";
+}
 $page_title = "Configuration des connecteurs pour « {$entite_info['denomination']} »";
 
 
