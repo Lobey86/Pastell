@@ -1,4 +1,7 @@
 <?php
+require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
+
+
 class AfficheurFormulaireFactory {
 	
 	private $connecteurEntiteSQL;

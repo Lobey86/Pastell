@@ -24,7 +24,8 @@ class AgentSQL extends SQL {
 	
 	public function getBySiren($siren,$offset,$search = ''){
 		$sql = "SELECT * FROM agent " . 
-				" WHERE siren=? " . 
+				" JOIN entite ON entite.siren=agent.siren " . 
+				" WHERE agent.siren=? " . 
 				" AND (nom_patronymique LIKE ? OR prenom LIKE ?) ".
 				" ORDER BY nom_patronymique,prenom".
 				" LIMIT $offset,".self::NB_MAX;

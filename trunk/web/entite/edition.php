@@ -64,7 +64,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		« revenir à <?php echo $infoMere['denomination']?>
 	</a>
 <?php else: ?>
-	<a href='entite/detail0.php'>
+	<a href='entite/detail.php'>
 		« revenir à la liste des collectivités
 	</a>
 <?php endif;?>
