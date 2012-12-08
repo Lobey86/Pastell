@@ -3,11 +3,6 @@
 
 class WebGFC extends Connecteur {
 	
-	/*const WSDL = "http://webgfc.test.adullact.org/files/wsdl/webgfc.wsdl";
-	
-	const LOGIN = "pastell";
-	const PASSWORD = "pastell";*/
-	
 
 	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
 		$this->wsdl = $donneesFormulaire->get('wsdl');
@@ -43,6 +38,7 @@ class WebGFC extends Connecteur {
 	public function getSousTypes($siren,$type_nom){
 		$ws = $this->getSoapClient();
 		$data = $ws->getGFCSoustypes(1,$type_nom);
+		$result = array();
 		foreach($data as $type){
 			$result[$type->anyType[0]] = $type->anyType[1];
 		}

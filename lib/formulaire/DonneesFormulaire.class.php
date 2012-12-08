@@ -138,7 +138,9 @@ class DonneesFormulaire {
 			$num = count($this->info[$fname]) - 1 ;
 			$fileUploader->save($fname , $this->getFilePath($fname,$num));
 			$this->isModified = true;
-			$this->onChangeAction[] = $field->getOnChange();
+			if ($field->getOnChange()){
+				$this->onChangeAction[] = $field->getOnChange();
+			}
 		}
 	}
 	
@@ -199,6 +201,11 @@ class DonneesFormulaire {
 			return $default;
 		}
 		return $this->info[$item];
+	}
+	
+	public function getWithDefault($item){
+		$default = $this->formulaire->getField($item)->getDefault();
+		return $this->get($item,$default);
 	}
 	
 	public function geth($item,$default = false){

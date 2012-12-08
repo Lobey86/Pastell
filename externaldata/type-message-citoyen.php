@@ -2,8 +2,9 @@
 $collectivite_id = 2;
 
 
-//TODO !
-$webGFC = new WebGFC();
+
+$webGFC = $objectInstancier->ConnecteurFactory->getConnecteurByType(12,'citoyen-courrier','GFC');
+
 
 $message_type = $webGFC->getInfo($recuperateur->get('messagetype'));
 

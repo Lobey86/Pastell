@@ -2,7 +2,7 @@ nom: Courrier citoyen
 type: Flux Citoyen
 
 connecteur:
-	WebGFC
+	GFC
 
 formulaire:
 	Message:

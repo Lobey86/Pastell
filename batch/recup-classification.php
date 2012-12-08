@@ -1,7 +1,6 @@
 #! /usr/bin/php
 <?php
 require_once( dirname(__FILE__) . "/../web/init.php");
-require_once( PASTELL_PATH . "/lib/connecteur/tedetis/Tedetis.class.php");
 
 
 $entiteListe = new EntiteListe($sqlQuery);
@@ -12,34 +11,35 @@ $zenMail = new ZenMail($zLog);
 $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
-
 foreach($liste_collectivite as $col){
-	
-	echo $col['denomination'] .": ";
-	$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($col['id_e']);
-	if ( $donneesFormulaire->get('tdt_activate')) {
-		$tedetis = TedetisFactory::getInstance($donneesFormulaire);
-		
-		if (! $tedetis->verifClassif()){
-			echo "la classification n'est pas à jour";
-			$result = $tedetis->getClassification();
-		
-			if ($result){
-				$donneesFormulaire->addFileFromData("classification_file","classification.xml",$result);
-				$message = "Classification de la collectivité {$col['denomination']} mise à jour";				
-				$objectInstancier->ChoixClassificationControler->disabledClassificationCDG($col['id_e']);
-			} else {
-				$message =  "Problème lors de la récuperation de la classification de {$col['denomination']}";
-			}
-			$notificationMail->notify($col['id_e'],$col['id_d'],'recup-classification','récuperation automatique',$message);
-			echo $message;
-		} else {
-			echo "classification OK";
+	try {
+		$tdT = $objectInstancier->ConnecteurFactory->getConnecteurByType($col['id_e'],'actes','TdT');
+		if (!$tdT){
+			echo "{$col['denomination']} : aucun connecteur TdT pour actes\n";
+			continue;
 		}
-	} else {
-		echo " Module TdT desactivé";
+
+		if ($tdT->verifClassif()){
+			echo "{$col['denomination']} : la classification est à jour\n";
+			continue;
+		}
+		$result = $tdT->getClassification();
+			
+		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($col['id_e'],'actes','TdT');
+		$donneesFormulaire->addFileFromData("classification_file","classification.xml",$result);
+					
+		$objectInstancier->ChoixClassificationControler->disabledClassificationCDG($col['id_e']);
+		
+		$message = "{$col['denomination']} : classification  mise à jour\n";
+		$notificationMail->notify($col['id_e'],$col['id_d'],'recup-classification','récuperation automatique',$message);
+		
+		echo $message;
+			
+		
+	} catch(Exception $e){
+		echo  "{$col['denomination']} : ".$e->getMessage()."\n";
 	}
-	echo "\n";
+	
 }
 
 

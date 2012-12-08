@@ -17,8 +17,12 @@ if ( ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e)) {
 }
 
 
-$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($id_d);
 
+$document = $objectInstancier->Document;
+$info = $document->getInfo($id_d);
+
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 
 $file_path = $donneesFormulaire->getFilePath($field,$num);
 $file_name_array = $donneesFormulaire->get($field);

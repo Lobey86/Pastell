@@ -80,6 +80,7 @@ class ActionPossible {
 		}
 		
 		$action = $documentType->getAction();
+		$possible = array();
 		foreach($action->getAll() as $action_name){
 			if ($this->isActionPossibleOnConnecteur($id_ce,$id_u,$action_name)){
 				$possible[] = $action_name;

@@ -166,6 +166,11 @@ margin-bottom:20px;
 .box {margin:6px 0 20px 0;}
 .haut {background:url(commun/back_h2.png) no-repeat #D1DADE;height:26px;}
 .haut h2 {margin:0;color:#879EA9;font-weight:bold;font-size:100%;text-transform:uppercase;line-height:2em;padding-left:10px;}
+
+.haut2 h1, .haut2 h2 {display:inline;border:0;}
+.haut2 {margin-bottom:10px;}
+.haut2 a {float:right;margin-top:4px;padding:2px 10px;margin-left:10px;text-decoration:none;}
+
 .cont {/*background:url(commun/back_cont_gauche.png) repeat-x #FFFFFF;*/background-color:#F1F3F5;border:1px solid #D3DBDE;border-top:0;}
 .cont h3 {
 color:#7D7E87;

@@ -6,8 +6,6 @@ formulaire:
 		login: {name: Login}
 		password: {name: Mot de passe, type: password}
 		
-		
-		
 action:
 	test:
 		name: Tester la connexion

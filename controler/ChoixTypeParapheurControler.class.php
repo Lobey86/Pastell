@@ -16,9 +16,9 @@ class ChoixTypeParapheurControler {
 	private function getIParapheur($id_e){
 		$entite = new Entite($this->sqlQuery,$id_e);
 		$ancetre = $entite->getCollectiviteAncetre();
-		$donneesFormulaire = $this->donneesFormulaireFactory->getEntiteFormulaire($ancetre);
-		//TODO !!!
-		$iParapheur = new IParapheur($donneesFormulaire);
+		global $objectInstancier;
+		//TODO Choix helios/actes
+		$iParapheur = $objectInstancier->ConnecteurFactory->getConnecteurByType($ancetre,'actes','signature');
 		return $iParapheur;
 	}
 	

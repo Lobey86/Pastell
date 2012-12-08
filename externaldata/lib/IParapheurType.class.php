@@ -22,7 +22,9 @@ class IparapheurType {
 	public function isEnabled($sqlQuery,$id_e,DonneesFormulaireFactory $donneesFormulaireFactory){
 		$entite = new Entite($sqlQuery,$id_e);
 		$ancetre = $entite->getCollectiviteAncetre();
-		$donneesFormulaire = $donneesFormulaireFactory->getEntiteFormulaire($ancetre);
+		global $objectInstancier;
+		//TODO Choix helios/actes
+		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre,'actes','TdT');
 		$result = $donneesFormulaire->get('iparapheur_activate');
 		return $result;
 	}
