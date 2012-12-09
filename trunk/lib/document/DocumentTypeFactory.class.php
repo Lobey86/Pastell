@@ -7,16 +7,11 @@ require_once ( PASTELL_PATH . "/lib/document/DocumentType.class.php");
 //(documents, entités, propriétés globales)
 class DocumentTypeFactory {
 	
-	const DEFAULT_DOCUMENT_TYPE_FILE = "default.yml";
-	
-	private $documentTypeDirectory;
-	private $formulaireDefinition;
 	private $module_path;
 	private $connecteurDefinitionFiles;
 	private $fluxDefinitionFiles;
 	
-	public function __construct($document_type_path,$module_path,ConnecteurDefinitionFiles $connecteurDefinitionFiles,FluxDefinitionFiles $fluxDefinitionFiles){
-		$this->documentTypeDirectory = $document_type_path;
+	public function __construct($module_path,ConnecteurDefinitionFiles $connecteurDefinitionFiles,FluxDefinitionFiles $fluxDefinitionFiles){
 		$this->module_path = $module_path;
 		$this->connecteurDefinitionFiles = $connecteurDefinitionFiles;
 		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
@@ -119,12 +114,11 @@ class DocumentTypeFactory {
 	private function loadFile($type){		
 		if (file_exists($this->module_path."/$type/definition.yml")){
 			$filename = $this->module_path."/$type/definition.yml";
-		} else {
-			$filename = $this->documentTypeDirectory."/$type.yml";
+		} 
+		if (! $filename) {
+			throw new Exception("Type de document « $type » inconnu");
 		}
-		if (! file_exists($filename)){
-			$filename = $this->documentTypeDirectory . self::DEFAULT_DOCUMENT_TYPE_FILE;
-		}	
+		
 		
 		$this->formlulaireDefinition[$type] = $this->getYMLFile($filename);	
 		
