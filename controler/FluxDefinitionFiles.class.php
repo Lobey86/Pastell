@@ -3,26 +3,14 @@
 //Chargé des fichier definition.yml
 class FluxDefinitionFiles {
 	
-	public function __construct($document_type_path,$module_path){
-		$this->documentTypeDirectory = $document_type_path;
+	private $module_path;
+	
+	public function __construct($module_path){
 		$this->module_path = $module_path;
 	}
 	
 	public function getAll(){
-		$all = glob("{$this->documentTypeDirectory}/*.yml");
-		$exlude = array('default.yml');
-		
-		$all_type = array();
-		
-		foreach ($all as $file_config){
-			if( in_array(basename($file_config),$exlude)){
-				continue;
-			}
-			$config = $this->loadFile($file_config);	
-			$id_flux = basename($file_config,".yml");		
-			$result[$id_flux] = $config;
-		}
-			
+		$result = array();
 		
 		$all_module = glob("{$this->module_path}/*/definition.yml");
 		foreach ($all_module as $file_config){			
@@ -34,9 +22,6 @@ class FluxDefinitionFiles {
 	}
 	
 	public function getInfo($id_flux){
-		if (file_exists("{$this->documentTypeDirectory}/$id_flux.yml")){
-			return $this->loadFile("{$this->documentTypeDirectory}/$id_flux.yml");
-		}
 		if (file_exists("{$this->module_path}/$id_flux/definition.yml")){
 			return $this->loadFile("{$this->module_path}/$id_flux/definition.yml");
 		}
@@ -53,7 +38,15 @@ class FluxDefinitionFiles {
 			$type = empty($properties['type'])?"Flux Généraux":$properties['type'];
 			$all_type[$type][$id_flux] = $properties['nom'];
 		}
-		return $all_type;
+		foreach($all_type as $type => $flux){
+			asort($all_type[$type]);
+		}
+		asort($all_type);
+		
+		$result["Flux Généraux"] =  $all_type["Flux Généraux"];
+		unset($all_type["Flux Généraux"]);
+		$result = $result + $all_type;
+		return $result;
 	}
 	
 	private function loadFile($filename){
