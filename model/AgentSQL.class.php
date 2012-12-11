@@ -65,6 +65,14 @@ class AgentSQL extends SQL {
 		return  $this->query($sql,"%$search%","%$search%");
 	}
 	
+	public function getAll($siren){
+		$sql = "SELECT agent.* FROM agent " . 
+				" JOIN entite ON entite.siren=agent.siren " . 
+				" WHERE agent.siren=? " . 
+				" ORDER BY nom_patronymique,prenom";
+		return $this->query($sql,$siren);
+	}
+	
 	public function clean($siren){
 		$sql =  "DELETE FROM agent WHERE siren = ?";
 		$this->query($sql,$siren);

@@ -28,9 +28,9 @@ $formulaire = $documentType->getFormulaire();
 
 $theField = $formulaire->getField($field);
 
-$actionClass = $theField->getProperties('choice-action');
-if ($actionClass) {
-	$result = $objectInstancier->ActionExecutorFactory->displayChoiceAction($id_e,$authentification->getId(),$id_d,$actionClass);	
+$action_name = $theField->getProperties('choice-action');
+if ($action_name) {
+	$result = $objectInstancier->ActionExecutorFactory->displayChoice($id_e,$authentification->getId(),$id_d,$action_name,false,$field,$page);	
 } else {
 	$script = $theField->getProperties('script');
 	require_once(PASTELL_PATH . "/externaldata/$script");

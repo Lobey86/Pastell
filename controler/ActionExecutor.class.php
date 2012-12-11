@@ -16,17 +16,9 @@ abstract class ActionExecutor {
 	
 	private $lastMessage; 
 	
-	//$type = type de document
-	public function __construct(ObjectInstancier $objectInstancier,
-									$type,
-									$id_destinataire,$action_name,$from_api
-									
-									){
+
+	public function __construct(ObjectInstancier $objectInstancier){
 		$this->objectInstancier = $objectInstancier;
-		$this->type = $type;
-		$this->id_destinataire = $id_destinataire;	
-		$this->action = $action_name;
-		$this->from_api = $from_api;
 	}
 	
 	public function setEntiteId($id_e){
@@ -36,15 +28,28 @@ abstract class ActionExecutor {
 	public function setUtilisateurId($id_u){
 		$this->id_u = $id_u;
 	}
-	
-	public function setConnecteurId($id_ce){
+		
+	public function setAction($action_name){
+		$this->action = $action_name;
+	}
+		
+	public function setConnecteurId($type, $id_ce){
 		$this->id_ce = $id_ce;
+		$this->type = $type;
 	}
 	
-	public function setDocumentId($id_d){
+	public function setDocumentId($type, $id_d){
 		$this->id_d = $id_d;
+		$this->type = $type;
 	}
 	
+	public function setDestinataireId(array $id_destinataire){
+		$this->id_destinataire = $id_destinataire;	
+	}
+	
+	public function setFromApi($from_api){
+		$this->from_api = $from_api;
+	}
 	
 	public function getLastMessage(){
 		return $this->lastMessage;
@@ -162,7 +167,6 @@ abstract class ActionExecutor {
 			header("Location: ".SITE_BASE."$to");
 			exit;
 		}
-		
 	}
 	
 	abstract public function go();

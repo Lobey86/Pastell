@@ -66,5 +66,9 @@ class EntiteSQL extends SQL {
 		return $this->query($sql,$id_e);
 	}
 	
+
+	public function getSiren($id_e){
+		return $this->getHeritedInfo($id_e,'siren');
+	}
 	
 }

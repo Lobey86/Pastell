@@ -66,9 +66,7 @@ formulaire:
 		agent: 
 			name: "Choisir les valeurs dans une liste"
 			type: externalData
-			script: agent-collectivite.php
-			script-controler: agent-collectivite-controler.php
-			choice-action: ListAgent
+			choice-action: list-agent
 			link_name: liste des agents
 		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
 		Matricule de l'agent: {read-only: true} 
@@ -87,7 +85,11 @@ formulaire:
 	
 	Agent non-référencé:
 		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
-		grade: {name: "Grade", type: externalData, script: grade.php, script-controler: grade-controler.php, link_name: liste des grades}		
+		grade: 
+			name: "Grade"
+			type: externalData
+			choice-action: list-grade
+			link_name: liste des grades		
 		Nom patronymique: {requis: true}
 		Nom d'usage: 
 		Prénom : {requis: true}
@@ -124,7 +126,6 @@ formulaire:
 			name: Type iParapheur
 			no-show: true
 			read-only: true
-			type: externalData
 			default: Actes
 			
 		iparapheur_sous_type:
@@ -132,10 +133,8 @@ formulaire:
 			requis: true
 			read-only: true
 			type: externalData
-			script: iparapheur-sous-type.php
-			script-controler: iparapheur-sous-type-controler.php
+			choice-action: iparapheur-sous-type
 			link_name: liste des types
-			controler: ChoixTypeParapheur
 		
 
 page-condition:
@@ -433,6 +432,24 @@ action:
 		rule:
 			role_id_e: no-role
 		action-class: AgentNonReference
-			
+		
+	list-agent:
+		name: Liste des agent
+		rule:
+			role_id_e: no-role
+		action-class: ListAgent		
+
+	list-grade:
+		name: Liste des grades
+		rule: 
+			role_id_e: no-role
+		action-class: ListGrade
+
+	iparapheur-sous-type:
+		name: Liste des sous-type iParapheur
+		rule: 
+			role_id_e: no-role
+		action-class: IparapheurSousType
+	
+
 	 
-	 	

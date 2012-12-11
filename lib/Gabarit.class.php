@@ -38,4 +38,19 @@ class Gabarit {
 		}
 		return $this->objectInstancier->$key;
 	}
+	
+	public function renderPage($template){
+		$this->authentification = $this->objectInstancier->Authentification;
+		$this->roleUtilisateur = $this->objectInstancier->roleUtilisateur;
+		$this->sqlQuery = $this->sqlQuery;
+		$this->setViewParameter("objectInstancier",$this->objectInstancier);
+		$this->versionning = $this->objectInstancier->Versionning;
+		$this->timer = $this->objectInstancier->Timer;
+		foreach($this->viewParameter as $key => $value){
+			$$key = $value;
+		}	
+		include( PASTELL_PATH ."/include/haut.php");
+		include("{$this->template_path}/$template.php");
+		include( PASTELL_PATH ."/include/bas.php");
+	}
 }

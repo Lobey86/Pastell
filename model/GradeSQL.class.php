@@ -30,4 +30,12 @@ class GradeSQL extends SQL {
 		$sql = "SELECT DISTINCT libelle as name FROM grade WHERE filiere=? AND cadre_emploi= ? ORDER BY libelle";
 		return $this->query($sql,$filiere,$cadre_emploi);
 	}
+	
+	public function getAll(){
+		$sql = "SELECT filiere,cadre_emploi,libelle FROM grade ORDER BY filiere,cadre_emploi,libelle";
+		foreach($this->query($sql) as $line){
+			$result[$line['filiere']][$line['cadre_emploi']][]=$line['libelle'];
+		}
+		return $result; 
+	}
 }

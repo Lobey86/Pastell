@@ -36,7 +36,13 @@ $formulaire->setTabNumber($page);
 
 $theField = $formulaire->getField($field);
 
-$script = $theField->getProperties('script-controler');
 
-require_once(PASTELL_PATH . "/externaldata/$script");
+$action_name = $theField->getProperties('choice-action');
+if ($action_name) {
+	$result = $objectInstancier->ActionExecutorFactory->goChoice($id_e,$authentification->getId(),$id_d,$action_name,false,$field,$page);	
+} else {
+	$script = $theField->getProperties('script-controler');
+	require_once(PASTELL_PATH . "/externaldata/$script");
+}
+
 
