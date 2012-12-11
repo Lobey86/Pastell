@@ -13,6 +13,21 @@ class ActionCreator extends SQL {
 		$this->id_d = $id_d;	
 	}
 	
+	public function updateModification($id_e,$id_u){
+		$sql = "SELECT * FROM document_action " .
+				" WHERE id_d=? AND id_e=?" .
+				" ORDER BY date DESC LIMIT 1";
+		$document_action = $this->queryOne($sql,$this->id_d,$id_e);
+		if (!$document_action || $document_action['id_u'] != $id_u){
+			return $this->addAction($id_e, $id_u, Action::MODIFICATION,"Modification du document");
+		}
+		$sql = "UPDATE document_action SET date=now() WHERE id_a=?";
+		$this->query($sql,$document_action['id_a']);
+		$this->journal->addSQL(Journal::DOCUMENT_ACTION,$id_e,$id_u,$this->id_d,Action::MODIFICATION,"Modification du document");
+		
+	}
+	
+	
 	public function addAction($id_e,$id_u,$action,$message_journal){
 		
 		$now = date(Date::DATE_ISO);
