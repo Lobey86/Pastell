@@ -28,6 +28,10 @@ $formulaire = $documentType->getFormulaire();
 
 $theField = $formulaire->getField($field);
 
-$script = $theField->getProperties('script');
-
-require_once(PASTELL_PATH . "/externaldata/$script");
+$actionClass = $theField->getProperties('choice-action');
+if ($actionClass) {
+	$result = $objectInstancier->ActionExecutorFactory->displayChoiceAction($id_e,$authentification->getId(),$id_d,$actionClass);	
+} else {
+	$script = $theField->getProperties('script');
+	require_once(PASTELL_PATH . "/externaldata/$script");
+}

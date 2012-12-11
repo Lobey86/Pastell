@@ -96,7 +96,6 @@ class Field {
 		global $donneesFormulaireFactory;
 		$controlerInstance = new $controler($sqlQuery,$donneesFormulaireFactory);
 		return $controlerInstance->isEnabled($id_e);
-		
 	}
 	
 	

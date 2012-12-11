@@ -43,9 +43,19 @@ class ActionExecutorFactory {
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
 		$type = $infoDocument['type'];
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);
-		$actionClass = $this->goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
 		
+		/*$theAction = $documentType->getAction();		
+		$action_class_name = $theAction->getActionClass($action_name);
+		if (!$action_class_name){
+			throw new Exception("L'action $action_name n'existe pas.");
+		}
+		
+		$action_class_file = $this->findDocumentActionFile($infoDocument['type'],$action_class_name);
+		*/
+		
+		$actionClass = $this->goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
 		$actionClass->setDocumentId($id_d);
+		
 		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();		
 		return $result;						
@@ -72,6 +82,16 @@ class ActionExecutorFactory {
 		
 	}
 
+	public function displayChoiceAction($id_e,$id_u,$id_d,$action_class_name,$from_api){
+		//TODO
+		/*$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
+		$action_class_file = $this->findClassFile($infoDocument['type'],$action_class_name);
+		require_once($action_class_file);		
+		$actionClass = new $action_class_name($this->objectInstancier,
+		$id_e,$id_u,$infoDocument['type'],$id_destinataire,$action_name,$from_api);		
+		$actionClass->display();*/		
+	}
+	
 	
 	private function goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api){
 		$theAction = $documentType->getAction();		
@@ -85,12 +105,34 @@ class ActionExecutorFactory {
 		
 		require_once($action_class_file);		
 		$actionClass = new $action_class_name($this->objectInstancier,
-		$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
+		$type,$id_destinataire,$action_name,$from_api);
+		$actionClass->setEntiteId($id_e);
+		$actionClass->setUtilisateurId($id_u);
 		
 		return $actionClass;
 		
 	}
 	
+
+	private function findDocumentActionFile($flux, $action_class_name){
+		
+		$action_class_file = "{$this->module_path}/$flux/action/$action_class_name.class.php";
+		if (file_exists($action_class_file)){
+			return $action_class_file;
+		}
+					
+		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
+		if (file_exists($action_class_file )){
+			return $action_class_file;	
+		}
+		
+		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");
+		
+		if (count($find) == 0){				
+			throw new Exception( "Le fichier $action_class_name est manquant");
+		}
+		return $find[0];
+	}
 	
 	
 	private function findClassFile($id_connecteur, $action_class_name){

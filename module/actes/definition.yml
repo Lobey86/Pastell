@@ -68,6 +68,7 @@ formulaire:
 			type: externalData
 			script: agent-collectivite.php
 			script-controler: agent-collectivite-controler.php
+			choice-action: ListAgent
 			link_name: liste des agents
 		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
 		Matricule de l'agent: {read-only: true} 

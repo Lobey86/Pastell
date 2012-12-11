@@ -18,25 +18,27 @@ abstract class ActionExecutor {
 	
 	//$type = type de document
 	public function __construct(ObjectInstancier $objectInstancier,
-									$id_e,$id_u,$type,
+									$type,
 									$id_destinataire,$action_name,$from_api
 									
 									){
 		$this->objectInstancier = $objectInstancier;
-		$this->id_e = $id_e;	
-		$this->id_u = $id_u;
 		$this->type = $type;
 		$this->id_destinataire = $id_destinataire;	
 		$this->action = $action_name;
 		$this->from_api = $from_api;
 	}
 	
-	public function setConnecteurId($id_ce){
-		$this->id_ce = $id_ce;
+	public function setEntiteId($id_e){
+		$this->id_e = $id_e;	
 	}
 	
-	public function setEntite($id_e){
-		$this->id_e = $id_e;	
+	public function setUtilisateurId($id_u){
+		$this->id_u = $id_u;
+	}
+	
+	public function setConnecteurId($id_ce){
+		$this->id_ce = $id_ce;
 	}
 	
 	public function setDocumentId($id_d){

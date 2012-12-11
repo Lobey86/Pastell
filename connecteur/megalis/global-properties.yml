@@ -7,9 +7,16 @@ formulaire:
 		emegalis_activate: {name: "Module activé", type: checkbox}
 		emegalis_ssh_server : {name: Serveur SSH}
 		emegalis_ssh_fingerprint: {name: Empreinte du serveur}
+		emegalis_ssh_public_key: {name: Clé publique, commentaire: Pour une authentification via des clés utilisateurs, type: file}
+		emegalis_ssh_private_key: {name: Clé privée, type: file}
+		emegalis_ssh_private_password: 
+			type: password
+			name: Mot de passe de la clé privée
+			commentaire: Attention, ne fonctionne pas (bug PHP) ! Mettre une clé non protégée.
 		emegalis_ssh_login: {name: Login}
-		emegalis_ssh_password: {name: Mot de passe, type: password}
+		emegalis_ssh_password: {name: Mot de passe, type: password, commentaire: Pour une authentification via mot de passe}
 		emegalis_ssh_directory: {name: Répertoire contenant les enveloppes}
+		
 	
 action:	
 	megalis-test:
