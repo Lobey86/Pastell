@@ -1,4 +1,8 @@
 <?php
+
+//Représente un objet de type action dont les informations
+//sont dans un fichier de definition d'un flux à la clé action
+// (de premier niveau)
 class Action {
 	
 	const ACTION_DISPLAY_NAME = "name";

@@ -39,11 +39,13 @@ class WebGFCEnvoie extends ActionExecutor {
 		$infoEntite = $this->getEntite()->getInfo();
 		$emmeteurName = $infoEntite['denomination'];
 		
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'envoi', "Le document a été envoyé  à $denomination_col");
-		$this->getActionCreator()->addToEntite($id_col,"Le document a été envoyé par $emmeteurName");
+		$actionCreator = $this->getActionCreator();
 		
-		$this->getActionCreator()->addAction($id_col,0,'recu', "Le document a été reçu ");
-		$this->getActionCreator()->addToEntite($this->id_e,"Le document a été reçu par $denomination_col");
+		$actionCreator->addAction($this->id_e,$this->id_u,'envoi', "Le document a été envoyé  à $denomination_col");
+		$actionCreator->addToEntite($id_col,"Le document a été envoyé par $emmeteurName");
+		
+		$actionCreator->addAction($id_col,0,'recu', "Le document a été reçu ");
+		$actionCreator->addToEntite($this->id_e,"Le document a été reçu par $denomination_col");
 		
 		$this->getNotificationMail()->notify($id_col,$this->id_d, $this->action, $this->type,"Vous avez un nouveau message");		
 			

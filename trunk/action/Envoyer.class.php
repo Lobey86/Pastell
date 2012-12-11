@@ -22,11 +22,12 @@ class Envoyer extends ActionExecutor {
 			$infoCollectivite = $entiteCollectivite->getInfo();
 			$denomination_col = $infoCollectivite['denomination']; 			
 			
-			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'envoi', "Le document a été envoyé  à $denomination_col");
-			$this->getActionCreator()->addToEntite($id_col,"Le document a été envoyé par $emmeteurName");
+			$actionCreator = $this->getActionCreator();
+			$actionCreator->addAction($this->id_e,$this->id_u,'envoi', "Le document a été envoyé  à $denomination_col");
+			$actionCreator->addToEntite($id_col,"Le document a été envoyé par $emmeteurName");
 			
-			$this->getActionCreator()->addAction($id_col,0,'recu', "Le document a été reçu ");
-			$this->getActionCreator()->addToEntite($this->id_e,"Le document a été reçu par $denomination_col");
+			$actionCreator->addAction($id_col,0,'recu', "Le document a été reçu ");
+			$actionCreator->addToEntite($this->id_e,"Le document a été reçu par $denomination_col");
 			
 			$message = $emmeteurName. " vous envoie un nouveau message.\n\n";
 			$message.= "Pour le consulter : " . SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e=$id_col";

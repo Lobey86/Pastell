@@ -1,10 +1,21 @@
 <?php
+
+//La connexion clé publique avec une clé privée protégée ne fonctionne pas !
+//Voir: https://bugs.php.net/bug.php?id=58573
+//Faire un :
+// openssl rsa -in id_rsa -out cle_privee
+// puis mettre la clé privée non protégé
+
 class SSH2 {
 	
 	private $server_name;
 	private $server_fingerprint;
 	private $login;
 	private $password;
+	
+	private $public_key_file;
+	private $private_key_file;
+	private $private_key_password;
 	
 	private $lastError;
 	
@@ -16,6 +27,12 @@ class SSH2 {
 	public function setPasswordAuthentication($login,$password){
 		$this->login = $login;
 		$this->password = $password;
+	}
+	
+	public function setPubKeyAuthentication($public_key_file, $private_key_file,$private_key_password){
+		$this->public_key_file = $public_key_file;
+		$this->private_key_file = $private_key_file;
+		$this->private_key_password = $private_key_password;
 	}
 
 	public function getLastError(){
@@ -61,8 +78,10 @@ class SSH2 {
 		if ($connexion){
 			return $connexion;
 		}	
-		assert('$this->server_name');
-		assert('$this->server_fingerprint');
+		if (! $this->server_name){
+			$this->lastError =  "Nom du serveur inconnu";
+			return false;
+		}
 		
 		@ $ssh_connexion = ssh2_connect($this->server_name);
 		if (! $ssh_connexion ){
@@ -74,6 +93,10 @@ class SSH2 {
 		if ($server_fingerprint != $this->server_fingerprint){
 			$this->lastError = "L'empreinte du serveur ($server_fingerprint) ne correspond pas à l'empreinte de la configuration ({$this->server_fingerprint})";
 			return false;
+		}
+		
+		if (@ ssh2_auth_pubkey_file($ssh_connexion,$this->login,$this->public_key_file,$this->private_key_file,$this->private_key_password)){
+			return $ssh_connexion;
 		}
 		
 		if ( ! @ ssh2_auth_password($ssh_connexion,$this->login,$this->password)){

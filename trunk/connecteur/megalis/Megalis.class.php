@@ -20,8 +20,13 @@ class Megalis extends Connecteur {
 		return $this->collectiviteProperties->get($name);
 	}
 	
+	private function getFilePath($name){
+		return $this->collectiviteProperties->getFilePath($name);
+	}
+	
 	private function configSSH2(){
 		$this->ssh2->setServerName($this->getProperties('emegalis_ssh_server'),$this->getProperties('emegalis_ssh_fingerprint'));
+		$this->ssh2->setPubKeyAuthentication($this->getFilePath('emegalis_ssh_public_key'), $this->getFilePath('emegalis_ssh_private_key'), $this->getProperties('emegalis_ssh_private_password'));
 		$this->ssh2->setPasswordAuthentication($this->getProperties('emegalis_ssh_login'),$this->getProperties('emegalis_ssh_password'));
 	}
 	
