@@ -1,13 +1,10 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
-//Récupération des données
 $recuperateur = new Recuperateur($_POST);
 $id_d = $recuperateur->get('id_d');
 $type = $recuperateur->get('form_type');
 $id_e = $recuperateur->get('id_e');
-$objet = $recuperateur->get('objet');
 $page = $recuperateur->get('page');
 
 
@@ -56,7 +53,8 @@ $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 if (! $info){
 	$actionCreator->addAction($id_e,$authentification->getId(),Action::CREATION,"Création du document");
 } else if ($donneesFormulaire->isModified()) {
-	$actionCreator->addAction($id_e,$authentification->getId(),Action::MODIFICATION,"Modification du document");
+	//$actionCreator->addAction($id_e,$authentification->getId(),Action::MODIFICATION,"Modification du document");
+	$actionCreator->updateModification($id_e, $authentification->getId());
 }
 
 
