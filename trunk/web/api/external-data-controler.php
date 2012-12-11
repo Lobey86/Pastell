@@ -23,4 +23,4 @@ if ( ! $theField ){
 }
 
 $action_name = $theField->getProperties('choice-action');
-$objectInstancier->ActionExecutorFactory->displayChoice($id_e,$authentification->getId(),$id_d,$action_name,true,$field);	
+$objectInstancier->ActionExecutorFactory->goChoice($id_e,$authentification->getId(),$id_d,$action_name,true,$field);	

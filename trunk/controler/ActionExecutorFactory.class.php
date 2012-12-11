@@ -4,11 +4,9 @@ class ActionExecutorFactory {
 	private $action_class_directory;
 	private $module_path;
 	private $connecteur_path;
-	
-	private $lastMessage;
-	
 	private $objectInstancier;
 	
+	private $lastMessage;
 	
 	public function __construct($action_class_directory, $module_path, $connecteur_path,ObjectInstancier $objectInstancier){
 		$this->action_class_directory = $action_class_directory;
@@ -39,28 +37,66 @@ class ActionExecutorFactory {
 		}	
 	}
 	
-	private function executeOnDocumentThrow($id_d,$id_e,$id_u,$action_name,$id_destinataire = array(),$from_api = false){
+	public function displayChoice($id_e,$id_u,$id_d,$action_name,$from_api,$field,$page = 0){
+		
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		$type = $infoDocument['type'];
-		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($type);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
 		
-		/*$theAction = $documentType->getAction();		
-		$action_class_name = $theAction->getActionClass($action_name);
-		if (!$action_class_name){
-			throw new Exception("L'action $action_name n'existe pas.");
+		$action_class_name = $this->getActionClassName($documentType, $action_name);		
+		
+		$this->loadDocumentActionFile($infoDocument['type'],$action_class_name);
+		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
+		$actionClass->setDocumentId($infoDocument['type'], $id_d);
+		$actionClass->setFromAPI($from_api);
+		$actionClass->field = $field;
+		$actionClass->page = $page;
+		
+		
+		if ($from_api){
+			$result = $actionClass->displayAPI();
+		} else {
+			$result = $actionClass->display();
+		}		
+	}
+	
+	public function goChoice($id_e,$id_u,$id_d,$action_name,$from_api,$field,$page = 0){
+		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
+		
+		$action_class_name = $this->getActionClassName($documentType, $action_name);		
+		$action_class_file = $this->loadDocumentActionFile($infoDocument['type'],$action_class_name);
+		
+		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
+		$actionClass->setDocumentId($infoDocument['type'], $id_d);
+		$actionClass->setFromAPI($from_api);
+		$actionClass->field = $field;
+		$actionClass->page = $page;
+
+		$result = $actionClass->go();
+		if ($from_api){
+			$result['result'] = "ok";
+			$this->objectInstancier->JSONoutput->display($result);
+		} else {
+			$actionClass->redirectToFormulaire();
 		}
+	}
+	
+	
+	private function executeOnDocumentThrow($id_d,$id_e,$id_u,$action_name,$id_destinataire,$from_api){
+		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
 		
-		$action_class_file = $this->findDocumentActionFile($infoDocument['type'],$action_class_name);
-		*/
+		$action_class_name = $this->getActionClassName($documentType, $action_name);		
+		$action_class_file = $this->loadDocumentActionFile($infoDocument['type'],$action_class_name);
 		
-		$actionClass = $this->goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api);
-		$actionClass->setDocumentId($id_d);
-		
+		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
+		$actionClass->setDocumentId($infoDocument['type'], $id_d);
+		$actionClass->setDestinataireId($id_destinataire);
+		$actionClass->setFromAPI($from_api);
 		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();		
 		return $result;						
 	}
-
 	
 	private function executeOnConnecteurThrow($id_ce,$id_u,$action_name){
 		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
@@ -70,89 +106,61 @@ class ActionExecutorFactory {
 			$documentType = $this->objectInstancier->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
 		}
 		
-		$actionClass = $this->goInstance($documentType,
-			$connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_connecteur'],
-			array(),$action_name,false);
-
-		$actionClass->setConnecteurId($id_ce);
-			
+		$action_class_name = $this->getActionClassName($documentType, $action_name);
+		$action_class_file = $this->loadConnecteurActionFile($connecteur_entite_info['id_connecteur'],$action_class_name);
+		
+		$actionClass = $this->getInstance($action_class_name,$connecteur_entite_info['id_e'],$id_u,$action_name);
+		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);			
 		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();		
 		return $result;		
 		
 	}
-
-	public function displayChoiceAction($id_e,$id_u,$id_d,$action_class_name,$from_api){
-		//TODO
-		/*$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		$action_class_file = $this->findClassFile($infoDocument['type'],$action_class_name);
-		require_once($action_class_file);		
-		$actionClass = new $action_class_name($this->objectInstancier,
-		$id_e,$id_u,$infoDocument['type'],$id_destinataire,$action_name,$from_api);		
-		$actionClass->display();*/		
-	}
 	
-	
-	private function goInstance($documentType,$id_e,$id_u,$type,$id_destinataire,$action_name,$from_api){
+	private function getActionClassName(DocumentType $documentType,$action_name){
 		$theAction = $documentType->getAction();		
 		$action_class_name = $theAction->getActionClass($action_name);
 		if (!$action_class_name){
-			$this->lastMessage = "L'action $action_name n'existe pas.";
-			return false;
+			throw new Exception("L'action $action_name n'existe pas.");
 		}
-		
-		$action_class_file = $this->findClassFile($type,$action_class_name);
-		
-		require_once($action_class_file);		
-		$actionClass = new $action_class_name($this->objectInstancier,
-		$type,$id_destinataire,$action_name,$from_api);
+		return $action_class_name;
+	}
+	
+	private function getInstance($action_class_name,$id_e,$id_u,$action_name){
+		$actionClass = $this->objectInstancier->newInstance($action_class_name);
 		$actionClass->setEntiteId($id_e);
 		$actionClass->setUtilisateurId($id_u);
-		
+		$actionClass->setAction($action_name);
 		return $actionClass;
-		
 	}
-	
 
-	private function findDocumentActionFile($flux, $action_class_name){
-		
+	private function loadDocumentActionFile($flux, $action_class_name){
 		$action_class_file = "{$this->module_path}/$flux/action/$action_class_name.class.php";
 		if (file_exists($action_class_file)){
-			return $action_class_file;
+			require_once($action_class_file);
+		} else {
+			$this->loadActionFile($action_class_name);
 		}
-					
-		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
-		if (file_exists($action_class_file )){
-			return $action_class_file;	
-		}
-		
-		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");
-		
-		if (count($find) == 0){				
-			throw new Exception( "Le fichier $action_class_name est manquant");
-		}
-		return $find[0];
 	}
 	
-	
-	private function findClassFile($id_connecteur, $action_class_name){
-		
+	private function loadConnecteurActionFile($id_connecteur, $action_class_name){
 		$action_class_file = "{$this->connecteur_path}/$id_connecteur/action/$action_class_name.class.php";
 		if (file_exists($action_class_file)){
-			return $action_class_file;
+			require_once($action_class_file);
+		} else {
+			$this->loadActionFile($action_class_name);
 		}
-					
+	}
+	
+	private function loadActionFile($action_class_name){
 		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
 		if (file_exists($action_class_file )){
-			return $action_class_file;	
-		}
-		
-		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");
-		
+			require_once($action_class_file);
+		}		
+		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");		
 		if (count($find) == 0){				
 			throw new Exception( "Le fichier $action_class_name est manquant");
 		}
-		return $find[0];
+		require_once($find[0]);
 	}
-	
 }

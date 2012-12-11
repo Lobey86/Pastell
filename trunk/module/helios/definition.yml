@@ -24,10 +24,8 @@ formulaire:
 			requis: true
 			read-only: true
 			type: externalData
-			script: iparapheur-sous-type.php
-			script-controler: iparapheur-sous-type-controler.php
+			choice-action: iparapheur-sous-type
 			link_name: liste des types
-			controler: ChoixTypeParapheur
 			
 		Objet: {requis: true, title: true}	
 		fichier_pes: {name: Fichier PES, type: file, requis: true, commentaire: "format XML"}
@@ -201,4 +199,10 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
 		action-class: SAEEnvoiHelios
+
+	iparapheur-sous-type:
+		name: Liste des sous-type iParapheur
+		rule: 
+			role_id_e: no-role
+		action-class: IparapheurSousType
 			

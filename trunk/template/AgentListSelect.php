@@ -1,23 +1,4 @@
-<?php 
-require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-
-$agentSQL = new AgentSQL($sqlQuery);
-
-$offset = $recuperateur->getInt('offset',0);
-$search = $recuperateur->get('search');
-
-
-$entite = new Entite($sqlQuery,$id_e);
-$siren =  $entite->getSiren();
-
-$nbAgent = $agentSQL->getNbAgent($siren,$search);
-$listAgent = $agentSQL->getBySiren($siren,$offset,$search);
-$url = "document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field";
-
-$page_title = "Choix d'un agent";
-include( PASTELL_PATH ."/include/haut.php");
-
-?>
+<?php require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php"); ?>
 <a href='document/edition.php?id_d=<?php echo $id_d ?>&id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à l'édition du document <em><?php echo $titre?></em></a>
 <br/><br/>
 
@@ -34,9 +15,8 @@ include( PASTELL_PATH ."/include/haut.php");
 </div>
 
 <?php 
-suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,$url);
+suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
 ?>
-
 
 <div class="box_contenu clearfix">
 <h2>Agent</h2>
@@ -75,6 +55,3 @@ suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,$url);
 </div>
 </form>
 </div>
-
-<?php 
-include( PASTELL_PATH ."/include/bas.php");
