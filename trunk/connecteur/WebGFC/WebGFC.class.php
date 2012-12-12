@@ -47,7 +47,7 @@ class WebGFC extends Connecteur {
 
 	public function createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username){
 		$ws = $this->getSoapClient();
-		$response = $ws->createCourrier($messageSousTypeId,$contact,utf8_encode($titre),utf8_encode($object),$fichier,self::USERNAME);
+		$response = $ws->createCourrier($messageSousTypeId,$contact,utf8_encode($titre),utf8_encode($object),$fichier,$username);
 		
 		if ($response->CourrierId != -1){
 			$this->lastMessage = $response->CodeRetour . " " . utf8_decode($response->Message);

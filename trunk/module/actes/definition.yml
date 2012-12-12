@@ -42,17 +42,13 @@ formulaire:
 		type: 
 			name: Classification 
 			type: externalData
-			script: choix-type-actes.php
-			script-controler: choix-type-actes-controler.php
-			controler: ChoixTypeActes
-			link_name: Choisir un type d'Actes
+			choice-action: nomemclature
+			link_name: Choisir un type d'Actes			
 		classification:
 			name: Correspondance Actes
 			type: externalData
-			script: choix-classification.php
-			script-controler: choix-classification-controler.php
 			link_name: liste des matières et sous-matières
-			controler: ChoixClassification
+			choice-action: classifiction
 		envoi_iparapheur:
 			name: Transmission au parapheur
 			type: checkbox
@@ -450,6 +446,20 @@ action:
 		rule: 
 			role_id_e: no-role
 		action-class: IparapheurSousType
+	
+	classifiction: 
+		name: Classification ACTES
+		rule:
+			role_id_e: no-role
+		action-class: Classification
+	
+	nomemclature:
+		name: Nomemclature du CDG
+		rule:
+			role_id_e: no_role
+		action-class: Nomemclature
+			
+		
 	
 
 	 

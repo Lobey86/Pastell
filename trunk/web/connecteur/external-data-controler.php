@@ -19,7 +19,13 @@ $documentType = $documentTypeFactory->getEntiteDocumentType($connecteur_info['id
 $formulaire = $documentType->getFormulaire();
 $theField = $formulaire->getField($field);
 
-$script = $theField->getProperties('script-controler');
 
-require_once(PASTELL_PATH . "/externaldata/$script");
+$action_name = $theField->getProperties('choice-action');
+if ($action_name) {
+	$result = $objectInstancier->ActionExecutorFactory->goChoiceOnConnecteur($id_ce,$authentification->getId(),$action_name,$field);	
+} else {
+	$script = $theField->getProperties('script-controler');
+	require_once(PASTELL_PATH . "/externaldata/$script");
+}
+
 

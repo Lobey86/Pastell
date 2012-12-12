@@ -87,15 +87,16 @@ class Field {
 	}
 	
 	public function isEnabled($id_e){
-		if ( ! $this->getProperties('controler')){
+		$action_name = $this->getProperties('choice-action');
+		if ( ! $action_name){
 			return true;
 		}
-		$controler = $this->getProperties('controler') . "Controler";
-		require_once(__DIR__."/../../controler/$controler.class.php");
-		global $sqlQuery;
-		global $donneesFormulaireFactory;
-		$controlerInstance = new $controler($sqlQuery,$donneesFormulaireFactory);
-		return $controlerInstance->isEnabled($id_e);
+		
+		global $objectInstancier;
+		$id_u = $objectInstancier->Authentification->getId();
+		global $id_d; 
+		return $objectInstancier->ActionExecutorFactory->isChoiceEnabled($id_e,$id_u,$id_d,$action_name);
+		
 	}
 	
 	
