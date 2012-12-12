@@ -16,7 +16,12 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 
 $documentType = $documentTypeFactory->getEntiteDocumentType($connecteur_info['id_connecteur']);
 $formulaire = $documentType->getFormulaire();
-$script = $formulaire->getField($field)->getProperties('script');
 
+$action_name =  $formulaire->getField($field)->getProperties('choice-action');
+if ($action_name) {
+	$result = $objectInstancier->ActionExecutorFactory->displayChoiceOnConnecteur($id_ce,$authentification->getId(),$action_name,$field);	
+} else {
+	$script =  $formulaire->getField($field)->getProperties('script');
+	require_once(PASTELL_PATH . "/externaldata/$script");
+}
 
-require_once(PASTELL_PATH . "/externaldata/$script");

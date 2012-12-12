@@ -21,8 +21,7 @@ formulaire:
 		nomemclature_file: 
 			name: "Fichier de nomenclature CDG"
 			type: externalData
-			script: fichier-nomemclature.php
-			script-controler: fichier-nomemclature-controler.php
+			choice-action: nomemclature-liste
 			link_name: liste des fichiers disponibles
 
 action:
@@ -45,6 +44,12 @@ action:
 		name: Mettre à jour les certificats
 		tab: TdT
 		action-class: UpdateCertificate
+		rule:
+			role_id_e: no-role
+	
+	nomemclature-liste :
+		name: Liste des fichiers de nomemclature
+		action-class: NomemclatureListe
 		rule:
 			role_id_e: no-role
 		

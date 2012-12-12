@@ -9,9 +9,8 @@ formulaire:
 		messagetype:
 			name: Type de message
 			type: externalData
-			script: type-message-citoyen.php
-			script-controler: type-message-citoyen-controler.php
 			link_name: Choisir le type de messages
+			choice-action: type-message
 			requis: true
 		Sujet: {requis: true, title: true}
 		Message: {type: textarea}
@@ -82,5 +81,11 @@ action:
 		name: Reçu
 		rule:
 			role_id_e: no-role
+	
+	type-message:
+		name: Choisir un type de message
+		rule:
+			role_id_e: no-role
+		action-class: TypeMessage
 		
 	

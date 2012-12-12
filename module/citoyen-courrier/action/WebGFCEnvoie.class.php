@@ -19,7 +19,8 @@ class WebGFCEnvoie extends ActionExecutor {
 			$fichier = "";
 		}
 		
-		$webGFC = $this->getConnecteur('GFC');
+		$webGFC = $this->objectInstancier->ConnecteurFactory->getConnecteurByType(12,'citoyen-courrier','GFC');
+		
 		
 		$courierID = $webGFC->createCourrier($messageSousTypeId,$contact,$titre,$object,$fichier,$username);
 		$this->setLastMessage($webGFC->getLastMessage());

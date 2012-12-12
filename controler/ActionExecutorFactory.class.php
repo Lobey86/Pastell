@@ -59,6 +59,40 @@ class ActionExecutorFactory {
 		}		
 	}
 	
+	public function isChoiceEnabled($id_e,$id_u,$id_d,$action_name){
+		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
+		
+		$action_class_name = $this->getActionClassName($documentType, $action_name);		
+		
+		$this->loadDocumentActionFile($infoDocument['type'],$action_class_name);
+		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
+		$actionClass->setDocumentId($infoDocument['type'], $id_d);
+		return $actionClass->isEnabled();
+	}
+	
+	
+	public function displayChoiceOnConnecteur($id_ce,$id_u,$action_name,$field){
+		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
+		if ($connecteur_entite_info['id_e']){				
+			$documentType = $this->objectInstancier->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		} else {
+			$documentType = $this->objectInstancier->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+		}
+		
+		$action_class_name = $this->getActionClassName($documentType, $action_name);
+		$action_class_file = $this->loadConnecteurActionFile($connecteur_entite_info['id_connecteur'],$action_class_name);
+		
+		$actionClass = $this->getInstance($action_class_name,$connecteur_entite_info['id_e'],$id_u,$action_name);
+		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);
+		$actionClass->setField($field);
+		$result = $actionClass->display();		
+		$this->lastMessage = $actionClass->getLastMessage();		
+		return $result;		
+	}
+	
+	
+	
 	public function goChoice($id_e,$id_u,$id_d,$action_name,$from_api,$field,$page = 0){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
@@ -79,6 +113,24 @@ class ActionExecutorFactory {
 		} else {
 			$actionClass->redirectToFormulaire();
 		}
+	}
+	
+	public function goChoiceOnConnecteur($id_ce,$id_u,$action_name,$field){
+			$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
+		if ($connecteur_entite_info['id_e']){				
+			$documentType = $this->objectInstancier->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+		} else {
+			$documentType = $this->objectInstancier->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+		}
+		
+		$action_class_name = $this->getActionClassName($documentType, $action_name);
+		$action_class_file = $this->loadConnecteurActionFile($connecteur_entite_info['id_connecteur'],$action_class_name);
+		
+		$actionClass = $this->getInstance($action_class_name,$connecteur_entite_info['id_e'],$id_u,$action_name);
+		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);
+		$actionClass->setField($field);			
+		$result = $actionClass->go();		
+		$actionClass->redirectToConnecteurFormulaire();
 	}
 	
 	
