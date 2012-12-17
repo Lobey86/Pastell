@@ -7,17 +7,26 @@ class DonneesFormulaireFactory{
 	private $documentTypeFactory;
 	private $workspacePath;
 	private $connecteurEntiteSQL;
+	private $documentSQL;
 	
-	
-	public function __construct(DocumentTypeFactory $documentTypeFactory, $workspacePath, ConnecteurEntiteSQL $connecteurEntiteSQL){
+	public function __construct(DocumentTypeFactory $documentTypeFactory, 
+								$workspacePath, 
+								ConnecteurEntiteSQL $connecteurEntiteSQL,
+								Document $documentSQL
+								){
 		$this->documentTypeFactory = $documentTypeFactory;
 		$this->workspacePath = $workspacePath;
 		$this->connecteurEntiteSQL = $connecteurEntiteSQL;
+		$this->documentSQL = $documentSQL;
 	}
 	
-	public function get($id_document,$document_type){
+	public function get($id_d,$document_type = false){
+		if (! $document_type){
+			$info = $this->documentSQL->getInfo($id_d);
+			$document_type = $info['type'];
+		}
 		$formulaire = $this->documentTypeFactory->getDocumentType($document_type)->getFormulaire();
-		return $this->getFromCache($id_document, $formulaire);
+		return $this->getFromCache($id_d, $formulaire);
 	}
 	
 	public function getConnecteurEntiteFormulaire($id_ce){

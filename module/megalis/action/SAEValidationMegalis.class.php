@@ -34,7 +34,7 @@ class SAEValidationMegalis extends ActionExecutor {
 			return false;
 		} 
 		
-		$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,'megalis');
+		$donneesFormulaire = $this->getDonneesFormulaire();
 		$donneesFormulaire->addFileFromData('reply_sae','reply.xml',$validation);			
 		
 		$xml = simplexml_load_string($validation);

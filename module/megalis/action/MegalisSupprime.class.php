@@ -6,8 +6,7 @@ class MegalisSupprime extends ActionExecutor{
 		
 		$megalis = $this->getGlobalConnecteur('Megalis');
 		
-				
-		$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,'megalis');
+		$donneesFormulaire = $this->getDonneesFormulaire();		
 		$archive = $donneesFormulaire->get('archive');
 		$filename = $archive[0];
 		

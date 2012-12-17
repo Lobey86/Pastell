@@ -30,7 +30,13 @@ $theField = $formulaire->getField($field);
 
 $action_name = $theField->getProperties('choice-action');
 if ($action_name) {
-	$result = $objectInstancier->ActionExecutorFactory->displayChoice($id_e,$authentification->getId(),$id_d,$action_name,false,$field,$page);	
+	try {
+	$result = $objectInstancier->ActionExecutorFactory->displayChoice($id_e,$authentification->getId(),$id_d,$action_name,false,$field,$page);
+	} catch (Exception $e){
+		$lastError->setLastError($e->getMessage());
+		header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page");
+		exit;
+	}	
 } else {
 	$script = $theField->getProperties('script');
 	require_once(PASTELL_PATH . "/externaldata/$script");

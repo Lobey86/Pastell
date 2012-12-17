@@ -79,13 +79,14 @@ class Nomemclature extends ChoiceActionExecutor {
 		if (! $classifCDG){
 			return false;
 		}
+		$file_name = false;
 		foreach($classifCDG as $i => $nom_file){
 			if($nom_file == $file){
 				$file_name =  $donneesFormulaireCDG->getFilePath('classification_cdg',$i);
 			}
 		}
 		
-		if (! file_exists($file_name)){
+		if (! $file_name || ! file_exists($file_name)){
 			return false;
 		}
 		return $file_name;

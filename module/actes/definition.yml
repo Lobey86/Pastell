@@ -48,7 +48,7 @@ formulaire:
 			name: Correspondance Actes
 			type: externalData
 			link_name: liste des matières et sous-matières
-			choice-action: classifiction
+			choice-action: classification
 		envoi_iparapheur:
 			name: Transmission au parapheur
 			type: checkbox
@@ -312,7 +312,6 @@ action:
 			droit_id_u: 'actes:edition'
 		action-class: TedetisAnnulation
 		warning: Attention cette action n'est pas réversible
-
 			
 	send-cdg-manuel:
 		name-action: Transmettre au CDG
@@ -356,7 +355,9 @@ action:
 		rule:
 			last-action: acquiter-tdt
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'			
+			droit_id_u: 'actes:edition'	
+			content:
+				envoi_cdg: true		
 		action-class: EnvoieCDG
 					
 	recu-cdg:
@@ -447,7 +448,7 @@ action:
 			role_id_e: no-role
 		action-class: IparapheurSousType
 	
-	classifiction: 
+	classification: 
 		name: Classification ACTES
 		rule:
 			role_id_e: no-role
@@ -460,6 +461,3 @@ action:
 		action-class: Nomemclature
 			
 		
-	
-
-	 

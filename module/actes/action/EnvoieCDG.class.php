@@ -54,12 +54,9 @@ class EnvoieCDG  extends ActionExecutor {
 		
 		$infoDocument = $this->getDocument()->getInfo($this->id_d);
 
-		$documentType = $this->getDocumentTypeFactory()->getDocumentType($infoDocument['type']);
-				
-		$theAction = $documentType->getAction();
+		$action_name  = $this->getActionName();
 		
-		
-		$message =  "La transaction « ".$infoDocument['titre']." » est passé dans l'état :  " . $theAction->getActionName('send-cdg');
+		$message =  "La transaction « ".$infoDocument['titre']." » est passé dans l'état :  $action_name ";
 		
 		$link = SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e=$id_cdg";
 		
