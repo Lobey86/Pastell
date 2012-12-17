@@ -5,8 +5,7 @@ class ListGrade extends ChoiceActionExecutor {
 	public function go(){
 		$recuperateur = new Recuperateur($_GET);
 		$libelle = $recuperateur->get('libelle');
-		$info = $this->objectInstancier->Document->getInfo($this->id_d);
-		$donneesFormulaire = $this->objectInstancier->DonneesFormulaireFactory->get($this->id_d,$info['type']);
+		$donneesFormulaire = $this->getDonneesFormulaire();		
 		$donneesFormulaire->setData('grade',$libelle);
 	}
 	

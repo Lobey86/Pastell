@@ -2,9 +2,9 @@
 
 class ChoixClassificationControler {
 	
-	public function __construct(SQLQuery $sqlQuery, DonneesFormulaireFactory $donneesFormulaireFactory){
+	
+	public function __construct(SQLQuery $sqlQuery){
 		$this->sqlQuery = $sqlQuery; 
-		$this->donneesFormulaireFactory = $donneesFormulaireFactory;
 	}
 	
 	public function isEnabled($id_e){

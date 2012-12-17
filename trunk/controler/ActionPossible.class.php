@@ -91,14 +91,6 @@ class ActionPossible {
 	
 	private function getTypeDocument($id_e,$id_d){
 		$infoDocument = $this->document->getInfo($id_d);
-		if (!$infoDocument){
-			if ($id_e == $id_d){
-				$infoDocument['type'] = 'collectivite-properties';
-			}
-			if ($id_e == 0){
-				$infoDocument['type'] = 'entite0-properties';
-			}
-		}
 		return $infoDocument['type'];
 	}
 	

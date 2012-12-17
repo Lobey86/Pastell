@@ -2,7 +2,6 @@
 
 class ConnecteurException extends Exception {}
 
-
 abstract class Connecteur {
 	
 	protected $lastError;

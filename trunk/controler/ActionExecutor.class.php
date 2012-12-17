@@ -59,6 +59,48 @@ abstract class ActionExecutor {
 		$this->lastMessage = $message;
 	}
 	
+	public function getActionCreator(){
+		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
+	}
+	
+	public function getDonneesFormulaire(){
+		return $this->getDonneesFormulaireFactory()->get($this->id_d);
+	}
+	
+	public function getFormulaire(){
+		$formulaire = $this->objectInstancier->DocumentTypeFactory->getDocumentType($this->type)->getFormulaire();
+		$formulaire->addDonnesFormulaire($this->getDonneesFormulaire());
+		return $formulaire;
+	}
+	
+	public function getJournal(){
+		return $this->objectInstancier->Journal;
+	}
+	
+	public function getZenMail(){
+		return $this->objectInstancier->ZenMail;
+	}
+	
+	public function getDonneesFormulaireFactory(){
+		return $this->objectInstancier->DonneesFormulaireFactory;
+	}
+	
+	public function getDocumentEntite(){
+		return $this->objectInstancier->DocumentEntite;
+	}
+
+	public function getDocument(){
+		return $this->objectInstancier->Document;
+	}
+	
+	public function getDocumentActionEntite(){
+		return $this->objectInstancier->DocumentActionEntite;
+	}
+	
+	public function getDocumentTypeFactory(){
+		return $this->objectInstancier->DocumentTypeFactory;
+	}
+
 	public function getEntite(){
 		static $entite;
 		if (! $entite){
@@ -67,57 +109,20 @@ abstract class ActionExecutor {
 		return $entite;
 	}
 	
-	public function getActionCreator(){
-		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
-	}
-	
-	public function getDonneesFormulaire(){
-		return $this->getDonneesFormulaireFactory()->get($this->id_d,$this->type);
-	}
-	
-	public function getZenMail(){
-		return $this->objectInstancier->ZenMail;
-	}
-
 	public function getSQLQuery(){
 		return $this->objectInstancier->SQLQuery;
-	}
-	
-	public function getDocumentEntite(){
-		return $this->objectInstancier->DocumentEntite;
-	}
-	
-	public function getJournal(){
-		return $this->objectInstancier->Journal;
-	}
-	
-	public function getDocumentTypeFactory(){
-		return $this->objectInstancier->DocumentTypeFactory;
-	}
-
-	public function getDocument(){
-		return $this->objectInstancier->Document;
-	}
-	
-	public function getFormulaire(){
-		$formulaire = $this->objectInstancier->DocumentTypeFactory->getDocumentType($this->type)->getFormulaire();
-		$formulaire->addDonnesFormulaire($this->getDonneesFormulaire());
-		return $formulaire;
-		
-	}
-	
-	public function getDonneesFormulaireFactory(){
-		return $this->objectInstancier->DonneesFormulaireFactory;
-	}
-	
-	public function getDocumentActionEntite(){
-		return $this->objectInstancier->DocumentActionEntite;
 	}
 	
 	public function getNotificationMail(){
 		return $this->objectInstancier->NotificationMail;
 	}
 	
+	public function getActionName(){
+		return $this->getDocumentTypeFactory()->getDocumentType($this->type)->getAction()->getActionName($this->action);
+	}
+	
+	
+	/**** Récupération de connecteur ****/
 	public function getConnecteurProperties(){
 		assert('$this->id_ce');
 		return $this->getConnecteurConfig($this->id_ce);
@@ -149,10 +154,8 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 	}
 	
-	public function addAction($id_u,$actionName,$message){
-		$this->getActionCreator()->addAction($this->id_e,$id_u,$actionName,$message);
-	}
-
+	/***** Fonction utilitaire *****/
+	
 	public function addActionOK($message){
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,$message);
 		$this->setLastMessage($message);

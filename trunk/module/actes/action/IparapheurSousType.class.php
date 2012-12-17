@@ -9,8 +9,7 @@ class IparapheurSousType extends ChoiceActionExecutor {
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($this->type); 
 		$type_iparapheur = $documentType->getFormulaire()->getField('iparapheur_type')->getProperties('default');
 		
-		$info = $this->objectInstancier->Document->getInfo($this->id_d);
-		$donneesFormulaire = $this->objectInstancier->DonneesFormulaireFactory->get($this->id_d,$info['type']);
+		$donneesFormulaire = $this->getDonneesFormulaire();
 		$donneesFormulaire->setData('iparapheur_type',$type_iparapheur);
 		$donneesFormulaire->setData('iparapheur_sous_type',$sous_type_iparapheur);
 	}

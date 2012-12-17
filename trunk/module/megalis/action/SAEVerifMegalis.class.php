@@ -35,7 +35,7 @@ class SAEVerifMegalis extends ActionExecutor {
 			return false;
 		} 
 		
-		$donneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d,'megalis');
+		$donneesFormulaire = $this->getDonneesFormulaire();
 		$donneesFormulaire->addFileFromData('ar_sae','ar.xml',$ar);			
 		
 		$xml = simplexml_load_string($ar);

@@ -156,14 +156,13 @@ class DonneesFormulaire {
 		$this->saveDataFile();
 	}
 	
-	public function addFileFromData($field_name,$file_name,$raw_data){
-		$this->info[$field_name][0] = $file_name;
-		file_put_contents($this->getFilePath($field_name,0),$raw_data);
+	public function addFileFromData($field_name,$file_name,$raw_data,$file_num = 0){
+		$this->info[$field_name][$file_num] = $file_name;
+		file_put_contents($this->getFilePath($field_name,$file_num),$raw_data);
 		$this->saveDataFile();
 	}
 	
-	public function removeFile($fieldName,$num = 0){
-		
+	public function removeFile($fieldName,$num = 0){		
 		unlink($this->getFilePath($fieldName,$num));
 		for($i = $num + 1; $i < count($this->info[$fieldName]) ; $i++){
 			rename($this->getFilePath($fieldName,$i),$this->getFilePath($fieldName,$i - 1));
@@ -197,7 +196,6 @@ class DonneesFormulaire {
 	
 	public function get($item,$default=false){
 		if (empty($this->info[$item])){
-			
 			return $default;
 		}
 		return $this->info[$item];

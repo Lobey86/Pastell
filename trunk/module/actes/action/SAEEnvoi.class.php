@@ -21,7 +21,7 @@ class SAEEnvoi extends ActionExecutor {
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		
-		if ($donneesFormulaire->getFilePath('aractes')){
+		if ($donneesFormulaire->getFilePath('aractes') && file_exists($donneesFormulaire->getFilePath('aractes'))){
 			$aractes = file_get_contents($donneesFormulaire->getFilePath('aractes'));
 		} else {
 			$aractes = "";
@@ -34,7 +34,7 @@ class SAEEnvoi extends ActionExecutor {
 		);
 	
 		
-		$acte_nature = $this->getDocumentTypeFactory()->getDocumentType("actes")->getFormulaire()->getField('acte_nature')->getSelect();
+		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
 		
 		$transactionsInfo = array(
 				'unique_id' => $donneesFormulaire->get('numero_de_lacte'),

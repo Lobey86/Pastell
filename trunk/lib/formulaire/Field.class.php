@@ -94,8 +94,12 @@ class Field {
 		
 		global $objectInstancier;
 		$id_u = $objectInstancier->Authentification->getId();
-		global $id_d; 
-		return $objectInstancier->ActionExecutorFactory->isChoiceEnabled($id_e,$id_u,$id_d,$action_name);
+		global $id_d;
+		try { 
+			return $objectInstancier->ActionExecutorFactory->isChoiceEnabled($id_e,$id_u,$id_d,$action_name);
+		} catch (Exception $e){
+			return false;
+		}
 		
 	}
 	

@@ -15,11 +15,8 @@ class ListAgent extends ChoiceActionExecutor {
 		$status = array('titulaire' => 0,'stagiaire'=>1 , 
 						'non-titulaire' => 2);
 		$data['statut']  = 0;
-		$data['grade'] = $info['emploi_grade_libelle'];
-		
-		$info = $this->objectInstancier->Document->getInfo($this->id_d);
-		
-		$donneesFormulaire = $this->objectInstancier->DonneesFormulaireFactory->get($this->id_d,$info['type']);
+		$data['grade'] = $info['emploi_grade_libelle'];		
+		$donneesFormulaire = $this->getDonneesFormulaire();		
 		$donneesFormulaire->setTabData($data);
 	}
 	
