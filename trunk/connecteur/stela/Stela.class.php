@@ -271,11 +271,11 @@ class Stela extends TdtConnecteur {
 		);
 
 		$file_path = $donneesFormulaire->getFilePath('fichier_pes_signe');
-		$file_name = $donneesFormulaire->get('fichier_pes_signe');
-		$file_name = $file_name[0];
-	
-		$helios_info['fichier']['name'] = $file_name;
+		
+		
+		$helios_info['fichier']['name'] = $this->getHeliosFileName($file_path);
 		$helios_info['fichier']['base64'] = $this->getBase64FileContent($file_path);
+		
 		
 		$idDocument = $this->soapCall('putPESAller',array(json_encode($helios_info)),self::WSDL_HELIOS);
 		
@@ -285,6 +285,18 @@ class Stela extends TdtConnecteur {
 		$donneesFormulaire->setData('tedetis_transaction_id',$idDocument);
 		return true;
 	}
+	
+	private function getHeliosFileName($pes_path){
+		$xml = simplexml_load_file($pes_path);
+		
+		$type_fic = $xml->Enveloppe->Parametres->TypFic['V'];
+		$id_col = $xml->EnTetePES->IdColl['V'];
+		$date_str = $xml->EnTetePES->DteStr['V'];
+		$num_ordre = "01";
+		
+		return "{$type_fic}_{$id_col}_{$date_str}_{$num_ordre}.xml";
+	}
+	
 	
 	public function getStatusHelios($id_transaction){
 		throw new StelaException("Not implemented");

@@ -207,7 +207,7 @@ class ActionExecutorFactory {
 	private function loadActionFile($action_class_name){
 		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
 		if (file_exists($action_class_file )){
-			require_once($action_class_file);
+			return require_once($action_class_file);
 		}		
 		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");		
 		if (count($find) == 0){				

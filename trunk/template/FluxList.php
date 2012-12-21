@@ -19,7 +19,8 @@ foreach($all_flux as $id_flux => $flux_definition) :
 		<td><?php echo $connecteur_type;?></td>
 		<td>
 			<?php if (isset($all_flux_entite[$id_flux][$connecteur_type])) : ?>
-				<?php hecho($all_flux_entite[$id_flux][$connecteur_type]['libelle']) ?>
+				
+			<a href='connecteur/edition.php?id_ce=<?php echo $all_flux_entite[$id_flux][$connecteur_type]['id_ce'] ?>'><?php hecho($all_flux_entite[$id_flux][$connecteur_type]['libelle']) ?></a>
 				&nbsp;(<?php hecho($all_flux_entite[$id_flux][$connecteur_type]['id_connecteur']) ?>)
 			<?php else:?>
 			AUCUN
