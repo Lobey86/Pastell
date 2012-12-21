@@ -115,7 +115,7 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 		<?php
 			if ($ligne['action'] == 'supression'){
 				echo "Supprimé";
-			} elseif ($ligne['id_d']){ 
+			} elseif ($ligne['id_d'] && $ligne['document_type']){ 
 				$documentType = $documentTypeFactory->getDocumentType($ligne['document_type']);
 				$theAction = $documentType->getAction();
 				echo $theAction->getActionName($ligne['action']);

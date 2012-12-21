@@ -75,7 +75,8 @@ CREATE TABLE document_action (
 CREATE TABLE document_action_entite (
 	`id_a` int(11) NOT NULL,
 	`id_e` int(11) NOT NULL,
-	KEY id_a (`id_a`,`id_e`)
+	`id_j` int(11) NOT NULL,
+	KEY id_a (`id_a`,`id_e`,`id_j`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE document_email (
 	`key` varchar(32) NOT NULL,

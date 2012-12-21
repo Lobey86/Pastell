@@ -11,12 +11,25 @@ class DocumentActionEntite extends SQL {
 		return $this->queryOne($sql,$id_e,$id_d);
 	}
 	
-	public function getAction($id_e,$id_d){
-		$sql = "SELECT action,date,document_action_entite.id_e,document_action.id_u,denomination,nom,prenom FROM document_action_entite " .
+	public function getLastActionInfo($id_e,$id_d){
+		$sql = "SELECT document_action.action, journal.message, document_action.date " .
+			" FROM document_action_entite " .
 			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
-			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " . 
+			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " .
+			" LEFT JOIN journal ON journal.id_j=document_action_entite.id_j " . 
 			" JOIN entite ON document_action.id_e  = entite.id_e ".
-			" WHERE document_action_entite.id_e = ? AND id_d=? ORDER BY date,document_action_entite.id_a ";
+			" WHERE document_action_entite.id_e = ? AND document_action.id_d=? " . 
+			" ORDER BY document_action.date DESC,document_action.id_a DESC LIMIT 1 ";
+		return $this->queryOne($sql,$id_e,$id_d);
+	}
+	
+	public function getAction($id_e,$id_d){
+		$sql = "SELECT document_action.action,document_action.date,document_action_entite.id_e,document_action.id_u,denomination,nom,prenom,document_action_entite.id_j" .
+			" FROM document_action_entite " .
+			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
+			" LEFT JOIN utilisateur ON document_action.id_u = utilisateur.id_u " .
+			" JOIN entite ON document_action.id_e  = entite.id_e ".
+			" WHERE document_action_entite.id_e = ? AND document_action.id_d=? ORDER BY document_action.date,document_action_entite.id_a ";
 		return $this->query($sql,$id_e,$id_d);
 	}
 	

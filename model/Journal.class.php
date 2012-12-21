@@ -55,9 +55,10 @@ class Journal extends SQL {
 			$date_horodatage = $this->signServer->getLastTimestamp();
 		}
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
-		$this->query($sql,array($type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage));
+		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
 		
-		return $preuve;
+		$sql = "SELECT id_j FROM journal WHERE type=? AND id_e=? AND id_u=? AND id_d=? AND action=? AND message=? AND date=? AND message_horodate=? AND preuve=? AND date_horodatage=?";
+		return $this->queryOne($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
 	}
 	
 	
