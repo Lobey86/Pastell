@@ -10,25 +10,20 @@ class AdminControler extends Controler {
 			return false; 
 		}
 		
-		
 		$this->Utilisateur->validMailAuto($id_u);
 		$this->Utilisateur->setColBase($id_u,0);
 		$this->RoleUtilisateur->addRole($id_u,"admin",0);
-		
-		
-		
-		
 		return true;
 	}
 	
 	public function fixDroit(){
-	
+		$this->RoleSQL->edit("admin","Administrateur");
+		
 		foreach($this->RoleDroit->getAllDroit() as $droit){
 			$this->RoleSQL->addDroit("admin",$droit);
 		}
 		$this->EntiteCreator->updateAllEntiteAncetre();
 	}
-	
 	
 	
 }
