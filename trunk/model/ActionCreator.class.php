@@ -24,12 +24,9 @@ class ActionCreator extends SQL {
 		$sql = "UPDATE document_action SET date=now() WHERE id_a=?";
 		$this->query($sql,$document_action['id_a']);
 		$this->journal->addSQL(Journal::DOCUMENT_ACTION,$id_e,$id_u,$this->id_d,Action::MODIFICATION,"Modification du document");
-		
 	}
 	
-	
 	public function addAction($id_e,$id_u,$action,$message_journal){
-		
 		$now = date(Date::DATE_ISO);
 		$this->lastAction = $action;
 		
@@ -58,10 +55,10 @@ class ActionCreator extends SQL {
 	private function addToSQL($id_e,$id_u,$message_journal){
 		assert('$this->id_a');
 		
-		$sql = "INSERT INTO document_action_entite (id_a,id_e) VALUES (?,?)";
-		$this->query($sql,$this->id_a,$id_e);
+		$id_j = $this->journal->addSQL(Journal::DOCUMENT_ACTION,$id_e,$id_u,$this->id_d,$this->lastAction,$message_journal);
 		
-		$this->journal->addSQL(Journal::DOCUMENT_ACTION,$id_e,$id_u,$this->id_d,$this->lastAction,$message_journal);
+		$sql = "INSERT INTO document_action_entite (id_a,id_e,id_j) VALUES (?,?,?)";
+		$this->query($sql,$this->id_a,$id_e,$id_j);
 		
 	}
 		

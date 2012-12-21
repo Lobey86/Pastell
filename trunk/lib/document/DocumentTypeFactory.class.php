@@ -115,6 +115,7 @@ class DocumentTypeFactory {
 		if (file_exists($this->module_path."/$type/definition.yml")){
 			$filename = $this->module_path."/$type/definition.yml";
 		} 
+		
 		if (! $filename) {
 			throw new Exception("Type de document « $type » inconnu");
 		}

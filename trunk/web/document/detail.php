@@ -149,6 +149,7 @@ if ($infoDocumentEmail) :
 			<th>Date</th>
 			<th>Entité</th>
 			<th>Utilisateur</th>
+			<th>Journal</th>
 		</tr>
 		
 		<?php foreach($documentActionEntite->getAction($id_e,$id_d) as $action) : ?>
@@ -162,6 +163,11 @@ if ($infoDocumentEmail) :
 					<?php endif;?>
 					<?php if ($action['id_e'] == $id_e) :?>
 						<a href='utilisateur/detail.php?id_u=<?php echo $action['id_u']?>'><?php echo $action['prenom']?> <?php echo $action['nom']?></a>
+					<?php endif;?>					
+				</td>
+				<td>
+					<?php if($action['id_j']) : ?>
+					<a href='journal/detail.php?id_j=<?php echo $action['id_j']?>'>voir</a>
 					<?php endif;?>
 				</td>
 			</tr>

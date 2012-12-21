@@ -20,4 +20,7 @@ $result['data'] = $donneesFormulaire->getRawData();
 $result['action-possible'] = $actionPossible->getActionPossible($id_e,$id_u,$id_d);
 $result['action_possible'] = $result['action-possible']; 
 
+$result['last_action'] = $objectInstancier->DocumentActionEntite->getLastActionInfo($id_e,$id_d);
+
+
 $JSONoutput->display($result);
