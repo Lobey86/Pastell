@@ -101,6 +101,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
 		action-class: Supprimer
+		warning: "Êtes-vous sûr ?"
 	
 	send-iparapheur:
 		name-action: Transmettre au parapheur

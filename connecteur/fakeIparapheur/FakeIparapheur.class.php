@@ -2,7 +2,6 @@
 class FakeIparapheur extends Connecteur {
 	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
-		
 	}
 	
 	public function getSousType(){
@@ -24,9 +23,21 @@ class FakeIparapheur extends Connecteur {
 	}
 	
 	public function getSignature($dossierID){
-		$info['signature'] = "Signature simulé";
+		$info['signature'] = "";
 		$info['document'] = "Document";
 		$info['nom_document'] = "document.txt";
 		return $info;
+	}
+	
+	public function sendHeliosDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,$visuel_pdf){
+		return true;
+	}
+	
+	public function getAllHistoriqueInfo($dossierID){
+		return array("Fake parapheur");
+	}
+	
+	public function getLastHistorique($dossierID){
+		return "[Archive]";
 	}
 }

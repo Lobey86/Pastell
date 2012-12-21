@@ -34,7 +34,7 @@ class FluxControler extends PastellControler {
 		$this->FluxEntiteSQL->addConnecteur($id_e,$flux,$type,$id_ce);
 		
 		$this->LastMessage->setLastMessage("Connecteur associé au flux avec succès");
-		$this->redirect("/entite/detail.php?id_e=$id_e&page=3");
+		$this->redirect("/entite/detail.php?id_e=$id_e&page=4");
 	}
 	
 	public function listFlux(){
