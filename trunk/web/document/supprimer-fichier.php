@@ -36,7 +36,7 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,
 }
 
 
-$documentType = $documentTypeFactory->getDocumentType($type);
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
 $formulaire = $documentType->getFormulaire();
 $formulaire->setTabNumber($page);
 

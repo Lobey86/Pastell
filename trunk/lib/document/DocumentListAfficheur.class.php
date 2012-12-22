@@ -27,7 +27,7 @@ class DocumentListAfficheur {
 			<div class="box_contenu clearfix">
 		
 			<h2>Documents <?php if (count($type) == 1) 
-									echo  	$this->documentTypeFactory->getDocumentType($type[0])->getName() ?> </h2>
+									echo  	$this->documentTypeFactory->getFluxDocumentType($type[0])->getName() ?> </h2>
 				<table class="tab_01">
 				<tr>
 					<th>Objet</th>
@@ -40,7 +40,7 @@ class DocumentListAfficheur {
 				</tr>
 			
 			<?php foreach($listDocument as $i => $document ) : 			
-				$documentType = $this->documentTypeFactory->getDocumentType($document['type']);
+				$documentType = $this->documentTypeFactory->getFluxDocumentType($document['type']);
 			
 				$action = $documentType->getAction();
 				

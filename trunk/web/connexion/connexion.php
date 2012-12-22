@@ -13,6 +13,8 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <?php 
 
+$fluxDefinitionFiles = $objectInstancier->FluxDefinitionFiles;
+
 $certificatConnexion = new CertificatConnexion($sqlQuery);
 $id_u = $certificatConnexion->autoConnect();
 	
@@ -59,7 +61,7 @@ $utilisateurInfo = $utilisateur->getInfo($id_u);
 	
 	</div>
 </div>
-<?php if ($documentTypeFactory->isTypePresent('Flux Fournisseur')) : ?>
+<?php if ($fluxDefinitionFiles->isTypePresent('Flux Fournisseur')) : ?>
 
 <div class="box_contenu clearfix">
 	<h2>Nouveau compte</h2>

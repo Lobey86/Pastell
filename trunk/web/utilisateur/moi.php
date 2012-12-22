@@ -6,7 +6,7 @@ require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 $id_u = $authentification->getId();
 
 $utilisateur = new Utilisateur($sqlQuery);
-$documentTypeHTML = new DocumentTypeHTML();
+$documentTypeHTML = $objectInstancier->DocumentTypeHTML;
 
 $info = $utilisateur->getInfo($id_u);
 if (! $info){
@@ -146,7 +146,7 @@ include( PASTELL_PATH ."/include/haut.php");
 	</td> 
 	<td>
 		<?php if($infoNotification['type']): ?>
-			<?php echo $documentTypeFactory->getDocumentType($infoNotification['type'])->getName() ?>
+			<?php echo $documentTypeFactory->getFluxDocumentType($infoNotification['type'])->getName() ?>
 		<?php else : ?>
 			Tous
 		<?php endif; ?>
@@ -182,7 +182,7 @@ include( PASTELL_PATH ."/include/haut.php");
 		<?php  
 		$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 		$documentTypeHTML->setDroit($allDroit);		
-		$documentTypeHTML->displaySelectWithCollectivite($documentTypeFactory); ?>
+		$documentTypeHTML->displaySelectWithCollectivite(); ?>
 			
 		<input type='submit' value='ajouter'/>
 	</form>

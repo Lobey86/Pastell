@@ -10,6 +10,23 @@ $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $documentEntite = new DocumentEntite($sqlQuery);
+
+
+
+foreach($objectInstancier->fluxDefinitionFiles->getAll() as $type => $config){
+	$tabAction = $objectInstancier->DocumentTypeFactory->getFluxDocumentType($type)->getAction()->getAutoAction();
+	foreach($tabAction as $etat_actuel => $etat_cible){	
+		foreach ($documentEntite->getFromAction($type,$etat_actuel) as $infoDocument){
+			echo "Traitement de ({$infoDocument['id_e']},{$infoDocument['id_d']},{$infoDocument['type']},$etat_actuel->$etat_cible) : ";
+			$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($infoDocument['id_e'],0,$infoDocument['id_d'],$etat_cible,array(),true);
+			if (! $result){
+				echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
+			}
+			echo "\n";
+		}
+	}
+}
+
 $all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAll(0);
 
 foreach($all_connecteur as $connecteur){
@@ -26,18 +43,6 @@ foreach($all_connecteur as $connecteur){
 		
 	}
 	echo "\n";
-}
-foreach($documentTypeFactory->getAutoAction() as $type => $tabAction){
-	foreach($tabAction as $etat_actuel => $etat_cible){	
-		foreach ($documentEntite->getFromAction($type,$etat_actuel) as $infoDocument){
-			echo "Traitement de ({$infoDocument['id_e']},{$infoDocument['id_d']},{$infoDocument['type']},$etat_actuel->$etat_cible) : ";
-			$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($infoDocument['id_e'],0,$infoDocument['id_d'],$etat_cible,array(),true);
-			if (! $result){
-				echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
-			}
-			echo "\n";
-		}
-	}
 }
 
 $objectInstancier->LastUpstart->updateMtime();

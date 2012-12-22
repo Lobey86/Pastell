@@ -1,4 +1,4 @@
-nom: Actes 
+nom: Actes
 
 type: Flux Généraux
 
@@ -227,6 +227,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 		action-class: IParapheurRecup
+			
 		
 	erreur-verif-iparapheur:
 		name: Erreur lors de la vérification du statut de signature

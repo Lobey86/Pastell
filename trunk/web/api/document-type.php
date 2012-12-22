@@ -1,7 +1,7 @@
 <?php
 require_once("init-api.php");
 
-$allDocType = $documentTypeFactory->getAllType();
+$allDocType = $objectInstancier->FluxDefinitionFiles->getAllType();
 
 $allDroit = $roleUtilisateur->getAllDroit($id_u);
 

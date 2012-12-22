@@ -1,10 +1,15 @@
 <?php
+
+//Chargé des fichier entite-properties.yml et global-properties.yml
+
 class ConnecteurDefinitionFiles {
 	
 	private $connecteur_path;
+	private $yml_loader;
 	
-	public function __construct($connecteur_path){
+	public function __construct($connecteur_path,YMLLoader $yml_loader){
 		$this->connecteur_path = $connecteur_path;
+		$this->yml_loader = $yml_loader;
 	}
 	
 	public function getAll(){
@@ -12,7 +17,7 @@ class ConnecteurDefinitionFiles {
 		$result = array();
 		foreach($all_connecteur_definition as $connecteur_definition){
 			$id_connecteur = basename(dirname($connecteur_definition));
-			$result[$id_connecteur] = $this->loadFile($connecteur_definition);
+			$result[$id_connecteur] = $this->yml_loader->getArray($connecteur_definition);
 		}
 		return $result;
 	}
@@ -22,7 +27,7 @@ class ConnecteurDefinitionFiles {
 		$result = array();
 		foreach($all_connecteur_definition as $connecteur_definition){
 			$id_connecteur = basename(dirname($connecteur_definition));
-			$result[$id_connecteur] = $this->loadFile($connecteur_definition);
+			$result[$id_connecteur] = $this->yml_loader->getArray($connecteur_definition);
 		}
 		return $result;
 	}
@@ -31,20 +36,14 @@ class ConnecteurDefinitionFiles {
 		return $id_e?$this->getAll():$this->getAllGlobal();
 	}
 	
-	public function getInfo($id_connecteur){
-		return $this->loadFile("{$this->connecteur_path}/$id_connecteur/entite-properties.yml");
+	public function getInfo($id_connecteur){		
+		return $this->yml_loader->getArray("{$this->connecteur_path}/$id_connecteur/entite-properties.yml");
 	}
 	
 	public function getInfoGlobal($id_connecteur){
-		return $this->loadFile("{$this->connecteur_path}/$id_connecteur/global-properties.yml");
+		return $this->yml_loader->getArray("{$this->connecteur_path}/$id_connecteur/global-properties.yml");
 	}
 	
-	public function loadFile($filename){
-		if (! file_exists($filename)){
-			return array();
-		}
-		return Spyc::YAMLLoad($filename);	
-	}
 	
 	public function getConnecteurClass($id_connecteur){
 		$all = glob("{$this->connecteur_path}/$id_connecteur/*.class.php");

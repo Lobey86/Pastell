@@ -9,7 +9,7 @@ if ( ! $roleUtilisateur->hasOneDroit($id_u,"$type:lecture")) {
 }
 
 
-$documentType = $documentTypeFactory->getDocumentType($type);
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
 $formulaire = $documentType->getFormulaire();
 
 foreach($formulaire->getAllFields() as $key => $fields){	

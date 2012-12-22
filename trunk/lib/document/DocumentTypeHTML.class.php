@@ -1,20 +1,24 @@
 <?php
 
-
 class DocumentTypeHTML {
 	
 	private $allDroit;
+	private $fluxDefinitionFiles;
+	
+	public function __construct(FluxDefinitionFiles $fluxDefinitionFiles){
+		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
+	}
 	
 	public function setDroit($allDroit){
 		$this->allDroit = $allDroit;
 	}
 	
-	private function getType($documentTypeFactory){
+	private function getType(){
 		if ($this->allDroit){
-			$result =  $documentTypeFactory->getTypeByDroit($this->allDroit);		
+			$result =  $this->fluxDefinitionFiles->getTypeByDroit($this->allDroit);		
 			return $result;
 		}
-		$allType = $documentTypeFactory->getAllType();
+		$allType = $this->fluxDefinitionFiles->getAllType();
 		foreach($allType as $flux_type => $lesFlux){
 			foreach($lesFlux as $type => $description){
 				$result[$type] = $description;
@@ -23,10 +27,10 @@ class DocumentTypeHTML {
 		return $result;
 	}
 	
-	private function getOption($documentTypeFactory,$type_selected=""){
+	private function getOption($type_selected=""){
 		?>
 			<option value=''>Tous les types de document</option>
-				<?php foreach($this->getType($documentTypeFactory) as $type => $description) : ?>
+				<?php foreach($this->getType() as $type => $description) : ?>
 					<option value='<?php echo $type?>' <?php echo $type_selected==$type?"selected='selected'":""?>>
 					<?php echo $description ?>
 					</option>
@@ -34,19 +38,19 @@ class DocumentTypeHTML {
 		<?php 
 	}
 	
-	public function displaySelect($documentTypeFactory,$type_selected=""){ 
+	public function displaySelect($type_selected=""){ 
 		?>
 		<select name='type'>
-			<?php $this->getOption($documentTypeFactory,$type_selected) ?>
+			<?php $this->getOption($type_selected) ?>
 		</select>
 		<?php 
 	}
 	
-	public function displaySelectWithCollectivite($documentTypeFactory){
+	public function displaySelectWithCollectivite(){
 		?>
 		<select name='type'>
-			<?php $this->getOption($documentTypeFactory) ?>
-			<option value='collectivite-properties'> Collectivite </option>
+			<?php $this->getOption() ?>
+			<option value='collectivite-properties'>Collectivite</option>
 		</select>
 		<?php 
 	}

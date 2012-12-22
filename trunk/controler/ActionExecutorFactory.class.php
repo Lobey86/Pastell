@@ -40,7 +40,7 @@ class ActionExecutorFactory {
 	public function displayChoice($id_e,$id_u,$id_d,$action_name,$from_api,$field,$page = 0){
 		
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($infoDocument['type']);
 		
 		$action_class_name = $this->getActionClassName($documentType, $action_name);		
 		
@@ -61,7 +61,7 @@ class ActionExecutorFactory {
 	
 	public function isChoiceEnabled($id_e,$id_u,$id_d,$action_name){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($infoDocument['type']);
 		
 		$action_class_name = $this->getActionClassName($documentType, $action_name);		
 		
@@ -95,7 +95,7 @@ class ActionExecutorFactory {
 	
 	public function goChoice($id_e,$id_u,$id_d,$action_name,$from_api,$field,$page = 0){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($infoDocument['type']);
 		
 		$action_class_name = $this->getActionClassName($documentType, $action_name);		
 		$action_class_file = $this->loadDocumentActionFile($infoDocument['type'],$action_class_name);
@@ -136,7 +136,7 @@ class ActionExecutorFactory {
 	
 	private function executeOnDocumentThrow($id_d,$id_e,$id_u,$action_name,$id_destinataire,$from_api){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
-		$documentType = $this->objectInstancier->DocumentTypeFactory->getDocumentType($infoDocument['type']);
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($infoDocument['type']);
 		
 		$action_class_name = $this->getActionClassName($documentType, $action_name);		
 		$action_class_file = $this->loadDocumentActionFile($infoDocument['type'],$action_class_name);

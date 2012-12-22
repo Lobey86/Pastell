@@ -3,7 +3,7 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
-$documentTypeHTML = new DocumentTypeHTML();
+$documentTypeHTML = $objectInstancier->DocumentTypeHTML;
 
 $recuperateur = new Recuperateur($_GET);
 $id_u = $recuperateur->get('id_u');
@@ -217,7 +217,7 @@ $allRole = $roleSQL->getAllRole();
 	<td>
 		<?php if($infoNotification['type']): ?>
 			<?php 
-			echo $documentTypeFactory->getDocumentType($infoNotification['type'])->getName() ?>
+			echo $documentTypeFactory->getFluxDocumentType($infoNotification['type'])->getName() ?>
 		<?php else : ?>
 			Tous
 		<?php endif; ?>
@@ -252,7 +252,7 @@ $allRole = $roleSQL->getAllRole();
 				|_<?php echo $entiteInfo['denomination']?> </option>
 			<?php endforeach ; ?>
 		</select>
-		<?php  $documentTypeHTML->displaySelectWithCollectivite($documentTypeFactory); ?>
+		<?php  $documentTypeHTML->displaySelectWithCollectivite(); ?>
 			
 		<input type='submit' value='ajouter'/>
 	</form>

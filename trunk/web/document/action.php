@@ -12,7 +12,7 @@ $document = $objectInstancier->Document;
 $infoDocument = $document->getInfo($id_d);
 $type = $infoDocument['type'];
 
-$documentType = $documentTypeFactory->getDocumentType($type);
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
 $theAction = $documentType->getAction();
 
 $actionPossible = $objectInstancier->ActionPossible;

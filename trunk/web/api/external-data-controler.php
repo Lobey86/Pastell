@@ -13,7 +13,7 @@ if (!$info || ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, id_d=$id_d,id_u=$id_u");
 }
 
-$documentType = $documentTypeFactory->getDocumentType($info['type']);
+$documentType = $documentTypeFactory->getFluxDocumentType($info['type']);
 $formulaire = $documentType->getFormulaire();
 
 $theField = $formulaire->getField($field);
