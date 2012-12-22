@@ -172,4 +172,14 @@ class RoleUtilisateur extends SQL {
 		return $this->query($sql,$id_e,$role);
 	}
 	
+	public function getAllUtilisateurWithDroit($id_e,$droit){
+		$sql = "SELECT * FROM entite_ancetre ".
+				" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre=utilisateur_role.id_e ".
+				" JOIN utilisateur ON utilisateur_role.id_u = utilisateur.id_u ".
+				" JOIN role_droit ON role_droit.role = utilisateur_role.role " .
+				" WHERE entite_ancetre.id_e=? AND droit =?"
+		;
+		return $this->query($sql,$id_e,$droit);
+	}
+	
 }

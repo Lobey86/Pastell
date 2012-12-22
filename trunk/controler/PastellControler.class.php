@@ -30,4 +30,16 @@ class PastellControler extends Controler {
 		}
 	}
 	
+	public function renderDefault(){
+		
+		$this->authentification = $this->Authentification;
+		$this->roleUtilisateur = $this->RoleUtilisateur;
+		$this->sqlQuery = $this->SQLQuery;
+		$this->objectInstancier = $this->ObjectInstancier;
+		$this->versionning = $this->Versionning;
+		$this->timer = $this->Timer;
+		
+		parent::renderDefault();
+	}
+	
 }

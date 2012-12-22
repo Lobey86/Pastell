@@ -16,6 +16,11 @@ $last_id = $recuperateur->get('last_id');
 
 $limit = 20;
 
+if (! $type){
+	header("Location: index.php?id_e=$id_e");
+	exit;
+}
+
 
 $documentType = $documentTypeFactory->getDocumentType($type);
 

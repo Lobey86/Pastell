@@ -1,6 +1,6 @@
 <?php
 
-//Il y a un new Utilisateur en plein milieu !
+//TODO : Il y a un new Utilisateur en plein milieu !
 
 class Journal extends SQL {
 	
@@ -11,6 +11,7 @@ class Journal extends SQL {
 	const MAIL_SECURISE = 5;
 	const CONNEXION = 6;
 	const DOCUMENT_CONSULTATION = 7 ;
+	const ENVOI_MAIL = 8;
 	
 	private $id_u;
 	private $signServer;
@@ -148,6 +149,7 @@ class Journal extends SQL {
 						"Mail sécurisé",
 						"Connexion",
 						"Consultation de document",
+						"Envoi de mail"
 		);
 		return $type_string[$type];
 	}

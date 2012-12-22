@@ -25,6 +25,9 @@ class DonneesFormulaireFactory{
 			$info = $this->documentSQL->getInfo($id_d);
 			$document_type = $info['type'];
 		}
+		if( !$document_type){
+			throw new Exception("Document inexistant");
+		}
 		$formulaire = $this->documentTypeFactory->getDocumentType($document_type)->getFormulaire();
 		return $this->getFromCache($id_d, $formulaire);
 	}
