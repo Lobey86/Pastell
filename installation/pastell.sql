@@ -59,7 +59,6 @@ CREATE TABLE document (
 	`titre` varchar(256) NOT NULL,
 	`creation` datetime NOT NULL,
 	`modification` datetime NOT NULL,
-	`last_action` varchar(64) NOT NULL,
 	PRIMARY KEY (`id_d`),
 	FULLTEXT KEY titre (`titre`)
 )  ENGINE=MyISAM  ;

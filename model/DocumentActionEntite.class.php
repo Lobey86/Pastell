@@ -39,7 +39,7 @@ class DocumentActionEntite extends SQL {
 				" WHERE document_entite.id_e = ? AND document.type=? AND document.titre LIKE ?" ;
 		$data = array($id_e,$type,"%$search%");
 		if ($etat){
-			$sql .= " AND document.last_action=?";
+			$sql .= " AND document_entite.last_action=?";
 			$data[] = $etat; 
 		}
 
@@ -71,7 +71,7 @@ class DocumentActionEntite extends SQL {
 		$data = array($id_e,$type,"%$search%");
 		
 		if ($etat){
-			$sql .= " AND document.last_action=?";
+			$sql .= " AND document_entite.last_action=?";
 			$data[] = $etat; 
 		}	
 	

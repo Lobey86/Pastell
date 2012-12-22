@@ -120,7 +120,6 @@ formulaire:
 	iParapheur:
 		iparapheur_type: 
 			name: Type iParapheur
-			no-show: true
 			read-only: true
 			default: Actes
 			
@@ -239,37 +238,28 @@ action:
 		name: Transmis en préfecture 
 		
 		rule:
-			last-action: 
-				creation
-				modification
-				recu-iparapheur
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'
 			document_is_valide: true
-			content: 
-				envoi_tdt: true
-				envoi_iparapheur: false
+			or_1:
+				and_1:
+					last-action: 
+						creation
+						modification
+					content: 
+						envoi_tdt: true
+						envoi_iparapheur: false
+				and_2:
+					last-action: 
+						recu-iparapheur
+					content: 
+						envoi_tdt: true
+						envoi_iparapheur: true
+						
+		action-class: TedetisEnvoie
+		action-automatique: verif-tdt
+		
 
-				
-				
-		action-class: TedetisEnvoie
-		action-automatique: verif-tdt
-		
-	send-tdt-2:
-		name-action: Transmettre à la préfecture
-		name: Transmis en préfecture 
-		
-		rule:
-			last-action: 
-				recu-iparapheur
-			role_id_e: editeur
-			droit_id_u: 'actes:edition'
-			document_is_valide: true
-			content: 
-				envoi_tdt: true
-				envoi_iparapheur: true
-		action-class: TedetisEnvoie
-		action-automatique: verif-tdt
 		
 	
 	verif-tdt:
@@ -278,7 +268,6 @@ action:
 		rule:
 			last-action:
 				send-tdt
-				send-tdt-2
 				erreur-verif-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes:edition'

@@ -32,9 +32,6 @@ class ActionCreator extends SQL {
 		
 		$sql = "INSERT INTO document_action(id_d,date,action,id_e,id_u) VALUES (?,?,?,?,?)";
 		$this->query($sql,$this->id_d,$now,$action,$id_e,$id_u);
-				
-		$sql = " UPDATE document SET last_action=? WHERE id_d=?";
-		$this->query($sql,$action,$this->id_d);
 		
 		$sql = "UPDATE document_entite SET last_action=? , last_action_date=? WHERE id_d=? AND id_e=?";
 		$this->query($sql,$action,$now,$this->id_d,$id_e);

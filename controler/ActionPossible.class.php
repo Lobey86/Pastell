@@ -12,13 +12,9 @@ class ActionPossible {
 	private $document;
 	private $entiteSQL;
 	private $donneesFormulaireFactory;
+	private $connecteurEntiteSQL;
 	
-	public function __construct(){		
-		/*****/
-		global $objectInstancier;
-		$this->objectInstancier = $objectInstancier;
-		/*****/
-		
+	public function __construct(ObjectInstancier $objectInstancier){		
 		$this->entiteProperties = $objectInstancier->EntitePropertiesSQL;
 		$this->document = $objectInstancier->Document;
 		$this->documentActionEntite = $objectInstancier->DocumentActionEntite;		
@@ -27,23 +23,13 @@ class ActionPossible {
 		$this->entiteSQL = $objectInstancier->EntiteSQL;
 		$this->documentTypeFactory = $objectInstancier->DocumentTypeFactory;
 		$this->donneesFormulaireFactory = $objectInstancier->DonneesFormulaireFactory;
+		$this->connecteurEntiteSQL = $objectInstancier->ConnecteurEntiteSQL;
 	}
 
 	public function getLastBadRule(){
 		return $this->lastBadRule;
 	}
 	
-	public function isActionPossibleOnConnecteur($id_ce,$id_u,$action_name){		
-		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);		
-		if ($connecteur_entite_info['id_e']){
-			$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
-		} else {
-			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
-		}
-		
-		return $this->internIsActionPossible($connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_e'],$action_name,$documentType);		
-	}
-		
 	public function isActionPossible($id_e,$id_u,$id_d,$action_name){
 		$type_document = $this->getTypeDocument($id_e, $id_d);
 		return $this->internIsActionPossible($id_e, $id_u, $id_d, $action_name,$type_document);
@@ -70,14 +56,18 @@ class ActionPossible {
 		return $possible;
 	}
 	
-	public function getActionPossibleOnConnecteur($id_ce,$id_u){
-		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);		
-		
-		if ($connecteur_entite_info['id_e']){
-			$documentType = $this->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
+	private function getConnecteurDocumentType($id_e,$id_connecteur){		
+		if ($id_e){
+			$documentType = $this->documentTypeFactory->getEntiteDocumentType($id_connecteur);
 		} else {
-			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
+			$documentType = $this->documentTypeFactory->getGlobalDocumentType($id_connecteur);
 		}
+		return $documentType;
+	}
+	
+	public function getActionPossibleOnConnecteur($id_ce,$id_u){
+		$connecteur_entite_info = $this->connecteurEntiteSQL->getInfo($id_ce);		
+		$documentType = $this->getConnecteurDocumentType($connecteur_entite_info['id_e'],$connecteur_entite_info['id_connecteur']);
 		
 		$action = $documentType->getAction();
 		$possible = array();
@@ -88,6 +78,13 @@ class ActionPossible {
 		}
 		return $possible;
 	}
+	
+	public function isActionPossibleOnConnecteur($id_ce,$id_u,$action_name){		
+		$connecteur_entite_info = $this->connecteurEntiteSQL->getInfo($id_ce);		
+		$documentType = $this->getConnecteurDocumentType($connecteur_entite_info['id_e'],$connecteur_entite_info['id_connecteur']);		
+		return $this->internIsActionPossible($connecteur_entite_info['id_e'],$id_u,$connecteur_entite_info['id_e'],$action_name,$documentType);		
+	}
+		
 	
 	private function getTypeDocument($id_e,$id_d){
 		$infoDocument = $this->document->getInfo($id_d);
@@ -115,15 +112,33 @@ class ActionPossible {
 	}
 	
 	private function verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleValue){
+		 
+		if (!strncmp($ruleName, 'and', 3)){				
+			foreach($ruleValue as $ruleName => $ruleElement){
+				if (! $this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleElement)){
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		if (!strncmp($ruleName, 'or', 2)){				
+			foreach($ruleValue as $ruleName => $ruleElement){
+				if ($this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleElement)){					
+					return true;
+				}
+			}
+			return false;
+		}
 		if (is_array($ruleValue) && ! in_array($ruleName,array('collectivite-properties','herited-properties','content','properties'))){
 			foreach($ruleValue as $ruleElement){
 				if ($this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleElement)){					
 					return true;
 				}
 			}
-			
 			return false;
 		}
+		
 		switch($ruleName){			
 			case 'no-last-action' : return $this->verifLastAction($id_e,$id_d,false); break;
 			case 'last-action' : return $this->verifLastAction($id_e,$id_d,$ruleValue); break;
@@ -165,6 +180,7 @@ class ActionPossible {
 	}
 	
 	private function verifContent($id_d,$type,$value){
+		
 		foreach($value as $fieldName => $fieldValue){
 			if (! $this->verifField($id_d,$type,$fieldName,$fieldValue)){
 				return false;
@@ -172,6 +188,7 @@ class ActionPossible {
 		}
 		return true;
 	}
+	
 	
 	private function verifDocumentIsValide($id_d,$type){
 		return $this->donneesFormulaireFactory->get($id_d,$type)->isValidable();

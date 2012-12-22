@@ -29,7 +29,6 @@ class IParapheurEnvoie extends ActionExecutor {
 		}
 		
 		$dossierID = $signature->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
-		
 		$result = $signature->sendDocument($actes->get('iparapheur_type'),
 											$actes->get('iparapheur_sous_type'),
 											$dossierID,
