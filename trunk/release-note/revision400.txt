@@ -1,0 +1,11 @@
+
+
+- Cette révision nécessite une mise à jour de la base de données
+- Il n'est plus nécessaire de vider le cache lors de la modification 
+des fichiers yml de défintions (sans pertes de performance)
+
+- le script batch/document-check.php permet de vérifier que les élements de la base de 
+données (type de document et dernier action d'un document) on bien une définition dans les fichiers 
+YML
+
+ 

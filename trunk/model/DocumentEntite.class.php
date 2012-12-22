@@ -44,4 +44,12 @@ class DocumentEntite extends SQL {
 				" WHERE type = ? AND document_entite.last_action=?"; 
 		return $this->query($sql,$type,$action);
 	}
+	
+	public function getAll($id_e){
+		$sql = "SELECT * FROM document_entite " .
+				" JOIN document ON document_entite.id_d=document.id_d " .
+				" WHERE id_e=?";
+		return $this->query($sql,$id_e);
+	}
+	
 }

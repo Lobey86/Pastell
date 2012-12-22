@@ -20,6 +20,10 @@ class DocumentType {
 		$this->typeDefinition = $typeDefinition;
 	}
 
+	public function exists(){
+		return  !! $this->typeDefinition; 
+	}
+	
 	public function getName(){
 		if (empty($this->typeDefinition[self::NOM])){
 			return $this->type;
@@ -53,6 +57,9 @@ class DocumentType {
 	}
 	
 	public function getTabAction(){
+		if (empty($this->typeDefinition[self::ACTION])){
+			return array();
+		}
 		return $this->typeDefinition[self::ACTION];
 	}
 	
