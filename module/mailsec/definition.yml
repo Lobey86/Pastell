@@ -44,9 +44,10 @@ action:
 				creation
 				modification
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'mailsec:edition'
 		action-class: Supprimer
-		
+	
+	
 	envoi :
 		name-action: Envoyer
 		name: Envoyé

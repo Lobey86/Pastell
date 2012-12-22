@@ -38,13 +38,6 @@ class Controler {
 		return $this->viewParameter;
 	}
 	
-	public function selectView($view){
-		$this->selectedView = $view;
-	}
-	
-	public function getSelectedView(){
-		return $this->selectedView;
-	}
 	
 	
 	public function exitToIndex(){
@@ -58,14 +51,14 @@ class Controler {
 	}
 	
 	public function renderDefault(){
-		$template_milieu = $this->getSelectedView();
+		$template_milieu = $this->viewParameter['template_milieu'];
+		
 		if (! $this->Gabarit->templateExists($template_milieu)){
 			header("HTTP/1.0 404 Not Found");
 			echo "Cette page n'existe pas";
 			return;
 		} 
 		
-		$this->template_milieu = $template_milieu;
 		$this->Gabarit->setParameters($this->getViewParameter());
 		$this->Gabarit->render("Page");
 	}
