@@ -6,9 +6,12 @@ class YMLLoader {
 	
 	public function getArray($filename){
 		ob_start();
-		include($filename);
-		$content = ob_get_clean();
+		@ $err = include($filename);
 		
+		$content = ob_get_clean();
+		if (!$err){
+			return false;
+		}
 		$md5 = md5($content);
 		$md5_cache = apc_fetch( self::CACHE_PREFIX_MD5 . $filename );		
 		if ($md5 == $md5_cache){

@@ -24,12 +24,3 @@ Copier le fichier batch pastell-upstart.conf vers le repertoire de configuration
 
 VI. Mettre en place un crontab 
 50 4 * * * recup-classification.php
-
-
-
-
-Mise à jour des scripts, installation de nouveau module, 
-modification d'un fichier de configuration : 
-il peut être nécessaire de recharger Apache (afin de vider 
-le cache APC)
-(TODO : développer un script de vidange du cache)
