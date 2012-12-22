@@ -14,7 +14,7 @@ if (!$info || ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$info['type']);
 
-$documentType = $documentTypeFactory->getDocumentType($info['type']);
+$documentType = $documentTypeFactory->getFluxDocumentType($info['type']);
 $formulaire = $documentType->getFormulaire();
 
 $actionPossible = $objectInstancier->ActionPossible;

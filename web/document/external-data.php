@@ -23,7 +23,7 @@ if (  ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$
 	exit;
 }
 
-$documentType = $documentTypeFactory->getDocumentType($type);
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
 $formulaire = $documentType->getFormulaire();
 
 $theField = $formulaire->getField($field);

@@ -34,7 +34,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getDocumentType($type);
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
 $formulaire = $documentType->getFormulaire();
 
 $entite = new Entite($sqlQuery,$id_e);

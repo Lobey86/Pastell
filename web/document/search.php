@@ -47,7 +47,7 @@ include( PASTELL_PATH ."/include/haut.php");
 
 $allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 $listeEtat = $documentTypeFactory->getActionByRole($allDroit);
-$documentTypeHTML = new DocumentTypeHTML();
+$documentTypeHTML = $objectInstancier->DocumentTypeHTML;
 $documentTypeHTML->setDroit($allDroit);
 $liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 
@@ -61,7 +61,7 @@ $liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 <table>
 	<tr>
 	<th>Type de document</th>
-	<td><?php  $documentTypeHTML->displaySelect($documentTypeFactory,$type); ?></td>
+	<td><?php  $documentTypeHTML->displaySelect($type); ?></td>
 	</tr>
 	<tr>
 	<th>Collectivité</th>

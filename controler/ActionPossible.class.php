@@ -111,7 +111,7 @@ class ActionPossible {
 	}
 	
 	private function getAction($id_e, $id_d,$type_document){
-		return $this->documentTypeFactory->getDocumentType($type_document)->getAction();
+		return $this->documentTypeFactory->getFluxDocumentType($type_document)->getAction();
 	}
 	
 	private function verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleValue){

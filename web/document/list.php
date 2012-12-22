@@ -22,7 +22,7 @@ if (! $type){
 }
 
 
-$documentType = $documentTypeFactory->getDocumentType($type);
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
 
 $liste_collectivite = $roleUtilisateur->getEntite($authentification->getId(),$type.":lecture");
 

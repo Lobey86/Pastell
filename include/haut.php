@@ -40,7 +40,7 @@ if ($authentification->isConnected()){
 	
 	$allType = array();
 
-	$allDocType = $objectInstancier->DocumentTypeFactory->getAllType();
+	$allDocType = $objectInstancier->FluxDefinitionFiles->getAllType();
 	$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 
 	foreach($allDocType as $type_flux => $les_flux){

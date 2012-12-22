@@ -21,7 +21,7 @@ $entite = new Entite($sqlQuery,$id_e);
 
 $infoEntite = $entite->getInfo();
 
-$documentType = $documentTypeFactory->getDocumentType('mailsec-destinataire');
+$documentType = $documentTypeFactory->getFluxDocumentType('mailsec-destinataire');
 $formulaire = $documentType->getFormulaire();
 $donneesFormulaire = $donneesFormulaireFactory->get($info['id_d'],'mailsec-destinataire');
 

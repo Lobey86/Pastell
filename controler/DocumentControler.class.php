@@ -34,7 +34,7 @@ class DocumentControler extends PastellControler {
 		$info_document = $this->verifDroitLecture($id_e, $id_d);
 		$this->Journal->addConsultation($id_e,$id_d,$this->Authentification->getId());
 		
-		$documentType = $this->DocumentTypeFactory->getDocumentType($info_document['type']);
+		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($info_document['type']);
 		
 
 		$this->info = $info_document;

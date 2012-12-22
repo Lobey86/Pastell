@@ -17,12 +17,6 @@ include (PASTELL_PATH."/include/bloc_message.php"); ?>
 <div class="box_contenu clearfix">
 
 
-<h2>Cache</h2>
-
-<a href='system/vide-cache.php'>Vider le cache des fichiers de conf YML</a>
-
-<br/>
-<br/>
 <h2>Upstart</h2>
 Dernier lancement du script action-automatique (par upstart ou crontab) : <?php echo $objectInstancier->LastUpstart->getLastMtime(); ?> 
 

@@ -68,7 +68,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function getFormulaire(){
-		$formulaire = $this->objectInstancier->DocumentTypeFactory->getDocumentType($this->type)->getFormulaire();
+		$formulaire = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($this->type)->getFormulaire();
 		$formulaire->addDonnesFormulaire($this->getDonneesFormulaire());
 		return $formulaire;
 	}
@@ -118,7 +118,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function getActionName(){
-		return $this->getDocumentTypeFactory()->getDocumentType($this->type)->getAction()->getActionName($this->action);
+		return $this->getDocumentTypeFactory()->getFluxDocumentType($this->type)->getAction()->getActionName($this->action);
 	}
 	
 	

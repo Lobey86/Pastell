@@ -17,10 +17,6 @@ class DocumentTypeFactory {
 		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
 	}
 	
-	public function getDocumentType($type){
-		return new DocumentType($type,$this->getDocumentTypeContent($type));
-	}
-	
 	public function getGlobalDocumentType($id_connecteur){
 		$connecteur_definition = $this->connecteurDefinitionFiles->getInfoGlobal($id_connecteur); 
 		if (!$connecteur_definition){
@@ -51,12 +47,7 @@ class DocumentTypeFactory {
 
 	
 	/***********************/
-	
-	public function isTypePresent($type){
-		$all = $this->getAllType();
-		return isset($all[$type]);
-	}
-	
+
 
 	public function getActionByRole($allDroit){
 		foreach($allDroit as $droit){
@@ -65,7 +56,11 @@ class DocumentTypeFactory {
 		}
 		$allType = array_keys($allType);
 		foreach($allType as $typeName){
-			$action = $this->getDocumentType($typeName)->getAction();
+			try {
+				$action = $this->getFluxDocumentType($typeName)->getAction();
+			} catch (Exception $e ){
+				continue;
+			}
 			foreach ($action->getAll() as $actionName){
 				$affiche_name = $action->getActionName($actionName);
 				$result[$typeName][$affiche_name][] = $actionName;
@@ -75,74 +70,5 @@ class DocumentTypeFactory {
 		return $result;
 	}
 	
-	public function getAutoAction(){ 
-		$result = array();	
-		foreach ( $this->getTypeDocument() as $typeName){
-			$autoAction = $this->getDocumentType($typeName)->getAction()->getAutoAction();
-			if ($autoAction){
-				$result[$typeName] = $autoAction;
-			}
-		}
-		return $result;
-	}
-
-	public function getTypeByDroit($allDroit){
-		foreach($allDroit as $droit){
-			$r = explode(":",$droit);
-			$allType[$r[0]] = true;
-		}
-		$allType = array_keys($allType);
-		foreach($this->getAllType() as $type_flux => $les_flux){
-			foreach($les_flux as $nom => $affichage) {
-				if (in_array($nom,$allType)){
-					$result[$nom] = $affichage;
-				}				
-			}
-		}
-		return $result;
-	}
-	
-	/************************/
-	
-	private function getDocumentTypeContent($type){
-		if (! isset($this->formlulaireDefinition[$type])){
-			$this->loadFile($type);			
-		}		
-		return $this->formlulaireDefinition[$type] ;
-	}
-	
-	private function loadFile($type){		
-		if (file_exists($this->module_path."/$type/definition.yml")){
-			$filename = $this->module_path."/$type/definition.yml";
-		} 
-		
-		if (! $filename) {
-			throw new Exception("Type de document « $type » inconnu");
-		}
-		
-		
-		$this->formlulaireDefinition[$type] = $this->getYMLFile($filename);	
-		
-	}
-	
-	private function getYMLFile($filename){
-		$result = apc_fetch("yml_cache_$filename");
-		if (!$result){
-			$result = Spyc::YAMLLoad($filename);
-			apc_store("yml_cache_$filename",$result);
-		}		
-		return $result; 
-	}
-	
-	private function getTypeDocument(){
-		$result = array();
-		$allType = $this->getAllType();
-		foreach($allType as $type => $docType){
-			foreach($docType as $name => $value){
-				$result[] = $name;
-			}
-		}
-		return $result;	
-	}
 	
 }
