@@ -21,13 +21,11 @@ include (PASTELL_PATH."/include/bloc_message.php"); ?>
 Dernier lancement du script action-automatique (par upstart ou crontab) : <?php echo $objectInstancier->LastUpstart->getLastMtime(); ?> 
 
 
-<?php if ( ENABLE_VERIF_ENVIRONNEMENT ) :  ?>
 <br/>
 <br/>
 <h2>Vérification de l'environnement</h2>
 <a href='system/verif-environnement.php'>Vérifier l'environnement</a>
 <br/><br/>
-<?php endif; ?>
 
 
 </div>

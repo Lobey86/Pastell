@@ -374,11 +374,9 @@ action:
 				has_ged: manuel
 		action-class: Defaut
 	
-	send-archive:
-	
+	send-archive:	
 		name-action: Verser au SAE
-		name: Versé au SAE
-	
+		name: Versé au SAE	
 		rule:
 			has-action:
 				recu-cdg

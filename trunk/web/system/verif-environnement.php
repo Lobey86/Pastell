@@ -1,27 +1,27 @@
 <?php
-
 require_once(dirname(__FILE__)."/../init.php");
+if  (! $roleUtilisateur->hasDroit($authentification->getId(),'test:lecture',0)){
+	header("Location: ".SITE_BASE . "/index.php");
+	exit;
+}
+
+$checkExtension = $objectInstancier->VerifEnvironnement->checkExtension();
+$checkPHP = $objectInstancier->VerifEnvironnement->checkPHP();
+$checkWorkspace = $objectInstancier->VerifEnvironnement->checkWorkspace();
 
 
-$extensionNeeded = array("curl","mysql","openssl","simplexml","imap","apc","soap","bcmath","ssh2","pdo","pdo_mysql","zip","phar");
 
 $valeurMinimum = array(
-			"PHP" => "5.3",
+			"PHP" => $checkPHP['min_value'],
 			"OpenSSL" => '1.0.0a',
 );
 
 $page_title = "Vérification de l'environnement";
 
-if ( ! ENABLE_VERIF_ENVIRONNEMENT ){
-	$lastError->setLastError("La vérification de l'environnement est désactivé sur ce serveur");
-	header("Location: index.php");
-	exit;
-}
-
 $cmd =  OPENSSL_PATH . " version";
 $openssl_version = `$cmd`;
 $valeurReel['OpenSSL'] = $openssl_version;
-$valeurReel['PHP'] = phpversion();
+$valeurReel['PHP'] = $checkPHP['environnement_value'];
 
 
 include( PASTELL_PATH ."/include/haut.php");
@@ -36,16 +36,16 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <tr>
 	<th>Révision</th>
-	<td><?php echo nl2br(file_get_contents( PASTELL_PATH."/revision.txt")) ?></td>
+	<td><?php echo nl2br(utf8_decode(file_get_contents( PASTELL_PATH."/revision.txt"))) ?></td>
 </tr>
 </table>
 <h2>Extensions PHP</h2>
 
 <table class='tab_04'>
-	<?php foreach($extensionNeeded as $extension) : ?>
+	<?php foreach($checkExtension as $extension => $is_ok) : ?>
 		<tr>
 			<th><?php echo $extension ?></th>
-			<td><?php echo extension_loaded($extension)?"ok":"<b style='color:red'>CETTE EXTENSION N'EST PAS INSTALLEE</b>"; ?></td>
+			<td><?php echo $is_ok?"ok":"<b style='color:red'>CETTE EXTENSION N'EST PAS INSTALLEE</b>"; ?></td>
 		</tr>
 	<?php endforeach;?>
 </table>
@@ -87,7 +87,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <table class='tab_04'>
 	<tr>
 		<td><?php echo WORKSPACE_PATH ?> accessible en lecture/écriture ?</td>
-		<td><?php echo is_readable(WORKSPACE_PATH) && is_writable(WORKSPACE_PATH)?"ok":"NON"?></td>
+		<td><?php echo $checkWorkspace?"ok":"<b style='color:red'>NON</b>"?></td>
 	</tr>
 </table>
 
