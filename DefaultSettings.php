@@ -61,11 +61,6 @@ if (! defined("OPENSSL_PATH")){
 	define("OPENSSL_PATH","/usr/bin/openssl");
 }
 
-//Si présent, alors il est possible de vérifier l'environnement sur la page de test
-if (! defined("ENABLE_VERIF_ENVIRONNEMENT")){
-	define("ENABLE_VERIF_ENVIRONNEMENT",true);
-}
-
 //Racine du site Pastell
 //ex : http://pastell.sigmalis.com/
 //ex : http://www.sigmalis.com/pastell/
