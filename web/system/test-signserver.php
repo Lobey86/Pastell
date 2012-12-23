@@ -19,4 +19,4 @@ if (! $timestamp_reply){
 
 $lastMessage->setLastMessage("Ok timestamp = " . $signServer->getLastTimestamp());
 
-header("Location: index.php");
+header("Location: index.php?page_number=1");

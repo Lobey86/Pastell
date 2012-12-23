@@ -1,33 +1,3 @@
-<?php
-require_once(dirname(__FILE__)."/../init.php");
-if  (! $roleUtilisateur->hasDroit($authentification->getId(),'test:lecture',0)){
-	header("Location: ".SITE_BASE . "/index.php");
-	exit;
-}
-
-$checkExtension = $objectInstancier->VerifEnvironnement->checkExtension();
-$checkPHP = $objectInstancier->VerifEnvironnement->checkPHP();
-$checkWorkspace = $objectInstancier->VerifEnvironnement->checkWorkspace();
-
-
-
-$valeurMinimum = array(
-			"PHP" => $checkPHP['min_value'],
-			"OpenSSL" => '1.0.0a',
-);
-
-$page_title = "Vérification de l'environnement";
-
-$cmd =  OPENSSL_PATH . " version";
-$openssl_version = `$cmd`;
-$valeurReel['OpenSSL'] = $openssl_version;
-$valeurReel['PHP'] = $checkPHP['environnement_value'];
-
-
-include( PASTELL_PATH ."/include/haut.php");
-
-?>
-
 
 <div class="box_contenu clearfix">
 
@@ -106,5 +76,3 @@ include( PASTELL_PATH ."/include/haut.php");
 <br/>
 
 </div>
-<?php 
-include( PASTELL_PATH ."/include/bas.php");

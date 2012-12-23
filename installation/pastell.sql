@@ -1,3 +1,12 @@
+CREATE TABLE action_auto_log (
+	`id_e` int(11) NOT NULL,
+	`id_d` varchar(16) NOT NULL,
+	`etat_source` varchar(16) NOT NULL,
+	`etat_cible` varchar(16) NOT NULL,
+	`date` datetime NOT NULL,
+	`message` varchar(255) NOT NULL,
+	UNIQUE KEY id_e (`id_e`,`id_d`,`date`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE agent (
 	`id_a` int(11) NOT NULL AUTO_INCREMENT,
 	`matricule` varchar(64) NOT NULL,

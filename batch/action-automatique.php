@@ -19,10 +19,9 @@ foreach($objectInstancier->fluxDefinitionFiles->getAll() as $type => $config){
 		foreach ($documentEntite->getFromAction($type,$etat_actuel) as $infoDocument){
 			echo "Traitement de ({$infoDocument['id_e']},{$infoDocument['id_d']},{$infoDocument['type']},$etat_actuel->$etat_cible) : ";
 			$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($infoDocument['id_e'],0,$infoDocument['id_d'],$etat_cible,array(),true);
-			if (! $result){
-				echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
-			}
-			echo "\n";
+			$message =  $objectInstancier->ActionExecutorFactory->getLastMessage();
+			$objectInstancier->ActionAutoLogSQL->add($infoDocument['id_e'],$infoDocument['id_d'],$etat_actuel,$etat_cible,$message);
+			echo "$message\n";
 		}
 	}
 }
