@@ -28,7 +28,7 @@ include( PASTELL_PATH ."/include/haut.php");
 ?>
 <?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
-<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=2'>« Retour</a>
+<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=3'>« Retour</a>
 <br/><br/>
 
 <div class="box_contenu clearfix">

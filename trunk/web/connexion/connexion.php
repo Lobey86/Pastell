@@ -4,12 +4,28 @@ require_once(dirname(__FILE__)."/../init.php");
 $page="connexion";
 $page_title="Connexion";
 
+
+$messageConnexion = $objectInstancier->ConnecteurFactory->getGlobalConnecteur("message-connexion");
+
+if ($messageConnexion){
+	$message_connexion = $messageConnexion->getMessage();
+} else {
+	$message_connexion = false;
+}
+
 include( PASTELL_PATH ."/include/haut.php");
 ?>
 
 <div class="w500">
 
 <?php include (PASTELL_PATH."/include/bloc_message.php"); ?>
+
+<?php if ($message_connexion) : ?>
+<div class="box_contenu clearfix">
+	<?php echo nl2br(htmlentities($message_connexion))?>
+</div>
+<?php endif;?>
+
 
 <?php 
 

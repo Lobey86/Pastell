@@ -129,8 +129,7 @@ abstract class ActionExecutor {
 	}
 	
 	public function getGlobalConnecteur($type){
-		$dispo = $this->objectInstancier->ConnecteurEntiteSQL->getDisponible(0,$type);
-		return $this->objectInstancier->ConnecteurFactory->getConnecteurById($dispo[0]['id_ce']);
+		return $this->objectInstancier->ConnecteurFactory->getGlobalConnecteur($type);
 	}
 	
 	public function getMyConnecteur(){
