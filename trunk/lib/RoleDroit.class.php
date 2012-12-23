@@ -15,8 +15,8 @@ class RoleDroit {
 						'role:lecture',
 						'role:edition',
 						'journal:lecture',
-						'test:lecture',
-						'test:edition',
+						'system:lecture',
+						'system:edition',
 						'annuaire:lecture',
 						'annuaire:edition',
 					);

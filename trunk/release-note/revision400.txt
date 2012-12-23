@@ -17,3 +17,5 @@ Pour cette révision, il faut lancer les commandes suivantes :
 fix-action.php actes send-tdt-2 send-tdt
 fix-action.php actes send-cdg-manuel send-cdg
 fix-action.php actes send-cdg-manuel-2 send-cdg
+
+- les droits test:XXX deviennent system:XXX : il faut penser à modifier les rôles (notamment admin)

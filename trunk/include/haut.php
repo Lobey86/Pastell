@@ -29,7 +29,7 @@ if ($authentification->isConnected()){
 	
 	$pageDecorator->addToMainMenu("Aide", AIDE_URL ,"picto_aide");
 	
-	if  ($roleUtilisateur->hasDroit($authentification->getId() ,'test:lecture',0)) {
+	if  ($roleUtilisateur->hasDroit($authentification->getId() ,'system:lecture',0)) {
 		$pageDecorator->addToMainMenu("Environnement système", SITE_BASE . "system/index.php","picto_collectivites");
 	}
 	
