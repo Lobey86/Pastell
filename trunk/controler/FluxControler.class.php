@@ -41,10 +41,21 @@ class FluxControler extends PastellControler {
 		$recuperateur = new Recuperateur($_POST);
 		$id_e = $recuperateur->getInt('id_e');
 		$this->hasDroitLecture($id_e);
-		$this->all_flux = $this->FluxDefinitionFiles->getAll();
-		$this->all_flux_entite = $this->FluxEntiteSQL->getAll($id_e);
 		$this->id_e = $id_e;
-		$this->render("FluxList");
+		$this->all_flux_entite = $this->FluxEntiteSQL->getAll($id_e);
+		
+		
+		if ($id_e){
+			$this->all_flux = $this->FluxDefinitionFiles->getAll();
+			$this->render("FluxList");
+		} else {
+			$this->all_flux = $this->ConnecteurDefinitionFiles->getAllGlobal();
+			$this->all_flux_global = $this->all_flux_entite['global'];
+			$this->render("FluxGlobalList");
+		}
+		
+		
+		
 	}
 	
 	

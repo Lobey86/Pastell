@@ -41,6 +41,13 @@ class ConnecteurControler extends PastellControler {
 		$this->hasDroitOnConnecteur($id_ce);
 		$info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
 		
+		$id_used = $this->FluxEntiteSQL->isUsed($info['id_ce']); 
+		
+		if ($id_used){
+			$this->LastError->setLastError("Ce connecteur est utilisé par des flux :  " . implode(", ",$id_used));
+			$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
+		}
+		
 		$this->ConnecteurEntiteSQL->delete($id_ce);
 
 		$this->LastMessage->setLastMessage("Le connecteur « {$info['libelle']} » a été supprimé");

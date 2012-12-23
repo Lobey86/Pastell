@@ -26,6 +26,9 @@ class ConnecteurFactory {
 	}
 	
 	private function getConnecteurObjet($connecteur_info){
+		if (!$connecteur_info){
+			return false;
+		}
 		$class_name = $this->objectInstancier->ConnecteurDefinitionFiles->getConnecteurClass($connecteur_info['id_connecteur']);
 		$connecteurObject = $this->objectInstancier->newInstance($class_name);
 		$connecteurObject->setConnecteurConfig($this->getConnecteurConfig($connecteur_info['id_ce']));		
@@ -37,11 +40,7 @@ class ConnecteurFactory {
 	}
 		
 	public function getGlobalConnecteur($type){
-		$dispo = $this->objectInstancier->ConnecteurEntiteSQL->getDisponible(0,$type);
-		if (! $dispo){
-			return false;
-		}
-		return $this->objectInstancier->ConnecteurFactory->getConnecteurById($dispo[0]['id_ce']);
+		return $this->getConnecteurByType(0,'global',$type);
 	}
 	
 }

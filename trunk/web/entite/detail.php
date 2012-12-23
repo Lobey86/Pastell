@@ -14,7 +14,7 @@ if ($id_e){
 	$page_title = "Détail " . $info['denomination'];
 	$formulaire_tab = array("Informations générales","Utilisateurs","Agents","Connecteurs","Flux" );
 } else {
-	$formulaire_tab = array("Entité","Utilisateurs","Agents","Connecteurs","Annuaire" );
+	$formulaire_tab = array("Entité","Utilisateurs","Agents","Connecteurs globaux","Associations connecteurs" ,"Annuaire" );
 	$page_title = "Administration";
 }
 
@@ -47,16 +47,16 @@ elseif($tab_number == 1) :
 	$objectInstancier->EntiteControler->listUtilisateur();
 elseif($tab_number == 2) :
 	$objectInstancier->AgentControler->listAgent();
-	
 elseif($tab_number==3) :
 	$objectInstancier->ConnecteurControler->listConnecteur();
 elseif($tab_number == 4 ) :
-	if ($id_e){
-		$objectInstancier->FluxControler->listFlux();
-	} else {
+	$objectInstancier->FluxControler->listFlux();
+elseif($tab_number == 5 ): 
 		?><a href='mailsec/annuaire.php'>Annuaire global »</a><?php 
-	}
+	
  endif;
+ 
+ 
  ?>
 
 </div>

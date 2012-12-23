@@ -29,7 +29,7 @@ include( PASTELL_PATH ."/include/haut.php");
 include(PASTELL_PATH . "/include/bloc_message.php");
 
 ?>
-<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=3'>« Administration de <?php echo $infoEntite['denomination']?></a>
+<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=5'>« Administration de <?php echo $infoEntite['denomination']?></a>
 <br/><br/>
 <a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes »</a>
 <br/>

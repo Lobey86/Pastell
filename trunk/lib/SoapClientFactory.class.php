@@ -1,7 +1,7 @@
 <?php
 class SoapClientFactory {
 	
-	public function getInstance($wsdl,array $options = array(),$is_jax_ws){
+	public function getInstance($wsdl,array $options = array(),$is_jax_ws = false){
 		return new NotBuggySoapClient($wsdl, $options,$is_jax_ws);
 	}
 	

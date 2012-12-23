@@ -30,7 +30,13 @@ include( PASTELL_PATH ."/include/haut.php");
 
 <tr>
 <th>Flux</th>
-<td><?php hecho($objectInstancier->DocumentTypeFactory->getFluxDocumentType($flux)->getName() );?></td>
+<td>
+	<?php if($id_e) : ?>
+	<?php hecho($objectInstancier->DocumentTypeFactory->getFluxDocumentType($flux)->getName() );?>
+	<?php else: ?>
+		global
+	<?php endif;?>	
+</td>
 </tr>
 <tr>
 <th>Type de connecteur nécessaire</th>
