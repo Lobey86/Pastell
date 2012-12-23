@@ -56,4 +56,6 @@ class ConnecteurDefinitionFiles {
 		return $class_name;
 	}
 	
+	
+	
 }

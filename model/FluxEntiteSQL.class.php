@@ -22,11 +22,21 @@ class FluxEntiteSQL extends SQL {
 	}
 
 	public function addConnecteur($id_e,$flux,$type,$id_ce){
+		if (!$id_e){
+			$flux = 'global';
+		}
 		$sql = "DELETE FROM flux_entite " .
 				" WHERE id_e=? AND type=? AND flux=?";
 		$this->query($sql,$id_e,$type,$flux);
 		$sql = "INSERT INTO flux_entite(id_e,flux,type,id_ce) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$flux,$type,$id_ce);
+	}
+	
+	public function isUsed($id_ce){
+			$sql = "SELECT flux FROM flux_entite".
+				" JOIN connecteur_entite ON flux_entite.id_ce=connecteur_entite.id_ce " .
+				" WHERE connecteur_entite.id_ce=?";
+			return $this->queryOneCol($sql,$id_ce);
 	}
 	
 }
