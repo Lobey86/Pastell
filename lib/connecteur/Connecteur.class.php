@@ -6,7 +6,7 @@ abstract class Connecteur {
 	
 	protected $lastError;
 	
-	abstract function setConnecteurConfig(DonneesFormulaire $donnesFormulaire);
+	abstract function setConnecteurConfig(DonneesFormulaire $donneesFormulaire);
 		
 	public function getLastError(){
 		return $this->lastError;

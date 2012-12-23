@@ -36,5 +36,12 @@ class ConnecteurFactory {
 		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 	}
 		
+	public function getGlobalConnecteur($type){
+		$dispo = $this->objectInstancier->ConnecteurEntiteSQL->getDisponible(0,$type);
+		if (! $dispo){
+			return false;
+		}
+		return $this->objectInstancier->ConnecteurFactory->getConnecteurById($dispo[0]['id_ce']);
+	}
 	
 }
