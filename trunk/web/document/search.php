@@ -47,9 +47,11 @@ include( PASTELL_PATH ."/include/haut.php");
 
 $allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
 $listeEtat = $documentTypeFactory->getActionByRole($allDroit);
+
+
 $documentTypeHTML = $objectInstancier->DocumentTypeHTML;
 $documentTypeHTML->setDroit($allDroit);
-$liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
+$liste_type = $objectInstancier->FluxDefinitionFiles->getTypeByDroit($allDroit);
 
 ?>
 
@@ -82,9 +84,9 @@ $liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 			<option value=''>N'importe quel état</option>
 			<?php foreach($listeEtat as $typeDocument => $allEtat): ?>
 				<optgroup label="<?php hecho($typeDocument) ?>">
-				<?php foreach($allEtat as $nameEtat => $arrayEtat): ?>
-				<option value='<?php echo implode(",",$arrayEtat) ?>' <?php echo $lastEtat == implode(",",$arrayEtat)?"selected='selected'":"";?>>
-					<?php echo $nameEtat?>
+				<?php foreach($allEtat as $nameEtat => $libelle): ?>
+				<option value='<?php echo $nameEtat ?>' <?php echo $lastEtat == $nameEtat?"selected='selected'":"";?>>
+					<?php echo $libelle ?>
 				</option>
 					<?php endforeach ; ?>
 				</optgroup>
@@ -102,15 +104,15 @@ $liste_type = $documentTypeFactory->getTypeByDroit($allDroit);
 		<th>Passé par l'état</th>
 		<td><select name='etatTransit'>
 			<option value=''>----</option>
-			<?php foreach($listeEtat as $typeDocument => $allEtat): ?>
-							<optgroup label="<?php hecho($typeDocument) ?>">
-							<?php foreach($allEtat as $nameEtat => $arrayEtat): ?>
-							<option value='<?php echo implode(",",$arrayEtat) ?>' <?php echo $etatTransit == implode(",",$arrayEtat)?"selected='selected'":"";?>>
-								<?php echo $nameEtat?>
-							</option>
-								<?php endforeach ; ?>
-							</optgroup>
-						<?php endforeach ; ?>
+				<?php foreach($listeEtat as $typeDocument => $allEtat): ?>
+				<optgroup label="<?php hecho($typeDocument) ?>">
+				<?php foreach($allEtat as $nameEtat => $libelle): ?>
+				<option value='<?php echo $nameEtat ?>' <?php echo $etatTransit == $nameEtat?"selected='selected'":"";?>>
+					<?php echo $libelle ?>
+				</option>
+					<?php endforeach ; ?>
+				</optgroup>
+			<?php endforeach ; ?>
 
 		</select></td>
 	</tr>

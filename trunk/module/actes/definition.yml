@@ -391,42 +391,49 @@ action:
 		
 	envoi-iparapheur-change:		
 		name: Modification envoi-iparapheur
+		no-workflow: true
 		rule:
 			role_id_e: no-role	
 		action-class: EnvoieIparapheurChange
 	
 	agent-non-reference:
 		name: Agent non référencé
+		no-workflow: true
 		rule:
 			role_id_e: no-role
 		action-class: AgentNonReference
 		
 	list-agent:
 		name: Liste des agent
+		no-workflow: true
 		rule:
 			role_id_e: no-role
 		action-class: ListAgent		
 
 	list-grade:
 		name: Liste des grades
+		no-workflow: true
 		rule: 
 			role_id_e: no-role
 		action-class: ListGrade
 
 	iparapheur-sous-type:
 		name: Liste des sous-type iParapheur
+		no-workflow: true
 		rule: 
 			role_id_e: no-role
 		action-class: IparapheurSousType
 	
 	classification: 
 		name: Classification ACTES
+		no-workflow: true
 		rule:
 			role_id_e: no-role
 		action-class: Classification
 	
 	nomemclature:
 		name: Nomemclature du CDG
+		no-workflow: true
 		rule:
 			role_id_e: no_role
 		action-class: Nomemclature

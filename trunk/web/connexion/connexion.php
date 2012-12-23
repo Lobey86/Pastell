@@ -21,7 +21,7 @@ include( PASTELL_PATH ."/include/haut.php");
 <?php include (PASTELL_PATH."/include/bloc_message.php"); ?>
 
 <?php if ($message_connexion) : ?>
-<div class="box_contenu clearfix">
+<div class="box_contenu box_msg_connexion clearfix">
 	<?php echo nl2br(htmlentities($message_connexion))?>
 </div>
 <?php endif;?>

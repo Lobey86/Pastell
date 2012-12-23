@@ -14,6 +14,7 @@ class Action {
 	const ACTION_AUTOMATIQUE = "action-automatique";
 	const ACTION_DESTINATAIRE = "action-selection";
 	const WARNING = "warning";
+	const NO_WORKFLOW = "no-workflow";
 	
 	const CREATION = "creation";
 	const MODIFICATION = "modification";
@@ -102,6 +103,17 @@ class Action {
 	
 	public function getWarning($action){
 		return $this->getProperties($action,self::WARNING);
+	}
+	
+	public function getWorkflowAction(){
+		$result = array();
+		foreach($this->getAll() as $actionName){
+			$no_workflow = $this->getProperties($actionName,self::NO_WORKFLOW);
+			if (! $no_workflow){
+				$result[$actionName] = $this->getActionName($actionName);
+			}	
+		}
+		return $result;
 	}
 	
 }

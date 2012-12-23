@@ -84,8 +84,10 @@ action:
 	
 	type-message:
 		name: Choisir un type de message
+		no-workflow: true
 		rule:
 			role_id_e: no-role
 		action-class: TypeMessage
+		
 		
 	

@@ -400,4 +400,12 @@ height:24px;
 	width: 150px;
 }
 
+.box_msg_connexion {
+    background:url(images/ilu_info_connexion.png) 6px 4px no-repeat #FFFEF1;
+    padding-left:46px;
+    border:1px solid #F3CD4B;
+    color:#57553F;
+    min-height:20px;
+}
+
 
