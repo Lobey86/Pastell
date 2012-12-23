@@ -65,4 +65,23 @@ class OpensslTSWrapper {
 		return false;	
 	}
 	
+	public function createTimestampReply($timestampRequest,$signerCertificate,$signerKey,$signerKeyPassword,$configFile){		
+		$timestampRequestFile = $this->getTmpFile($timestampRequest);
+		$timestampReplyFile = $this->getTmpFile("");
+		
+		$command = $this->opensslPath . " ts -reply " . 
+					" -queryfile $timestampRequestFile" .
+					" -signer " . $signerCertificate . 
+					" -inkey " . $signerKey . 
+					" -passin pass:".$signerKeyPassword . 
+					" -out $timestampReplyFile " . 
+					" -config " . $configFile;
+		shell_exec($command);
+		
+		$timestampReply = file_get_contents($timestampReplyFile);
+		unlink($timestampRequestFile);
+		unlink($timestampReplyFile);
+		return $timestampReply;
+	}	
+	
 }

@@ -34,7 +34,6 @@ $objectInstancier->template_path = __DIR__."/../template/";
 
 
 $objectInstancier->opensslPath = OPENSSL_PATH;
-$objectInstancier->sign_server_url = SIGN_SERVER_URL;
 
 $objectInstancier->logFile = LOG_FILE;
 $objectInstancier->zLog->setLogLevel(LOG_LEVEL);
@@ -51,13 +50,18 @@ if ($objectInstancier->Authentification->isConnected()) {
 }
 $objectInstancier->Journal->setId($id_u_journal);
 
+$horodateur = $objectInstancier->ConnecteurFactory->getGlobalConnecteur('horodateur');
+if ($horodateur){
+	$objectInstancier->Journal->setHorodateur($horodateur);
+}
+
+
 $zLog = $objectInstancier->zLog;
 $sqlQuery = $objectInstancier->SQLQuery;
 $versionning = $objectInstancier->Versionning;
 $lastError = $objectInstancier->LastError;
 $lastMessage = $objectInstancier->LastMessage;
 $authentification = $objectInstancier->Authentification;
-$signServer = $objectInstancier->SignServer;
 $journal = $objectInstancier->Journal;
 $documentTypeFactory = $objectInstancier->DocumentTypeFactory;
 $donneesFormulaireFactory = $objectInstancier->DonneesFormulaireFactory;

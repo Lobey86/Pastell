@@ -14,13 +14,17 @@ class Journal extends SQL {
 	const ENVOI_MAIL = 8;
 	
 	private $id_u;
-	private $signServer;
 	private $utilisateurSQL;
 	
-	public function __construct(SignServer $signServer, SQLQuery $sqlQuery){
+	private $horodateur;
+	
+	public function __construct(SQLQuery $sqlQuery){
 		parent::__construct($sqlQuery);
-		$this->signServer = $signServer;
 		$this->utilisateurSQL = new Utilisateur($sqlQuery);
+	}
+	
+	public function setHorodateur(Horodateur $horodateur){
+		$this->horodateur = $horodateur;
 	}
 	
 	public function setId($id_u){
@@ -50,11 +54,11 @@ class Journal extends SQL {
 		$now = date(Date::DATE_ISO);
 		$message_horodate = "$type - $id_e - $id_u - $id_d - $action - $message - $now";
 		
-		$preuve = $this->signServer->getTimestampReply($message_horodate);
-		$date_horodatage = "";
-		if ($preuve){
-			$date_horodatage = $this->signServer->getLastTimestamp();
+		if ($this->horodateur){
+			$preuve = $this->horodateur->getTimestampReply($message_horodate);
+			$date_horodatage = $this->horodateur->getTimeStamp($preuve);
 		}
+
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
 		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
 		
@@ -168,20 +172,20 @@ class Journal extends SQL {
 	}
 	
 	public function horodateAll(){
+		if (! $this->horodateur){
+			echo "Aucun horodateur configuré\n";
+			return;
+		}
 		$sql = "SELECT * FROM journal WHERE preuve=?";
 		$all = $this->query($sql,"");
 		$sql = "UPDATE journal set preuve=?,date_horodatage=? WHERE id_j=?";
 		foreach ($all as $info){
-			$preuve = $this->signServer->getTimestampReply($info['message_horodate']);
-			$date_horodatage = "";
-			if ($preuve){
-				$date_horodatage = $this->signServer->getLastTimestamp();
-				$this->query($sql,$preuve,$date_horodatage,$info['id_j']);
-				echo "{$info['id_j']} horodaté : $date_horodatage \n";
-			}
+			$preuve = $this->horodateur->getTimestampReply($info['message_horodate']);
+			$date_horodatage = $this->horodateur->getTimeStamp($preuve);
+			$this->query($sql,$preuve,$date_horodatage,$info['id_j']);
+			echo "{$info['id_j']} horodaté : $date_horodatage \n";
 			
 		}
-		
 	}
 	
 	

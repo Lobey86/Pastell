@@ -1,13 +1,16 @@
 <?php
 
+require_once(__DIR__."/../../connecteur-type/Horodateur.class.php");
+
 class OpenSignException extends ConnecteurException {}
 
-class OpenSign extends Connecteur {
+class OpenSign extends Horodateur {
 	
 	private $wsdl;
 	private $soapClientFactory;
 	
-	public function __construct(SoapClientFactory $soapClientFactory){
+	public function __construct(OpensslTSWrapper $opensslTSWrapper, SoapClientFactory $soapClientFactory){
+		parent::__construct($opensslTSWrapper);
 		$this->soapClientFactory = $soapClientFactory;
 	}	
 	
@@ -15,19 +18,23 @@ class OpenSign extends Connecteur {
 		$this->wsdl = $donnesFormulaire->get('opensign_wsdl');
 	}
 	
-	
-	private function getSoapClient(){
-		$soapClient = $this->soapClientFactory->getInstance($this->wsdl);
-		return $soapClient;
+	public function getTimestampReply($data){
+		$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);
+		$token = $this->getToken($timestampRequest);
+		return $token;
 	}
 	
 	public function test(){
 		$soapClient = $this->getSoapClient();
 		return $soapClient->wsEcho("Hello World !");
 	}
-
-	//$timestampRequest : raw timestamp request in binary format, not base64 encoded !
-	public function getToken($timestampRequest){		
+	
+	private function getSoapClient(){
+		$soapClient = $this->soapClientFactory->getInstance($this->wsdl);
+		return $soapClient;
+	}
+	
+	private function getToken($timestampRequest){		
 		$soapClient = $this->getSoapClient();
 		$response = $soapClient->createResponse( array('request'=> base64_encode($timestampRequest)));
 	    if (!$response){
