@@ -5,7 +5,6 @@ require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
 require_once( PASTELL_PATH . "/lib/action/Action.class.php");
 
-
 $recuperateur = new Recuperateur($_GET);
 $type = $recuperateur->get('type');
 $id_e = $recuperateur->getInt('id_e',0);
@@ -54,7 +53,9 @@ $documentActionEntite = new DocumentActionEntite($sqlQuery);
 $actionPossible = $objectInstancier->ActionPossible;
 
 
-$listeEtat = $documentType->getTabAction();
+$all_action = $documentType->getAction()->getWorkflowAction();
+
+
 
 if ($actionPossible->isCreationPossible($id_e,$authentification->getId(),$type)){
 	$nouveau_bouton_url = "document/edition.php?type=$type&id_e=$id_e";
@@ -73,11 +74,11 @@ if ($id_e != 0) {
 	<input type='text' name='search' value='<?php echo $search?>'/>
 	<select name='filtre'>
 		<option value=''>...</option>
-		<?php foreach($listeEtat as $etat => $libelle_etat) : ?>
+		<?php foreach($all_action as $etat => $libelle_etat) : ?>
 			<option value='<?php echo $etat?>'
 				<?php echo $filtre==$etat?"selected='selected'":""?>
 			
-			><?php echo $libelle_etat['name']?></option>
+			><?php echo $libelle_etat?></option>
 		<?php endforeach;?>
 	</select>
 	<input type='submit' value='Rechercher' />

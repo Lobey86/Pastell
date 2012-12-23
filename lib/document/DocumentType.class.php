@@ -63,6 +63,7 @@ class DocumentType {
 		return $this->typeDefinition[self::ACTION];
 	}
 	
+	
 	public function getConnecteur(){
 		if (isset($this->typeDefinition[self::CONNECTEUR])){
 			return $this->typeDefinition[self::CONNECTEUR];

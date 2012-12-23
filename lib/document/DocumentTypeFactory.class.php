@@ -46,9 +46,6 @@ class DocumentTypeFactory {
 		return $this->fluxDefinitionFiles->getAllType();
 	}
 
-	
-	/***********************/
-
 
 	public function getActionByRole($allDroit){
 		foreach($allDroit as $droit){
@@ -62,10 +59,11 @@ class DocumentTypeFactory {
 			} catch (Exception $e ){
 				continue;
 			}
-			foreach ($action->getAll() as $actionName){
-				$affiche_name = $action->getActionName($actionName);
-				$result[$typeName][$affiche_name][] = $actionName;
-			}
+			$a_wf = $action->getWorkflowAction();
+			if ($a_wf){
+				$result[$typeName] = $a_wf;
+			} 
+		
 		}
 		
 		return $result;
