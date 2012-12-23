@@ -52,12 +52,7 @@ class Controler {
 	
 	public function renderDefault(){
 		$template_milieu = $this->viewParameter['template_milieu'];
-		
-		if (! $this->Gabarit->templateExists($template_milieu)){
-			header("HTTP/1.0 404 Not Found");
-			echo "Cette page n'existe pas";
-			return;
-		} 
+	
 		
 		$this->Gabarit->setParameters($this->getViewParameter());
 		$this->Gabarit->render("Page");

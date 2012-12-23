@@ -30,6 +30,14 @@ class PastellControler extends Controler {
 		}
 	}
 	
+	public function ensureDroit($droit,$id_e,$redirect_to = ""){
+		if  ($this->RoleUtilisateur->hasDroit($this->Authentification->getId(),$droit,$id_e)){
+			return true;
+		}
+		$this->LastError->setLastError("Vous n'avez pas les droits nécessaire pour accéder à cette page");
+		$this->redirect($redirect_to);
+	}
+	
 	public function renderDefault(){
 		
 		$this->authentification = $this->Authentification;
