@@ -1,11 +1,19 @@
 
 
 - Cette révision nécessite une mise à jour de la base de données
-- Il n'est plus nécessaire de vider le cache lors de la modification 
-des fichiers yml de défintions (sans pertes de performance)
 
-- le script batch/document-check.php permet de vérifier que les élements de la base de 
+- Il n'est plus nécessaire de vider le cache lors de la modification 
+des fichiers yml de définitions (sans pertes de performance)
+
+- le script installation/document-check.php permet de vérifier que les élements de la base de 
 données (type de document et dernier action d'un document) on bien une définition dans les fichiers 
 YML
 
- 
+- le script installation/fix-action.php permet de modifier des actions dans un flux si 
+celles-ci ont été modifié.
+
+Pour cette révision, il faut lancer les commandes suivantes :
+
+fix-action.php actes send-tdt-2 send-tdt
+fix-action.php actes send-cdg-manuel send-cdg
+fix-action.php actes send-cdg-manuel-2 send-cdg

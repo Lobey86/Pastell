@@ -46,3 +46,12 @@ function rrmdir($dir) {
 	}
 	rmdir($dir);
 }
+
+
+function get_argv($num_arg) {
+	global $argv;
+	if (empty($argv[$num_arg])){
+		return false;
+	}
+	return $argv[$num_arg];
+};
