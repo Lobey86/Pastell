@@ -52,4 +52,27 @@ class DocumentEntite extends SQL {
 		return $this->query($sql,$id_e);
 	}
 	
+	public function getAllByFluxAction($flux,$action_from){
+			$sql = "SELECT * FROM document_entite " .
+				" JOIN document ON document_entite.id_d=document.id_d " .
+				" JOIN entite ON document_entite.id_e = entite.id_e " .
+				" WHERE document.type=? AND last_action=?";
+		return $this->query($sql,$flux,$action_from);
+	}
+	
+	public function fixAction($flux,$action_from,$action_to){
+		$sql = "UPDATE document_entite " .
+				" JOIN document ON document_entite.id_d=document.id_d " .
+				" SET last_action=?" . 
+				" WHERE document.type=? AND last_action=?";
+		$this->query($sql,$action_to,$flux,$action_from);
+		
+		$sql = "UPDATE document_action " .
+				" JOIN document ON document_action.id_d=document.id_d " .
+				" SET action=?" . 
+				" WHERE document.type=? AND action=?";
+		$this->query($sql,$action_to,$flux,$action_from);
+		
+	}
+	
 }

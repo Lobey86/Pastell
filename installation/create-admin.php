@@ -3,16 +3,10 @@
 
 require_once( dirname(__FILE__) . "/../web/init.php");
 
-$get_argv = function ($num_arg) use ($argv){
-	if (empty($argv[$num_arg])){
-		return false;
-	}
-	return $argv[$num_arg];
-};
 
-$login = $get_argv(1);
-$password = $get_argv(2);
-$email = $get_argv(3);
+$login = get_argv(1);
+$password = get_argv(2);
+$email = get_argv(3);
 
 $result = $objectInstancier->AdminControler->createAdmin($login,$password,$email);
 
