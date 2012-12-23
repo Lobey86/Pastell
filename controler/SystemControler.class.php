@@ -7,7 +7,7 @@ class SystemControler extends PastellControler {
 	public function indexAction(){
 		$recuperateur=new Recuperateur($_GET);
 		$page_number = $recuperateur->getInt('page_number');
-		$this->ensureDroit("test:lecture", 0);
+		$this->ensureDroit("system:lecture", 0);
 		
 		if ($page_number == 0){
 			$this->actionAutoAction();

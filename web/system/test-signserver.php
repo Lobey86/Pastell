@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
-if  (! $roleUtilisateur->hasDroit($authentification->getId(),'test:lecture',0)){
+if  (! $roleUtilisateur->hasDroit($authentification->getId(),'system:lecture',0)){
 	header("Location: ".SITE_BASE . "/index.php");
 	exit;
 }
