@@ -21,3 +21,5 @@ fix-action.php actes send-cdg-manuel-2 send-cdg
 - les droits test:XXX deviennent system:XXX : il faut penser à modifier les rôles (notamment admin)
 
 - il est nécessaire d'associer les connecteurs globaux à un flux « global » 
+
+- remplacement du système SignServer par un connecteur HorodateurPastell (interne) ou OpenSign (serveur externe)

@@ -41,10 +41,6 @@ if (!defined("BD_PASS")){
 	define("BD_PASS","pastell");
 }
 
-//Définition de la connexion au SignServer
-if (! defined("SIGN_SERVER_URL")){
-	define("SIGN_SERVER_URL", "http://127.0.0.1/adullact/pastell/web/demo/timestamp-server.php?workerId=1");	
-}
 
 //Certificat de signature des timestamps
 if (! defined("SIGN_SERVER_CERTIFICATE")){

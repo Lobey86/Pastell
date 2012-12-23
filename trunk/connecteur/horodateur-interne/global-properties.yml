@@ -1,0 +1,30 @@
+name: Horodateur Pastell interne
+type: horodateur
+
+formulaire:
+	OpenSign:
+		signer_certificate: 
+			name: "Certificat de signature"
+			commentaire: "Le certificat X509 au format PEM  du timestamp"
+			type: file
+		signer_key:
+			name: "Clé privée du certificat"
+			type: file
+		signer_key_password:
+			name: Mot de passe associé à la clé
+			type: password
+			
+
+action:	
+		
+	test-token:
+		name: Tester la création d'un token 
+		action-class: TestToken
+		rule:
+			droit_id_u: 'entite:edition'
+
+	test-verif:
+		name: Créer et vérifier un token 
+		action-class: TestVerifToken
+		rule:
+			droit_id_u: 'entite:edition'

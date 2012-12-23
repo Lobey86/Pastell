@@ -61,18 +61,4 @@
 	</tr>
 </table>
 
-
-
-<h2>Test du SignServer</h2>
-<br/>
-<b>URL du signServer : </b><a href='<?php echo SIGN_SERVER_URL ?>'><?php echo SIGN_SERVER_URL ?></a>
-<br/>
-<br/>
-
-<form action='system/test-signserver.php' >
-	<input type='submit' value='Tester la signature'/>
-</form>
-<br/>
-<br/>
-
 </div>
