@@ -1,7 +1,6 @@
 <?php 
 require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
 require_once( PASTELL_PATH. "/lib/skin/PageDecorator.class.php");
-require_once( PASTELL_PATH. "/lib/skin/LienRetourHTML.class.php");
 
 header("Content-type: text/html");
 
@@ -62,5 +61,4 @@ $pageDecorator->setVersion($infoVersionning['version-complete']);
 
 $pageDecorator->displayHaut();
 
-$lienRetourHTML = new LienRetourHTML();
 

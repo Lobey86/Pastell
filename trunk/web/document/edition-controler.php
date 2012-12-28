@@ -41,11 +41,12 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,
 }
 
 $last_action = $objectInstancier->DocumentActionEntite->getLastAction($id_e, $id_d);
-if (!in_array($last_action,array("creation","modification"))){
-	$editable_content = $documentType->getAction()->getEditableContent($last_action);
+
+$editable_content = $documentType->getAction()->getEditableContent($last_action);
+
+if (!in_array($last_action,array("creation","modification")) || $editable_content){
 	$donneesFormulaire->setEditableContent($editable_content);
 }
-
 
 $fileUploader = new FileUploader($_FILES);
 

@@ -96,6 +96,9 @@ include( PASTELL_PATH ."/include/haut.php");
 </table>
 
 <a href='utilisateur/modif-password.php' class='btn_maj'>Modifier mon mot de passe</a>
+<br/>
+<br/>
+<a href='utilisateur/modif-email.php' class='btn_maj'>Modifier mon email</a>
 
 </div>
 
