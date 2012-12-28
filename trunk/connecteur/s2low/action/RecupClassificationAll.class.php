@@ -1,6 +1,6 @@
 <?php 
 
-class DemandeClassificationAll extends ActionExecutor {
+class RecupClassificationAll extends ActionExecutor {
 	
 	public function go(){
 
@@ -16,15 +16,18 @@ class DemandeClassificationAll extends ActionExecutor {
 				if (!$tdT){
 					continue;
 				}
-				$result = $tdT->demandeClassification();
-				$envoye[] = "{$infoCollectivite['denomination']}  : demande de classification envoyée";
+				$classification = $tdT->getClassification();
+				$connecteur_properties = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCollectivite['id_e'],'actes','TdT');
+				$connecteur_properties->addFileFromData("classification_file","classification.xml",$classification);
+				
+				$envoye[] = "{$infoCollectivite['denomination']}  : classification récupérée";
 			} catch(Exception $e ){
 				$envoye[] = "{$infoCollectivite['denomination']}  : ".($e->getMessage());
 				continue;
 			}
 		}
 		
-		$this->setLastMessage("Demandes envoyées à <br/>".implode("<br/>",$envoye));
+		$this->setLastMessage("Résultat :<br/>".implode("<br/>",$envoye));
 		return true;
 	}
 	

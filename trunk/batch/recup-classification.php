@@ -31,7 +31,7 @@ foreach($liste_collectivite as $col){
 		$objectInstancier->ChoixClassificationControler->disabledClassificationCDG($col['id_e']);
 		
 		$message = "{$col['denomination']} : classification  mise à jour\n";
-		$notificationMail->notify($col['id_e'],$col['id_d'],'recup-classification','récuperation automatique',$message);
+		$notificationMail->notify($col['id_e'],$col['id_d'],'recup-classification','collectivite-properties',$message);
 		
 		echo $message;
 			
