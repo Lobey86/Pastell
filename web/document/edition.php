@@ -67,8 +67,10 @@ $afficheurFormulaire->injectHiddenField("form_type",$type);
 $afficheurFormulaire->injectHiddenField("id_e",$id_e);
 
 $last_action = $objectInstancier->DocumentActionEntite->getLastAction($id_e, $id_d);
-if (!in_array($last_action,array("creation","modification"))){
-	$editable_content = $documentType->getAction()->getEditableContent($last_action);
+
+$editable_content = $documentType->getAction()->getEditableContent($last_action);
+
+if (!in_array($last_action,array("creation","modification")) || $editable_content){
 	$afficheurFormulaire->setEditableContent($editable_content);
 }
 

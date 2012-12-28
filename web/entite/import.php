@@ -28,13 +28,17 @@ if ($id_e){
 $page_title = "Importer";
 
 
-include( PASTELL_PATH ."/include/haut.php");
-if ($id_e) {
-	$lienRetourHTML->display($denomination,"entite/detail.php?id_e=$id_e&page=$page_retour");
-} else {
-	$lienRetourHTML->display("Liste des collectivités","entite/detail.php");
-}
-
+include( PASTELL_PATH ."/include/haut.php"); ?>
+<?php if ($id_e) : ?>
+	<div class='lien_retour'>
+		<a href='<?php echo "entite/detail.php?id_e=$id_e&page=$page_retour" ?>'>« <?php echo $denomination ?></a>
+	</div>
+<?php else : ?>
+	<div class='lien_retour'>
+		<a href='entite/detail.php'>« <?php echo "Liste des collectivités" ?></a>
+	</div>
+<?php endif;?>
+<?php 
 include (PASTELL_PATH."/include/bloc_message.php"); 
 
 $tabDecoratorHTML->display(array("Collectivités","Agents","Grades","Fichiers de classification"),"entite/import.php?id_e=$id_e",$page);
