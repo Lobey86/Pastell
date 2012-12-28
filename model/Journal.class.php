@@ -111,7 +111,10 @@ class Journal extends SQL {
 			$value[] = $date_fin;
 		}
 		
-		$sql .= " ORDER BY id_j DESC LIMIT $offset,$limit";
+		$sql .= " ORDER BY id_j DESC " ;
+		if ($limit != -1){
+			$sql .= " LIMIT $offset,$limit";
+		}
 		return array($sql,$value);
 	}
 	
