@@ -31,14 +31,14 @@ class DocumentType {
 		return $this->typeDefinition[self::NOM];
 	}
 	
-	private function getFormulaireArray(){
-		if (empty($this->typeDefinition[self::FORMULAIRE])){
-			return array();
+	public function getConnecteur(){
+		if (isset($this->typeDefinition[self::CONNECTEUR])){
+			return $this->typeDefinition[self::CONNECTEUR];
 		}
-		return $this->typeDefinition[self::FORMULAIRE];
+		return array();
 	}
 	
-	public function getFormulaire(){
+	public function getFormulaire(){	
 		$formulaire =  new Formulaire($this->getFormulaireArray());
 		if (isset( $this->typeDefinition[self::PAGE_CONDITION])){
 			$formulaire->addPageCondition($this->typeDefinition[self::PAGE_CONDITION]);
@@ -47,6 +47,13 @@ class DocumentType {
 			$formulaire->setAfficheOneTab();
 		}
 		return $formulaire;
+	}
+	
+	private function getFormulaireArray(){
+		if (empty($this->typeDefinition[self::FORMULAIRE])){
+			return array();
+		}
+		return $this->typeDefinition[self::FORMULAIRE];
 	}
 	
 	public function getAction(){
@@ -64,11 +71,6 @@ class DocumentType {
 	}
 	
 	
-	public function getConnecteur(){
-		if (isset($this->typeDefinition[self::CONNECTEUR])){
-			return $this->typeDefinition[self::CONNECTEUR];
-		}
-		return array();
-	}
+	
 	
 }

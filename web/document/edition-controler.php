@@ -40,6 +40,12 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,
 	exit;
 }
 
+$last_action = $objectInstancier->DocumentActionEntite->getLastAction($id_e, $id_d);
+if (!in_array($last_action,array("creation","modification"))){
+	$editable_content = $documentType->getAction()->getEditableContent($last_action);
+	$donneesFormulaire->setEditableContent($editable_content);
+}
+
 
 $fileUploader = new FileUploader($_FILES);
 
@@ -53,7 +59,6 @@ $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 if (! $info){
 	$actionCreator->addAction($id_e,$authentification->getId(),Action::CREATION,"Création du document");
 } else if ($donneesFormulaire->isModified()) {
-	//$actionCreator->addAction($id_e,$authentification->getId(),Action::MODIFICATION,"Modification du document");
 	$actionCreator->updateModification($id_e, $authentification->getId());
 }
 

@@ -13,11 +13,26 @@ class DonneesFormulaire {
 	private $lastError;
 	private $onChangeAction;
 
+	private $editable_content;
+	private $has_editable_content;
+	
 	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
 		$this->formulaire = $formulaire;
 		$this->retrieveInfo();
 		$this->onChangeAction = array();
+	}
+	
+	public function setEditableContent(array $editable_content){
+		$this->has_editable_content = true;
+		$this->editable_content = $editable_content;
+	}
+	
+	public function isEditable($field_name){
+		if (!$this->has_editable_content){
+			return true;
+		}
+		return in_array($field_name,$this->editable_content);
 	}
 	
 	public function injectData($field,$data){
@@ -39,7 +54,9 @@ class DonneesFormulaire {
 		$this->formulaire->setTabNumber($pageNumber);
 				
 		foreach ($this->formulaire->getFields() as $field){
-			
+			if (! $this->isEditable($field->getName())){
+					continue;
+			}
 			$type = $field->getType();
 			
 			if ($type == 'externalData'){
@@ -97,7 +114,6 @@ class DonneesFormulaire {
 		$modif = array();
 		$allField = $this->formulaire->getAllFields();
 		foreach($recuperateur->getAll() as $key => $value){
-			$key = Field::Canonicalize($key);
 			if (isset($allField[$key])){
 				$this->setInfo($allField[$key],$value);		
 				$modif[] = $key;
@@ -195,6 +211,9 @@ class DonneesFormulaire {
 	}
 	
 	public function get($item,$default=false){
+
+		//$item = $this->formulaire->getField($item)->getName();
+		$item  = Field::Canonicalize($item);
 		if (empty($this->info[$item])){
 			return $default;
 		}

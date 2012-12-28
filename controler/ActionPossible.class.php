@@ -179,8 +179,7 @@ class ActionPossible {
 		return $this->roleUtilisateur->hasDroit($id_u,$value,$id_e);
 	}
 	
-	private function verifContent($id_d,$type,$value){
-		
+	private function verifContent($id_d,$type,$value){		
 		foreach($value as $fieldName => $fieldValue){
 			if (! $this->verifField($id_d,$type,$fieldName,$fieldValue)){
 				return false;
@@ -195,7 +194,7 @@ class ActionPossible {
 	}
 	
 	private function verifField($id_d,$type,$fieldName,$fieldValue){
-		return $this->donneesFormulaireFactory->get($id_d,$type)->get(Field::Canonicalize($fieldName)) == $fieldValue;
+		return $this->donneesFormulaireFactory->get($id_d,$type)->get($fieldName) == $fieldValue;
 	}
 	
 	private function veriTypeEntite($id_e,$type){

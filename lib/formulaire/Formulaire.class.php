@@ -11,23 +11,15 @@ class Formulaire {
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
 		$this->setTabNumber(0);	
-		$this->pageCondition = array();
+		$this->pageCondition = array();		
 	}
-	
+
 	public function delTab($page){
 		unset($this->formArray[$page]);
 	}
 	
 	public function addPageCondition(array $pageCondition){
 		$this->pageCondition = $pageCondition;
-	}
-	
-	public function setAfficheOneTab(){
-		$this->afficheOneTab = true;
-	}
-	
-	public function afficheOneTab(){
-		return $this->afficheOneTab;
 	}
 	
 	public function addDonnesFormulaire(DonneesFormulaire $donnesFormulaire){
@@ -45,6 +37,14 @@ class Formulaire {
 		}
 	}
 	
+	public function setAfficheOneTab(){
+		$this->afficheOneTab = true;
+	}
+	
+	public function afficheOneTab(){
+		return $this->afficheOneTab;
+	}
+
 	public function setTabNumber($tab_num){
 		$array_keys = array_keys($this->formArray);
 		if (isset($array_keys[$tab_num])){
@@ -70,6 +70,7 @@ class Formulaire {
 	}
 	
 	public function getFields(){
+		
 		$fields = array();	
 		if (! $this->tabSelected){
 			return $fields;
@@ -93,11 +94,13 @@ class Formulaire {
 		$fields = array();
 		foreach ($this->formArray as $name => $tab) {
 			foreach($tab as $libelle => $properties){
-				$fields[Field::Canonicalize($libelle)] = new Field($libelle,$properties);	
+				$field = new Field($libelle,$properties);
+				$fields[$field->getName()]  = $field;	
 			}
 		}
 		return $fields;
 	}
+	
 	
 	public function getTitreField(){
 		foreach($this->getAllFields() as $field){
