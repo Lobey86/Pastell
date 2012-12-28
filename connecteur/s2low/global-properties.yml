@@ -8,3 +8,10 @@ action:
 		action-class: DemandeClassificationAll
 		rule:
 			droit_id_u: 'entite:edition'
+	
+	recup-classification:
+		name: Récuperer la classification pour toutes les collectivités
+		tab: TdT
+		action-class: RecupClassificationAll
+		rule:
+			droit_id_u: 'entite:edition'
