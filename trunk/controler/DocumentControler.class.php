@@ -1,6 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
 
 class DocumentControler extends PastellControler {
 	

@@ -21,13 +21,15 @@ class DonneesFormulaireFactory{
 	}
 	
 	public function get($id_d,$document_type = false){
+		$info = $this->documentSQL->getInfo($id_d);
 		if (! $document_type){
-			$info = $this->documentSQL->getInfo($id_d);
 			$document_type = $info['type'];
 		}
+		
 		if( !$document_type){
 			throw new Exception("Document inexistant");
 		}
+		
 		$formulaire = $this->documentTypeFactory->getFluxDocumentType($document_type)->getFormulaire();
 		return $this->getFromCache($id_d, $formulaire);
 	}

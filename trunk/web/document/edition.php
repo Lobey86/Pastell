@@ -34,13 +34,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),$type.":edition",$i
 	exit;
 }
 
-$documentType = $documentTypeFactory->getFluxDocumentType($type);
-$formulaire = $documentType->getFormulaire();
 
-$entite = new Entite($sqlQuery,$id_e);
-$infoEntite = $entite->getInfo();
-
-$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $actionPossible = $objectInstancier->ActionPossible;
 
@@ -49,6 +43,17 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }
+
+
+$documentType = $documentTypeFactory->getFluxDocumentType($type);
+$formulaire = $documentType->getFormulaire();
+
+
+$entite = new Entite($sqlQuery,$id_e);
+$infoEntite = $entite->getInfo();
+
+$donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
+
 
 $page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
 
@@ -60,6 +65,13 @@ $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 $afficheurFormulaire->injectHiddenField("id_d",$id_d);
 $afficheurFormulaire->injectHiddenField("form_type",$type);
 $afficheurFormulaire->injectHiddenField("id_e",$id_e);
+
+$last_action = $objectInstancier->DocumentActionEntite->getLastAction($id_e, $id_d);
+if (!in_array($last_action,array("creation","modification"))){
+	$editable_content = $documentType->getAction()->getEditableContent($last_action);
+	$afficheurFormulaire->setEditableContent($editable_content);
+}
+
 
 
 include( PASTELL_PATH ."/include/haut.php");

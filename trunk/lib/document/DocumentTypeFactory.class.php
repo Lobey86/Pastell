@@ -37,7 +37,6 @@ class DocumentTypeFactory {
 		$flux_definition = $this->fluxDefinitionFiles->getInfo($id_flux);
 		if (!$flux_definition){
 			return new DocumentType($id_flux,array());
-			//throw new Exception("Impossible de trouver la définition du flux $id_flux");
 		}
 		return new DocumentType($id_flux,$flux_definition);
 	}
@@ -45,7 +44,6 @@ class DocumentTypeFactory {
 	public function getAllType(){
 		return $this->fluxDefinitionFiles->getAllType();
 	}
-
 
 	public function getActionByRole($allDroit){
 		foreach($allDroit as $droit){

@@ -20,6 +20,7 @@ formulaire:
 				4: Contrats et conventions
 				1: Délibérations
 				5: Documents budgétaires et financiers
+		Ceci est un test: 
 	
 action:
 	creation:
@@ -37,6 +38,11 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'rh-messages:edition'
+	
+	test1:
+		rule:
+			content:
+				Ceci est un test: toto
 	
 	supression:
 		name-action: Supprimer

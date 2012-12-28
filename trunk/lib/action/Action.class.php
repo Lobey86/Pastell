@@ -15,6 +15,7 @@ class Action {
 	const ACTION_DESTINATAIRE = "action-selection";
 	const WARNING = "warning";
 	const NO_WORKFLOW = "no-workflow";
+	const EDITABLE_CONTENT = "editable-content";
 	
 	const CREATION = "creation";
 	const MODIFICATION = "modification";
@@ -101,8 +102,12 @@ class Action {
 		return $result;
 	}
 	
-	public function getWarning($action){
-		return $this->getProperties($action,self::WARNING);
+	public function getWarning($action_name){
+		return $this->getProperties($action_name,self::WARNING);
+	}
+	
+	public function getEditableContent($action_name){
+		return $this->getProperties($action_name,self::EDITABLE_CONTENT);
 	}
 	
 	public function getWorkflowAction(){
@@ -115,5 +120,7 @@ class Action {
 		}
 		return $result;
 	}
+	
+	
 	
 }

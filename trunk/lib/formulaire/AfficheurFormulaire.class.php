@@ -10,11 +10,27 @@ class AfficheurFormulaire {
 	private $inject;
 	private $onePage;
 	
+	private $editable_content;
+	private $has_editable_content;
+	
 	public function __construct(Formulaire $formulaire, DonneesFormulaire $donneesFormulaire){
 		$this->formulaire = $formulaire;
 		$this->donneesFormulaire = $donneesFormulaire;
+		
 		$this->formulaire->addDonnesFormulaire($donneesFormulaire);
-		$this->inject = array();	
+		$this->inject = array();
+	}
+	
+	public function setEditableContent(array $editable_content){
+		$this->has_editable_content = true;
+		$this->editable_content = $editable_content;
+	}
+	
+	public function isEditable($field_name){
+		if (!$this->has_editable_content){
+			return true;
+		}
+		return in_array($field_name,$this->editable_content);
 	}
 	
 	public function injectHiddenField($name,$value){
@@ -59,7 +75,9 @@ class AfficheurFormulaire {
 	}
 	
 	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url,$externalDataURL ){
+		
 		$this->formulaire->setTabNumber($page_number);
+		
 		
 		$id_d = $this->getInjectedField('id_d');
 		$id_e = $this->getInjectedField('id_e');
@@ -69,7 +87,7 @@ class AfficheurFormulaire {
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
 			<input type='hidden' name='page' value='<?php echo $page_number?>' />
 			<?php foreach($this->inject as $name => $value ) : ?>
-			<input type='hidden' name='<?php echo $name ?>' value='<?php echo $value?>' />
+				<input type='hidden' name='<?php hecho($name); ?>' value='<?php hecho($value); ?>' />
 			<?php endforeach;?>
 			
 			<table>
@@ -77,6 +95,7 @@ class AfficheurFormulaire {
 				if ($field->getProperties('read-only') && $field->getType() == 'file'){
 					continue;
 				}
+				
 				if ($field->getProperties('no-show')){
 					continue;
 				}
@@ -93,6 +112,7 @@ class AfficheurFormulaire {
 						<?php endif;?>
 					</th>
 					<td> 
+					
 					<?php if ($field->getType() == 'checkbox') :?>
 						<?php if ($field->getProperties('depend') && $this->donneesFormulaire->get($field->getProperties('depend'))) : 
 						
@@ -100,36 +120,42 @@ class AfficheurFormulaire {
 							<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?>
 								<input type='checkbox' name='<?php echo $field->getName()."_$i"; ?>' id='<?php echo $field->getName()."_$i";?>' 
 									<?php echo $this->donneesFormulaire->geth($field->getName()."_$i")?"checked='checked'":'' ?>
+									<?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>
 									/><?php echo $file ?> 
 									<br/>
 							<?php endforeach;?>
 						<?php else:?>
 							<input type='checkbox' name='<?php echo $field->getName(); ?>' id='<?php echo $field->getName();?>' 
 									<?php echo $this->donneesFormulaire->geth($field->getName())?"checked='checked'":'' ?>
+									<?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>
 									/>
 						<?php endif; ?>
 					<?php elseif($field->getType() == 'textarea') : ?>
-						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>'><?php echo $this->donneesFormulaire->get($field->getName(),$field->getDefault())?></textarea>
+						<textarea rows='10' cols='40' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' <?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>><?php echo $this->donneesFormulaire->get($field->getName(),$field->getDefault())?></textarea>
 					<?php elseif($field->getType() == 'file') :?>
-						<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
-							<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
-						<?php endif; ?>
-						<?php if ($field->isMultiple()): ?>
-							<input class='input_normal send_button' type='submit' name='ajouter' value='Ajouter' />
-						<?php endif;?>
-						<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
-						<br/>
-						<?php endif;?>
-					<?php 
-					
-						if ($this->donneesFormulaire->get($field->getName())) : 
-						foreach($this->donneesFormulaire->get($field->getName()) as $num => $fileName ): ?>
-								<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>&num=<?php echo $num ?>'><?php echo $fileName ?></a>
-								&nbsp;&nbsp;<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>&num=<?php echo $num ?>'>supprimer</a>
-							<br/>
-						<?php endforeach; endif;?>
+							<?php if ($this->isEditable($field->getName())) : ?>
+								<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
+									<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
+								<?php endif; ?>
+								<?php if ($field->isMultiple()): ?>
+									<input class='input_normal send_button' type='submit' name='ajouter' value='Ajouter' />
+								<?php endif;?>
+								<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
+								<br/>
+								<?php endif;?>
+							<?php endif;?>
+							<?php if ($this->donneesFormulaire->get($field->getName())) : 
+									foreach($this->donneesFormulaire->get($field->getName()) as $num => $fileName ): ?>
+											<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>&num=<?php echo $num ?>'><?php echo $fileName ?></a>
+											&nbsp;&nbsp;
+											<?php if ($this->isEditable($field->getName())) : ?>
+												<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>&num=<?php echo $num ?>'>supprimer</a>
+											<?php endif;?>
+										<br/>
+							<?php endforeach;?>
+							<?php endif;?>
 					<?php elseif(($field->getType() == 'select') && ! $field->getProperties('read-only')) : ?>
-						<select name='<?php echo $field->getName()?>'>
+						<select name='<?php echo $field->getName()?>' <?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>>
 							<option value=''>...</option>
 							<?php foreach($field->getSelect() as $value => $name) : ?>
 								<option <?php 
@@ -140,23 +166,30 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 						</select>
 					<?php elseif ($field->getType() == 'externalData') :?>
-						<?php if($id_ce) : ?>
-							<a href='<?php echo  $externalDataURL ?>?id_ce=<?php echo $id_ce ?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
-						<?php elseif($field->isEnabled($this->inject['id_e']) && isset($id_e)) :?>
-							<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
-						<?php else:?>
-							non disponible
+						<?php if ($this->isEditable($field->getName())) : ?>
+							<?php if($id_ce) : ?>
+								<a href='<?php echo  $externalDataURL ?>?id_ce=<?php echo $id_ce ?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+							<?php elseif($field->isEnabled($this->inject['id_e']) && isset($id_e)) :?>
+								<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
+							<?php else:?>
+								non disponible
+							<?php endif;?>
 						<?php endif;?>
-						<?php echo $this->donneesFormulaire->get($field->getName())?>
+						<?php echo $this->donneesFormulaire->get($field->getName())?>&nbsp;
 					<?php elseif ($field->getType() == 'password') : ?>
 						<input 	type='password' 	
 								id='<?php echo $field->getName();?>' 
 								name='<?php echo $field->getName(); ?>' 
 								value='' 
 								size='16'
+								<?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>
 						/>
 					<?php elseif( $field->getType() == 'link') : ?>
-						<a href='<?php echo SITE_BASE . $field->getProperties('script')?>?id_e=<?php echo $id_e?>'><?php echo $field->getProperties('link_name')?></a>					
+						<?php if ($this->isEditable($field->getName())) : ?>
+							<a href='<?php echo SITE_BASE . $field->getProperties('script')?>?id_e=<?php echo $id_e?>'><?php echo $field->getProperties('link_name')?></a>
+						<?php else: ?>
+							<?php echo $field->getProperties('link_name')?>
+						<?php endif;?>				
 					<?php else : ?>
 						<?php if ($field->getProperties('read-only')) : ?>
 							<?php echo $this->donneesFormulaire->geth($field->getName())?>&nbsp;
@@ -168,6 +201,7 @@ class AfficheurFormulaire {
 								name='<?php echo $field->getName(); ?>' 
 								value='<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName(),$field->getDefault()))?>' 
 								size='40'
+								<?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>
 								/>
 														
 						
@@ -184,6 +218,7 @@ class AfficheurFormulaire {
 								name='<?php echo $field->getName(); ?>' 
 								value='<?php echo $this->donneesFormulaire->geth($field->getName(),$field->getDefault())?>' 
 								size='40'
+								<?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>
 								/>
 						<?php endif;?>
 						<?php if ($field->getProperties('autocomplete')) : ?>
