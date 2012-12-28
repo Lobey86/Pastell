@@ -26,8 +26,27 @@ class AfficheurFormulaire {
 		$this->editable_content = $editable_content;
 	}
 	
+	public function isReadOnly($field_name){
+		$field = $this->formulaire->getField($field_name);
+		
+		$read_only_content = $field->getProperties('read-only-content') ;
+		if (!$read_only_content){
+			return false;
+		}	
+		foreach($read_only_content as $key => $value){
+			if ($this->donneesFormulaire->get($key) != $value){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public function isEditable($field_name){
-		if (!$this->has_editable_content){
+		if ($this->isReadOnly($field_name)){
+			return false;
+		}
+		
+		if ( ! $this->has_editable_content){
 			return true;
 		}
 		return in_array($field_name,$this->editable_content);
