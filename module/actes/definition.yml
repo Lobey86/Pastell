@@ -53,23 +53,30 @@ formulaire:
 			name: Transmission au parapheur
 			type: checkbox
 			onchange: envoi-iparapheur-change
-			read-only:
-				content:
-					type: false
-					classification: false
+			read-only-content:
+				type: false
+				classification: false
 			
 		envoi_tdt: 
 			name: Transmission au contrôle de légalité 
 			type: checkbox
+			read-only-content:
+				type: false
+				classification: false
 		
 		envoi_cdg: 
 			name: Transmission au CDG
 			type: checkbox
 			onchange: envoi-cdg-change
+			read-only-content:
+				type: false
+				classification: false
 			
 		Archivage: 
 			type: checkbox
-			
+			read-only-content:
+				type: false
+				classification: false
 		
 				
 	Agent:

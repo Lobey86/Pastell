@@ -114,7 +114,7 @@ class Formulaire {
 	public function getField($fieldName){
 		foreach ($this->formArray as $name => $tab) {
 			foreach($tab as $libelle => $properties){
-				if($libelle == $fieldName){
+				if(Field::Canonicalize($libelle) == Field::Canonicalize($fieldName)){
 					return new Field($libelle,$properties);	
 				}
 			}
