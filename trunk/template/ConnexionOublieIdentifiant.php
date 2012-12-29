@@ -2,7 +2,16 @@
 <div class="w500">
 
 <div class="box_contenu clearfix">
+
 	<div class="box_connexion">
+	<?php if ($config && $config->get("procedure_recup")) : ?>
+	
+		<h2>Information</h2>
+		<p>
+		<?php echo nl2br(htmlentities($config->get('message')))?>
+		</p>
+		<p>&nbsp;&nbsp;</p>
+	<?php else : ?>
 		<h2>Merci d'indiquer une information</h2>
 		
 		<div class='box_info'>
@@ -32,6 +41,8 @@
 		
 		</form>
 	
-	</div>
+	<?php endif;?>
+		</div>
+	
 </div>
 </div>
