@@ -6,7 +6,11 @@
 <?php
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 
+$afficheurFormulaire->setRole($my_role);
+
 $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_e");
+
+
 ?>
 
 <div class="box_contenu">
