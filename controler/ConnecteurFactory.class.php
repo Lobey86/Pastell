@@ -14,6 +14,7 @@ class ConnecteurFactory {
 	
 	public function getConnecteurByType($id_e,$id_flux,$type_connecteur){
 		$connecteur_info = $this->objectInstancier->FluxEntiteSQL->getConnecteur($id_e,$id_flux,$type_connecteur);
+		
 		return $this->getConnecteurObjet($connecteur_info);		
 	}
 	
@@ -41,6 +42,10 @@ class ConnecteurFactory {
 		
 	public function getGlobalConnecteur($type){
 		return $this->getConnecteurByType(0,'global',$type);
+	}
+	
+	public function getGlobalConnecteurConfig($type){
+		return $this->getConnecteurConfigByType(0,'global',$type);
 	}
 	
 }
