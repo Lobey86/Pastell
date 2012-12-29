@@ -10,6 +10,8 @@ class AfficheurFormulaire {
 	private $inject;
 	private $onePage;
 	
+	private $role;
+	
 	private $editable_content;
 	private $has_editable_content;
 	
@@ -24,6 +26,32 @@ class AfficheurFormulaire {
 	public function setEditableContent(array $editable_content){
 		$this->has_editable_content = true;
 		$this->editable_content = $editable_content;
+	}
+	
+	public function setRole($role){
+		$this->role = $role;
+	}
+	
+	public function show(Field $field){
+		
+		if ($field->getProperties('no-show')){
+			return false;
+		}
+		
+		$show_role = $field->getProperties('show-role') ;
+		
+		if (! $show_role){
+			return true;
+		}
+		
+		foreach($show_role as $role){
+			if ($role == $this->role){
+				return true;
+			}
+		}
+		
+		return false;
+		
 	}
 	
 	public function isReadOnly($field_name){
@@ -114,10 +142,10 @@ class AfficheurFormulaire {
 				if ($field->getProperties('read-only') && $field->getType() == 'file'){
 					continue;
 				}
-				
-				if ($field->getProperties('no-show')){
+				if (! $this->show($field)){
 					continue;
 				}
+			
 			?>
 				<tr>
 					<th>
@@ -310,10 +338,10 @@ class AfficheurFormulaire {
 					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
 						continue;
 					} 
-					if ($field->getProperties('no-show')){
+					if (! $this->show($field)){
 						continue;
 					}
-			
+								
 			?>
 				<tr class='<?php echo $i++%2?'bg_class_gris':'bg_class_blanc'?>'>
 					<td>

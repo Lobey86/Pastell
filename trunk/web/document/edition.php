@@ -54,7 +54,9 @@ $infoEntite = $entite->getInfo();
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
+$my_role = $objectInstancier->documentEntite->getRole($id_e,$id_d);
 
+		
 $page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
 
 
@@ -62,6 +64,8 @@ $dataInjector = new DataInjector($formulaire,$donneesFormulaire);
 $dataInjector->inject($entite->getSiren());
 
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+$afficheurFormulaire->setRole($my_role);
+
 $afficheurFormulaire->injectHiddenField("id_d",$id_d);
 $afficheurFormulaire->injectHiddenField("form_type",$type);
 $afficheurFormulaire->injectHiddenField("id_e",$id_e);

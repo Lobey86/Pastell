@@ -51,7 +51,6 @@ class DocumentControler extends PastellControler {
 		$this->documentEmail = $this->DocumentEmail;
 		$this->documentActionEntite = $this->DocumentActionEntite;
 		
-		
 		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";;
 		$this->template_milieu = "DocumentDetail"; 
 		$this->renderDefault();
