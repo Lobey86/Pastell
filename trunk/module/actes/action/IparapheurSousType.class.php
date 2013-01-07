@@ -15,8 +15,7 @@ class IparapheurSousType extends ChoiceActionExecutor {
 	}
 	
 	public function displayAPI(){
-		$sous_type = $this->getSousType();
-		$this->objectInstancier->JSONoutput->display($sous_type);
+		return $this->getSousType();
 	}
 	
 	public function display(){

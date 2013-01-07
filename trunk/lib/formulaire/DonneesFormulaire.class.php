@@ -110,6 +110,17 @@ class DonneesFormulaire {
 		$this->isModified = true;
 	}
 	
+
+	public function saveAllFile(FileUploader $fileUploader){
+		$allField = $this->formulaire->getAllFields();
+		foreach($fileUploader->getAll() as $filename => $name){
+			if (isset($allField[$filename])){
+				$this->saveFile($allField[$filename],$fileUploader);
+				$modif[] = $filename;
+			}
+		}
+	}
+	
 	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
 		$modif = array();
 		$allField = $this->formulaire->getAllFields();
@@ -172,6 +183,21 @@ class DonneesFormulaire {
 		$this->saveDataFile();
 	}
 	
+	public function setTabDataVerif(array $input_field){
+		$allField = $this->formulaire->getAllFields();
+		foreach($input_field as $field_name => $value){
+			if (isset($allField[$field_name])){
+				$this->info[$field_name] = $value;
+				$this->isModified = true;
+				if ($allField[$field_name]->getOnChange()){
+					$this->onChangeAction[] = $field->getOnChange();
+				}
+			}
+		}
+		$this->saveDataFile();
+	}
+	
+	
 	public function addFileFromData($field_name,$file_name,$raw_data,$file_num = 0){
 		$this->info[$field_name][$file_num] = $file_name;
 		file_put_contents($this->getFilePath($field_name,$file_num),$raw_data);
@@ -209,6 +235,12 @@ class DonneesFormulaire {
 		$fileInfo = new finfo();
 		return $fileInfo->file($file_path,FILEINFO_MIME_TYPE);
 	}
+	
+	public function getFileName($field_name,$num = 0){
+		$all_file_name = $this->get($field_name);
+		return 	$all_file_name[$num];
+	}
+	
 	
 	public function get($item,$default=false){
 

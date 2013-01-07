@@ -26,7 +26,7 @@ class ListAgent extends ChoiceActionExecutor {
 		foreach($listAgent as $agent){
 			$result[$agent['id_a']] = $agent;
 		}
-		$this->objectInstancier->JSONoutput->display($result);
+		return $result;
 	}
 	
 	public function display(){

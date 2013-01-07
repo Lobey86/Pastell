@@ -55,3 +55,15 @@ function get_argv($num_arg) {
 	}
 	return $argv[$num_arg];
 };
+
+
+function utf8_encode_array($array){
+	if (! is_array($array)){
+		return utf8_encode($array);
+	}
+	$result = array();
+	foreach ($array as $cle => $value) {
+		$result[utf8_encode($cle)] = utf8_encode_array($value);
+	}
+	return $result;
+}

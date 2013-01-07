@@ -160,8 +160,8 @@ padding:10px;
 margin-bottom:20px;
 }
 
-.box_contenu h2 {font-size:100%;text-transform:uppercase;margin:0 0 4px 0;}
-.box_contenu h2 a {float:right;text-transform:none;font-weight:normal;height:16px;line-height:1.4em;}
+.box_contenu h2 {font-size:120%; margin:0 0 4px 0;}
+.box_contenu h2 a {font-size:83%; float:right;text-transform:none;font-weight:normal;height:16px;line-height:1.4em;}
 
 .box {margin:6px 0 20px 0;}
 .haut {background:url(commun/back_h2.png) no-repeat #D1DADE;height:26px;}

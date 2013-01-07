@@ -1,9 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-
 $JSONoutput = new JSONoutput();
-
 
 $certificatConnexion = new CertificatConnexion($sqlQuery);
 $id_u = $certificatConnexion->autoConnect();
@@ -24,3 +22,5 @@ if (! $id_u){
 	$JSONoutput->displayErrorAndExit("Acces interdit");
 }
 
+$apiAction = new APIAction($objectInstancier,$id_u);
+$api_json = new API_JSON($apiAction,$JSONoutput);

@@ -26,7 +26,7 @@ class TypeMessage extends ChoiceActionExecutor {
 	}
 	
 	public function displayAPI(){
-		
+		return array();
 	}
 	
 	public function display(){

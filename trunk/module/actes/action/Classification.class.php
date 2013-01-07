@@ -13,8 +13,7 @@ class Classification extends ChoiceActionExecutor {
 	
 	public function displayAPI(){
 		$classificationActes = $this->getClassificationActes();
-		$info = $classificationActes->getAll();
-		$this->objectInstancier->JSONoutput->display($info);
+		return $classificationActes->getAll();
 	}
 	
 	public function display(){
