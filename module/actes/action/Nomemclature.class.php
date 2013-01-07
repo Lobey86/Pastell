@@ -55,7 +55,8 @@ class Nomemclature extends ChoiceActionExecutor {
 		$nomemclature = $this->getNomemclatureContent();
 		$typeActes = new TypeActes($nomemclature);
 		$data = $typeActes->getData($nomemclature);
-		$this->objectInstancier->JSONoutput->display($data);
+		return $data;
+		
 	}
 	
 	public function display(){

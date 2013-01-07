@@ -10,8 +10,7 @@ class ListGrade extends ChoiceActionExecutor {
 	}
 	
 	public function displayAPI(){
-		$all_grade = $this->objectInstancier->GradeSQL->getAll();
-		$this->objectInstancier->JSONoutput->display($all_grade);
+		return $this->objectInstancier->GradeSQL->getAll();
 	}
 	
 	public function display(){

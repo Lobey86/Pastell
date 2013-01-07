@@ -57,6 +57,7 @@ class ActionExecutorFactory {
 		} else {
 			$result = $actionClass->display();
 		}		
+		return $result;
 	}
 	
 	public function isChoiceEnabled($id_e,$id_u,$id_d,$action_name){

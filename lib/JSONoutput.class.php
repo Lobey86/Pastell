@@ -8,23 +8,10 @@ class JSONoutput {
 		exit;
 	}
 	
-	private function normalize($array){
-		if (! is_array($array)){
-			return utf8_encode($array);
-		}
-		$result = array();
-		foreach ($array as $cle => $value) {
-			$result[utf8_encode($cle)] = $this->normalize($value);
-		}
-		return $result;
-	}
-	
 	public function display(array $array){	
-		//header("Content-type: application/json");
+		$array = utf8_encode_array($array);
 		header("Content-type: text/plain");
-		$array = $this->normalize($array);
-		echo json_encode($array);
-		
+		echo json_encode($array);	
 	}	
 	
 }

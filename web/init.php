@@ -2,7 +2,7 @@
 
 
 require_once(__DIR__."/../DefaultSettings.php");
-set_include_path( __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
+set_include_path(__DIR__ . "/../pastell-core/" . PATH_SEPARATOR . __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
 
 function __autoload($class_name) {	
 	$result = include($class_name . '.class.php');
@@ -31,7 +31,7 @@ $objectInstancier->action_class_directory = __DIR__ ."/../action/";
 $objectInstancier->module_path = __DIR__."/../module/";
 $objectInstancier->connecteur_path = __DIR__."/../connecteur/";
 $objectInstancier->template_path = __DIR__."/../template/";
-
+$objectInstancier->api_definition_file_path = __DIR__ . "/../pastell-core/api-definition.yml";
 
 $objectInstancier->opensslPath = OPENSSL_PATH;
 
