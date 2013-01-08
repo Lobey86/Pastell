@@ -13,6 +13,9 @@ formulaire:
 		signer_key_password:
 			name: Mot de passe associé à la clé
 			type: password
+		ca_certificate:
+			name: AC du certificat de signature
+			type: file
 			
 
 action:	

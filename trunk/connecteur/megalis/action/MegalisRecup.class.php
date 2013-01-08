@@ -20,6 +20,8 @@ class MegalisRecup extends ActionExecutor {
 				
 		$document = $this->getDocument();
 		
+	
+		
 		foreach($recup['file_ok'] as $file_name){
 			$siren = $megalis->getSiren($file_name); 
 			$entite_info = $entiteListe->getBySiren($siren);
@@ -30,11 +32,12 @@ class MegalisRecup extends ActionExecutor {
 			$id_e = $entite_info[0]['id_e'];
 			
 			$id_d = $document->getIdFromTitre($file_name,'megalis');
+			
 			if ($id_d){
 				$file_result['Fichier déjà traité'][] = $file_name;
 				continue;
 			}
-			
+		
 			if (! $this->retrieveDocument($id_e,$file_name,$megalis)){
 				$file_result['Fichiers traités en erreur'][] = $file_name;
 				continue;
@@ -54,6 +57,8 @@ class MegalisRecup extends ActionExecutor {
 	}
 	
 	private function retrieveDocument($id_e,$file_name,Megalis $megalis){
+		
+		
 		$document =  $this->getDocument();
 		$id_d = $document->getNewId();	
 		$document->save($id_d,'megalis');
@@ -123,6 +128,8 @@ class MegalisRecup extends ActionExecutor {
 	}
 	
 	private function createFichierAttache($archive_path,$fichier_attache_path){		
+		
+		
 		$passwordGenerator = new PasswordGenerator();
 		$tmp_dir = $passwordGenerator->getPassword();
 		$zip = new ZipArchive();
@@ -134,8 +141,8 @@ class MegalisRecup extends ActionExecutor {
 		@ unlink("/tmp/$tmp_dir/archive.xml");
 		@ unlink("/tmp/$tmp_dir/archive.xsl");
 		
-		$phar = new PharData("/tmp/$tmp_dir.zip");
-		$phar->buildFromDirectory("/tmp/$tmp_dir");
+		$myZip = new MyZipArchive();
+		$myZip->zipDir("/tmp/$tmp_dir/", "/tmp/$tmp_dir.zip");
 		
 		rename("/tmp/$tmp_dir.zip",$fichier_attache_path);
 		rrmdir("/tmp/$tmp_dir");		
