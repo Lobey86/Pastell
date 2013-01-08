@@ -8,6 +8,9 @@ class IParapheur extends Connecteur {
 	private $login_http;
 	private $password_http;
 	
+	private $userKeyOnly;
+	private $userCertOnly;
+	
 	private $soapClientFactory;
 	
 	public function __construct(SoapClientFactory $soapClientFactory){
@@ -21,6 +24,11 @@ class IParapheur extends Connecteur {
 		$this->userCertPassword = $collectiviteProperties->get("iparapheur_user_certificat_password");
 		$this->login_http = $collectiviteProperties->get("iparapheur_login");
 		$this->password_http = $collectiviteProperties->get("iparapheur_password");
+		
+		$this->userKeyOnly = $collectiviteProperties->getFilePath("iparapheur_user_key_only_pem");
+		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");
+		
+		
 	}
 	
 	
@@ -249,6 +257,9 @@ class IParapheur extends Connecteur {
 					'password' => $this->password_http,
 					'trace' => 1,
 					'exceptions' => 1,
+					//'use_curl' => 1,
+					'userKeyOnly' => $this->userKeyOnly,
+					'userCertOnly' => $this->userCertOnly,
 	    		),true);
 	} 
 	

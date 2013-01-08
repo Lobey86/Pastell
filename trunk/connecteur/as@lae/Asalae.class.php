@@ -29,13 +29,13 @@ class Asalae {
 	}
 	
 	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ"){
-		$seda = base64_encode($bordereauSEDA);
+		$seda = $bordereauSEDA;
 		if (! $seda){
 			return false;
 		}
 		$client = new SoapClient($this->WSDL);
 
-		$document_content  = base64_encode(file_get_contents($archivePath));
+		$document_content  = file_get_contents($archivePath);
 		
 		$retour  = @ $client->__soapCall("wsDepot", array("bordereau.xml", $seda,basename($archivePath), $document_content, $file_type,$this->login,$this->password));
 		if ($retour === "0"){

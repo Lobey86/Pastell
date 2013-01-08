@@ -21,6 +21,8 @@ $i= 0;
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
+<?php include(PASTELL_PATH . "/include/bloc_message.php");?>
+
 <a href='role/index.php'>« Revenir à la liste des rôles</a>
 <br/><br/>
 <div class="box_contenu clearfix">
@@ -47,6 +49,17 @@ include( PASTELL_PATH ."/include/haut.php");
 		<input type='hidden' name='role' value='<?php echo $role?>'/>
 		<input type='submit' value='Modifier' />
 	<?php endif;?>
+</form>
+
+
+
+</div>
+
+<div class="box_contenu clearfix">
+<h2>Supprimer le rôle</h2>
+<form action='role/delete-controler.php' method='post'>
+	<input type='hidden' name='role' value='<?php hecho($role) ?>' />
+	<input type='submit' value='Supprimer' />
 </form>
 </div>
 <?php 

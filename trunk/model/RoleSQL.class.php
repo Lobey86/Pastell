@@ -47,4 +47,12 @@ class RoleSQL extends SQL {
 		$this->insertDroit($role,$droit);
 	}
 	
+	public function delete($role){
+		$sql = "DELETE FROM role_droit WHERE role=?";
+		$this->query($sql,$role);
+		$sql = "DELETE FROM role WHERE role=?";
+		$this->query($sql,$role);
+	}
+	
+	
 }
