@@ -4,9 +4,15 @@ formulaire:
 	page0:
 		iparapheur_activate: {name: "Module activé", type: checkbox}
 		iparapheur_wsdl: {name: "URL du WSDL"}
-		iparapheur_user_certificat: {name: "Certificat utilisateur (format P12)", type: file, content-type: application/octet-stream}
+		iparapheur_user_certificat: 
+			name: "Certificat utilisateur (format P12)"
+			type: file
+			content-type: application/octet-stream
+			onchange: update-certificate
 		iparapheur_user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
 		iparapheur_user_key_pem: {type: file, no-show: true}
+		iparapheur_user_certificat_pem: {type: file, no-show: true}
+		iparapheur_user_key_only_pem:  {type: file, no-show: true}
 		iparapheur_login: {name: "Login HTTP"}
 		iparapheur_password:  {name: "Mot de passe HTTP", type: password}
 		

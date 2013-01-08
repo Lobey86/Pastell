@@ -182,4 +182,11 @@ class RoleUtilisateur extends SQL {
 		return $this->query($sql,$id_e,$droit);
 	}
 	
+	public function anybodyHasRole($role){
+		$sql = "SELECT count(*) FROM utilisateur_role " .
+				" WHERE role =?";
+		return $this->queryOne($sql,$role);
+	}
+	
+	
 }

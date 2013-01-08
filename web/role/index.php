@@ -16,6 +16,7 @@ if ($roleUtilisateur->hasDroit($authentification->getId(),"role:edition",0)){
 
 include( PASTELL_PATH ."/include/haut.php");
 ?>
+<?php include(PASTELL_PATH . "/include/bloc_message.php");?>
 
 <div class="box_contenu clearfix">
 

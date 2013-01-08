@@ -9,7 +9,10 @@ class UpdateCertificate extends ActionExecutor {
 										$connecteur_properties->get('iparapheur_user_certificat_password'));
 		
 		if ($p12_data){
-			$connecteur_properties->addFileFromData("iparapheur_user_key_pem","iparapheur_user_key_pem",$p12_data['pkey'].$p12_data['cert']); 
+			$connecteur_properties->addFileFromData("iparapheur_user_key_pem","iparapheur_user_key_pem",$p12_data['pkey'].$p12_data['cert']);
+			$connecteur_properties->addFileFromData("iparapheur_user_certificat_pem","iparapheur_user_certificat_pem",$p12_data['cert']); 
+			$connecteur_properties->addFileFromData("iparapheur_user_key_only_pem","iparapheur_user_key_only_pem",$p12_data['pkey']);
+			
 		}
 		
 		$this->setLastMessage("Certificat à jour");		
