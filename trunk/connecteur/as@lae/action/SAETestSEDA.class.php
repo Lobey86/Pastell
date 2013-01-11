@@ -9,7 +9,8 @@ class SAETestSEDA extends ActionExecutor {
 		$donneesFormulaire = $this->getConnecteurProperties();
 		
 		$bordereau = file_get_contents($donneesFormulaire->getFilePath('sae_bordereau_test'));
-				
+
+		
 		$result = $sae->sendArchive($bordereau,$donneesFormulaire->get('sae_archive_test'));
 		
 		if (! $result){

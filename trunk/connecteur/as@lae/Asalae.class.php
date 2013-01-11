@@ -28,7 +28,7 @@ class Asalae {
 		return $this->lastErrorCode;
 	}
 	
-	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ"){
+	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
 		$seda = $bordereauSEDA;
 		if (! $seda){
 			return false;
@@ -37,7 +37,7 @@ class Asalae {
 
 		$document_content  = file_get_contents($archivePath);
 		
-		$retour  = @ $client->__soapCall("wsDepot", array("bordereau.xml", $seda,basename($archivePath), $document_content, $file_type,$this->login,$this->password));
+		$retour  = @ $client->__soapCall("wsDepot", array("bordereau.xml", $seda,$archive_file_name, $document_content, $file_type,$this->login,$this->password));
 		if ($retour === "0"){
 			return true;
 		}
