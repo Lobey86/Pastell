@@ -8,7 +8,7 @@
 </h2>
 
 <div>
-	<form action="entite/detail?php" method='get'>
+	<form action="entite/detail.php" method='get'>
 		<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 		<input type='hidden' name='page' value='1'/>
 	<table class='w500'>

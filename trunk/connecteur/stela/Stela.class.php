@@ -249,6 +249,8 @@ class Stela extends TdtConnecteur {
 	}
 	
 	public function postHelios(DonneesFormulaire $donneesFormulaire){
+
+		
 		
 		$uid = $this->soapCall('connexionSTELA',array('uid'),self::WSDL_HELIOS);
 		if (!$uid){
@@ -276,6 +278,7 @@ class Stela extends TdtConnecteur {
 		$helios_info['fichier']['name'] = $this->getHeliosFileName($file_path);
 		$helios_info['fichier']['base64'] = $this->getBase64FileContent($file_path);
 		
+		print_r($helios_info);
 		
 		$idDocument = $this->soapCall('putPESAller',array(json_encode($helios_info)),self::WSDL_HELIOS);
 		
