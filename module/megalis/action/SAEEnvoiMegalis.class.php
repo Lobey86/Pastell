@@ -15,7 +15,8 @@ class SAEEnvoiMegalis extends ActionExecutor {
 		
 		$archive_path = $this->getDonneesFormulaire()->getFilePath('fichier_attache');
 
-		$result = $sae->sendArchive($bordereau,$archive_path,"ZIP");
+
+		$result = $sae->sendArchive($bordereau,$archive_path,"ZIP","archive.zip");
 		
 		if (! $result){
 			$message = "L'envoi de l'archive a échoué : " . $sae->getLastError();
