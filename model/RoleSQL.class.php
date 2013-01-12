@@ -1,6 +1,11 @@
 <?php
 class RoleSQL extends SQL {
 	
+	public function getInfo($role){
+		$sql = "SELECT * FROM role WHERE role=?";
+		return $this->queryOne($sql,$role);
+	}
+	
 	public function getAllRole(){
 		$sql = "SELECT * FROM role ORDER by libelle";
 		return $this->query($sql);

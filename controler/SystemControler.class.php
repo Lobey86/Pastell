@@ -1,13 +1,12 @@
 <?php
 class SystemControler extends PastellControler {
 	
-	
-	
-	
 	public function indexAction(){
+		$this->verifDroit(0,"system:lecture");
+
 		$recuperateur=new Recuperateur($_GET);
 		$page_number = $recuperateur->getInt('page_number');
-		$this->ensureDroit("system:lecture", 0);
+		
 		
 		if ($page_number == 0){
 			$this->actionAutoAction();
