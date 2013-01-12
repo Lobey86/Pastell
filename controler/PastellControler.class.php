@@ -1,8 +1,12 @@
 <?php
 class PastellControler extends Controler {
 	
+	public function getId_u(){
+		return $this->Authentification->getId();
+	}
+	
 	public function hasDroit($id_e,$droit){
-		return $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),$droit,$id_e);
+		return $this->RoleUtilisateur->hasDroit($this->getId_u(),$droit,$id_e);
 	}
 	
 	public function verifDroit($id_e,$droit,$redirect_to = ""){

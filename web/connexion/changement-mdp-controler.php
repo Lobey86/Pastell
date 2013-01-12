@@ -32,7 +32,7 @@ if ($password != $password2){
 
 $utilisateur = new Utilisateur($sqlQuery);
 $infoUtilisateur = $utilisateur->getInfo($id_u);
-$utilisateur->setPassword(id_u,$password);
+$utilisateur->setPassword($id_u,$password);
 
 $passwordGenerator = new PasswordGenerator();
 $mailVerifPassword = $passwordGenerator->getPassword();

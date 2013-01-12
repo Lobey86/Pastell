@@ -181,6 +181,19 @@ class ConnecteurControler extends PastellControler {
 		$this->page_title = "Ajout d'un connecteur";
 		$this->template_milieu = "ConnecteurNew";
 		$this->renderDefault();
+	}
+	
+	public function editionLibelleAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_ce = $recuperateur->getInt('id_ce');
+		
+		$this->verifDroitOnConnecteur($id_ce);
+		
+		$this->connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
+		
+		$this->page_title = "Modification du connecteur  « {$this->connecteur_entite_info['libelle']} »";
+		$this->template_milieu = "ConnecteurEditionLibelle";
+		$this->renderDefault();
 		
 	}
 	

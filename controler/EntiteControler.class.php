@@ -1,6 +1,9 @@
 <?php
 
 
+require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+
+
 class EntiteControler extends PastellControler {
 	
 	
@@ -157,5 +160,45 @@ class EntiteControler extends PastellControler {
 		return $infoEntite;
 	}
 	
+	public function detailAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$this->id_e = $recuperateur->getInt('id_e',0);
+		$this->tab_number = $recuperateur->getInt('page',0);
+		
+		$this->info = $this->EntiteSQL->getInfo($this->id_e);
+		
+		if ($this->id_e){
+			$this->page_title = "Détail " . $this->info['denomination'];
+			$this->formulaire_tab = array("Informations générales","Utilisateurs","Agents","Connecteurs","Flux" );
+		} else {
+			$this->formulaire_tab = array("Entité","Utilisateurs","Agents","Connecteurs globaux","Associations connecteurs" ,"Annuaire" );
+			$this->page_title = "Administration";
+		}
+		
+		$this->template_milieu = "EntiteIndex";
+		$this->renderDefault();
+	}
+	
+	public function choixAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$this->id_d = $recuperateur->get('id_d');
+		$this->id_e =  $recuperateur->get('id_e');
+		$this->action = $recuperateur->get('action');
+		$this->type = $recuperateur->get('type',Entite::TYPE_COLLECTIVITE);
+		
+		if ($this->type == 'service'){
+			$this->liste = $this->EntiteListe->getAllDescendant($this->id_e);
+		} else {
+			$this->liste  = $this->EntiteListe->getAll($this->type);
+		}
+		
+		if (! $this->liste ) {
+			$this->LastError->setLastError("Aucune entité ({$this->type}) n'est disponible pour cette action");
+			$this->redirect("/document/detail.php?id_e={$this->id_e}&id_d={$this->id_d}");
+		}
+		$this->page_title = "Veuillez choisir le ou les destinataires du document ";
+		$this->template_milieu = "EntiteChoix";
+		$this->renderDefault();
+	}
 	
 }
