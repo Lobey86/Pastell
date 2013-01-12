@@ -7,7 +7,7 @@ require_once( PASTELL_PATH . "/lib/Siren.class.php");
 $recuperateur = new Recuperateur($_POST);
 
 $id_e = $recuperateur->get('id_e');
-$nom = $recuperateur->get('nom');
+$nom = $recuperateur->get('denomination');
 $siren = $recuperateur->get('siren',0);
 $type = $recuperateur->get('type');
 $entite_mere =  $recuperateur->get('entite_mere',0);

@@ -1,6 +1,5 @@
 <?php
 
-require_once( PASTELL_PATH . "/lib/action/Action.class.php");
 require_once( PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
 
 class DocumentType {

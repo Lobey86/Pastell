@@ -264,6 +264,7 @@ class Stela extends TdtConnecteur {
 		if (! $group_id){
 			return false; 
 		}
+
 		
 		$helios_info['informations']	= array(
 					"uid"		=> $uid, 

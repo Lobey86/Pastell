@@ -7,6 +7,6 @@ class Timer {
 	}
 
 	public function getElapsedTime(){
-                return microtime(true) - $this->startingTime;
+		return microtime(true) - $this->startingTime;
 	}
 }

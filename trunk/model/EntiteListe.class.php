@@ -48,19 +48,12 @@ class EntiteListe extends SQL {
 		return $this->query($sql,$param);
 	}
 	
-	
-	
 	public function getInfoFromArray(array $tabId_e){
 		$str = str_pad("",count($tabId_e),"?");
 		$array = implode(',',str_split ($str));
 		$sql = "SELECT id_e,siren,denomination FROM entite WHERE id_e IN ($array)";
 		$result = $this->query($sql,$tabId_e);
 		return $result;
-	}
-	
-	public function getAllPossibleMother(){
-		$sql = "SELECT * FROM entite WHERE type != ?";
-		return $this->query($sql,array(Entite::TYPE_FOURNISSEUR));
 	}
 	
 	public function getAllFille($id_e){
