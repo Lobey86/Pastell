@@ -1,4 +1,6 @@
 <?php
+require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+
 class UtilisateurControler extends PastellControler {
 	
 	public function modifPasswordAction(){
@@ -85,8 +87,28 @@ class UtilisateurControler extends PastellControler {
 		$donneesFormulaire->setTabData($data);
 		
 		$this->NotificationMail->notify($utilisateur_info['id_e'],$id_d,'creation','changement-email',$utilisateur_info['login']." a fait une demande de changement d'email");
+	}
+	
+	public function certificatAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$this->verif_number = $recuperateur->get('verif_number');
+		$this->offset = $recuperateur->getInt('offset',0);
+	
+		$this->limit = 20;
 		
+		$this->count = $this->UtilisateurListe->getNbUtilisateurByCertificat($this->verif_number);
+		$this->liste = $this->utilisateurListe->getUtilisateurByCertificat($this->verif_number,$this->offset,$this->limit);
 		
+		if (! $this->count){
+			$this->redirect("/index.php");
+		}
+		
+		$this->certificat = new Certificat($this->liste[0]['certificat']);
+		$this->certificatInfo = $this->certificat->getInfo();
+		
+		$this->page_title = "Certificat";
+		$this->template_milieu = "UtilisateurCertificat";
+		$this->renderDefault();
 	}
 	
 }

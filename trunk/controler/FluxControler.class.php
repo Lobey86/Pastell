@@ -53,9 +53,19 @@ class FluxControler extends PastellControler {
 			$this->all_flux_global = $this->all_flux_entite['global'];
 			$this->render("FluxGlobalList");
 		}
+	}
+	
+	public function editionAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$this->id_e = $recuperateur->getInt('id_e');
+		$this->flux = $recuperateur->get('flux');
+		$this->type_connecteur = $recuperateur->get('type');
 		
+		$this->connecteur_disponible = $this->FluxControler->getConnecteurDispo($this->id_e,$this->type_connecteur);
 		
-		
+		$this->page_title = "Association d'un connecteur et d'un flux";
+		$this->template_milieu = "FluxEdition";
+		$this->renderDefault();
 	}
 	
 	
