@@ -25,8 +25,6 @@ class EntiteControler extends PastellControler {
 		$this->offset = $offset;
 		$this->search=$search;
 		$this->descendance = $descendance;
-		
-		
 		$this->render("UtilisateurList");
 	}
 	
@@ -95,6 +93,68 @@ class EntiteControler extends PastellControler {
 		$this->search = $search;
 		$this->offset = $offset;
 		$this->render("EntiteList");	
+	}
+	
+	public function importAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->getInt('id_e',0);
+		$page =  $recuperateur->getInt('page',0);
+		$this->hasDroitEdition($id_e);
+		$this->entite_info = $this->EntiteSQL->getInfo($id_e);
+		$this->template_milieu = "EntiteImport";
+		$this->page_title = "Importer"; 
+		
+		if ($page == 0){
+			$this->allCDG = $this->EntiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
+			$this->cdg_selected = false;
+		}
+		
+		$this->onglet_tab = array("Collectivités","Agents","Grades");
+		$onglet_content = array("EntiteImportCollectivite","EntiteImportAgent","EntiteImportGrade");
+		$this->template_onglet = $onglet_content[$page];
+		$this->page = $page;
+		
+		$this->renderDefault();
+	}
+	
+	public function editionAction(){		
+		$recuperateur = new Recuperateur($_GET);
+		$entite_mere = $recuperateur->getInt('entite_mere',0);
+		$id_e = $recuperateur->getInt('id_e',0);
+		$this->hasDroitEdition($id_e);
+		$this->hasDroitEdition($entite_mere);
+	
+		if ($id_e){
+			$infoEntite = $this->EntiteSQL->getInfo($id_e);
+			$infoEntite['centre_de_gestion'] = $this->EntiteSQL->getCDG($id_e);
+			$infoEntite['has_ged'] = $this->EntiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged');
+			$infoEntite['has_archivage'] = $this->EntiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage');			
+			$this->page_title = "Modification de " . $infoEntite['denomination'];
+		} else {
+			$infoEntite = $this->getEntiteInfoFromLastError();
+			if ($entite_mere){
+				$this->infoMere = $this->EntiteSQL->getInfo($entite_mere);
+				$this->page_title = "Nouvelle fille pour " . $this->infoMere['denomination'];
+			} else {
+				$this->page_title = "Création d'une collectivité";
+			} 
+		}
+		$this->infoEntite = $infoEntite;
+		$this->cdg_selected = $infoEntite['centre_de_gestion'];
+		$this->allCDG = $this->EntiteListe->getAll(Entite::TYPE_CENTRE_DE_GESTION);
+		$this->template_milieu = "EntiteEdition";
+		$this->id_e = $id_e;
+		$this->entite_mere = $entite_mere;
+		
+		$this->renderDefault();
+	}
+	
+	private function getEntiteInfoFromLastError(){
+		$field_list = array("type","denomination","siren","entite_mere","id_e","has_ged","has_archivage","centre_de_gestion");
+		foreach($field_list as $field){
+			$infoEntite[$field] = $this->LastError->getLastInput($field);
+		}
+		return $infoEntite;
 	}
 	
 	

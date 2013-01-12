@@ -3,7 +3,6 @@ require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
-require_once( PASTELL_PATH . "/lib/action/Action.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $type = $recuperateur->get('type');

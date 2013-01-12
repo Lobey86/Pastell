@@ -1,6 +1,4 @@
 <?php
-
-
 class CSVoutput {
 	
 	private $outstream;

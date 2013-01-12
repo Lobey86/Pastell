@@ -52,8 +52,6 @@ class Controler {
 	
 	public function renderDefault(){
 		$template_milieu = $this->viewParameter['template_milieu'];
-	
-		
 		$this->Gabarit->setParameters($this->getViewParameter());
 		$this->Gabarit->render("Page");
 	}

@@ -81,6 +81,6 @@ L'inscription sur la plateforme Pastell vous permettra de télétransmettre des do
 <p><a href='<?php echo SITE_BASE ?>'>« J'ai déjà un compte et je souhaite me connecter</a></p>
 
 <?php 
-include( PASTELL_PATH . "/include/demo-box-siren.php");
+$objectInstancier->Gabarit->render("SirenBox");
 include( PASTELL_PATH ."/include/bas.php");
 

@@ -46,11 +46,7 @@ class Gabarit {
 		$this->setViewParameter("objectInstancier",$this->objectInstancier);
 		$this->versionning = $this->objectInstancier->Versionning;
 		$this->timer = $this->objectInstancier->Timer;
-		foreach($this->viewParameter as $key => $value){
-			$$key = $value;
-		}	
-		include( PASTELL_PATH ."/include/haut.php");
-		include("{$this->template_path}/$template.php");
-		include( PASTELL_PATH ."/include/bas.php");
+		$this->template_milieu = $template;
+		$this->render("Page");	
 	}
 }
