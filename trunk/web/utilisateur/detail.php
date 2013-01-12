@@ -1,6 +1,5 @@
 <?php 
 require_once(dirname(__FILE__)."/../init-authenticated.php");
-require_once (PASTELL_PATH . "/lib/helper/date.php");
 require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
 $documentTypeHTML = $objectInstancier->DocumentTypeHTML;

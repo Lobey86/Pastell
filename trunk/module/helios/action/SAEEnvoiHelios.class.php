@@ -1,6 +1,6 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/system/HeliosArchivesSEDA.class.php");
+require_once( __DIR__ . "/../HeliosArchivesSEDA.class.php");
 
 class SAEEnvoiHelios extends ActionExecutor {
 	

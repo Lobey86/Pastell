@@ -69,4 +69,14 @@ class RoleControler extends PastellControler {
 		$this->redirect("/role/index.php");
 	}
 	
+	public function doDetailAction(){
+		$this->verifDroit(0,"role:edition");
+		$recuperateur = new Recuperateur($_POST);
+		$role = $recuperateur->get('role');
+		$droit = $recuperateur->get('droit');
+		$this->RoleSQL->updateDroit($role,$droit);
+		$this->LastMessage->setLastMessage("Le role $role a été mis à jour");
+		$this->redirect("/role/detail.php?role=$role");
+	}
+	
 }

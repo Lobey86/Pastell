@@ -1,5 +1,5 @@
 <?php 
-require_once( PASTELL_PATH . "/lib/system/ActesArchivesSEDA.class.php");
+require_once( PASTELL_PATH . "/module/actes/lib/ActesArchiveSEDA.class.php");
 
 class SAEEnvoi extends ActionExecutor {
 	

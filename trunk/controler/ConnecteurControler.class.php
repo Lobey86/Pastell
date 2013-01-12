@@ -1,7 +1,7 @@
 <?php
 class ConnecteurControler extends PastellControler {
 	
-	public function hasDroitOnConnecteur($id_ce){
+	public function verifDroitOnConnecteur($id_ce){
 		$connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
 		if (! $connecteur_entite_info) {
 			$this->LastError->setLastError("Ce connecteur n'existe pas");
@@ -38,7 +38,7 @@ class ConnecteurControler extends PastellControler {
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');
 		
-		$this->hasDroitOnConnecteur($id_ce);
+		$this->verifDroitOnConnecteur($id_ce);
 		$info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
 		
 		$id_used = $this->FluxEntiteSQL->isUsed($info['id_ce']); 
@@ -58,7 +58,7 @@ class ConnecteurControler extends PastellControler {
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');
 		$libelle = $recuperateur->get('libelle');
-		$this->hasDroitOnConnecteur($id_ce);
+		$this->verifDroitOnConnecteur($id_ce);
 		
 		$this->ConnecteurEntiteSQL->edit($id_ce,$libelle);
 
@@ -69,7 +69,7 @@ class ConnecteurControler extends PastellControler {
 	public function doEditionModif(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');
-		$this->hasDroitOnConnecteur($id_ce);
+		$this->verifDroitOnConnecteur($id_ce);
 		
 		$fileUploader = new FileUploader($_FILES);
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
@@ -88,7 +88,7 @@ class ConnecteurControler extends PastellControler {
 		$field = $recuperateur->get('field');
 		$num = $recuperateur->getInt('num');
 		
-		$this->hasDroitOnConnecteur($id_ce);
+		$this->verifDroitOnConnecteur($id_ce);
 
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 		if ( ! $donneesFormulaire->sendFile($field,$num)){
@@ -103,7 +103,7 @@ class ConnecteurControler extends PastellControler {
 		$field = $recuperateur->get('field');
 		$num = $recuperateur->getInt('num');
 		
-		$this->hasDroitOnConnecteur($id_ce);
+		$this->verifDroitOnConnecteur($id_ce);
 		
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 		$donneesFormulaire->removeFile($field,$num);
@@ -118,6 +118,70 @@ class ConnecteurControler extends PastellControler {
 		$this->id_e = $id_e;
 		$this->all_connecteur = $this->ConnecteurEntiteSQL->getAll($id_e);
 		$this->render("ConnecteurList");
+	}
+	
+	public function deleteAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_ce = $recuperateur->getInt('id_ce');
+		$this->verifDroitOnConnecteur($id_ce);		
+		$this->connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
+		
+		$this->page_title = "Supression du connecteur  « {$this->connecteur_entite_info['libelle']} »";
+		$this->template_milieu = "ConnecteurDelete";
+		$this->renderDefault();
+	}
+	
+	private function setConnecteurInfo(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_ce = $recuperateur->getInt('id_ce');
+		
+		$this->verifDroitOnConnecteur($id_ce);
+		
+		$connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
+		$entite_info = $this->EntiteSQL->getInfo($connecteur_entite_info['id_e']);
+		
+		$this->afficheurFormulaire = $this->AfficheurFormulaireFactory->getFormulaireConnecteur($id_ce);
+		
+		if ($connecteur_entite_info['id_e']){
+			$this->action = $this->DocumentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur'])->getAction();
+		} else {
+			$this->action = $this->DocumentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur'])->getAction();
+		} 
+		
+		
+		if (! $connecteur_entite_info['id_e']){
+			$entite_info['denomination'] = "Entité racine";
+		}
+		$this->entite_info = $entite_info;
+		$this->connecteur_entite_info = $connecteur_entite_info;
+		$this->id_ce = $id_ce;
+	}
+	public function editionModif(){
+		$this->setConnecteurInfo();
+		$this->page_title = "Configuration des connecteurs pour « {$this->entite_info['denomination']} »";
+		$this->template_milieu = "ConnecteurEditionModif";
+		$this->renderDefault();
+	}
+	
+	public function editionAction(){
+		$this->setConnecteurInfo();
+		$this->page_title = "Configuration des connecteurs pour « {$this->entite_info['denomination']} »";
+		$this->template_milieu = "ConnecteurEdition";
+		$this->renderDefault();
+	}
+	
+	public function newAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->getInt('id_e');
+		$this->verifDroit($id_e, "entite:edition");
+		
+		$this->id_e = $id_e;		
+		$this->all_connecteur_dispo = $this->ConnecteurDefinitionFiles->getAllByIdE($id_e);
+		
+		$this->page_title = "Ajout d'un connecteur";
+		$this->template_milieu = "ConnecteurNew";
+		$this->renderDefault();
+		
 	}
 	
 }
