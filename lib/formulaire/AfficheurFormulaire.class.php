@@ -1,7 +1,6 @@
 <?php
 require_once("Formulaire.class.php");
 require_once("DonneesFormulaire.class.php");
-require_once( PASTELL_PATH . "/lib/helper/date.php");
 
 class AfficheurFormulaire {
 	

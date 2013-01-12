@@ -1,4 +1,3 @@
-<?php require_once( PASTELL_PATH . "/lib/helper/date.php"); ?>
 <div class="box_contenu clearfix">
 
 <h2>Filtre du journal </h2>

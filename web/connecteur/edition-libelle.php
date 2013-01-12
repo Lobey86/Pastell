@@ -4,7 +4,7 @@ require_once( dirname(__FILE__) . "/../init-authenticated.php");
 $recuperateur = new Recuperateur($_GET);
 $id_ce = $recuperateur->getInt('id_ce');
 
-$objectInstancier->ConnecteurControler->hasDroitOnConnecteur($id_ce);
+$objectInstancier->ConnecteurControler->verifDroitOnConnecteur($id_ce);
 
 $connecteur_entite_info = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
 
