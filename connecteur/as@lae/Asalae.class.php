@@ -1,8 +1,6 @@
 <?php
 
-class Asalae {
-	
-	private $lastError;
+class Asalae extends Connecteur {
 	
 	private $WDSL;
 	private $login;
@@ -21,9 +19,6 @@ class Asalae {
 		$this->numeroAgrement = $collectiviteProperties->get('sae_numero_aggrement');
 	}
 
-	public function getLastError(){
-		return $this->lastError;
-	}
 	public function getLastErrorCode(){
 		return $this->lastErrorCode;
 	}
