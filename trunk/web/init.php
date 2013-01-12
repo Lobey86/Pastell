@@ -1,6 +1,4 @@
 <?php 
-
-
 require_once(__DIR__."/../DefaultSettings.php");
 set_include_path(__DIR__ . "/../pastell-core/" . PATH_SEPARATOR . __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
 
@@ -16,8 +14,6 @@ session_start();
 require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
 require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 require_once( PASTELL_PATH . "/lib/util.php");
-require_once( PASTELL_PATH . "/lib/connecteur/Connecteur.class.php");
-
 
 
 $timer = new Timer();
