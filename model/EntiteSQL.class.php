@@ -76,4 +76,15 @@ class EntiteSQL extends SQL {
 		return $this->query($sql);
 	}
 	
+	
+	public function getAncetreId($id_e){
+		$ancetre = $this->getAncetre($id_e);
+		array_pop($ancetre);
+		$result = array(0);
+		foreach($ancetre as $entite){
+			$result[] = $entite['id_e'];
+		}
+		return $result;
+	}
+	
 }

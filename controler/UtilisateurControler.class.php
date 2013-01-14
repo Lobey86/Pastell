@@ -1,5 +1,6 @@
 <?php
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
+require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
 class UtilisateurControler extends PastellControler {
 	
@@ -110,5 +111,111 @@ class UtilisateurControler extends PastellControler {
 		$this->template_milieu = "UtilisateurCertificat";
 		$this->renderDefault();
 	}
+	
+	public function editionAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_u = $recuperateur->get('id_u');
+		$id_e = $recuperateur->getInt('id_e');
+		
+		$infoUtilisateur = array('login' =>  $this->LastError->getLastInput('login'),
+							'nom' =>  $this->LastError->getLastInput('nom'),
+							'prenom' =>  $this->LastError->getLastInput('prenom'),
+							'email'=> $this->LastError->getLastInput('email'),
+							'certificat' => '',
+							'id_e' => $id_e,
+		);
+		
+		if ($id_u){
+			$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
+			if (! $infoUtilisateur){
+				$this->redirect();
+			}
+		}
+		
+		$this->verifDroit($infoUtilisateur['id_e'], "utilisateur:edition");
+
+		$this->infoEntite = $this->EntiteSQL->getInfo($infoUtilisateur['id_e']);
+		$this->certificat = new Certificat($infoUtilisateur['certificat']);
+		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:edition");
+		
+		if ($id_u){
+			$this->page_title = "Modification de " .  $infoUtilisateur['prenom']." ". $infoUtilisateur['nom'];
+		} else {
+			$this->page_title = "Nouvel utilisateur ";	
+		}
+		$this->id_u = $id_u;
+		$this->id_e = $id_e;
+		$this->infoUtilisateur = $infoUtilisateur;
+		$this->template_milieu = "UtilisateurEdition";
+		$this->renderDefault();
+	}
+	
+	public function detailAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_u = $recuperateur->get('id_u');
+		
+		$info = $this->Utilisateur->getInfo($id_u);
+		if (! $info){
+			$this->LastError->setLastError("Utilisateur $id_u inconnu");
+			$this->redirect("index.php");
+		}
+		
+		$this->certificat = new Certificat($info['certificat']);
+		$this->page_title = "Utilisateur ".$info['prenom']." " . $info['nom'];
+		$this->entiteListe = $this->EntiteListe;
+		$this->tabEntite = $this->RoleUtilisateur->getEntite($this->getId_u(),'entite:edition');
+		$this->notification = $this->Notification;
+		
+		$roleInfo =  $this->RoleUtilisateur->getRole($id_u);
+		
+		
+		if ( ! $this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:lecture",$info['id_e'])) {
+			$this->LastError->setLastError("Vous n'avez pas le droit de lecture (".$info['id_e'].")");
+			$this->redirect();
+		}
+		
+		$this->utilisateur_edition = $this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:edition",$info['id_e']);
+		
+		if( $info['id_e'] ){
+			$this->infoEntiteDeBase = $this->EntiteSQL->getInfo($info['id_e']);
+			$this->denominationEntiteDeBase = $this->infoEntiteDeBase['denomination'];
+		}
+		$this->info = $info;
+		$this->id_u = $id_u;
+		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:edition");
+		$this->documentTypeHTML = $this->DocumentTypeHTML;
+		$this->template_milieu = "UtilisateurDetail";
+		$this->renderDefault();
+	}
+	
+	public function moiAction(){
+		$id_u = $this->getId_u();
+		
+		$this->documentTypeHTML = $this->DocumentTypeHTML;
+		
+		$info = $this->Utilisateur->getInfo($id_u);
+		$this->certificat = new Certificat($info['certificat']);
+		
+		$this->page_title = "Espace utilisateur : ".$info['prenom']." " . $info['nom'];
+		
+		$this->entiteListe = $this->EntiteListe;
+		
+		$this->tabEntite = $this->RoleUtilisateur->getEntite($this->getId_u(),'entite:edition');
+		
+		$this->notification = $this->Notification;
+		$this->roleInfo =  $this->RoleUtilisateur->getRole($id_u);
+		$this->utilisateur_edition = $this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:edition",$info['id_e']);
+		
+		if( $info['id_e'] ){
+			$infoEntiteDeBase = $this->EntiteSQL->getInfo($id_u);
+			$this->denominationEntiteDeBase = $infoEntiteDeBase['denomination'];
+		}
+		$this->info = $info;
+		$this->id_u = $id_u;
+		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:lecture");
+		$this->template_milieu = "UtilisateurMoi";
+		$this->renderDefault();
+	}
+	
 	
 }

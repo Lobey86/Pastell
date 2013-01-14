@@ -29,7 +29,7 @@ elseif($tab_number==3) :
 elseif($tab_number == 4 ) :
 	$this->FluxControler->listFlux();
 elseif($tab_number == 5 ): 
-		?><a href='mailsec/annuaire.php'>Annuaire global »</a><?php 
+		?><a href='mailsec/annuaire.php?id_e=<?php echo $id_e?>'>Annuaire »</a><?php 
 	
  endif;
  

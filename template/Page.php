@@ -1,5 +1,68 @@
-<?php require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php"); ?>
-<?php include( PASTELL_PATH ."/include/haut.php" );?>
+<?php require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php"); 
+require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
+require_once( PASTELL_PATH. "/lib/skin/PageDecorator.class.php");
+
+header("Content-type: text/html");
+
+$recuperateur = new Recuperateur($_GET);
+$id_e_menu = $recuperateur->getInt('id_e',0);
+$type_e_menu = $recuperateur->get('type',"");
+
+
+if ( empty($title) ) {
+	$title = "Pastell";
+}
+
+$pageDecorator = new PageDecorator();
+$pageDecorator->setTitle($page_title);
+$pageDecorator->setSiteBase(SITE_BASE);
+
+if ($authentification->isConnected()){
+	$pageDecorator->setUtilisateur($authentification->getId(),$authentification->getLogin());
+	$pageDecorator->addToMainMenu("Accueil", SITE_BASE . "document/index.php","picto_flux");
+	$pageDecorator->addToMainMenu("Administration", SITE_BASE . "entite/detail.php","picto_utilisateurs");
+	$pageDecorator->addToMainMenu("Journal des évènements", SITE_BASE . "journal/index.php","picto_journal");
+	if ($roleUtilisateur->hasDroit($authentification->getId(),"role:lecture",0)){
+		$pageDecorator->addToMainMenu("Rôles", SITE_BASE . "role/index.php","picto_collectivites");
+	}
+	
+	$pageDecorator->addToMainMenu("Aide", AIDE_URL ,"picto_aide");
+	
+	if  ($roleUtilisateur->hasDroit($authentification->getId() ,'system:lecture',0)) {
+		$pageDecorator->addToMainMenu("Environnement système", SITE_BASE . "system/index.php","picto_collectivites");
+	}
+	
+	$entiteBC = new Entite($sqlQuery,$id_e_menu);
+	foreach( $entiteBC->getAncetre() as $infoEntiteBR){
+		$pageDecorator->addToBreadCrumbs($infoEntiteBR['denomination']);
+	}
+	
+	$allType = array();
+
+	$allDocType = $objectInstancier->FluxDefinitionFiles->getAllType();
+	$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
+
+	foreach($allDocType as $type_flux => $les_flux){
+		foreach($les_flux as $nom => $affichage) {
+			if ($roleUtilisateur->hasOneDroit($authentification->getId(),$nom.":lecture")){
+				$allType[$type_flux][$nom]  = $affichage;
+			}
+		}
+	}
+	$pageDecorator->setMenuGauche($allType,$id_e_menu,$type_e_menu);
+	
+	if (isset($nouveau_bouton_url)){
+		$pageDecorator->addNouveauBouton($nouveau_bouton_url);
+	}
+}
+$infoVersionning = $versionning->getAllInfo();
+$pageDecorator->setVersion($infoVersionning['version-complete']);
+
+
+$pageDecorator->displayHaut();
+
+?>
 <?php $this->render("LastMessage");?>
 <?php $this->render($template_milieu);?>
-<?php include( PASTELL_PATH ."/include/bas.php" ); ?>
+<?php $pageDecorator->displayBas(round($timer->getElapsedTime(),3)); ?>
+

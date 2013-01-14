@@ -169,7 +169,7 @@ class EntiteControler extends PastellControler {
 		
 		if ($this->id_e){
 			$this->page_title = "Détail " . $this->info['denomination'];
-			$this->formulaire_tab = array("Informations générales","Utilisateurs","Agents","Connecteurs","Flux" );
+			$this->formulaire_tab = array("Informations générales","Utilisateurs","Agents","Connecteurs","Flux","Annuaire" );
 		} else {
 			$this->formulaire_tab = array("Entité","Utilisateurs","Agents","Connecteurs globaux","Associations connecteurs" ,"Annuaire" );
 			$this->page_title = "Administration";
