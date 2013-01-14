@@ -1,8 +1,6 @@
 <?php
 require_once("init-api.php");
 
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_d = $recuperateur->get('id_d');

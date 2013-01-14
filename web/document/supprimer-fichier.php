@@ -2,8 +2,6 @@
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 require_once( PASTELL_PATH . "/lib/FileUploader.class.php");
 
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 
 //Récupération des données
 $recuperateur = new Recuperateur($_POST);

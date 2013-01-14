@@ -1,6 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
-require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 
 abstract class ActionExecutor {
 	

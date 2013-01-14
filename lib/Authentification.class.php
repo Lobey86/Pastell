@@ -5,7 +5,6 @@ class Authentification {
 		$_SESSION['connexion']['login'] = $login;
 		$_SESSION['connexion']['id_u'] = $id_u;
 		$_SESSION['connexion']['breadcrumbs'] = array();
-		
 	}
 	
 	public function isConnected(){

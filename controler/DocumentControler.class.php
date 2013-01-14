@@ -1,12 +1,8 @@
 <?php
 
-require_once( PASTELL_PATH . '/lib/formulaire/AfficheurFormulaire.class.php');
-require_once( PASTELL_PATH . '/lib/formulaire/DataInjector.class.php');
 
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentListAfficheur.class.php");
 require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
 class DocumentControler extends PastellControler {
 	

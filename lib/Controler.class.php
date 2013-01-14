@@ -2,10 +2,8 @@
 class Controler {
 
 	private $objectInstancier;
-	
 	private $selectedView;
 	private $viewParameter;
-	
 	protected $lastError;
 	
 	public function __construct(ObjectInstancier $objectInstancier){
@@ -38,8 +36,6 @@ class Controler {
 		return $this->viewParameter;
 	}
 	
-	
-	
 	public function exitToIndex(){
 		header("Location: ".$this->objectInstancier->site_index);
 		exit;
@@ -60,6 +56,4 @@ class Controler {
 		$this->Gabarit->setParameters($this->getViewParameter());
 		$this->Gabarit->render($template);
 	}
-	
-	
 }

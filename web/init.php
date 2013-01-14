@@ -10,9 +10,6 @@ function __autoload($class_name) {
 }
 session_start();
 
-
-require_once( PASTELL_PATH. "/lib/document/DocumentTypeFactory.class.php");
-require_once( PASTELL_PATH. "/lib/formulaire/DonneesFormulaireFactory.class.php");
 require_once( PASTELL_PATH . "/lib/util.php");
 
 
