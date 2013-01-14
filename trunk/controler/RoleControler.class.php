@@ -5,11 +5,9 @@ class RoleControler extends PastellControler {
 	public function indexAction(){
 		$this->verifDroit(0,"role:lecture");
 		$this->allRole = $this->RoleSQL->getAllRole();
-		
 		if ($this->hasDroit(0,"role:edition")){
 			$this->nouveau_bouton_url = array("Nouveau" => "role/edition.php");
 		} 
-
 		$this->page_title = "Liste des rôles";
 		$this->template_milieu = "RoleIndex";
 		$this->renderDefault();

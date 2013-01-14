@@ -1,8 +1,5 @@
 <?php
-
-
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-require_once (PASTELL_PATH . "/lib/entite/NavigationEntite.class.php");
 
 class DocumentControler extends PastellControler {
 	
@@ -60,7 +57,6 @@ class DocumentControler extends PastellControler {
 	}
 	
 	public function editionAction(){
-		
 		$recuperateur = new Recuperateur($_GET);
 		$id_d = $recuperateur->get('id_d');
 		$type = $recuperateur->get('type');
@@ -105,11 +101,6 @@ class DocumentControler extends PastellControler {
 		$donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$type);
 		
 		$my_role = $this->documentEntite->getRole($id_e,$id_d);
-		
-		
-		$dataInjector = new DataInjector($formulaire,$donneesFormulaire);
-		$dataInjector->inject($infoEntite['siren']);
-		
 		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 		$afficheurFormulaire->setRole($my_role);
 		
@@ -185,7 +176,8 @@ class DocumentControler extends PastellControler {
 		$this->offset = $offset;
 		$this->limit = $limit;
 		$this->documentListAfficheur = $this->DocumentListAfficheur;
-		$this->liste_collectivite = $liste_collectivite;
+		
+		$this->setNavigationInfo($id_e,"document/index.php?a=a");
 		$this->page_title= "Liste des documents <em>" . $this->infoEntite['denomination'] ."</em>";
 		$this->template_milieu = "DocumentIndex"; 
 		$this->renderDefault();
@@ -221,9 +213,7 @@ class DocumentControler extends PastellControler {
 		}
 			
 		$this->verifDroit($id_e, "$type:lecture");
-		
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
-		
 		
 		$this->page_title = "Liste des documents " . $documentType->getName();
 		if ($id_e){
@@ -248,8 +238,8 @@ class DocumentControler extends PastellControler {
 		$this->last_id = $last_id;
 		$this->type = $type;
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
-		$this->liste_collectivite = $liste_collectivite;
-		
+		$this->setNavigationInfo($id_e,"document/list.php?type=$type");
+				
 		$this->template_milieu = "DocumentList"; 
 		$this->renderDefault();
 	}

@@ -85,7 +85,8 @@ class Field {
 		return $result;
 	}
 	
-	public function isEnabled($id_e){
+	public function isEnabled($id_e,$id_d){
+		
 		$action_name = $this->getProperties('choice-action');
 		if ( ! $action_name){
 			return true;
@@ -93,7 +94,6 @@ class Field {
 		
 		global $objectInstancier;
 		$id_u = $objectInstancier->Authentification->getId();
-		global $id_d;
 		try { 
 			return $objectInstancier->ActionExecutorFactory->isChoiceEnabled($id_e,$id_u,$id_d,$action_name);
 		} catch (Exception $e){

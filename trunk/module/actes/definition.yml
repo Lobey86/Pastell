@@ -12,7 +12,6 @@ connecteur:
 
 formulaire:
 	Acte:
-		Siren de la collectivité: {read-only: true, data: siren, no-show: true}
 	
 		acte_nature:
 			name: Nature de l'acte

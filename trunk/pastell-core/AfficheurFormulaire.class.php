@@ -213,7 +213,7 @@ class AfficheurFormulaire {
 						<?php if ($this->isEditable($field->getName())) : ?>
 							<?php if($id_ce) : ?>
 								<a href='<?php echo  $externalDataURL ?>?id_ce=<?php echo $id_ce ?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
-							<?php elseif($field->isEnabled($this->inject['id_e']) && isset($id_e)) :?>
+							<?php elseif($field->isEnabled($id_e,$id_d) && isset($id_e)) :?>
 								<a href='<?php echo  $externalDataURL ?>?id_e=<?php echo $id_e ?>&id_d=<?php echo $id_d ?>&page=<?php echo $page_number?>&field=<?php echo $field->getName()?>'><?php echo $field->getProperties('link_name')?></a>
 							<?php else:?>
 								non disponible

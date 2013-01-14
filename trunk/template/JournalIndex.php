@@ -72,6 +72,6 @@ suivant_precedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u
 <br/><br/>
 <?php endif;?>
 <?php 
+$this->render("EntiteNavigation");
 
-$navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
-$navigationEntite->affiche("journal/index.php?a=a");
+

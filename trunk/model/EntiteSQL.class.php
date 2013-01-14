@@ -6,6 +6,15 @@ class EntiteSQL extends SQL {
 		return $this->queryOne($sql,$id_e);
 	}
 	
+	public function getDenomination($id_e){
+		$info = $this->getInfo($id_e);
+		if (! $info){
+			return "";
+		} 
+		return $info['denomination'];
+	}
+	
+	
 	public function getAncetre($id_e){
 		$sql = "SELECT * FROM entite_ancetre " . 
 				" JOIN entite ON entite_ancetre.id_e_ancetre=entite.id_e " . 
@@ -66,6 +75,17 @@ class EntiteSQL extends SQL {
 		return $this->query($sql,$id_e);
 	}
 	
+	public function getFilleInfoNavigation($id_e,array $liste_collectivite = array()){
+		if ($id_e != 0 || ($liste_collectivite[0] == 0)) {
+			return $this->getFilleWithType($id_e,array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE));
+		} 
+		$liste_fille = array();
+		foreach($liste_collectivite as $id_e_fille){
+			$liste_fille[] = $this->getInfo($id_e_fille);
+		}
+		return $liste_fille;
+	}
+	
 
 	public function getSiren($id_e){
 		return $this->getHeritedInfo($id_e,'siren');
@@ -85,6 +105,41 @@ class EntiteSQL extends SQL {
 			$result[] = $entite['id_e'];
 		}
 		return $result;
+	}
+	
+	public function getFilleWithType($id_e,array $type){
+		foreach($type as $i => $t){
+			$type[$i] = "'$t'";
+		}
+		$sql = "SELECT * FROM entite " .
+				" WHERE entite_mere=? " .
+				" AND type IN (".implode(",",$type).")" .
+				" ORDER BY denomination";
+		return $this->query($sql,$id_e);
+	}
+	
+	public function getAncetreNav($id_e,$listeCollectivite){
+		$all_ancetre = $this->getAncetre($id_e);
+		
+		array_pop($all_ancetre);
+		
+		if (in_array(0,$listeCollectivite)){
+			return $all_ancetre;
+		}
+		
+		$allParent = array();
+		foreach($all_ancetre as $parent){
+			$allParent[] = $parent['id_e'];
+		}
+		foreach($allParent as $parent_id_e){
+			if (! in_array($parent_id_e,$listeCollectivite)){
+				array_shift($all_ancetre);
+			} else {
+				return $all_ancetre;
+			}
+		}
+		return $all_ancetre;
+	
 	}
 	
 }
