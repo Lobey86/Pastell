@@ -1,6 +1,5 @@
 <?php
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-require_once( PASTELL_PATH . "/lib/document/DocumentTypeHTML.class.php");
 
 class UtilisateurControler extends PastellControler {
 	

@@ -1,8 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-require_once (PASTELL_PATH . "/lib/formulaire/Formulaire.class.php");
-require_once( PASTELL_PATH . "/lib/formulaire/DonneesFormulaire.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $key = $recuperateur->get('key');

@@ -1,7 +1,5 @@
 <?php 
-
 require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php"); 
-require_once( PASTELL_PATH. "/lib/document/DocumentType.class.php");
 
 $recuperateur = new Recuperateur($_GET);
 $id_e_menu = $recuperateur->getInt('id_e',0);

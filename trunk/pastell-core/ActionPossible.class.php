@@ -1,5 +1,4 @@
 <?php
-require_once (PASTELL_PATH . "/lib/formulaire/Field.class.php");
 
 class ActionPossible {
 	private $lastBadRule;
