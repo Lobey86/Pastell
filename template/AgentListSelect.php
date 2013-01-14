@@ -15,7 +15,7 @@
 </div>
 
 <?php 
-suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
+$this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
 ?>
 
 <div class="box_contenu clearfix">

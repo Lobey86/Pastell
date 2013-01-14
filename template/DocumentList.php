@@ -32,7 +32,7 @@ if ($id_e != 0) {
 	
 	$count = $documentActionEntite->getNbDocument($id_e,$type,$search,$filtre);
 	
-	suivant_precedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type");
+	$this->SuivantPrecedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type");
 
 	$documentListAfficheur = new DocumentListAfficheur($documentTypeFactory);
 	

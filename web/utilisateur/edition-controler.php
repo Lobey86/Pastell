@@ -34,8 +34,7 @@ if (! $prenom){
 	$redirection->redirect();
 }
 
-
-if (! is_mail($email)){
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
 	$lastError->setLastError("Votre adresse email ne semble pas valide");
 	$redirection->redirect();
 }

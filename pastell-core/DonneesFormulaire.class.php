@@ -1,6 +1,5 @@
 <?php
 require_once (PASTELL_PATH . "/ext/spyc.php");
-require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class DonneesFormulaire {
 	
@@ -267,7 +266,7 @@ class DonneesFormulaire {
 				return false;
 			}
 			if ($field->getType() == 'mail-list' && $this->get($field->getName())){
-				if ( ! is_mail_list($this->get($field->getName()))){
+				if ( ! $this->is_mail_list($this->get($field->getName()))){
 					$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . " ne contient pas une liste d'email valide.";
 					return false;
 				}
@@ -295,6 +294,87 @@ class DonneesFormulaire {
 		}
 		return true;
 	}
+
+	private function is_mail($mail){
+		if (preg_match('/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^[^@<]*<([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})>$/i',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^groupe: ".*"$/',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^role: ".*"$/',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^groupe hérité de .*: ".*"$/',$mail)){
+			return true;
+		}
+	
+		if (preg_match('/^rôle hérité de .*: ".*"$/',$mail)){
+			return true;
+		}
+	
+		if (preg_match('/^groupe global: ".*"$/',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^rôle global: ".*"$/',$mail)){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	private function is_mail_list($scalar_mail_list){
+		
+		foreach($this->get_mail_list($scalar_mail_list) as $mail){
+			if (! $mail){
+				continue;
+			}
+			if ( ! $this->is_mail(trim($mail))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public function getMailList($type){
+		return $this->get_mail_list($this->get($type));
+	}
+	
+	private function  get_mail_list($scalar_mail_list){
+		$mails = array(0=>'');
+		$i = 0;
+		$state = 1;
+		foreach(str_split($scalar_mail_list) as $letter){
+			if ($letter == '"'){
+				$state = 1 - $state;
+			}
+			if ($letter == ',' && $state){
+				$mails[++$i] = '';
+			} else {
+				$mails[$i].=$letter;
+			}
+		}
+		$result = array();
+		foreach($mails as $mail){
+			$mail = trim($mail);
+			if ($mail) {
+				$result[] = $mail;
+			} 
+			
+		}
+		return array_unique($result);
+	}
+	
+	
 	
 	public function getLastError(){
 		return $this->lastError;

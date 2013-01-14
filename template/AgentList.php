@@ -15,7 +15,7 @@
 </form>
 </div>
 
-<?php suivant_precedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$page&search=$search"); ?>
+<?php $this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"entite/detail.php?id_e=$id_e&page=$page&search=$search"); ?>
 <?php if ($id_ancetre != $id_e): ?>
 <div class='box_info'><p>Informations héritées de <a href='entite/detail.php?id_e=<?php echo $id_ancetre?>'><?php echo $infoAncetre['denomination']?></a></p></div>
 <?php endif;?>

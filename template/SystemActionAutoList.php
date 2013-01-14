@@ -5,7 +5,7 @@ Dernier lancement du script action-automatique : <?php echo $last_upstart; ?>
 <h2>Dernières actions automatique</h2>
 
 <?php 
-suivant_precedent($offset,$limit,$count,"system/index.php?page_number=0");
+$this->SuivantPrecedent($offset,$limit,$count,"system/index.php?page_number=0");
 ?>
 
 

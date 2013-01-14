@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class UtilisateurCreator extends SQL {
 	
@@ -32,7 +31,7 @@ class UtilisateurCreator extends SQL {
 			return false;
 		}
 		
-		if (! is_mail($email)){
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
 			$this->lastError ="Votre adresse email ne semble pas valide";
 			return false;
 		}

@@ -1,6 +1,4 @@
 <?php 
-require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-
 class MailSecControler extends PastellControler {
 	
 	public function annuaireAction(){

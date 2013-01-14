@@ -1,4 +1,24 @@
+<?php 
 
+function dateInput($name,$value=''){
+	?>
+	<input 	type='text' 	
+								id='<?php echo $name?>' 
+								name='<?php echo $name?>' 
+								value='<?php echo $value?>' 
+								class='date'
+								/>
+							<script type="text/javascript">
+						   		 jQuery.datepicker.setDefaults(jQuery.datepicker.regional['fr']);
+								$(function() {
+									$("#<?php echo $name?>").datepicker( { dateFormat: 'dd/mm/yy' });
+									
+								});
+							</script>
+	<?php 
+}
+
+?>
 <div class="box_contenu clearfix">
 
 <form class="w700" action='document/search.php' method='get' >
@@ -99,7 +119,7 @@ if ($go = 'go'){
 	$listDocument = $documentActionEntite->getListBySearch($id_e,$type,$offset,$limit,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$tri);	
 	$count = $documentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso);
 	if ($count) {
-		suivant_precedent($offset,$limit,$count,"document/search.php?$url");
+		$this->SuivantPrecedent($offset,$limit,$count,"document/search.php?$url");
 		$documentListAfficheur = new DocumentListAfficheur($documentTypeFactory);
 		$documentListAfficheur->affiche($listDocument,$id_e);
 		?>

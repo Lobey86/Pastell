@@ -9,8 +9,7 @@
 </div>
 <?php
 
-	
-	suivant_precedent($offset,$limit,$count,"document/index.php?id_e=$id_e&search=$search");
+	$this->SuivantPrecedent($offset,$limit,$count,"document/index.php?id_e=$id_e&search=$search");
 	$documentListAfficheur->affiche($listDocument,$id_e);
 
 }
