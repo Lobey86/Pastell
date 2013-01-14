@@ -29,6 +29,15 @@ class PastellControler extends Controler {
 		$this->verifDroit($id_e,"entite:lecture");
 	}
 	
+	public function setNavigationInfo($id_e,$url){
+		$listeCollectivite = $this->RoleUtilisateur->getEntite($this->getId_u(),"entite:lecture");
+		$this->navigation_denomination = $this->EntiteSQL->getDenomination($id_e);
+		$this->navigation_all_ancetre = $this->EntiteSQL->getAncetreNav($id_e,$listeCollectivite);
+		$this->navigation_liste_fille = $this->EntiteSQL->getFilleInfoNavigation($id_e, $listeCollectivite);
+		$this->navigation_entite_affiche_toutes = ($id_e != 0 && (count($listeCollectivite) > 1 || $listeCollectivite[0] == 0));
+		$this->navigation_url = $url;
+	}
+	
 	public function renderDefault(){
 		$this->authentification = $this->Authentification;
 		$this->roleUtilisateur = $this->RoleUtilisateur;

@@ -41,7 +41,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php hecho($page_title) . " - Pastell"; ?></title>
+		<title><?php echo($page_title) . " - Pastell"; ?></title>
 		
 		<meta name="description" content="Pastell est un logiciel de gestion de flux de documents. Les documents peuvent être crées via un système de formulaires configurables. Chaque document suit alors un workflow prédéfini, également configurable." />
 		<meta name="keywords" content="Pastell, collectivité territoriale, flux, document, données, logiciel, logiciel libre, open source" />
@@ -151,7 +151,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 				<div id="main_droite" >
 					<div id="bloc_titre_bouton">
 						<div id="bloc_h1">
-						<h1><?php hecho($page_title); ?></h1>
+						<h1><?php echo($page_title); ?></h1>
 						</div>
 						<?php if ($nouveau_bouton_url): ?>
 							<div id="bloc_boutons">

@@ -15,9 +15,10 @@
 
 }
 
-$navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
-$navigationEntite->affiche("document/index.php?a=a");
 ?>
+
+<?php $this->render("EntiteNavigation")?>
+
 <?php if ($id_e) : ?>
 <a href='journal/index.php?id_e=<?php echo $id_e?>'>Voir le journal des évènements</a>
 <br/><br/>

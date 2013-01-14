@@ -41,10 +41,7 @@ if ($id_e != 0) {
 
 }
 
-$navigationEntite = new NavigationEntite($id_e,$liste_collectivite);
-
-$navigationEntite->affiche("document/list.php?type=$type");
-
+$this->render("EntiteNavigation");
 
 
 if ($id_e) : ?>

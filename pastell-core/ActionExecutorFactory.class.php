@@ -61,10 +61,14 @@ class ActionExecutorFactory {
 	}
 	
 	public function isChoiceEnabled($id_e,$id_u,$id_d,$action_name){
+		
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
+	
+		
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($infoDocument['type']);
 		
-		$action_class_name = $this->getActionClassName($documentType, $action_name);		
+		$action_class_name = $this->getActionClassName($documentType, $action_name);
+
 		
 		$this->loadDocumentActionFile($infoDocument['type'],$action_class_name);
 		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
