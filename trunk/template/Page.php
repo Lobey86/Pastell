@@ -1,5 +1,4 @@
 <?php 
-require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php"); 
 
 $recuperateur = new Recuperateur($_GET);
 $id_e_menu = $recuperateur->getInt('id_e',0);
@@ -188,3 +187,4 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		</div>
 	</body>
 </html>
+<?php 

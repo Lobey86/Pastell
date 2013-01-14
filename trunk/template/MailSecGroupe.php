@@ -4,7 +4,7 @@
 <div class="box_contenu">
 <h2>Liste des contacts de «<?php echo $infoGroupe['nom']?>» </h2>
 
-<?php suivant_precedent($offset,AnnuaireGroupe::NB_MAX,$nbUtilisateur,"mailsec/groupe.php?id_e=$id_e&id_g=$id_g"); ?>
+<?php $this->SuivantPrecedent($offset,AnnuaireGroupe::NB_MAX,$nbUtilisateur,"mailsec/groupe.php?id_e=$id_e&id_g=$id_g"); ?>
 
 
 

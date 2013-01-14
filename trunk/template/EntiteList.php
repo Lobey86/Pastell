@@ -18,7 +18,7 @@ Nouveau</a>
 </form>
 </div>
 <?php 
-suivant_precedent($offset,20,$nbCollectivite,"entite/detail.php?search=$search");
+$this->SuivantPrecedent($offset,20,$nbCollectivite,"entite/detail.php?search=$search");
 ?>
 <table class="tab_01">
 	<tr>

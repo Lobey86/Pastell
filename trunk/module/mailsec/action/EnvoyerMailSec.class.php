@@ -1,6 +1,5 @@
 <?php 
 
-require_once( PASTELL_PATH . "/lib/helper/mail_validator.php");
 
 class EnvoyerMailSec extends ActionExecutor {
 	
@@ -43,7 +42,7 @@ class EnvoyerMailSec extends ActionExecutor {
 		$this->documentEmail = new DocumentEmail($this->getSQLQuery());
 		
 		foreach(array('to','cc','bcc') as $type){
-			$lesMails = get_mail_list($donneesFormulaire->get($type));
+			$lesMails = $donneesFormulaire->getMailList($type);
 			foreach($lesMails as $mail){
 				if (preg_match("/^groupe: \"(.*)\"$/",$mail,$matches)){
 					$groupe = $matches[1];

@@ -49,4 +49,20 @@ class Gabarit {
 		$this->template_milieu = $template;
 		$this->render("Page");	
 	}
+	
+	public function suivantPrecedent($offset,$limit,$nb_total,$link = null,$message=null) {
+		if (! $message){
+			$message = _('Position %1$s à %2$s sur %3$s');
+		}
+		
+		if (! $link){
+			$link = $_SERVER['PHP_SELF'];
+		}
+		if ( strstr($link,"?")){
+			 $link = $link."&";
+		} else {
+			 $link = $link."?";
+		}
+		include("{$this->template_path}/SuivantPrecedent.php");
+	}
 }

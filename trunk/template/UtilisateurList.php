@@ -37,7 +37,7 @@
 	</form>
 	</div>
 <br/>
-<?php suivant_precedent($offset,UtilisateurListe::NB_UTILISATEUR_DISPLAY,$nb_utilisateur,"entite/detail.php?id_e=$id_e&page=1&search=$search&descendance=$descendance&role_selected=$role_selected"); ?>
+<?php $this->SuivantPrecedent($offset,UtilisateurListe::NB_UTILISATEUR_DISPLAY,$nb_utilisateur,"entite/detail.php?id_e=$id_e&page=1&search=$search&descendance=$descendance&role_selected=$role_selected"); ?>
 
 
 <table class='tab_02'>

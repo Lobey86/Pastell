@@ -1,19 +1,3 @@
-<?php 
-function suivant_precedent($offset,$limit,$nb_total,$link = null,$message=null) {
-	
-	if (! $message){
-		$message = _('Position %1$s à %2$s sur %3$s');
-	}
-	
-	if (! $link){
-		$link = $_SERVER['PHP_SELF'];
-	}
-	if ( strstr($link,"?")){
-		 $link = $link."&";
-	} else {
-		 $link = $link."?";
-	}
-?>
 <div class="box_suiv">
 	<div class="prec">
 		<?php if ( $offset) : ?>
@@ -31,5 +15,3 @@ function suivant_precedent($offset,$limit,$nb_total,$link = null,$message=null) 
 		<?php endif; ?>
 	 </div>
 </div>
-<?php
-} 

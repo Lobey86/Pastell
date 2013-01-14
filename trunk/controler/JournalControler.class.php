@@ -1,6 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php");
-
 class JournalControler extends PastellControler {
 	
 	public function exportAction(){

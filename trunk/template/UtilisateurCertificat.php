@@ -1,7 +1,7 @@
 
 
 <?php 
-suivant_precedent($offset,$limit,$count);
+$this->SuivantPrecedent($offset,$limit,$count);
 ?>
 
 
