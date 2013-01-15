@@ -268,18 +268,18 @@ class Stela extends TdtConnecteur {
 		
 		$helios_info['informations']	= array(
 					"uid"		=> $uid, 
-					"groupSend"	=> $group_id,
+					"groupsend"	=> $group_id,
 					"title" => $donneesFormulaire->get('objet'),
 					"comment" => "Fichier Helios posté via Pastell",
 		);
 
 		$file_path = $donneesFormulaire->getFilePath('fichier_pes_signe');
+		$file_name = $donneesFormulaire->getFileName('fichier_pes_signe',0);
 		
+		$fichier['name'] = $file_name;
+		$fichier['base64'] = $this->getBase64FileContent($file_path);
 		
-		$helios_info['fichier']['name'] = $this->getHeliosFileName($file_path);
-		$helios_info['fichier']['base64'] = $this->getBase64FileContent($file_path);
-		
-		print_r($helios_info);
+		$helios_info['fichier'][] = $fichier; 
 		
 		$idDocument = $this->soapCall('putPESAller',array(json_encode($helios_info)),self::WSDL_HELIOS);
 		
@@ -290,22 +290,19 @@ class Stela extends TdtConnecteur {
 		return true;
 	}
 	
-	private function getHeliosFileName($pes_path){
-		$xml = simplexml_load_file($pes_path);
-		
-		$type_fic = $xml->Enveloppe->Parametres->TypFic['V'];
-		$id_col = $xml->EnTetePES->IdColl['V'];
-		$date_str = $xml->EnTetePES->DteStr['V'];
-		$num_ordre = "01";
-
-		$date_str = date("dmy",strtotime($date_str));
-		
-		return "{$type_fic}_{$id_col}_{$date_str}_{$num_ordre}.xml";
-	}
-	
-	
 	public function getStatusHelios($id_transaction){
-		throw new StelaException("Not implemented");
+		$result = $this->soapCall('getDetailsPESAller',array($id_transaction),self::WSDL_HELIOS);
+		
+		if ( ! $result){
+			return TdtConnecteur::STATUS_HELIOS_ATTENTE;
+		}
+		if ($result['dateAnomalie']){
+			return TdtConnecteur::STATUS_REFUSE;
+		}
+		if ($result['dateAR']){
+			return TdtConnecteur::STATUS_ACQUITTEMENT_RECU;
+		}
+		return TdtConnecteur::STATUS_HELIOS_ATTENTE;
 	}
 	
 	public function getLastReponseFile(){
@@ -313,7 +310,12 @@ class Stela extends TdtConnecteur {
 	}
 	
 	public function getStatusInfo($status_id){
-		throw new StelaException("Not implemented");
+		$all_status = array (
+					-1 => "Erreur",0 =>"Annulé","Posté","status 2 invalide","Transmis","Acquittement reçu","status 5 invalide","Refusé","En traitement","Information disponible","AR pas encore généré");
+		if (empty($all_status[$status_id])){
+			return "Status $status_id inconnu sur Pastell";
+		}
+		return $all_status[$status_id];
 	}
 	
 	public function getFichierRetour($transaction_id){

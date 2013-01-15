@@ -40,7 +40,6 @@ class TedetisRecupHelios extends ActionExecutor {
 			$next_action = 'info-tdt';
 			$next_message = "Une réponse est disponible pour ce fichier PES";
 		}
-		
 		if (in_array($status,array(TdtConnecteur::STATUS_ACQUITTEMENT_RECU,TdtConnecteur::STATUS_REFUSE,TdtConnecteur::STATUS_HELIOS_INFO))){
 			$this->getDonneesFormulaire()->setData('has_reponse',true);
 			$retour = $tdT->getFichierRetour($tedetis_transaction_id);

@@ -4,6 +4,7 @@ class TestVerifToken extends ActionExecutor {
 	
 	public function go(){
 		$horodateur = $this->getMyConnecteur();
+		$data = mt_rand(0,mt_getrandmax());
 		
 		$properties = $this->getConnecteurProperties();
 		$signer_certificate = $properties->getFilePath("signer_certificate");

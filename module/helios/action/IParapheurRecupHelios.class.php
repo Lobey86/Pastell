@@ -11,7 +11,9 @@ class IParapheurRecupHelios extends ActionExecutor {
 		}
 		
 		$signature = $this->getConnecteur('signature');
-		
+		if (!$signature){
+			throw new Exception("Il n'y a pas de connecteur de signature défini");
+		}
 		
 		$helios = $this->getDonneesFormulaire();
 		
