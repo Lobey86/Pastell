@@ -57,6 +57,9 @@ class Journal extends SQL {
 		if ($this->horodateur){
 			$preuve = $this->horodateur->getTimestampReply($message_horodate);
 			$date_horodatage = $this->horodateur->getTimeStamp($preuve);
+		} else {
+			$preuve = "";
+			$date_horodatage = "";
 		} 
 
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";

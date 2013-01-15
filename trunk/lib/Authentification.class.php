@@ -12,10 +12,16 @@ class Authentification {
 	}
 	
 	public function getLogin(){		
+		if (! $this->isConnected()){
+			return false;
+		}
 		return $_SESSION['connexion']['login'];
 	}
 	
 	public function getId(){
+		if (! $this->isConnected()){
+			return false;
+		}
 		return $_SESSION['connexion']['id_u'];
 	}
 	

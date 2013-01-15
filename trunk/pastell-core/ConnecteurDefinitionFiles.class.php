@@ -22,6 +22,18 @@ class ConnecteurDefinitionFiles {
 		return $result;
 	}
 	
+	public function getAllGlobalType(){
+		$all_connecteur_definition = glob("{$this->connecteur_path}/*/global-properties.yml");
+		$result = array();
+		foreach($all_connecteur_definition as $connecteur_definition){
+			$id_connecteur = basename(dirname($connecteur_definition));
+			$def = $this->yml_loader->getArray($connecteur_definition);
+			$result[$def['type']] = true;
+		}
+		return array_keys($result);
+	}
+	
+	
 	public function getAllGlobal(){
 		$all_connecteur_definition = glob("{$this->connecteur_path}/*/global-properties.yml");
 		$result = array();

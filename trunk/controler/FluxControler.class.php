@@ -49,7 +49,19 @@ class FluxControler extends PastellControler {
 			$this->all_flux = $this->FluxDefinitionFiles->getAll();
 			$this->render("FluxList");
 		} else {
-			$this->all_flux = $this->ConnecteurDefinitionFiles->getAllGlobal();
+			$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllGlobalType();
+			$all_type = array();
+			foreach($all_connecteur_type as $connecteur_type){
+				try {
+					$global_connecteur = $this->ConnecteurFactory->getGlobalConnecteur($connecteur_type);
+				} catch (Exception $e){
+					$global_connecteur =  false;
+				}
+				$all_type[$connecteur_type] = $global_connecteur;
+			}
+				
+			$this->all_connecteur_type = $all_type;
+			
 			$this->all_flux_global = $this->all_flux_entite['global'];
 			$this->render("FluxGlobalList");
 		}
