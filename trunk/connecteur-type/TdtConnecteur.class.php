@@ -15,9 +15,10 @@ abstract class TdtConnecteur extends Connecteur{
 	
 	const STATUS_HELIOS_TRAITEMENT = 7;
 	const STATUS_HELIOS_INFO = 8;
+	const STATUS_HELIOS_ATTENTE = 9;
 		
 	public static function getStatusString($status){
-		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé');
+		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé','AR non disponible pour le moment');
 		if (empty($statusString[$status])){
 			return "Statut inconnu ($status)";
 		}

@@ -57,7 +57,10 @@ class OpensslTSWrapper {
 					" -in $timestampReplyFilePath " . 
 					" -CAfile $CAFilePath" . 
 					" -untrusted $certFilePath 2>&1 ";
+		
+		print_r($command);exit;
 		$result =  $this->execute( $command);
+		
 		unlink($dataFilePath);
 		unlink($timestampReplyFilePath);
 			

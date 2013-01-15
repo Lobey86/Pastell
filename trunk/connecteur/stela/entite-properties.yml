@@ -52,4 +52,9 @@ action:
 		action-class: NomemclatureListe
 		rule:
 			role_id_e: no-role
+	create-pes:
+		name: Créer un fichier PES de test
+		tab: TdT
+		action-class: CreatePES
+		
 		

@@ -6,6 +6,10 @@ class EntiteSQL extends SQL {
 		return $this->queryOne($sql,$id_e);
 	}
 	
+	public function exists($id_e){
+		return $this->getInfo($id_e);
+	}
+	
 	public function getDenomination($id_e){
 		$info = $this->getInfo($id_e);
 		if (! $info){

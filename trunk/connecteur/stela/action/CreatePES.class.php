@@ -1,10 +1,32 @@
+<?php 
+
+
+class CreatePES extends ActionExecutor {
+	
+	public function go(){
+		$entite_info = $this->getEntite()->getInfo();
+		;
+		$nom_fic = mt_rand(0,mt_getrandmax());
+		$date = date("Y-m-d");
+		
+		$pes_content = $this->getPES($nom_fic,$entite_info['siren'],$date);
+		
+		header("Content-type: text/xml");
+		header("Content-disposition: attachment; filename=PES_$nom_fic.xml");
+		echo $pes_content;
+		exit;
+	}
+	
+	private function getPES($nom_fic,$siren,$date){
+
+	$content = <<< PES_ALLER
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <n:PES_Aller xmlns:n="http://www.minefi.gouv.fr/cp/helios/pes_v2/Rev0/aller" xmlns:acta="http://www.minefi.gouv.fr/cp/helios/pes_v2/etatactif/r0/aller" xmlns:buda="http://www.minefi.gouv.fr/cp/helios/pes_v2/budget/r0/aller" xmlns:cm="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" xmlns:depa="http://www.minefi.gouv.fr/cp/helios/pes_v2/depense/r0/aller" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:empa="http://www.minefi.gouv.fr/cp/helios/pes_v2/emprunt/r0/aller" xmlns:mara="http://www.minefi.gouv.fr/cp/helios/pes_v2/marche/r0/aller" xmlns:reca="http://www.minefi.gouv.fr/cp/helios/pes_v2/recette/r0/aller" xmlns:rola="http://www.minefi.gouv.fr/cp/helios/pes_v2/role/r0/aller" xmlns:xad="http://uri.etsi.org/01903/v1.1.1#" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <Enveloppe>
   <Parametres>
    <Version V="1"/>
    <TypFic V="PESALR2"/>
-   <NomFic V="a5c0d79e5a1cab158cfa909b64481918"/>
+   <NomFic V="$nom_fic"/>
   </Parametres>
   <Emetteur>
    <Sigle V="EMSIGLE"/>
@@ -17,10 +39,10 @@
   </Recepteur>
  </Enveloppe>
  <EnTetePES>
-  <DteStr V="2013-01-11"/>
+  <DteStr V="$date"/>
 
   <IdPost V="034000"/>
-  <IdColl V="12345678912345"/>
+  <IdColl V="$siren"/>
   <CodCol V="123"/>
   <CodBud V="12"/>
   <LibelleColBud V="COMMUNE"/>
@@ -103,3 +125,9 @@
   </EnTetePES_PJ>
  </PES_PJ>
 </n:PES_Aller>
+PES_ALLER;
+
+		return $content;
+	}
+	
+}
