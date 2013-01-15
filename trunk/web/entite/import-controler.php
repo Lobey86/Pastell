@@ -12,7 +12,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",$i
 	exit;
 }
 
-$fileUploader = new FileUploader($_FILES);
+$fileUploader = new FileUploader();
 $file_path = $fileUploader->getFilePath('csv_col');
 if (! $file_path){
 	$lastError->setLastError("Impossible de lire le fichier");

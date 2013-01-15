@@ -1,14 +1,14 @@
 <?php
-
 class FileUploader {
 	
 	private $files;
 	private $lastError;
 	
-	public function __construct($files = null){
-		if (! $files){
-			$files = $_FILES;
-		}
+	public function __construct(){
+		$this->setFiles($_FILES);
+	}
+	
+	public function setFiles($files){
 		$this->files = $files;
 	}
 	
@@ -21,7 +21,6 @@ class FileUploader {
 	}
 	
 	public function getLastError(){
-		
 		switch($this->lastError){
 			case UPLOAD_ERR_INI_SIZE: return "Le fichier dépasse ". ini_get("upload_max_filesize");
 			case UPLOAD_ERR_FORM_SIZE : return "Le fichier dépasse la taille limite autorisé par le formulaire";
@@ -32,11 +31,9 @@ class FileUploader {
 			case UPLOAD_ERR_EXTENSION  : return "Une extension PHP empeche l'upload du fichier!";
 			default: return "Aucun fichier reçu (code : {$this->lastError})";	
 		}
-		
 	}
 	
 	private function getValue($filename,$value){
-		
 		if (! isset($this->files[$filename]['error'])){
 			return false;
 		}
@@ -49,6 +46,13 @@ class FileUploader {
 			return false;
 		}
 		return $this->files[$filename][$value];
+	}
+	
+	public function getFileContent($form_name){
+		if (empty($_FILES[$form_name]['tmp_name'])){
+			return false;
+		}
+		return file_get_contents($_FILES[$form_name]['tmp_name']);
 	}
 	
 	public function save($filename,$save_path){

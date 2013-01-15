@@ -28,7 +28,7 @@ $helios_info['informations']	= array(
 	"comment" => "Fichier Helios poste via Pastell",
 );
 
-$file_path = "./PESALR2_12345678912345_2013-01-11_01.xml";
+$file_path = "./PESALR2_12345678912345_110113_01.xml";
 
 
 $helios_info['fichier']['name'] = basename($file_path);

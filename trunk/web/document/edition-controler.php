@@ -48,7 +48,7 @@ if (!in_array($last_action,array("creation","modification")) || $editable_conten
 	$donneesFormulaire->setEditableContent($editable_content);
 }
 
-$fileUploader = new FileUploader($_FILES);
+$fileUploader = new FileUploader();
 
 $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 

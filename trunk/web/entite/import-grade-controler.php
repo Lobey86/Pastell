@@ -7,7 +7,7 @@ if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"entite:edition",0)
 	header("Location: " . SITE_BASE ."index.php");
 	exit;
 }
-$fileUploader = new FileUploader($_FILES);
+$fileUploader = new FileUploader();
 $file_path = $fileUploader->getFilePath('csv_grade');
 if (! $file_path){
 	$lastError->setLastError("Impossible de lire le fichier : " . $fileUploader->getLastError());

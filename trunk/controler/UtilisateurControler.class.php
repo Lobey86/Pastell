@@ -214,5 +214,118 @@ class UtilisateurControler extends PastellControler {
 		$this->renderDefault();
 	}
 	
+	private function redirectEdition($id_e,$id_u,$message){
+		$lastError->setLastError("Le nom est obligatoire");
+		$this->redirect("/utilisateur/edition.php?id_e=$id_e&id_u=$id_u");
+	}
+	
+	public function editionUtilisateur($id_e,$id_u,$email,$login,$password,$password2,$nom,$prenom,$role,$certificat_content){
+		$this->verifDroit($id_e, "utilisateur:edition");
+		if (! $nom){
+			throw new Exception("Le nom est obligatoire");
+		}
+		
+		if (! $prenom){
+			throw new Exception("Le prénom est obligatoire");
+		}
+		
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			throw new Exception("Votre adresse email ne semble pas valide");
+		}
+		
+		if ( $password && $password2 && ($password != $password2) ){
+			throw new Exception("Les mot de passes ne correspondent pas");
+		}
+		
+		if (! $id_u){
+			$id_u = $this->UtilisateurCreator->create($login,$password,$password2,$email);
+			if ( ! $id_u){
+				throw new Exception($this->UtilisateurCreator->getLastError());
+			}
+		}
+		if ( $password && $password2 ){
+			$this->Utilisateur->setPassword($id_u,$password);
+		}
+		$oldInfo = $this->Utilisateur->getInfo($id_u);
+		
+		if ($certificat_content){
+			$certificat = new Certificat($certificat_content);
+			if ( ! $this->Utilisateur->setCertificat($id_u,$certificat)){
+				$this->redirectEdition($id_e,$id_u,"Le certificat n'est pas valide");
+			} 
+		}
+		
+		$this->Utilisateur->validMailAuto($id_u);
+		$this->Utilisateur->setNomPrenom($id_u,$nom,$prenom);
+		$this->Utilisateur->setEmail($id_u,$email);
+		$this->Utilisateur->setLogin($id_u,$login);
+		$this->Utilisateur->setColBase($id_u,$id_e);
+		
+		$allRole = $this->RoleUtilisateur->getRole($id_u);
+		if (! $allRole ){
+			$this->RoleUtilisateur->addRole($id_u,RoleUtilisateur::AUCUN_DROIT,$id_e);
+		}
+		
+		$newInfo = $this->Utilisateur->getInfo($id_u);
+		
+		$infoToRetrieve = array('email','login','nom','prenom');
+		$infoChanged = array();
+		foreach($infoToRetrieve as $key){
+			if ($oldInfo[$key] != $newInfo[$key]){
+				$infoChanged[] = "$key : {$oldInfo[$key]} -> {$newInfo[$key]}";
+			}
+		}
+		$infoChanged  = implode("; ",$infoChanged);
+		
+		$this->Journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,$this->getId_u(),"Edité",
+		"Edition de l'utilisateur $login ($id_u) : $infoChanged");
+
+		return $id_u;
+	}
+	
+	public function doEditionAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$email = $recuperateur->get('email');
+		$id_e = $recuperateur->getInt('id_e');
+		$id_u = $recuperateur->get('id_u');
+		$login = $recuperateur->get('login');
+		$password = $recuperateur->get('password');
+		$password2 = $recuperateur->get('password2');
+		$nom = $recuperateur->get('nom');
+		$prenom = $recuperateur->get('prenom');
+		$role = $recuperateur->get('role');
+		$certificat_content = $this->FileUploader->getFileContent('certificat');
+		
+		try {
+			$id_u = $this->editionUtilisateur($id_e, $id_u, $email, $login, $password, $password2, $nom, $prenom, $role, $certificat_content);
+		} catch (Exception $e){
+			$this->redirectEdition($id_e,$id_u,$e->getMessage());
+		}
+		
+		$this->redirect("/utilisateur/detail.php?id_u=$id_u");
+	}
+	
+	public function ajoutRoleAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_u = $recuperateur->get('id_u');
+		$role = $recuperateur->get('role');
+		$id_e = $recuperateur->get('id_e',0);
+
+		$this->verifDroit($id_e,"entite:edition");
+		if ($role){
+			$this->RoleUtilisateur->addRole($id_u,$role,$id_e);	
+		}
+		$this->redirect("/utilisateur/detail.php?id_u=$id_u");
+	}
+	
+	public function supprimeRoleAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_u = $recuperateur->get('id_u');
+		$role = $recuperateur->get('role');
+		$id_e = $recuperateur->getInt('id_e',0);
+		$this->verifDroit($id_e,"entite:edition");
+		$this->RoleUtilisateur->removeRole($id_u,$role,$id_e);
+		$this->redirect("/utilisateur/detail.php?id_u=$id_u");
+	}
 	
 }
