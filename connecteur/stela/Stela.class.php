@@ -297,6 +297,8 @@ class Stela extends TdtConnecteur {
 		$id_col = $xml->EnTetePES->IdColl['V'];
 		$date_str = $xml->EnTetePES->DteStr['V'];
 		$num_ordre = "01";
+
+		$date_str = date("dmy",strtotime($date_str));
 		
 		return "{$type_fic}_{$id_col}_{$date_str}_{$num_ordre}.xml";
 	}

@@ -126,8 +126,8 @@ class EntiteControler extends PastellControler {
 		if ($id_e){
 			$infoEntite = $this->EntiteSQL->getInfo($id_e);
 			$infoEntite['centre_de_gestion'] = $this->EntiteSQL->getCDG($id_e);
-			$infoEntite['has_ged'] = $this->EntiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged');
-			$infoEntite['has_archivage'] = $this->EntiteProperties->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage');			
+			$infoEntite['has_ged'] = $this->EntitePropertiesSQL->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged');
+			$infoEntite['has_archivage'] = $this->EntitePropertiesSQL->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage');			
 			$this->page_title = "Modification de " . $infoEntite['denomination'];
 		} else {
 			$infoEntite = $this->getEntiteInfoFromLastError();
@@ -195,6 +195,64 @@ class EntiteControler extends PastellControler {
 		$this->page_title = "Veuillez choisir le ou les destinataires du document ";
 		$this->template_milieu = "EntiteChoix";
 		$this->renderDefault();
+	}
+	
+	public function edition($id_e,$nom,$siren,$type,$entite_mere,$centre_de_gestion,$has_ged,$has_archivage){
+		if ($id_e){
+			$this->hasDroitEdition($id_e);	
+		}
+		$this->hasDroitEdition($entite_mere);
+		
+		if (!$nom){
+			throw new Exception("Le nom est obligatoire");
+		}
+		
+		if ($type == Entite::TYPE_SERVICE && ! $entite_mere){
+			throw new Exception("Un service doit être ataché à une entité mère (collectivité, centre de gestion ou service)");
+		}
+		
+		if ($type != Entite::TYPE_SERVICE) {
+			if ( ! $siren ){
+				throw new Exception("Le siren est obligatoire");
+			} 
+					
+			if (  ! ( $this->Siren->isValid($siren) || ($id_e && $this->EntiteSQL->exists($id_e)))){
+				throw new Exception("Votre siren ne semble pas valide");
+			}
+		} 
+		
+		
+		if ( ! $id_e && $siren){
+			if ($this->EntiteListe->getBySiren($siren)){
+				throw new Exception("Ce SIREN est déjà utilisé");
+			}
+		}
+		
+		$id_e = $this->EntiteCreator->edit($id_e,$siren,$nom,$type,$entite_mere,$centre_de_gestion);
+		$this->EntitePropertiesSQL->setProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged',$has_ged);
+		$this->EntitePropertiesSQL->setProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage',$has_archivage);
+		return $id_e;
+	}
+	
+	public function doEditionAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_e = $recuperateur->get('id_e');
+		$nom = $recuperateur->get('denomination');
+		$siren = $recuperateur->get('siren',0);
+		$type = $recuperateur->get('type');
+		$entite_mere =  $recuperateur->get('entite_mere',0);
+		$centre_de_gestion =  $recuperateur->get('centre_de_gestion',0);
+		$has_ged = $recuperateur->get('has_ged',0);
+		$has_archivage = $recuperateur->get('has_archivage',0);
+		try {
+			$id_e = $this->edition($id_e, $nom, $siren, $type, $entite_mere, $centre_de_gestion, $has_ged, $has_archivage);
+		} catch(Exception $e){
+			$this->LastError->setLastError($e->getMessage());
+			$this->redirect("/entite/edition.php?id_e=$id_e");
+		}
+		
+		$this->LastError->deleteLastInput();
+		$this->redirect("/entite/detail.php?id_e=$id_e");
 	}
 	
 }

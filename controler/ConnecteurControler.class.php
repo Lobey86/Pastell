@@ -71,7 +71,7 @@ class ConnecteurControler extends PastellControler {
 		$id_ce = $recuperateur->getInt('id_ce');
 		$this->verifDroitOnConnecteur($id_ce);
 		
-		$fileUploader = new FileUploader($_FILES);
+		$fileUploader = new FileUploader();
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 		$donneesFormulaire->saveTab($recuperateur,$fileUploader,0);
 		
