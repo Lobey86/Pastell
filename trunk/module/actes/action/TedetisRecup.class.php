@@ -5,6 +5,10 @@ class TedetisRecup extends ActionExecutor {
 	public function go(){
 		$tdT = $this->getConnecteur("TdT"); 
 		
+		if (!$tdT){
+			throw new Exception("Aucun Tdt disponible");
+		}
+		
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
 		
 		$actionCreator = $this->getActionCreator();

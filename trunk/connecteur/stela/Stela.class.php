@@ -250,8 +250,6 @@ class Stela extends TdtConnecteur {
 	
 	public function postHelios(DonneesFormulaire $donneesFormulaire){
 
-		
-		
 		$uid = $this->soapCall('connexionSTELA',array('uid'),self::WSDL_HELIOS);
 		if (!$uid){
 			return false;

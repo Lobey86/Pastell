@@ -65,6 +65,10 @@ if (!defined("SITE_BASE")){
 	define("SITE_BASE","http://192.168.1.5/adullact/pastell/web/");
 }
 
+if (!defined("WEBSEC_BASE")){
+	define("WEBSEC_BASE","http://192.168.1.5/adullact/pastell/web-mailsec/");
+}
+
 if (!defined("AGENT_FILE_PATH")){
 	define("AGENT_FILE_PATH","/tmp/agent");
 }
