@@ -5,11 +5,7 @@ class AccepterFournisseur extends ActionExecutor {
 	public function go(){
 		$documentEntite = new DocumentEntite($this->getSQLQuery());
 		$id_fournisseur = $documentEntite->getEntiteWithRole($this->id_d,"editeur");
-		
-		/*$entiteRelation = new EntiteRelation($this->getSQLQuery());
-		$entiteRelation->addRelation($id_fournisseur,EntiteRelation::IS_FOURNISSEUR,$this->id_e);
-		*/
-		
+	
 		$entite = new Entite($this->getSQLQuery(),$id_fournisseur);
 		$infoEntite = $entite->getInfo();
 		$nomFournisseur = $infoEntite['denomination'];
