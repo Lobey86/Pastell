@@ -120,6 +120,16 @@ action:
 		name: Integration SAE ok
 		rule: 
 			role_id_e: no-role
+		action-automatique: supprimer-local
+		
+	supprimer-local:
+		name: Suppression des fichiers locaux sur Pastell
+		name-action: Supprimer les fichier sur Pastell
+		rule:
+			last-action:
+				termine
+			droit_id_u: 'megalis:edition'
+		action-class: MegalisLocalSupprime
 	
 	supression:
 		name-action: Supprimer
@@ -137,6 +147,7 @@ action:
 				validation-sae-erreur
 				termine
 				erreur-supprimer-distant
+				supprimer-local
 			role_id_e: editeur
 			droit_id_u: 'megalis:edition'
 		action-class: Supprimer
