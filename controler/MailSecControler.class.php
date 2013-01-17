@@ -31,7 +31,8 @@ class MailSecControler extends PastellControler {
 		
 		$info  = $this->DocumentEmail->getInfoFromKey($key);
 		if (! $info ){
-			$this->redirect("/mailsec/invalid.php");
+			header("Location: " . WEBSEC_BASE ."/invalid.php");
+			exit;
 		}
 		
 		$id_e = $this->DocumentEntite->getEntiteWithRole($info['id_d'],'editeur');
@@ -44,9 +45,9 @@ class MailSecControler extends PastellControler {
 		
 		$ip = $_SERVER['REMOTE_ADDR'];
 		
-		
 		if ($donneesFormulaire->get('password') && (empty($_SESSION["consult_ok_{$key}_{$ip}"]))){
-			$this->redirect("/mailsec/password.php?key=$key");
+			header("Location: " . WEBSEC_BASE ."/password.php?key=$key");
+			exit;
 		}
 		$info  = $this->DocumentEmail->consulter($key,$this->Journal);
 		
@@ -63,7 +64,8 @@ class MailSecControler extends PastellControler {
 		$key = $recuperateur->get('key');
 		$info  = $this->DocumentEmail->getInfoFromKey($key);
 		if (! $info ){
-			$this->redirect("/mailsec/invalid.php");
+			header("Location: " . WEBSEC_BASE ."/invalid.php");
+			exit;
 		}
 		
 		$this->page= "Mail sécurisé";
@@ -71,7 +73,13 @@ class MailSecControler extends PastellControler {
 		$this->the_key = $key;
 		$this->template_milieu = "MailSecPassword";
 		$this->render("PageWebSec");
-		
+	}
+	
+	public function invalidAction(){
+		$this->page= "Mail sécurisé";
+		$this->page_title= " Mail sécurisé";
+		$this->template_milieu = "MailSecInvalid";
+		$this->render("PageWebSec");
 	}
 	
 	public function groupeListAction(){
@@ -154,5 +162,7 @@ class MailSecControler extends PastellControler {
 		$this->template_milieu = "MailSecGroupeRoleList";
 		$this->renderDefault();
 	}
+	
+	
 	
 }
