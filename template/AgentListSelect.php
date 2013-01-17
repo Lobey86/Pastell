@@ -1,4 +1,3 @@
-<?php require_once( PASTELL_PATH . "/lib/helper/suivantPrecedent.php"); ?>
 <a href='document/edition.php?id_d=<?php echo $id_d ?>&id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à l'édition du document <em><?php echo $titre?></em></a>
 <br/><br/>
 
