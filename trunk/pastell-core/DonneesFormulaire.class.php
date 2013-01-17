@@ -195,7 +195,7 @@ class DonneesFormulaire {
 			return $default;
 		}
 		$field = $this->formulaire->getField($item);
-		if ($field->getType() == 'password'){
+		if ($field && $field->getType() == 'password'){
 			return htmlspecialchars_decode($this->info[$item],ENT_COMPAT);				
 		}
 		

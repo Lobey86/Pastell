@@ -89,7 +89,7 @@ formulaire:
 		Nom patronymique: {requis: true, read-only: true}
 		Nom d'usage: {read-only: true}
 		Prénom : {requis: true, read-only: true}
-		Grade: {read-only: true}
+		Grade: {read-only: true, choice-action: list-grade}
 		Statut:
 			type: select
 			value: 

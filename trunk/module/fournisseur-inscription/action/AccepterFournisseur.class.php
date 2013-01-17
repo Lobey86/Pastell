@@ -1,5 +1,4 @@
 <?php
-require_once( PASTELL_PATH . "/lib/entite/EntiteRelation.class.php");
 
 class AccepterFournisseur extends ActionExecutor {
 
@@ -7,9 +6,9 @@ class AccepterFournisseur extends ActionExecutor {
 		$documentEntite = new DocumentEntite($this->getSQLQuery());
 		$id_fournisseur = $documentEntite->getEntiteWithRole($this->id_d,"editeur");
 		
-		$entiteRelation = new EntiteRelation($this->getSQLQuery());
+		/*$entiteRelation = new EntiteRelation($this->getSQLQuery());
 		$entiteRelation->addRelation($id_fournisseur,EntiteRelation::IS_FOURNISSEUR,$this->id_e);
-		
+		*/
 		
 		$entite = new Entite($this->getSQLQuery(),$id_fournisseur);
 		$infoEntite = $entite->getInfo();
