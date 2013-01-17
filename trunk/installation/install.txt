@@ -12,6 +12,8 @@ Il faut créer un fichier LocalSettings.php afin de mettre des valeurs correspond
 III. Configurer le serveur web
 
 Le serveur web doit "servir" le répertoire "web" (voir apache.conf pour un exemple)
+Le serveur web doit "servir" aussi le répertoire "web-mailsec" 
+
 
 IV. Créer un administrateur
 
@@ -24,3 +26,9 @@ Copier le fichier batch pastell-upstart.conf vers le repertoire de configuration
 
 VI. Mettre en place un crontab 
 50 4 * * * recup-classification.php
+
+VII. Pour le module mail sécurisé
+Créer un lien symbolique dans web-mailsec qui pointe vers web/img/
+cd web-mailsec
+ln -s ../web/img/
+

@@ -1,6 +1,4 @@
 <?php 
-$elapsedTime = round($this->Timer->getElapsedTime(),3);
-$infoVersionning = $this->Versionning->getAllInfo();
 
 header("Content-type: text/html; charset=iso-8859-15");	 ?>
 <!DOCTYPE html>
@@ -27,14 +25,9 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<div id="global">
 			<div id="header">
 				<div id="bloc_logo">
-					<a href='<?php echo  WEBSEC_BASE ?>'>
-						<img src="img/commun/logo_pastell.png" alt="Retour à l'accueil" />
-					</a>
+						<img src="img/commun/logo_pastell.png" />
 				</div>
-			
 			</div>
-	
-				
 			<div id="breadcrumb">
 				<img src="img/commun/puce_geographie.png" alt="" class="absmiddle" />
 			
@@ -60,21 +53,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 				</div>
 			</div>
 		</div>
-			<div id="bottom">
-			<div id="bloc_vers_haut">
-			Page générée en <?php echo $elapsedTime ?>s
-			</div>
-			
-			<div id="bloc_copyright">
-				<div id="bloc_mentions">
-					<p>	<a href='https://adullact.net/projects/pastell/'>Pastell</a> <?php echo $infoVersionning['version-complete'] ?> - Copyright <a href='http://www.sigmalis.com'>Sigmalis</a> 2010/2011 
-					<br/> Logiciel distribué sous les termes de la licence <a href='http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html'>CeCiLL V2</a> </p>
-				</div>
-				<div id="bloc_logo_adullact">
-					<a href='http://www.adullact.org/'><img src="img/commun/logo_adullact.png" alt="Adullact" /></a>
-				</div>
-			</div>
-		</div>
+		<?php $this->render('Footer')?>
 	</body>
 </html>
 <?php 

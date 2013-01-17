@@ -1,4 +1,4 @@
 <?php
-require_once( dirname(__FILE__) . "/../init.php");
+require_once( __DIR__ . "/../web/init.php");
 $objectInstancier->MailSecControler->passwordAction();
 
