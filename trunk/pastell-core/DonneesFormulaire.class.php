@@ -74,6 +74,9 @@ class DonneesFormulaire {
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
+				if ($type == 'password'){
+					$value =  $recuperateur->getNoTrim($name,"");
+				}
 				if (! isset($this->info[$name])){
 						$this->info[$name] = "";
 					}
@@ -86,7 +89,7 @@ class DonneesFormulaire {
 
 				if ( ( ($type != 'password' ) || $field->getProperties('may_be_null')  ) ||  $value){
 					$this->setInfo($field,$value);					
-				}
+				} 
 			}
 		}
 		$this->saveDataFile();
@@ -99,11 +102,9 @@ class DonneesFormulaire {
 		if ($field->getType() == 'date'){
 			$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
 		}
-		if ($field->getType() == 'password'){
-			//Bug potentiel ?
-			//$value = "'$value'";
-		}
-		$this->info[$field->getName()] = $value;
+
+		$this->setInfo2($field->getName(),$value);
+	
 		$this->isModified = true;
 	}
 	
@@ -122,7 +123,9 @@ class DonneesFormulaire {
 		$modif = array();
 		$allField = $this->formulaire->getAllFields();
 		foreach($recuperateur->getAll() as $key => $value){
+			
 			if (isset($allField[$key])){
+				$field = $this->formulaire->getField($key);
 				$this->setInfo($allField[$key],$value);		
 				$modif[] = $key;
 			}
@@ -169,22 +172,42 @@ class DonneesFormulaire {
 	}
 	
 	public function setData($field_name,$field_value){		
-		$this->info[$field_name] = $field_value;
+		$this->setInfo2($field_name,$field_value);
 		$this->saveDataFile();		
 	}
 	
 	public function setTabData(array $field){
 		foreach($field as $name => $value){
-			$this->info[$name] = $value;
+			$this->setInfo2($name,$value);
 		}
 		$this->saveDataFile();
 	}
+	
+	private function setInfo2($field_name,$field_value){
+		
+		$this->info[$field_name] = $field_value;
+	}
+		
+	public function get($item,$default=false){
+
+		$item  = Field::Canonicalize($item);
+		if (empty($this->info[$item])){
+			return $default;
+		}
+		$field = $this->formulaire->getField($item);
+		if ($field->getType() == 'password'){
+			return htmlspecialchars_decode($this->info[$item],ENT_COMPAT);				
+		}
+		
+		return $this->info[$item];
+	}
+	
 	
 	public function setTabDataVerif(array $input_field){
 		$allField = $this->formulaire->getAllFields();
 		foreach($input_field as $field_name => $value){
 			if (isset($allField[$field_name])){
-				$this->info[$field_name] = $value;
+				$this->setInfo2($field_name,$value);
 				$this->isModified = true;
 				if ($allField[$field_name]->getOnChange()){
 					$this->onChangeAction[] = $field->getOnChange();
@@ -193,7 +216,6 @@ class DonneesFormulaire {
 		}
 		$this->saveDataFile();
 	}
-	
 	
 	public function addFileFromData($field_name,$file_name,$raw_data,$file_num = 0){
 		$this->info[$field_name][$file_num] = $file_name;
@@ -239,15 +261,6 @@ class DonneesFormulaire {
 	}
 	
 	
-	public function get($item,$default=false){
-
-		//$item = $this->formulaire->getField($item)->getName();
-		$item  = Field::Canonicalize($item);
-		if (empty($this->info[$item])){
-			return $default;
-		}
-		return $this->info[$item];
-	}
 	
 	public function getWithDefault($item){
 		$default = $this->formulaire->getField($item)->getDefault();
@@ -392,7 +405,16 @@ class DonneesFormulaire {
 	}
 	
 	private function saveDataFile(){
-		$dump = Spyc::YAMLDump($this->info);
+		foreach($this->info as $field_name => $field_value){
+			$field = $this->formulaire->getField($field_name);
+			if ($field && $field->getType() == 'password'){
+				$field_value = htmlspecialchars($field_value,ENT_COMPAT);
+				$field_value = "\"".$field_value."\"";
+				
+			}
+			$result[$field_name] = $field_value; 
+		}
+		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
 	}
 	

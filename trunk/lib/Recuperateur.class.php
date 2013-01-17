@@ -14,6 +14,13 @@ class Recuperateur {
 		return $this->doSomethingOnValueOrArray('intval',$this->get($name,$default));
 	}
 	
+	public function getNoTrim($name,$default){
+		if ( empty($this->tableauInput[$name])) {
+			return $default;
+		}
+		return $this->tableauInput[$name];
+	}
+	
 	public function get($name,$default = null){
 		if ( empty($this->tableauInput[$name])) {
 			return $default;
