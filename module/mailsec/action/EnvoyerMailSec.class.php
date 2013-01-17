@@ -22,7 +22,7 @@ class EnvoyerMailSec extends ActionExecutor {
 			return;
 		}
 		$key = $this->documentEmail->add($this->id_d,$to,$type);
-		$link = SITE_BASE . "mailsec/index.php?key=$key";
+		$link = WEBSEC_BASE . "index.php?key=$key";
 		$this->zenMail->setDestinataire($to);
 		$this->zenMail->setContenuText($this->message . "\n" . $link);
 		$this->zenMail->send();

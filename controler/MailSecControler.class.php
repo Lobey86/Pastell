@@ -44,17 +44,18 @@ class MailSecControler extends PastellControler {
 		
 		$ip = $_SERVER['REMOTE_ADDR'];
 		
+		
 		if ($donneesFormulaire->get('password') && (empty($_SESSION["consult_ok_{$key}_{$ip}"]))){
 			$this->redirect("/mailsec/password.php?key=$key");
 		}
 		$info  = $this->DocumentEmail->consulter($key,$this->Journal);
 		
 		$this->afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-		$this->key = $key;
+		$this->my_key = $key;
 		$this->page= "Mail sécurisé";
 		$this->page_title= $infoEntite['denomination'] . " - Mail sécurisé";
 		$this->template_milieu = "MailSecIndex";
-		$this->renderDefault();
+		$this->render("PageWebSec");
 	}
 	
 	public function passwordAction(){
@@ -69,7 +70,8 @@ class MailSecControler extends PastellControler {
 		$this->page_title= " Mail sécurisé";
 		$this->the_key = $key;
 		$this->template_milieu = "MailSecPassword";
-		$this->renderDefault();
+		$this->render("PageWebSec");
+		
 	}
 	
 	public function groupeListAction(){
