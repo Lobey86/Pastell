@@ -23,6 +23,31 @@ class DocumentControler extends PastellControler {
 		return $info;
 	}
 	
+	public function arAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_d = $recuperateur->get('id_d');
+		$id_e = $recuperateur->getInt('id_e');
+		
+		$info_document = $this->verifDroitLecture($id_e, $id_d);
+		
+
+		$true_last_action = $this->DocumentActionEntite->getTrueAction($id_e, $id_d);
+		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($info_document['type']);
+		
+ 		$action = $documentType->getAction();
+		if (! $action->getProperties($true_last_action,'accuse_de_reception_action')){
+			$this->redirect("/document/detail.php?id_e=$id_e&id_d=$id_d");
+		}
+		$this->action = $action->getProperties($true_last_action,'accuse_de_reception_action');
+		$this->id_e = $id_e;
+		$this->id_d = $id_d;
+		
+		$this->page_title = "Accusé de réception";
+		$this->template_milieu = "DocumentAR";
+		$this->renderDefault();
+		
+	}
+	
 	public function detailAction(){
 		$recuperateur = new Recuperateur($_GET);
 		$id_d = $recuperateur->get('id_d');
@@ -30,11 +55,20 @@ class DocumentControler extends PastellControler {
 		$page = $recuperateur->getInt('page',0);
 
 		$info_document = $this->verifDroitLecture($id_e, $id_d);
-		$this->Journal->addConsultation($id_e,$id_d,$this->Authentification->getId());
 		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($info_document['type']);
 		
-
+		$true_last_action = $this->DocumentActionEntite->getTrueAction($id_e, $id_d);
+		
+ 		$action = $documentType->getAction();
+		if ($action->getProperties($true_last_action,'accuse_de_reception_action')){
+			/*$this->LastMessage->setLastMessage("Vous devez accusé reception du message");
+			$this->redirect("/document/list.php?id_e=$id_e&type={$info_document['type']}");*/
+			$this->redirect("/document/ar.php?id_e=$id_e&id_d=$id_d");
+		}
+		
+		$this->Journal->addConsultation($id_e,$id_d,$this->Authentification->getId());
+		
 		$this->info = $info_document;
 		$this->id_e = $id_e;
 		$this->id_d = $id_d;

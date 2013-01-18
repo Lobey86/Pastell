@@ -36,7 +36,9 @@ class DocumentListAfficheur {
 					<th>Date</th>
 				</tr>
 			
-			<?php foreach($listDocument as $i => $document ) : 			
+			<?php
+		
+			foreach($listDocument as $i => $document ) : 			
 				$documentType = $this->documentTypeFactory->getFluxDocumentType($document['type']);
 			
 				$action = $documentType->getAction();
@@ -46,7 +48,6 @@ class DocumentListAfficheur {
 				
 					<td>
 						<?php 
-						
 						if ( $action->getProperties($document['last_action'],'accuse_de_reception_action')) :
 						?>
 							L'expediteur a demandé un accusé de réception : 
