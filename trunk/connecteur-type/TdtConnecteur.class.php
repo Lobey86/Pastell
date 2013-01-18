@@ -16,7 +16,15 @@ abstract class TdtConnecteur extends Connecteur{
 	const STATUS_HELIOS_TRAITEMENT = 7;
 	const STATUS_HELIOS_INFO = 8;
 	const STATUS_HELIOS_ATTENTE = 9;
-		
+	
+	const STATUS_ACTES_MESSAGE_PREF_RECU = 7 ;
+	const STATUS_ACTES_MESSAGE_PREF_ENVOYE = 8 ;
+	
+	const COURRIER_SIMPLE = 2;
+	const DEMANDE_PIECE_COMPLEMENTAIRE = 3;
+	const LETTRE_OBSERVATION = 4;
+	const DEFERE_TRIBUNAL_ADMINISTRATIF = 5;
+	 	
 	public static function getStatusString($status){
 		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé','AR non disponible pour le moment');
 		if (empty($statusString[$status])){
@@ -56,5 +64,11 @@ abstract class TdtConnecteur extends Connecteur{
 	abstract public function getStatusInfo($status_id);
 	
 	abstract public function getFichierRetour($transaction_id);
+	
+	abstract public function getListReponsePrefecture($transaction_id);
+	
+	abstract public function getReponsePrefecture($transaction_id);
+	
+	abstract public function sendResponse(DonneesFormulaire $donneesFormulaire);
 	
 }

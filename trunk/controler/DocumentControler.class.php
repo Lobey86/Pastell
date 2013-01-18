@@ -141,11 +141,10 @@ class DocumentControler extends PastellControler {
 		$afficheurFormulaire->injectHiddenField("form_type",$type);
 		$afficheurFormulaire->injectHiddenField("id_e",$id_e);
 		
-		$last_action = $this->DocumentActionEntite->getLastAction($id_e, $id_d);
+		$last_action = $this->DocumentActionEntite->getLastActionNotModif($id_e, $id_d);
 		
 		$editable_content = $documentType->getAction()->getEditableContent($last_action);
-		
-		if (!in_array($last_action,array("creation","modification")) || $editable_content){
+		if ($editable_content && (!in_array($last_action,array("creation","modification")) || $editable_content)){
 			$afficheurFormulaire->setEditableContent($editable_content);
 		}
 		

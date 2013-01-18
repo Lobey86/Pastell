@@ -69,4 +69,16 @@ class TdtAdapter extends TdtConnecteur {
 		throw new Exception("Not implemented");
 	}
 	
+	public function getListReponsePrefecture($transaction_id){
+		throw new Exception("Not implemented");
+	}
+	
+	public function getReponsePrefecture($transaction_id){
+		throw new Exception("Not implemented");
+	}
+	
+	public function sendResponse(DonneesFormulaire $donneesFormulaire) {
+		throw new Exception("Not implemented");
+	}
+	
 }

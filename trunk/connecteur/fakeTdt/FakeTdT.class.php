@@ -25,4 +25,8 @@ class FakeTdT extends TdtAdapter {
 		return false;
 	}
 	
+	public function getListReponsePrefecture($transaction_id){
+		return array();
+	}
+	
 }
