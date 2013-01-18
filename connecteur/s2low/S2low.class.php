@@ -17,7 +17,9 @@ class S2low  extends TdtConnecteur {
 	const URL_STATUS_HELIOS =  "/modules/helios/api/helios_transac_get_status.php";
 	const URL_HELIOS_RETOUR = "/modules/helios/helios_download_acquit.php";
 	const URL_LIST_LOGIN = "/admin/users/api-list-login.php";
-
+	const URL_ACTES_REPONSE_PREFECTURE =  "/modules/actes/actes_transac_get_document.php";
+	const URL_POST_REPONSE_PREFECTURE = "/modules/actes/actes_transac_reponse_create.php";
+	
 	private $arActes;
 	private $reponseFile;
 	
@@ -256,5 +258,75 @@ class S2low  extends TdtConnecteur {
 		$result = $this->exec(self::URL_HELIOS_RETOUR."?id=$transaction_id");
 		return $result;
 	}
+	
+	public function getListReponsePrefecture($transaction_id){
+		$all_reponse = $this->exec(self::URL_ACTES_REPONSE_PREFECTURE."?id=$transaction_id");
+		$all_reponse = trim($all_reponse);
+		$result = array();
+		foreach(explode("\n",$all_reponse) as $line){
+			list($type,$status,$id) = explode("-",$line);
+			$result[] = array('type'=>$type,'status'=>$status,'id'=>$id);
+		}
+		return $result;
+	}
+	
+	public function getReponsePrefecture($transaction_id){
+		return $this->exec(self::URL_ACTES_REPONSE_PREFECTURE."?id=$transaction_id");
+	}
+	
+	public function sendResponse(DonneesFormulaire $donneesFormulaire) {
+		foreach(array(3,4) as $id_type) {
+			$libelle = $this->getLibelleType($id_type);
+			if($donneesFormulaire->get("has_$libelle") == true){
+				if ($donneesFormulaire->get("has_reponse_$libelle") == false){
+					$this->sendReponseType($id_type,$donneesFormulaire);	
+				}
+			}
+		}
+	}
+	
+	
+	private function getLibelleType($id_type){
+		$txt_message = array(TdTConnecteur::COURRIER_SIMPLE => 'courrier_simple',
+							'demande_piece_complementaire',
+							'lettre_observation',
+							'defere_tribunal_administratif');
+		return $txt_message[$id_type];
+	}
+	
+	
+	private function sendReponseType($id_type,$donneesFormulaire){
+		
+		$libelle = $this->getLibelleType($id_type);
+
+		$nature_reponse = $donneesFormulaire->get("nature_reponse_$libelle");
+		$file_name = $donneesFormulaire->getFileName("reponse_" . $libelle);
+		$file_path = $donneesFormulaire->getFilePath("reponse_" . $libelle);
+		$id = $donneesFormulaire->get("{$libelle}_id");
+
+		$this->curlWrapper->addPostData('id',$id);
+		$this->curlWrapper->addPostData('api',1);
+		$this->curlWrapper->addPostData('type_envoie',$nature_reponse);
+		$this->curlWrapper->addPostFile('acte_pdf_file',$file_path,$file_name);
+		 
+		if (($id_type == 3) && $donneesFormulaire->get('reponse_pj_demande_piece_complementaire')){
+			foreach($donneesFormulaire->get('reponse_pj_demande_piece_complementaire') as $i => $file_name){
+				$file_path = $donneesFormulaire->getFilePath('reponse_pj_demande_piece_complementaire',$i);
+				$this->curlWrapper->addPostFile('acte_attachments[]', $file_path,$file_name) ;
+			}
+		}
+			
+		$result = $this->exec( self::URL_POST_REPONSE_PREFECTURE );	
+		if (! preg_match("/^OK/",$result)){
+			throw new S2lowException("Erreur lors de la transmission, S²low a répondu : $result");
+		}
+		
+		$ligne = explode("\n",$result);
+		$id_transaction = trim($ligne[1]);
+		$donneesFormulaire->setData("{$libelle}_response_transaction_id",$id_transaction);
+		$donneesFormulaire->setData("has_reponse_{$libelle}",true);
+		return true;
+	}
+	
 	
 }

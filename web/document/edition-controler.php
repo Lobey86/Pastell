@@ -40,7 +40,7 @@ if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,
 	exit;
 }
 
-$last_action = $objectInstancier->DocumentActionEntite->getLastAction($id_e, $id_d);
+$last_action = $objectInstancier->DocumentActionEntite->getLastActionNotModif($id_e, $id_d);
 
 $editable_content = $documentType->getAction()->getEditableContent($last_action);
 

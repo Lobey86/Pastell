@@ -1,11 +1,11 @@
 <?php
 
-require_once(__DIR__."/../../connecteur-type/TdtConnecteur.class.php");
+require_once(__DIR__."/../../connecteur-type/TdtAdapter.class.php");
 
 class StelaException extends TdTException {}
 
 
-class Stela extends TdtConnecteur {
+class Stela extends TdtAdapter {
 	
 	const WSDL_ACTES = "ws-miat.wsdl"; 
 	const WSDL_HELIOS = "ws-helios.wsdl";
