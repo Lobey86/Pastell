@@ -2,6 +2,15 @@
 
 class DocumentActionEntite extends SQL {
 
+	public function getTrueAction($id_e,$id_d){
+		$sql = "SELECT document_entite.last_action " .
+			" FROM document_entite " .  
+			" JOIN document ON document_entite.id_d = document.id_d" .
+			" WHERE document_entite.id_e = ? " . 
+			" AND document.id_d=?";
+		return $this->queryOne($sql,$id_e,$id_d);	
+	}
+	
 	public function getLastAction($id_e,$id_d){
 		$sql = "SELECT action FROM document_action_entite " .
 			" JOIN document_action ON document_action_entite.id_a = document_action.id_a ".
