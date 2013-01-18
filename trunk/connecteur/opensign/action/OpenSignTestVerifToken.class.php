@@ -15,7 +15,7 @@ class OpenSignTestVerifToken extends ActionExecutor {
 		
 		$this->objectInstancier->OpensslTSWrapper->verify($data,$token,$opensign_ca,$opensign_x509);
 		$this->setLastMessage($this->objectInstancier->OpensslTSWrapper->getLastError());
-		return false;
+		return true;
 	}
 	
 }
