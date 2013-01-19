@@ -95,10 +95,14 @@ class DocumentControler extends PastellControler {
 		$type = $recuperateur->get('type');
 		$id_e = $recuperateur->getInt('id_e');
 		$page = $recuperateur->getInt('page',0);
+		$action = $recuperateur->get('action');
 		
 		$document = $this->Document;
 		
-		if ($id_d){
+		if ($action){
+			$info = $document->getInfo($id_d);
+			$type = $info['type'];
+		}elseif ($id_d){
 			$info = $document->getInfo($id_d);
 			$type = $info['type'];
 			$action = 'modification';
@@ -119,7 +123,7 @@ class DocumentControler extends PastellControler {
 		$actionPossible = $this->ActionPossible;
 		
 		if ( ! $actionPossible->isActionPossible($id_e,$this->Authentification->getId(),$id_d,$action)) {
-			$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
+			$this->LastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
 			header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 			exit;
 		}
@@ -140,10 +144,12 @@ class DocumentControler extends PastellControler {
 		$afficheurFormulaire->injectHiddenField("id_d",$id_d);
 		$afficheurFormulaire->injectHiddenField("form_type",$type);
 		$afficheurFormulaire->injectHiddenField("id_e",$id_e);
+		$afficheurFormulaire->injectHiddenField("action",$action);
 		
 		$last_action = $this->DocumentActionEntite->getLastActionNotModif($id_e, $id_d);
 		
 		$editable_content = $documentType->getAction()->getEditableContent($last_action);
+		
 		if ($editable_content && (!in_array($last_action,array("creation","modification")) || $editable_content)){
 			$afficheurFormulaire->setEditableContent($editable_content);
 		}
@@ -155,6 +161,7 @@ class DocumentControler extends PastellControler {
 		$this->id_d = $id_d;
 		$this->page = $page;
 		$this->type = $type;
+		$this->action = $action;
 		$this->documentType = $documentType;
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		$this->formulaire =  $documentType->getFormulaire();
