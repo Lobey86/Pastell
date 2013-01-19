@@ -530,8 +530,7 @@ action:
 		rule:
 			role_id_e: no-role					
 					
-	send-ged:
-		
+	send-ged:		
 		name-action: Verser en GED
 		name: Versé en GED
 			

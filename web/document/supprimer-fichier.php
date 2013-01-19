@@ -9,6 +9,7 @@ $page = $recuperateur->get('page');
 $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num',0);
+$action = $recuperateur->get('action');
 
 
 $document = $objectInstancier->Document;
@@ -25,9 +26,13 @@ $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
 $actionPossible = $objectInstancier->ActionPossible;
 
+if (!$action){
+	$action = 'modification';
+}
 
-if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,'modification') ) {
-	$lastError->setLastError("L'action « modification »  n'est pas permise : " .$actionPossible->getLastBadRule() );
+
+if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,$action) ) {
+	$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
 	exit;
 }

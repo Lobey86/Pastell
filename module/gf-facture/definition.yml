@@ -9,10 +9,8 @@ formulaire:
 	
 action:
 	creation:
-		
 		name-action: Créer
 		name: Créé
-		
 		rule:
 			no-last-action:
 			droit_id_u: 'gf-facture:edition'

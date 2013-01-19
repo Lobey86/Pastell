@@ -15,7 +15,7 @@
 <div class="box_contenu clearfix">
 <?php $afficheurFormulaire->affiche($page,"document/edition-controler.php",
 			"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e",
-			"document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page",
+			"document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page&action=$action",
 			"document/external-data.php"
 			); ?>
 </div>

@@ -52,6 +52,7 @@ class AfficheurFormulaire {
 	}
 	
 	public function isReadOnly($field_name){
+		
 		$field = $this->formulaire->getField($field_name);
 		
 		$read_only_content = $field->getProperties('read-only-content') ;
@@ -70,7 +71,6 @@ class AfficheurFormulaire {
 		if ($this->isReadOnly($field_name)){
 			return false;
 		}
-		
 		if ( ! $this->has_editable_content){
 			return true;
 		}
@@ -126,6 +126,7 @@ class AfficheurFormulaire {
 		$id_d = $this->getInjectedField('id_d');
 		$id_e = $this->getInjectedField('id_e');
 		$id_ce = $this->getInjectedField('id_ce');
+		$action = $this->getInjectedField('action');
 		
 		?>
 		<form action='<?php echo $action_url ?>' method='post' enctype="multipart/form-data">
@@ -136,6 +137,8 @@ class AfficheurFormulaire {
 			
 			<table>
 			<?php foreach ($this->formulaire->getFields() as $field) :
+			
+			
 				if ($field->getProperties('read-only') && $field->getType() == 'file'){
 					continue;
 				}
