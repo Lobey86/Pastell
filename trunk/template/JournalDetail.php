@@ -56,17 +56,17 @@
 		<td>
 			<a href='journal/preuve.php?id_j=<?php echo $id_j?>'>Télécharger</a><br/><br/>
 			<pre>
-				<?php echo  $this->OpensslTSWrapper->getTimestampReplyString($info['preuve']) ?>
+				<?php echo  $preuve_txt ?>
 			</pre>		
 		</td>
 </tr>
 <tr>
 		<th>Vérification</th>
 		<td>
-			<?php if ($this->OpensslTSWrapper->verify($info['message_horodate'],$info['preuve'], SIGN_SERVER_CA_CERTIFICATE, SIGN_SERVER_CERTIFICATE)) :?>
+			<?php if ($preuve_is_ok) :?>
 				OK
 			<?php else : ?>
-				<?php echo  $this->OpensslTSWrapper->getLastError() ?>
+				<?php echo  $preuve_error ?>
 			<?php endif;?>
 		</td>
 </tr>

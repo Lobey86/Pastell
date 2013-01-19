@@ -136,7 +136,11 @@ abstract class ActionExecutor {
 	}
 	
 	public function getConnecteur($type_connecteur){
-		return $this->objectInstancier->ConnecteurFactory->getConnecteurByType($this->id_e,$this->type,$type_connecteur);
+		$connecteur = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($this->id_e,$this->type,$type_connecteur);
+		if (! $connecteur ){
+			throw new Exception("Aucun connecteur $type_connecteur disponible");
+		}
+		return $connecteur;
 	}
 	
 	public function getConnecteurConfigByType($type_connecteur){

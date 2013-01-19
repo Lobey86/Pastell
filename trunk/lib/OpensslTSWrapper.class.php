@@ -58,13 +58,13 @@ class OpensslTSWrapper {
 					" -CAfile $CAFilePath" . 
 					" -untrusted $certFilePath 2>&1 ";
 		
-		$result =  $this->execute( $command);
+		$result =  trim($this->execute( $command));
 		
 		unlink($dataFilePath);
 		unlink($timestampReplyFilePath);
 			
 		$this->lastError = $result;
-		return false;	
+		return ($result == "Verification: OK");
 	}
 	
 	public function createTimestampReply($timestampRequest,$signerCertificate,$signerKey,$signerKeyPassword,$configFile){		
