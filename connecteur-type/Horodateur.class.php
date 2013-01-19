@@ -17,4 +17,5 @@ abstract class Horodateur extends Connecteur {
 	
 	abstract public function getTimestampReply($string_to_sign);
 	
+	abstract public function verify($data,$token);	
 }

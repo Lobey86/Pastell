@@ -36,6 +36,18 @@ class JournalControler extends PastellControler {
 		$this->info = $this->Journal->getAllInfo($this->id_j);
 		$this->verifDroit($this->info['id_e'], "journal:lecture");
 		
+		$this->preuve_txt = $this->OpensslTSWrapper->getTimestampReplyString($this->info['preuve']);
+		
+		$horodateur = $this->ConnecteurFactory->getGlobalConnecteur('horodateur');
+		
+		try {
+			$horodateur->verify($this->info['message_horodate'],$this->info['preuve']);
+			$this->preuve_is_ok = true;
+		} catch(Exception $e){
+			$this->preuve_is_ok = false;	
+			$this->preuve_error = $e->getMessage();
+		}
+		
 		$this->page_title="Evenement numéro {$this->id_j}";
 		$this->template_milieu = "JournalDetail";
 		$this->renderDefault();

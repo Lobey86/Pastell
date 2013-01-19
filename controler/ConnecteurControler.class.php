@@ -17,6 +17,11 @@ class ConnecteurControler extends PastellControler {
 		$libelle = $recuperateur->get('libelle');
 		$id_connecteur = $recuperateur->get('id_connecteur');
 		
+		if (!$libelle){
+			$this->LastError->setLastError("Le libelé est obligatoire");	
+			$this->redirect("/connecteur/new.php?id_e=$id_e");
+		}
+		
 		$this->hasDroitEdition($id_e);
 		
 		if ($id_e){
@@ -26,7 +31,7 @@ class ConnecteurControler extends PastellControler {
 		}
 		
 		if (!$connecteur_info){
-			$this->lastError->setLastError("Aucun connecteur de ce type.");	
+			$this->LastError->setLastError("Aucun connecteur de ce type.");	
 		} else {
 			$this->ConnecteurEntiteSQL->addConnecteur($id_e,$id_connecteur,$connecteur_info['type'],$libelle);
 			$this->lastMessage->setLastMessage("Connecteur ajouté avec succès");
