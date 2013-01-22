@@ -1,6 +1,6 @@
 <?php 
 
-require_once( __DIR__ . "/../HeliosArchivesSEDA.class.php");
+require_once( __DIR__ . "/../lib/HeliosArchiveSEDA.class.php");
 
 class SAEEnvoiHelios extends ActionExecutor {
 	

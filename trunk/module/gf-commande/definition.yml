@@ -4,6 +4,7 @@ type: Flux Financier
 connecteur:
 	signature
 	GED
+	SAE
 
 
 formulaire:
