@@ -13,8 +13,8 @@ class SignerBdc extends ActionExecutor {
 		$content_type = $finfo->file($actes->getFilePath('bon_de_commande'),FILEINFO_MIME_TYPE);
 		$dossierID = $actes->getFileName('bon_de_commande');
 		
-		$result = $signature->sendDocument($actes->get('iparapheur_type'),
-											$actes->get('iparapheur_sous_type'),
+		$result = $signature->sendDocument($actes->getWithDefault('iparapheur_type'),
+											$actes->getWithDefault('sous_type_parapheur'),
 											$dossierID,
 											$file_content,
 											$content_type);				

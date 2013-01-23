@@ -13,8 +13,8 @@ class SignerFacture extends ActionExecutor {
 		$content_type = $finfo->file($actes->getFilePath('facture'),FILEINFO_MIME_TYPE);
 		$dossierID = $actes->getFileName('facture');
 		
-		$result = $signature->sendDocument($actes->get('iparapheur_type_facture'),
-											$actes->get('iparapheur_sous_type_facture'),
+		$result = $signature->sendDocument($actes->getWithDefault('iparapheur_type_facture'),
+											$actes->getWithDefault('sous_type_parapheur_facture'),
 											$dossierID,
 											$file_content,
 											$content_type);				
