@@ -93,8 +93,8 @@ class HeliosArchiveSEDA {
 		$archiveTransfer->Contains->ContentDescription->LatestDate = date('Y-m-d',strtotime($transactionsInfo['date']));		
 		$archiveTransfer->Contains->ContentDescription->OldestDate = date('Y-m-d',strtotime($transactionsInfo['date']));		
 		
-		$archiveTransfer->Contains->ContentDescription->Size = "{$this->fileSize}";
-		$archiveTransfer->Contains->ContentDescription->Size['unitCode'] = '4L';
+		/*$archiveTransfer->Contains->ContentDescription->Size = "{$this->fileSize}";
+		$archiveTransfer->Contains->ContentDescription->Size['unitCode'] = '4L';*/
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Identification = $this->authorityInfo['sae_originating_agency'];
 		
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordContent = $this->authorityInfo['name'];

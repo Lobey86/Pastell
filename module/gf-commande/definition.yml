@@ -296,5 +296,5 @@ action:
 			role_id_e: lecteur
 			droit_id_u: 'gf-commande:edition'
 
-		action-class: Defaut
+		action-class: SendGED
 	
