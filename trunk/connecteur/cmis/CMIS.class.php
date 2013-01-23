@@ -97,6 +97,7 @@ class CMIS {
 	
 	public function getObjectByPath($path)
     {
+    	
     	$repositoryInfo = $this->getRepositoryInfo();
     	
     	if (! $repositoryInfo){
@@ -137,21 +138,32 @@ class CMIS {
         return $result;        
     }
 	
-	
-	public function addDocument($folder,$documentPath){
-		$folderInfo = $this->getObjectByPath($folder);
+	public function addDocument($title,$description,$contentType,$content,$gedFolder){
+		$folderInfo = $this->getObjectByPath($gedFolder);
 		$folderId = $folderInfo['id'];
+		$url = $folderInfo['link']['down'];      
 
-        $url = $folderInfo['link']['down'];      
+		
+		
+        $content = $this->getContent($title,$description,$contentType,$content);
+
         
-        $content = $this->getContent("titre4","Ce document contient plein de chose","Ceci est du contenu");
-
         $ret = $this->get($url, $content);
-
         return $ret;
 	}
 	
-	public function getContent($title,$summary,$content) {
+	public function createFolder($folder,$title,$description){
+		$folderInfo = $this->getObjectByPath($folder);
+		$folderId = $folderInfo['id'];
+		$url = $folderInfo['link']['down'];      
+		
+        $content = $this->getFolder($title,$description);
+
+        $ret = $this->get($url, $content);
+        return $ret;
+	}
+	
+	private function getContent($title,$description,$contentType,$content) {
         ob_start();
         echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n";
 ?>
@@ -161,9 +173,9 @@ class CMIS {
 			xmlns:app="http://www.w3.org/2007/app"
 			xmlns:cmisra="http://docs.oasis-open.org/ns/cmis/restatom/200908/">
 	<atom:title><?php echo $title ?></atom:title>
-	<atom:summary><?php echo $summary ?></atom:summary>
+	<atom:summary><?php echo $description ?></atom:summary>
 	<cmisra:content>
-		<cmisra:mediatype><?php echo "text/plain"?></cmisra:mediatype>
+		<cmisra:mediatype><?php echo  $contentType ?></cmisra:mediatype>
 		<cmisra:base64>
 <?php echo base64_encode($content);?>
 		</cmisra:base64>
@@ -172,6 +184,30 @@ class CMIS {
 		<cmis:properties>
 			<cmis:propertyId propertyDefinitionId="cmis:objectTypeId">
 				<cmis:value>cmis:document</cmis:value>
+			</cmis:propertyId>
+		</cmis:properties>
+	</cmisra:object>
+</atom:entry>
+<?php
+        return ob_get_clean();
+    }
+    
+	private function getFolder($title,$description) {
+        ob_start();
+        echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n";
+?>
+<atom:entry xmlns:cmis="http://docs.oasis-open.org/ns/cmis/core/200908/" 
+			xmlns:cmism="http://docs.oasis-open.org/ns/cmis/messaging/200908/"
+			xmlns:atom="http://www.w3.org/2005/Atom"
+			xmlns:app="http://www.w3.org/2007/app"
+			xmlns:cmisra="http://docs.oasis-open.org/ns/cmis/restatom/200908/">
+	<atom:title><?php echo $title ?></atom:title>
+	<atom:summary><?php echo $description ?></atom:summary>
+
+	<cmisra:object>
+		<cmis:properties>
+			<cmis:propertyId propertyDefinitionId="cmis:objectTypeId">
+				<cmis:value>cmis:folder</cmis:value>
 			</cmis:propertyId>
 		</cmis:properties>
 	</cmisra:object>
