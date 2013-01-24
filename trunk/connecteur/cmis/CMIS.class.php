@@ -173,7 +173,7 @@ class CMIS {
 			xmlns:app="http://www.w3.org/2007/app"
 			xmlns:cmisra="http://docs.oasis-open.org/ns/cmis/restatom/200908/">
 	<atom:title><?php echo $title ?></atom:title>
-	<atom:summary><?php echo $description ?></atom:summary>
+	<atom:summary><?php echo utf8_encode($description) ?></atom:summary>
 	<cmisra:content>
 		<cmisra:mediatype><?php echo  $contentType ?></cmisra:mediatype>
 		<cmisra:base64>
@@ -202,7 +202,7 @@ class CMIS {
 			xmlns:app="http://www.w3.org/2007/app"
 			xmlns:cmisra="http://docs.oasis-open.org/ns/cmis/restatom/200908/">
 	<atom:title><?php echo $title ?></atom:title>
-	<atom:summary><?php echo $description ?></atom:summary>
+	<atom:summary><?php echo utf8_encode($description) ?></atom:summary>
 
 	<cmisra:object>
 		<cmis:properties>
