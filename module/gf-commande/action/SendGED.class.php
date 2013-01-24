@@ -16,16 +16,22 @@ class SendGED extends ActionExecutor {
 		
 		$sub_folder = $folder ."/$folder_name";
 		
+		$ged->createFolder($sub_folder,"Devis","Pastell - Devis");
+		$ged->createFolder($sub_folder,"Bon_de_commande","Pastell - Bon de commande");
+		$ged->createFolder($sub_folder,"Facture","Pastell - Facture");
 		
-		$to_send = array('bon_de_commande'=>"Bon de commande",
-						"devis"=>"Devis",
-						"bon_de_commande_signe"=>"Signature du bon de commande",
-						"facture"=>"Facture",
-						"facture_signe" => "Signature de la facture"
-		);
-		foreach($to_send as $key => $description){
-			$this->sendFile($sub_folder,$key,$description);
-		}
+		
+		$this->sendFile($sub_folder."/Devis",'devis',"Devis");
+		
+		$this->sendFile($sub_folder."/Bon_de_commande",'bon_de_commande',"Bon de commande");
+		$this->sendFile($sub_folder."/Bon_de_commande",'signature_bon_de_commande',"Signature du bon de commande");
+		$this->sendFile($sub_folder."/Bon_de_commande",'bon_de_commande_signe',"Bon de commande signé");
+		
+		$this->sendFile($sub_folder."/Facture",'facture',"Facture");
+		$this->sendFile($sub_folder."/Facture",'facture_signe',"Signature de la facture");
+		$this->sendFile($sub_folder."/Facture",'signature_facture',"Facture signée");
+		
+		
 		
 		$this->setLastMessage("Document envoyé en GED");
 		
