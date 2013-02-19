@@ -32,7 +32,7 @@ if (!defined("LOG_LEVEL")){
 
 //Définition de la connexion à  la base de données
 if (!defined("BD_DSN")){
-	define("BD_DSN","mysql:dbname=pastell;host=127.0.0.1");
+	define("BD_DSN","mysql:dbname=pastell;host=127.0.0.1;port=3306");
 }
 if (!defined("BD_USER")){
 	define("BD_USER","pastell");

@@ -17,7 +17,7 @@ $authHeader["SSLCertificatVendor"]="/C=FR/ST=Alpes-Maritimes/L=Vallauris/O=SICTI
 $header=new SoapHeader("https://demostela.sictiam.fr/",'authHeader',$authHeader); 
 $client->__setSoapHeaders($header);
 
-$result = $client->getPESRetour(577);
+$result = $client->getDetailsPESAller(577);
 
 $result = json_decode($result, true);
 print_r($result);
