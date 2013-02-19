@@ -108,7 +108,9 @@ class S2low  extends TdtConnecteur {
 		if (! preg_match("/^OK/",$result)){
 			throw new S2lowException("Erreur lors de la transmission, S²low a répondu : $result");
 		}
-		return true;
+		$ligne = explode("\n",$result);
+		$id_transaction = trim($ligne[1]);
+		return $id_transaction;
 	}
 	
 	public function verifClassif(){
