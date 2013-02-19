@@ -247,6 +247,12 @@ formulaire:
 		defere_tribunal_administratif_date:
 			name: Date du déféré au TA
 			type: date
+	
+	Annulation:
+		has_annulation:
+			no-show: true
+		tedetis_annulation_id:
+			name: Identifiant de la transaction d'annulation
 
 page-condition:
 	Agent:
@@ -285,6 +291,8 @@ page-condition:
 	Déféré au tribunal administratif:
 		has_defere_tribunal_administratif: true
 	
+	Annulation:
+		has_annulation: true
 	
 action:
 	creation:		
@@ -477,7 +485,7 @@ action:
 	
 	annulation-tdt:
 		name-action: Annuler la transaction
-		name: Transaction annulée
+		name: Demande d'annulation envoyé
 		
 		rule:
 			has-action:
@@ -488,7 +496,22 @@ action:
 			droit_id_u: 'actes:edition'
 		action-class: TedetisAnnulation
 		warning: Attention cette action n'est pas réversible
+
+	verif-annulation-tdt:
+		name-action: Vérifier le statut de la transaction d'annulation
+		name: Statut vérifié par le TdT		
+		rule:
+			last-action:
+				annulation-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisRecupAnnulation
 			
+	annuler-tdt:
+		name: Transaction annulée
+		rule:
+			role_id_e: no-role
+		
 	send-cdg:
 		name-action: Transmettre au CDG
 		name: Transmis au CDG 
