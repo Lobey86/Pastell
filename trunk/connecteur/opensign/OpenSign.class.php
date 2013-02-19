@@ -24,9 +24,13 @@ class OpenSign extends Horodateur {
 	}
 	
 	public function getTimestampReply($data){
-		$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);
-		$token = $this->getToken($timestampRequest);
-		return $token;
+		try {
+			$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);
+			$token = $this->getToken($timestampRequest);
+			return $token;
+		} catch (exception $e){
+			return false;
+		}
 	}
 	
 	public function test(){
