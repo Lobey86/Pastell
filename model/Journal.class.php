@@ -54,13 +54,15 @@ class Journal extends SQL {
 		$now = date(Date::DATE_ISO);
 		$message_horodate = "$type - $id_e - $id_u - $id_d - $action - $message - $now";
 		
+		$preuve = "";
+		$date_horodatage = "";
+		
 		if ($this->horodateur){
 			$preuve = $this->horodateur->getTimestampReply($message_horodate);
-			$date_horodatage = $this->horodateur->getTimeStamp($preuve);
-		} else {
-			$preuve = "";
-			$date_horodatage = "";
 		} 
+		if ($preuve) {
+			$date_horodatage = $this->horodateur->getTimeStamp($preuve);
+		}
 
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
 		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
