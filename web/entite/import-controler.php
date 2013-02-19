@@ -26,7 +26,7 @@ $colList = $CSV->get($file_path);
 $entiteCreator = new EntiteCreator($sqlQuery,$journal);
 $nb_col = 0;
 foreach($colList as $col){
-	$the_id_e = $entiteCreator->create(0,$col[1],$col[0],Entite::TYPE_COLLECTIVITE,$id_e,$centre_de_gestion);
+	$the_id_e = $entiteCreator->edit(0,$col[1],$col[0],Entite::TYPE_COLLECTIVITE,$id_e,$centre_de_gestion);
 	$nb_col++;
 }
 

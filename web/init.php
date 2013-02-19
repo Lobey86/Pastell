@@ -8,7 +8,10 @@ function __autoload($class_name) {
 		throw new Exception("Impossible de trouver $class_name");
 	}
 }
-session_start();
+
+if(php_sapi_name() != "cli") {
+	session_start();
+}
 
 require_once( PASTELL_PATH . "/lib/util.php");
 
