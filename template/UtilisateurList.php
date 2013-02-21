@@ -58,7 +58,7 @@
 				<?php echo $user['prenom']?> <?php echo $user['nom']?>
 			</a>
 		</td>
-		<td><?php echo $user['login']?></td>
+		<td><a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'><?php echo $user['login']?></a></td>
 		<td><?php echo $user['email']?></td>
 		<td>
 			<?php foreach($user['all_role'] as $role): ?>
