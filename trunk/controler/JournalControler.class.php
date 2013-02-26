@@ -39,13 +39,18 @@ class JournalControler extends PastellControler {
 		$this->preuve_txt = $this->OpensslTSWrapper->getTimestampReplyString($this->info['preuve']);
 		
 		$horodateur = $this->ConnecteurFactory->getGlobalConnecteur('horodateur');
-		
-		try {
-			$horodateur->verify($this->info['message_horodate'],$this->info['preuve']);
-			$this->preuve_is_ok = true;
-		} catch(Exception $e){
+		if ($horodateur) {
+			try {
+				$horodateur->verify($this->info['message_horodate'],$this->info['preuve']);
+				$this->preuve_is_ok = true;
+			} 
+			catch(Exception $e){
+				$this->preuve_is_ok = false;	
+				$this->preuve_error = $e->getMessage();
+			}
+		} else {
 			$this->preuve_is_ok = false;	
-			$this->preuve_error = $e->getMessage();
+			$this->preuve_error = "Aucun horodateur n'est configuré";
 		}
 		
 		$this->page_title="Evenement numéro {$this->id_j}";

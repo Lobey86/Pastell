@@ -5,9 +5,8 @@ class OpensslTSWrapper {
 	private $opensslPath;
 	private $lastError;
 	
-	public function __construct($opensslPath,ZLog $zLog){
+	public function __construct($opensslPath){
 		$this->opensslPath = $opensslPath;
-		$this->zLog = $zLog;
 	}
 	
 	public function getLastError(){
@@ -15,7 +14,6 @@ class OpensslTSWrapper {
 	}
 	
 	private function execute($command){
-		$this->zLog->log($command,ZLog::DEBUG);
 		return shell_exec($command);
 	}
 	

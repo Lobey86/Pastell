@@ -37,6 +37,18 @@ class FluxControler extends PastellControler {
 		$this->redirect("/entite/detail.php?id_e=$id_e&page=4");
 	}
 	
+	public function doSupprimer(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_e = $recuperateur->getInt('id_e');
+		$flux = $recuperateur->get('flux');
+		$type = $recuperateur->get('type');
+		$this->hasDroitEdition($id_e);
+		$this->FluxEntiteSQL->deleteConnecteur($id_e,$flux,$type);
+		$this->LastMessage->setLastMessage("L'association a été supprimée");
+		$this->redirect("/entite/detail.php?id_e=$id_e&page=4");
+	}
+	
+	
 	public function listFlux(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_e = $recuperateur->getInt('id_e');

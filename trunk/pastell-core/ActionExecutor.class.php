@@ -9,6 +9,7 @@ abstract class ActionExecutor {
 	protected $id_destinataire;
 	protected $from_api;
 	protected $id_ce;
+	protected $type;
 	
 	protected $objectInstancier;
 	
@@ -157,7 +158,7 @@ abstract class ActionExecutor {
 	
 	/***** Fonction utilitaire *****/
 	
-	public function addActionOK($message){
+	public function addActionOK($message = ""){
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,$message);
 		$this->setLastMessage($message);
 	}

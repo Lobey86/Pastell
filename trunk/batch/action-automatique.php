@@ -5,7 +5,7 @@ $min_exec_time = 60;
 
 require_once( __DIR__ . "/../web/init.php");
 
-$zenMail = new ZenMail($zLog);
+$zenMail = new ZenMail();
 $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 

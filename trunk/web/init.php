@@ -31,9 +31,6 @@ $objectInstancier->api_definition_file_path = __DIR__ . "/../pastell-core/api-de
 
 $objectInstancier->opensslPath = OPENSSL_PATH;
 
-$objectInstancier->logFile = LOG_FILE;
-$objectInstancier->zLog->setLogLevel(LOG_LEVEL);
-
 $objectInstancier->bd_dsn = BD_DSN;
 $objectInstancier->bd_user = BD_USER;
 $objectInstancier->bd_password = BD_PASS;
@@ -51,8 +48,6 @@ if ($horodateur){
 	$objectInstancier->Journal->setHorodateur($horodateur);
 }
 
-
-$zLog = $objectInstancier->zLog;
 $sqlQuery = $objectInstancier->SQLQuery;
 $versionning = $objectInstancier->Versionning;
 $lastError = $objectInstancier->LastError;

@@ -7,7 +7,7 @@ class MailVerification {
 	}
 	
 	public function send($infoFournisseur){
-		$this->zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
+		$this->zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		$this->zenMail->setDestinataire($infoFournisseur['email']);
 		$this->zenMail->setSujet("Votre inscription sur Pastell");
 		$this->zenMail->setContenu(PASTELL_PATH . "/mail/inscription.php",$infoFournisseur);

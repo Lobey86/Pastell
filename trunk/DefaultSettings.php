@@ -18,18 +18,6 @@ if (!defined("WORKSPACE_PATH")){
 	define("WORKSPACE_PATH" , PASTELL_PATH . "/workspace");
 }
 
-require_once( PASTELL_PATH . "/lib/ZLog.class.php");
-
-//Emplacement du fichier de Log
-if (!defined("LOG_FILE")){
-	define("LOG_FILE", __DIR__. "/log/pastell.log");
-}
-
-//Niveau de Log enregistré
-if (!defined("LOG_LEVEL")){
-	define("LOG_LEVEL",ZLog::DEBUG);
-}
-
 //Définition de la connexion à  la base de données
 if (!defined("BD_DSN")){
 	define("BD_DSN","mysql:dbname=pastell;host=127.0.0.1;port=3306");

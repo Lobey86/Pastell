@@ -40,3 +40,15 @@
 </form>
 </div>
 <br/><br/>
+<div class="box_contenu clearfix">
+
+<h2>Supprimer l'association</h2>
+<form class="w700" action='flux/supprimer-controler.php' method='post' >
+<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+<input type='hidden' name='flux' value='<?php echo $flux ?>' />
+<input type='hidden' name='type' value='<?php echo $type_connecteur ?>' />
+<input type='submit' value="Supprimer l'association" />
+
+</form>
+
+</div>
