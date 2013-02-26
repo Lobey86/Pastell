@@ -37,7 +37,7 @@ class UtilisateurControler extends PastellControler {
 		$password = $this->UtilisateurNewEmailSQL->add($this->Authentification->getId(),$email);
 		
 		$zenMail = $this->ZenMail;
-		$zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
+		$zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		$zenMail->setDestinataire($email);
 		$zenMail->setSujet("Changement de mail sur Pastell");
 		$info = array("password" => $password);

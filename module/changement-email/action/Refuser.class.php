@@ -9,7 +9,7 @@ class Refuser extends ActionExecutor {
 		$utilisateur_info = $this->objectInstancier->Utilisateur->getInfo($id_u);
 		
 		$zenMail = $this->getZenMail();
-		$zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
+		$zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		$zenMail->setDestinataire($utilisateur_info['email']);
 		$zenMail->setSujet("Votre changement de mail a été rejeté");
 		$info = array("message" => $message);

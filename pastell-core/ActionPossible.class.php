@@ -99,7 +99,7 @@ class ActionPossible {
 		$action_rule = $action->getActionRule($action_name);
 		foreach($action_rule as $ruleName => $ruleValue){
 			if ( ! $this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleValue) ){
-				$this->lastBadRule = "$ruleName:$ruleValue ne correspond pas";
+				$this->lastBadRule = "$ruleName n'est pas vérifiée";
 				return false;
 			}
 		}

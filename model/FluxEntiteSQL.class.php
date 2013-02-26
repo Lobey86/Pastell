@@ -25,11 +25,19 @@ class FluxEntiteSQL extends SQL {
 		if (!$id_e){
 			$flux = 'global';
 		}
-		$sql = "DELETE FROM flux_entite " .
-				" WHERE id_e=? AND type=? AND flux=?";
+		$this->deleteConnecteur($id_e, $flux, $type);
 		$this->query($sql,$id_e,$type,$flux);
 		$sql = "INSERT INTO flux_entite(id_e,flux,type,id_ce) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$flux,$type,$id_ce);
+	}
+	
+	public function deleteConnecteur($id_e,$flux,$type){
+		if (!$id_e){
+			$flux = 'global';
+		}
+		$sql = "DELETE FROM flux_entite " .
+				" WHERE id_e=? AND type=? AND flux=?";
+		$this->query($sql,$id_e,$type,$flux);
 	}
 	
 	public function isUsed($id_ce){

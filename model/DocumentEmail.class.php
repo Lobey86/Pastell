@@ -86,10 +86,7 @@ class DocumentEmail extends SQL {
 		}
 		$message .= "\n\nConsulter le détail du document : " . SITE_BASE . "document/detail.php?id_d={$result['id_d']}&id_e=$id_e";
 	
-		
-		
-		global $zLog;
-		$zenMail = new ZenMail($zLog);
+		$zenMail = new ZenMail();
 		$notification = new Notification($this->sqlQuery);
 		$notificationMail = new NotificationMail($notification,$zenMail,$journal);
 		$notificationMail->notify($id_e, $result['id_d'], $next_action, 'mailsec', $message);

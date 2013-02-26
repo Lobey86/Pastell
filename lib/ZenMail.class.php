@@ -4,8 +4,6 @@ class ZenMail {
 	
 	const DEFAULT_CHARSET = 'ISO-8859-15';
 	
-	private $zLog;
-	
 	private $destinataire;
 	private $sujet;
 	private $contenu;
@@ -15,11 +13,7 @@ class ZenMail {
 	
 	private $charset;
 	
-	public function __construct(ZLog $zLog = null){
-		if (! $zLog){
-			$zLog = new ZLog();
-		}
-		$this->zLog = $zLog;
+	public function __construct(){
 		$this->setCharset(self::DEFAULT_CHARSET);
 	}
 	
@@ -27,7 +21,7 @@ class ZenMail {
 		$this->charset = $charset;
 	}
 	
-	public function setEmmeteur($nom,$mail){
+	public function setEmetteur($nom,$mail){
 		$this->emmeteur = "$nom <$mail>";
 		$this->mailEmmeteur = $mail; 
 	}
@@ -62,15 +56,7 @@ class ZenMail {
 		$entete =	"From: ".$this->emmeteur."\r\n".
 					"Reply-To: ".$this->mailEmmeteur."\r\n".
 					"Content-Type: text/plain; charset=\"".$this->charset."\"";		
-		
-		$this->zLog->log("Envoi d'un mail",ZLog::DEBUG);
-		$this->zLog->log("Destinataire : ".$this->destinataire,ZLog::DEBUG);
-		$this->zLog->log("Sujet : ".$this->sujet,ZLog::DEBUG);
-		$this->zLog->log("Entete: ".$entete,ZLog::DEBUG);
-		$this->zLog->log("Contenu: ".$this->contenu,ZLog::DEBUG);		
-		
-    	mail($this->destinataire,$this->sujet,$this->contenu,$entete);
-   
+    	mail($this->destinataire,$this->sujet,$this->contenu,$entete);   
 	}	
     
 }
