@@ -21,7 +21,7 @@ if ( ! $utilisateur->verifPassword($authentification->getId(),$oldpassword)){
 }
 
 
-$utilisateur->setPassword($id_u,$password);
+$utilisateur->setPassword($authentification->getId(),$password);
 
 
 $lastMessage->setLastMessage("Votre mot de passe a été modifié");
