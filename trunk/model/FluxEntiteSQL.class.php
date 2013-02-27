@@ -26,7 +26,7 @@ class FluxEntiteSQL extends SQL {
 			$flux = 'global';
 		}
 		$this->deleteConnecteur($id_e, $flux, $type);
-		$this->query($sql,$id_e,$type,$flux);
+		//$this->query($sql,$id_e,$type,$flux);
 		$sql = "INSERT INTO flux_entite(id_e,flux,type,id_ce) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$flux,$type,$id_ce);
 	}
