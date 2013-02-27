@@ -35,4 +35,9 @@ class ConnecteurEntiteSQL extends SQL {
 				" WHERE id_e=? AND type=?";
 		return $this->query($sql,$id_e,$type);
 	}
+	
+	public function getOne($id_connecteur){
+		$sql = "SELECT id_ce FROM connecteur_entite WHERE  id_connecteur = ?";
+		return $this->queryOne($sql,$id_connecteur);
+	}
 }
