@@ -35,7 +35,7 @@ $journal->add(Journal::DOCUMENT_CONSULTATION,$id_e,$id_d,"Consulté","$nom a cons
 
 
 header("Content-type: ".mime_content_type($file_path));
-header("Content-disposition: attachment; filename=\"$file_name\"");
+header("Content-disposition: attachment; filename=\"".urlencode($file_name)."\"");
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Pragma: public");

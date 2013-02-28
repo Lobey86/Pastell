@@ -82,9 +82,12 @@ class SAEEnvoi extends ActionExecutor {
 			return false;
 		} 
 		
+		$donneesFormulaire->setData("has_archive",true);
+		$donneesFormulaire->setData("url_archive",$sae->getURL($donneesFormulaire->get('numero_de_lacte')));
+		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au SAE");
 		
-		$this->setLastMessage("La transaction à été envoyé au SAE ({$authorityInfo['sae_wsdl']})");
+		$this->setLastMessage("La transaction à été envoyé au SAE (".$sae_config->get('sae_wsdl').")");
 		return true;
 	}
 } 

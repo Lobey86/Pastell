@@ -254,6 +254,13 @@ formulaire:
 		tedetis_annulation_id:
 			name: Identifiant de la transaction d'annulation
 
+	Archive:
+		has_archive:
+			no-show: true
+		url_archive:
+			name: URL du document sur le SAE
+			type: url
+
 page-condition:
 	Agent:
 		envoi_cdg: true
@@ -293,6 +300,9 @@ page-condition:
 	
 	Annulation:
 		has_annulation: true
+	
+	Archive:
+		has_archive: true
 	
 action:
 	creation:		

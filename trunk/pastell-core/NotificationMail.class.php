@@ -18,7 +18,7 @@ class NotificationMail {
 		$lesEmails = $this->notification->getMail($id_e,$type,$action);
 		
 		foreach($lesEmails as $mail){			
-			$this->zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
+			$this->zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 			$this->zenMail->setDestinataire($mail);
 			$this->zenMail->setSujet("[Pastell] Notification");
 			$info = array('message'=>$message,'id_e' => $id_e,'id_d'=>$id_d,'action'=>$action,'type'=>$type);
