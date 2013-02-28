@@ -384,7 +384,11 @@ class AfficheurFormulaire {
 							<?php echo date_iso_to_fr($this->donneesFormulaire->geth($field->getName()))?>
 						<?php elseif( $field->getType() == 'link') : ?>
 							<a href='<?php echo SITE_BASE . $field->getProperties('script')?>?id_e=<?php echo $id_e ?>'><?php echo $field->getProperties('link_name')?></a>
+						<?php elseif( $field->getType() == 'url') : ?>
+							<a target='_blank' href='<?php hecho($this->donneesFormulaire->geth($field->getName()))?>'><?php hecho($this->donneesFormulaire->geth($field->getName())) ?></a>
+						
 						<?php else:?>
+							
 							<?php echo $this->donneesFormulaire->geth($field->getName(),$field->getDefault())?>
 						<?php endif;?>			
 					</td>

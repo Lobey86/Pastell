@@ -9,7 +9,7 @@ class EnvoyerMessageAdmin extends ActionExecutor {
 		$entite_info = $this->getEntite()->getInfo();
 		
 		$zenMail = $this->getZenMail();
-		$zenMail->setEmmeteur("Pastell",PLATEFORME_MAIL);
+		$zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		$zenMail->setSujet("[Pastell] Message d'un utilisateur ");
 		$info = array('id_e' => $this->id_e,'id_d'=>$this->id_d,
 		);		
