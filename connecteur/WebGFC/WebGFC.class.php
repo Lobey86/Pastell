@@ -1,6 +1,4 @@
 <?php
-
-
 class WebGFC extends Connecteur {
 	
 
@@ -9,7 +7,6 @@ class WebGFC extends Connecteur {
 		$this->login  = $donneesFormulaire->get('login');
 		$this->password  = $donneesFormulaire->get('password');
 	}
-	
 	
 	private $lastMessage;
 	

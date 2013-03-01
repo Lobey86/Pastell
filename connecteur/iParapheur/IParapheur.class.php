@@ -26,9 +26,7 @@ class IParapheur extends Connecteur {
 		$this->password_http = $collectiviteProperties->get("iparapheur_password");
 		
 		$this->userKeyOnly = $collectiviteProperties->getFilePath("iparapheur_user_key_only_pem");
-		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");
-		
-		
+		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");	
 	}
 	
 	
