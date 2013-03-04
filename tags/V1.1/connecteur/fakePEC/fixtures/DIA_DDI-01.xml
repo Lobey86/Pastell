@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dia:documentDIA xmlns:dia="http://xmlschema.ok-demat.com/DIA" xmlns:diaco="http://xmlschema.ok-demat.com/DIA-CO" Id="DonneesOFFICE">
+  <dia:identification>
+    <dia:emetteur xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" codeCRPCEN="013405" contact="Admin" emailContact="genapi@genapi.fr" xsi:type="diaco:emetteurNotaireType"/>
+    <dia:destinataire codeInseeSimplifie="79191" complementCode="191"/>
+    <dia:dateDeCreation>2012-09-25</dia:dateDeCreation>
+    <dia:numerotationQuotidienne>00117</dia:numerotationQuotidienne>
+    <dia:intituleDossier>VENTE INIT DIA DPU 01</dia:intituleDossier>
+  </dia:identification>
+  <dia:entete xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" comprisDansZad="Non" diaOUdab="DIA" espaceSensible="Non" soumisAuDpu="Oui" xsi:type="dia:diaType"/>
+  <dia:personne numero="1">
+    <dia:clientpp id="IDP259201210045">
+      <dia:adresse/>
+      <dia:etat-civil nom="MARTIN">
+        <dia:prenom numero="1" prenom="Pierre"/>
+        <dia:prenom numero="2" prenom="Louis"/>
+      </dia:etat-civil>
+    </dia:clientpp>
+  </dia:personne>
+  <dia:proprietaire id="IDP259201210045" indivision="Non" quote-part-type="0"/>
+  <dia:adresseDuBien cdpostal="79000" localite="NIORT" voie="des fleurs" voie-numero="12" voie-type="RUE"/>
+  <dia:superficieCadastrale>675</dia:superficieCadastrale>
+  <dia:parcelle code-commune-insee="191" code-departement="34" commune="NIORT" contenance-ares="6" contenance-ca="75" contenance-ha="0" numero="45" quartier="Le centre" section="AZ"/>
+  <dia:planCadastralJoint>Non</dia:planCadastralJoint>
+  <dia:immeuble xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" immeubleForme="nonBati" xsi:type="dia:immeubleNonBatiType"/>
+  <dia:occupationSolSuperficie occSuperficieBois="0" occSuperficieCarrieres="0" occSuperficieEauxCadastrees="0" occSuperficieJardins="0" occSuperficieLandes="0" occSuperficiePres="0" occSuperficieSol="675" occSuperficieTerrainsAgrement="0" occSuperficieTerraisABatir="0" occSuperficieTerres="0" occSuperficieVergers="0" occSuperficieVignes="0"/>
+  <dia:ageDuBatiment>NonApplicable</dia:ageDuBatiment>
+  <dia:batimentVenduEnTotalite venduEnTotalite="Non"/>
+  <dia:venteLotVolume>Non</dia:venteLotVolume>
+  <dia:locauxBatimentEnCopropriete xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ageReglementCopropriete="NonApplicable" locauxBatimentEnCopropriete="Non" xsi:type="dia:locauxBatimentEnCoproprieteNON"/>
+  <dia:usage usage="Habitation"/>
+  <dia:occupation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" occupant="sansOccupant" xsi:type="dia:occupationSansOccupantType"/>
+  <dia:grevantLesBiens>Non</dia:grevantLesBiens>
+  <dia:natureDesDroits/>
+  <dia:renteViagereAnterieure/>
+  <dia:venteAmiable>
+    <dia:prixVenteEvaluation>
+      <dia:prixMontant xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" montantValeur="150000.00" montantValeurLettres="cent cinquante mille euros" xsi:type="dia:prixMontantTypeTTCSoumisAtaxe">
+        <dia:dontEventuellementInclus montantEventAutres="0.00" montantEventCheptel="0.00" montantEventMobilier="0.00" montantEventRecoltes="0.00"/>
+      </dia:prixMontant>
+      <dia:prixCommissions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" commission="SansCommission" xsi:type="dia:prixCommissionTypeSans"/>
+    </dia:prixVenteEvaluation>
+    <dia:modalitesPaiement modalites-paiement="PartieComptant" paiement-a-terme="0.00"/>
+  </dia:venteAmiable>
+  <dia:demandeAcquisitionTitulairePreemption>Non</dia:demandeAcquisitionTitulairePreemption>
+  <dia:aRechercheAcquereur>Oui</dia:aRechercheAcquereur>
+  <dia:descriptionComplementAcquereur/>
+  <dia:estChargeProcedeVenteAdjudication>Non</dia:estChargeProcedeVenteAdjudication>
+  <dia:lieuSignature>PEROLS</dia:lieuSignature>
+  <dia:dateSignature>2012-09-25</dia:dateSignature>
+  <dia:mandant>
+    <dia:notaire crpcen="13405" fax="0467200265" mel="genapi@genapi.fr" nom="GENAPI" prenom="" raison-sociale="SCP" telephone="0467159740">
+      <dia:adresse cdpostal="34470" localite="PEROLS" voie="Adam Smith" voie-numero="125" voie-type="IMP"/>
+    </dia:notaire>
+  </dia:mandant>
+  <dia:notification>mandataire</dia:notification>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="OFFICE_N">
+    <ds:SignedInfo Id="OFFICE_N-SignedInfo" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"/>
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"/>
+      <ds:Reference URI="#DonneesOFFICE" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:Transforms xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"/>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"/>
+        <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">26UlMRAg7nozb7x/bh2ePRTh8arCjLOeM5QqsAWM3AY=</ds:DigestValue>
+      </ds:Reference>
+      <ds:Reference URI="#OFFICE_N-SignedProperties" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"/>
+        <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">F3MQ+8yUN8Cst2ZPVOhbdvrjDQo=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue Id="OFFICE_N-Value" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">d+E2RHrbOMBcI/532zLKzF94pZNtGDaBbTg4gnjnze2wlsNze+aQB9HOHJe8eWNe6vCYEYjRoAcm 7bScVOf5btiPzPlD+N5LDvZDETH8vmHBJDnwejZKMlwF6A/jbuy5l1Q6syEyX3dWQyp2rB7LFmJk cTlyhNui6EsojvOLf7p5CZ96UWog+4DQK0kTfGSjWZ6xnr11PneStUrxgZmwqFbndyPGdrDFeCwk kX9OXwEJtF0iYtuYoIF04n0kdvMVrK+Kc1F45ACgyXSbzUIqrxtl3YUDlF/1uFFP/OKpaLZu5KHL KLBUsHLvsqDBOQlYzVXVIOL1mPRBzQqkf0Bp9g==</ds:SignatureValue>
+    <ds:KeyInfo Id="OFFICE_N-KeyInfo" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:X509Data xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Certificate xmlns:ds="http://www.w3.org/2000/09/xmldsig#">MIIFLTCCBBWgAwIBAgIBAzANBgkqhkiG9w0BAQsFADBpMQswCQYDVQQGEwJGUjEmMCQGA1UECgwd Q09OU0VJTCBTVVBFUklFVVIgRFUgTk9UQVJJQVQxFzAVBgNVBAsMDjAwMDIgNzg0MzUwMTM0MRkw FwYDVQQLDBBFVkFMX1BQX1JFQUwyMDE2MB4XDTEyMDEyMDA3NDQwNloXDTE0MDEyMDA3NDQwNlow ga4xCzAJBgNVBAYTAkZSMTAwLgYDVQQKDCdFdmFsIFBQIFByb2Zlc3Npb25zIFLDqWdsZW1lbnTD qWVzIDIwMDkxHjAcBgNVBAsMFUV2YWwgUFAgTm90YWlyZXMgMjAwOTEaMBgGA1UECwwRRXZhbCBQ UCBSRUFMIDIwMDkxMTAvBgNVBAMMKEVWQUwyMDExX05PVEFJUkVfU0lYIEVsb2RpZSAoMzEzNDA1 MDAwNikwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCTehFn/uvgTVSIWXBllQKUnBJd Q+pzpqTf13SEXojovDBrTudmoB+KIIyaxuvy2+J/g+sOJ/NInerwy2WXPSyvYPVjrunzliCzyixX u4f6p7aoOyvBzWNfAebSCwPhswG4rUtWO2oGvSzPx0Pp5HcsfDdLQlWAomZI/9niyGe1h8fb5eiR 9I8fTMbsinSezot7TPXdryEiweYGtQjqC7zOlANEgSDp5cxDaWkgOBN5CAXPFSKMsQHVd9bWhWWB ZjIaCZdWTXqjg5OrswkzRdxWwPu4qeKrM2DoJBE4buvp1oEu3BC+T/phQhHPZrdeKiH7tao6PmMt HLH6fVhhRw+xAgMBAAGjggGYMIIBlDAdBgNVHQ4EFgQUtqbmCpsyYnw3xzIir8GKiFxhFlEwHwYD VR0jBBgwFoAUXxxhVBTtFlFKxY27Dk4hQ66Ep1swgY4GA1UdIASBhjCBgzBuBg0qgXoBTgEDAwED AQEWMF0wWwYIKwYBBQUHAgEWT2h0dHA6Ly93d3cucHJldXZlLWVsZWN0cm9uaXF1ZS5vcmcvUENf QUNfUkVBTF8xLjIuMjUwLjEuNzguMS4yLjMuMS4zLjEuMS4yMi5wZGYwEQYPKoF6AU4BAwMBAwEC AgMBMA4GA1UdDwEB/wQEAwIGQDAlBgNVHREEHjAcgRpoaWFjaW5lLmdoYW91aUBub3RhaXJlcy5m cjAiBggrBgEFBQcBAwQWMBQwCAYGBACORgEEMAgGBgQAjkYBATBmBgNVHR8EXzBdMFugWaBXhlVo dHRwOi8vd3d3LnByZXV2ZS1lbGVjdHJvbmlxdWUub3JnL0xpc3RlUmV2b2NhdGlvbnNQcmVQcm9k dWN0aW9uL2V2YWxfcHBfcmVhbDIwMTYuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQCHAqo07fBE/mwz g6doPdki6BDfC7pFxXHXtQ12WyYVauS5Bc88VSA+in09YOzUmz4KANuNUx+8wMVD4OMJ1B61TZ3C 6Ntlg8KuKi7vG12uJkAHMMnx+zRRgWY/93SSMcni5Z+Y1ibHOm1kDlezYTHgplFJ7WPoPIftCOOh X2iLNPRZwewzkjSRoMzy3r8uk5haQoMflZzL3Qo67czvOKSEZ4/+2c8yi/wgl6RfxCmje9Ad6V7v 5sM0yFm2r+iltqkI5x9X9BnVZXPf1VIbCSmeV8lG0vcs2AZMNO9lMxQ0BaDkNSLp253fnYXSBLYp xy+9uKEt/ttjMa1I9s9L27jv</ds:X509Certificate>
+      </ds:X509Data>
+    </ds:KeyInfo>
+    <ds:Object>
+      <xad:QualifyingProperties xmlns:xad="http://uri.etsi.org/01903/v1.2.2#" Target="OFFICE_N-QualifyingProperties">
+        <xad:SignedProperties Id="OFFICE_N-SignedProperties">
+          <xad:SignedSignatureProperties>
+            <xad:SigningTime>2012-09-25T10:05:08.714+02:00</xad:SigningTime>
+            <xad:SigningCertificate>
+              <xad:Cert>
+                <xad:CertDigest>
+                  <xd:DigestMethod xmlns:xd="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+                  <xd:DigestValue xmlns:xd="http://www.w3.org/2000/09/xmldsig#">C1GwWJruG/ZQNgNrKZdQmGB097p259+Kj/+UvQJtdBc=</xd:DigestValue>
+                </xad:CertDigest>
+                <xad:IssuerSerial>
+                  <xd:X509IssuerName xmlns:xd="http://www.w3.org/2000/09/xmldsig#">OU=EVAL_PP_REAL2016, OU=0002 784350134, O=CONSEIL SUPERIEUR DU NOTARIAT, C=FR</xd:X509IssuerName>
+                  <xd:X509SerialNumber xmlns:xd="http://www.w3.org/2000/09/xmldsig#">3</xd:X509SerialNumber>
+                </xad:IssuerSerial>
+              </xad:Cert>
+            </xad:SigningCertificate>
+            <xad:SignatureProductionPlace>
+              <xad:City>PEROLS</xad:City>
+              <xad:PostalCode>34470</xad:PostalCode>
+              <xad:CountryName>france</xad:CountryName>
+            </xad:SignatureProductionPlace>
+            <xad:SignerRole>
+              <xad:ClaimedRoles>
+                <xad:ClaimedRole>Notaire</xad:ClaimedRole>
+              </xad:ClaimedRoles>
+            </xad:SignerRole>
+          </xad:SignedSignatureProperties>
+          <xad:SignedDataObjectProperties/>
+        </xad:SignedProperties>
+        <xad:UnsignedProperties xmlns:xad="http://uri.etsi.org/01903/v1.2.2#">
+          <xad:UnsignedSignatureProperties>
+            <xad:SignatureTimeStamp Id="OFFICE_N-TimeStamp">
+              <xad:Include URI="#OFFICE_N-Value" referencedData="false"/>
+              <xd:CanonicalizationMethod xmlns:xd="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+              <xad:EncapsulatedTimeStamp Id="OFFICE_N-EncapsulatedTimeStamp">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</xad:EncapsulatedTimeStamp>
+            </xad:SignatureTimeStamp>
+          </xad:UnsignedSignatureProperties>
+        </xad:UnsignedProperties>
+      </xad:QualifyingProperties>
+    </ds:Object>
+  </ds:Signature>
+</dia:documentDIA>

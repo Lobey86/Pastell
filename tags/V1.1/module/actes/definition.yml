@@ -1,0 +1,656 @@
+nom: Actes
+
+type: Flux Généraux
+
+affiche_one: true
+
+connecteur:
+	SAE
+	TdT
+	signature
+	GED
+
+formulaire:
+	Acte:
+	
+		acte_nature:
+			name: Nature de l'acte
+			type: select
+			requis: true
+			value: 
+				3: Arrêtés Individuels
+				2: Arrêtés réglementaires
+				6: Autres
+				4: Contrats et conventions
+				1: Délibérations
+				5: Documents budgétaires et financiers
+				
+	
+		Numéro de l'acte:
+			requis: true
+			commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"
+			preg_match: "#^[0-9A-Z_]{1,15}$#"
+			preg_match_error: "15 caractères maxi, chiffres, lettres en majuscule ou _"
+				
+		Objet: {requis: true, title: true}
+		Date de l'acte: {type: date, requis: true, commentaire: date de la décision}
+		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF ou XML"}
+		Autre document attaché: {type: file, multiple: true, commentaire: "Attention ! La taille totale des documents acte + annexes ne peut pas dépasser 20 Mo."}
+		
+	Cheminement:
+		type: 
+			name: Classification 
+			type: externalData
+			choice-action: nomemclature
+			link_name: Choisir un type d'Actes			
+		classification:
+			name: Correspondance Actes
+			type: externalData
+			link_name: liste des matières et sous-matières
+			choice-action: classification
+		envoi_iparapheur:
+			name: Transmission au parapheur
+			type: checkbox
+			onchange: envoi-iparapheur-change
+			read-only-content:
+				type: false
+				classification: false
+			
+		envoi_tdt: 
+			name: Transmission au contrôle de légalité 
+			type: checkbox
+			read-only-content:
+				type: false
+				classification: false
+		
+		envoi_cdg: 
+			name: Transmission au CDG
+			type: checkbox
+			onchange: envoi-cdg-change
+			read-only-content:
+				type: false
+				classification: false
+			
+		Archivage: 
+			type: checkbox
+			read-only-content:
+				type: false
+				classification: false
+		
+				
+	Agent:
+		agent: 
+			name: "Choisir les valeurs dans une liste"
+			type: externalData
+			choice-action: list-agent
+			link_name: liste des agents
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
+		Matricule de l'agent: {read-only: true} 
+		Nom patronymique: {requis: true, read-only: true}
+		Nom d'usage: {read-only: true}
+		Prénom : {requis: true, read-only: true}
+		Grade: {read-only: true, choice-action: list-grade}
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+			read-only:
+				true
+	
+	Agent non-référencé:
+		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
+		grade: 
+			name: "Grade"
+			type: externalData
+			choice-action: list-grade
+			link_name: liste des grades		
+		Nom patronymique: {requis: true}
+		Nom d'usage: 
+		Prénom : {requis: true}
+			
+		Statut:
+			type: select
+			value: 
+				titulaire
+				stagiaire
+				non-titulaire
+		
+	Observation:
+		observation: 
+			name: Observation
+			requis: true
+			type: textarea 
+			commentaire: "Obligatoire pour justifier <br/>le non-envoi au contrôle de légalité"
+	
+	onglet_cache:
+		envoi_tdt_obligatoire: {no-show: true, type: checkbox}
+		
+	Bordereau:
+		has_bordereau: {no-show: true}
+		bordereau: {name: Bordereau d'acquittement, type: file}
+		aractes: {no-show: true, type: file}
+		
+	Signature:
+		has_signature: {no-show: true}
+		signature: {name: Signature de l'acte, type: file}
+		document_signe: {name: Bordereau de signature, type: file}
+	
+	iParapheur:
+		iparapheur_type: 
+			name: Type iParapheur
+			read-only: true
+			default: Actes
+			
+		iparapheur_sous_type:
+			name: Sous Type iParapheur
+			requis: true
+			read-only: true
+			type: externalData
+			choice-action: iparapheur-sous-type
+			link_name: liste des types
+	
+	Courrier Simple:
+		has_courrier_simple:
+			no-show: true
+		courrier_simple:
+			name: Courrier simple
+			type: file
+			read-only: true
+		courrier_simple_id:
+			no-show: true
+		courrier_simple_date:
+			name: Date de réception du courrier simple 
+			type: date
+			
+	Demande de pièces complementaires:
+		has_demande_piece_complementaire:
+			no-show: true
+		demande_piece_complementaire:
+			name: Demande de pièces complémentaires
+			type: file
+			read-only: true
+		demande_piece_complementaire_id:
+			no-show: true
+		demande_piece_complementaire_date:
+			name: Date de réception de la demande de pièces complémentaires
+			type: date
+		has_demande_piece_complementaire:
+			no-show: true
+		has_reponse_demande_piece_complementaire:
+			no-show: true
+		reponse_demande_piece_complementaire:
+			name: Première pièce complémentaire 
+			requis: true
+			type:file
+			read-only-content:
+				has_reponse_demande_piece_complementaire: true
+		reponse_pj_demande_piece_complementaire:
+			name: Autres pièces complémentaire
+			type:file
+			multiple: true
+			read-only-content:
+				has_reponse_demande_piece_complementaire: true
+				
+		nature_reponse_demande_piece_complementaire:
+			name: Nature de la réponse
+			requis: true
+			type: select
+			value: 
+				3: Refus de réponse
+				4: Réponse
+			read-only-content:
+				has_reponse_demande_piece_complementaire: true
+			
+	Lettre d'observation:
+		has_lettre_observation:
+			no-show: true
+		lettre_observation:
+			name: Lettre d'observation
+			type: file
+			read-only: true
+		lettre_observation_id:
+			no-show: true
+		lettre_observation_date:
+			name: Date de réception de la lettre d'observation
+			type: date
+		has_reponse_lettre_observation:
+			no-show: true
+		reponse_lettre_observation:
+			name: Réponse à la lettre d'observation
+			requis: true
+			type:file
+			read-only-content:
+				has_reponse_lettre_observation: true
+				
+		nature_reponse_lettre_observation:
+			name: Nature de la réponse
+			requis: true
+			type: select
+			value: 
+				3: Refus de réponse
+				4: Réponse
+			read-only-content:
+				has_reponse_lettre_observation: true
+		
+	
+	Déféré au tribunal administratif:
+		has_defere_tribunal_administratif:
+			no-show: true
+		defere_tribunal_administratif:
+			name: Déféré au tribunal administratif
+			type: file
+			read-only: true
+		defere_tribunal_administratif_id:
+			no-show: true
+		defere_tribunal_administratif_date:
+			name: Date du déféré au TA
+			type: date
+	
+	Annulation:
+		has_annulation:
+			no-show: true
+		tedetis_annulation_id:
+			name: Identifiant de la transaction d'annulation
+
+	Archive:
+		has_archive:
+			no-show: true
+		url_archive:
+			name: URL du document sur le SAE
+			type: url
+
+page-condition:
+	Agent:
+		envoi_cdg: true
+		agent_non_reference: false
+	
+	Agent non-référencé:
+		envoi_cdg: true
+		agent_non_reference: true
+		
+	Observation:
+		envoi_tdt: false
+		envoi_tdt_obligatoire: true
+	
+	onglet_cache:
+		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
+	
+	Bordereau:
+		has_bordereau: true
+	
+	Signature:
+		has_signature: true
+	
+	iParapheur:
+		envoi_iparapheur: true
+	
+	Courrier Simple:
+		has_courrier_simple: true
+	
+	Demande de pièces complementaires:
+		has_demande_piece_complementaire: true
+	
+	Lettre d'observation:
+		has_lettre_observation: true
+		
+	Déféré au tribunal administratif:
+		has_defere_tribunal_administratif: true
+	
+	Annulation:
+		has_annulation: true
+	
+	Archive:
+		has_archive: true
+	
+action:
+	creation:		
+		name-action: Créer
+		name: Créé
+		
+		rule:
+			no-last-action:
+			droit_id_u: 'actes:edition'
+			type_id_e: 
+				service
+				collectivite
+		
+	modification:	
+		name-action: Modifier
+		name: En cours de rédaction
+		
+		rule:
+			last-action: 
+				creation
+				modification
+				recu-iparapheur
+				attente-reponse-prefecture
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		
+		rule:
+			last-action: 
+				creation
+				modification
+				recu-iparapheur
+				rejet-iparapheur
+			no-action:
+				send-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: Supprimer
+		warning: "Êtes-vous sûr ?"
+	
+	send-iparapheur:
+		name-action: Transmettre au parapheur
+		name: Transmis au parapheur
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			no-action: 
+				recu-iparapheur
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			content:
+				envoi_iparapheur: true
+				classification: true				
+		action-class: IParapheurEnvoie
+		action-automatique: verif-iparapheur
+								 	
+	verif-iparapheur:
+		name-action: Vérifier le statut de signature
+		name: Signature vérifié
+		rule:
+			last-action:
+				send-iparapheur
+				erreur-verif-iparapheur
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		
+		action-class: IParapheurRecup
+			
+			
+	recu-iparapheur:
+		name: Signature récuperée
+		editable-content:
+			classification
+		rule:
+			role_id_e: no-role
+	
+	rejet-iparapheur:
+		name: Signature refusée
+		rule: 
+			role_id_e: no-role
+	
+	erreur-verif-iparapheur:
+		name: Erreur lors de la vérification du statut de signature
+		rule:
+			role_id_e: no-role
+				
+	send-tdt:
+		name-action: Transmettre à la préfecture
+		name: Transmis en préfecture 
+		
+		rule:
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			or_1:
+				and_1:
+					last-action: 
+						creation
+						modification
+					no-action: 
+						send-tdt
+					content: 
+						envoi_tdt: true
+						envoi_iparapheur: false
+				and_2:
+					has-action: 
+						recu-iparapheur
+					no-action: 
+						send-tdt
+					content: 
+						envoi_tdt: true
+						envoi_iparapheur: true
+						
+		action-class: TedetisEnvoie
+		action-automatique: verif-tdt
+	
+	verif-tdt:
+		name-action: Vérifier le statut de la transaction
+		name: Statut vérifié par le TdT		
+		rule:
+			last-action:
+				send-tdt
+				erreur-verif-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisRecup
+	
+	erreur-verif-tdt:
+		name: Erreur lors de la vérification du status de l'acte
+		rule:
+			role_id_e: no-role
+	
+	acquiter-tdt:
+		name: Acquitté par la préfecture 
+		rule:
+			role_id_e: no-role
+		action-automatique: send-cdg
+	
+	verif-reponse-tdt:
+		name-action: Vérifier s'il y a des réponses de la préfecture
+		name: Message de la préfecture récupéré
+		rule:
+			has-action:
+				acquiter-tdt
+			
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisVerifReponsePref
+			
+	attente-reponse-prefecture:
+		name: Réponse à la préfecture attendue
+		rule:
+			role_id_e: no-role
+		editable-content:
+			reponse_lettre_observation
+			nature_reponse_lettre_observation
+			nature_reponse_demande_piece_complementaire
+			reponse_demande_piece_complementaire
+			reponse_pj_demande_piece_complementaire
+	
+	send-reponse-prefecture:
+		name: Envoie de la réponse à la préfecture
+		name-action: Envoyer la réponse à la préfecture
+		rule:
+			has-action: 
+				attente-reponse-prefecture
+			droit_id_u: 'actes:edition'
+			document_is_valide: true
+			or_1:
+				and_1:
+					content:
+						has_reponse_lettre_observation: false
+						has_lettre_observation: true
+				and_2:
+					content:
+						has_demande_piece_complementaire: true
+						has_reponse_demande_piece_complementaire: false
+		action-class: TedetisSendReponsePref	
+	
+	
+	termine:
+		name: Traitement terminé
+		rule:
+			role_id_e: no-role
+	
+	annulation-tdt:
+		name-action: Annuler la transaction
+		name: Demande d'annulation envoyé
+		
+		rule:
+			has-action:
+				acquiter-tdt
+			no-action:
+				annulation-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisAnnulation
+		warning: Attention cette action n'est pas réversible
+
+	verif-annulation-tdt:
+		name-action: Vérifier le statut de la transaction d'annulation
+		name: Statut vérifié par le TdT		
+		rule:
+			last-action:
+				annulation-tdt
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+		action-class: TedetisRecupAnnulation
+			
+	annuler-tdt:
+		name: Transaction annulée
+		rule:
+			role_id_e: no-role
+		
+	send-cdg:
+		name-action: Transmettre au CDG
+		name: Transmis au CDG 
+	
+		rule:
+			document_is_valide: true
+			role_id_e: editeur
+			droit_id_u: 'actes:edition'
+			or_1:
+				and_1 :
+					last-action: 
+						modification
+						creation
+					content:
+						envoi_cdg: true
+						envoi_tdt: false
+						envoi_iparapheur: false
+				and_2 :
+					last-action: 
+						recu-iparapheur
+					content:
+						envoi_cdg: true
+						envoi_tdt: false
+						envoi_iparapheur: true
+				and_3 :
+					last-action: acquiter-tdt				
+					content:
+						envoi_cdg: true		
+		action-class: EnvoieCDG
+					
+	recu-cdg:
+		name: Reçu par le CDG
+		rule:
+			role_id_e: no-role
+
+	
+	tdt-error:
+		name: Erreur sur le TdT
+		rule:
+			role_id_e: no-role					
+					
+	send-ged:		
+		name-action: Verser en GED
+		name: Versé en GED
+			
+		rule:
+			last-action: 
+				recu-cdg
+				send-archive 
+				
+			no-action:
+				send-ged
+				
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
+			droit_id_u: 'actes:edition'
+			properties: 
+				has_ged: manuel
+		action-class: Defaut
+	
+	send-archive:	
+		name-action: Verser au SAE
+		name: Versé au SAE	
+		rule:
+			has-action:
+				recu-cdg
+			no-action:
+				send-archive	
+			type_id_e: centre_de_gestion
+			role_id_e: lecteur
+			droit_id_u: 'actes:edition'
+			properties: 
+				has_archivage: manuel
+		action-class: SAEEnvoi
+		
+	envoi-iparapheur-change:		
+		name: Modification envoi-iparapheur
+		no-workflow: true
+		rule:
+			role_id_e: no-role	
+		action-class: EnvoieIparapheurChange
+	
+	envoi-cdg-change:
+		name: Modification envoi-cdg
+		no-workflow: true
+		rule:
+			role_id_e: no-role	
+		action-class: EnvoieCDGChange
+	
+	agent-non-reference:
+		name: Agent non référencé
+		no-workflow: true
+		rule:
+			role_id_e: no-role
+		action-class: AgentNonReference
+		
+	list-agent:
+		name: Liste des agent
+		no-workflow: true
+		rule:
+			role_id_e: no-role
+		action-class: ListAgent		
+
+	list-grade:
+		name: Liste des grades
+		no-workflow: true
+		rule: 
+			role_id_e: no-role
+		action-class: ListGrade
+
+	iparapheur-sous-type:
+		name: Liste des sous-type iParapheur
+		no-workflow: true
+		rule: 
+			role_id_e: no-role
+		action-class: IparapheurSousType
+	
+	classification: 
+		name: Classification ACTES
+		no-workflow: true
+		rule:
+			role_id_e: no-role
+		action-class: Classification
+	
+	nomemclature:
+		name: Nomemclature du CDG
+		no-workflow: true
+		rule:
+			role_id_e: no_role
+		action-class: Nomemclature
+			
+		
