@@ -24,7 +24,7 @@ formulaire:
 				4: Contrats et conventions
 				1: Délibérations
 				5: Documents budgétaires et financiers
-				
+					
 	
 		Numéro de l'acte:
 			requis: true
@@ -129,8 +129,16 @@ formulaire:
 		
 	Bordereau:
 		has_bordereau: {no-show: true}
-		bordereau: {name: Bordereau d'acquittement, type: file}
-		aractes: {no-show: true, type: file}
+		bordereau: 
+			name: Bordereau d'acquittement
+			type: file
+			show-role: 
+				editeur
+		aractes: 
+			no-show: true
+			type: file
+			show-role: 
+				editeur
 		
 	Signature:
 		has_signature: {no-show: true}
