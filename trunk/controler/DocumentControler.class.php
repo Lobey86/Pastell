@@ -217,7 +217,7 @@ class DocumentControler extends PastellControler {
 		$this->documentListAfficheur = $this->DocumentListAfficheur;
 		
 		$this->setNavigationInfo($id_e,"document/index.php?a=a");
-		$this->page_title= "Liste des documents <em>" . $this->infoEntite['denomination'] ."</em>";
+		$this->page_title= "Liste des documents " . $this->infoEntite['denomination'] ;
 		$this->template_milieu = "DocumentIndex"; 
 		$this->renderDefault();
 	}
