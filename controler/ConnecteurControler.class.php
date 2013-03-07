@@ -116,14 +116,7 @@ class ConnecteurControler extends PastellControler {
 		$this->redirect("/connecteur/edition-modif.php?id_ce=$id_ce");
 	}
 	
-	public function listConnecteur(){
-		$recuperateur = new Recuperateur($_GET);
-		$id_e = $recuperateur->getInt('id_e',0);
-		$this->hasDroitLecture($id_e);
-		$this->id_e = $id_e;
-		$this->all_connecteur = $this->ConnecteurEntiteSQL->getAll($id_e);
-		$this->render("ConnecteurList");
-	}
+
 	
 	public function deleteAction(){
 		$recuperateur = new Recuperateur($_GET);

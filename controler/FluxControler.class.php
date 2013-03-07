@@ -49,36 +49,7 @@ class FluxControler extends PastellControler {
 	}
 	
 	
-	public function listFlux(){
-		$recuperateur = new Recuperateur($_POST);
-		$id_e = $recuperateur->getInt('id_e');
-		$this->hasDroitLecture($id_e);
-		$this->id_e = $id_e;
-		$this->all_flux_entite = $this->FluxEntiteSQL->getAll($id_e);
-		
-		
-		if ($id_e){
-			$this->all_flux = $this->FluxDefinitionFiles->getAll();
-			$this->render("FluxList");
-		} else {
-			$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllGlobalType();
-			$all_type = array();
-			foreach($all_connecteur_type as $connecteur_type){
-				try {
-					$global_connecteur = $this->ConnecteurFactory->getGlobalConnecteur($connecteur_type);
-				} catch (Exception $e){
-					$global_connecteur =  false;
-				}
-				$all_type[$connecteur_type] = $global_connecteur;
-			}
-				
-			$this->all_connecteur_type = $all_type;
-			
-			$this->all_flux_global = $this->all_flux_entite['global'];
-			$this->render("FluxGlobalList");
-		}
-	}
-	
+
 	public function editionAction(){
 		$recuperateur = new Recuperateur($_GET);
 		$this->id_e = $recuperateur->getInt('id_e');
