@@ -25,7 +25,7 @@
 </tr>
 
 </table>
-<input type='submit' value='Modifier le mot de passe' />
+<input type='submit' value='Modifier votre email' />
 </form>
 
 </div>
