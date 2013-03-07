@@ -24,7 +24,7 @@ class EntiteControler extends PastellControler {
 		$this->offset = $offset;
 		$this->search=$search;
 		$this->descendance = $descendance;
-		$this->render("UtilisateurList");
+		$this->tableau_milieu = "UtilisateurList";
 	}
 	
 	public function exportUtilisateur(){
@@ -66,9 +66,16 @@ class EntiteControler extends PastellControler {
 		$this->entiteExtendedInfo = $this->EntiteSQL->getExtendedInfo($id_e);
 		$this->has_ged  = $this->EntitePropertiesSQL->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged');
 		$this->has_sae = $this->EntitePropertiesSQL->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage');
-		
-		$this->render("EntiteDetail");
-		
+		$this->tableau_milieu = "EntiteDetail";
+	}
+	
+	public function hasManyCollectivite(){
+		$liste_collectivite = $this->RoleUtilisateur->getEntiteWithDenomination($this->Authentification->getId(),'entite:lecture');
+		$nbCollectivite = count($liste_collectivite);
+		if ($nbCollectivite == 1){
+			return ($liste_collectivite[0]['id_e'] == 0 );
+		}
+		return true;
 	}
 	
 	public function listEntite(){
@@ -85,13 +92,14 @@ class EntiteControler extends PastellControler {
 				$nbCollectivite = $this->EntiteListe->getNbCollectivite($search);
 			} else {
 				$this->redirect("/entite/detail.php?id_e=".$liste_collectivite[0]['id_e']);
+				
 			}
 		}
 		$this->liste_collectivite = $liste_collectivite;
 		$this->nbCollectivite = $nbCollectivite;
 		$this->search = $search;
 		$this->offset = $offset;
-		$this->render("EntiteList");	
+		$this->tableau_milieu = "EntiteList";
 	}
 	
 	public function importAction(){
@@ -161,6 +169,7 @@ class EntiteControler extends PastellControler {
 		$this->id_e = $recuperateur->getInt('id_e',0);
 		$this->tab_number = $recuperateur->getInt('page',0);
 		
+		$this->has_many_collectivite = $this->hasManyCollectivite();
 		$this->info = $this->EntiteSQL->getInfo($this->id_e);
 		
 		if ($this->id_e){
@@ -169,6 +178,28 @@ class EntiteControler extends PastellControler {
 		} else {
 			$this->formulaire_tab = array("Entité","Utilisateurs","Agents","Connecteurs globaux","Associations connecteurs" ,"Annuaire" );
 			$this->page_title = "Administration";
+		}
+		
+		switch($this->tab_number){
+			case 0:
+				if ($this->id_e){ 
+					$this->detailEntite();
+				} else {	
+					$this->listEntite();
+				}
+				break;
+			case 1: 
+				$this->listUtilisateur();
+				break;
+			case 2:
+				$this->listAgent();
+				break;
+			case 3:
+				$this->listConnecteur();
+				break;
+			case 4:
+				$this->listFlux();
+				break;
 		}
 		
 		$this->template_milieu = "EntiteIndex";
@@ -254,5 +285,79 @@ class EntiteControler extends PastellControler {
 		$this->LastError->deleteLastInput();
 		$this->redirect("/entite/detail.php?id_e=$id_e");
 	}
+	public function listAgent(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->getInt('id_e',0);
+		$offset = $recuperateur->getInt('offset',0);
+		$page = $recuperateur->getInt('page',0);
+		$search = $recuperateur->get('search');
+		
+		$this->hasDroitLecture($id_e);
+		$info = $this->EntiteSQL->getInfo($id_e);
+		$id_ancetre = $this->EntiteSQL->getCollectiviteAncetre($id_e);
+		if ($id_ancetre == $id_e){
+			$siren = $info['siren'];
+		} else {
+			$infoAncetre = $this->EntiteSQL->getInfo($id_ancetre);
+			$siren = $infoAncetre['siren'];
+		}
+		if ($id_e){
+			$this->nbAgent = $this->AgentSQL->getNbAgent($siren,$search);
+			$this->listAgent = $this->AgentSQL->getBySiren($siren,$offset,$search);
+		} else {
+			$this->nbAgent = $this->AgentSQL->getNbAllAgent($search);
+			$this->listAgent = $this->AgentSQL->getAllAgent($search,$offset);
+		}
+		$this->offset = $offset;
+		$this->page = $page;
+		$this->id_ancetre = $id_ancetre;
+		$this->droit_edition = $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"entite:edition",$id_e);
+		$this->id_e = $id_e;
+		$this->search = $search;
+		$this->tableau_milieu = "AgentList";
+	}
+	
+	public function listConnecteur(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->getInt('id_e',0);
+		$this->hasDroitLecture($id_e);
+		$this->id_e = $id_e;
+		$this->all_connecteur = $this->ConnecteurEntiteSQL->getAll($id_e);
+		$this->tableau_milieu = "ConnecteurList";
+	}
+	
+	public function listFlux(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_e = $recuperateur->getInt('id_e');
+		$this->hasDroitLecture($id_e);
+		$this->id_e = $id_e;
+		$this->all_flux_entite = $this->FluxEntiteSQL->getAll($id_e);
+		
+		
+		if ($id_e){
+			$this->all_flux = $this->FluxDefinitionFiles->getAll();
+			$this->tableau_milieu = "FluxList";
+		} else {
+			$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllGlobalType();
+			$all_type = array();
+			foreach($all_connecteur_type as $connecteur_type){
+				try {
+					$global_connecteur = $this->ConnecteurFactory->getGlobalConnecteur($connecteur_type);
+				} catch (Exception $e){
+					$global_connecteur =  false;
+				}
+				$all_type[$connecteur_type] = $global_connecteur;
+			}
+				
+			$this->all_connecteur_type = $all_type;
+			if (isset($this->all_flux_entite['global'])){
+				$this->all_flux_global = $this->all_flux_entite['global'];
+			} else {
+				$this->all_flux_global = array();	
+			}
+			$this->tableau_milieu = "FluxGlobalList";
+		}
+	}
+	
 	
 }
