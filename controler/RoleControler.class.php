@@ -22,7 +22,7 @@ class RoleControler extends PastellControler {
 		$all_droit = $this->RoleDroit->getAllDroit();
 		$this->all_droit_utilisateur = $this->RoleSQL->getDroit($all_droit,$this->role);
 		
-		$this->page_title = "Droits associés au rôle <em>{$this->role}</em>";
+		$this->page_title = "Droits associés au rôle {$this->role}";
 		$this->template_milieu = "RoleDetail";
 		$this->renderDefault();
 	}
