@@ -201,6 +201,13 @@ CREATE TABLE utilisateur (
 	PRIMARY KEY (`id_u`),
 	KEY id_e (`id_e`)
 )  ENGINE=MyISAM  ;
+CREATE TABLE utilisateur_new_email (
+	`id_u` int(11) NOT NULL,
+	`email` varchar(255) NOT NULL,
+	`password` varchar(32) NOT NULL,
+	`date` datetime NOT NULL,
+	PRIMARY KEY (`id_u`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE utilisateur_role (
 	`id_u` int(11) NOT NULL,
 	`role` varchar(32) NOT NULL,
