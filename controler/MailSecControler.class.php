@@ -56,6 +56,8 @@ class MailSecControler extends PastellControler {
 		$this->page= "Mail sécurisé";
 		$this->page_title= $infoEntite['denomination'] . " - Mail sécurisé";
 		$this->template_milieu = "MailSecIndex";
+		
+		
 		$this->render("PageWebSec");
 	}
 	
