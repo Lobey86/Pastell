@@ -82,8 +82,8 @@ class SAEEnvoi extends ActionExecutor {
 			return false;
 		} 
 		
-		$donneesFormulaire->setData("has_archive",true);
-		$donneesFormulaire->setData("url_archive",$sae->getURL($donneesFormulaire->get('numero_de_lacte')));
+		/*$donneesFormulaire->setData("has_archive",true);
+		$donneesFormulaire->setData("url_archive",$sae->getURL());*/
 		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au SAE");
 		
