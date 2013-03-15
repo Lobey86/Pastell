@@ -298,8 +298,8 @@ class EntiteControler extends PastellControler {
 		if ($id_ancetre == $id_e){
 			$siren = $info['siren'];
 		} else {
-			$infoAncetre = $this->EntiteSQL->getInfo($id_ancetre);
-			$siren = $infoAncetre['siren'];
+			$this->infoAncetre = $this->EntiteSQL->getInfo($id_ancetre);
+			$siren = $this->infoAncetre['siren'];
 		}
 		if ($id_e){
 			$this->nbAgent = $this->AgentSQL->getNbAgent($siren,$search);
