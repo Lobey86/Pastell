@@ -47,6 +47,7 @@ action:
 				modification
 			role_id_e: editeur
 			droit_id_u: 'message-admin:edition'
+			document_is_valide: true
 		action-class: EnvoyerMessageAdmin
 
 	supession-admin:

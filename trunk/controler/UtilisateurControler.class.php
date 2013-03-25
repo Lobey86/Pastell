@@ -69,12 +69,12 @@ class UtilisateurControler extends PastellControler {
 	private function createChangementEmail($id_u,$email){
 		$id_d = $this->Document->getNewId();	
 		$this->Document->save($id_d,'changement-email');
-		$utilisateur_info = $this->Utilisateur->getInfo($this->Authentification->getId()); 
+		$utilisateur_info = $this->Utilisateur->getInfo($id_u); 
 		
 		$this->Document->setTitre($id_d,$utilisateur_info['login']);
 		$this->DocumentEntite->addRole($id_d,$utilisateur_info['id_e'],"editeur");
 		$actionCreator = new ActionCreator($this->SQLQuery,$this->Journal,$id_d);
-		$actionCreator->addAction($utilisateur_info['id_e'],$this->Authentification->getId(),Action::CREATION,"Création du document");
+		$actionCreator->addAction($utilisateur_info['id_e'],$id_u,Action::CREATION,"Création du document");
 		
 		$donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d);
 		foreach(array('id_u','login','nom','prenom') as $key){
