@@ -150,7 +150,7 @@ class APIAction {
 		$actionPossible = $this->objectInstancier->ActionPossible;
 		
 		if ( ! $actionPossible->isActionPossible($id_e,$this->id_u,$id_d,'modification')) {
-			$JSONoutput->displayErrorAndExit("L'action « modification »  n'est pas permise");
+			throw new Exception("L'action « modification »  n'est pas permise");
 		}
 		
 		$donneesFormulaire->setTabDataVerif($data);
