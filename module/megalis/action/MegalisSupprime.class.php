@@ -11,7 +11,7 @@ class MegalisSupprime extends ActionExecutor{
 		$filename = $archive[0];
 		
 		if (! $megalis->delete($filename)){
-			$message = "Erreur lors de la supression de $filename";
+			$message = "Erreur lors de la suppression de $filename";
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,"erreur-supprimer-distant",$message);
 			$this->setLastMessage($message);
 			$this->getNotificationMail()->notify($this->id_e,$this->id_d,"erreur-supprimer-distant", $this->type,$message);	
