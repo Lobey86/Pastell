@@ -124,7 +124,7 @@ class ConnecteurControler extends PastellControler {
 		$this->verifDroitOnConnecteur($id_ce);		
 		$this->connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
 		
-		$this->page_title = "Supression du connecteur  « {$this->connecteur_entite_info['libelle']} »";
+		$this->page_title = "Suppression du connecteur  « {$this->connecteur_entite_info['libelle']} »";
 		$this->template_milieu = "ConnecteurDelete";
 		$this->renderDefault();
 	}
