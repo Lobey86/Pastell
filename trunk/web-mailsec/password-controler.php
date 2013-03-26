@@ -22,7 +22,7 @@ if ($donneesFormulaire->get('password') == $password){
 	exit;
 } else {
 	
-	$lastError->setLastError("Le mot de passe est incorecte");
+	$lastError->setLastError("Le mot de passe est incorrect");
 	header("Location: password.php?key=$key");
 	exit;
 }
