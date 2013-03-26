@@ -7,7 +7,7 @@
 </h2>
 <br/><br/>
 <div class='box_alert'>
-<p>Attention, la supression du connecteur est irréversible!</p>
+<p>Attention, la suppression du connecteur est irréversible!</p>
 </div>
 <br/><br/>
 <form action='connecteur/delete-controler.php' method='post' >
