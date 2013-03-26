@@ -187,7 +187,7 @@ action:
 		
 	verif-iparapheur:
 		name-action: Vérifier le statut de signature
-		name: Signature vérifié
+		name: Signature vérifiée
 		rule:
 			last-action:
 				envoie_bdc
@@ -272,7 +272,7 @@ action:
 		
 	verif-iparapheur-facture:
 		name-action: Vérifier le statut de signature
-		name: Signature vérifié
+		name: Signature vérifiée
 		rule:
 			last-action:
 				envoie_facture_signature
