@@ -121,7 +121,7 @@ class MegalisRecup extends ActionExecutor {
 			$this->setLastMessage("L'archive ne contient pas de fichier archive.xml");
 			return false;
 		}
-		//Supression de la référence à la feuille de style.
+		//Suppression de la référence à la feuille de style.
 		$bordereau = preg_replace("#<\?xml-stylesheet [^>]*>\n#",'',$bordereau);
 				
 		return $bordereau;
