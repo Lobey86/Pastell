@@ -58,12 +58,12 @@ class RoleControler extends PastellControler {
 		$role = $recuperateur->get('role');
 		
 		if ($this->RoleUtilisateur->anybodyHasRole($role)){
-			$this->LastError->setLastError("Le role $role est attribué à des utilisateurs");
+			$this->LastError->setLastError("Le rôle $role est attribué à des utilisateurs");
 			$this->redirect("/role/detail.php?role=$role");
 		}
 		
 		$this->RoleSQL->delete($role);
-		$this->LastMessage->setLastMessage("Le role $role a été supprimé");
+		$this->LastMessage->setLastMessage("Le rôle $role a été supprimé");
 		$this->redirect("/role/index.php");
 	}
 	
@@ -73,7 +73,7 @@ class RoleControler extends PastellControler {
 		$role = $recuperateur->get('role');
 		$droit = $recuperateur->get('droit');
 		$this->RoleSQL->updateDroit($role,$droit);
-		$this->LastMessage->setLastMessage("Le role $role a été mis à jour");
+		$this->LastMessage->setLastMessage("Le rôle $role a été mis à jour");
 		$this->redirect("/role/detail.php?role=$role");
 	}
 	
