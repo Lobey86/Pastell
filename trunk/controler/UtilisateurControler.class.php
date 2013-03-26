@@ -22,7 +22,7 @@ class UtilisateurControler extends PastellControler {
 		$recuperateur = new Recuperateur($_POST);
 		$password = $recuperateur->get('password');
 		if ( ! $this->Utilisateur->verifPassword($this->Authentification->getId(),$password)){
-			$this->LastError->setLastError("Le mot de passe est incorect.");
+			$this->LastError->setLastError("Le mot de passe est incorrect.");
 			$this->redirect("/utilisateur/modif-email.php");
 		}
 		$email = $recuperateur->get('email');
