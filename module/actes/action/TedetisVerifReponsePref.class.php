@@ -26,7 +26,7 @@ class TedetisVerifReponsePref extends ActionExecutor {
 			return false;
 		}
 		
-		$this->setLastMessage("Réponses récupérés");
+		$this->setLastMessage("Réponses récupérées");
 		return true;
 		
 	}
