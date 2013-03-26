@@ -1,6 +1,6 @@
 Bonjour, 
 
-Un utilisateur de Pastell à envoyer un message pour l'administrateur.
+Un utilisateur de Pastell a envoyé un message pour l'administrateur.
 
 Utilisateur : <?php echo $info['prenom'] . " " .$info['nom'] ?> (<?php echo $info['login']?>)
 
