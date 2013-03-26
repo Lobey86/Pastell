@@ -1,5 +1,5 @@
 <?php
-//Crée un admin (crée aussi le role admin et fixe les droits si il n'existe pas
+//Crée un admin (crée aussi le rôle admin et fixe les droits si il n'existe pas
 
 require_once( dirname(__FILE__) . "/../web/init.php");
 
@@ -11,7 +11,7 @@ $email = get_argv(3);
 $result = $objectInstancier->AdminControler->createAdmin($login,$password,$email);
 
 if ($result){
-		echo "Administrateur $login crée avec succès\n";
+		echo "Administrateur $login créé avec succès\n";
 	
 } else {
 	echo $objectInstancier->AdminControler->getLastError()."\n";	
