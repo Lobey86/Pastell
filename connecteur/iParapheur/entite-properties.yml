@@ -15,25 +15,44 @@ formulaire:
 		iparapheur_user_key_only_pem:  {type: file, no-show: true}
 		iparapheur_login: {name: "Login HTTP"}
 		iparapheur_password:  {name: "Mot de passe HTTP", type: password}
+		iparapheur_type:
+			name: Type iParapheur
+			type: externalData
+			choice-action: iparapheur-type
+			link_name: liste des types
+			onchange: update-sous-type
+		iparapheur_sous_type:
+			name: Sous-type iParapheur
+			read-only: true
+			type: file
 		
 action:
 	test-iparapheur:
 		name: Test de la connexion
 		action-class: IParapheurTest
-		tab: Signature
 		rule:
 			droit_id_u: 'entite:edition'
 		
 	test-iparapheur-send:
 		name: Créer un document test
 		action-class: IParapheurTestSend
-		tab: Signature
 		rule:
 			droit_id_u: 'entite:edition'
 			
 	update-certificate:
 		name: Mettre à jour les certificats
-		tab: TdT
 		action-class: UpdateCertificate
 		rule:
+			role_id_e: no-role
+	
+	update-sous-type:
+		name: Mettre à jour les sous-types
+		action-class: UpdateSousType
+		rule:
 			droit_id_u: 'entite:edition'
+			
+	iparapheur-type:
+		name: name: Liste des type iParapheur
+		rule: 
+			role_id_e: no-role
+		action-class: IparapheurType

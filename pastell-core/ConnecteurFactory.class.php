@@ -12,6 +12,8 @@ class ConnecteurFactory {
 		return $this->getConnecteurObjet($connecteur_info);
 	}
 	
+	
+	
 	public function getConnecteurByType($id_e,$id_flux,$type_connecteur){
 		$connecteur_info = $this->objectInstancier->FluxEntiteSQL->getConnecteur($id_e,$id_flux,$type_connecteur);
 		

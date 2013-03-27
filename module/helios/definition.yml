@@ -14,10 +14,7 @@ formulaire:
 	PES:
 		iparapheur_type: 
 			name: Type iParapheur
-			no-show: true
 			read-only: true
-			type: externalData
-			default: PES
 			
 		iparapheur_sous_type:
 			name: Sous Type iParapheur

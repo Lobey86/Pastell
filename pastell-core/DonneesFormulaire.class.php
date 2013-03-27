@@ -281,8 +281,6 @@ class DonneesFormulaire {
 		return 	$all_file_name[$num];
 	}
 	
-	
-	
 	public function getWithDefault($item){
 		$default = $this->formulaire->getField($item)->getDefault();
 		return $this->get($item,$default);

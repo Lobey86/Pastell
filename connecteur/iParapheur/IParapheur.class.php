@@ -11,6 +11,8 @@ class IParapheur extends Connecteur {
 	private $userKeyOnly;
 	private $userCertOnly;
 	
+	private $iparapheur_type;
+	
 	private $soapClientFactory;
 	
 	public function __construct(SoapClientFactory $soapClientFactory){
@@ -26,7 +28,8 @@ class IParapheur extends Connecteur {
 		$this->password_http = $collectiviteProperties->get("iparapheur_password");
 		
 		$this->userKeyOnly = $collectiviteProperties->getFilePath("iparapheur_user_key_only_pem");
-		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");	
+		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");
+		$this->iparapheur_type = $collectiviteProperties->get("iparapheur_type");
 	}
 	
 	
@@ -263,14 +266,23 @@ class IParapheur extends Connecteur {
 	
 	public function getType(){
 		try{
-			return $this->getClient()->GetListeTypes();
+			$type = $this->getClient()->GetListeTypes()->TypeTechnique;			
+			if (is_array($type)){
+				foreach($type as $n => $v){
+					$result[$n] = utf8_decode($v);
+				}
+			} else {
+				$result[0] = utf8_decode($type);
+			}
+			return $result;
 		}  catch (Exception $e){
 			$this->lastError = $e->getMessage();
 			return false;			
 		}
 	}
 	
-	public function getSousType($type){
+	public function getSousType(){
+		$type = $this->iparapheur_type;
 		try{
 			$sousType = $this->getClient()->GetListeSousTypes($type)->SousType;
 			$result = array();
