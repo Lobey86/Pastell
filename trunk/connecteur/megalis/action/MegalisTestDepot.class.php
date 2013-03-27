@@ -19,6 +19,11 @@ class MegalisTestDepot extends ActionExecutor {
 			"siren" => $entiteInfo['siren'],
 		);
 		
+		if (!$megalis){
+			$this->setLastMessage("Impossible de trouver le connecteur Mégalis global");
+			return false;
+		}
+		
 		$result = $megalis->createDepot($authorityInfo);
 		if (!$result){
 			$this->setLastMessage("Erreur lors de la création de l'archive");

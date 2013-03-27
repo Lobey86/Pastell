@@ -27,5 +27,3 @@ if ($action_name) {
 	$script = $theField->getProperties('script-controler');
 	require_once(PASTELL_PATH . "/externaldata/$script");
 }
-
-

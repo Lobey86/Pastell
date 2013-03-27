@@ -149,7 +149,6 @@ formulaire:
 		iparapheur_type: 
 			name: Type iParapheur
 			read-only: true
-			default: Actes
 			
 		iparapheur_sous_type:
 			name: Sous Type iParapheur
