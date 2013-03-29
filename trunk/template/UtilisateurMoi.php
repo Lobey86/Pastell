@@ -107,6 +107,7 @@
 	</td> 
 	<td>
 		<?php if($infoNotification['type']): ?>
+			<?php echo $infoNotification['type'] ?>
 		<?php else : ?>
 			Tous
 		<?php endif; ?>
