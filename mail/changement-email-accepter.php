@@ -1,6 +1,6 @@
 Bonjour, 
 
-Votre demande de changement d'email sur Pastell a été accepté.
+Votre demande de changement d'email sur Pastell a été acceptée.
 
 <?php if ($info['message']) : ?>
 
