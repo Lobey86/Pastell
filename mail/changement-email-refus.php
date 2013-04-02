@@ -1,6 +1,6 @@
 Bonjour, 
 
-Votre demande de changement d'email sur Pastell a été refusé.
+Votre demande de changement d'email sur Pastell a été refusée.
 
 <?php if ($info['message']) : ?>
 
