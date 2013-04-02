@@ -1,3 +1,0 @@
-- Supression du Zlog qui ne servait à rien, suppression dans localSettings de LOG_LEVEL et LOG_FILE
-- ZenMail::setEmmeteur devient ZenMail::setEmetteur 
-
