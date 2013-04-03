@@ -128,9 +128,16 @@ class EntiteControler extends PastellControler {
 		$recuperateur = new Recuperateur($_GET);
 		$entite_mere = $recuperateur->getInt('entite_mere',0);
 		$id_e = $recuperateur->getInt('id_e',0);
-		$this->hasDroitEdition($id_e);
-		$this->hasDroitEdition($entite_mere);
-	
+		if ($entite_mere){
+			$this->hasDroitEdition($entite_mere);	
+		}
+		if ($id_e){
+			$this->hasDroitEdition($id_e);
+		}
+		if ($entite_mere==0 && $id_e ==0){
+			$this->hasDroitEdition(0);
+		}
+		
 		if ($id_e){
 			$infoEntite = $this->EntiteSQL->getInfo($id_e);
 			$infoEntite['centre_de_gestion'] = $this->EntiteSQL->getCDG($id_e);
