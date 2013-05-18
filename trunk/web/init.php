@@ -43,10 +43,12 @@ if ($objectInstancier->Authentification->isConnected()) {
 }
 $objectInstancier->Journal->setId($id_u_journal);
 
-$horodateur = $objectInstancier->ConnecteurFactory->getGlobalConnecteur('horodateur');
-if ($horodateur){
-	$objectInstancier->Journal->setHorodateur($horodateur);
-}
+try {
+	$horodateur = $objectInstancier->ConnecteurFactory->getGlobalConnecteur('horodateur');
+	if ($horodateur){
+		$objectInstancier->Journal->setHorodateur($horodateur);
+	}
+} catch (Exception $e){}
 
 $sqlQuery = $objectInstancier->SQLQuery;
 $versionning = $objectInstancier->Versionning;
