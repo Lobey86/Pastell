@@ -5,7 +5,7 @@ formulaire:
 		sae_activate: {name: "Module activé", type: checkbox}
 		sae_wsdl: {name: "URL du WSDL"}
 		sae_login: {name: "Login"}
-		sae_password: {name: "Mot de passe"}
+		sae_password: {name: "Mot de passe"}		
 		sae_identifiant_versant: {name: "Identifiant service versant"}
 		sae_identifiant_archive: {name: "Identifiant archive"}
 		sae_numero_agrement: {name: "Numéro d'aggrément"}

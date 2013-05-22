@@ -1,14 +1,9 @@
 <?php
-
 class Asalae extends Connecteur {
 	
 	private $WDSL;
 	private $login;
 	private $password;
-	private $identifiantVersant;
-	private $originatingAgency;
-	private $identifiantArchive;
-	private $numeroAgrement;
 	
 	private $lastErrorCode;
 	
@@ -16,29 +11,45 @@ class Asalae extends Connecteur {
 		$this->WSDL = $collectiviteProperties->get('sae_wsdl');
 		$this->login = $collectiviteProperties->get('sae_login');
 		$this->password = $collectiviteProperties->get('sae_password');
-		$this->numeroAgrement = $collectiviteProperties->get('sae_numero_aggrement');
 	}
 
 	public function getLastErrorCode(){
 		return $this->lastErrorCode;
 	}
 	
-	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
-		$seda = $bordereauSEDA;
-		if (! $seda){
+	public function generateArchive($bordereau,$tmp_folder){
+		$xml = simplexml_load_string($bordereau);
+		foreach($xml->Integrity as $file){
+			$file_to_add[] = strval($file->UnitIdentifier);
+		}
+		$fileName = uniqid()."_archive.tar.gz";
+		$command = "tar cvzf $tmp_folder/$fileName --directory $tmp_folder " . implode(" ",$file_to_add);
+		$status = exec($command );
+		if (! $status){
+			$this->lastError = "Impossible de créer le fichier d'archive $fileName";
 			return false;
 		}
+		return $tmp_folder."/$fileName";
+	}	
+	
+	
+	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
 		$client = new SoapClient($this->WSDL);
-
 		$document_content  = file_get_contents($archivePath);
 		
-		$retour  = @ $client->__soapCall("wsDepot", array("bordereau.xml", $seda,$archive_file_name, $document_content, $file_type,$this->login,$this->password));
-		if ($retour === "0"){
-			return true;
+		$retour  = @ $client->__soapCall("wsDepot", array(	"bordereau.xml", 
+															$bordereauSEDA,
+															$archive_file_name, 
+															$document_content, 
+															$file_type,
+															$this->login,
+															$this->password));
+		if ($retour !== "0"){
+			$this->lastError = "Erreur lors du dépot : le service d'archive a retourné :  $retour";
+			return false;	
 		}
+		return true;
 		
-		$this->lastError = "Erreur lors du dépot : le service d'archive a retourné :  $retour";
-		return false;
 	}
 	
 	public function getAcuseReception($id_transfert){
@@ -51,7 +62,7 @@ class Asalae extends Connecteur {
 	
 	private function getMessage($id_transfer, $type_message){
 		$client = new SoapClient($this->WSDL);
-		$resultat = $client->wsGetMessage(	'ArchiveTransfer', 
+		$resultat = $client->wsGetMessage('ArchiveTransfer', 
 											 $type_message,
 											$id_transfer, 
 											$this->login,
@@ -86,6 +97,4 @@ class Asalae extends Connecteur {
 		$tab = parse_url($this->WSDL);
 		return "{$tab['scheme']}://{$tab['host']}/archives/viewByArchiveIdentifier/$cote";
 	}
-	
-
 }

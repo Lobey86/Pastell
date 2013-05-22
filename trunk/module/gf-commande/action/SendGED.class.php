@@ -5,9 +5,7 @@ class SendGED extends ActionExecutor {
 	
 	public function go(){
 		$ged = $this->getConnecteur("GED");
-		
-		$config = $this->getConnecteurConfigByType("GED");
-		$folder = $config->get('ged_folder');
+		$folder = $ged->getRootFolder();
 		
 		$folder_name = $this->getDonneesFormulaire()->get("objet");
     	$folder_name = str_replace(" ", "_", $folder_name);

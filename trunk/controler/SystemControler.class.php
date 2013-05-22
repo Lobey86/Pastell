@@ -7,14 +7,19 @@ class SystemControler extends PastellControler {
 		$recuperateur=new Recuperateur($_GET);
 		$page_number = $recuperateur->getInt('page_number');
 		
+		switch($page_number){
 		
-		if ($page_number == 0){
-			$this->actionAutoAction();
-		} else {
-			$this->environnementAction();
+			case 1 : 
+				$this->environnementAction(); break;	
+			case 2:
+				$this->fluxAction(); break;	
+			case 0:
+			default: $this->actionAutoAction(); break;
+			
 		}
 		
-		$this->onglet_tab = array("Action automatique","Environnement système");
+		
+		$this->onglet_tab = array("Action automatique","Environnement système","Flux");
 		$this->page_number = $page_number;
 		$this->template_milieu = "SystemIndex";
 		$this->page_title = "Environnement système";
@@ -48,6 +53,11 @@ class SystemControler extends PastellControler {
 		$this->onglet_content = "SystemEnvironnement";
 	}
 	
+	private function fluxAction(){
+		$this->all_flux = $this->FluxDefinitionFiles->getAll();
+		$this->onglet_content = "SystemFlux";
+	}
+	
 	public function messageAction(){
 		$recuperateur=new Recuperateur($_GET);
 		$id_e = $recuperateur->getInt('id_e');
@@ -56,6 +66,30 @@ class SystemControler extends PastellControler {
 		$this->template_milieu = "SystemActionAutoMessage";
 		$this->page_title = "Environnement système";
 		
+		$this->renderDefault();
+	}
+	
+	public function fluxDetailAction(){
+		$recuperateur=new Recuperateur($_GET);
+		$id = $recuperateur->get('id');		
+		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id);
+		
+		$name = $documentType->getName();
+		
+		$action = $documentType->getAction();
+		$action_list = $action->getAll();
+		sort($action_list);
+		foreach($action_list as $action_name){
+			$class_name = $action->getActionClass($action_name);
+			$all_action[] = array(
+				'name'=> $action_name,
+				'class' => $class_name,
+				'path' => $this->ActionExecutorFactory->getFluxActionPath($id,$class_name),
+			); 	
+		}
+		$this->all_action = $all_action;
+		$this->page_title = "Détail du flux « $name »";
+		$this->template_milieu = "SystemFluxDetail";
 		$this->renderDefault();
 	}
 	

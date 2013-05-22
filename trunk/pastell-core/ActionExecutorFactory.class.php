@@ -191,23 +191,16 @@ class ActionExecutorFactory {
 		return $actionClass;
 	}
 
-	private function loadDocumentActionFile($flux, $action_class_name){
-		$action_class_file = "{$this->module_path}/$flux/action/$action_class_name.class.php";
-		if (file_exists($action_class_file)){
-			require_once($action_class_file);
-		} else {
-			$this->loadActionFile($action_class_name);
-		}
-	}
-	
 	private function loadConnecteurActionFile($id_connecteur, $action_class_name){
 		$action_class_file = "{$this->connecteur_path}/$id_connecteur/action/$action_class_name.class.php";
 		if (file_exists($action_class_file)){
 			require_once($action_class_file);
 		} else {
+			//TODO supprimer cette possibilité : il n'est pas permis d'utiliser les actions par défaut ou les actions
+				// des modules
 			$this->loadActionFile($action_class_name);
 		}
-	}
+	}	
 	
 	private function loadActionFile($action_class_name){
 		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
@@ -220,4 +213,29 @@ class ActionExecutorFactory {
 		}
 		require_once($find[0]);
 	}
+	
+	private function loadDocumentActionFile($flux, $action_class_name){
+		$action_class_file = $this->getFluxActionPath($flux, $action_class_name);
+		if (! $action_class_file){				
+			throw new Exception( "Le fichier $action_class_name est manquant");
+		}
+		require_once($action_class_file);
+	}
+	
+	public function getFluxActionPath($flux,$action_class_name){
+		$action_class_file = "{$this->module_path}/$flux/action/$action_class_name.class.php";
+		if (file_exists($action_class_file)){
+			return $action_class_file;
+		}
+		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
+		if (file_exists($action_class_file )){
+			return $action_class_file;
+		}		
+		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");		
+		if ($find){				
+			return $find[0];
+		}
+		return false;
+	}
+	
 }

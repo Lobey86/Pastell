@@ -38,7 +38,6 @@ formulaire:
 		fichier_pes_signe: {name: Fichier PES signé, type: file}
 		document_signe: {name: Bordereau de signature, type: file}
 	
-		
 	Reponse:
 		has_reponse: {no-show: true}
 		fichier_reponse: {name: Fichier réponse, type: file}
