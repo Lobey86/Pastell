@@ -184,6 +184,7 @@ function:
 		input: 
 			data:
 				comment: contient les clés id_e et id_d pour identifier le document à modifier, puis, toutes les clés correspondantes au clé du type de document. Permet également l'enregistrement des fichiers (pas en SOAP). data n'est pas le nom de la clé en mode REST, il faut utilisé id_e, id_d, ...
+				required: false
 					  
 		output:
 			result:
@@ -201,12 +202,16 @@ function:
 			id_d: 
 			field_name:
 				comment: le nom du champs
+				required: false
 			file_name:
 				comment: le nom du fichier
+				required: false
 			file_number: 
 				comment: le numéro du fichier (pour les fichier multiple)
+				required: false
 			file_content:
 				comment: le contenu du fichier
+				required: false
 					  
 		output:
 			result:
@@ -224,8 +229,10 @@ function:
 			id_d: 
 			field_name:
 				comment: le nom du champs
+				required: false
 			file_number: 
 				comment: le numéro du fichier (pour les fichier multiple)
+				required: false
 		output:
 			file_name:
 				comment: le nom du fichier

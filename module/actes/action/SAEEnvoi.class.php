@@ -81,10 +81,7 @@ class SAEEnvoi extends ActionExecutor {
 			$this->setLastMessage("L'envoi du bordereau a échoué : " . $sae->getLastError());
 			return false;
 		} 
-		
-		/*$donneesFormulaire->setData("has_archive",true);
-		$donneesFormulaire->setData("url_archive",$sae->getURL());*/
-		
+
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au SAE");
 		
 		$this->setLastMessage("La transaction à été envoyé au SAE (".$sae_config->get('sae_wsdl').")");

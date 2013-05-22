@@ -1,0 +1,17 @@
+name: GED-FTP
+type: GED
+formulaire:
+	page0:
+		server: {name: "Serveur FTP"}
+		login: {name: "Login"}
+		password:  {name: "Mot de passe", type: password }
+		folder: {name: "Répertoire de travail (distant)"}
+
+action:		
+	test:
+		name: Tester la connectivité au serveur
+		action-class: GEDFTPTestConnect
+		tab: GED
+		rule:
+			droit_id_u: 'entite:edition'
+	

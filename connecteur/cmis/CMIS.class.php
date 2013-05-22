@@ -1,6 +1,8 @@
 <?php
 
-class CMIS {
+require_once(__DIR__ . "/../../connecteur-type/GEDConnecteur.class.php");
+
+class CMIS extends GEDConnecteur {
 	
 	const NS_CMIS  = "http://docs.oasis-open.org/ns/cmis/core/200908/";
 	const NS_CMIS_RA = "http://docs.oasis-open.org/ns/cmis/restatom/200908/";
@@ -8,8 +10,7 @@ class CMIS {
 	private $url;
 	private $login;
 	private $password;
-	
-	private $lastError;
+
 	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->url = $collectiviteProperties->get('ged_url');
@@ -18,16 +19,16 @@ class CMIS {
 		$this->folder = $collectiviteProperties->get('ged_folder');
 	}
 	
+	public function getRootFolder(){
+		return $this->folder;
+	}
+	
 	public function getRepositoryRetrieveInfo(){
 		return array('repositoryId','repositoryName','repositoryDescription','vendorName','productName','productVersion','rootFolderId');
 	}
 	
 	public function getFolderRetrieveInfo(){
 		return array('content','id','summary','title','published','updated');
-	}
-	
-	public function getLastError(){
-		return $this->lastError;
 	}
 	
     private function get($url,$content = false){
@@ -141,13 +142,8 @@ class CMIS {
 	public function addDocument($title,$description,$contentType,$content,$gedFolder){
 		$folderInfo = $this->getObjectByPath($gedFolder);
 		$folderId = $folderInfo['id'];
-		$url = $folderInfo['link']['down'];      
-
-		
-		
+		$url = $folderInfo['link']['down'];     
         $content = $this->getContent($title,$description,$contentType,$content);
-
-        
         $ret = $this->get($url, $content);
         return $ret;
 	}
@@ -214,6 +210,10 @@ class CMIS {
 </atom:entry>
 <?php
         return ob_get_clean();
+    }
+    
+    public function listFolder($folder){
+    	throw new Exception("Not implemented");
     }
     
 	

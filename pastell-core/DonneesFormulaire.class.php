@@ -461,4 +461,26 @@ class DonneesFormulaire {
 		return true;
 	}
 	
+	public function copyFile($field_name,$folder_destination,$num = 0){
+		$file_name = $this->get($field_name);
+		$file_name = $file_name[$num];
+		$file_path = $this->getFilePath($field_name,$num);
+		if (! file_exists($file_path)){
+			return false;
+		}
+		copy($file_path,"$folder_destination/$file_name");
+		return $folder_destination."/".$file_name;
+	}
+	
+	public function copyAllFiles($field_name,$folder_destination){
+		$result = array();
+		if (!$this->get($field_name) ){
+			return $result;
+		}
+		foreach($this->get($field_name) as $i => $file_name){
+			$result[] = $this->copyFile($field_name, $folder_destination,$i);
+		}
+		return $result;
+	}
+	
 }

@@ -2,7 +2,6 @@
 class FakeSAE extends Connecteur {
 	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
-		
 	}
 	
 	public function sendArchive(){
@@ -21,4 +20,8 @@ class FakeSAE extends Connecteur {
 	public function getURL($cote){
 		return "http://www.google.fr";
 	}
+	
+	public function generateArchive($bordereau,$tmp_folder){
+		return "/tmp/test";
+	}	
 }

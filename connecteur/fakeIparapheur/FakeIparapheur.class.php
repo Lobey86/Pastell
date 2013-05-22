@@ -29,7 +29,7 @@ class FakeIparapheur extends Connecteur {
 		return $info;
 	}
 	
-	public function sendHeliosDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,$visuel_pdf){
+	public function sendHeliosDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,$visuel_pdf){	
 		return true;
 	}
 	
