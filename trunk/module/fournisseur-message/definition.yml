@@ -12,14 +12,16 @@ action:
 		name-action: Créer
 		name: Créé
 		rule:
-			type_id_e: collectivite
+			type_id_e: 
+				collectivite
 			no-last-action:
 	
 	modification:
 		name-action: Modifier
 		name: En cours de rédaction
 		rule:
-			type_id_e: collectivite
+			type_id_e: 
+				collectivite
 			last-action: 
 				creation
 				modification

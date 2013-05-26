@@ -22,7 +22,8 @@ action:
 	creation:		
 		name-action: Créer
 		name: Créé
-		type_id_e: citoyen
+		type_id_e: 
+			citoyen
 		rule:
 			no-last-action:
 
@@ -31,7 +32,8 @@ action:
 		name: En cours de rédaction
 		
 		rule:
-			type_id_e: citoyen
+			type_id_e: 
+				citoyen
 			last-action: 
 				creation
 				modification
@@ -41,7 +43,8 @@ action:
 		name: Supprimé
 		
 		rule:
-			type_id_e: citoyen
+			type_id_e: 
+				citoyen
 			last-action: 
 				creation
 				modification
