@@ -3,7 +3,7 @@ type: Flux Généraux
 
 connecteur:
 	PEC
-	
+
 formulaire:
 	DIA:
 		titre: {name: Nom, title: true, read-only: true}

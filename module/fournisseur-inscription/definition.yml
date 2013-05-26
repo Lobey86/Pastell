@@ -61,14 +61,16 @@ action:
 		name-action: Créer
 		name: Créé
 		rule:
-			type_id_e: fournisseur
+			type_id_e: 
+				fournisseur
 			no-last-action:
 			
 	modification:
 		name-action: Modifier
 		name: En cours de rédaction
 		rule:
-			type_id_e: fournisseur
+			type_id_e: 
+				fournisseur
 			last-action: 
 				creation
 				modification
@@ -91,7 +93,8 @@ action:
 		name-action: Accepter l'inscription
 		name: Inscription acceptée
 		rule:
-			last-action: recu
+			last-action: 
+				recu
 			role_id_e: lecteur
 			
 		action-class: AccepterFournisseur
@@ -100,7 +103,8 @@ action:
 		name-action: Refuser l'inscription
 		name: Inscription refusée
 		rule:
-			last-action: recu
+			last-action: 
+				recu
 			role_id_e: lecteur
 			
 		action-class: RefuserFournisseur

@@ -14,7 +14,8 @@ action:
 		name: Créé
 		rule:
 			no-last-action:
-			type_id_e: centre_de_gestion
+			type_id_e: 
+				centre_de_gestion
 			droit_id_u: 'rh-messages:edition'
 
 	modification:

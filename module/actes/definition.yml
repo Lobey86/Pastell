@@ -96,8 +96,7 @@ formulaire:
 				titulaire
 				stagiaire
 				non-titulaire
-			read-only:
-				true
+			read-only: true
 	
 	Agent non-référencé:
 		agent_non_reference: { name: Agent non-référencé, type: checkbox, onchange: agent-non-reference}
@@ -557,7 +556,8 @@ action:
 						envoi_tdt: false
 						envoi_iparapheur: true
 				and_3 :
-					last-action: acquiter-tdt				
+					last-action: 
+						acquiter-tdt				
 					content:
 						envoi_cdg: true		
 		action-class: EnvoieCDG
@@ -584,7 +584,8 @@ action:
 			no-action:
 				send-ged
 				
-			type_id_e: centre_de_gestion
+			type_id_e: 
+				centre_de_gestion
 			role_id_e: lecteur
 			droit_id_u: 'actes:edition'
 			properties: 
@@ -599,7 +600,8 @@ action:
 				recu-cdg
 			no-action:
 				send-archive	
-			type_id_e: centre_de_gestion
+			type_id_e: 
+				centre_de_gestion
 			role_id_e: lecteur
 			droit_id_u: 'actes:edition'
 			properties: 

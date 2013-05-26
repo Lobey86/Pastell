@@ -8,7 +8,3 @@ formulaire:
 		Objet: {requis: true, title: true}
 		Message: {type: textarea}
 		Document attaché: {type: file, multiple: true}
-
-
-		
-action:
