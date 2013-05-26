@@ -54,7 +54,14 @@ class SystemControler extends PastellControler {
 	}
 	
 	private function fluxAction(){
-		$this->all_flux = $this->FluxDefinitionFiles->getAll();
+		$all_flux = array();
+		foreach($this->FluxDefinitionFiles->getAll() as $id_flux => $flux){
+			$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id_flux);
+			$all_flux[$id_flux]['nom'] = $documentType->getName();
+			$all_flux[$id_flux]['type'] = $documentType->getType();
+			$all_flux[$id_flux]['is_valide'] = $this->DocumentTypeValidation->validate($this->DocumentTypeFactory->getDocumentTypeArray($id_flux));
+		}
+		$this->all_flux = $all_flux;
 		$this->onglet_content = "SystemFlux";
 	}
 	
@@ -65,7 +72,7 @@ class SystemControler extends PastellControler {
 		$this->all_message = $this->ActionAutoLogSQL->getMessage($id_e,$id_d);
 		$this->template_milieu = "SystemActionAutoMessage";
 		$this->page_title = "Environnement système";
-		
+	 			
 		$this->renderDefault();
 	}
 	
@@ -75,7 +82,7 @@ class SystemControler extends PastellControler {
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id);
 		
 		$name = $documentType->getName();
-		
+		$all_action = array();
 		$action = $documentType->getAction();
 		$action_list = $action->getAll();
 		sort($action_list);
@@ -88,6 +95,8 @@ class SystemControler extends PastellControler {
 			); 	
 		}
 		$this->all_action = $all_action;
+		$this->document_type_is_validate = $this->DocumentTypeValidation->validate($this->DocumentTypeFactory->getDocumentTypeArray($id));
+		$this->validation_error =  $this->DocumentTypeValidation->getLastError();
 		$this->page_title = "Détail du flux « $name »";
 		$this->template_milieu = "SystemFluxDetail";
 		$this->renderDefault();

@@ -180,7 +180,6 @@ class UtilisateurControler extends PastellControler {
 		$this->info = $info;
 		$this->id_u = $id_u;
 		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:edition");
-		$this->documentTypeHTML = $this->DocumentTypeHTML;
 		$this->template_milieu = "UtilisateurDetail";
 		$this->renderDefault();
 	}
@@ -188,7 +187,6 @@ class UtilisateurControler extends PastellControler {
 	public function moiAction(){
 		$id_u = $this->getId_u();
 		
-		$this->documentTypeHTML = $this->DocumentTypeHTML;
 		
 		$info = $this->Utilisateur->getInfo($id_u);
 		$this->certificat = new Certificat($info['certificat']);

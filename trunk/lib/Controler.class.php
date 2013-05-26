@@ -32,6 +32,10 @@ class Controler {
 		$this->$key  = $value;
 	}
 	
+	public function setAllViewParameter(array $viewParameter){
+		$this->viewParameter = $viewParameter;
+	}
+	
 	public function getViewParameter(){
 		return $this->viewParameter;
 	}
@@ -45,7 +49,7 @@ class Controler {
 		header("Location: ".SITE_BASE."$to");
 		exit;
 	}
-	
+
 	public function renderDefault(){
 		$template_milieu = $this->viewParameter['template_milieu'];
 		$this->Gabarit->setParameters($this->getViewParameter());

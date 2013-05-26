@@ -28,10 +28,9 @@ abstract class ChoiceActionExecutor extends ActionExecutor {
 	
 	public function renderPage($page_title,$template){		
 		$this->page_title = $page_title;
-		$this->objectInstancier->Gabarit->setParameters($this->getViewParameter());
-				
-		$this->objectInstancier->Gabarit->renderPage($template);		
-		
+		$this->template_milieu = $template;
+		$this->objectInstancier->PastellControler->setAllViewParameter($this->getViewParameter());
+		$this->objectInstancier->PastellControler->renderDefault();
 	}
 	
 	public function redirectToFormulaire(){

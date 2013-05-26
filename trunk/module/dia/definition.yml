@@ -1,9 +1,8 @@
 nom: DIA
-flux: Flux généraux
+type: Flux Généraux
 
 connecteur:
 	PEC
-	
 	
 formulaire:
 	DIA:

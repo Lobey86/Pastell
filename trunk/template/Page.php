@@ -4,20 +4,6 @@ $recuperateur = new Recuperateur($_GET);
 $id_e_menu = $recuperateur->getInt('id_e',0);
 $type_e_menu = $recuperateur->get('type',"");
 
-
-$allType = array();
-
-$allDocType = $this->FluxDefinitionFiles->getAllType();
-$allDroit = $roleUtilisateur->getAllDroit($authentification->getId());
-
-foreach($allDocType as $type_flux => $les_flux){
-	foreach($les_flux as $nom => $affichage) {
-		if ($roleUtilisateur->hasOneDroit($authentification->getId(),$nom.":lecture")){
-			$allType[$type_flux][$nom]  = $affichage;
-		}
-	}
-}
-
 $breadcrumbs = array();
 $entiteBC = new Entite($sqlQuery,$id_e_menu);
 foreach( $entiteBC->getAncetre() as $infoEntiteBR){
@@ -120,7 +106,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 								</li>
 							</ul>
 							<?php 
-							foreach($allType as $type_flux => $les_flux) : ?>
+							foreach($all_module as $type_flux => $les_flux) : ?>
 								<h3><?php echo $type_flux  ?></h3>
 								<ul>
 								<?php foreach($les_flux as $nom => $affichage) : ?>

@@ -1,17 +1,14 @@
 <?php
-require_once ( PASTELL_PATH . "/ext/spyc.php");
 
 //Responsabilité: Appeller les bons objects qui connaissent l'emplacement des fichier de conf
 //et construire un DocumentType
 //(documents, entités, propriétés globales)
 class DocumentTypeFactory {
 	
-	private $module_path;
 	private $connecteurDefinitionFiles;
 	private $fluxDefinitionFiles;
 	
-	public function __construct($module_path,ConnecteurDefinitionFiles $connecteurDefinitionFiles,FluxDefinitionFiles $fluxDefinitionFiles){
-		$this->module_path = $module_path;
+	public function __construct(ConnecteurDefinitionFiles $connecteurDefinitionFiles,FluxDefinitionFiles $fluxDefinitionFiles){
 		$this->connecteurDefinitionFiles = $connecteurDefinitionFiles;
 		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
 	}
@@ -33,15 +30,43 @@ class DocumentTypeFactory {
 	}
 	
 	public function getFluxDocumentType($id_flux){
-		$flux_definition = $this->fluxDefinitionFiles->getInfo($id_flux);
+		$flux_definition = $this->getDocumentTypeArray($id_flux);
 		if (!$flux_definition){
 			return new DocumentType($id_flux,array());
 		}
 		return new DocumentType($id_flux,$flux_definition);
 	}
 	
+	public function getDocumentTypeArray($id_flux){
+		return $this->fluxDefinitionFiles->getInfo($id_flux);
+	}
+	
 	public function getAllType(){
-		return $this->fluxDefinitionFiles->getAllType();
+		static $result;
+		
+		if ($result){
+			return $result;
+		}
+		$all_type = array();
+		foreach ($this->fluxDefinitionFiles->getAll() as $id_flux => $properties){		
+			$documentType = $this->getFluxDocumentType($id_flux);	
+			$type = $documentType->getType();
+			$all_type[$type][$id_flux] = $documentType->getName();
+		}
+		foreach($all_type as $type => $flux){
+			asort($all_type[$type]);
+		}
+		asort($all_type);
+		
+		$result["Flux Généraux"] =  $all_type["Flux Généraux"];
+		unset($all_type["Flux Généraux"]);
+		$result = $result + $all_type;
+		return $result;
+	}
+	
+	public function isTypePresent($type){
+		$all = $this->getAllType();
+		return isset($all[$type]);
 	}
 
 	public function getActionByRole($allDroit){
@@ -60,11 +85,7 @@ class DocumentTypeFactory {
 			if ($a_wf){
 				$result[$typeName] = $a_wf;
 			} 
-		
 		}
-		
 		return $result;
 	}
-	
-	
 }

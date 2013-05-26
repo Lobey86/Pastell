@@ -140,10 +140,7 @@
 				|_<?php echo $entiteInfo['denomination']?> </option>
 			<?php endforeach ; ?>
 		</select>
-		<?php  
-		$allDroit = $this->RoleUtilisateur->getAllDroit($id_u);
-		$documentTypeHTML->setDroit($allDroit);		
-		$documentTypeHTML->displaySelectWithCollectivite(); ?>
+		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
 			
 		<input type='submit' value='ajouter'/>
 	</form>

@@ -36,7 +36,7 @@ class APIAction {
 	}
 	
 	public function documentType(){
-		$allDocType = $this->objectInstancier->FluxDefinitionFiles->getAllType();
+		$allDocType = $this->objectInstancier->DocumentTypeFactory->getAllType();
 		$allDroit = $this->objectInstancier->RoleUtilisateur->getAllDroit($this->id_u);
 		
 		foreach($allDocType as $type_flux => $les_flux){

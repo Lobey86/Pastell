@@ -1,0 +1,27 @@
+definition.yml:
+	nom:
+		info: Identifiant du module tel qu'il sera présenté aux utilisateurs.
+	
+	type:
+		info: Type de module. Utiliser pour classer les modules les uns par rapport aux autres.
+		default: Flux Généraux 
+		
+	connecteur:
+		info: Liste des types de connecteur utilisés par le module
+		default: aucun connecteur
+	
+	formulaire:
+		info: Définition du formulaire permettant la création et l'évolution du document
+		default: pas de formulaire
+		
+	page-condition:
+		info: Détermine les règles permettant de savoir si une page doit être affiché ou non
+		default: pas de condition
+	
+	action:
+		info: Définition de l'ensemble des actions qui peuvent être déclenché sur le document
+		default: pas d'action
+
+	affiche_one:
+		info: Permet d'afficher l'ensemble des onglets sur une seule page (en mode affichage, les onglets sont conservés en mode édition)
+		default: false

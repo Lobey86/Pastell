@@ -309,9 +309,6 @@ class DocumentControler extends PastellControler {
 		
 		$this->listeEtat = $this->DocumentTypeFactory->getActionByRole($allDroit);
 		
-		$this->DocumentTypeHTML->setDroit($allDroit);
-		$this->liste_type = $this->FluxDefinitionFiles->getTypeByDroit($allDroit);
-		$this->documentTypeHTML = $this->DocumentTypeHTML;
 		$this->documentActionEntite = $this->DocumentActionEntite;
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		
