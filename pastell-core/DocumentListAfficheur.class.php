@@ -1,4 +1,6 @@
 <?php
+
+//TODO : a mettre dans template
 class DocumentListAfficheur {
 	
 	private $documentTypeFactory;

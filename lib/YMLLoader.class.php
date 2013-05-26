@@ -1,4 +1,7 @@
 <?php
+
+require_once (PASTELL_PATH . "/ext/spyc.php");
+
 class YMLLoader {
 	
 	const CACHE_PREFIX = "yml_cache_"; 

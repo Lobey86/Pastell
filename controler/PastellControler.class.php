@@ -37,8 +37,26 @@ class PastellControler extends Controler {
 		$this->navigation_entite_affiche_toutes = ($id_e != 0 && (count($listeCollectivite) > 1 || $listeCollectivite[0] == 0));
 		$this->navigation_url = $url;
 	}
+		
+		
+	public function getAllModule(){
+		$all_module = array();
+		
+		$allDocType = $this->DocumentTypeFactory->getAllType();
+		$allDroit = $this->RoleUtilisateur->getAllDroit($this->Authentification->getId());
+		
+		foreach($allDocType as $type_flux => $les_flux){
+			foreach($les_flux as $nom => $affichage) {
+				if ($this->RoleUtilisateur->hasOneDroit($this->Authentification->getId(),$nom.":lecture")){
+					$all_module[$type_flux][$nom]  = $affichage;
+				}
+			}
+		}
+		return $all_module;
+	}
 	
 	public function renderDefault(){
+		$this->all_module = $this->getAllModule();
 		$this->authentification = $this->Authentification;
 		$this->roleUtilisateur = $this->RoleUtilisateur;
 		$this->sqlQuery = $this->SQLQuery;

@@ -1,59 +1,38 @@
 <?php
 
+//TODO a mettre dans template
 class DocumentTypeHTML {
-	
-	private $allDroit;
-	private $fluxDefinitionFiles;
-	
-	public function __construct(FluxDefinitionFiles $fluxDefinitionFiles){
-		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
-	}
-	
-	public function setDroit($allDroit){
-		$this->allDroit = $allDroit;
-	}
-	
-	private function getType(){
-		if ($this->allDroit){
-			$result =  $this->fluxDefinitionFiles->getTypeByDroit($this->allDroit);		
-			return $result;
-		}
-		$allType = $this->fluxDefinitionFiles->getAllType();
-		foreach($allType as $flux_type => $lesFlux){
-			foreach($lesFlux as $type => $description){
-				$result[$type] = $description;
-			}
-		}
-		return $result;
-	}
-	
-	private function getOption($type_selected=""){
+
+	private function getOption($type_selected="",$all_module = array()){
 		?>
-			<option value=''>Tous les types de document</option>
-				<?php foreach($this->getType() as $type => $description) : ?>
-					<option value='<?php echo $type?>' <?php echo $type_selected==$type?"selected='selected'":""?>>
-					<?php echo $description ?>
-					</option>
-				<?php endforeach ; ?>
+		<option value=''>Tous les types de document</option>
+		<?php foreach($all_module as $type => $module_by_type) : ?>
+			<optgroup label="<?php hecho($type) ?>">
+			<?php foreach($module_by_type as $module_id => $module_description) :?>
+				<option value='<?php echo $module_id?>' <?php echo $type_selected==$module_id?"selected='selected'":""?>>
+				<?php echo $module_description ?>
+				</option>
+			<?php endforeach;?>
+			</optgroup>
+		<?php endforeach ; ?>
 		<?php 
 	}
 	
-	public function displaySelect($type_selected=""){ 
+	public function displaySelect($type_selected="",$all_module = array()){ 
 		?>
 		<select name='type'>
-			<?php $this->getOption($type_selected) ?>
+			<?php $this->getOption($type_selected,$all_module) ?>
 		</select>
 		<?php 
 	}
 	
-	public function displaySelectWithCollectivite(){
+	public function displaySelectWithCollectivite($all_module = array()){
 		?>
 		<select name='type'>
-			<?php $this->getOption() ?>
+			<?php $this->getOption("",$all_module) ?>
 			<option value='collectivite-properties'>Collectivite</option>
 		</select>
 		<?php 
 	}
-	
 	
 }

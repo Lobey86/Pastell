@@ -1,73 +1,79 @@
 <?php
-
+//Gère le contenu d'un fichier definition.yml d'un module
 class DocumentType {
 	
 	const NOM = 'nom';
+	const TYPE_FLUX = 'type';
 	const FORMULAIRE = 'formulaire';
 	const ACTION = 'action';
 	const PAGE_CONDITION = 'page-condition';
 	const AFFICHE_ONE = 'affiche_one';
 	const CONNECTEUR = 'connecteur';
 	
-	private $type;
-	private $typeDefinition;
+	const TYPE_FLUX_DEFAULT = 'Flux Généraux';
 	
-	public function __construct($type,array $typeDefinition){
-		$this->type = $type; 
-		$this->typeDefinition = $typeDefinition;
+	private $module_id;
+	private $module_definition;
+	
+	public function __construct($module_id,array $module_definition){
+		$this->module_id = $module_id; 
+		$this->module_definition = $module_definition;
 	}
 
 	public function exists(){
-		return  !! $this->typeDefinition; 
+		return  !! $this->module_definition; 
 	}
 	
 	public function getName(){
-		if (empty($this->typeDefinition[self::NOM])){
-			return $this->type;
+		if (empty($this->module_definition[self::NOM])){
+			return $this->module_id;
 		}
-		return $this->typeDefinition[self::NOM];
+		return $this->module_definition[self::NOM];
+	}
+	
+	public function getType(){
+		if (empty($this->module_definition[self::TYPE_FLUX])){
+			return self::TYPE_FLUX_DEFAULT;
+		}
+		return $this->module_definition[self::TYPE_FLUX];
 	}
 	
 	public function getConnecteur(){
-		if (isset($this->typeDefinition[self::CONNECTEUR])){
-			return $this->typeDefinition[self::CONNECTEUR];
+		if (isset($this->module_definition[self::CONNECTEUR])){
+			return $this->module_definition[self::CONNECTEUR];
 		}
 		return array();
 	}
 	
 	public function getFormulaire(){	
 		$formulaire =  new Formulaire($this->getFormulaireArray());
-		if (isset( $this->typeDefinition[self::PAGE_CONDITION])){
-			$formulaire->addPageCondition($this->typeDefinition[self::PAGE_CONDITION]);
+		if (isset( $this->module_definition[self::PAGE_CONDITION])){
+			$formulaire->addPageCondition($this->module_definition[self::PAGE_CONDITION]);
 		}
-		if (! empty($this->typeDefinition[self::AFFICHE_ONE])){
+		if (! empty($this->module_definition[self::AFFICHE_ONE])){
 			$formulaire->setAfficheOneTab();
 		}
 		return $formulaire;
 	}
 	
 	private function getFormulaireArray(){
-		if (empty($this->typeDefinition[self::FORMULAIRE])){
+		if (empty($this->module_definition[self::FORMULAIRE])){
 			return array();
 		}
-		return $this->typeDefinition[self::FORMULAIRE];
+		return $this->module_definition[self::FORMULAIRE];
 	}
 	
 	public function getAction(){
-		if (empty($this->typeDefinition[self::ACTION])){
+		if (empty($this->module_definition[self::ACTION])){
 			return new Action();
 		}
-		return new Action((array) $this->typeDefinition[self::ACTION]);
+		return new Action((array) $this->module_definition[self::ACTION]);
 	}
 	
 	public function getTabAction(){
-		if (empty($this->typeDefinition[self::ACTION])){
+		if (empty($this->module_definition[self::ACTION])){
 			return array();
 		}
-		return $this->typeDefinition[self::ACTION];
+		return $this->module_definition[self::ACTION];
 	}
-	
-	
-	
-	
 }

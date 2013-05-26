@@ -195,7 +195,8 @@ $allRole = $roleSQL->getAllRole();
 				|_<?php echo $entiteInfo['denomination']?> </option>
 			<?php endforeach ; ?>
 		</select>
-		<?php  $documentTypeHTML->displaySelectWithCollectivite(); ?>
+		
+		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
 			
 		<input type='submit' value='ajouter'/>
 	</form>

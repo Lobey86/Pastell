@@ -1,10 +1,10 @@
 <?php
 class RoleDroit {
 	
-	private $fluxDefinitionFiles;
+	private $documentTypeFactory;
 	
-	public function __construct(FluxDefinitionFiles $fluxDefinitionFiles){
-		$this->fluxDefinitionFiles = $fluxDefinitionFiles;
+	public function __construct(DocumentTypeFactory $documentTypeFactory){
+		$this->documentTypeFactory = $documentTypeFactory;
 	}
 
 	public function getAllDroit(){
@@ -20,7 +20,7 @@ class RoleDroit {
 						'annuaire:lecture',
 						'annuaire:edition',
 					);
-		foreach($this->fluxDefinitionFiles->getAllType() as $type_famille){
+		foreach($this->documentTypeFactory->getAllType() as $type_famille){
 			foreach($type_famille as $type_id => $type_libelle){
 				$droit[] = "$type_id:lecture";
 				$droit[] = "$type_id:edition";

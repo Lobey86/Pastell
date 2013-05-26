@@ -3,18 +3,18 @@
 function dateInput($name,$value=''){
 	?>
 	<input 	type='text' 	
-								id='<?php echo $name?>' 
-								name='<?php echo $name?>' 
-								value='<?php echo $value?>' 
-								class='date'
-								/>
-							<script type="text/javascript">
-						   		 jQuery.datepicker.setDefaults(jQuery.datepicker.regional['fr']);
-								$(function() {
-									$("#<?php echo $name?>").datepicker( { dateFormat: 'dd/mm/yy' });
-									
-								});
-							</script>
+		id='<?php echo $name?>' 
+		name='<?php echo $name?>' 
+		value='<?php echo $value?>' 
+		class='date'
+		/>
+	<script type="text/javascript">
+   		 jQuery.datepicker.setDefaults(jQuery.datepicker.regional['fr']);
+		$(function() {
+			$("#<?php echo $name?>").datepicker( { dateFormat: 'dd/mm/yy' });
+			
+		});
+	</script>
 	<?php 
 }
 
@@ -27,7 +27,7 @@ function dateInput($name,$value=''){
 <table>
 	<tr>
 	<th>Type de document</th>
-	<td><?php  $documentTypeHTML->displaySelect($type); ?></td>
+	<td><?php  $this->DocumentTypeHTML->displaySelect($type,$all_module); ?></td>
 	</tr>
 	<tr>
 	<th>Collectivité</th>
