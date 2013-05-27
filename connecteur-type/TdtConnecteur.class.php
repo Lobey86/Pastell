@@ -20,13 +20,17 @@ abstract class TdtConnecteur extends Connecteur{
 	const STATUS_ACTES_MESSAGE_PREF_RECU = 7 ;
 	const STATUS_ACTES_MESSAGE_PREF_ENVOYE = 8 ;
 	
+	const STATUS_ACTES_EN_ATTENTE_DE_POSTER = 17;
+	
+	
 	const COURRIER_SIMPLE = 2;
 	const DEMANDE_PIECE_COMPLEMENTAIRE = 3;
 	const LETTRE_OBSERVATION = 4;
 	const DEFERE_TRIBUNAL_ADMINISTRATIF = 5;
 	 	
 	public static function getStatusString($status){
-		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé','AR non disponible pour le moment');
+		$statusString = array(-1=>'Erreur','Annulé','Posté','En attente de transmission','Transmis','Acquittement reçu','Validé','Refusé','AR non disponible pour le moment',
+			17=>"En attente d'être postée");
 		if (empty($statusString[$status])){
 			return "Statut inconnu ($status)";
 		}
