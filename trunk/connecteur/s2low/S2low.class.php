@@ -26,9 +26,9 @@ class S2low  extends TdtConnecteur {
 	protected $curlWrapper;
 	
 	protected $ensureLogin;
+	protected $en_attente;
 	
-	public function setConnecteurConfig(DonneesFormulaire $donnesFormulaire){
-		$collectiviteProperties = $donnesFormulaire;
+	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->curlWrapper = new CurlWrapper();
 		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('server_certificate'));	
 		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('user_certificat_pem'),
@@ -42,6 +42,7 @@ class S2low  extends TdtConnecteur {
 		$this->isActivate = $collectiviteProperties->get('activate');
 		$this->tedetisURL = $collectiviteProperties->get('url');
 		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');	
+		$this->en_attente = $collectiviteProperties->get('envoi_en_attente');
 	}
 	
 
@@ -157,6 +158,7 @@ class S2low  extends TdtConnecteur {
 		$this->curlWrapper->addPostData('subject',$donneesFormulaire->get('objet'));
 		
 		$this->curlWrapper->addPostData('decision_date', date("Y-m-d", strtotime($donneesFormulaire->get('date_de_lacte'))));
+		$this->curlWrapper->addPostData('en_attente', $this->en_attente?1:0);
 		
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');

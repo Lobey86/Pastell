@@ -27,6 +27,10 @@ formulaire:
 			type: externalData
 			link_name: liste des fichiers disponibles
 			choice-action: nomemclature-liste
+		envoi_en_attente:
+			name: "Confirmer la transaction sur S²low"
+			commentaire: "La transaction devra être confirmée par l'agent télétransmetteur avant d'être envoyée à la préfecture"  
+			type: checkbox
 
 action:
 	test-tedetis:
