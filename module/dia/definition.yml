@@ -6,10 +6,21 @@ connecteur:
 
 formulaire:
 	DIA:
-		titre: {name: Nom, title: true, read-only: true}
+		titre: 
+			name: Nom
+			title: true
+			read-only: true
+
 		dia: {name: Fichier contenant la DIA, type: file, read-only: true}
 		accuse_enregistrement: {name: Fichier contenant l'accusé d'enregistrement, type: file}
+	
+				
 		
+page-condition:
+	DIA:
+		titre: true
+
+
 action:
 
 	creation:		
@@ -17,7 +28,10 @@ action:
 		name: Créé		
 		rule:
 			role_id_e: no-role
-	
+			no-last-action: 
+		editable-content:
+			titre
+								
 	modification:	
 		name-action: Modifier
 		name: Modification
@@ -45,6 +59,8 @@ action:
 		name: Dossier terminé
 		rule: 
 			role_id_e: no-role
+
+
 	
 	supression:
 		name-action: Supprimer

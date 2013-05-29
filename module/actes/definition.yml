@@ -77,6 +77,8 @@ formulaire:
 				type: false
 				classification: false
 		
+		envoi_tdt_obligatoire: {no-show: true, type: checkbox}
+		
 				
 	Agent:
 		agent: 
@@ -123,8 +125,6 @@ formulaire:
 			type: textarea 
 			commentaire: "Obligatoire pour justifier <br/>le non-envoi au contrôle de légalité"
 	
-	onglet_cache:
-		envoi_tdt_obligatoire: {no-show: true, type: checkbox}
 		
 	Bordereau:
 		has_bordereau: {no-show: true}
@@ -282,9 +282,7 @@ page-condition:
 	Observation:
 		envoi_tdt: false
 		envoi_tdt_obligatoire: true
-	
-	onglet_cache:
-		cet_onglet_n_est_pas_affiche: cet_onglet_n_est_pas_affiche
+
 	
 	Bordereau:
 		has_bordereau: true

@@ -210,10 +210,6 @@ page-condition:
 		
 	Bordereau:
 		has_bordereau: true
-	
-	Reponse:
-		has_reponse: true
-	
 	SAE:
 		ar_sae: true
 	
@@ -372,7 +368,6 @@ action:
 		name: Acquitté par la préfecture 
 		rule:
 			role_id_e: no-role
-		action-automatique: send-cdg
 	
 	verif-reponse-tdt:
 		name-action: Vérifier s'il y a des réponses de la préfecture
@@ -524,7 +519,6 @@ action:
 		name: Archive accepté par le SAE
 		rule:
 			role_id_e: no-role
-		action-automatique: supprimer-distant
 			
 	rejet-sae:
 		name: Archive rejeter par le SAE

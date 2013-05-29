@@ -55,11 +55,16 @@ class SystemControler extends PastellControler {
 	
 	private function fluxAction(){
 		$all_flux = array();
+		$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllType();
+		$all_type_entite = array_keys(Entite::getAllType());
 		foreach($this->FluxDefinitionFiles->getAll() as $id_flux => $flux){
 			$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id_flux);
 			$all_flux[$id_flux]['nom'] = $documentType->getName();
 			$all_flux[$id_flux]['type'] = $documentType->getType();
-			$all_flux[$id_flux]['is_valide'] = $this->DocumentTypeValidation->validate($this->DocumentTypeFactory->getDocumentTypeArray($id_flux));
+			$all_flux[$id_flux]['is_valide'] = $this->DocumentTypeValidation->validate($id_flux,
+														$this->DocumentTypeFactory->getDocumentTypeArray($id_flux),
+														$all_connecteur_type,
+														$all_type_entite);
 		}
 		$this->all_flux = $all_flux;
 		$this->onglet_content = "SystemFlux";
@@ -95,7 +100,12 @@ class SystemControler extends PastellControler {
 			); 	
 		}
 		$this->all_action = $all_action;
-		$this->document_type_is_validate = $this->DocumentTypeValidation->validate($this->DocumentTypeFactory->getDocumentTypeArray($id));
+		
+		$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllType();
+		$all_type_entite = array_keys(Entite::getAllType());
+		
+		$this->document_type_is_validate = $this->DocumentTypeValidation->validate($id,
+			$this->DocumentTypeFactory->getDocumentTypeArray($id),$all_connecteur_type,$all_type_entite);
 		$this->validation_error =  $this->DocumentTypeValidation->getLastError();
 		$this->page_title = "Détail du flux « $name »";
 		$this->template_milieu = "SystemFluxDetail";

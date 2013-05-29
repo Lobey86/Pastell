@@ -1,14 +1,14 @@
 <?php
 
-class UtilisateurCreator extends SQL {
+class UtilisateurCreator {
 	
 	private $passwordGenerator;
-	private $journal;
+	private $utilisateurSQL;
+	private $lastError;
 	
-	public function __construct(SQLQuery $sqlQuery,Journal $journal,PasswordGenerator $passwordGenerator){
-		parent::__construct($sqlQuery);
+	public function __construct(PasswordGenerator $passwordGenerator, Utilisateur $utilisateurSQL){
 		$this->passwordGenerator = $passwordGenerator;
-		$this->journal = $journal;
+		$this->utilisateurSQL = $utilisateurSQL;
 	}
 
 	public function getLastError(){
@@ -36,26 +36,12 @@ class UtilisateurCreator extends SQL {
 			return false;
 		}
 
-		if ($this->loginExists($login)){
+		if ($this->utilisateurSQL->getIdFromLogin($login)){
 			$this->lastError = "Ce login existe déjà";
 			return false;
 		}
 		
 		$password_validation = $this->passwordGenerator->getPassword();
-		
-		$sql = "INSERT INTO utilisateur(login,password,email,mail_verif_password,date_inscription) " . 
-				" VALUES (?,?,?,?,now())";
-		$this->query($sql,array($login,$password,$email,$password_validation));
-		
-		$id_u =  $this->queryOne("SELECT id_u FROM utilisateur WHERE login=?",array($login));
-		
-		
-		return $id_u;
+		return $this->utilisateurSQL->create($login,$password,$email,$password_validation);
 	}
-	
-	public function loginExists($login){
-		$sql = "SELECT count(*) FROM utilisateur WHERE login = ?";
-		return $this->queryOne($sql,array($login));
-	}
-	
 }

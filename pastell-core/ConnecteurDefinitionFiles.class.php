@@ -22,6 +22,15 @@ class ConnecteurDefinitionFiles {
 		return $result;
 	}
 	
+	public function getAllType(){
+		$all = $this->getAll();
+		$result = array();
+		foreach($all as $def){
+			$result[] = $def['type'];
+		}
+		return $result;
+	}
+	
 	public function getAllGlobalType(){
 		$all_connecteur_definition = glob("{$this->connecteur_path}/*/global-properties.yml");
 		$result = array();
