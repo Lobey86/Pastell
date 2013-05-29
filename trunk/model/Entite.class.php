@@ -22,12 +22,16 @@ class Entite  extends SQL {
 	private $info;
 	
 	public static function getNom($type){
-		$type_nom = array(self::TYPE_COLLECTIVITE => "Collectivité", 
+		$type_nom = self::getAllType();
+		return $type_nom[$type];
+	}
+	
+	public static function getAllType(){
+		return array(self::TYPE_COLLECTIVITE => "Collectivité", 
 							self::TYPE_FOURNISSEUR => "Fournisseur",
 							self::TYPE_CENTRE_DE_GESTION => "Centre de gestion",
 							self::TYPE_SERVICE => 'Service',
 							self::TYPE_CITOYEN => 'Citoyen');
-		return $type_nom[$type];
 	}
 	
 	public static function getChaineEtat($etat){

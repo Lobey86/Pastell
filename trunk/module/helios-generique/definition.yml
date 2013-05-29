@@ -286,7 +286,6 @@ action:
 		name: Archive accepté par le SAE
 		rule:
 			role_id_e: no-role
-		action-automatique: supprimer-distant
 			
 	rejet-sae:
 		name: Archive rejeter par le SAE

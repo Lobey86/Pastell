@@ -30,7 +30,7 @@ class Utilisateur extends SQL {
 	
 	public function verifPassword($id_u,$password){
 		$info = $this->getInfo($id_u);
-		return  ($info['password'] == $password );
+		return crypt($password, $info['password']) == $info['password'];
 	}
 	
 	public function desinscription($id_u){
@@ -40,7 +40,7 @@ class Utilisateur extends SQL {
 	
 	public function setPassword($id_u,$password){
 		$sql = "UPDATE utilisateur SET password = ? WHERE id_u = ?";
-		$this->query($sql,$password,$id_u);
+		$this->query($sql,crypt($password),$id_u);
 	}
 	
 	public function setEmail($id_u,$email){
@@ -84,5 +84,21 @@ class Utilisateur extends SQL {
 		$sql = "UPDATE utilisateur SET mail_verif_password=? WHERE id_u=?";
 		$this->query($sql,$mailVerifPassword,$id_u);
 	}
+
+	public function getIdFromLogin($login){
+		$sql = "SELECT id_u FROM utilisateur WHERE login = ?";
+		return $this->queryOne($sql,$login);
+	}
+	
+	public function create($login,$password,$email,$password_validation){
+		$sql = "INSERT INTO utilisateur(login,email,mail_verif_password,date_inscription) " . 
+				" VALUES (?,?,?,now())";
+		$this->query($sql,$login,$email,$password_validation);
+		$id_u =  $this->getIdFromLogin($login);
+		$this->setPassword($id_u, $password);
+		return $id_u;
+	}
+	
+	
 	
 }

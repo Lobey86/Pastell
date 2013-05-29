@@ -213,7 +213,7 @@ class UtilisateurControler extends PastellControler {
 	}
 	
 	private function redirectEdition($id_e,$id_u,$message){
-		$lastError->setLastError("Le nom est obligatoire");
+		$this->LastError->setLastError($message);
 		$this->redirect("/utilisateur/edition.php?id_e=$id_e&id_u=$id_u");
 	}
 	
@@ -236,6 +236,7 @@ class UtilisateurControler extends PastellControler {
 		}
 		
 		if (! $id_u){
+			
 			$id_u = $this->UtilisateurCreator->create($login,$password,$password2,$email);
 			if ( ! $id_u){
 				throw new Exception($this->UtilisateurCreator->getLastError());
@@ -293,7 +294,7 @@ class UtilisateurControler extends PastellControler {
 		$prenom = $recuperateur->get('prenom');
 		$role = $recuperateur->get('role');
 		$certificat_content = $this->FileUploader->getFileContent('certificat');
-		
+
 		try {
 			$id_u = $this->editionUtilisateur($id_e, $id_u, $email, $login, $password, $password2, $nom, $prenom, $role, $certificat_content);
 		} catch (Exception $e){

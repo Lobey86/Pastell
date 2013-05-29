@@ -39,11 +39,6 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'rh-messages:edition'
 	
-	test1:
-		rule:
-			content:
-				Ceci est un test: toto
-	
 	supression:
 		name-action: Supprimer
 		name: Supprimé
