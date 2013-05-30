@@ -180,7 +180,7 @@ class APIAction {
 		$document->setTitre($id_d,$titre);
 		
 		foreach($donneesFormulaire->getOnChangeAction() as $action) {	
-			$result = $this->objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$this->id_u,$id_d,$action);
+			$result = $this->objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$this->id_u,$id_d,$action,array(),true);
 		}
 				
 		$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,$id_d);
@@ -218,7 +218,7 @@ class APIAction {
 			throw new Exception("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule());
 		}
 		
-		$result = $this->objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$this->id_u,$id_d,$action,$id_destinataire);
+		$result = $this->objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$this->id_u,$id_d,$action,$id_destinataire,true);
 		$message = $this->objectInstancier->ActionExecutorFactory->getLastMessage();
 		
 		if ($result){

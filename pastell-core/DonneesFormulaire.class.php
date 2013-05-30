@@ -230,7 +230,7 @@ class DonneesFormulaire {
 				$this->setInfo2($field_name,$value);
 				$this->isModified = true;
 				if ($allField[$field_name]->getOnChange()){
-					$this->onChangeAction[] = $field->getOnChange();
+					$this->onChangeAction[] = $allField[$field_name]->getOnChange();
 				}
 			}
 		}
