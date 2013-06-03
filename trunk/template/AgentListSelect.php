@@ -42,7 +42,7 @@ $this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-dat
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent["matricule"] ?></label></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent['nom_patronymique'] ?></label></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent['prenom'] ?></label></td>
-			<td><label for="label_agent_<?php echo $i ?>"><?php echo "unknow" ?></label></td>
+			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent["emploi_grade_code"] ?></label></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent['emploi_grade_libelle'] ?></label></td>
 			
 		</tr>
