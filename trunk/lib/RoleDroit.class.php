@@ -1,6 +1,7 @@
 <?php
 class RoleDroit {
 	
+	
 	private $documentTypeFactory;
 	
 	public function __construct(DocumentTypeFactory $documentTypeFactory){
