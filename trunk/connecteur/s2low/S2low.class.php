@@ -84,6 +84,9 @@ class S2low  extends TdtConnecteur {
 	
 	public function getClassification(){
 		$result = $this->exec( self::URL_CLASSIFICATION ."?api=1");
+		if (!$result){
+			throw new S2lowException($this->curlWrapper->getLastError());
+		}
 		if (preg_match("/^KO/",$result)){
 			throw new S2lowException("S²low a répondu : " .$result);
 		}
