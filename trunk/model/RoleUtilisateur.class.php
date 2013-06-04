@@ -14,6 +14,11 @@ class RoleUtilisateur extends SQL {
 		}
 	}
 	
+	public function hasRole($id_u,$role,$id_e){
+		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? AND role=? AND id_e=?";
+		return $this->queryOne($sql,$id_u,$role,$id_e);
+	}
+	
 	public function removeRole($id_u,$role,$id_e) {		
 		$sql = "SELECT count(*) FROM utilisateur_role WHERE id_u=? ";
 		$nb_role= $this->queryOne($sql,$id_u);

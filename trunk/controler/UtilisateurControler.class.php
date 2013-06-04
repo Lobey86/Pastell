@@ -311,7 +311,9 @@ class UtilisateurControler extends PastellControler {
 		$id_e = $recuperateur->get('id_e',0);
 
 		$this->verifDroit($id_e,"entite:edition");
-		if ($role){
+		if ($this->RoleUtilisateur->hasRole($id_u,$role,$id_e)){
+			$this->LastError->setLastError("Ce droit a déjà été attribué à l'utilisateur");
+		} elseif ($role){
 			$this->RoleUtilisateur->addRole($id_u,$role,$id_e);	
 		}
 		$this->redirect("/utilisateur/detail.php?id_u=$id_u");
