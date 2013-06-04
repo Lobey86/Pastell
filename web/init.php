@@ -1,6 +1,10 @@
 <?php 
 require_once(__DIR__."/../DefaultSettings.php");
-set_include_path(__DIR__ . "/../pastell-core/" . PATH_SEPARATOR . __DIR__ . "/../lib/" . PATH_SEPARATOR . __DIR__ . "/../model" . PATH_SEPARATOR . __DIR__ . "/../controler");
+set_include_path(	__DIR__ . "/../pastell-core/" . PATH_SEPARATOR .
+				 	__DIR__ . "/../lib/" . PATH_SEPARATOR . 
+				 	__DIR__ . "/../model" . PATH_SEPARATOR . 
+				 	__DIR__ . "/../controler" . PATH_SEPARATOR . 
+				 	__DIR__ . "/../connecteur-type");
 
 function __autoload($class_name) {	
 	$result = include($class_name . '.class.php');
