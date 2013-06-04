@@ -120,7 +120,7 @@ color:#474747;
 
 
 #bloc_onglet {}
-#bloc_onglet a, #bloc_onglet p  {
+#bloc_onglet a, #bloc_onglet span  {
 background:url(commun/back_onglet_off.png) repeat-x #E8ECEE;
 margin:0 0 0 12px;
 padding:4px 12px 4px 12px;
