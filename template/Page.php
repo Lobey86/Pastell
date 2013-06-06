@@ -27,7 +27,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<meta name="description" content="Pastell est un logiciel de gestion de flux de documents. Les documents peuvent être crées via un système de formulaires configurables. Chaque document suit alors un workflow prédéfini, également configurable." />
 		<meta name="keywords" content="Pastell, collectivité territoriale, flux, document, données, logiciel, logiciel libre, open source" />
 		<meta http-equiv="content-type" content="text/html; charset=iso-8859-15" />
-		
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<base href='<?php echo SITE_BASE ?>' />
 		
 		<link rel="shortcut icon" type="images/x-icon" href="favicon.ico" />
