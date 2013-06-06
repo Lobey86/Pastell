@@ -388,6 +388,19 @@ action:
 		name: Signature récuperée
 		editable-content:
 			classification
+			type
+			envoi_tdt
+			envoi_cdg
+			archivage
+			agent
+			agent_non_reference
+			matricule_de_l_agent
+			nom_patronymique
+			nom_d_usage
+			prenom
+			grade
+			statut
+			observation
 		rule:
 			role_id_e: no-role
 	
