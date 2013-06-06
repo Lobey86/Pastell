@@ -25,7 +25,7 @@ formulaire:
 			onchange: envoi-signature-change
 			
 		envoi_tdt:
-			name: Transmission au contrôle de légalité 
+			name: Transmission à la trésorerie
 			type: checkbox
 		
 		envoi_sae:
