@@ -335,9 +335,12 @@ class AfficheurFormulaire {
 			<?php
 			$i=0;
 			foreach ($this->getFieldStatic() as $field) :
+			
 					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
 						continue;
 					} 
+					
+					
 					if (! $this->show($field)){
 						continue;
 					}
