@@ -25,12 +25,23 @@
 <h2>Action du flux </h2>
 <table class='tab_04'>
 <tr>
+	<th>Id</th>
 	<th>Nom de l'action</th>
+	<th>Nom de l'état</th>
 	<th>Classe</th>
 	<th>Emplacement</th>
 </tr>
 <?php foreach($all_action as $i => $action) : ?>
 	<tr  class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
+		<td><?php hecho($action['id'])?></td>
+		<td>
+			<?php if($action['do_name'] != $action['name']) :?>
+				<?php hecho($action['do_name'])?>
+			<?php else: ?>
+				&nbsp;
+			<?php endif;?>
+		
+		</td>
 		<td><?php hecho($action['name'])?></td>
 		<td><?php hecho($action['class'])?></td>
 		<td><?php hecho($action['path'])?></td>

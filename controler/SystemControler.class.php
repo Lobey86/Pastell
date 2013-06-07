@@ -94,7 +94,9 @@ class SystemControler extends PastellControler {
 		foreach($action_list as $action_name){
 			$class_name = $action->getActionClass($action_name);
 			$all_action[] = array(
-				'name'=> $action_name,
+				'id'=> $action_name,
+				'name' => $action->getActionName($action_name),
+				'do_name' => $action->getDoActionName($action_name),
 				'class' => $class_name,
 				'path' => $this->ActionExecutorFactory->getFluxActionPath($id,$class_name),
 			); 	

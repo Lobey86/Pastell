@@ -4,9 +4,9 @@
 
 <table class="tab_01">
 <tr>
-			<th>Libellé</th>
-			<th>Nom </th>
-			<th>Type</th>
+			<th>Instance</th>
+			<th>Connecteur</th>
+			<th>Famille de connecteur</th>
 			<th>&nbsp;</th>
 		</tr>
 <?php foreach($all_connecteur as $i => $connecteur) : ?>
