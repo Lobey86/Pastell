@@ -134,9 +134,9 @@ class DonneesFormulaire {
 		foreach($fileUploader->getAll() as $filename => $name){
 			if (isset($allField[$filename])){
 				$this->saveFile($allField[$filename],$fileUploader);
-				$modif[] = $filename;
 			}
 		}
+		$this->saveDataFile();
 	}
 	
 	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){

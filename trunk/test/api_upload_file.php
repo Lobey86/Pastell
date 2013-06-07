@@ -3,9 +3,10 @@
 $file_path = __DIR__."/annexe.pdf";
 
 $post_data = array(
-        "arrete"=>"@$file_path",
-		'id_d'=>'fW7jAx9',
-		'id_e'=>'3',
+        "fichier_pes"=>"@$file_path",
+		'objet' => 'toto',
+		'id_d'=>'0d4FhdL',
+		'id_e'=>'12',
 );
 
 $curl = curl_init();
