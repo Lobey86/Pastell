@@ -131,18 +131,24 @@ formulaire:
 		bordereau: 
 			name: Bordereau d'acquittement
 			type: file
-			show-role: 
-				editeur
+		
 		aractes: 
 			no-show: true
 			type: file
-			show-role: 
-				editeur
+		
 		
 	Signature:
 		has_signature: {no-show: true}
-		signature: {name: Signature de l'acte, type: file}
-		document_signe: {name: Bordereau de signature, type: file}
+		signature: 
+			name: Signature de l'acte
+			type: file
+			show-role: 
+				editeur
+		document_signe:
+			show-role: 
+				editeur
+			name: Bordereau de signature
+			type: file
 	
 	iParapheur:
 		iparapheur_type: 
