@@ -13,6 +13,21 @@ class DocumentTypeValidation {
 		$this->module_definition = $yml_loader->getArray(__DIR__."/module-definition.yml");
 	}
 	
+	public function getModuleDefinition(){
+		$module_def = $this->module_definition;
+		foreach($module_def as $part => $properties){
+			if (! isset($properties['info'])){
+				$module_def[$part]['info'] = ""; 
+			}
+			foreach($properties['possible_key'] as $key => $key_properties){
+				if ( ! isset($key_properties['info'])){
+					$module_def[$part]['possible_key'][$key]['info'] = ""; 
+				}
+			}
+		}	
+		return $module_def;
+	}
+	
 	public function validate($module_id,array $typeDefinition,array $connecteur_type_list,array $all_type_entite){
 		$this->last_error = array();
 		$result = $this->validatePart('definition.yml',$typeDefinition,'');
