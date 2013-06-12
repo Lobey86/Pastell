@@ -128,7 +128,6 @@ class DonneesFormulaire {
 		$this->isModified = true;
 	}
 	
-
 	public function saveAllFile(FileUploader $fileUploader){
 		$allField = $this->formulaire->getAllFields();
 		foreach($fileUploader->getAll() as $filename => $name){

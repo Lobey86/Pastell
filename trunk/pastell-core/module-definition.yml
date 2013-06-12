@@ -1,5 +1,5 @@
 definition.yml:
-	info: Le fichier definition.yml contient la définition de l'ensemble d'un module Pastell
+	info: Le fichier definition.yml contient la définition d'un module Pastell
 	possible_key:
 		nom:
 			info: Identifiant du module tel qu'il sera présenté aux utilisateurs.

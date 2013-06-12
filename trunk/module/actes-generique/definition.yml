@@ -236,7 +236,7 @@ action:
 		
 		rule:
 			no-last-action:
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 			type_id_e: 
 				service
 				collectivite
@@ -252,7 +252,7 @@ action:
 				recu-iparapheur
 				attente-reponse-prefecture
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 
 	supression:
 		name-action: Supprimer
@@ -267,7 +267,7 @@ action:
 			no-action:
 				send-tdt
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: Supprimer
 		warning: "Êtes-vous sûr ?"
 	
@@ -296,7 +296,7 @@ action:
 				send-iparapheur
 				erreur-verif-iparapheur
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 		
 		action-class: IParapheurRecup
 			
@@ -324,7 +324,7 @@ action:
 		
 		rule:
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 			document_is_valide: true
 			or_1:
 				and_1:
@@ -356,7 +356,7 @@ action:
 				send-tdt
 				erreur-verif-tdt
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisRecup
 	
 	erreur-verif-tdt:
@@ -377,7 +377,7 @@ action:
 				acquiter-tdt
 			
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisVerifReponsePref
 			
 	attente-reponse-prefecture:
@@ -397,7 +397,7 @@ action:
 		rule:
 			has-action: 
 				attente-reponse-prefecture
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 			document_is_valide: true
 			or_1:
 				and_1:
@@ -426,7 +426,7 @@ action:
 			no-action:
 				annulation-tdt
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisAnnulation
 		warning: Attention cette action n'est pas réversible
 
@@ -437,7 +437,7 @@ action:
 			last-action:
 				annulation-tdt
 			role_id_e: editeur
-			droit_id_u: 'actes:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisRecupAnnulation
 			
 	annuler-tdt:

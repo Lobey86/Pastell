@@ -13,13 +13,14 @@ class SystemControler extends PastellControler {
 				$this->environnementAction(); break;	
 			case 2:
 				$this->fluxAction(); break;	
+			case 3:
+				$this->fluxDefAction(); break;
 			case 0:
 			default: $this->actionAutoAction(); break;
 			
 		}
 		
-		
-		$this->onglet_tab = array("Action automatique","Environnement système","Flux");
+		$this->onglet_tab = array("Action automatique","Environnement système","Flux","Définition des flux");
 		$this->page_number = $page_number;
 		$this->template_milieu = "SystemIndex";
 		$this->page_title = "Environnement système";
@@ -68,6 +69,11 @@ class SystemControler extends PastellControler {
 		}
 		$this->all_flux = $all_flux;
 		$this->onglet_content = "SystemFlux";
+	}
+	
+	public function fluxDefAction(){
+		$this->flux_definition = $this->DocumentTypeValidation->getModuleDefinition();
+		$this->onglet_content = "SystemFluxDef";
 	}
 	
 	public function messageAction(){
