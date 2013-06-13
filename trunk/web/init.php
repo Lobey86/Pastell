@@ -30,7 +30,7 @@ $objectInstancier->workspacePath = WORKSPACE_PATH;
 $objectInstancier->action_class_directory = __DIR__ ."/../action/"; 
 $objectInstancier->module_path = __DIR__."/../module/";
 $objectInstancier->connecteur_path = __DIR__."/../connecteur/";
-$objectInstancier->template_path = __DIR__."/../template/";
+$objectInstancier->template_path = TEMPLATE_PATH;
 $objectInstancier->api_definition_file_path = __DIR__ . "/../pastell-core/api-definition.yml";
 
 $objectInstancier->opensslPath = OPENSSL_PATH;
