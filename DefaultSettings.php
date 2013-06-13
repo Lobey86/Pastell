@@ -76,3 +76,7 @@ if (!defined("AIDE_URL")){
 	define("AIDE_URL","aide/index.php");
 }
 
+if (!defined("TEMPLATE_PATH")){
+	define("TEMPLATE_PATH",__DIR__."/template/");
+}
+

@@ -39,6 +39,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<link type="text/css" href="img/jquery-ui-1.8.10.custom.css" rel="stylesheet" />
 		<link type="text/css" href="img/jquery.treeview.css" rel="stylesheet" />
 		
+		<link type="text/css" href="img/test.css" rel="stylesheet" />
 		
 		
 		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
