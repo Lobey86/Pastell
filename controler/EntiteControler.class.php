@@ -286,7 +286,7 @@ class EntiteControler extends PastellControler {
 			$id_e = $this->edition($id_e, $nom, $siren, $type, $entite_mere, $centre_de_gestion, $has_ged, $has_archivage);
 		} catch(Exception $e){
 			$this->LastError->setLastError($e->getMessage());
-			$this->redirect("/entite/edition.php?id_e=$id_e");
+			$this->redirect("/entite/edition.php?id_e=$id_e&entite_mere=$entite_mere");
 		}
 		
 		$this->LastError->deleteLastInput();
