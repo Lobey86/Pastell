@@ -112,7 +112,7 @@ class RoleUtilisateur extends SQL {
 	
 	
 	public function getArbreFille($id_u,$droit){
-		$sql = "SELECT entite.id_e,entite.denomination,entite.entite_mere FROM entite_ancetre " .
+		$sql = "SELECT DISTINCT entite.id_e,entite.denomination,entite.entite_mere FROM entite_ancetre " .
 				" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e ".
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
 				" JOIN entite ON entite_ancetre.id_e=entite.id_e ".
