@@ -1,0 +1,31 @@
+name: ActesSEDACG86
+
+type: Bordereau SEDA
+
+formulaire:
+	page0:
+		nom_entite: 
+			name: Nom de l'entité
+			commentaire: Tel qu'il apparaitra dans le bordereau
+		siren_entite: 
+			name: Numéro SIREN de l'entité
+		identifiant_versant: 
+			name: Identifiant service versant
+			commentaire: Noeud XML !
+			type: textarea
+		identifiant_archive: 
+			name: "Identifiant archive"
+			commentaire: "Noeud XML !"
+			type: textarea
+		identifiant_producteur:
+			name: "Identifiant service producteur"
+			commentaire: "Noeud XML !"
+			type: textarea
+		numero_agrement: 
+			name: "Accord de versement"
+			commentaire: numéro d'aggrément
+		
+action:	
+	test-bordereau :
+		name: Générer un bordereau de test
+		action-class: TestBordereau

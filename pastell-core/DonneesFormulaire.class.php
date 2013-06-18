@@ -28,6 +28,10 @@ class DonneesFormulaire {
 	public function isReadOnly($field_name){
 		$field = $this->formulaire->getField($field_name);
 		
+		if ($field->getProperties('no-show')){
+			return true;
+		}
+		
 		$read_only_content = $field->getProperties('read-only-content') ;
 		if (!$read_only_content){
 			return false;
@@ -41,6 +45,7 @@ class DonneesFormulaire {
 	}
 	
 	public function isEditable($field_name){
+		
 		if ($this->isReadOnly($field_name)){
 			return false;
 		}

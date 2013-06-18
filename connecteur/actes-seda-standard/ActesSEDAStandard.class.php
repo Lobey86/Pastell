@@ -10,16 +10,16 @@ class ActesSEDAStandard extends Connecteur {
 				"sae_id_archive" =>  $seda_config->get("sae_identifiant_archive"),
 				"sae_numero_aggrement" =>  $seda_config->get("sae_numero_agrement"),
 				"sae_originating_agency" =>  $seda_config->get("sae_originating_agency"),
-				"name" =>   $seda_config->get('denomination'),
-				"siren" =>  $seda_config->get('siren'),
+				"nom_entite" =>   $seda_config->get('nom_entite'),
+				"siren_entite" =>  $seda_config->get('siren_entite'),
 		);
 	}
 
 	
 	public function checkInformation(array $information){
-		$info = array('unique_id','subject','decision_date',
+		$info = array('numero_acte_collectivite','subject','decision_date',
 					'nature_descr','nature_code','classification',
-					'latest_date','actes_file');		
+					'latest_date','actes_file','ar_actes');		
 		foreach($info as $key){
 			if (empty($information[$key])){
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
@@ -33,7 +33,7 @@ class ActesSEDAStandard extends Connecteur {
 		$archiveTransfer['xmlns'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2";
 		$archiveTransfer->Comment = "Transfert d'un acte soumis au contrôle de légalité";
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
-		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
+		$archiveTransfer->TransferIdentifier = $transactionsInfo['numero_acte_collectivite'];
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Codification interne";
 		
 		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['sae_id_versant'];
@@ -54,7 +54,7 @@ class ActesSEDAStandard extends Connecteur {
 		
 		$archiveTransfer->Contains->ArchivalAgreement = $this->authorityInfo['sae_numero_aggrement'];
 		$archiveTransfer->Contains->ArchivalAgreement['schemeName'] = "Convention de transfert";
-		$archiveTransfer->Contains->ArchivalAgreement['schemeAgencyName'] = $this->authorityInfo['name'];
+		$archiveTransfer->Contains->ArchivalAgreement['schemeAgencyName'] = $this->authorityInfo['nom_entite'];
 		
 		$archiveTransfer->Contains->ArchivalProfile = "ACTES 1.4";
 		$archiveTransfer->Contains->ArchivalProfile['schemeName'] = "Profil de données";
@@ -63,7 +63,7 @@ class ActesSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->DescriptionLanguage['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->DescriptionLevel = "file";
 		$archiveTransfer->Contains->DescriptionLevel['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->Name = $transactionsInfo['unique_id'];
+		$archiveTransfer->Contains->Name = $transactionsInfo['numero_acte_collectivite'];
 		
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = "Actes dématérialisés soumis au contrôle de légalité, les données archivées sont structurées selon le schéma Actes (Aide au contrôle de légalité dématérialisé) établi par le ministère de l'intérieur, de l'outre mer et des collectivités territoriales. La description a été établie selon les règles du standard d'échange de données pour l'archivage version 0.2";
 			
@@ -77,13 +77,12 @@ class ActesSEDAStandard extends Connecteur {
 		
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Identification = $this->authorityInfo['sae_originating_agency'];
 	
-		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordContent = $this->authorityInfo['name'];
-		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordReference = $this->authorityInfo['siren'];
+		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordContent = $this->authorityInfo['nom_entite'];
+		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordReference = $this->authorityInfo['siren_entite'];
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordReference['schemeName'] = "SIRENE";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordReference['schemeAgencyName'] = "INSEE";	
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordType = "corpname";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[0]->KeywordType["listVersionID"] = "edition 2009";
-		
 		
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[1]->KeywordContent = "Contrôle de légalité";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[1]->KeywordReference['schemeName'] = "Thésaurus pour la description et l'indexation des archives locales anciennes, modernes et contemporaines_liste d'autorité Actions";
