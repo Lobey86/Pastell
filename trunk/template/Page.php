@@ -1,7 +1,7 @@
 <?php 
 
 $recuperateur = new Recuperateur($_GET);
-$id_e_menu = $recuperateur->getInt('id_e',0);
+$id_e_menu = $recuperateur->getInt('id_e',isset($id_e_menu)?$id_e_menu:0);
 $type_e_menu = $recuperateur->get('type',"");
 
 $breadcrumbs = array();
