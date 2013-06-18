@@ -51,10 +51,12 @@ formulaire:
 		envoi_tdt: 
 			name: Transmission au contrôle de légalité 
 			type: checkbox
+			onchange: envoi-sae-change
 		
 		envoi_sae:
 			name: Transmission au SAE
 			type: checkbox
+			onchange: envoi-sae-change
 		
 		envoi_ged:
 			name: Transmission à la GED
@@ -79,18 +81,19 @@ formulaire:
 		document_signe: {name: Bordereau de signature, type: file}
 		
 	Bordereau:
-		has_bordereau: {no-show: true}
+		has_bordereau: 
+			no-show: true
+			read-only: true
+			
 		bordereau: 
 			name: Bordereau d'acquittement
 			type: file
-			show-role: 
-				editeur
+			
 		aractes: 
-			no-show: true
+			name: Accusé de réception technique
 			type: file
-			show-role: 
-				editeur
-		
+			commentaire: Accusé de réception (XML) envoyé par la préfecture
+			
 	SAE:
 		ar_sae: {type: file, name: Accusé de réception SAE}
 		reply_sae: {type: file, name: Réponse du SAE}
@@ -561,12 +564,18 @@ action:
 	
 	
 	envoi-signature-change:		
-		name: Modificationenvoi-signature
+		name: Modification envoi-signature
 		no-workflow: true
 		rule:
 			role_id_e: no-role	
 		action-class: EnvoieSignatureChange
 	
+	envoi-sae-change:
+		name: Modification envoi_sae
+		no-workflow: true
+		rule: 
+			role_id_e: no-role
+		action-class: EnvoieSAEChange
 			
 	
 	iparapheur-sous-type:

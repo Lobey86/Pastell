@@ -49,7 +49,7 @@ class ZenXML implements ArrayAccess {
 		$attr = "";
 		foreach ($this->attributs as $name => $value){
 			$value = $this->getCDATA($value);
-			$attr.=" $name='$value'";
+			$attr.=" $name=\"$value\"";
 		}
 		return $attr;
 	}

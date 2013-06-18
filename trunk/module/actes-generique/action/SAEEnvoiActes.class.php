@@ -15,7 +15,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
 		
 		$transactionsInfo = array(
-			'unique_id' => $donneesFormulaire->get('numero_de_lacte'),
+			'numero_acte_collectivite' => $donneesFormulaire->get('numero_de_lacte'),
 			'subject' => $donneesFormulaire->get('objet'),
 			'decision_date' =>  $donneesFormulaire->get("date_de_lacte"),
 			'latest_date' => $donneesFormulaire->get("date_de_lacte"),
