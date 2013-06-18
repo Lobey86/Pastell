@@ -248,17 +248,20 @@ class DocumentControler extends PastellControler {
 		}
 		
 		if (!$id_e && (count($liste_collectivite) == 1)){
-				$id_e = $liste_collectivite[0];
+			$id_e = $liste_collectivite[0];
+			$this->id_e_menu = $id_e;
 		}
 			
+		
 		$this->verifDroit($id_e, "$type:lecture");
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		
-		$this->page_title = "Liste des documents " . $documentType->getName();
+		$page_title = "Liste des documents " . $documentType->getName();
 		if ($id_e){
-			$this->page_title .= " pour " . $this->infoEntite['denomination'];
+			$page_title .= " pour " . $this->infoEntite['denomination'];
 		}
 		
+		$this->page_title = $page_title;
 		$this->documentActionEntite = $this->DocumentActionEntite;
 		$this->actionPossible = $this->ActionPossible;
 		
