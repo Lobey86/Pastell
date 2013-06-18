@@ -202,7 +202,7 @@ class UtilisateurControler extends PastellControler {
 		$this->utilisateur_edition = $this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:edition",$info['id_e']);
 		
 		if( $info['id_e'] ){
-			$infoEntiteDeBase = $this->EntiteSQL->getInfo($id_u);
+			$infoEntiteDeBase = $this->EntiteSQL->getInfo($info['id_e']);
 			$this->denominationEntiteDeBase = $infoEntiteDeBase['denomination'];
 		}
 		$this->info = $info;
