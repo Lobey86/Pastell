@@ -1,0 +1,74 @@
+nom: Test
+type: Flux Généraux
+
+connecteur:
+	SAE
+	SAE
+
+formulaire:
+	Message du CDG:			
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		document: {name: Document attaché, type: file, multiple: true}
+		acte_nature:
+			name: Nature de l'acte
+			type: select
+			value: 
+				3: Arrêtés Individuels
+				2: Arrêtés réglementaires
+				6: Autres
+				4: Contrats et conventions
+				1: Délibérations
+				5: Documents budgétaires et financiers
+		Ceci est un test: 
+	
+action:
+	creation:
+		name-action: Créer
+		name: Créé
+		rule:
+			no-last-action:
+
+	modification:
+		name-action: Modifier
+		name: En cours de rédaction
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+	
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+		action-class: Supprimer
+	
+	test :
+		name-action: Tester
+		name: Testé
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+		action-class: Test
+	
+	test :
+		name-action: Envoie SAE
+		name: Envoie SAE
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'rh-messages:edition'
+		action-class: SAEEnvoi
+		

@@ -1,0 +1,260 @@
+definition.yml:
+	info: Le fichier definition.yml contient la définition d'un module Pastell
+	possible_key:
+		nom:
+			info: Identifiant du module tel qu'il sera présenté aux utilisateurs.
+			type: string
+		
+		type:
+			info: Type de module. Utiliser pour classer les modules les uns par rapport aux autres.
+			default: Flux Généraux
+			type: string 
+			
+		connecteur:  
+			info: Liste des types de connecteur utilisés par le module
+			default: aucun connecteur
+			type: list
+		
+		formulaire:
+			info: Définition du formulaire permettant la création et l'évolution du document
+			default: pas de formulaire
+			type: associative_array
+			
+		page-condition: 
+			info: Détermine les règles permettant de savoir si une page doit être affiché ou non
+			default: pas de condition
+			type: associative_array
+		
+		action:
+			info: Définition de l'ensemble des actions qui peuvent être déclenché sur le document
+			default: pas d'action
+			type: associative_array
+	
+		affiche_one:
+			info: Permet d'afficher l'ensemble des onglets sur une seule page (en mode affichage, les onglets sont conservés en mode édition)
+			default: false
+			type: boolean
+			
+connecteur:
+	possible_key:
+		*:
+			key_name: connecteur
+			type: string			
+		
+formulaire:
+	possible_key:
+		*:
+			key_name: onglet
+			type: associative_array
+	
+onglet:
+	possible_key:
+		*:
+			key_name: element_formulaire
+			type: associative_array
+	
+element_formulaire:
+	possible_key:
+		name:
+			type: string
+		title: 
+			info: Information enregistré dans la base de donnée pour identifier le document
+			type: boolean
+		read-only:
+			type: boolean
+		type:
+			type: choice
+			choice:
+				file
+				text
+				textarea
+				externalData
+				select
+				url
+				mail-list
+				password
+				checkbox
+				date
+		no-show:
+			info: Le champs ne sera pas affiché (ni en mode affichage, ni en mode d'édition)
+			type: boolean
+		commentaire:
+			info: Le commentaire est affiché comme aide en mode édition
+			type: string
+		link_name:
+			info: Uniquement pour le type externalData, afin de mettre un texte sur le lien
+			type: string
+		choice-action:
+			info: Pointeur vers une action 
+			type: string
+		requis:
+			type: boolean
+		multiple:
+			info: uniquement pour le type file
+			type: boolean
+			default: false
+		value:
+			info: uniquement pour le type select
+			type: list
+		autocomplete:
+			info:
+			type: string
+		may_be_null:
+			type: boolean
+		is_equal :
+		 	type: string 
+		is_equal_error:
+			type: string 
+		onchange:
+			type: string 
+		default:
+			type: string
+		show-role:
+			info: N'affiche cette information que pour certain role
+			type: list 
+		preg_match:
+		 	type: string
+		preg_match_error:
+		  	type: string
+		read-only-content:		
+			type: associative_array 
+			
+action:
+	possible_key:
+		*:
+			key_name: action_unitaire
+			type: associative_array
+
+action_unitaire:
+	possible_key:
+		name-action:	
+			info: Nom de l'action qui apparait sur les boutons de déclenchement des action (Envoyer)
+			type: string
+		name:
+			info: Nom de l'action telle qu'elle apparait une fois réalisé (Envoyé) 
+			type: string
+		rule: 
+			type: associative_array
+		action-class: 
+			type: string 
+		warning:
+			info: Si présent, une page intermédiaire avec confirmation du choix apparaît
+			type: string
+		editable-content: 
+			info: Indentifiant des champs modifiable
+			type: list
+		type_id_e:
+			type: list
+		action-selection:
+			info: l'action nécessite de choisir dans une liste d'entité spécifique. Ici, le type de l'entité spécifique
+			type: string
+		no-workflow:
+			type: boolean
+		accuse_de_reception_action:
+			info: l'action nécessite un accusé de réception avant d'être réalisé. 
+			type: string
+		action-automatique:
+			type: string 
+
+		
+rule:
+	possible_key:
+		role_id_e:
+			type: string  
+		last-action:
+			type: list  
+		droit_id_u:
+			type: string 
+		content:		
+			type: associative_array 
+		no-last-action:
+			info: si présent, il s'agit d'une action initiale
+			type: string
+		type_id_e: 
+			type: list 
+		document_is_valide:
+		 	type: boolean
+		no-action:
+		  	type: list 
+		has-action:
+			type: list 
+		or_X:
+			type: associative_array
+			key_name: rule
+		and_X:
+			type: associative_array
+			key_name: rule
+		properties:
+			type: associative_array
+		  	
+last-action:
+	possible_key:
+		*: 
+			key_name: last-action
+			type: string				
+
+content:
+	possible_key:
+		*: 
+			key_name: content
+			type: string_or_boolean		
+	
+editable-content:
+	possible_key:
+		*: 
+			key_name: editable-content
+			type: string
+			
+value:
+	possible_key:
+		*:
+			key_name: value
+			type: string
+no-action:
+	possible_key:
+		*:
+			kay_name: no-action
+			type: string
+
+has-action:
+	possible_key:
+		*: 
+			kay_name: has-action
+			type: string
+			
+page-condition:
+	possible_key:
+		*: 
+			key_name: page-condition-element
+			type: associative_array			
+			
+page-condition-element:
+	possible_key:
+		*: 
+			key_name: page-condition-element
+			type: string_or_boolean	
+
+type_id_e:
+	possible_key:
+		*: 
+			key_name: type_id_e
+			type: string		
+
+show-role:
+	possible_key:
+		*:
+			key_name: show-role
+			type: string		
+
+
+read-only-content:
+	possible_key:
+		*: 
+			key_name: read-only-content
+			type: string_or_boolean	
+			
+properties:
+	possible_key:
+		*: 
+			key_name: properties
+			type: string_or_boolean	
