@@ -1,12 +1,11 @@
-
-<div class="box_contenu clearfix">
+<div class="box">
 
 <h2>Vos informations</h2>
 
-<table class='tab_04'>
+<table class='table table-striped'>
 
 <tr>
-<th>Login</th>
+<th class="w140">Login</th>
 <td><?php echo $info['login'] ?></td>
 </tr>
 
@@ -53,19 +52,23 @@
 
 </table>
 
-<a href='utilisateur/modif-password.php' class='btn_maj'>Modifier mon mot de passe</a>
+
+<a href='utilisateur/modif-password.php' class='btn'>Modifier mon mot de passe</a>
 <br/>
 <br/>
-<a href='utilisateur/modif-email.php' class='btn_maj'>Modifier mon email</a>
+<a href='utilisateur/modif-email.php' class='btn'>Modifier mon email</a>
 
 </div>
 
-<div class="box_contenu clearfix">
+
+
+
+<div class="box">
 <h2>Vos rôles sur Pastell : </h2>
 
-<table class='tab_01'>
+<table class='table table-striped'>
 <tr>
-<th>Rôle</th>
+<th class="w140">Rôle</th>
 <th>Entité</th>
 <th>&nbsp;</th>
 </tr>
@@ -86,11 +89,11 @@
 
 </div>
 
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>Vos notifications</h2>
-<table class='tab_02'>
+<table class='table table-striped'>
 <tr>
-<th>Entité</th>
+<th class="w140">Entité</th>
 <th>Type de document</th>
 <th>Action</th>
 <th>&nbsp;</th>
@@ -122,16 +125,18 @@
 	
 	<td>
 		
-			<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+			<a class='btn btn-mini' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
 				enlever cette notification
 			</a>
 	</td>
 </tr>
 <?php endforeach;?>
 </table>
-<form action='utilisateur/ajouter-notification.php' method='post'>
-		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
-		
+
+<form class="form-inline" action='utilisateur/ajouter-notification.php' method='post'>
+	<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+	
+	
 		<select name='id_e'>
 			<option value=''>...</option>
 			<?php foreach($arbre as $entiteInfo): ?>
@@ -140,8 +145,14 @@
 				|_<?php echo $entiteInfo['denomination']?> </option>
 			<?php endforeach ; ?>
 		</select>
+		
 		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
-			
-		<input type='submit' value='ajouter'/>
-	</form>
+	
+	
+	<input type='submit' class="btn" value='ajouter'/>
+</form>
+	
+	
+
+	
 </div>

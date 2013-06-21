@@ -1,22 +1,23 @@
-<div class='lien_retour'>
-	<a href='utilisateur/moi.php'>« Espace utilisateur</a>
-</div>
-<div class="box_contenu clearfix">
+
+<a class='btn btn-mini' href='utilisateur/moi.php'><i class='icon-circle-arrow-left'></i>Espace utilisateur</a>
+
+<div class="box">
 
 <?php if($result) : ?>
-<div class="box_confirm">
+<div class="alert alert-success">
 
-	<p>Votre email a été validé.</p>
-	
-	
-	<p>Votre administrateur doit maintenant valider votre changement d'email.</p>
-	<p>Vous serez averti par email.</p>
+	Votre email a été validé.
+	<br/>
+	Votre administrateur doit maintenant valider votre changement d'email.
+	<br/>
+	Vous serez averti par email.
 </div>	
-<?php else : ?>
-<div class="box_error">
 
-<p>Un problème empêche de satisfaire votre demande.</p>
-<p>Veuillez recommencer la procédure de changement d'email.</p>
+<?php else : ?>
+<div class="alert alert-error">
+Un problème empêche de satisfaire votre demande.
+<br/>
+Veuillez recommencer la procédure de changement d'email.
 </div>	
 <?php endif;?>
 

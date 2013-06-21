@@ -1,16 +1,14 @@
-<a href='system/index.php?page_number=2'>« Liste des flux</a>
+<a class='btn btn-mini' href='system/index.php?page_number=2'><i class='icon-circle-arrow-left'></i>Liste des flux</a>
 
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>Validation du flux </h2>
 <?php if($document_type_is_validate) : ?>
-	<div class='box_info'><br/>Le fichier definition.yml définissant le flux est valide<br/><br/></div>
+	<div class='alert'>Le fichier definition.yml définissant le flux est valide</div>
 <?php else :?>
-	<div class='box_error'>
-		<br/>
+	<div class='alert alert-error'>
 		Le fichier definition.yml contient <?php echo count($validation_error) ?> erreur(s)
-		<br/><br/>
 	</div>
-	<table>
+	<table class='table table-condensed'>
 	<?php foreach($validation_error as $error):?>
 		<tr>
 			<td><?php echo $error ?></td>
@@ -21,9 +19,9 @@
 
 </div>
 
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>Action du flux </h2>
-<table class='tab_04'>
+<table class='table table-striped'>
 <tr>
 	<th>Id</th>
 	<th>Nom de l'action</th>
@@ -32,7 +30,7 @@
 	<th>Emplacement</th>
 </tr>
 <?php foreach($all_action as $i => $action) : ?>
-	<tr  class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
+	<tr>
 		<td><?php hecho($action['id'])?></td>
 		<td>
 			<?php if($action['do_name'] != $action['name']) :?>

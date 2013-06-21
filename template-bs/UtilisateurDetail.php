@@ -1,23 +1,19 @@
 <?php if ($this->RoleUtilisateur->hasDroit($info['id_u'],"entite:lecture",$info['id_e']) && $info['id_e']) : ?>
-<a href='entite/detail.php?id_e=<?php echo $info['id_e'] ?>&page=1'>« Revenir à <?php echo $infoEntiteDeBase['denomination'] ?></a>
+<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $info['id_e'] ?>&page=1'><i class='icon-circle-arrow-left'></i>Revenir à <?php echo $infoEntiteDeBase['denomination'] ?></a>
 <?php endif; ?>
 
-<br/><br/>
-
-<div class="box_contenu clearfix">
+<div class="box">
 
 <h2>Détail de l'utilisateur <?php echo $info['prenom']." " . $info['nom']?>
 <?php if ($utilisateur_edition) : ?>
-<a href="utilisateur/edition.php?id_u=<?php echo $id_u?>" class='btn_maj'>
-		Modifier
-	</a>
+<a class='btn btn-mini' href="utilisateur/edition.php?id_u=<?php echo $id_u?>">Modifier</a>
 <?php endif;?>
 </h2>
 
-<table class='tab_04'>
+<table class='table table-striped'>
 
 <tr>
-<th>Login</th>
+<th class='w200'>Login</th>
 <td><?php echo $info['login'] ?></td>
 </tr>
 
@@ -74,12 +70,13 @@
 </table>
 </div>
 
-<div class="box_contenu clearfix">
+
+<div class="box">
 <h2>Rôle de l'utilisateur</h2>
 
-<table class='tab_01'>
+<table class='table table-striped'>
 <tr>
-<th>Rôle</th>
+<th class='w200'>Rôle</th>
 <th>Entité</th>
 <th>&nbsp;</th>
 </tr>
@@ -96,7 +93,7 @@
 	</td> 
 	<td>
 		<?php if ($utilisateur_edition) : ?>
-		<a href='utilisateur/supprimer-role.php?id_u=<?php echo $id_u ?>&role=<?php echo $infoRole['role']?>&id_e=<?php echo $infoRole['id_e']?>'>
+		<a class='btn btn-mini' href='utilisateur/supprimer-role.php?id_u=<?php echo $id_u ?>&role=<?php echo $infoRole['role']?>&id_e=<?php echo $infoRole['id_e']?>'>
 			enlever ce rôle
 		</a>
 		<?php endif; ?>
@@ -112,9 +109,9 @@ $roleSQL = new RoleSQL($sqlQuery);
 $allRole = $roleSQL->getAllRole();
 
 ?>
-	<h3>Ajouter un rôle </h3>
+	<h3>Ajouter un rôle</h3>
 	
-	<form action='utilisateur/ajouter-role.php' method='post'>
+	<form action='utilisateur/ajouter-role.php' method='post' class='form-inline'>
 		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
 	
 		<select name='role'>
@@ -133,16 +130,16 @@ $allRole = $roleSQL->getAllRole();
 			<?php endforeach ; ?>
 		</select>
 		
-		<input type='submit' value='ajouter'/>
+		<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
 	</form>
 <?php endif; ?>
 </div>
 
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>Notification de l'utilisateur</h2>
-<table class='tab_02'>
+<table class='table table-striped'>
 <tr>
-<th>Entité</th>
+<th class='w200'>Entité</th>
 <th>Type de document</th>
 <th>Action</th>
 <th>&nbsp;</th>
@@ -175,7 +172,7 @@ $allRole = $roleSQL->getAllRole();
 	
 	<td>
 		<?php if ($utilisateur_edition) : ?>
-			<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+			<a class='btn btn-mini' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
 				enlever cette notification
 			</a>
 		<?php endif;?>
@@ -184,7 +181,7 @@ $allRole = $roleSQL->getAllRole();
 <?php endforeach;?>
 </table>
 <?php if ($utilisateur_edition) : ?>
-	<form action='utilisateur/ajouter-notification.php' method='post'>
+	<form action='utilisateur/ajouter-notification.php' method='post' class='form-inline'>
 		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
 		
 		<select name='id_e'>
@@ -198,7 +195,7 @@ $allRole = $roleSQL->getAllRole();
 		
 		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
 			
-		<input type='submit' value='ajouter'/>
+		<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
 	</form>
 <?php endif;?>
 

@@ -1,19 +1,26 @@
-<h2>Liste des utilisateurs
+<table style='width:100%;'>
+<tr>
+<td>
+<h2>Liste des utilisateurs</h2>
+</td>
+<?php if ($this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"entite:edition",0)) : ?>
+<td class='align_right'>
 <?php if ($this->droitEdition) : ?>
-	<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn_add'>
-		Nouveau
-	</a>
+	<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn'>Nouveau</a>
 <?php endif;?>
 <?php echo $role_selected?" - $role_selected":""?>
-</h2>
+</td>
+<?php endif;?>
+</tr>
+</table>
 
-<div>
+
 	<form action="entite/detail.php" method='get'>
 		<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 		<input type='hidden' name='page' value='1'/>
-	<table class='w500'>
+	<table class='table table-striped'>
 		<tr>
-		<td>Afficher les utilisateurs des entités filles</td>
+		<td class='w300'>Afficher les utilisateurs des entités filles</td>
 		<td><input type='checkbox' name='descendance' <?php echo $descendance?"checked='checked'":""?>/><br/></td>
 		</tr>
 		<tr>
@@ -29,20 +36,16 @@
 		<td>
 		Recherche </td><td><input type='text' name='search' value='<?php echo $search?>'/></td>
 		</tr>
-		<tr>
-		<td></td><td>
-		<input type='submit' value='Afficher'/>
-		</td></tr>
 		</table>
+		<input type='submit' class='btn' value='Afficher'/>
 	</form>
-	</div>
-<br/>
+
 <?php $this->SuivantPrecedent($offset,UtilisateurListe::NB_UTILISATEUR_DISPLAY,$nb_utilisateur,"entite/detail.php?id_e=$id_e&page=1&search=$search&descendance=$descendance&role_selected=$role_selected"); ?>
 
 
-<table class='tab_02'>
+<table class='table table-striped'>
 <tr>
-	<th>Prénom Nom</th>
+	<th class='w200'>Prénom Nom</th>
 	<th>login</th>
 	<th>email</th>
 	<th>Role</th>
@@ -77,5 +80,5 @@
 <?php endforeach; ?>
 
 </table>
-<br/><br/>
-<a href='utilisateur/export.php?id_e=<?php echo $id_e?>&descendance=<?php echo $descendance?>&role_selected=<?php echo $role_selected?>&search=<?php echo $search ?>'>Exporter (CSV)</a>
+
+<a class='btn btn-mini' href='utilisateur/export.php?id_e=<?php echo $id_e?>&descendance=<?php echo $descendance?>&role_selected=<?php echo $role_selected?>&search=<?php echo $search ?>'><i class='icon-file'></i>Exporter (CSV)</a>

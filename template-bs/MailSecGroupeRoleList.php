@@ -1,13 +1,13 @@
-<a href='mailsec/annuaire.php?id_e=<?php echo $id_e ?>'>« Voir la liste des contacts</a>
+<a class='btn btn-mini' href='mailsec/annuaire.php?id_e=<?php echo $id_e ?>'><i class='icon-circle-arrow-left'></i>Voir la liste des contacts</a>
 
-<br/><br/>
-<div class="box_contenu">
+
+<div class="box">
 <h2>Liste des groupes basé sur des rôles  de <?php echo $infoEntite['denomination'] ?> </h2>
 
 <form action='mailsec/operation-groupe-role.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 
-<table  class="tab_02">
+<table class="table table-striped">
 	<tr>
 	
 		<th>Nom</th>
@@ -41,9 +41,9 @@
 	
 </table>
 <?php if ($can_edit) : ?>
-<input type='submit' name='submit' value='Supprimer'/>
-<input type='submit' name='submit' value='Partager'/>
-<input type='submit' name='submit' value='Enlever le partage'/>
+<input type='submit' name='submit' class='btn btn-danger' value='Supprimer'/>
+<input type='submit' name='submit' class='btn' value='Partager'/>
+<input type='submit' class='btn btn-warning' name='submit' value='Enlever le partage'/>
 <?php endif; ?>
 
 </form>
@@ -51,14 +51,13 @@
 
 <?php if ( $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e)) : ?>
 
-<div class="box_contenu">
+<div class="box">
 <h2>Ajouter un groupe</h2>
 <form action='mailsec/add-groupe-role.php' method='post' >		
 	<input type='hidden' name='id_e_owner' value='<?php echo $id_e ?>' />
-	<table>
-		<tbody>
+	<table class="table table-striped">
 			<tr>
-				<th>Rôle</th>
+				<th class="w200">Rôle</th>
 				<td>
 					<?php 
 						$roleSQL = new RoleSQL($sqlQuery);
@@ -85,19 +84,18 @@
 				</select>
 				</td>
 			</tr>
-		</tbody>
 	</table>
-	<input type='submit' value='Ajouter'/>
+	<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
 </form>
 </div>
 <?php endif;?>
 
 <?php if($groupe_herited) : ?>
 
-<div class="box_contenu">
+<div class="box">
 <h2>Liste des groupes hérités</h2>
 
-<table  class="tab_02">
+<table  class="table table-striped">
 	<tr>
 		<th>Entité</th>
 		<th>Nom</th>
@@ -125,7 +123,8 @@
 	</tr>
 <?php endforeach;?>
 	
-</table></div>
+</table>
+</div>
 
 <?php endif;?>
 

@@ -1,14 +1,14 @@
-<div class='lien_retour'>
-	<a href='utilisateur/moi.php'>« Espace utilisateur</a>
-</div>
-<div class="box_contenu clearfix">
+<a href='utilisateur/moi.php' class="btn btn-mini"><i class="icon-circle-arrow-left"></i>Espace utilisateur</a>
+
+
+<div class="box">
 
 <h2>Modifier votre mot de passe</h2>
-<form class="w700"  action='utilisateur/modif-password-controler.php' method='post' >
-<table >
+<form action='utilisateur/modif-password-controler.php' method='post' >
+<table class="table table-striped">
 
 <tr>
-<th>Ancien mot de passe : </th>
+<th class="w300">Ancien mot de passe : </th>
 <td><input type='password' name='old_password'/></td>
 </tr>
 
@@ -24,7 +24,7 @@
 
 
 </table>
-<input type='submit' value='Modifier le mot de passe' />
+<input type='submit' class="btn" value='Modifier le mot de passe' />
 </form>
 
 </div>

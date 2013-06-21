@@ -1,5 +1,7 @@
-<a href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>&last_id=<?php echo $id_d ?>'>« Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
-<br/><br/>
+
+<a class='btn btn-mini' href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>&last_id=<?php echo $id_d ?>'><i class="icon-circle-arrow-left"></i>Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
+
+
 <?php
 $afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
 
@@ -10,32 +12,39 @@ $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_
 
 ?>
 
-<div class="box_contenu">
+<div class="box">
 
 <?php 
 $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e");
 ?>
-<br/>
+
+
+<table>
+<tr>
 <?php foreach($actionPossible->getActionPossible($id_e,$authentification->getId(),$id_d) as $action_name) : ?>
+<td>
 <form action='document/action.php' method='post' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='page' value='<?php echo $page ?>' />
 	
 	<input type='hidden' name='action' value='<?php echo $action_name ?>' />
-	<input type='submit' value='<?php hecho($theAction->getDoActionName($action_name)) ?>'/>
+	
+	<input type='submit' class='btn <?php if ($action_name=="supression")  echo 'btn-danger'; ?>' value='<?php hecho($theAction->getDoActionName($action_name)) ?>'/>&nbsp;&nbsp;
 </form>
+</td>
 <?php endforeach;?>
+</tr>
+</table>
 
 </div>
 
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>Entité concernée par le document</h2>
 
-<table class="tab_02">
-	<tbody>
+<table class="table table-striped">
 		<tr>
-			<th>Entité</th>
+			<th class="w200">Entité</th>
 			<th>Rôle</th>
 		</tr>
 		
@@ -49,7 +58,7 @@ $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_
 <?php 
 	endif;
 endforeach;?>
-	</tbody>
+
 </table>
 </div>
 
@@ -57,13 +66,12 @@ endforeach;?>
 $infoDocumentEmail = $documentEmail->getInfo($id_d);
 if ($infoDocumentEmail) : 
 ?>
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>Utilisateurs destinataires du message</h2>
 
-<table class="tab_02">
-	<tbody>
+<table class="table table-striped">
 		<tr>
-			<th>Email</th>
+			<th class="w200">Email</th>
 			<th>Type</th>
 			<th>Date d'envoi</th>
 			<th>Lecture</th>
@@ -83,7 +91,6 @@ if ($infoDocumentEmail) :
 		</td>
 	</tr>	
 <?php endforeach;?>
-	</tbody>
 </table>
 </div>
 
@@ -91,16 +98,16 @@ if ($infoDocumentEmail) :
 <?php endif;?>
 
 
-<div class="box_contenu clearfix">
+<div class="box">
 <h2>États du document</h2>
 
-<table class="tab_01">
-	<tbody>
+<table class="table table-striped">
+
 		<tr>
-			<th>État</th>
-			<th>Date</th>
-			<th>Entité</th>
-			<th>Utilisateur</th>
+			<th class="w200">État</th>
+			<th class="w200">Date</th>
+			<th class="w200">Entité</th>
+			<th class="w200">Utilisateur</th>
 			<th>Journal</th>
 		</tr>
 		
@@ -124,9 +131,9 @@ if ($infoDocumentEmail) :
 				</td>
 			</tr>
 		<?php endforeach;?>
-	</tbody>
+
 </table>
 </div>
 
-<a href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>'>Voir le journal des évènements</a>
-<br/><br/>
+<a class='btn btn-mini' href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>'><i class='icon-list'></i>Voir le journal des évènements</a>
+

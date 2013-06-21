@@ -3,14 +3,14 @@ $id_e = $entiteExtendedInfo['id_e'];
 ?>
 <h2>Informations générales
 	<?php if ($droit_edition) : ?>
-	<a href="entite/edition.php?id_e=<?php echo $id_e?>" class='btn_maj'>
+	<a class='btn btn-mini' href="entite/edition.php?id_e=<?php echo $id_e?>" class='btn'>
 			Modifier
 		</a>
 	<?php endif;?>
 </h2>
-<table class='tab_04'>		
+<table class='table table-striped'>		
 	<tr>
-		<th>Type</th>
+		<th class='w200'>Type</th>
 		<td><?php echo Entite::getNom($entiteExtendedInfo['type']) ?></td>
 	</tr>
 	
@@ -38,7 +38,7 @@ $id_e = $entiteExtendedInfo['id_e'];
 	<tr>
 		<th>Entité mère</th>
 		<td>
-			<a href='entite/detail.php?id_e=<?php echo $entiteExtendedInfo['entite_mere']['id_e']?>'>
+			<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $entiteExtendedInfo['entite_mere']['id_e']?>'>
 				<?php echo $entiteExtendedInfo['entite_mere']['denomination'] ?>
 			</a>
 		</td>
@@ -59,12 +59,12 @@ $id_e = $entiteExtendedInfo['id_e'];
 			<?php endforeach;?>
 			</ul>
 			<?php if ($droit_edition) : ?>
-				<a href="entite/edition.php?entite_mere=<?php echo $id_e?>" >
-					Ajouter une entité fille
+				<a class='btn btn-mini' href="entite/edition.php?entite_mere=<?php echo $id_e?>" >
+					<i class='icon-plus'></i>Ajouter une entité fille
 				</a>
-				<br/>
-				<a href="entite/import.php?id_e=<?php echo $id_e?>" >
-					Importer des entités filles
+				&nbsp;&nbsp;
+				<a class='btn btn-mini' href="entite/import.php?id_e=<?php echo $id_e?>" >
+					<i class='icon-file'></i>Importer des entités filles
 				</a>
 			<?php endif;?>
 		</td>
@@ -102,5 +102,5 @@ $id_e = $entiteExtendedInfo['id_e'];
 
 
 <?php if($entiteExtendedInfo['type'] == Entite::TYPE_FOURNISSEUR): ?>
-<a href='supprimer.php'>Redemander les informations</a>
+<a class='btn btn-warning' href='supprimer.php'><i class='icon-white icon-refresh'></i>Redemander les informations</a>
 <?php endif; ?>

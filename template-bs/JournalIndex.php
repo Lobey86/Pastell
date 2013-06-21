@@ -1,24 +1,29 @@
 <?php if ($id_d) : ?>
-<a href='journal/index.php?id_e=<?php echo $id_e?>'>« Journal de <?php echo $infoEntite['denomination']?></a>
+<a class='btn btn-mini' href='journal/index.php?id_e=<?php echo $id_e?>'><i class="icon-circle-arrow-left"></i>Journal de <?php echo $infoEntite['denomination']?></a>
 <?php endif;?>
+
 <?php if ($roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$id_e)) : 
 $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u=$id_u&recherche=$recherche&type=$type&id_d=$id_d");
 
 ?>
-<div class="box_contenu clearfix">
+<div class="box">
 
 <h2>Journal des évènements (extraits)</h2>
 
-<form action="journal/index.php" method='get'>
-	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
-	<input type='hidden' name='type' value='<?php echo $type?>'/>
-	<input type='hidden' name='id_d' value='<?php echo $id_d?>'/>
-	<input type='hidden' name='id_u' value='<?php echo $id_u?>'/>
-	<input type='text' name='recherche' value='<?php echo $recherche ?>'/>
-	<input type='submit' value='Chercher'/>
-</form>
 
-<table class="tab_01">
+    <form action="journal/index.php" method='get' class="form-inline">
+		<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+		<input type='hidden' name='type' value='<?php echo $type?>'/>
+		<input type='hidden' name='id_d' value='<?php echo $id_d?>'/>
+		<input type='hidden' name='id_u' value='<?php echo $id_u?>'/>
+		<input type='text' name='recherche' value='<?php echo $recherche ?>'/>
+		<button type='submit' class='btn'><i class='icon-search'></i>Chercher</button>
+    </form>
+
+	<br/>
+
+
+<table class="table table-striped">
 	<tr>
 		<th>Numéro</th>
 		<th>Date</th>
@@ -31,7 +36,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u
 		<th>Horodatage</th>
 	</tr>
 <?php foreach($all as $i => $ligne) : ?>
-	<tr  class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
+	<tr>
 		<td><a href='journal/detail.php?id_j=<?php echo $ligne['id_j'] ?>&id_d=<?php echo $id_d?>&type=<?php echo $type ?>&id_e=<?php echo $id_e ?>&offset=<?php echo $offset?>'><?php echo $ligne['id_j']?></a></td>
 		<td><?php echo  time_iso_to_fr($ligne['date']) ?></td>
 		<td><?php echo $this->Journal->getTypeAsString($ligne['type']) ?></td>
@@ -68,7 +73,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u
 </table>
 </div>
 
-<a href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>&id_u=<?php echo $id_u ?>&recherche=<?php echo $recherche ?>'>Récupérer le journal (CSV)</a>
+<a class='btn btn-mini' href='journal/export.php?format=csv&offset=0&limit=<?php echo $count ?>&id_e=<?php echo $id_e?>&type=<?php echo $type?>&id_d=<?php echo $id_d?>&id_u=<?php echo $id_u ?>&recherche=<?php echo $recherche ?>'><i class='icon-file'></i>Récupérer le journal (CSV)</a>
 <br/><br/>
 <?php endif;?>
 <?php 

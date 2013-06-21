@@ -3,17 +3,13 @@
 global $lastMessage;
 global $lastError;
 if ($lastMessage->getLastMessage()) : ?>
-<div class="box_confirm">
-	<p>
-		<?php echo $lastMessage->getLastMessage()?>
-	</p>
+<div class="alert alert-success">
+	<?php echo $lastMessage->getLastMessage()?>
 </div>
 <?php endif;?>
 
 <?php if ($lastError->getLastError()) : ?>
-<div class="box_error">
-	<p>
-		<?php echo $lastError->getLastError()?>
-	</p>
+<div class="alert alert-error">
+	<?php echo $lastError->getLastError()?>
 </div>
 <?php endif;?>

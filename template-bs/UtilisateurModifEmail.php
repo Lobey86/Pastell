@@ -1,15 +1,15 @@
-<div class='lien_retour'>
-	<a href='utilisateur/moi.php'>« Espace utilisateur</a>
-</div>
-<div class="box_contenu clearfix">
+<a class='btn btn-mini' href='utilisateur/moi.php'><i class='icon-circle-arrow-left'></i>Espace utilisateur</a>
+
+
+<div class="box">
 
 <h2>Modifier votre email</h2>
-<form class="w700"  action='utilisateur/modif-email-controler.php' method='post' >
-<table >
+<form action='utilisateur/modif-email-controler.php' method='post' >
+<table class='table table-striped'>
 
 
 <tr>
-<th>Email actuel: </th>
+<th class='w200'>Email actuel: </th>
 <td><?php hecho($utilisateur_info['email'])?></td>
 </tr>
 
@@ -25,7 +25,7 @@
 </tr>
 
 </table>
-<input type='submit' value='Modifier votre email' />
+<input type='submit' class='btn' value='Modifier votre email' />
 </form>
 
 </div>
