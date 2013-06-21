@@ -1,30 +1,35 @@
 
-<div class="box_contenu clearfix">
+<div class="box">
 
 <h2>Information de version</h2>
-<table class='tab_04'>
+<table class='table table-striped'>
 
 <tr>
-	<th>Révision</th>
+	<th class="w140">Révision</th>
 	<td><?php echo nl2br(utf8_decode(file_get_contents( PASTELL_PATH."/revision.txt"))) ?></td>
 </tr>
 </table>
+
+</div>
+
+<div class="box">
 <h2>Extensions PHP</h2>
 
-<table class='tab_04'>
+<table class='table table-striped'>
 	<?php foreach($checkExtension as $extension => $is_ok) : ?>
 		<tr>
-			<th><?php echo $extension ?></th>
+			<th class="w140"><?php echo $extension ?></th>
 			<td><?php echo $is_ok?"ok":"<b style='color:red'>CETTE EXTENSION N'EST PAS INSTALLEE</b>"; ?></td>
 		</tr>
 	<?php endforeach;?>
 </table>
-
+</div>
+<div class="box">
 <h2>Valeur minimum</h2>
 
-<table class='tab_04'>
+<table class='table table-striped'>
 	<tr>
-		<th>Element</th>
+		<th class="w140">Element</th>
 		<th>Attendu</th>
 		<th>Trouvé</th>
 	</tr>
@@ -36,11 +41,12 @@
 	</tr>
 	<?php endforeach;?>
 </table>
-
+</div>
+<div class="box">
 <h2>Constante</h2>
-<table class='tab_04'>
+<table class='table table-striped'>
 	<tr>
-		<th>Element</th>
+		<th class="w140">Element</th>
 		<th>Valeur</th>
 	</tr>
 	<tr>
@@ -52,11 +58,12 @@
 		<td><?php echo WORKSPACE_PATH ?></td>
 	</tr>
 </table>
-
+</div>
+<div class="box">
 <h2>Auto test</h2>
-<table class='tab_04'>
+<table class='table table-striped'>
 	<tr>
-		<td><?php echo WORKSPACE_PATH ?> accessible en lecture/écriture ?</td>
+		<td class='w400'><?php echo WORKSPACE_PATH ?> accessible en lecture/écriture ?</td>
 		<td><?php echo $checkWorkspace?"ok":"<b style='color:red'>NON</b>"?></td>
 	</tr>
 </table>

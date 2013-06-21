@@ -1,20 +1,21 @@
 
 <?php if ($id_e && $has_many_collectivite) : ?>
-<a href='entite/detail.php'>« Administration</a>
+<a class='btn btn-mini' href='entite/detail.php'><i class='icon-cog'></i>Administration</a>
 <?php endif; ?>
-<br/><br/>
 
-<div id="bloc_onglet">
+
+<ul class="nav nav-pills" style="margin-top:10px;">
 	<?php foreach ($formulaire_tab as $page_num => $name) : ?>
-		<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_number)?'class="onglet_on"':'' ?>>
+		<li <?php echo ($page_num == $tab_number)?'class="active"':'' ?>>
+		<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=<?php echo $page_num?>'>
 			<?php echo $name?>
 		</a>
 	<?php endforeach;?>
-</div>
+</ul>
 
-qsdqsd
 
-<div class="box_contenu clearfix">
+
+<div class="box">
 
 <?php if($tab_number!=5):?>
 <?php $this->render($tableau_milieu)?>

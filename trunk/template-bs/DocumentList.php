@@ -1,9 +1,12 @@
 <?php
 if ($id_e != 0) {
-	
 ?>
-<div>
-<form action='document/list.php' method='get' >
+
+<div class="box">
+
+<form class="form-inline" action='document/list.php' method='get'>
+
+
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 	<input type='hidden' name='type' value='<?php echo $type?>'/>
 	<input type='text' name='search' value='<?php echo $search?>'/>
@@ -16,12 +19,13 @@ if ($id_e != 0) {
 			><?php echo $libelle_etat?></option>
 		<?php endforeach;?>
 	</select>
-	<input type='submit' value='Rechercher' />
-	
+	<button type='submit' class='btn'><i class="icon-search"></i>Rechercher</button>
+	<a style="margin-left:80px;" href='document/search.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Recherche avancée</a>
 </form>
 
-<p class='petit'><a href='document/search.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Recherche avancée</a></p>
 </div>
+
+
 <?php
 	if ($last_id){
 		$offset = $documentActionEntite->getOffset($last_id,$id_e,$type,$limit);
@@ -45,8 +49,7 @@ $this->render("EntiteNavigation");
 
 
 if ($id_e) : ?>
-<a href='journal/index.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'>Voir le journal des évènements</a>
-<br/><br/>
+<a class='btn btn-mini' href='journal/index.php?id_e=<?php echo $id_e?>&type=<?php echo $type?>'><i class='icon-list'></i>Voir le journal des évènements</a>
 <?php 
 endif;
 

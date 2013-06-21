@@ -1,19 +1,18 @@
 
-<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=3'>« Revenir</a>
-<br/><br/>
+<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $id_e ?>&page=3'><i class='icon-circle-arrow-left'></i>Revenir</a>
 
-<div class="box_contenu clearfix">
+<div class="box">
 
 <h2>Associer un connecteur</h2>
-<form class="w700" action='flux/edition-controler.php' method='post' >
+<form action='flux/edition-controler.php' method='post' >
 <input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 <input type='hidden' name='flux' value='<?php echo $flux ?>' />
 <input type='hidden' name='type' value='<?php echo $type_connecteur ?>' />
 
-<table >
+<table class='table table-striped'>
 
 <tr>
-<th>Flux</th>
+<th class='w200'>Flux</th>
 <td>
 	<?php if($id_e) : ?>
 	<?php hecho($objectInstancier->DocumentTypeFactory->getFluxDocumentType($flux)->getName() );?>
@@ -36,18 +35,19 @@
 </tr>
 
 </table>
-<input type='submit' value='Associer' />
+<button type='submit' class='btn'><i class='icon-retweet'></i>&nbsp;Associer</button>
 </form>
 </div>
-<br/><br/>
-<div class="box_contenu clearfix">
+
+<div class="box">
 
 <h2>Supprimer l'association</h2>
-<form class="w700" action='flux/supprimer-controler.php' method='post' >
+<form action='flux/supprimer-controler.php' method='post' >
 <input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 <input type='hidden' name='flux' value='<?php echo $flux ?>' />
 <input type='hidden' name='type' value='<?php echo $type_connecteur ?>' />
-<input type='submit' value="Supprimer l'association" />
+<button type='submit' class='btn btn-danger'>Supprimer l'association</button>
+
 
 </form>
 

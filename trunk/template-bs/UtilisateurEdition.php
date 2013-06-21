@@ -1,54 +1,52 @@
 <?php if ($id_u) : ?>
-<a href='utilisateur/detail.php?id_u=<?php echo $id_u ?>'>« Revenir à <?php echo $infoUtilisateur['prenom']." ". $infoUtilisateur['nom']?></a>
+<a class='btn btn-mini' href='utilisateur/detail.php?id_u=<?php echo $id_u ?>'><i class='icon-circle-arrow-left'></i>Revenir à <?php echo $infoUtilisateur['prenom']." ". $infoUtilisateur['nom']?></a>
 <?php elseif ($id_e) : ?>
-<a href='entite/detail.php?id_e=<?php echo $id_e ?>'>« Revenir à <?php echo $infoEntite['denomination'] ?></a>
+<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $id_e ?>'><i class='icon-circle-arrow-left'></i>Revenir à <?php echo $infoEntite['denomination'] ?></a>
 <?php else : ?>
-<a href='entite/detail.php?id_e=<?php echo $id_e ?>'>« Revenir à la liste des utilisateurs globaux</a>
-
+<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $id_e ?>'><i class='icon-circle-arrow-left'></i>Revenir à la liste des utilisateurs globaux</a>
 <?php endif;?>
-<br/><br/>
 
 
-<div class="box_contenu clearfix">
+<div class="box">
 
 
-<form class="w700" action='utilisateur/edition-controler.php' method='post' enctype='multipart/form-data'>
+<form action='utilisateur/edition-controler.php' method='post' enctype='multipart/form-data'>
 <input type='hidden' name='id_u' value='<?php echo $id_u?>'>
 
-<table>
+<table class='table table-striped'>
 <tr>
-	<th><label for='login'>
+	<th class="w200"><label for='login'>
 	Identifiant (login)
-	<span>*</span></label> </th>
+	<span class='obl'>*</span></label> </th>
 	 <td> <input type='text' name='login' value='<?php echo $infoUtilisateur['login'] ?>' /></td>
 </tr>
 <tr>
 	<th><label for='password'>
 	Mot de passe
-	<span>*</span></label> </th>
-	 <td> <input type='password' name='password' value='' /></td>
+	<span class='obl'>*</span></label> </th>
+	 <td><input type='password' name='password' value='' /></td>
 </tr>
 <tr>
 	<th><label for='password2'>
 	Mot de passe (vérification)
-	<span>*</span></label> </th>
-	 <td> <input type='password' name='password2' value='' /></td>
+	<span class='obl'>*</span></label> </th>
+	 <td><input type='password' name='password2' value='' /></td>
 </tr>
 <tr>
-	<th><label for='email'>Email<span>*</span></label> </th>
-	<td> <input type='text' name='email' value='<?php echo $infoUtilisateur['email']?>'/></td>
+	<th><label for='email'>Email<span class='obl'>*</span></label> </th>
+	<td><input type='text' name='email' value='<?php echo $infoUtilisateur['email']?>'/></td>
 </tr>
 <tr>
-	<th><label for='nom'>Nom<span>*</span></label> </th>
-	<td> <input type='text' name='nom' value='<?php echo $infoUtilisateur['nom']?>'/></td>
+	<th><label for='nom'>Nom<span class='obl'>*</span></label> </th>
+	<td><input type='text' name='nom' value='<?php echo $infoUtilisateur['nom']?>'/></td>
 </tr>
 <tr>
-	<th><label for='prenom'>Prénom<span>*</span></label> </th>
-	<td> <input type='text' name='prenom' value='<?php echo $infoUtilisateur['prenom']?>'/></td>
+	<th><label for='prenom'>Prénom<span class='obl'>*</span></label> </th>
+	<td><input type='text' name='prenom' value='<?php echo $infoUtilisateur['prenom']?>'/></td>
 </tr>
 <tr>
 	<th><label for='certificat'>Certificat (PEM)</label> </th>
-	<td> <input type='file' name='certificat' /><br/>
+	<td><input type='file' name='certificat' /><br/>
 	<?php if ($certificat->isValid()) : ?>
 		<?php  echo $certificat->getFancy()?>&nbsp;-&nbsp;
 		<a href='utilisateur/supprimer-certificat.php?id_u=<?php echo $id_u?>'>supprimer</a>
@@ -78,9 +76,9 @@ $entiteListe = new EntiteListe($sqlQuery);
 
 </table>
 
-	<div class="align_right">
-	<input type='submit' class='submit' value="<?php echo $id_u?"Modification":"Création" ?>" />
-	</div>
+
+	<input type='submit' class='btn' value="<?php echo $id_u?"Modification":"Création" ?>" />
+
 
 </form>
 </div>

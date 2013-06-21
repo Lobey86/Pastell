@@ -19,14 +19,14 @@ function dateInput($name,$value=''){
 }
 
 ?>
-<div class="box_contenu clearfix">
+<div class="box">
 
-<form class="w700" action='document/search.php' method='get' >
+<form action='document/search.php' method='get' >
 <input type='hidden' name='go' value='go' />
 					
-<table>
+<table class="table table-striped">
 	<tr>
-	<th>Type de document</th>
+	<th class="w200">Type de document</th>
 	<td><?php  $this->DocumentTypeHTML->displaySelect($type,$all_module); ?></td>
 	</tr>
 	<tr>
@@ -108,7 +108,7 @@ function dateInput($name,$value=''){
 	</tr>
 </table>
 	
-	<input type='submit' value='Rechercher' />
+	<input type='submit' class='btn' value='Rechercher' />
 </form>
 </div>
 <?php 
@@ -123,13 +123,12 @@ if ($go = 'go'){
 		$documentListAfficheur = new DocumentListAfficheur($documentTypeFactory);
 		$documentListAfficheur->affiche($listDocument,$id_e);
 		?>
-			<a href='document/search-export.php?<?php echo $url?>'>Exporter les informations (CSV)</a>
-			<br/><br/>
+			<a class='btn btn-mini' href='document/search-export.php?<?php echo $url?>'><i class='icon-file'></i>Exporter les informations (CSV)</a>
 		<?php 
 	} else {
 		?>
-		<div class="box_info">
-			<p>Les critères de recherches ne correspondent à aucun document</p>
+		<div class="alert alert-info">
+			Les critères de recherches ne correspondent à aucun document
 		</div>
 		<?php 
 	}

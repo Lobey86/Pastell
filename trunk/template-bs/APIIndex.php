@@ -1,4 +1,4 @@
-<div class="box_contenu clearfix">
+<div class="box">
 	<h2>Généralités</h2>
 <p>
 
@@ -21,7 +21,7 @@ il faudra utiliser POST.
 <?php 
 
 foreach($functions_list as $function_name => $function_properties) : ?>
-<div class="box_contenu clearfix">
+<div class="box">
 
 <h2><?php hecho($function_properties[APIDefinition::KEY_DESCRIPTION])?> : <?php hecho($function_name)?></h2>
 <p>Description: <?php hecho($function_properties[APIDefinition::KEY_COMMENT])?> </p>
@@ -33,7 +33,7 @@ Méthode SOAP : <?php hecho($function_properties[APIDefinition::KEY_SOAP_NAME])?>
 
 <h3>Paramètres d'entrée</h3>
 <?php if ($function_properties[APIDefinition::KEY_INPUT] ) : ?>
-<table class="tab_04">
+<table class="table table-striped">
 	<tr>
 		<th>Nom du paramètre</th>
 		<th>Obligatoire ? </th>
@@ -56,7 +56,7 @@ Méthode SOAP : <?php hecho($function_properties[APIDefinition::KEY_SOAP_NAME])?>
 
 <h3>Paramètres de sortie</h3>
 <?php if ($function_properties[APIDefinition::KEY_OUTPUT] ) : ?>
-<table class="tab_04">
+<table class="table table-striped">
 	<tr>
 		<th>Nom du paramètre</th>
 		<th>Commentaire</th>

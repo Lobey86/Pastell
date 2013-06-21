@@ -1,18 +1,18 @@
-<div class="box_contenu clearfix">
-	<form class="w700" action="entite/import-grade-controler.php" method='post' enctype='multipart/form-data'>
+<div class="box">
+	<form action="entite/import-grade-controler.php" method='post' enctype='multipart/form-data'>
 		
-		<table>
+		<table class='table'>
 		
 		<tr>
-			<th>Fichier CSV</th>
+			<th class='w140'>Fichier CSV</th>
 			<td><input type='file' name='csv_grade'/></td>
 		</tr>
 		</table>
-		<input type="submit" value="Importer" class="submit" />
+		<input type="submit" value="Importer" class="btn" />
 	</form>
 </div>
 
-<div class="box_info">
+<div class="alert alert-info">
 	<p><strong>Format du fichier</strong></p>
 	<p>Le fichier CSV doit contenir un grade par ligne.</p>
 	<p>Les lignes sont formatés de la manière suivante : 

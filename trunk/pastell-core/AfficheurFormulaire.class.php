@@ -100,13 +100,22 @@ class AfficheurFormulaire {
 	
 	public function afficheStaticTab($page){
 		?>
-		<div id="bloc_onglet">
-		<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
-					<a <?php echo ($page_num == $page)?'class="onglet_on"':'' ?>>
+
+		
+		<ul class="nav nav-pills" style="margin-top:10px;">
+			<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
+				<li <?php echo ($page_num == $page)?'class="active"':'' ?>>
+					<a>
 					<?php echo ($page_num + 1) . ". " . $name?>
 					</a>
-		<?php endforeach;?>
-		</div>
+				</li>
+			<?php endforeach;?>
+		
+
+		</ul>
+		
+		
+		
 		<?php 
 	}
 	
@@ -135,7 +144,7 @@ class AfficheurFormulaire {
 				<input type='hidden' name='<?php hecho($name); ?>' value='<?php hecho($value); ?>' />
 			<?php endforeach;?>
 			
-			<table>
+			<table class='table table-striped'>
 			<?php foreach ($this->formulaire->getFields() as $field) :
 			
 			
@@ -148,9 +157,9 @@ class AfficheurFormulaire {
 			
 			?>
 				<tr>
-					<th>
-						<label for="<?php echo $field->getName() ?>"><?php echo $field->getLibelle() ?></label>
-						<?php if ($field->isRequired()) : ?>*<?php endif;?>
+					<th class='w500'>
+						<label for="<?php echo $field->getName() ?>"><?php echo $field->getLibelle() ?><?php if ($field->isRequired()) : ?><span class='obl'>*</span><?php endif;?></label>
+						
 						<?php if ($field->isMultiple()): ?>
 							(plusieurs <?php echo ($field->getType() == 'file')?"ajouts":"valeurs" ?> possibles)
 						<?php endif;?>
@@ -185,7 +194,8 @@ class AfficheurFormulaire {
 									<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
 								<?php endif; ?>
 								<?php if ($field->isMultiple()): ?>
-									<input class='input_normal send_button' type='submit' name='ajouter' value='Ajouter' />
+									<button type='submit' name='ajouter' class='btn'><i class='icon-plus'></i>Ajouter</button>
+									<!--<input class='input_normal send_button' type='submit' name='ajouter' value='Ajouter' />-->
 								<?php endif;?>
 								<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
 								<br/>
@@ -196,7 +206,7 @@ class AfficheurFormulaire {
 											<a href='<?php echo $recuperation_fichier_url ?>&field=<?php echo $field->getName()?>&num=<?php echo $num ?>'><?php echo $fileName ?></a>
 											&nbsp;&nbsp;
 											<?php if ($this->isEditable($field->getName())) : ?>
-												<a href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>&num=<?php echo $num ?>'>supprimer</a>
+												<a style='margin:4px 0' class='btn btn-mini btn-danger' href='<?php echo $suppression_fichier_url ?>&field=<?php echo $field->getName() ?>&num=<?php echo $num ?>'>supprimer</a>
 											<?php endif;?>
 										<br/>
 							<?php endforeach;?>
@@ -290,17 +300,22 @@ class AfficheurFormulaire {
 			<?php 	endforeach; ?>
 			</table>
 		<?php if ($this->formulaire->hasRequiredField()): ?>
-		* champs obligatoires.<br/>
+		<!--* champs obligatoires.<br/>-->
 		<?php endif;?>
 		
 		<?php if ($page_number > 0 ): ?>
-				<input type='submit' name='precedent' value='« Précédent' class='send_button'/>
+				<!--<input type='submit' name='precedent' value='« Précédent' class='send_button'/>-->
+				<button type='submit' name='precedent' class='btn'><i class='icon-circle-arrow-left'></i>Précédent</button>
 		<?php endif; ?>
 		
-			<input type='submit' name='enregistrer' value='Enregistrer' class='send_button' />
+			<button type='submit' name='enregistrer' class='btn'><i class='icon-ok'></i>Enregistrer</button>
 			
 		<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
-				<input type='submit' name='suivant' value='Suivant »' class='send_button' />
+		
+			<button type='submit' name='suivant' class='btn'>Suivant&nbsp;<i class='icon-circle-arrow-right'></i></button>
+			
+			
+			
 		<?php endif; ?>
 		</form>
 	<?php }
@@ -319,19 +334,17 @@ class AfficheurFormulaire {
 		}
 		
 		if (! $this->donneesFormulaire->isValidable()){
-			?><div class="box_error">
-					<p>
-						 <?php  echo $this->donneesFormulaire->getLastError(); ?>
-					</p>
-						
-				</div>
+			?>
+			<div class="alert alert-error">
+				<?php  echo $this->donneesFormulaire->getLastError(); ?>
+			</div>
 			
 			<?php 
 		}
 		
 			$this->formulaire->setTabNumber($page);
 		?>
-		<table class='tab_01'>
+		<table class='table table-striped'>
 			<?php
 			$i=0;
 			foreach ($this->getFieldStatic() as $field) :
@@ -346,10 +359,10 @@ class AfficheurFormulaire {
 					}
 								
 			?>
-				<tr class='<?php echo $i++%2?'bg_class_gris':'bg_class_blanc'?>'>
-					<td>
+				<tr>
+					<th class="w300">
 						<?php echo $field->getLibelle() ?>
-					</td>
+					</th>
 					<td>
 						<?php if ($field->getType() == 'checkbox') :?>
 							<?php if ($field->getProperties('depend') && $this->donneesFormulaire->get($field->getProperties('depend'))) : ?>

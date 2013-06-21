@@ -1,5 +1,5 @@
 
-<div>
+<div class='box'>
 
 <h2>L'expéditeur a demandé un accusé de réception</h2>
  
@@ -10,6 +10,6 @@
 		
 	<input type='hidden' name='action' value='<?php echo $action ?>' />
 		
-	<input type='submit' value='Envoyer un accusé de réception'/>
+	<input type='submit' class='btn' value='Envoyer un accusé de réception'/>
 </form>
 </div>

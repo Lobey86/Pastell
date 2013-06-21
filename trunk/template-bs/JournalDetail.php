@@ -1,13 +1,13 @@
 
-<a href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>&type=<?php echo $type?>&offset=<?php echo $offset ?>'>« Retour au journal </a>
-<br/><br/>
-<div class="box_contenu clearfix">
+<a class='btn btn-mini' href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>&type=<?php echo $type?>&offset=<?php echo $offset ?>'><i class='icon-circle-arrow-left'></i>Retour au journal </a>
+
+<div class="box">
 
 <h2>Détail de l'évenement <?php echo $id_j ?></h2>
 
-<table class="tab_04">
+<table class="table table-striped">
 <tr>
-		<th>Numéro</th>
+		<th class='w200'>Numéro</th>
 		<td><?php echo $id_j ?></td>
 </tr>
 <tr>

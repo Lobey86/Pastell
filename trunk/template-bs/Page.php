@@ -31,7 +31,13 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<base href='<?php echo SITE_BASE ?>' />
 		
 		<link rel="shortcut icon" type="images/x-icon" href="favicon.ico" />
-		<link rel="stylesheet" type="text/css" href="img/commun.css" media="screen" />
+		
+		<!-- bootstrap et modif LBI -->
+		<link rel="stylesheet" type="text/css" href="img_lbi/commun.css" media="screen" />
+		<link type="text/css" href="img_lbi/bs_css/bootstrap.css" rel="stylesheet" />
+		<link type="text/css" href="img_lbi/bs_surcharge.css" rel="stylesheet" />
+	
+		
 		<!--[if gte IE 6]>
 			<link rel="stylesheet" type="text/css" href="img/style_IE6.css" media="screen" />
 		<![endif]-->
@@ -39,7 +45,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<link type="text/css" href="img/jquery-ui-1.8.10.custom.css" rel="stylesheet" />
 		<link type="text/css" href="img/jquery.treeview.css" rel="stylesheet" />
 		
-		<link type="text/css" href="img/test.css" rel="stylesheet" />
+		
 		
 		
 		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
@@ -49,6 +55,9 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<script type="text/javascript" src="js/jquery.treeview.js"></script>  
 		<script type="text/javascript" src="js/pastell.js"></script>   
 		
+
+
+		
 			
 	</head>
 	<body>
@@ -56,15 +65,16 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 			<div id="header">
 				<div id="bloc_logo">
 					<a href='<?php echo  SITE_BASE ?>'>
-						<img src="img/commun/logo_pastell.png" alt="Retour à l'accueil" />
+						<img src="img_lbi/commun/logo_pastell.png" alt="Retour à l'accueil" />
 					</a>
 				</div>
 				<?php if ($authentification->isConnected() ) : ?> 
 					<div id="bloc_login">
-						<img src="img/commun/picto_user.png" alt="" class="absmiddle" />
+					
+						<img src="img_lbi/commun/picto_user.png" alt="" class="absmiddle" />
 						<strong><a href='utilisateur/moi.php'><?php hecho($authentification->getLogin()) ?></a></strong>
-						&nbsp;&nbsp;|&nbsp;&nbsp;
-						<img src="img/commun/picto_logout.png" alt="" class="absmiddle" />
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<img src="img_lbi/commun/picto_logout.png" alt="" class="absmiddle" />
 						<a href="<?php echo  SITE_BASE ?>connexion/logout.php">Se déconnecter</a>
 					</div>
 				<?php endif; ?> 
@@ -85,7 +95,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 			<?php endif; ?> 
 				
 			<div id="breadcrumb">
-				<img src="img/commun/puce_geographie.png" alt="" class="absmiddle" />
+				<img src="img_lbi/commun/puce_geographie.png" alt="" class="absmiddle" />
 				<?php if (! $breadcrumbs) : ?>
 					Bienvenue
 				<?php else:?>
@@ -98,38 +108,60 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		
 			<div id="main" class="clearfix">	
 				<?php if ($authentification->isConnected() ) : ?>
-					<div id="main_gauche">		
-						<div class="box">
-							<div class="haut"><h2>Documents</h2></div>
-							<div class="cont">
+					<div id="main_gauche">
+						
+						
+						<h2>Documents</h2>
+						<div class="menu">
 							<ul>
 								<li>
-									<a href='document/index.php?id_e=<?php echo $id_e_menu ?>'>Tous</a>
+									<a class="dernier" href='document/index.php?id_e=<?php echo $id_e_menu ?>'>Tous</a>
 								</li>
 							</ul>
+						</div>
+						
+						
 							<?php 
 							foreach($all_module as $type_flux => $les_flux) : ?>
+								
+								
+
+								
 								<h3><?php echo $type_flux  ?></h3>
+								<div class="menu">
 								<ul>
 								<?php foreach($les_flux as $nom => $affichage) : ?>
-									<li><a href='document/list.php?type=<?php echo $nom?>&id_e=<?php echo $id_e_menu ?>'>
-										<?php if ($type_e_menu == $nom) : ?>
-											<b><?php echo $affichage ?></b>
-										<?php else : ?>
+								
+								
+								<?php
+								$last_key = end(array_keys($les_flux));
+								?>
+								<?php
+								$a_class = "";
+								if($nom === $last_key) $a_class = "dernier";
+								if ( $type_e_menu == $nom ) $a_class = "actif";
+								
+								if( ($nom === $last_key) && ($type_e_menu == $nom) ) $a_class = "actif dernier";
+								?>
+								
+								
+									
+									<li>
+										<a class="<?php echo $a_class ?>" href='document/list.php?type=<?php echo $nom?>&id_e=<?php echo $id_e_menu ?>'>
 											<?php echo $affichage ?>
-										<?php endif;?>
 										</a>
+										
 									</li>
 								<?php endforeach;?>
 								</ul>
+								</div>
 							<?php endforeach;?>
-							</div>
-						</div>
-						<?php 
-						
-						?>
+
+				
 					</div><!-- main_gauche  -->
 				<?php endif;?>
+					
+					
 					
 				<div id="main_droite" >
 					<div id="bloc_titre_bouton">
@@ -139,8 +171,8 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 						<?php if ($nouveau_bouton_url): ?>
 							<div id="bloc_boutons">
 								<?php foreach ($nouveau_bouton_url as $label => $url) : ?>
-									<a href="<?php echo $url ?>">
-										<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+									<a class="btn " href="<?php echo $url ?>">
+										<i class="icon-chevron-right"></i>
 										<?php echo $label?>
 									</a>
 								<?php endforeach;?>
@@ -154,6 +186,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 				</div>
 			</div>
 		</div>
+		
 		<?php $this->render('Footer')?>
 
 	</body>
