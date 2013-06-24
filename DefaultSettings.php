@@ -77,6 +77,6 @@ if (!defined("AIDE_URL")){
 }
 
 if (!defined("TEMPLATE_PATH")){
-	define("TEMPLATE_PATH",__DIR__."/template/");
+	define("TEMPLATE_PATH",__DIR__."/template-bs/");
 }
 

@@ -24,6 +24,13 @@ formulaire:
 		numero_agrement: 
 			name: "Accord de versement"
 			commentaire: numéro d'aggrément
+		date_dernier_transfert:
+			name: "Date da la dernière génération d'un bordereau"
+			read-only: true
+		dernier_numero_transfert:
+			name: "Numéro du dernier transfert"
+			read-only: true
+		
 		
 action:	
 	test-bordereau :

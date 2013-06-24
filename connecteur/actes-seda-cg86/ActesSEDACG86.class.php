@@ -6,6 +6,7 @@
 class ActesSEDACG86  extends Connecteur {
 	
 	private $authorityInfo;
+	private $seda_config;
 	
 	public function  setConnecteurConfig(DonneesFormulaire $seda_config){
 		$this->authorityInfo = array(
@@ -16,120 +17,123 @@ class ActesSEDACG86  extends Connecteur {
 				"nom_entite" =>   $seda_config->get('nom_entite'),
 				"siren_entite" =>  $seda_config->get('siren_entite'),
 		);
+		
+		$this->seda_config = $seda_config;
 	}
 	
-	/*****/
-	private $tmpFolder;
-	private $file2Add;
-	
-	
-	private $actesTransactionsStatusInfo;
-	
-	private $actesFilePath;
-	private $actesIsSigned;
-	private $annexe;
-	private $arActes;
-	
-	
-	private $relatedTransaction;
-	private $latestDate;
-	
-	private $transfer_identifier;
-	
-	
-	public function setActesFileName($actesFileName,$is_signed = false){
-		$this->actesFileName =  $actesFileName;
-		$this->file2Add[] = $actesFileName;
-		$this->actesIsSigned = $is_signed;
-	}
-	
-	public function setLatestDate($latestDate){
-		$this->latestDate = $latestDate;
-	}
-	
-	public function setTransactionStatusInfo(array $actesTransactionsStatusInfo){
-		$this->actesTransactionsStatusInfo = $actesTransactionsStatusInfo;
-		$this->arActes = "ARActes-{$actesTransactionsStatusInfo['transaction_id']}.xml";
-		file_put_contents($this->tmpFolder . $this->arActes,$actesTransactionsStatusInfo['flux_retour']);
-		$this->file2Add[] = $this->arActes;
-	}
-	
-	public function addAnnexe($annexeFileName,$annexeFileType,$has_signature){
-		$this->annexe[] = array($annexeFileName,$annexeFileType,$has_signature);
-		$this->file2Add[] = $annexeFileName;
-	}
-
-	public function addRelatedTransaction($relatedTransaction,array $all_file){
-		foreach($all_file as $f){
-			$this->file2Add[] = $f[0];
-			$relatedTransaction['file_name'] = $f[0];
-			$relatedTransaction['file_type']= $f[1];
-			$relatedTransaction['many_file_name'][] = $f[0];
-			$relatedTransaction['many_file_type'][] = $f[1]; 
+	private function getInfoARActes($file_path){
+		@ $xml = simplexml_load_file($file_path);
+		if ($xml === false){
+			throw new Exception("Le fichier AR actes n'est pas exploitable");
 		}
-		$this->relatedTransaction[] = $relatedTransaction;
-		if(! empty($relatedTransaction['status_info']['flux_retour'])){
-			$ar = "AR1-{$relatedTransaction['id']}.xml";
-			file_put_contents($this->tmpFolder . $ar,$relatedTransaction['status_info']['flux_retour']);
-			$this->file2Add[] = $ar;
+		$namespaces = $xml->getNameSpaces(true);
+		$attr = $xml->attributes($namespaces['actes']);
+		if (!$attr){
+			throw new Exception("Le fichier AR actes n'est pas exploitable");
 		}
-		if(! empty($relatedTransaction['status_info_recu']['flux_retour'])){
-			$ar = "AR2-{$relatedTransaction['id']}.xml";
-			file_put_contents($this->tmpFolder . $ar,$relatedTransaction['status_info_recu']['flux_retour']);
-			$this->file2Add[] = $ar;
-		}
+		return array('DateReception' => $attr['DateReception'],'IDActe'=>$attr['IDActe']);
 	}
 	
-	public function getArchive(){
-		$fileName = uniqid().".tar.gz";
-		$command = "tar cvzf {$this->tmpFolder}/$fileName --directory {$this->tmpFolder} " . implode(" ",$this->file2Add);
-		$status = exec($command );
-		if (! $status){
-			$this->lastError = "Impossible de créer le fichier d'archive $fileName";
-			return false;
-		}
-		return $this->tmpFolder."$fileName";
-	}
-
-	public function calcTransferIdentifier($numero_transfert){
-		assert('$this->authorityInfo');
-		return $this->authorityInfo['sae_numero_aggrement'] ."-". date("Y-m-d") ."-".$numero_transfert;
+	private function getContentType($file_path){
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		return finfo_file($finfo,$file_path);
 	}
 	
-	public function setTransferIdentifier($transfer_identifier){
-		$this->transfer_identifier = $transfer_identifier;
+	public function getTransferIdentifier(){
+		$last_date = $this->seda_config->get("date_dernier_transfert");
+		$numero_transfert = $this->seda_config->get("dernier_numero_transfert");
+		
+		$date = date('Y-m-d');
+		if ($last_date == $date){
+			$numero_transfert ++;
+		} else {
+			$numero_transfert = 1;
+		}
+		
+		$this->seda_config->setData('date_dernier_transfert', $date);
+		$this->seda_config->setData('dernier_numero_transfert', $numero_transfert);
+		
+		return $this->authorityInfo['sae_numero_aggrement'] ."-". $date ."-".$numero_transfert;
+	}
+	
+	public function getLatestDate($transactionsInfo){
+		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
+		$date = $ar_actes_info['DateReception'];
+		
+		if ($transactionsInfo['echange_prefecture_ar']){
+			foreach($transactionsInfo['echange_prefecture_ar'] as $echange_ar){
+				if (! $echange_ar){
+					continue;
+				}
+				$info = $this->getInfoARActes($echange_ar);
+				$date = max($date,$info['DateReception']);
+			}
+		}
+		
+		return $date;
 	}
 	
 	public function checkInformation(array $information){
-		$info = array('numero_acte_prefecture','numero_acte_collectivite','subject','decision_date',
+		$info = array('numero_acte_collectivite','subject','decision_date',
 					'nature_descr','nature_code','classification',
 					'latest_date','actes_file','ar_actes');		
 		foreach($info as $key){
 			if (empty($information[$key])){
+				throw new Exception("Impossible de générer le bordereau : le paramètre $key est vide. ");
+			}
+		}
+		$info = array('annexe','echange_prefecture','echange_prefecture_ar','echange_prefecture_type');
+		foreach($info as $key){
+			if (! isset($information[$key])){
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
 		}
+		
 	}
 	
 	public function getBordereau($transactionsInfo){
 		$this->checkInformation($transactionsInfo);
 		
+		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
+		
+		$latestDate = $this->getLatestDate($transactionsInfo);
+		 
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2";
 		$archiveTransfer->Comment = "Transfert d'un acte soumis au contrôle de légalité";
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
-		$archiveTransfer->TransferIdentifier = $this->transfer_identifier;
-		$archiveTransfer->TransferIdentifier['schemeAgencyName'] = "S²LOW - ADULLACT";
+		$archiveTransfer->TransferIdentifier = $this->getTransferIdentifier();
+		$archiveTransfer->TransferIdentifier['schemeAgencyName'] = "Pastell - ADULLACT";
 		
 		$archiveTransfer->TransferringAgency = "####SAE_ID_VERSANT####";
 		$archiveTransfer->ArchivalAgency = "####SAE_ID_ARCHIVE####";
 		
-		if (!empty($this->file2Add)){
-			foreach($this->file2Add as $i => $fileName){
-				$archiveTransfer->Integrity[$i]->Contains = sha1_file($this->tmpFolder.$fileName);
-				$archiveTransfer->Integrity[$i]->Contains['algorithme'] = "http://www.w3.org/2000/09/xmldsig#sha1";
-				$archiveTransfer->Integrity[$i]->UnitIdentifier = $fileName;
+		$i = 0;
+		foreach(array('ar_actes','actes_file') as $key){
+			$fileName = $transactionsInfo[$key];
+			$archiveTransfer->Integrity[$i]->Contains = sha1_file($fileName);
+			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($fileName);
+			$i++;
+		}
+		foreach($transactionsInfo['annexe'] as $fileName){
+			$archiveTransfer->Integrity[$i]->Contains = sha1_file($fileName);
+			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($fileName);
+			$i++;
+		}
+	
+		foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){
+			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture);
+			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($echange_prefecture);
+			$i++;
+		}
+		
+		foreach($transactionsInfo['echange_prefecture_ar'] as $echange_prefecture_ar){
+			if (! $echange_prefecture_ar){
+				continue;
 			}
+			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture_ar);
+			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($echange_prefecture_ar);
+			$i++;
 		}
 		
 		
@@ -150,7 +154,7 @@ class ActesSEDACG86  extends Connecteur {
 											" de ". $this->authorityInfo['nom_entite'] .", en date du " .
 											date('d/m/Y',strtotime($transactionsInfo['decision_date'])) .
 											", télétransmis à la Préfecture le " .
-											date('d/m/Y',strtotime($this->actesTransactionsStatusInfo['date'])) .".";
+											date('d/m/Y',strtotime($ar_actes_info['DateReception'])) .".";
 		
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = " Actes dématérialisés soumis au contrôle de légalité télétransmis via la plateforme S2LOW de l'ADULLACT pour ".
 																				$this->authorityInfo['nom_entite'] . 
@@ -163,7 +167,7 @@ class ActesSEDACG86  extends Connecteur {
 		$archiveTransfer->Contains->ContentDescription->Language = "fr";
 		$archiveTransfer->Contains->ContentDescription->Language['listVersionID'] = "edition 2009";
 		
-		$archiveTransfer->Contains->ContentDescription->LatestDate = date('Y-m-d',strtotime($this->latestDate));
+		$archiveTransfer->Contains->ContentDescription->LatestDate = date('Y-m-d',strtotime($latestDate));
 		$archiveTransfer->Contains->ContentDescription->OldestDate = date('Y-m-d',strtotime($transactionsInfo['decision_date']));
 
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency = "####SAE_ORIGINATING_AGENCY####";
@@ -206,94 +210,116 @@ class ActesSEDACG86  extends Connecteur {
 		$archiveTransfer->Contains->Appraisal->Code = "conserver";
 		$archiveTransfer->Contains->Appraisal->Code['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->Appraisal->Duration = "P1Y";
-		$archiveTransfer->Contains->Appraisal->StartDate = date('Y-m-d',strtotime($this->latestDate));
+		$archiveTransfer->Contains->Appraisal->StartDate = date('Y-m-d',strtotime($latestDate));
 
 		$archiveTransfer->Contains->AccessRestriction->Code = $this->getAccessRestriction($transactionsInfo['classification'],$transactionsInfo['nature_code']);
 		$archiveTransfer->Contains->AccessRestriction->Code['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->AccessRestriction->StartDate = date('Y-m-d',strtotime($this->latestDate));
+		$archiveTransfer->Contains->AccessRestriction->StartDate = date('Y-m-d',strtotime($latestDate));
 		
 		
-		$archiveTransfer->Contains->Contains[0] = $this->getDL("Contains","Acte soumis au contrôle de légalité", $transactionsInfo['numero_acte_prefecture']);
+		$archiveTransfer->Contains->Contains[0] = $this->getDL("Contains","Acte soumis au contrôle de légalité",$ar_actes_info['IDActe']);
 		
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->DescriptionLevel="item";
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->DescriptionLevel['listVersionID']="edition 2009";
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->Name="Acte";
 		
-		//TODO prévoir la signature
-		//TODO prévoir les actes en XML
-		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument($transactionsInfo['actes_file'], "application/pdf",false,"Acte", $this->actesIsSigned);
+		$contentType = $this->getContentType($transactionsInfo['actes_file']);
+		$actes_is_signed = isset($transactionInfo['signature']);
+	
+		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,"Acte", $actes_is_signed);
 		
-		if ($this->annexe) {
+		if ($transactionsInfo['annexe']) {
 			$c = $this->getDL("Contains","Annexe(s) d'un acte soumis au contrôle de légalité");
-			foreach($this->annexe as $i => $annexe){
-				$c->Document[$i] = $this->getDocument($annexe[0],$annexe[1],false,"Annexe n° ".($i+1),$annexe[2]);
+			foreach($transactionsInfo['annexe'] as $i => $annexe){
+				$contentType = $this->getContentType($annexe);
+				$c->Document[$i] = $this->getDocument(basename($annexe),$contentType,false,"Annexe n° ".($i+1),$actes_is_signed);
 			}
 			$archiveTransfer->Contains->Contains[0]->Contains[] =  $c;
 		}
-		$c = $this->getDL("Contains","Accusé de réception d'un acte soumis au contrôle de légalité",$transactionsInfo['numero_acte_prefecture']);
-		$c->Document = $this->getDocument($this->arActes, "application/xml",$this->actesTransactionsStatusInfo['date'],false,true);
+		$c = $this->getDL("Contains","Accusé de réception d'un acte soumis au contrôle de légalité",$ar_actes_info['IDActe']);
+		$c->Document = $this->getDocument(basename($transactionsInfo['ar_actes']), "application/xml",$ar_actes_info['DateReception'],false,true);
 		$archiveTransfer->Contains->Contains[0]->Contains[] = $c;
 		
-                if (!empty($this->relatedTransaction)){
-                    foreach($this->relatedTransaction as $i => $relatedTransactionInfo){
-			//print_r($relatedTransactionInfo);
-			if ($relatedTransactionInfo['related_transaction_id'] != $transactionsInfo['id']){
-				continue;
-			}
-			
-			$archiveTransfer->Contains->Contains[$i+1] =$this->getDL("Contains",$this->getRelatedTransactionName($relatedTransactionInfo['type']), $transactionsInfo['numero_acte_prefecture']);
-			$archiveTransfer->Contains->Contains[$i+1]->Contains[0]->DescriptionLevel="item";
-			$archiveTransfer->Contains->Contains[$i+1]->Contains[0]->DescriptionLevel['listVersionID']="edition 2009";
-			$archiveTransfer->Contains->Contains[$i+1]->Contains[0]->Name= $this->getRelatedTransactionType($relatedTransactionInfo['type']);
-			$archiveTransfer->Contains->Contains[$i+1]->Contains[0]->Document 
-				= $this->getDocument($relatedTransactionInfo['file_name'],"application/pdf",false,$this->getRelatedTransactionType($relatedTransactionInfo['type']),false,$transactionsInfo['decision_date']);
-
-			$nb_contains_contains  = 1 ;
-			if(! empty($relatedTransactionInfo['status_info']['flux_retour'])){
-				$archiveTransfer->Contains->Contains[$i+1]->Contains[$nb_contains_contains] 
-					= $this->getDL("Contains",$this->getARName($relatedTransactionInfo['type']));
-				$archiveTransfer->Contains->Contains[$i+1]->Contains[$nb_contains_contains]->Document 
-					= $this->getDocument("AR1-{$relatedTransactionInfo['id']}.xml","application/xml",false,"Accusé de réception",false,false,false);
-				$nb_contains_contains  = 2 ;
-			}
-			
-				
-			foreach($this->relatedTransaction as $reponseTransaction){
-				if ($reponseTransaction['related_transaction_id'] != $relatedTransactionInfo['id']){
-					continue;
-				}
-				$archiveTransfer->Contains->Contains[$i+1]->Contains[$nb_contains_contains] 
-					= $this->getDL("Contains",$this->getReponseName($reponseTransaction['type']));
-				foreach($reponseTransaction['many_file_name'] as $file_nb => $file_name){
-					$archiveTransfer->Contains->Contains[$i+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
-						= $this->getDocument($file_name,$reponseTransaction['many_file_type'][$file_nb],false,$this->getReponseDocumentName($reponseTransaction['type']),false,false,$reponseTransaction['decision_date']);
-				}
-				$nb_contains_contains++;
-				if (! empty($reponseTransaction['status_info_recu']['flux_retour'])){
-					$archiveTransfer->Contains->Contains[$i+1]->Contains[$nb_contains_contains] 
-						= $this->getDL("Contains",$this->getARRecuType($relatedTransactionInfo['type']));
-					$archiveTransfer->Contains->Contains[$i+1]->Contains[$nb_contains_contains]->Document 
-						= $this->getDocument("AR2-{$reponseTransaction['id']}.xml","application/xml",false,"Accusé de réception",false,$reponseTransaction['status_info_recu']['date'],false);
 		
-					$nb_contains_contains++;
+		$num_echange = 0;
+		$num_contains = 0;
+		while(isset($transactionsInfo['echange_prefecture_type'][$num_echange])){
+			
+			$type = $transactionsInfo['echange_prefecture_type'][$num_echange];
+			
+			$archiveTransfer->Contains->Contains[$num_contains+1] =$this->getDL("Contains",$this->getRelatedTransactionName($type), $ar_actes_info['IDActe']);
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->DescriptionLevel="item";
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->DescriptionLevel['listVersionID']="edition 2009";
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->Name= $this->getRelatedTransactionType($type);
+			
+			$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
+			
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->Document 
+				= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getRelatedTransactionType($type),false,$transactionsInfo['decision_date']);
+	
+			$nb_contains_contains  = 1 ;
+			
+			if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange])){
+					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
+						= $this->getDL("Contains",$this->getARName($type));
+					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document 
+						= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange]),"application/xml",false,"Accusé de réception",false,false,false);
+					$nb_contains_contains  = 2 ;
+			}
+			
+			$num_echange ++ ;
+			while(isset($transactionsInfo['echange_prefecture_type'][$num_echange]) && $transactionsInfo['echange_prefecture_type'][$num_echange][1] != 'A'){
+				$nb_contains_contains++;	
+				$reponse_type = $transactionsInfo['echange_prefecture_type'][$num_echange];
+				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
+						= $this->getDL("Contains",$this->getReponseName($reponse_type));
+
+				$file_nb = 1;
+				$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
+				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,false,$transactionsInfo['decision_date']);
+						
+				$num_echange_ar = $num_echange;
+				$num_echange++;
+				
+				while(isset($transactionsInfo['echange_prefecture_type'][$num_echange][2]) && $transactionsInfo['echange_prefecture_type'][$num_echange][2] == 'B'){
+					$file_nb++;
+					$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
+					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,false,$transactionsInfo['decision_date']);
+						
+			
+		
+					$num_echange++;
 				}
-			}//fin foreach $this->relatedTransaction as $responseTransaction
-                    }//fin foreach qui parcours le tableau $this->relatedTransaction
-                }//fin if verifie si le tableau $this->relatedTransaction est vide pour eviter un warning dans les logs
+				if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange_ar])){
+						$nb_contains_contains++;
+						$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
+							= $this->getDL("Contains",$this->getARRecuType($reponse_type));
+						$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document 
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]),"application/xml",false,"Accusé de réception",false,false,false);
+				}	
+			}
+			
+			$num_contains++;
+		}
 		
 		$xml_string =  $archiveTransfer->asXML();
 		$xml_string = str_replace("####SAE_ID_VERSANT####", $this->authorityInfo['identifiant_versant'], $xml_string);
 		$xml_string = str_replace("####SAE_ID_ARCHIVE####", $this->authorityInfo['identifiant_archive'], $xml_string);
 		$xml_string = str_replace("####SAE_ORIGINATING_AGENCY####", $this->authorityInfo['originating_agency'], $xml_string);
-                $xml_string = str_replace("&#039;", "'", $xml_string);
+		$xml_string = str_replace("&#039;", "'", $xml_string);
 		return $xml_string;
 	}
 	
 	public function getARRecuType($type){
 		$array = array(	
-				3=>"Accusé de réception d'une réponse à une demande de pièces complémentaires",
-				4=>"Accusé de réception d'une réponse à une lettre d'observations",
+				'3R'=>"Accusé de réception d'une réponse à une demande de pièces complémentaires",
+				'4R'=>"Accusé de réception d'une réponse à une lettre d'observations",
 		);
+		if (empty($array[$type])){
+			throw new Exception("Accusé de réception non autorisé sur ce type de message (message $type)");
+		}
 		return $array[$type];
 	}
 		
@@ -301,46 +327,49 @@ class ActesSEDACG86  extends Connecteur {
 	
 	public function getARName($type){
 		$array = array(	
-				3=>"Accusé de réception d'une demande de pièces complémentaires",
-				4=>"Accusé de réception d'une lettre d'observations",
+				'3A'=>"Accusé de réception d'une demande de pièces complémentaires",
+				'4A'=>"Accusé de réception d'une lettre d'observations",
 		);
+		if (empty($array[$type])){
+			throw new Exception("Accusé de réception non autorisé sur ce type de message (message $type)");
+		}
 		return $array[$type];
 		
 	}
 	
 	public function getReponseDocumentName($type){
 			$array = array(	
-						2=>"Réponse à un courrier simple",
-						3=>"Réponse",
-						4=>"Réponse",
+						'2R'=>"Réponse à un courrier simple",
+						'3R'=>"Réponse",
+						'4R'=>"Réponse",
 						);
 		return $array[$type];
 	}
 	
 	public function getReponseName($type){
 		$array = array(	
-						2=>"Réponse à un courrier simple",
-						3=>"Réponse à une demande de pièces complémentaires",
-						4=>"Réponse à une lettre d'observations",
+						'2R'=>"Réponse à un courrier simple",
+						'3R'=>"Réponse à une demande de pièces complémentaires",
+						'4R'=>"Réponse à une lettre d'observations",
 						);
 		return $array[$type];
 	}
 	
 	public function getRelatedTransactionName($type){
 		$array = array(	
-						2=>"Envoi d'un courrier simple",
-						3=>"Envoi d'une demande de pièces complémentaires",
-						4=>"Envoi d'une lettre d'observations",
-						5=>"Déféré au tribunal administratif");
+						'2A'=>"Envoi d'un courrier simple",
+						'3A'=>"Envoi d'une demande de pièces complémentaires",
+						'4A'=>"Envoi d'une lettre d'observations",
+						'5A'=>"Déféré au tribunal administratif");
 		return $array[$type];
 	}
 	
 	public function getRelatedTransactionType($type){
 		$array = array(	
-						2=>"Courrier simple",
-						3=>"Demande de pièces complémentaires",
-						4=>"Lettre d'observations",
-						5=>"Déféré au tribunal administratif");
+						'2A'=>"Courrier simple",
+						'3A'=>"Demande de pièces complémentaires",
+						'4A'=>"Lettre d'observations",
+						'5A'=>"Déféré au tribunal administratif");
 		return $array[$type];
 	}
 	
@@ -351,7 +380,7 @@ class ActesSEDACG86  extends Connecteur {
 		$node->DescriptionLevel['listVersionID'] = "edition 2009";
 		$node->Name =$name;
 		if ($id !== false ){
-			$node->TransferringAgencyObjectIdentifier = $id;
+			$node->TransferringAgencyObjectIdentifier = "$id";
 			$node->TransferringAgencyObjectIdentifier['schemeAgencyName'] = "Ministère de l'intérieur, de l'outre-mer et des collectivités territoriales";
 		}
 		return $node;

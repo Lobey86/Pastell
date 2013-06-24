@@ -80,6 +80,50 @@ formulaire:
 		signature: {name: Signature de l'acte, type: file}
 		document_signe: {name: Bordereau de signature, type: file}
 		
+	Informations complémentaires:
+		has_information_complementaire: 
+			no-show: true
+			read-only: true
+		signature: {name: Signature de l'acte, type: file}
+		document_signe: {name: Bordereau de signature, type: file}
+		bordereau: 
+			name: Bordereau d'acquittement
+			type: file
+			
+		aractes: 
+			name: Accusé de réception technique
+			type: file
+			requis: true
+			commentaire: Accusé de réception (XML) envoyé par la préfecture
+			
+		echange_prefecture:
+			name: Documents échangés avec la préfecture
+			commentaire: faire suivre les échanges aller par les échanges retours, faire suivre l'échange retour principal par les annexes
+			type: file
+			multiple: true
+			
+		echange_prefecture_ar:
+			name: Accusé de réception des documents échangés
+			commentaire: l'ordre des accusés de réception doit correspondre à celle des documents échangés. 
+			type: file
+			multiple: true
+		
+		echange_prefecture_type:
+			name: Type de l'échange
+			type: select
+			
+			depend: echange_prefecture
+			value: 
+				2A: Courrier simple
+				3A: Demande de pièces complémentaires
+				4A: Lettre d'observations
+				5A: Déféré au tribunal administratif
+				2R: Réponse à un courrier simple
+				3R: Réponse à une demande de pièces complémentaires
+				3RB: Annexe d'une réponse à une demande de pièce complémentaires
+				4R: Réponse à une lettre d'observations 
+			
+		
 	Bordereau:
 		has_bordereau: 
 			no-show: true
@@ -210,6 +254,9 @@ page-condition:
 	
 	Signature:
 		has_signature: true
+		
+	Informations complémentaires:
+		has_information_complementaire: true
 		
 	Bordereau:
 		has_bordereau: true
