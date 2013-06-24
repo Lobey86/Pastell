@@ -38,7 +38,8 @@ text-decoration:none;
 
 
 #main_menu {
-background:#F5F5F5;
+/*background:#F5F5F5;*/
+background:#fff;
 height:54px;
 padding:0;
 border-top:1px solid #fff;
@@ -78,11 +79,9 @@ min-width:90px;
 #main_menu a.picto_journal:hover,
 #main_menu a.picto_centre_gestion:hover,
 #main_menu a.picto_aide:hover
-{background-color:#fff;background-position:center -45px;}
+{background-color:#F5F5F5;background-position:center -45px;}
 
-#breadcrumb {background:#EEEEEE;color:#9A9A9A;line-height:2.2em;padding-left:20px;}
-#breadcrumb a, #breadcrumb {color:#878787;margin:0;}
-#breadcrumb a:hover {text-decoration:none;}
+
 
 #main {
 overflow:auto; 
