@@ -89,14 +89,19 @@ class AfficheurFormulaire {
 			return;
 		}
 		?>
-	
-		<div id="bloc_onglet">
-		<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
-					<a href='<?php echo $page_url ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_selected)?'class="onglet_on"':'' ?>>
+		
+		
+		<ul class="nav nav-pills" style="margin-top:10px;">
+			<?php foreach ($this->formulaire->getTab() as $page_num => $name) : ?>
+				<li <?php echo ($page_num == $tab_selected)?'class="active"':'' ?>>
+					<a href='<?php echo $page_url ?>&page=<?php echo $page_num?>'>
 					<?php echo $name?>
 					</a>
-		<?php endforeach;?>
-		</div>
+				</li>
+			<?php endforeach;?>
+		</ul>
+
+
 		
 	<?php 
 	}
@@ -327,19 +332,18 @@ class AfficheurFormulaire {
 		<?php endif;?>
 		
 		<?php if ($page_number > 0 ): ?>
-				<!--<input type='submit' name='precedent' value='« Précédent' class='send_button'/>-->
-				<button type='submit' name='precedent' class='btn'><i class='icon-circle-arrow-left'></i>Précédent</button>
+			
+			<input type='submit' name='precedent' class='btn' value='« Précédent' />
+			
 		<?php endif; ?>
-		
-			<button type='submit' name='enregistrer' class='btn'><i class='icon-ok'></i>Enregistrer</button>
+			
+			<input type='submit' name='enregistrer' class='btn' value='Enregistrer' />
 			
 		<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
-		
-			<button type='submit' name='suivant' class='btn'>Suivant&nbsp;<i class='icon-circle-arrow-right'></i></button>
 			
-			
-			
-		<?php endif; ?>
+			<input type='submit' name='suivant' class='btn' value='Suivant »' />
+
+			<?php endif; ?>
 		</form>
 	<?php }
 	

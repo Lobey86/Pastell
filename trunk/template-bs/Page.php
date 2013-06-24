@@ -94,19 +94,20 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 				</div>
 			<?php endif; ?> 
 				
-			<div id="breadcrumb">
-				<img src="img_lbi/commun/puce_geographie.png" alt="" class="absmiddle" />
+
+			
+			<ul class="breadcrumb">
 				<?php if (! $breadcrumbs) : ?>
-					Bienvenue
+					<li class="active">Bienvenue</li>
 				<?php else:?>
 					<?php foreach( $breadcrumbs as $libelle) : ?>
-						&gt;&nbsp;<?php echo $libelle?>&nbsp;
+						<li><a href="#"><?php echo $libelle?></a> <span class="divider">/</span></li>
 					<?php endforeach;?>
 				<?php endif;?>
-			</div>
+			</ul>
 		
 		
-			<div id="main" class="clearfix">	
+			<div id="main">	
 				<?php if ($authentification->isConnected() ) : ?>
 					<div id="main_gauche">
 						
