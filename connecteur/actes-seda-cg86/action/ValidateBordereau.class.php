@@ -1,6 +1,6 @@
 <?php 
 
-class TestBordereau extends ActionExecutor {
+class ValidateBordereau extends ActionExecutor {
 	
 	public function go(){
 		$archivesSEDA = $this->getMyConnecteur();
@@ -22,7 +22,7 @@ class TestBordereau extends ActionExecutor {
 				__DIR__.'/../fixtures/vide.pdf',
 				__DIR__.'/../fixtures/vide.pdf',
 				__DIR__.'/../fixtures/vide.pdf',
-				__DIR__.'/../ActesSEDACG86.class.php',
+				__DIR__.'/../fixtures/vide.pdf',
 				__DIR__.'/../fixtures/vide.pdf',
 				__DIR__.'/../fixtures/vide.pdf',
 				__DIR__.'/../fixtures/vide.pdf',
@@ -34,31 +34,24 @@ class TestBordereau extends ActionExecutor {
 		);
 		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);	
-		header("Content-type: text/xml");
-		header("Content-disposition: inline; filename=bordereau.xml");
-		echo $bordereau;
-		exit;
-	}
-	
-	public function validateBordereau($bordereau){		
+		
 		libxml_use_internal_errors(true);
 		$dom = new DOMDocument();
 		$dom->loadXML($bordereau);
-		
 		$err=  $dom->schemaValidate(__DIR__."/../xsd/seda/archives_echanges_v0-2_archivetransfer.xsd");
-		$this->lastError = libxml_get_errors();
-		return $err;
-	}
-	
-	public function getLastError(){
-		$msg = "<ul>";
-		foreach($this->lastError as $err){
-			$msg .= "<li>[Erreur #{$err->code}] ".$err->message."</li>";
+		if (!$err){
+			$last_error = libxml_get_errors();
+			$msg = '';
+			foreach($last_error as $err){
+				$msg .= "[Erreur #{$err->code}] ".$err->message."\n";
+			}
+			
+			throw new Exception($msg);
 		}
-		return $msg."</ul>";
+		
+		$this->setLastMessage("Bordereau valide");
+		return true;
 	}
-	
-	
 	
 	
 }

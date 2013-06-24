@@ -13,7 +13,7 @@ class ActesSEDACG86  extends Connecteur {
 				"identifiant_versant" =>  $seda_config->get("identifiant_versant"),
 				"identifiant_archive" =>  $seda_config->get("identifiant_archive"),
 				"sae_numero_aggrement" =>  $seda_config->get("numero_agrement"),
-				"originating_agency" =>  $seda_config->get("originating_agency"),
+				"identifiant_producteur" =>  $seda_config->get("identifiant_producteur"),
 				"nom_entite" =>   $seda_config->get('nom_entite'),
 				"siren_entite" =>  $seda_config->get('siren_entite'),
 		);
@@ -307,7 +307,7 @@ class ActesSEDACG86  extends Connecteur {
 		$xml_string =  $archiveTransfer->asXML();
 		$xml_string = str_replace("####SAE_ID_VERSANT####", $this->authorityInfo['identifiant_versant'], $xml_string);
 		$xml_string = str_replace("####SAE_ID_ARCHIVE####", $this->authorityInfo['identifiant_archive'], $xml_string);
-		$xml_string = str_replace("####SAE_ORIGINATING_AGENCY####", $this->authorityInfo['originating_agency'], $xml_string);
+		$xml_string = str_replace("####SAE_ORIGINATING_AGENCY####", $this->authorityInfo['identifiant_producteur'], $xml_string);
 		$xml_string = str_replace("&#039;", "'", $xml_string);
 		return $xml_string;
 	}
