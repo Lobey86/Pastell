@@ -101,7 +101,7 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 					<li class="active">Bienvenue</li>
 				<?php else:?>
 					<?php foreach( $breadcrumbs as $libelle) : ?>
-						<li><a href="#"><?php echo $libelle?></a> <span class="divider">/</span></li>
+						<li><?php echo $libelle?> <span class="divider">/</span></li>
 					<?php endforeach;?>
 				<?php endif;?>
 			</ul>
