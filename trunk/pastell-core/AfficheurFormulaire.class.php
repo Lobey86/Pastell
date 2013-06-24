@@ -54,6 +54,9 @@ class AfficheurFormulaire {
 	public function isReadOnly($field_name){
 		
 		$field = $this->formulaire->getField($field_name);
+		if (!$field){
+			return false;
+		}
 		
 		$read_only_content = $field->getProperties('read-only-content') ;
 		if (!$read_only_content){
@@ -212,6 +215,25 @@ class AfficheurFormulaire {
 							<?php endforeach;?>
 							<?php endif;?>
 					<?php elseif(($field->getType() == 'select') && ! $field->getProperties('read-only')) : ?>
+					
+						<?php if ($field->getProperties('depend') && $this->donneesFormulaire->get($field->getProperties('depend'))) : 
+						
+						?>
+							<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?>
+
+									<br/>
+									<?php echo $file ?>  <select name='<?php echo $field->getName()."_$i";?>' <?php echo $this->isEditable($field->getName()."_$i")?:"disabled='disabled'" ?>>
+							<option value=''>...</option>
+							<?php foreach($field->getSelect() as $value => $name) : ?>
+								<option <?php 
+									if ($this->donneesFormulaire->geth($field->getName()."_$i") == $value){
+										echo "selected='selected'";
+									}
+								?> value='<?php echo $value ?>'><?php echo $name ?></option>
+							<?php endforeach;?>
+						</select>
+							<?php endforeach;?>
+					<?php else :?>
 						<select name='<?php echo $field->getName()?>' <?php echo $this->isEditable($field->getName())?:"disabled='disabled'" ?>>
 							<option value=''>...</option>
 							<?php foreach($field->getSelect() as $value => $name) : ?>
@@ -222,6 +244,7 @@ class AfficheurFormulaire {
 								?> value='<?php echo $value ?>'><?php echo $name ?></option>
 							<?php endforeach;?>
 						</select>
+					<?php endif;?>
 					<?php elseif ($field->getType() == 'externalData') :?>
 						<?php if ($this->isEditable($field->getName())) : ?>
 							<?php if($id_ce) : ?>
@@ -382,12 +405,24 @@ class AfficheurFormulaire {
 								<?php endforeach;?>
 							<?php endif;?>
 						<?php elseif($field->getType() == 'select') : ?>
-							<?php 
+							<?php if ($field->getProperties('depend') && $this->donneesFormulaire->get($field->getProperties('depend'))) : ?>
+								<?php foreach($this->donneesFormulaire->get($field->getProperties('depend')) as $i => $file) :  ?> 
+											<?php echo $file ?> :
+											<?php  
+											$select = $field->getSelect();
+											if (isset($select[$this->donneesFormulaire->geth($field->getName()."_$i")])) {
+												echo $select[$this->donneesFormulaire->geth($field->getName()."_$i")];
+											}
+											?>
+											<br/>
+									<?php endforeach;?>
+								<?php else: ?>
+								<?php 
 								$select = $field->getSelect();
 								if (isset($select[$this->donneesFormulaire->geth($field->getName())])) {
 									echo $select[$this->donneesFormulaire->geth($field->getName())];
-								}
-							?>
+								}?>
+								<?php endif ?>
 						<?php elseif ($field->getType() == 'password') : ?>
 							<?php 
 								if ($field->getProperties('may_be_null') && (! $this->donneesFormulaire->geth($field->getName()))){
