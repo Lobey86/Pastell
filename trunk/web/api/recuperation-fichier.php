@@ -1,8 +1,7 @@
 <?php
 require_once("init-api.php");
 
-
-$recuperateur = new Recuperateur($_GET);
+$recuperateur = new Recuperateur($_REQUEST);
 $id_d = $recuperateur->get('id_d');
 $id_e = $recuperateur->get('id_e');
 $field = $recuperateur->get('field');
@@ -10,10 +9,10 @@ $num = $recuperateur->getInt('num');
 
 $document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
+
 if ( ! $roleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e)) {
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, type={$info['type']},id_u=$id_u");
 }
-
 
 
 $document = $objectInstancier->Document;
@@ -27,9 +26,8 @@ $file_name_array = $donneesFormulaire->get($field);
 $file_name= $file_name_array[$num];
 
 if (! file_exists($file_path)){
-	$lastError->setLastError("Ce fichier n'existe pas");
-	header("Location: index.php");
-	exit;
+	$JSONoutput->displayErrorAndExit("Ce fichier n'existe pas");
+	
 }
 
 $utilisateur = new Utilisateur($sqlQuery);

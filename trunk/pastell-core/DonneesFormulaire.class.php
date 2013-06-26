@@ -86,7 +86,7 @@ class DonneesFormulaire {
 			}
 			if ( $type == 'file'){
 				$this->saveFile($field,$fileUploader);
-			} elseif($field->getProperties('depend')) {
+			} elseif($field->getProperties('depend') && is_array($this->get($field->getProperties('depend')))) {
 				foreach($this->get($field->getProperties('depend')) as $i => $file){
 					if (empty($this->info[$field->getName()."_$i"])){
 						$this->info[$field->getName()."_$i"] = false;
@@ -235,6 +235,18 @@ class DonneesFormulaire {
 				$this->isModified = true;
 				if ($allField[$field_name]->getOnChange()){
 					$this->onChangeAction[] = $allField[$field_name]->getOnChange();
+				}
+			}
+		}
+
+		foreach($allField as $field_name=>$field){
+			if($field->getProperties('depend') && 
+				is_array($this->get($field->getProperties('depend')))) {
+				foreach($this->get($field->getProperties('depend')) as $i => $file){
+					if (isset($input_field[$field_name."_$i"])){
+						$this->setInfo2($field_name."_$i",$input_field[$field_name."_$i"]);
+						$this->isModified = true;
+					}
 				}
 			}
 		}
