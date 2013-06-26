@@ -22,14 +22,15 @@ class ActesSEDACG86  extends Connecteur {
 	}
 	
 	private function getInfoARActes($file_path){
+		$file_name = basename($file_path);
 		@ $xml = simplexml_load_file($file_path);
 		if ($xml === false){
-			throw new Exception("Le fichier AR actes n'est pas exploitable");
+			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
 		}
 		$namespaces = $xml->getNameSpaces(true);
 		$attr = $xml->attributes($namespaces['actes']);
 		if (!$attr){
-			throw new Exception("Le fichier AR actes n'est pas exploitable");
+			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
 		}
 		return array('DateReception' => $attr['DateReception'],'IDActe'=>$attr['IDActe']);
 	}
@@ -62,11 +63,15 @@ class ActesSEDACG86  extends Connecteur {
 		
 		if ($transactionsInfo['echange_prefecture_ar']){
 			foreach($transactionsInfo['echange_prefecture_ar'] as $echange_ar){
-				if (! $echange_ar){
+				if (! $echange_ar || basename($echange_ar) == 'empty'){
 					continue;
 				}
-				$info = $this->getInfoARActes($echange_ar);
-				$date = max($date,$info['DateReception']);
+				try {
+					$info = $this->getInfoARActes($echange_ar);
+					$date = max($date,$info['DateReception']);
+				} catch(Exception $e){
+					
+				}
 			}
 		}
 		
@@ -129,6 +134,9 @@ class ActesSEDACG86  extends Connecteur {
 		
 		foreach($transactionsInfo['echange_prefecture_ar'] as $echange_prefecture_ar){
 			if (! $echange_prefecture_ar){
+				continue;
+			}
+			if (basename($echange_prefecture_ar) == 'empty'){
 				continue;
 			}
 			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture_ar);
@@ -259,7 +267,7 @@ class ActesSEDACG86  extends Connecteur {
 	
 			$nb_contains_contains  = 1 ;
 			
-			if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange])){
+			if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange]) && (basename($transactionsInfo['echange_prefecture_ar'][$num_echange]) != 'empty')){
 					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
 						= $this->getDL("Contains",$this->getARName($type));
 					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document 
@@ -292,7 +300,7 @@ class ActesSEDACG86  extends Connecteur {
 		
 					$num_echange++;
 				}
-				if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange_ar])){
+				if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]) && (basename($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]) != 'empty')){
 						$nb_contains_contains++;
 						$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
 							= $this->getDL("Contains",$this->getARRecuType($reponse_type));
