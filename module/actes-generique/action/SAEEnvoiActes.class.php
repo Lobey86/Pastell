@@ -48,13 +48,12 @@ class SAEEnvoiActes extends ActionExecutor {
 		$actesSEDA = $this->getConnecteur('Bordereau SEDA');
 		$bordereau = $actesSEDA->getBordereau($transactionsInfo);
 		
-		header("Content-type: text/xml");
-		header("Content-disposition: inline; filename=bordereau.xml");
-		
+				
 		$sae = $this->getConnecteur('SAE');
 		$archive_path = $sae->generateArchive($bordereau,$tmp_folder);
 		
 		$result = $sae->sendArchive($bordereau,$archive_path);
+		
 		$this->objectInstancier->TmpFolder->delete($tmp_folder);
 		
 		if (! $result){

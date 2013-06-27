@@ -1,5 +1,5 @@
 <?php
-class Asalae extends Connecteur {
+class Asalae extends SAEConnecteur {
 	
 	private $WDSL;
 	private $login;
@@ -16,22 +16,6 @@ class Asalae extends Connecteur {
 	public function getLastErrorCode(){
 		return $this->lastErrorCode;
 	}
-	
-	public function generateArchive($bordereau,$tmp_folder){
-		$xml = simplexml_load_string($bordereau);
-		foreach($xml->Integrity as $file){
-			$file_to_add[] = strval($file->UnitIdentifier);
-		}
-		$fileName = uniqid()."_archive.tar.gz";
-		$command = "tar cvzf $tmp_folder/$fileName --directory $tmp_folder " . implode(" ",$file_to_add);
-		$status = exec($command );
-		if (! $status){
-			$this->lastError = "Impossible de créer le fichier d'archive $fileName";
-			return false;
-		}
-		return $tmp_folder."/$fileName";
-	}	
-	
 	
 	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
 		$client = new SoapClient($this->WSDL);
