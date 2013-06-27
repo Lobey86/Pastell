@@ -26,7 +26,11 @@ class MnesysSAE extends SAEConnecteur {
 		$curlWrapper->addPostFile('name_xml', "/tmp/bordereau_seda.xml");
 		$curlWrapper->addPostFile('name_zip', $archivePath);
 		$result = $curlWrapper->get($this->url);
-		return $result;
+		if ($result == "000"){
+			return "ok";
+		}
+		throw new Exception("Réponse de Mnesys non documenté");
+		
 	}
 	
 	public function getAcuseReception($id_transfert){
