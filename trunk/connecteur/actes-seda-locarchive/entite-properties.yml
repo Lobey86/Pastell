@@ -1,0 +1,117 @@
+name: ActesSEDAlocarchive
+
+type: Bordereau SEDA
+
+formulaire:
+	page0:
+		transferring_agency_description: 
+			name: Libellé du service versant
+			requis: true
+			
+		transferring_agency_identification:
+			name: Identifiant unique du service versant 
+			commentaire: identifiant Mnesys Archives
+			
+		transferring_agency_person_name:
+			name: Nom de la personne référente (service versant)
+			requis: true
+			
+		transferring_agency_responsability:
+			name: Poste de la personne référente (service versant)
+		
+		transferring_agency_building_number: 
+			name: Numéro de la rue (adresse service versant)
+		
+		transferring_agency_street_name:
+			name: Nom de la rue (adresse service versant)
+		
+		transferring_agency_city_name:
+			name : Ville (adresse service versant)
+			
+		transferring_agency_country:
+			name: Pays (adresse service versant)
+			commentaire: sur deux lettres (exemple FR pour France)
+		
+		transferring_agency_postcode:
+			name: Code postal (adresse service versant)
+		 
+		archival_agency_description: 
+			name: Nom du service d'archives
+			requis: true
+			commentaire: identifiant Mnesys Archives
+			
+		archival_agency_identification:
+			name: Identifiant des fichiers xml du service d'archives
+			
+			
+		archival_agency_person_name:
+			name: Nom de la personne référente (service d'archive)
+			requis: true
+			
+		archival_agency_responsability:
+			name: Poste de la personne référente (service d'archive)
+		
+		archival_agency_building_number: 
+			name: Numéro de la rue (adresse service d'archive)
+		
+		archival_agency_street_name:
+			name: Nom de la rue (adresse service d'archive)
+		
+		archival_agency_city_name:
+			name : Ville (adresse service d'archive)
+			
+		archival_agency_country:
+			name: Pays (adresse service d'archive)
+			commentaire: sur deux lettres (exemple FR pour France)
+		
+		archival_agency_postcode:
+			name: Code postal (adresse service d'archive)
+		
+		archival_agency_archive_identifier:
+			name: Identifiant Archives du versement
+		
+		archival_agreement:
+			name: identifiant du tableau de gestion, fin de l'url destinataire
+			commentaire: identifiant Mnesys Archives
+		
+		archival_profil:
+			name: Nom du tableau de gestion
+		
+		
+		originating_agency_description: 
+			name: Libellé du service producteur
+			requis: true
+			
+		originating_agency_identification:
+			name: Identifiant unique du service producteur 
+			commentaire: identifiant Mnesys Archives
+			
+		originating_agency_person_name:
+			name: Nom de la personne référente (service producteur)
+			requis: true
+			
+		originating_agency_responsability:
+			name: Poste de la personne référente (service producteur)
+		
+		originating_agency_building_number: 
+			name: Numéro de la rue (adresse service producteur)
+		
+		originating_agency_street_name:
+			name: Nom de la rue (adresse service producteur)
+		
+		originating_agency_city_name:
+			name : Ville (adresse service producteur)
+			
+		originating_agency_country:
+			name: Pays (adresse service producteur)
+			commentaire: sur deux lettres (exemple FR pour France)
+		
+		originating_agency_postcode:
+			name: Code postal (adresse service producteur)
+		
+		
+	
+action:	
+	test-bordereau :
+		name: Générer un bordereau de test
+		action-class: TestBordereau
