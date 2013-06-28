@@ -139,6 +139,8 @@ formulaire:
 			commentaire: Accusé de réception (XML) envoyé par la préfecture
 			
 	SAE:
+		sae_transfert_id:
+			name: Identifiant du transfert
 		ar_sae: {type: file, name: Accusé de réception SAE}
 		reply_sae: {type: file, name: Réponse du SAE}
 		url_archive: {name: URL sur le système d'archive, type: url}

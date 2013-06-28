@@ -6,7 +6,7 @@ class SAEValidation extends ActionExecutor {
 		$sae = $this->getConnecteur('SAE');
 		$sae_config = $this->getConnecteurConfigByType('SAE');
 
-		$id_transfert = $this->getDonneesFormulaire()->get('numero_de_lacte');
+		$id_transfert = $this->getDonneesFormulaire()->get('sae_transfert_id');
 	
 		$validation = $sae->getReply($id_transfert);
 		
