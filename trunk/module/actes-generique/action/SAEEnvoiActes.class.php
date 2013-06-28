@@ -52,6 +52,8 @@ class SAEEnvoiActes extends ActionExecutor {
 		$sae = $this->getConnecteur('SAE');
 		$archive_path = $sae->generateArchive($bordereau,$tmp_folder);
 		
+		$transferId = $sae->getTransferId($bordereau);
+		
 		$result = $sae->sendArchive($bordereau,$archive_path);
 		
 		$this->objectInstancier->TmpFolder->delete($tmp_folder);
@@ -61,6 +63,7 @@ class SAEEnvoiActes extends ActionExecutor {
 			return false;
 		} 
 		
+		$donneesFormulaire->setData("sae_transfert_id",$transferId);
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au SAE");
 		
 		$this->setLastMessage("La transaction à été envoyé au SAE ");
