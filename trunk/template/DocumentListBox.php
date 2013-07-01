@@ -1,36 +1,11 @@
-<?php
-
-//TODO : a mettre dans template
-class DocumentListAfficheur {
-	
-	private $documentTypeFactory;
-	
-	public function __construct(DocumentTypeFactory $documentTypeFactory){
-		$this->documentTypeFactory = $documentTypeFactory;
-	}
-
-	private function getAllType(array $listDocument){
-		$type = array();
-		foreach($listDocument as $doc){
-			$type[$doc['type']] = $doc['type'];
-			
-		}
-		return array_keys($type);
-	}
-	
-	public function affiche(array $listDocument,$my_id_e) {
-	
-		$type = $this->getAllType($listDocument);
-
-		?>
-			<div class="box">
+			<div class="box_contenu clearfix">
 		
-			<h2>Documents <?php if (count($type) == 1) 
-									echo  	$this->documentTypeFactory->getFluxDocumentType($type[0])->getName() ?> </h2>
-				<table class="table table-striped">
+			<h2>Documents <?php if (count($type_list) == 1) 
+									echo  	$this->DocumentTypeFactory->getFluxDocumentType($type_list[0])->getName() ?> </h2>
+				<table class="tab_01">
 				<tr>
 					<th class='w140'>Objet</th>
-					<?php if (count($type) > 1 ): ?>
+					<?php if (count($type_list) > 1 ): ?>
 						<th>Type</th>
 					<?php endif;?>
 					<th>Entité</th>
@@ -46,7 +21,8 @@ class DocumentListAfficheur {
 				$action = $documentType->getAction();
 				
 			?>
-				<tr>
+				<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
+
 				
 					<td>
 						<?php 
@@ -60,7 +36,7 @@ class DocumentListAfficheur {
 									
 								<input type='hidden' name='action' value='<?php echo $action->getProperties($document['last_action'],'accuse_de_reception_action') ?>' />
 									
-								<input type='submit' class='btn' value='Envoyer un accusé de réception'/>
+								<input type='submit' value='Envoyer un accusé de réception'/>
 							</form>
 						<?php else :?>
 	
@@ -69,7 +45,7 @@ class DocumentListAfficheur {
 						</a>			
 						<?php endif;?>
 					</td>
-					<?php if (count($type) > 1 ): ?>
+					<?php if (count($type_list) > 1 ): ?>
 						<td><?php echo  $documentType->getName()?></td>
 					<?php endif;?>
 					<td>
@@ -93,6 +69,3 @@ class DocumentListAfficheur {
 			<?php endforeach;?>
 			</table>
 		</div>
-		<?php 
-	}
-}

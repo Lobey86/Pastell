@@ -10,7 +10,7 @@
 <?php
 
 	$this->SuivantPrecedent($offset,$limit,$count,"document/index.php?id_e=$id_e&search=$search");
-	$documentListAfficheur->affiche($listDocument,$id_e);
+	$this->render("DocumentListBox");
 
 }
 
@@ -22,3 +22,5 @@
 <a href='journal/index.php?id_e=<?php echo $id_e?>'>Voir le journal des évènements</a>
 <br/><br/>
 <?php endif; ?>
+
+
