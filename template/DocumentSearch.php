@@ -120,8 +120,9 @@ if ($go = 'go'){
 	$count = $documentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso);
 	if ($count) {
 		$this->SuivantPrecedent($offset,$limit,$count,"document/search.php?$url");
-		$documentListAfficheur = new DocumentListAfficheur($documentTypeFactory);
-		$documentListAfficheur->affiche($listDocument,$id_e);
+		$this->render("DocumentListBox");
+		
+		
 		?>
 			<a href='document/search-export.php?<?php echo $url?>'>Exporter les informations (CSV)</a>
 			<br/><br/>

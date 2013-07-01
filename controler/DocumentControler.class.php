@@ -207,6 +207,7 @@ class DocumentControler extends PastellControler {
 		if ($id_e){						
 			$this->listDocument = $this->DocumentActionEntite->getListDocumentByEntite($id_e,$liste_type,$offset,$limit,$search);
 			$this->count = $this->DocumentActionEntite->getNbDocumentByEntite($id_e,$liste_type,$search);
+			$this->type_list = $this->getAllType($this->listDocument);
 		}
 		
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
@@ -214,12 +215,21 @@ class DocumentControler extends PastellControler {
 		$this->search = $search;
 		$this->offset = $offset;
 		$this->limit = $limit;
-		$this->documentListAfficheur = $this->DocumentListAfficheur;
+		
 		
 		$this->setNavigationInfo($id_e,"document/index.php?a=a");
 		$this->page_title= "Liste des documents " . $this->infoEntite['denomination'] ;
 		$this->template_milieu = "DocumentIndex"; 
 		$this->renderDefault();
+	}
+	
+	private function getAllType(array $listDocument){
+		$type = array();
+		foreach($listDocument as $doc){
+			$type[$doc['type']] = $doc['type'];
+			
+		}
+		return array_keys($type);
 	}
 
 	public function listAction(){
@@ -281,7 +291,12 @@ class DocumentControler extends PastellControler {
 		$this->type = $type;
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		$this->setNavigationInfo($id_e,"document/list.php?type=$type");
-				
+		
+		$this->listDocument = $this->DocumentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search,$filtre ) ;
+		$this->type_list = $this->getAllType($this->listDocument);
+		
+		
+		
 		$this->template_milieu = "DocumentList"; 
 		$this->renderDefault();
 	}
@@ -314,6 +329,8 @@ class DocumentControler extends PastellControler {
 		
 		$this->documentActionEntite = $this->DocumentActionEntite;
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
+		$this->listDocument = $this->DocumentActionEntite->getListDocument($this->id_e , $this->type , $this->offset, $this->limit,$this->search ) ;
+		$this->type_list = $this->getAllType($this->listDocument);
 		
 		$this->page_title= "Recherche avancée de document";
 		$this->template_milieu = "DocumentSearch"; 

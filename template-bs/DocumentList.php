@@ -30,17 +30,12 @@ if ($id_e != 0) {
 	if ($last_id){
 		$offset = $documentActionEntite->getOffset($last_id,$id_e,$type,$limit);
 	}
-
-	$listDocument = $documentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search,$filtre ) ;
-	
 	
 	$count = $documentActionEntite->getNbDocument($id_e,$type,$search,$filtre);
 	
 	$this->SuivantPrecedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type&search=$search");
 
-	$documentListAfficheur = new DocumentListAfficheur($documentTypeFactory);
-	
-	$documentListAfficheur->affiche($listDocument,$id_e);
+	$this->render("DocumentListBox");
 	
 
 }
