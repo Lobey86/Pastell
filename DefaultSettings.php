@@ -80,3 +80,9 @@ if (!defined("TEMPLATE_PATH")){
 	define("TEMPLATE_PATH",__DIR__."/template-bs/");
 }
 
+if (!defined("TIMEZONE")){
+	define("TIMEZONE","Europe/Paris");
+}
+
+date_default_timezone_set(TIMEZONE);
+
