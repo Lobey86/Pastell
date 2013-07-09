@@ -235,7 +235,7 @@ class IParapheur extends Connecteur {
 		return $this->sendDocument("Actes","Deliberation",$dossierID,$document,"application/pdf");
 	}
 	
-	private function getClient(){
+	protected function getClient(){
 		static $client;
 		if ($client) {
 			return $client;
