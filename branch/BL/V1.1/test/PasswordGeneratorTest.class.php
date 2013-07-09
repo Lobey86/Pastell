@@ -11,9 +11,9 @@ class PasswordGeneratorTest extends UnitTestCase {
 	}
 
 	public function testSetPasswordLength(){
-		$passwordGenerator = new PasswordGenerator(2);
+		$passwordGenerator = new PasswordGenerator();
 		$password = $passwordGenerator->getPassword();
-		$this->assertEqual(2,strlen($password));	
+		$this->assertEqual(PasswordGenerator::NB_SIGNE_DEFAULT,strlen($password));	
 	}
 	
 	public function testSetSignePassword(){
