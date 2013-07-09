@@ -19,18 +19,18 @@ class ActionExecutorFactory {
 		return $this->lastMessage;
 	}
 	
-	public function executeOnConnecteur($id_ce,$id_u,$action_name){
+	public function executeOnConnecteur($id_ce,$id_u,$action_name, $from_api=false, $action_params=array()){
 		try {
-			return $this->executeOnConnecteurThrow($id_ce,$id_u,$action_name);
+			return $this->executeOnConnecteurThrow($id_ce,$id_u,$action_name, $from_api, $action_params);
 		} catch(Exception $e){
 			$this->lastMessage = $e->getMessage();
 			return false;	
 		}
 	}
 
-	public function executeOnDocument($id_e,$id_u,$id_d,$action_name,$id_destinataire=array(),$from_api = false){
+	public function executeOnDocument($id_e,$id_u,$id_d,$action_name,$id_destinataire=array(),$from_api = false, $action_params=array()){
 		try {		
-			return $this->executeOnDocumentThrow($id_d, $id_e, $id_u,$action_name,$id_destinataire,$from_api);
+			return $this->executeOnDocumentThrow($id_d, $id_e, $id_u,$action_name,$id_destinataire,$from_api, $action_params);
 		} catch (Exception $e){
 			$this->lastMessage = $e->getMessage();
 			return false;	
@@ -139,7 +139,7 @@ class ActionExecutorFactory {
 	}
 	
 	
-	private function executeOnDocumentThrow($id_d,$id_e,$id_u,$action_name,$id_destinataire,$from_api){
+	public function executeOnDocumentThrow($id_d,$id_e,$id_u,$action_name,$id_destinataire,$from_api, $action_params){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);
 		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($infoDocument['type']);
 		
@@ -149,13 +149,14 @@ class ActionExecutorFactory {
 		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
 		$actionClass->setDocumentId($infoDocument['type'], $id_d);
 		$actionClass->setDestinataireId($id_destinataire);
+                $actionClass->setActionParams($action_params);
 		$actionClass->setFromAPI($from_api);
-		$result = $actionClass->go();		
+		$result = $actionClass->go();
 		$this->lastMessage = $actionClass->getLastMessage();		
 		return $result;						
 	}
 	
-	private function executeOnConnecteurThrow($id_ce,$id_u,$action_name){
+	private function executeOnConnecteurThrow($id_ce,$id_u,$action_name, $from_api=false, $action_params=array()){
 		$connecteur_entite_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
 		if ($connecteur_entite_info['id_e']){				
 			$documentType = $this->objectInstancier->documentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur']);
@@ -167,7 +168,9 @@ class ActionExecutorFactory {
 		$action_class_file = $this->loadConnecteurActionFile($connecteur_entite_info['id_connecteur'],$action_class_name);
 		
 		$actionClass = $this->getInstance($action_class_name,$connecteur_entite_info['id_e'],$id_u,$action_name);
-		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);			
+		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);
+                $actionClass->setActionParams($action_params);
+                $actionClass->setFromAPI($from_api);
 		$result = $actionClass->go();		
 		$this->lastMessage = $actionClass->getLastMessage();		
 		return $result;		
