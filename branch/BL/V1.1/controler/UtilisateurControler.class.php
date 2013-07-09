@@ -214,13 +214,18 @@ class UtilisateurControler extends PastellControler {
 		$this->renderDefault();
 	}
 	
+        
+        // Prise en compte du paramètre $message dans l'affectation de l'erreur
+        // Correction "lastError"        
 	private function redirectEdition($id_e,$id_u,$message){
-		$lastError->setLastError("Le nom est obligatoire");
+		$this->LastError->setLastError($message);
 		$this->redirect("/utilisateur/edition.php?id_e=$id_e&id_u=$id_u");
 	}
 	
-	public function editionUtilisateur($id_e,$id_u,$email,$login,$password,$password2,$nom,$prenom,$role,$certificat_content){
-		$this->verifDroit($id_e, "utilisateur:edition");
+        
+        // Suppression du paramètre role inutilisé
+        // Suppression de la vérification des droits de l'utilisateur connecté, déplacée dans les methodes appelantes.        
+	public function editionUtilisateur($id_e,$id_u,$email,$login,$password,$password2,$nom,$prenom,$certificat_content){		
 		if (! $nom){
 			throw new Exception("Le nom est obligatoire");
 		}
@@ -234,7 +239,7 @@ class UtilisateurControler extends PastellControler {
 		}
 		
 		if ( $password && $password2 && ($password != $password2) ){
-			throw new Exception("Les mot de passes ne correspondent pas");
+			throw new Exception("Les mots de passe ne correspondent pas");
 		}
 		
 		if (! $id_u){
@@ -251,7 +256,8 @@ class UtilisateurControler extends PastellControler {
 		if ($certificat_content){
 			$certificat = new Certificat($certificat_content);
 			if ( ! $this->Utilisateur->setCertificat($id_u,$certificat)){
-				$this->redirectEdition($id_e,$id_u,"Le certificat n'est pas valide");
+                            // Remplacement de la redirection par une exception
+                            throw new Exception("Le certificat n'est pas valide");                            
 			} 
 		}
 		
@@ -297,7 +303,9 @@ class UtilisateurControler extends PastellControler {
 		$certificat_content = $this->FileUploader->getFileContent('certificat');
 		
 		try {
-			$id_u = $this->editionUtilisateur($id_e, $id_u, $email, $login, $password, $password2, $nom, $prenom, $role, $certificat_content);
+                        // Ajout de la vérification des droits de l'utilisateur connecté
+                        $this->verifDroit($id_e, "utilisateur:edition");
+			$id_u = $this->editionUtilisateur($id_e, $id_u, $email, $login, $password, $password2, $nom, $prenom, $certificat_content);
 		} catch (Exception $e){
 			$this->redirectEdition($id_e,$id_u,$e->getMessage());
 		}
