@@ -137,6 +137,10 @@ class DonneesFormulaire {
 				$modif[] = $filename;
 			}
 		}
+                // Enregistrement du nom des fichiers dans le document (yml) 
+                if ($this->isModified) {
+                    $this->saveDataFile();                
+                }
 	}
 	
 	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
@@ -230,7 +234,9 @@ class DonneesFormulaire {
 				$this->setInfo2($field_name,$value);
 				$this->isModified = true;
 				if ($allField[$field_name]->getOnChange()){
-					$this->onChangeAction[] = $field->getOnChange();
+                                        // Correction de code : $field(non initialisé) remplacé par $allField[$field_name]
+					$this->onChangeAction[] = $allField[$field_name]->getOnChange();
+
 				}
 			}
 		}
@@ -435,6 +441,8 @@ class DonneesFormulaire {
 		}
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
+                // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
+                $this->isModified=false;                
 	}
 	
 	public function sendFile($field_name,$num=0){
