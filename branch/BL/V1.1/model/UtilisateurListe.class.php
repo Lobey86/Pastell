@@ -101,7 +101,15 @@ class UtilisateurListe extends SQL {
 		}
 		return $all;
 	}
-
-	
+        
+        // AJout de cette méthode pour l'API qui liste les utilisateurs
+	public function getAllUtilisateurSimple($id_e = null){
+		$sql = "SELECT utilisateur.* FROM utilisateur"; 
+                if (isset($id_e)) {
+                    $sql .= " WHERE id_e = ?";
+                    return $this->query($sql, $id_e);
+                }                
+		return $this->query($sql);
+	}
 	
 }
