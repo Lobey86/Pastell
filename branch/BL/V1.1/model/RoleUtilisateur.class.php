@@ -24,7 +24,13 @@ class RoleUtilisateur extends SQL {
 		}
 		$this->query($sql,$id_u,$role,$id_e);
 	}
-	
+
+        // A Utiliser pour la purge d'un utilisateur.
+        public function removeAllRole($id_u) {		
+                $sql = "DELETE FROM utilisateur_role WHERE id_u = ?";
+		$this->query($sql,$id_u);
+	}
+        
 	public function hasDroit($id_u,$droit,$id_e){
 		$allDroit = $this->getAllDroitEntite($id_u,$id_e);
 		return in_array($droit,$allDroit);
@@ -94,9 +100,9 @@ class RoleUtilisateur extends SQL {
 		}
 		return $result;
 	}
-	
+	// Ajout du type dans la requete
 	public function getAllEntiteWithFille($id_u,$droit){
-		$sql = "SELECT entite.id_e,entite.denomination,entite.siren,entite.centre_de_gestion,entite.entite_mere FROM entite_ancetre " .
+		$sql = "SELECT entite.id_e,entite.denomination,entite.siren,entite.type,entite.centre_de_gestion,entite.entite_mere FROM entite_ancetre " .
 				" JOIN utilisateur_role ON entite_ancetre.id_e_ancetre = utilisateur_role.id_e ".
 				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
 				" JOIN entite ON entite_ancetre.id_e=entite.id_e ".
