@@ -3,9 +3,9 @@ require_once("init-api.php");
 
 $recuperateur = new Recuperateur($_REQUEST);
 // Récupération des paramètres de la requête. 
-$id_e_a_lire = $recuperateur->get('id_e');
+$id_e = $recuperateur->getInt('id_e');
+$id_fe = $recuperateur->getInt('id_fe');
 
-$api_json->detailEntite($id_e_a_lire);
-
+$api_json->deleteFluxConnecteur($id_e, $id_fe);
 
 ?>
