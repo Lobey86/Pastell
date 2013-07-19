@@ -652,7 +652,7 @@ class APIAction {
             } 
             
             foreach($donneesFormulaire->getOnChangeAction() as $action) {	
-                $resultAction = $this->objectInstancier->ActionExecutorFactory->executeOnConnecteur($id_ce,$this->objectInstancier->Authentification->getId(),true,$action);
+                $resultAction = $this->objectInstancier->ActionExecutorFactory->executeOnConnecteur($id_ce,$this->objectInstancier->Authentification->getId(),$action, true);
             }
             
             $result['result'] = "ok";
