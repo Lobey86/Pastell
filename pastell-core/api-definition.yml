@@ -62,6 +62,23 @@ function:
 						is_variable: true
 						is_multiple: true
 						comment: 'Couple clé/valeur de la propriété'
+
+	document-type-action:
+		description: Actions possible sur un type de document
+		soap: false
+		comment: ramène la liste des statuts/actions possibles sur ce type de document ainsi que des infos relatives à ce type de document 
+		input:
+			type:
+		output:
+			nom_du_champ:
+				is_variable: true
+				is_multiple: true
+				comment: Nom symbolique de l'action  
+				content:
+					propriete:
+						is_variable: true
+						is_multiple: true
+						comment: 'Couple clé/valeur de la propriété'
 						
 	list-entite: 
 		description: Listes des entités 
@@ -113,6 +130,65 @@ function:
 				is_multiple: true
 				comment: "Liste des identifiant (id_e) des autres entités qui ont des droits sur ce document."
 			
+
+	recherche-document:
+		description: Recherche multi-critère dans la liste des documents
+		soap: false
+		input: 
+			id_e:
+				comment: Identifiant de l'entité (retourné par list-entite)
+				required: false
+			type: 
+				required: false
+				comment: Type de document (retourné par document-type.php)
+			offset: 
+			
+			lastetat:
+				required: false
+				comment: Dernier état du document
+			last_state_begin: 
+				required: false
+				comment: date du passage au dernier état du document le plus ancien(date iso)
+			last_state_end:
+				required: false
+				comment: date du passage au dernier état du document le plus récent(date iso)
+			etatTransit:
+				required: false
+				comment: le document doit être passé dans cet état
+			state_begin:
+				required: false
+				comment: date d'entrée la plus ancienne de l'état etatTransit 
+			state_end:
+				required: false
+				comment: date d'entrée la plus récente de l'état etatTransit 
+			tri:
+				required: false
+				comment: critère de tri parmi last_action_date, title et entite
+			search:
+				required: false
+				comment: l'objet du document doit contenir la chaine indiquée
+			
+			
+		output:
+			id_e: 
+				comment: Identifiant numérique de l'entité
+			id_d:
+				comment: Identifiant unique du document
+			role: 
+				comment: "Rôle de l'entité sur le document (exemple : éditeur)"
+			last-action: 
+				comment: "Dernière action effectuée sur le document"
+			last_action_date: 
+				comment: "Date de la dernière action"
+			type:
+				comment: "Type de document (identique à l'entrée)"
+			creation:
+				comment: "Date de création du document"
+			modification:
+				comment: "Date de dernière modification du document"
+			entite:
+				is_multiple: true
+				comment: "Liste des identifiant (id_e) des autres entités qui ont des droits sur ce document."
 
 	detail-document: 
 		description: Détail sur un document
