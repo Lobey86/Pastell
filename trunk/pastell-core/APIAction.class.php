@@ -64,6 +64,17 @@ class APIAction {
 		return $result;
 	}
 	
+	public function documentTypeAction($type){
+		$this->setDefault($type,'');
+		if ( !  $this->objectInstancier->RoleUtilisateur->hasOneDroit($this->id_u,"$type:lecture")) {
+				throw new Exception("Acces interdit type=$type,id_u=$this->id_u");
+		}
+		
+		$documentType = $this->objectInstancier->documentTypeFactory->getFluxDocumentType($type);
+		return $documentType->getTabAction();
+	}
+	
+	
 	public function listEntite(){
 		return $this->objectInstancier->RoleUtilisateur->getAllEntiteWithFille($this->id_u,'entite:lecture');
 	}
@@ -75,6 +86,12 @@ class APIAction {
 		$this->setDefault($limit,100);
 		$this->verifDroit($id_e,"$type:lecture");
 		return $this->objectInstancier->DocumentActionEntite->getListDocument($id_e , $type , $offset, $limit) ;
+	}
+	
+	public function rechercheDocument(){
+		$this->objectInstancier->DocumentControler->searchDocument(true);
+		$list = $this->objectInstancier->DocumentControler->listDocument;
+		return $list;
 	}
 
 	public function detailDocument($id_e,$id_d){

@@ -301,16 +301,17 @@ class DocumentControler extends PastellControler {
 		$this->renderDefault();
 	}
 	
-	public function searchAction(){
-				
-		$recuperateur = new Recuperateur($_GET);
+	public function searchDocument($is_date_iso = false){
+		$recuperateur = new Recuperateur($_REQUEST);
 		$this->id_e = $recuperateur->get('id_e',0);
 		$this->type = $recuperateur->get('type');
 		$this->lastEtat = $recuperateur->get('lastetat');
 		$this->last_state_begin = $recuperateur->get('last_state_begin');
 		$this->last_state_end = $recuperateur->get('last_state_end');
-		$this->last_state_begin_iso = getDateIso($this->last_state_begin );
-		$this->last_state_end_iso = getDateIso($this->last_state_end);
+		if(! $is_date_iso){
+			$this->last_state_begin_iso = getDateIso($this->last_state_begin );
+			$this->last_state_end_iso = getDateIso($this->last_state_end);
+		}
 		
 		$this->etatTransit = $recuperateur->get('etatTransit');
 		$this->state_begin =  $recuperateur->get('state_begin');
@@ -331,7 +332,10 @@ class DocumentControler extends PastellControler {
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		$this->listDocument = $this->DocumentActionEntite->getListDocument($this->id_e , $this->type , $this->offset, $this->limit,$this->search ) ;
 		$this->type_list = $this->getAllType($this->listDocument);
-		
+	}
+	
+	public function searchAction(){				
+		$this->searchDocument();
 		$this->page_title= "Recherche avancée de document";
 		$this->template_milieu = "DocumentSearch"; 
 		$this->renderDefault();
