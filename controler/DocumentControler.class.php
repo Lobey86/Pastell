@@ -314,6 +314,8 @@ class DocumentControler extends PastellControler {
 		}
 		
 		$this->etatTransit = $recuperateur->get('etatTransit');
+		
+		
 		$this->state_begin =  $recuperateur->get('state_begin');
 		$this->state_end =  $recuperateur->get('state_end');
 		$this->tri =  $recuperateur->get('tri');
@@ -330,7 +332,11 @@ class DocumentControler extends PastellControler {
 		
 		$this->documentActionEntite = $this->DocumentActionEntite;
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
-		$this->listDocument = $this->DocumentActionEntite->getListDocument($this->id_e , $this->type , $this->offset, $this->limit,$this->search ) ;
+		
+		$this->my_id_e= $this->id_e;
+		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,$this->tri);	
+
+	
 		$this->type_list = $this->getAllType($this->listDocument);
 	}
 	
