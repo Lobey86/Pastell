@@ -67,7 +67,22 @@ class NotBuggySoapClient extends SoapClient {
 		if (isset($this->option['use_curl'])){
             $response = $this->doRequestWithCurl($request, $location, $action, $version);
         } else {
-            $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+            global $soapErrorException;
+            $soapErrorException = null;
+            $errorHandlerSave = set_error_handler('soapErrorHandler');
+            try {
+                $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+            } catch (Exception $ex) {
+                $this->doRequest_finally($errorHandlerSave);
+                $exEtCauses = soapErrorAdd($ex->getMessage());
+                throw new Exception($exEtCauses, $ex->getCode());
+            }
+            $this->doRequest_finally($errorHandlerSave);            
+            if (isset($this->__soap_fault) && ($this->__soap_fault != null)) {
+                //this is where the exception from __doRequest is stored 
+                $exEtCauses = soapErrorAdd($this->__soap_fault->getMessage());
+                throw new Exception($exEtCauses, $this->__soap_fault->getCode());
+            }
         }
 
 
@@ -78,6 +93,10 @@ class NotBuggySoapClient extends SoapClient {
         }
 
         return $response;
+    }
+
+    private function doRequest_finally($errorHandlerSave) {
+        restore_error_handler($errorHandlerSave);
     }
 
     public function doRequestWithCurl($request, $location, $action, $version)
