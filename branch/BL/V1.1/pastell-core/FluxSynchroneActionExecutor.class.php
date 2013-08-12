@@ -11,6 +11,8 @@ require_once(PASTELL_PATH . "/pastell-core/ActionExecutor.class.php");
  * - la distinction entre actions de workflow (pouvant modifier l'état) et 
  *   actions de recueil d'information (obtention sans modification)
  * - la redirection éventuelle
+ * Offre des méthodes déclenchables par les actions dérivées : 
+ * - émission de notification
  * Restent à la charge du fonctionnel :
  * - le traitement, accédant au(x) service(s)
  * - le calcul du résultat (prochain état, message, ...)
@@ -126,7 +128,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             if ($gofRedirect) {
                 $this->redirect($gofRedirect);
             }
-            
+
             return $goRet;
         } catch (ConnecteurActivationException $gofEx) {
             // Les erreurs dues à la désactivation "volontaire" ne sont considérées
@@ -164,7 +166,6 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             $messageLog = $ex->getMessage();
             $this->logAction($etat, $messageLog);
         }
-        //PBON P2 tracer aussi les ex causes dans le détail
         $messageDetail = array(
             'code' => $ex->getCode(),
             'file' => $ex->getFile(),
@@ -278,4 +279,42 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         }
         return false;
     }
+
+    /**
+     * Envoi un mail au destinataire
+     * @param string $email email du destinataire. <br>
+     *      Il n'est pas nécessairement abonné aux notifications.<br>
+     * @param string $action action enregistrée dans le journal des événements
+     * @param string $contenu contenu du message<br>
+     *      Si mentionne un script (se termine par .php), le contenu du message
+     *      sera le résultat de l'exécution de ce script
+     * @param array $contenuScriptInfo informations transmises au script de contenu <br>
+     *      Utilisé si le contenu se construit par script. C'est le script qui définit
+     *      les informations dont il a besoin.
+     *      Le tableau est associatif ! array('nomAttribut' => 'information', ...)
+     *      Certaines informations y sont renseignées par défaut :
+     *          'docObjet' => objet du document
+     * @param string $sujet sujet du mail. Si null ou vide, un sujet par défaut est utilisé.
+     * @param type $emetteurName Nom de l'émetteur du mail. Si null ou vide, seul l'email de la plateforme émettrice apparaîtra.
+     */
+    protected function mail($email, $action, $contenu, array $contenuScriptInfo = array(), $sujet = null, $emetteurName = null) {
+        $doc = $this->getDonneesFormulaire();
+        $docObjet = $doc->get('objet');
+        if (empty($sujet)) {
+            $sujet = "Votre dossier " . $docObjet;
+        }
+        $zenMail = $this->getZenMail();
+        $zenMail->setEmetteur($emetteurName, PLATEFORME_MAIL);
+        $zenMail->setDestinataire($email);
+        $zenMail->setSujet($sujet);
+        if (substr($contenu, -4) == '.php') {
+            $contenuScriptInfo['docObjet'] = $docObjet;
+            $zenMail->setContenu($contenu, $contenuScriptInfo);
+        } else {
+            $zenMail->setContenuText($contenu);
+        }
+        $zenMail->send();
+        $this->getJournal()->addSQL(Journal::DOCUMENT_ACTION, $this->id_e, $this->id_u, $this->id_d, $action, 'Notification envoyée à ' . $email);
+    }
+
 }
