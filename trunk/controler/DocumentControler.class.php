@@ -311,8 +311,12 @@ class DocumentControler extends PastellControler {
 		if(! $is_date_iso){
 			$this->last_state_begin_iso = getDateIso($this->last_state_begin );
 			$this->last_state_end_iso = getDateIso($this->last_state_end);
+		} else {
+			$this->last_state_begin_iso = false;
+			$this->last_state_end_iso = false;
 		}
 		
+	
 		$this->etatTransit = $recuperateur->get('etatTransit');
 		
 		
