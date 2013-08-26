@@ -1,6 +1,6 @@
 <?php
 
-class TedetisRecupHelios extends ActionExecutor {
+class TedetisRecupHeliosCG extends ActionExecutor {
 
 	public function go(){
 		

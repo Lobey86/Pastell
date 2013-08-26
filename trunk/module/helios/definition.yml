@@ -160,7 +160,7 @@ action:
 				send-tdt
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
-		action-class: TedetisRecupHelios
+		action-class: TedetisRecupHeliosCG
 	
 	
 	acquiter-tdt:
