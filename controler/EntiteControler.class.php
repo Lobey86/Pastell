@@ -17,6 +17,7 @@ class EntiteControler extends PastellControler {
 
 		$this->all_role = $all_role;
 		$this->droitEdition = $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"utilisateur:edition",$id_e);
+		
 		$this->nb_utilisateur = $this->UtilisateurListe->getNbUtilisateur($id_e,$descendance,$role,$search);
 		$this->liste_utilisateur = $this->UtilisateurListe->getAllUtilisateur($id_e,$descendance,$role,$search,$offset);
 		$this->id_e = $id_e;

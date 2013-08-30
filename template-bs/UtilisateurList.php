@@ -1,14 +1,11 @@
 <table style='width:100%;'>
 <tr>
 <td>
-<h2>Liste des utilisateurs</h2>
+<h2>Liste des utilisateurs <?php echo $role_selected?" - $role_selected":""?></h2>
 </td>
-<?php if ($this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"entite:edition",0)) : ?>
+<?php if ($droitEdition) : ?>
 <td class='align_right'>
-<?php if ($this->droitEdition) : ?>
 	<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn'>Nouveau</a>
-<?php endif;?>
-<?php echo $role_selected?" - $role_selected":""?>
 </td>
 <?php endif;?>
 </tr>

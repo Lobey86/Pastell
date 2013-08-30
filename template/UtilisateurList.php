@@ -1,5 +1,5 @@
 <h2>Liste des utilisateurs
-<?php if ($this->droitEdition) : ?>
+<?php if ($droitEdition) : ?>
 	<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn_add'>
 		Nouveau
 	</a>
