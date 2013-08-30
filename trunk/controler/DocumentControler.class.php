@@ -316,6 +316,7 @@ class DocumentControler extends PastellControler {
 			$this->last_state_end_iso = false;
 		}
 		
+		$this->verifDroit($this->id_e, "entite:lecture");
 	
 		$this->etatTransit = $recuperateur->get('etatTransit');
 		
@@ -340,7 +341,6 @@ class DocumentControler extends PastellControler {
 		$this->my_id_e= $this->id_e;
 		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,$this->tri);	
 
-	
 		$this->type_list = $this->getAllType($this->listDocument);
 	}
 	
