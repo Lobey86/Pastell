@@ -170,7 +170,6 @@ class UtilisateurControler extends PastellControler {
 			$this->LastError->setLastError("Vous n'avez pas le droit de lecture (".$info['id_e'].")");
 			$this->redirect();
 		}
-		
 		$this->utilisateur_edition = $this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:edition",$info['id_e']);
 		
 		if( $info['id_e'] ){

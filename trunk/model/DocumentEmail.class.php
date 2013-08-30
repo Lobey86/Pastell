@@ -70,7 +70,7 @@ class DocumentEmail extends SQL {
 		$action = $documentActionEntite->getLastAction($id_e,$result['id_d']);
 		
 		
-		$message_action = ($next_action == 'reception')?"Tous les destinataires ont consulté le message":"Un destinataire a consulter le message";
+		$message_action = ($next_action == 'reception')?"Tous les destinataires ont consulté le message":"Un destinataire a consulté le message";
 		if ($action != $next_action){
 			$actionCreator = new ActionCreator($this->sqlQuery,$journal,$result['id_d']);
 			$actionCreator->addAction($id_e,0,$next_action,$message_action);
