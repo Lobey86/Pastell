@@ -149,7 +149,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'helios:edition'
 				
-		action-class: TedetisEnvoieHelios
+		action-class: TedetisEnvoieHeliosCG
 		action-automatique: verif-tdt
 		
 	verif-tdt:
