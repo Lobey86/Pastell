@@ -525,6 +525,7 @@ action:
 					last-action:
 						erreur-envoie-sae
 		action-class: SAEEnvoiActes
+		action-automatique: verif-sae
 
 	erreur-envoie-sae:
 		name: Erreur lors de l'envoi au SAE

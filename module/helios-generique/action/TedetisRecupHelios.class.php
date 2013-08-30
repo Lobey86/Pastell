@@ -11,10 +11,9 @@ class TedetisRecupHelios extends ActionExecutor {
 		
 		$actionCreator = $this->getActionCreator();
 		if ( ! $tedetis_transaction_id){
-			$actionCreator->addAction($this->id_e,0,'tdt-error',"Une erreur est survenu lors de l'envoie à ".$tedetis->getLogicielName());
+			$actionCreator->addAction($this->id_e,0,'tdt-error',"Une erreur est survenu lors de l'envoie à ".$tdT->getLogicielName());
 			return false;
 		}
-			
 	
 		$status = $tdT->getStatusHelios($tedetis_transaction_id);
 		
