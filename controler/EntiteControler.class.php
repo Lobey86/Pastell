@@ -150,7 +150,7 @@ class EntiteControler extends PastellControler {
 				$this->infoMere = $this->EntiteSQL->getInfo($entite_mere);
 				$this->page_title = "Nouvelle fille pour " . $this->infoMere['denomination'];
 			} else {
-				$this->page_title = "Création d'une collectivité";
+				$this->page_title = "Création d'une entité";
 			} 
 		}
 		$this->infoEntite = $infoEntite;

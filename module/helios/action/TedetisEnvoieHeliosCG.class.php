@@ -1,6 +1,6 @@
 <?php
 
-class TedetisEnvoieHelios  extends ActionExecutor {
+class TedetisEnvoieHeliosCG  extends ActionExecutor {
 
 	public function go(){
 		$tdT = $this->getConnecteur("TdT"); 
