@@ -233,7 +233,6 @@ class DocumentControler extends PastellControler {
 	}
 
 	public function listAction(){
-		
 		$recuperateur = new Recuperateur($_GET);
 		$id_e = $recuperateur->get('id_e',0);
 		$offset = $recuperateur->getInt('offset',0);
@@ -296,7 +295,6 @@ class DocumentControler extends PastellControler {
 		$this->type_list = $this->getAllType($this->listDocument);
 		
 		
-		
 		$this->template_milieu = "DocumentList"; 
 		$this->renderDefault();
 	}
@@ -316,8 +314,14 @@ class DocumentControler extends PastellControler {
 			$this->last_state_end_iso = false;
 		}
 		
+		if ( ! $this->id_e ){
+			$this->LastError->setLastError("id_e est obligatoire");
+			$this->redirect("");
+		}
 		$this->verifDroit($this->id_e, "entite:lecture");
-	
+		
+		$this->allDroitEntite = $this->RoleUtilisateur->getAllDocumentLecture($this->getId_u(),$this->id_e);
+		
 		$this->etatTransit = $recuperateur->get('etatTransit');
 		
 		
@@ -339,7 +343,7 @@ class DocumentControler extends PastellControler {
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		
 		$this->my_id_e= $this->id_e;
-		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,$this->tri);	
+		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,$this->tri,$this->allDroitEntite);	
 
 		$this->type_list = $this->getAllType($this->listDocument);
 	}

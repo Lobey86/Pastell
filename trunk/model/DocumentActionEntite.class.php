@@ -155,15 +155,15 @@ class DocumentActionEntite extends SQL {
 	}
 	
 	
-	public function getNbDocumentBySearch($id_e,$type,$search,$state,$last_state_begin,$last_state_end){
+	public function getNbDocumentBySearch($id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite){
 		$col = "count(*) as nb";
 		$order = "";	
-		$result = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end);
+		$result = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite);
 		return $result[0]['nb'];
 		
 	}
 	
-	public function getListBySearch($id_e,$type,$offset,$limit,$search,$state,$last_state_begin,$last_state_end,$tri){
+	public function getListBySearch($id_e,$type,$offset,$limit,$search,$state,$last_state_begin,$last_state_end,$tri,$allDroitEntite){
 		$col = "*,document.type as type,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date, entite.denomination as entite_base";
 		
 		switch($tri){
@@ -173,16 +173,20 @@ class DocumentActionEntite extends SQL {
 		}
 		
 		$order = " ORDER BY $tri  LIMIT $offset,$limit";	
-		$list = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end);
+		$list = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite);
 		return $this->addEntiteToList($id_e,$list);
 	}	
 	
-	private function getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end){
+	private function getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite){
+		
+		$type_list = "'" . implode("','",$allDroitEntite) . "'";
+		
+		
 		$sql = "SELECT $col " .
 				" FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" JOIN entite ON document_entite.id_e = entite.id_e" .
-				" WHERE 1=1 ";
+				" WHERE document.type IN ($type_list) ";
 				
 		$binding = array();
 		if ($id_e){

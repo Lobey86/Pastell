@@ -35,6 +35,19 @@ class RoleUtilisateur extends SQL {
 		return in_array($droit,$allDroit);
 	}
 	
+	
+	public function getAllDocumentLecture($id_u,$id_e){
+		$liste_type = array();
+		$allDroit = $this->getAllDroitEntite($id_u,$id_e);
+		foreach($allDroit as $droit){
+			if (preg_match('/^(.*):lecture$/',$droit,$result)){
+				$liste_type[] = $result[1];
+			}
+		}
+		return $liste_type;	
+	}
+	
+	
 	public function getAllDroitEntite($id_u,$id_e){
 		static $allDroit;
 		
