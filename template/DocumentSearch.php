@@ -116,8 +116,8 @@ function dateInput($name,$value=''){
 $url = "id_e=$id_e&search=$search&type=$type&lastetat=$lastEtat&last_state_begin=$last_state_begin&last_state_end=$last_state_end&etatTransit=$etatTransit&state_begin=$state_begin&state_end=$state_end&tri=$tri";
 if ($go = 'go'){
 	
-	$listDocument = $documentActionEntite->getListBySearch($id_e,$type,$offset,$limit,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$tri);	
-	$count = $documentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso);
+	$listDocument = $documentActionEntite->getListBySearch($id_e,$type,$offset,$limit,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$tri,$allDroitEntite);	
+	$count = $documentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$allDroitEntite);
 	if ($count) {
 		$this->SuivantPrecedent($offset,$limit,$count,"document/search.php?$url");
 		$this->render("DocumentListBox");
