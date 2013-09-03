@@ -13,8 +13,7 @@ class GEDEnvoi extends ActionExecutor {
 		$ged->createFolder($folder,$folder_name,"Pastell - Flux Actes");
 		$sub_folder = $folder ."/$folder_name";
 		
-		foreach(array('Arreté','Autre document attaché'
-		) as $key){
+		foreach(array('arrete','autre_document_attache') as $key){
 			$this->sendFile($sub_folder,$key);
 		}	
 		

@@ -5,6 +5,7 @@ formulaire:
 		server: {name: "Serveur FTP"}
 		login: {name: "Login"}
 		password:  {name: "Mot de passe", type: password }
+		passive_mode: {name: "Mode passif", type: checkbox, commentaire: Certain serveur FTP ne supporte que le mode passif }
 		folder: {name: "Répertoire de travail (distant)"}
 
 action:		
