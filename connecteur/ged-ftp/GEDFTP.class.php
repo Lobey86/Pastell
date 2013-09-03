@@ -7,6 +7,7 @@ class GEDFTP extends GEDConnecteur {
 	private $server;
 	private $login;
 	private $password;
+	private $passive_mode;
 	private $folder;
 	
 	function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
@@ -14,19 +15,29 @@ class GEDFTP extends GEDConnecteur {
 		$this->login = $donneesFormulaire->get('login');
 		$this->password = $donneesFormulaire->get('password');
 		$this->folder = $donneesFormulaire->get('folder');
+		$this->passive_mode = $donneesFormulaire->get('passive_mode');
 	}
 	
 	private function getConnection(){
+		static $conn_id;
+		if ($conn_id){
+			return $conn_id;
+		}
 		@ $conn_id = ftp_connect($this->server) or $this->returnError(); 
 		@ ftp_login($conn_id, $this->login, $this->password) or  $this->returnError();
+		ftp_pasv($conn_id,$this->passive_mode?true:false); 
 		return $conn_id;
 	}
 	
 	public function createFolder($folder,$title,$description){
-		$conn_id = $this->getConnection();
-        if (in_array("$folder/$title", @ ftp_nlist($conn_id, $folder))) {
+		
+		$folder_list = $this->listFolder($folder);
+		if (in_array($title, $folder_list)) {
         	return;
-        } 
+        }
+		
+		$conn_id = $this->getConnection();
+		
 		@ ftp_chdir($conn_id,$folder) or $this->returnError(); 
 		@ ftp_mkdir($conn_id,$title) or  $this->returnError();
 	}
@@ -44,8 +55,16 @@ class GEDFTP extends GEDConnecteur {
 	}
 	
 	public function listFolder($folder){
-		$conn_id = $this->getConnection();
-		return ftp_nlist($conn_id,$this->folder);
+		$conn_id = $this->getConnection();	
+		$nlist = ftp_nlist($conn_id,$folder);
+		if (!$nlist){
+			return array();
+		}
+		//Attention, en fonction du serveur, les fichiers contiennent ou non le nom du répertoire !
+		foreach($nlist as $file){
+			$result[] = basename($file);
+		}
+		return $result;
 	}
 	
 	public function returnError(){

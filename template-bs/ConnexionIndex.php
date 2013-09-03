@@ -35,7 +35,7 @@ $utilisateurInfo = $utilisateur->getInfo($id_u);
 			<div class="control-group">
 				<label class="control-label" for="login">Identifiant</label>
 				<div class="controls">
-					<input type="text" name="login" id="login" class='noautocomplete' placeholder="Identifiant" />
+					<input type="text" name="login" id="login" class='noautocomplete' autocomplete="off" placeholder="Identifiant" />
 				</div>
 			</div>
 			
