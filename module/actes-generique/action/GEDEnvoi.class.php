@@ -17,7 +17,6 @@ class GEDEnvoi extends ActionExecutor {
 			$this->sendFile($sub_folder,$key);
 		}	
 		
-		
 		$this->setLastMessage("Document envoyé en GED");
 		
 		$actionName  = $this->getActionName();

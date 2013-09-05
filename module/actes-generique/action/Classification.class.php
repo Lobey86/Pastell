@@ -23,7 +23,7 @@ class Classification extends ChoiceActionExecutor {
 	
 	private function getClassificationActes(){
 		$ancetre = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e);
-		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre,'actes-generique','TdT');
+		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre,$this->type,'TdT');
 		if (! $donneesFormulaire){
 			throw new Exception("La classification en matière et sous-matière n'est pas disponible");
 		}
