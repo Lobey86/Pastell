@@ -9,6 +9,7 @@ class DocumentType {
 	const PAGE_CONDITION = 'page-condition';
 	const AFFICHE_ONE = 'affiche_one';
 	const CONNECTEUR = 'connecteur';
+	const DESCRIPTION = 'description';
 	
 	const TYPE_FLUX_DEFAULT = 'Flux Généraux';
 	
@@ -29,6 +30,13 @@ class DocumentType {
 			return $this->module_id;
 		}
 		return $this->module_definition[self::NOM];
+	}
+	
+	public function getDescription(){
+		if (empty($this->module_definition[self::DESCRIPTION])){
+			return false;
+		}
+		return $this->module_definition[self::DESCRIPTION];
 	}
 	
 	public function getType(){

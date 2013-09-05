@@ -93,6 +93,7 @@ class SystemControler extends PastellControler {
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id);
 		
 		$name = $documentType->getName();
+		$this->description = $documentType->getDescription();
 		$all_action = array();
 		$action = $documentType->getAction();
 		$action_list = $action->getAll();
@@ -111,6 +112,7 @@ class SystemControler extends PastellControler {
 		
 		$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllType();
 		$all_type_entite = array_keys(Entite::getAllType());
+		
 		
 		$this->document_type_is_validate = $this->DocumentTypeValidation->validate($id,
 			$this->DocumentTypeFactory->getDocumentTypeArray($id),$all_connecteur_type,$all_type_entite);
