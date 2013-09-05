@@ -3,7 +3,7 @@
 <div class="box">
 <h2>Validation du flux </h2>
 <?php if($document_type_is_validate) : ?>
-	<div class='alert'>Le fichier definition.yml définissant le flux est valide</div>
+	<div class='alert alert-success'>Le fichier definition.yml définissant le flux est valide</div>
 <?php else :?>
 	<div class='alert alert-error'>
 		Le fichier definition.yml contient <?php echo count($validation_error) ?> erreur(s)
@@ -17,6 +17,15 @@
 	</table>
 <?php endif;?>
 
+</div>
+
+<div class="box">
+<h2>Description</h2>
+<?php if ($description) :?>
+	<?php echo nl2br($description)?>
+<?php else: ?>
+	<div class='alert'>Il n'y a pas de description pour ce flux.</div>
+<?php endif;?>
 </div>
 
 <div class="box">

@@ -10,6 +10,10 @@ definition.yml:
 			default: Flux Généraux
 			type: string 
 			
+		description:
+			info: Permet de décrire le module
+			type: string 
+			
 		connecteur:  
 			info: Liste des types de connecteur utilisés par le module
 			default: aucun connecteur

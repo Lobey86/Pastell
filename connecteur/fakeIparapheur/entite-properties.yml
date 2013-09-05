@@ -1,2 +1,5 @@
 name: Fake iParapheur 
 type: signature
+formulaire:
+	page0:
+		iparapheur_type: {name: "Type Parapheur", type: text}
