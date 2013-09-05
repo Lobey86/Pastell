@@ -439,6 +439,24 @@ class DonneesFormulaire {
 		return $this->info;
 	}
 	
+	public function getMetaData(){
+		return file_get_contents($this->filePath);
+	}
+	
+	public function getAllFile(){
+		$result = array();
+		foreach($this->formulaire->getAllFields() as $field){
+			if ($field->getType() != 'file'){
+				continue;
+			}
+			if (! $this->get($field->getName())){
+				continue;
+			}
+			$result[] = $field->getName();
+		}
+		return $result;
+	}
+	
 	private function saveDataFile(){
 		foreach($this->info as $field_name => $field_value){
 			$field = $this->formulaire->getField($field_name);

@@ -3,18 +3,29 @@
 class GEDEnvoi extends ActionExecutor {
 	
 	public function go(){
+		$donneesFormulaire = $this->getDonneesFormulaire();
 		$ged = $this->getConnecteur("GED");
 		
 		$folder = $ged->getRootFolder();
 		
-		$folder_name = $this->getDonneesFormulaire()->get("objet");
+		$folder_name = $donneesFormulaire->get("objet");
 		$folder_name = strtr($folder_name," /", "__");
 		
 		$ged->createFolder($folder,$folder_name,"Pastell - Flux Actes");
 		$sub_folder = $folder ."/$folder_name";
 		
-		foreach(array('arrete','autre_document_attache') as $key){
-			$this->sendFile($sub_folder,$key);
+		$meta_data = $donneesFormulaire->getMetaData();
+		$ged->addDocument("metadata.txt","Meta données de l'actes","plain/text",$meta_data,$sub_folder);
+		
+		$all_file = $donneesFormulaire->getAllFile();
+		foreach($all_file as $field){
+			$files = $donneesFormulaire->get($field);
+			foreach($files as $num_file => $file_name){
+				$description = $this->getFormulaire()->getField($field)->getLibelle();
+				$content = $this->getDonneesFormulaire()->getFileContent($field,$num_file);
+				$contentType =  $this->getDonneesFormulaire()->getContentType($field,$num_file);
+				$ged->addDocument($file_name,$description,$contentType,$content,$sub_folder);
+			}
 		}	
 		
 		$this->setLastMessage("Document envoyé en GED");
@@ -25,15 +36,4 @@ class GEDEnvoi extends ActionExecutor {
 		return true;
 	}
 	
-	public function sendFile($folder,$key){
-		$ged = $this->getConnecteur("GED");		
-		$description = $this->getFormulaire()->getField($key)->getLibelle();
-		$content = $this->getDonneesFormulaire()->getFileContent($key);
-		if (!$content){
-			return;
-		}
-		$filename = $this->getDonneesFormulaire()->getFileName($key);
-		$contentType =  $this->getDonneesFormulaire()->getContentType($key);
-		return $ged->addDocument($filename,$description,$contentType,$content,$folder);
-	}
 }
