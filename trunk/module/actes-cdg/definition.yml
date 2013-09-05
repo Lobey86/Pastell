@@ -1,0 +1,7 @@
+nom: Actes (CDG)
+type: Flux CDG
+
+description: Permet d'associer un connecteur « classification CDG » (contenant les informations de classification et de cheminement spécifique à un CDG) à un centre de gestion.
+
+connecteur:
+	classification-cdg
