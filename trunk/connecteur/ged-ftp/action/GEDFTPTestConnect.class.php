@@ -16,7 +16,7 @@ class GEDFTPTestConnect extends ActionExecutor {
 			return false;
 		}
 		$l = implode(",",$folder_list);
-		$this->setLastMessage($l);
+		$this->setLastMessage("Contenu du répertoire $my_folder : $l");
 		return true;
 	}
 	
