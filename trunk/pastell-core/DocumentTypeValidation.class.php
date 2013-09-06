@@ -44,6 +44,7 @@ class DocumentTypeValidation {
 		$result &= $this->validateActionProperties($typeDefinition,'action-automatique');
 		$result &= $this->validateActionProperties($typeDefinition,'accuse_de_reception_action');
 		$result &= $this->validateEditableContent($typeDefinition);
+		$result &= $this->validateDepend($typeDefinition);
 		$result &= $this->validateRuleContent($typeDefinition);
 		$result &= $this->validateActionSelection($typeDefinition,$all_type_entite);
 		$result &= $this->validateRuleTypeIdE($typeDefinition,$all_type_entite);
@@ -89,6 +90,25 @@ class DocumentTypeValidation {
 			if (! in_array($action['action-selection'],$all_type_entite)){
 				$this->last_error[] = "action:$action_name:action-selection:<b>{$action['action-selection']}</b> n'est pas un type d'entité du système";
 				$result = false; 
+			}
+		}
+		return $result;
+	}
+	
+	private function validateDepend($typeDefinition){
+		$result =true;
+		$all_element_name = $this->getAllElementName($typeDefinition);
+		foreach($this->getList($typeDefinition,'formulaire') as $onglet => $element_list){
+			foreach($element_list as $name => $prop){
+				if (empty($prop['depend'])){
+					continue;
+				}
+				if (! in_array($prop['depend'],$all_element_name)){
+					$this->last_error[]="<b>formulaire:$onglet:$name:depend:{$prop['depend']}</b> n'est pas un élement du formulaire";
+					$result = false;	
+				}
+				
+				
 			}
 		}
 		return $result;
@@ -163,6 +183,7 @@ class DocumentTypeValidation {
 		foreach($this->getList($typeDefinition,'formulaire') as $onglet => $element_list){
 			foreach($element_list as $name => $prop){
 				$result[] = $name;
+				$result[] = Field::Canonicalize($name);
 			}
 		}
 		return $result;
@@ -353,6 +374,11 @@ class DocumentTypeValidation {
 				return false;
 			}
 		} 
+		if ($type_expected == 'list_or_associative_array'){
+			if ($type_finded=='associative_array' || $type_finded == 'list'){
+				return $type_finded;
+			}
+		}
 		if ($type_expected=='associative_array' || $type_expected == 'list'){
 			if ($data == ''){
 				return $type_expected;

@@ -111,7 +111,6 @@ formulaire:
 		echange_prefecture_type:
 			name: Type de l'échange
 			type: select
-			
 			depend: echange_prefecture
 			value: 
 				2A: Courrier simple
