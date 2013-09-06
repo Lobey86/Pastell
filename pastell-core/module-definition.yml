@@ -99,7 +99,7 @@ element_formulaire:
 			default: false
 		value:
 			info: uniquement pour le type select
-			type: list
+			type: list_or_associative_array
 		autocomplete:
 			info:
 			type: string
@@ -122,6 +122,9 @@ element_formulaire:
 		  	type: string
 		read-only-content:		
 			type: associative_array 
+		depend:
+			info: champs multiple dépendant d'un champ de type file (multiple)
+			type: string
 			
 action:
 	possible_key:
@@ -159,6 +162,7 @@ action_unitaire:
 			type: string
 		action-automatique:
 			type: string 
+
 
 		
 rule:
@@ -207,6 +211,12 @@ editable-content:
 	possible_key:
 		*: 
 			key_name: editable-content
+			type: string
+
+depend:
+	possible_key:
+		*:
+			key_name: depend
 			type: string
 			
 value:
