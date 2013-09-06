@@ -60,5 +60,15 @@ class Document extends SQL {
 		$this->query($sql,$id_d);
 	}
 	
+	public function getAllByType($type){
+		$sql = "SELECT id_d,titre FROM document WHERE type=?";
+		return $this->query($sql,$type);
+	}
+	
+	public function fixModule($old_flux_name,$new_flux_name){
+		$sql = "UPDATE document SET type= ? WHERE type = ?";
+		return $this->query($sql,$new_flux_name,$old_flux_name);
+	}
+	
 	
 }
