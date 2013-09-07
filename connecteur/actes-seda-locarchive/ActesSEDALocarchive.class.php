@@ -73,7 +73,12 @@ class ActesSEDALocarchive extends Connecteur {
 		$archiveTransfer->Contains->DescriptionLevel = "series";
 		$archiveTransfer->Contains->DescriptionLevel['listVersionID'] = "edition 2009";
 		
-		$archiveTransfer->Contains->Name = $transactionsInfo['numero_acte_collectivite'];
+		
+		$col_name = $this->seda_config->get('originating_agency_identification');
+		$archiveTransfer->Contains->Name = "$col_name : Actes ({$transactionsInfo['nature_descr']}) n°{$transactionsInfo['numero_acte_collectivite']} ";
+		
+		
+		
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = "";
 		$archiveTransfer->Contains->ContentDescription->Description = $transactionsInfo['subject'];
 		
@@ -88,7 +93,6 @@ class ActesSEDALocarchive extends Connecteur {
 
 		$archiveTransfer->Contains->ContentDescription->Size['unitCode'] = "2P";
 		
-		/****/
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Description = $this->seda_config->get('originating_agency_description');
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Identification = $this->seda_config->get('originating_agency_identification');
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Contact->DepatmentName = $this->seda_config->get('originating_agency_description');
@@ -109,9 +113,10 @@ class ActesSEDALocarchive extends Connecteur {
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['altrender'] = "acte";
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['type'] = "numero";
 		
-		
-		if($transactionsInfo['annexe']){
-			$archiveTransfer->Contains->Contains[0]->Contains[] = $this->getContainsElementWithDocument("Annexe(s) d'un acte soumis au contrôle de légalité",$transactionsInfo['annexe'],$latestDate,$oldestDate);
+		foreach($transactionsInfo['annexe'] as $i => $document_annexe){
+			$num_annexe = $i + 1;
+			$archiveTransfer->Contains->Contains[0]->Contains[] = $this->getContainsElementWithDocument("Annexe n°$num_annexe d'un acte soumis au contrôle de légalité",
+																							array($document_annexe),$latestDate,$oldestDate);
 		}
 
 		$arActes = $this->getContainsElementWithDocument("Accusé de réception d'un acte soumis au contrôle de légalité",
@@ -142,7 +147,7 @@ class ActesSEDALocarchive extends Connecteur {
 			} else  {
 				$fileName = $fileInfo;
 			}
-			$contains->Document[$i]->Attachment['filename'] = $fileName;
+			$contains->Document[$i]->Attachment['filename'] = basename($fileName);
 	
 			$contains->Document[$i]->Description = "$description";
 		
