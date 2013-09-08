@@ -72,7 +72,10 @@ class Nomemclature extends ChoiceActionExecutor {
 		$file = $this->getFile($this->id_e);
 		
 		
-		$donneesFormulaireCDG = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');		
+		$donneesFormulaireCDG = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');
+		if (!$donneesFormulaireCDG){
+			throw new Exception("Le CDG ne présente pas de connecteur actes-cdg");
+		}		
 		$classifCDG = $donneesFormulaireCDG->get("classification_cdg");
 		
 		if (! $classifCDG){

@@ -2,6 +2,8 @@
 
 class IParapheur extends Connecteur {
 	
+	const IPARAPHEUR_NB_JOUR_MAX_DEFAULT = 30;
+	
 	private $wsdl;
 	private $userCert;
 	private $userCertPassword;
@@ -12,6 +14,8 @@ class IParapheur extends Connecteur {
 	private $userCertOnly;
 	
 	private $iparapheur_type;
+	
+	private $iparapheur_nb_jour_max;
 	
 	private $soapClientFactory;
 	
@@ -30,6 +34,11 @@ class IParapheur extends Connecteur {
 		$this->userKeyOnly = $collectiviteProperties->getFilePath("iparapheur_user_key_only_pem");
 		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");
 		$this->iparapheur_type = $collectiviteProperties->get("iparapheur_type");
+		$this->iparapheur_nb_jour_max = $collectiviteProperties->get("iparapheur_nb_jour_max");
+	}
+	
+	public function getNbJourMaxInConnecteur(){
+		return $this->iparapheur_nb_jour_max || self::IPARAPHEUR_NB_JOUR_MAX_DEFAULT;
 	}
 	
 	

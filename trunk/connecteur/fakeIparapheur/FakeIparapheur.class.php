@@ -1,7 +1,14 @@
 <?php
 class FakeIparapheur extends Connecteur {
 	
+	private $retour;
+	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
+		$this->retour = $collectiviteProperties->get('iparapheur_retour');
+	}
+	
+	public function getNbJourMaxInConnecteur(){
+		return 30;
 	}
 	
 	public function getSousType(){
@@ -18,8 +25,15 @@ class FakeIparapheur extends Connecteur {
 	}
 	
 	public function getHistorique($dossierID){
+		
 		$date = date("d/m/Y H:i:s");
-		return $date . " : [Archive] Dossier signé (simulation de parapheur)!";
+		if( $this->retour == 'Archive' ) {
+			return $date . " : [Archive] Dossier signé (simulation de parapheur)!";
+		}
+		if( $this->retour == 'Rejet' ) {
+			return $date . " : [RejetVisa] Dossier rejeté (simulation parapheur)!";
+		}
+		throw new Exception("Erreur provoquée par le simulateur du iParapheur");
 	}
 	
 	public function getSignature($dossierID){
@@ -39,5 +53,9 @@ class FakeIparapheur extends Connecteur {
 	
 	public function getLastHistorique($dossierID){
 		return "[Archive]";
+	}
+	
+	public function effacerDossierRejete($dossierID){
+		return true;
 	}
 }
