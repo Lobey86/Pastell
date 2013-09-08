@@ -25,6 +25,12 @@ formulaire:
 			name: Sous-type iParapheur
 			read-only: true
 			type: file
+		iparapheur_nb_jour_max:
+			name: Nombre de jours maximums dans le parapheur
+			commentaire: | 
+				Nombre de jours avant de déclencher une erreur si il n'y a pas de réponse du parapheur.
+				(Peut ne pas être implémenter par les différents flux)
+			default: 30
 		
 action:
 	test-iparapheur:

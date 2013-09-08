@@ -10,6 +10,15 @@ class DocumentActionEntite extends SQL {
 			" AND document.id_d=?";
 		return $this->queryOne($sql,$id_e,$id_d);	
 	}
+
+	public function getCreatorOfDocument($id_e,$id_d){
+		$sql = "SELECT utilisateur.* FROM document_action " .
+				" JOIN utilisateur ON document_action.id_u = utilisateur.id_u " .
+				" WHERE document_action.id_e=? AND id_d=? " .
+				" ORDER BY id_a ASC" . 
+				" LIMIT 1 ";
+		return $this->queryOne($sql,$id_e,$id_d);
+	}
 	
 	public function getLastAction($id_e,$id_d){
 		$sql = "SELECT action FROM document_action_entite " .

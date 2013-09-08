@@ -3,31 +3,47 @@
 
 class IParapheurRecup extends ActionExecutor {
 	
-	public function go(){
-		
+	public function go(){		
 		$signature = $this->getConnecteur('signature');
 
 		$actes = $this->getDonneesFormulaire();
 		
 		$dossierID = $signature->getDossierID($actes->get('numero_de_lacte'),$actes->get('objet'));
+		$result = false;
+		$erreur = false;
+		try {
+			$result = $signature->getHistorique($dossierID);
+			if (! $result){
+				$erreur = "Problème avec le parapheur : " . $signature->getLastError();
+			}
+		} catch (Exception $e){
+			$erreur = $e->getMessage();
+		}		
 		
-		$result = $signature->getHistorique($dossierID);				
-		if (! $result){
-			$message = "Problème avec le parapheur : " . $signature->getLastError();
-			$this->setLastMessage($message);
-			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$message);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
-			return false;
-		}
 		if (strstr($result,"[Archive]")){
 			return $this->retrieveDossier();
-		}
-		if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
+		} else if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
 			$this->rejeteDossier($result);
 			$signature->effacerDossierRejete($dossierID);
+			$this->setLastMessage($result);
+			return true;
+		} 
+		$nb_jour_max = $signature->getNbJourMaxInConnecteur();
+		$lastAction = $this->getDocumentActionEntite()->getLastAction($this->id_e,$this->id_d);
+		$time_action = strtotime($lastAction['date']);
+		if (time() - $time_action > $nb_jour_max * 86400){
+			$erreur = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max !";
+			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$erreur);		
+			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$erreur);
+		}			
+		
+		if (! $erreur){
+			$this->setLastMessage($result);
+			return true;	
 		}
-		$this->setLastMessage($result);
-		return true;			
+		$this->setLastMessage($erreur);										
+		return false;
+					
 	}
 	
 	public function rejeteDossier($result){		

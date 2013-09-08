@@ -2,4 +2,16 @@ name: Fake iParapheur
 type: signature
 formulaire:
 	page0:
-		iparapheur_type: {name: "Type Parapheur", type: text}
+		iparapheur_type: 
+			name: "Type Parapheur"
+			type: text
+		
+		iparapheur_retour:
+			name: Retour du iParapheur
+			type: select
+			value:
+				Archive: Archive
+				Rejet: Rejet
+				Erreur: Erreur
+				
+			

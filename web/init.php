@@ -4,7 +4,9 @@ set_include_path(	__DIR__ . "/../pastell-core/" . PATH_SEPARATOR .
 				 	__DIR__ . "/../lib/" . PATH_SEPARATOR . 
 				 	__DIR__ . "/../model" . PATH_SEPARATOR . 
 				 	__DIR__ . "/../controler" . PATH_SEPARATOR . 
-				 	__DIR__ . "/../connecteur-type");
+				 	__DIR__ . "/../connecteur-type" . PATH_SEPARATOR .
+				 	get_include_path() 
+				 	);
 
 function __autoload($class_name) {	
 	$result = include($class_name . '.class.php');
