@@ -4,6 +4,20 @@ require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 
 class IParapheurRecupHelios extends ActionExecutor {
 	
+	public function throwError($signature,$message){
+		
+		$nb_jour_max = $signature->getNbJourMaxInConnecteur();
+		$lastAction = $this->getDocumentActionEntite()->getLastAction($this->id_e,$this->id_d);
+		$time_action = strtotime($lastAction['date']);
+		if (time() - $time_action > $nb_jour_max * 86400){
+			$message = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max !";
+			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$message);		
+			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);
+		}			
+		
+		throw new Exception($message);
+	}
+	
 	public function go(){
 		
 		if ($this->from_api == false){
@@ -19,17 +33,16 @@ class IParapheurRecupHelios extends ActionExecutor {
 		
 		$file_array = $helios->get('fichier_pes');
 		$filename = $file_array[0];
-		
 		$dossierID = $signature->getDossierID($helios->get('objet'),$filename);
-		
-		$all_historique = $signature->getAllHistoriqueInfo($dossierID);
+		try {
+			$all_historique = $signature->getAllHistoriqueInfo($dossierID);	
+		} catch(Exception $e){
+			$this->throwError($signature, $e->getMessage());
+		}
 		
 		if (! $all_historique){
 			$message = "La connexion avec le iParapheur a échoué : " . $signature->getLastError();
-			$this->setLastMessage($message);
-			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$message);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
-			return false;
+			$this->throwError($signature, $message);
 		}
 		
 		$array2XML = new Array2XML();
@@ -43,10 +56,11 @@ class IParapheurRecupHelios extends ActionExecutor {
 		
 		if (strstr($result,"[Archive]")){
 			return $this->retrieveDossier();
-		}
-		if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
+		} else if (strstr($result,"[RejetVisa]") || strstr($result,"[RejetSignataire]")){
 			$this->rejeteDossier($result);
 			$signature->effacerDossierRejete($dossierID);
+		} else {
+			$this->throwError($signature, $result);
 		}
 		$this->setLastMessage($result);
 		return true;			

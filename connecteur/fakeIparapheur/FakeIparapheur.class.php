@@ -25,7 +25,6 @@ class FakeIparapheur extends Connecteur {
 	}
 	
 	public function getHistorique($dossierID){
-		
 		$date = date("d/m/Y H:i:s");
 		if( $this->retour == 'Archive' ) {
 			return $date . " : [Archive] Dossier signé (simulation de parapheur)!";
@@ -48,11 +47,19 @@ class FakeIparapheur extends Connecteur {
 	}
 	
 	public function getAllHistoriqueInfo($dossierID){
+		if ($this->retour == 'Erreur'){
+			throw new Exception("Erreur provoquée par le simulateur du iParapheur");
+		}
 		return array("Fake parapheur");
 	}
 	
 	public function getLastHistorique($dossierID){
-		return "[Archive]";
+		
+		if( $this->retour == 'Archive' ) {
+			return "[Archive]";
+		}
+		return "[RejetVisa]";
+		
 	}
 	
 	public function effacerDossierRejete($dossierID){
