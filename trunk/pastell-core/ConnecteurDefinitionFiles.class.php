@@ -4,51 +4,48 @@
 
 class ConnecteurDefinitionFiles {
 	
-	private $connecteur_path;
+	const ENTITE_PROPERTIES_FILENAME = "entite-properties.yml";
+	const GLOBAL_PROPERTIES_FILENAME = "global-properties.yml";
+	
+	private $extensions;
 	private $yml_loader;
 	
-	public function __construct($connecteur_path,YMLLoader $yml_loader){
-		$this->connecteur_path = $connecteur_path;
+	public function __construct(Extensions $extensions, YMLLoader $yml_loader){
+		$this->extensions = $extensions;
 		$this->yml_loader = $yml_loader;
 	}
 	
 	public function getAll(){
-		$all_connecteur_definition = glob("{$this->connecteur_path}/*/entite-properties.yml");
+		return $this->getAllConnecteurByFile(self::ENTITE_PROPERTIES_FILENAME);
+	}
+	
+	public function getAllGlobal(){
+		return $this->getAllConnecteurByFile(self::GLOBAL_PROPERTIES_FILENAME);
+	}
+	
+	private function getAllConnecteurByFile($file_name){
 		$result = array();
-		foreach($all_connecteur_definition as $connecteur_definition){
-			$id_connecteur = basename(dirname($connecteur_definition));
-			$result[$id_connecteur] = $this->yml_loader->getArray($connecteur_definition);
-		}
+		foreach($this->extensions->getAllConnecteur() as $id_connecteur => $connecteur_path){
+			$definition_file_path = $connecteur_path . "/" . $file_name;
+			if (file_exists($definition_file_path)){
+				$result[$id_connecteur] = $this->yml_loader->getArray($definition_file_path);
+			}
+		}		
 		return $result;
 	}
 	
 	public function getAllType(){
-		$all = $this->getAll();
-		$result = array();
-		foreach($all as $def){
-			$result[] = $def['type'];
-		}
-		return $result;
+		return $this->getAllTypeByDef($this->getAll());
 	}
 	
 	public function getAllGlobalType(){
-		$all_connecteur_definition = glob("{$this->connecteur_path}/*/global-properties.yml");
-		$result = array();
-		foreach($all_connecteur_definition as $connecteur_definition){
-			$id_connecteur = basename(dirname($connecteur_definition));
-			$def = $this->yml_loader->getArray($connecteur_definition);
-			$result[$def['type']] = true;
-		}
-		return array_keys($result);
+		return $this->getAllTypeByDef($this->getAllGlobal());
 	}
 	
-	
-	public function getAllGlobal(){
-		$all_connecteur_definition = glob("{$this->connecteur_path}/*/global-properties.yml");
+	private function getAllTypeByDef(array $connecteur_definition){
 		$result = array();
-		foreach($all_connecteur_definition as $connecteur_definition){
-			$id_connecteur = basename(dirname($connecteur_definition));
-			$result[$id_connecteur] = $this->yml_loader->getArray($connecteur_definition);
+		foreach($connecteur_definition as $def){
+			$result[] = $def['type'];
 		}
 		return $result;
 	}
@@ -57,17 +54,19 @@ class ConnecteurDefinitionFiles {
 		return $id_e?$this->getAll():$this->getAllGlobal();
 	}
 	
-	public function getInfo($id_connecteur){		
-		return $this->yml_loader->getArray("{$this->connecteur_path}/$id_connecteur/entite-properties.yml");
+	public function getInfo($id_connecteur){
+		$connecteur_path = $this->extensions->getConnecteurPath($id_connecteur);
+		return $this->yml_loader->getArray("$connecteur_path/".self::ENTITE_PROPERTIES_FILENAME);
 	}
 	
 	public function getInfoGlobal($id_connecteur){
-		return $this->yml_loader->getArray("{$this->connecteur_path}/$id_connecteur/global-properties.yml");
+		$connecteur_path = $this->extensions->getConnecteurPath($id_connecteur);
+		return $this->yml_loader->getArray("$connecteur_path/".self::GLOBAL_PROPERTIES_FILENAME);
 	}
 	
-	
 	public function getConnecteurClass($id_connecteur){
-		$all = glob("{$this->connecteur_path}/$id_connecteur/*.class.php");
+		$connecteur_path = $this->extensions->getConnecteurPath($id_connecteur);
+		$all = glob("$connecteur_path/*.class.php");
 		if (! $all){
 			throw new Exception("Impossible de trouver une classe pour le connecteur $id_connecteur");
 		}
@@ -76,7 +75,4 @@ class ConnecteurDefinitionFiles {
 		require_once($class_file);
 		return $class_name;
 	}
-	
-	
-	
 }

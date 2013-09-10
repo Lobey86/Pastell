@@ -137,6 +137,12 @@ CREATE TABLE entite_properties (
 	`properties` varchar(32) NOT NULL,
 	`values` varchar(32) NOT NULL
 )  ENGINE=MyISAM  ;
+CREATE TABLE extension (
+	`id_e` int(11) NOT NULL AUTO_INCREMENT,
+	`nom` varchar(128) NOT NULL,
+	`path` text NOT NULL,
+	PRIMARY KEY (`id_e`)
+)  ENGINE=MyISAM  ;
 CREATE TABLE flux_entite (
 	`id_fe` int(11) NOT NULL AUTO_INCREMENT,
 	`id_e` int(11) NOT NULL,
