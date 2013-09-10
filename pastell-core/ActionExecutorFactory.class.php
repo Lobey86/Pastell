@@ -1,18 +1,16 @@
 <?php
 class ActionExecutorFactory {
 	
-	private $action_class_directory;
-	private $module_path;
-	private $connecteur_path;
+	const ACTION_FOLDERNAME = "action"; 
+	
+	private $extensions;
 	private $objectInstancier;
 	
 	private $lastMessage;
 	
-	public function __construct($action_class_directory, $module_path, $connecteur_path,ObjectInstancier $objectInstancier){
-		$this->action_class_directory = $action_class_directory;
-		$this->module_path = $module_path;	
+	public function __construct(Extensions $extensions, ObjectInstancier $objectInstancier){
+		$this->extensions = $extensions;
 		$this->objectInstancier = $objectInstancier;
-		$this->connecteur_path = $connecteur_path;
 	}
 	
 	public function getLastMessage(){
@@ -192,27 +190,14 @@ class ActionExecutorFactory {
 	}
 
 	private function loadConnecteurActionFile($id_connecteur, $action_class_name){
-		$action_class_file = "{$this->connecteur_path}/$id_connecteur/action/$action_class_name.class.php";
-		if (file_exists($action_class_file)){
-			require_once($action_class_file);
-		} else {
-			//TODO supprimer cette possibilité : il n'est pas permis d'utiliser les actions par défaut ou les actions
-				// des modules
-			$this->loadActionFile($action_class_name);
-		}
+		$connecteur_path = $this->extensions->getConnecteurPath($id_connecteur);
+		$action_class_file = "$connecteur_path/".self::ACTION_FOLDERNAME."/$action_class_name.class.php";
+		if ( ! file_exists($action_class_file)){
+			throw new Exception("Le fichier $action_class_name est introuvable");
+		} 
+		require_once($action_class_file);
 	}	
 	
-	private function loadActionFile($action_class_name){
-		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
-		if (file_exists($action_class_file )){
-			return require_once($action_class_file);
-		}		
-		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");		
-		if (count($find) == 0){				
-			throw new Exception( "Le fichier $action_class_name est manquant");
-		}
-		require_once($find[0]);
-	}
 	
 	private function loadDocumentActionFile($flux, $action_class_name){
 		$action_class_file = $this->getFluxActionPath($flux, $action_class_name);
@@ -223,17 +208,22 @@ class ActionExecutorFactory {
 	}
 	
 	public function getFluxActionPath($flux,$action_class_name){
-		$action_class_file = "{$this->module_path}/$flux/action/$action_class_name.class.php";
+		
+		$module_path = $this->extensions->getModulePath($flux);
+		$action_class_file = "$module_path/".self::ACTION_FOLDERNAME."/$action_class_name.class.php";
+		
 		if (file_exists($action_class_file)){
 			return $action_class_file;
 		}
-		$action_class_file = "{$this->action_class_directory}/$action_class_name.class.php";
+		$action_class_file = PASTELL_PATH."/".self::ACTION_FOLDERNAME."/$action_class_name.class.php";
 		if (file_exists($action_class_file )){
 			return $action_class_file;
 		}		
-		$find = glob("{$this->module_path}/*/action/$action_class_name.class.php");		
-		if ($find){				
-			return $find[0];
+		foreach ($this->extensions->getAllModule() as $module_id => $module_path){
+			$action_path = "$module_path/".self::ACTION_FOLDERNAME."/$action_class_name.class.php";
+			if (file_exists($action_path)){
+				return $action_path;
+			}
 		}
 		return false;
 	}

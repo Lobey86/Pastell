@@ -2,18 +2,21 @@
 //Chargement des fichier definition.yml dans les modules
 class FluxDefinitionFiles {
 	
-	private $module_path;
+	const DEFINITION_FILENAME = "definition.yml";
+	
+	private $extensions;
 	private $yml_loader;
 	
-	public function __construct($module_path, YMLLoader $yml_loader){
-		$this->module_path = $module_path;
+	public function __construct(Extensions $extensions, YMLLoader $yml_loader){
+		$this->extensions = $extensions;
 		$this->yml_loader = $yml_loader;
 	}
 	
 	public function getAll(){
 		$result = array();
-		$all_module = glob("{$this->module_path}/*/definition.yml");
-		foreach ($all_module as $file_config){			
+		$all_module = $this->extensions->getAllModule();
+		foreach ($all_module as $module_path){			
+			$file_config = $module_path."/".self::DEFINITION_FILENAME;
 			$config = $this->yml_loader->getArray($file_config);	
 			$id_flux = basename(dirname($file_config));		
 			$result[$id_flux] = $config;
@@ -22,7 +25,8 @@ class FluxDefinitionFiles {
 	}
 	
 	public function getInfo($id_flux){
-		return $this->yml_loader->getArray("{$this->module_path}/$id_flux/definition.yml");
+		$module_path = $this->extensions->getModulePath($id_flux);
+		return $this->yml_loader->getArray("$module_path/".self::DEFINITION_FILENAME);
 	}
 	
 	public function getAutoAction(){ 

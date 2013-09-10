@@ -4,6 +4,7 @@ class SystemControler extends PastellControler {
 	public function indexAction(){
 		$this->verifDroit(0,"system:lecture");
 
+		$this->droitEdition = $this->hasDroit(0, "system:edition");
 		$recuperateur=new Recuperateur($_GET);
 		$page_number = $recuperateur->getInt('page_number');
 		
@@ -15,12 +16,14 @@ class SystemControler extends PastellControler {
 				$this->fluxAction(); break;	
 			case 3:
 				$this->fluxDefAction(); break;
+			case 4:
+				$this->extensionListAction(); break;
 			case 0:
 			default: $this->actionAutoAction(); break;
 			
 		}
 		
-		$this->onglet_tab = array("Action automatique","Environnement système","Flux","Définition des flux");
+		$this->onglet_tab = array("Action automatique","Tests du système","Flux","Définition des flux","Extensions");
 		$this->page_number = $page_number;
 		$this->template_milieu = "SystemIndex";
 		$this->page_title = "Environnement système";
@@ -76,6 +79,57 @@ class SystemControler extends PastellControler {
 		$this->onglet_content = "SystemFluxDef";
 	}
 	
+	public function extensionListAction(){
+		$this->all_extensions = $this->Extensions->getAll();
+		$this->onglet_content = "SystemExtensionList";
+	}
+	
+	public function extensionAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->get("id_extension");
+		$extension_info = $this->Extensions->getInfo($id_e);
+		
+		$this->extension_info = $extension_info;
+		$this->template_milieu = "SystemExtension";
+		$this->page_title = "Extension {$extension_info['nom']}";
+	 			
+		$this->renderDefault();
+	}
+
+	public function extensionEditionAction(){
+		$this->verifDroit(0,"system:edition");
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->get("id_extension",0);
+		$this->verifDroit(0,"system:edition");
+		$extension_info = $this->ExtensionSQL->getInfo($id_e);
+		if (!$extension_info){
+			$extension_info = array('id_e'=>0,'path'=>'');
+		}
+		$this->extension_info = $extension_info;
+		$this->template_milieu = "SystemExtentionEdition";
+		$this->page_title = "Édition d'une extension";
+		$this->renderDefault();
+	}
+	
+	public function doExtensionEditionAction(){
+		$this->verifDroit(0,"system:edition");
+		$recuperateur = new Recuperateur($_POST);
+		$id_e = $recuperateur->get("id_e");
+		$path = $recuperateur->get("path");
+		$this->ExtensionSQL->edit($id_e,$path);
+		$this->LastMessage->setLastMessage("Extension éditée");
+		$this->redirect("/system/index.php?page_number=4");
+	}
+	
+	public function extensionDeleteAction(){
+		$this->verifDroit(0,"system:edition");
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->get("id_e");
+		$this->ExtensionSQL->delete($id_e);
+		$this->LastMessage->setLastMessage("Extension supprimée");
+		$this->redirect("/system/index.php?page_number=4");
+	}
+	
 	public function messageAction(){
 		$recuperateur=new Recuperateur($_GET);
 		$id_e = $recuperateur->getInt('id_e');
@@ -83,9 +137,9 @@ class SystemControler extends PastellControler {
 		$this->all_message = $this->ActionAutoLogSQL->getMessage($id_e,$id_d);
 		$this->template_milieu = "SystemActionAutoMessage";
 		$this->page_title = "Environnement système";
-	 			
 		$this->renderDefault();
 	}
+	
 	
 	public function fluxDetailAction(){
 		$recuperateur=new Recuperateur($_GET);
