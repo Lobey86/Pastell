@@ -19,6 +19,14 @@ class VerifEnvironnement {
 		return $result;
 	}
 	
+	public function checkModule(){
+		$moduleNeeded = array("Mail.php","Mail/mime.php","CAS.php");
+		foreach($moduleNeeded as $module){
+			$result[$module] = @ include_once($module);
+		}
+		return $result;
+	}
+	
 	public function checkWorkspace(){
 		if (! defined("WORKSPACE_PATH")){
 			$this->last_error = "WORKSPACE_PATH n'est pas défini"; 

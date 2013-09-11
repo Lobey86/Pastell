@@ -24,6 +24,23 @@
 	<?php endforeach;?>
 </table>
 </div>
+
+<div class="box">
+<h2>Modules PHP</h2>
+
+<table class='table table-striped'>
+	<?php foreach($checkModule as $module => $is_ok) : ?>
+		<tr>
+			<th class="w140"><?php echo $module ?></th>
+			<td><?php echo $is_ok?"ok":"<b style='color:red'>CE MODULE N'EST PAS ACCESSIBLE</b>"; ?></td>
+		</tr>
+	<?php endforeach;?>
+</table>
+</div>
+
+
+
+
 <div class="box">
 <h2>Valeur minimum</h2>
 

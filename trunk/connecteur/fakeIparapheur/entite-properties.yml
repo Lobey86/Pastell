@@ -4,7 +4,11 @@ formulaire:
 	page0:
 		iparapheur_type: 
 			name: "Type Parapheur"
-			type: text
+			type: select
+			value:
+				Actes: Actes
+				PES: PES
+				Document: Document
 		
 		iparapheur_retour:
 			name: Retour du iParapheur
