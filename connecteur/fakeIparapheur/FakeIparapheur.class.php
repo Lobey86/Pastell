@@ -2,9 +2,11 @@
 class FakeIparapheur extends Connecteur {
 	
 	private $retour;
+	private $iparapheur_type;
 	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->retour = $collectiviteProperties->get('iparapheur_retour');
+		$this->iparapheur_type = $collectiviteProperties->get('iparapheur_type');
 	}
 	
 	public function getNbJourMaxInConnecteur(){
@@ -12,7 +14,15 @@ class FakeIparapheur extends Connecteur {
 	}
 	
 	public function getSousType(){
-		return array("Arrêté individuel","Arrêté réglementaire","Contrat et convention","Délibération");
+		switch($this->iparapheur_type){
+			case 'Actes':
+				return array("Arrêté individuel","Arrêté réglementaire","Contrat et convention","Délibération");
+			case 'PES':
+				return array("BJ","Bordereau depense");
+			case 'Document':
+				return array("Courrier","Commande","Facture");
+		}
+		 
 	}
 	
 	public function getDossierID($id,$name){

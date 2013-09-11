@@ -2,6 +2,12 @@
 class UtilisateurControler extends PastellControler {
 	
 	public function modifPasswordAction(){
+		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
+		if ($authentificationConnecteur){
+			$this->LastError->setLastError("Vous ne pouvez pas modifier votre mot de passe en dehors du CAS");
+			$this->redirect("/utilisateur/moi.php");
+		}
+		
 		$this->page_title = "Modification de votre mot de passe";
 		$this->template_milieu = "UtilisateurModifPassword";
 		$this->renderDefault();

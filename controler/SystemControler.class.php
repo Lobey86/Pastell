@@ -45,7 +45,7 @@ class SystemControler extends PastellControler {
 		$this->checkExtension = $this->VerifEnvironnement->checkExtension();
 		$this->checkPHP = $this->VerifEnvironnement->checkPHP();
 		$this->checkWorkspace = $this->VerifEnvironnement->checkWorkspace();
-		
+		$this->checkModule = $this->VerifEnvironnement->checkModule();
 		$this->valeurMinimum = array(
 			"PHP" => $this->checkPHP['min_value'],
 			"OpenSSL" => '1.0.0a',
