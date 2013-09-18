@@ -46,11 +46,15 @@ class NotBuggySoapClient extends SoapClient {
         $soapErrorException = null;
         $errorHandlerSave = set_error_handler('soapErrorHandler');
         try {
-            parent::__construct($wsdl,$options);
+            parent::__construct($wsdl, $options);
+        } catch (SoapFault $soapFault) {
+            $this->construct_finally($errorHandlerSave);
+            $exEtCauses = soapErrorAdd($soapFault->getMessage());
+            throw new SoapFault($soapFault->faultcode, $exEtCauses);
         } catch (Exception $ex) {
             $this->construct_finally($errorHandlerSave);
             $exEtCauses = soapErrorAdd($ex->getMessage());
-            throw new Exception($exEtCauses, $ex->getCode());
+            throw new Exception($exEtCauses, $ex->getCode(), $ex);
         }
         $this->construct_finally($errorHandlerSave);
     }
@@ -72,16 +76,20 @@ class NotBuggySoapClient extends SoapClient {
             $errorHandlerSave = set_error_handler('soapErrorHandler');
             try {
                 $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+            } catch (SoapFault $soapFault) {
+                $this->doRequest_finally($errorHandlerSave);
+                $exEtCauses = soapErrorAdd($soapFault->getMessage());
+                throw new SoapFault($soapFault->faultcode, $exEtCauses);
             } catch (Exception $ex) {
                 $this->doRequest_finally($errorHandlerSave);
                 $exEtCauses = soapErrorAdd($ex->getMessage());
-                throw new Exception($exEtCauses, $ex->getCode());
+                throw new Exception($exEtCauses, $ex->getCode(), $ex);
             }
-            $this->doRequest_finally($errorHandlerSave);            
+            $this->doRequest_finally($errorHandlerSave);
             if (isset($this->__soap_fault) && ($this->__soap_fault != null)) {
                 //this is where the exception from __doRequest is stored 
                 $exEtCauses = soapErrorAdd($this->__soap_fault->getMessage());
-                throw new Exception($exEtCauses, $this->__soap_fault->getCode());
+                throw new SoapFault($this->__soap_fault->faultcode, $exEtCauses);
             }
         }
 

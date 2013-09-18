@@ -21,7 +21,9 @@ class ConnecteurSuspensionControler {
                 $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
                 $hLock = self::lock($connecteurConfig);
                 try {
-                    unlink($fContext);
+                    if (file_exists($fContext)) {
+                        unlink($fContext);
+                    }
                 } catch (Exception $ex) {
                     self::unlock($hLock);
                     throw $ex;
