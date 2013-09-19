@@ -108,11 +108,11 @@ class Journal extends SQL {
 			$value[] = "%$recherche%";
 		}
 		if ($date_debut){
-			$sql.= "AND journal.date_horodatage > ?";
+			$sql.= "AND journal.date > ?";
 			$value[] = $date_debut;
 		}
 		if ($date_fin){
-			$sql.= "AND journal.date_horodatage < ?";
+			$sql.= "AND journal.date < ?";
 			$value[] = $date_fin;
 		}
 		
