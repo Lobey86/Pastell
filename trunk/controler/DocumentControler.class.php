@@ -132,10 +132,17 @@ class DocumentControler extends PastellControler {
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
 		$formulaire = $documentType->getFormulaire();
 		
-		
+
 		$infoEntite = $this->EntiteSQL->getInfo($id_e);
 		
 		$donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$type);
+		
+		$formulaire->addDonnesFormulaire($donneesFormulaire);
+		
+		if (! $formulaire->tabNumberExists($page)){
+			$page = 0;
+		}
+		
 		
 		$my_role = $this->documentEntite->getRole($id_e,$id_d);
 		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);

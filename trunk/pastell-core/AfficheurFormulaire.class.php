@@ -110,7 +110,7 @@ class AfficheurFormulaire {
 	}
 	
 	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url,$externalDataURL ){
-		
+
 		$this->formulaire->setTabNumber($page_number);
 		
 		
