@@ -132,6 +132,9 @@ class Formulaire {
 		return false;
 	}
 	
+	public function tabNumberExists($tab_number = 0){
+		return count($this->formArray)>$tab_number;
+	}
 	
 	
 }
