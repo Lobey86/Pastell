@@ -21,6 +21,10 @@
 			<td><?php hecho($id_d?$document_info['titre']:"Tous")?></td>
 		</tr>
 		<tr>
+			<th>Type</th>
+			<td><?php hecho($type?:"Tous")?></td>
+		</tr>
+		<tr>
 			<th><label for='recherche'>Recherche</label> </th>
 			 <td> <input type='text' name='recherche' value='<?php hecho($recherche) ?>' /></td>
 		</tr>
