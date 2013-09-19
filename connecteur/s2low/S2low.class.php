@@ -68,8 +68,9 @@ class S2low  extends TdtConnecteur {
 	private function exec($url){
 		$this->ensureLogin();
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
-		if ( ! $output){
-			throw new S2lowException($this->curlWrapper->getLastError());			
+		$error = $this->curlWrapper->getLastError();
+		if ( ! $output && $error){
+			throw new S2lowException($error);			
 		}		
 		return $output;
 	}
@@ -273,9 +274,12 @@ class S2low  extends TdtConnecteur {
 	}
 	
 	public function getListReponsePrefecture($transaction_id){
+		$result = array();
 		$all_reponse = $this->exec(self::URL_ACTES_REPONSE_PREFECTURE."?id=$transaction_id");
 		$all_reponse = trim($all_reponse);
-		$result = array();
+		if (!$all_reponse){
+			return $result;
+		}
 		foreach(explode("\n",$all_reponse) as $line){
 			list($type,$status,$id) = explode("-",$line);
 			$result[] = array('type'=>$type,'status'=>$status,'id'=>$id);

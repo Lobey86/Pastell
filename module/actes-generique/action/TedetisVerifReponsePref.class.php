@@ -4,16 +4,21 @@ class TedetisVerifReponsePref extends ActionExecutor {
 	private $many_same_message;
 	
 	public function go(){
+	
 		$tdT = $this->getConnecteur("TdT"); 
 		
 		if (!$tdT){
 			throw new Exception("Aucun Tdt disponible");
 		}
-		
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
+		
 		
 		$all_response = $tdT->getListReponsePrefecture($tedetis_transaction_id);
 		
+		if (!$all_response)  {
+			$this->setLastMessage("Aucune réponse disponible");
+			return true;
+		}
 		foreach($all_response as $response){
 			$this->saveResponse($response);
 		}
