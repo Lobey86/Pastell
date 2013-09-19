@@ -5,7 +5,7 @@
 <form class="w700" action='journal/export-controler.php' method='post'>
 	<input type='hidden' name='id_e' value='<?php hecho($id_e)?>'>
 	<input type='hidden' name='id_d' value='<?php hecho($id_d)?>'>
-	<input type='hidden' name='id_u' value='<?php hecho($id_d)?>'>
+	<input type='hidden' name='id_u' value='<?php hecho($id_u)?>'>
 	<input type='hidden' name='type' value='<?php hecho($type)?>'>
 	<table>
 		<tr>
