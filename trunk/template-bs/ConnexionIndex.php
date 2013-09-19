@@ -51,14 +51,10 @@ $utilisateurInfo = $utilisateur->getInfo($id_u);
 				<button type="submit" class="btn" /><i class="icon-user"></i>Connexion</button>
 			</div>
 		</form>
-		<!--
 		<hr/>
 		<div class="align_center">
 		<a href="connexion/oublie-identifiant.php">J'ai oublié mes identifiants</a>
-		&nbsp;&nbsp;|&nbsp;&nbsp;
-		<a href='http://www.creatic59.fr/dematerialisation/aide'>Aide</a>
 		</div>
-		-->
 </div>
 
 
