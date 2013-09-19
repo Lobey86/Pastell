@@ -65,6 +65,8 @@ abstract class TdtConnecteur extends Connecteur{
 
 	abstract public function getBordereau($id_transaction);
 	
+	abstract public function getActeTamponne($id_transaction);
+	
 	abstract public function getStatusInfo($status_id);
 	
 	abstract public function getFichierRetour($transaction_id);

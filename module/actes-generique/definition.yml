@@ -136,6 +136,10 @@ formulaire:
 			name: Accusé de réception technique
 			type: file
 			commentaire: Accusé de réception (XML) envoyé par la préfecture
+		
+		acte_tamponne:
+			name: Acte tamponné par le TdT
+			type: file
 			
 	SAE:
 		sae_transfert_id:

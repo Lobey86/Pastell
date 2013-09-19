@@ -61,6 +61,10 @@ class TdtAdapter extends TdtConnecteur {
 		throw new Exception("Not implemented");
 	}
 	
+	public function getActeTamponne($id_transaction){
+		throw new Exception("Not implemented");
+	}
+	
 	public function getStatusInfo($status_id){
 		throw new Exception("Not implemented");
 	}

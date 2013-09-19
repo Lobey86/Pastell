@@ -19,6 +19,7 @@ class S2low  extends TdtConnecteur {
 	const URL_LIST_LOGIN = "/admin/users/api-list-login.php";
 	const URL_ACTES_REPONSE_PREFECTURE =  "/modules/actes/actes_transac_get_document.php";
 	const URL_POST_REPONSE_PREFECTURE = "/modules/actes/actes_transac_reponse_create.php";
+	const URL_ACTES_TAMPONNE = "/modules/actes/actes_transac_get_tampon.php";
 	
 	private $arActes;
 	private $reponseFile;
@@ -249,6 +250,11 @@ class S2low  extends TdtConnecteur {
 
 	public function getBordereau($id_transaction){
 		$result = $this->exec(self::URL_BORDEREAU."?trans_id=$id_transaction");
+		return $result;
+	}
+	
+	public function getActeTamponne($id_transaction){
+		$result = $this->exec(self::URL_ACTES_TAMPONNE."?transaction=$id_transaction");
 		return $result;
 	}
 	

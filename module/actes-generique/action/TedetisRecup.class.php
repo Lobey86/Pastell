@@ -44,6 +44,7 @@ class TedetisRecup extends ActionExecutor {
 		$message .= "\n\nConsulter le détail de l'acte : " . SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e={$this->id_e}";
 		
 		$bordereau_data = $tdT->getBordereau($tedetis_transaction_id);
+		$actes_tamponne = $tdT->getActeTamponne($tedetis_transaction_id);
 		
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
@@ -53,6 +54,9 @@ class TedetisRecup extends ActionExecutor {
 		}
 		if ($aractes){
 			$donneesFormulaire->addFileFromData('aractes', "ARActes.xml",$aractes);
+		}
+		if ($actes_tamponne){
+			$donneesFormulaire->addFileFromData('acte_tamponne',$infoDocument['titre']."-tamponne.pdf",$actes_tamponne);
 		}
 		
 		$donneesFormulaire->setData('date_ar', $tdT->getDateAR($tedetis_transaction_id));
