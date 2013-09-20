@@ -8,8 +8,8 @@ class SendGED extends ActionExecutor {
 		$folder = $ged->getRootFolder();
 		
 		$folder_name = $this->getDonneesFormulaire()->get("objet");
-    	$folder_name = str_replace(" ", "_", $folder_name);
-				
+    	$folder_name = $ged->getSanitizeFolderName($folder_name);
+    	
 		$ged->createFolder($folder,$folder_name,"Pastell - Flux commande ");
 		
 		$sub_folder = $folder ."/$folder_name";

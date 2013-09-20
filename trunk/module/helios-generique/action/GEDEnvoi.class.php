@@ -8,8 +8,8 @@ class GEDEnvoi extends ActionExecutor {
 		$folder = $ged->getRootFolder();
 		
 		$folder_name = $this->getDonneesFormulaire()->get("objet");
-		$folder_name = strtr($folder_name," /", "__");
-		
+		$folder_name = $ged->getSanitizeFolderName($folder_name);
+				
 		$ged->createFolder($folder,$folder_name,"Pastell - Flux Helios ");
 		$sub_folder = $folder ."/$folder_name";
 		

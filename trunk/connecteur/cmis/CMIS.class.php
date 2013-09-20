@@ -19,6 +19,10 @@ class CMIS extends GEDConnecteur {
 		$this->folder = $collectiviteProperties->get('ged_folder');
 	}
 	
+	public function getSanitizeFolderName($folder){
+		return strtr($folder," /", "__");
+	}
+	
 	public function getRootFolder(){
 		return $this->folder;
 	}
