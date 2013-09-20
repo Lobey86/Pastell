@@ -6,6 +6,8 @@ class OpenSignException extends ConnecteurException {}
 
 class OpenSign extends Horodateur {
 	
+	const DEFAULT_TIMEOUT = 2;
+	
 	private $wsdl;
 	private $soapClientFactory;
 	private $opensign_ca;
@@ -21,6 +23,7 @@ class OpenSign extends Horodateur {
 		$this->wsdl = $donneesFormulaire->get('opensign_wsdl');
 		$this->opensign_ca = $donneesFormulaire->getFilePath("opensign_ca",0);
 		$this->opensign_x509 = $donneesFormulaire->getFilePath("opensign_x509",0);
+		$this->opensign_timeout = $donneesFormulaire->getFilePath("opensign_timeout",self::DEFAULT_TIMEOUT);
 	}
 	
 	public function getTimestampReply($data){
@@ -39,7 +42,7 @@ class OpenSign extends Horodateur {
 	}
 	
 	private function getSoapClient(){
-		$soapClient = $this->soapClientFactory->getInstance($this->wsdl);
+		$soapClient = $this->soapClientFactory->getInstance($this->wsdl,array('connection_timeout'=>$this->opensign_timeout));
 		return $soapClient;
 	}
 	
