@@ -44,6 +44,9 @@ foreach($all_connecteur as $connecteur){
 	echo "\n";
 }
 
+$journal->horodateAll();
+
+
 $objectInstancier->LastUpstart->updateMtime();
 
 $stop = time();

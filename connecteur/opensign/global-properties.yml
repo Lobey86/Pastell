@@ -13,6 +13,10 @@ formulaire:
 			name: "Certificat de l'horodateur"
 			commentaire: "Le certificat X509 au format PEM de l'horodateur"
 			type: file
+		opensign_timeout:
+			name: "Timeout de connexion"
+			commentaire: "Temps en seconde avant que l'on considère que le serveur n'est pas disponible pour le moment"
+			default: 2
 
 action:	
 	opensign-test:
