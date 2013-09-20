@@ -18,6 +18,12 @@ class GEDFTP extends GEDConnecteur {
 		$this->passive_mode = $donneesFormulaire->get('passive_mode');
 	}
 	
+	public function getSanitizeFolderName($folder){
+		$folder = strtr($folder," אבגדהחטיךכלםמןסעףפץצשתûü‎ÿ","_aaaaaceeeeiiiinooooouuuuyy");
+		$folder = preg_replace('/[^\w_]/',"",$folder);
+		return $folder;		
+	}
+	
 	private function getConnection(){
 		static $conn_id;
 		if ($conn_id){
