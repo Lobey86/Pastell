@@ -72,6 +72,9 @@ class Extensions {
 	
 	public function getModulePath($id_module_to_found){
 		$result = $this->getAllModule();
+		if (empty($result[$id_module_to_found])){
+			return false;
+		}
 		return $result[$id_module_to_found];
 	}
 	
