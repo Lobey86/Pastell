@@ -313,12 +313,19 @@ class DocumentControler extends PastellControler {
 		$this->lastEtat = $recuperateur->get('lastetat');
 		$this->last_state_begin = $recuperateur->get('last_state_begin');
 		$this->last_state_end = $recuperateur->get('last_state_end');
+		$this->state_begin = $recuperateur->get('state_begin');
+		$this->state_end = $recuperateur->get('state_end');
+		
 		if(! $is_date_iso){
 			$this->last_state_begin_iso = getDateIso($this->last_state_begin );
 			$this->last_state_end_iso = getDateIso($this->last_state_end);
+			$this->state_begin_iso =  getDateIso($this->state_begin );
+			$this->state_end_iso =    getDateIso($this->state_end );
 		} else {
-			$this->last_state_begin_iso = false;
-			$this->last_state_end_iso = false;
+			$this->last_state_begin_iso = $this->last_state_begin;
+			$this->last_state_end_iso = $this->last_state_end;
+			$this->state_begin_iso =  $this->state_begin ;
+			$this->state_end_iso =   $this->state_end;
 		}
 		
 		if ( ! $this->id_e ){
@@ -331,9 +338,7 @@ class DocumentControler extends PastellControler {
 		
 		$this->etatTransit = $recuperateur->get('etatTransit');
 		
-		
-		$this->state_begin =  $recuperateur->get('state_begin');
-		$this->state_end =  $recuperateur->get('state_end');
+
 		$this->tri =  $recuperateur->get('tri');
 		$this->go = $recuperateur->get('go',0);
 		$this->offset = $recuperateur->getInt('offset',0);
@@ -350,7 +355,9 @@ class DocumentControler extends PastellControler {
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		
 		$this->my_id_e= $this->id_e;
-		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,$this->tri,$this->allDroitEntite);	
+		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,
+				$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,
+				$this->tri,$this->allDroitEntite,$this->etatTransit,$this->state_begin_iso,$this->state_end_iso);	
 
 		$this->type_list = $this->getAllType($this->listDocument);
 	}
