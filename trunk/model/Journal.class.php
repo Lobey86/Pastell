@@ -1,7 +1,4 @@
 <?php
-
-//TODO : Il y a un new Utilisateur en plein milieu !
-
 class Journal extends SQL {
 	
 	const DOCUMENT_ACTION = 1;
@@ -15,12 +12,16 @@ class Journal extends SQL {
 	
 	private $id_u;
 	private $utilisateurSQL;
+	private $documentSQL;
+	private $documentTypeFactory;
 	
 	private $horodateur;
 	
-	public function __construct(SQLQuery $sqlQuery){
+	public function __construct(SQLQuery $sqlQuery, Utilisateur $utilisateurSQL, Document $documentSQL, DocumentTypeFactory $documentTypeFactory){
 		parent::__construct($sqlQuery);
-		$this->utilisateurSQL = new Utilisateur($sqlQuery);
+		$this->utilisateurSQL = $utilisateurSQL;
+		$this->documentSQL = $documentSQL;
+		$this->documentTypeFactory = $documentTypeFactory;
 	}
 	
 	public function setHorodateur(Horodateur $horodateur){
@@ -42,8 +43,8 @@ class Journal extends SQL {
 		$this->add(Journal::DOCUMENT_CONSULTATION,$id_e,$id_d,"Consulté","$nom a consulté le document");
 	}
 	
-	public function add($type,$id_e,$id_d,$action,$message){
-		return $this->addSQL($type,$id_e,$this->id_u,$id_d,$action,$message);
+	public function add($type_journal,$id_e,$id_d,$action,$message){
+		return $this->addSQL($type_journal,$id_e,$this->id_u,$id_d,$action,$message);
 	}
 	
 	public function addActionAutomatique($type,$id_e,$id_d,$action,$message){
@@ -51,8 +52,15 @@ class Journal extends SQL {
 	}
 	
 	public function addSQL($type,$id_e,$id_u,$id_d,$action,$message){
+		if ($id_d){
+			$document_info = $this->documentSQL->getInfo($id_d);
+			$document_type = $document_info['type'];
+		} else {
+			$document_type = "";
+		}
+		
 		$now = date(Date::DATE_ISO);
-		$message_horodate = "$type - $id_e - $id_u - $id_d - $action - $message - $now";
+		$message_horodate = "$type - $id_e - $id_u - $id_d - $action - $message - $now - $document_type";
 		
 		$preuve = "";
 		$date_horodatage = "";
@@ -63,9 +71,10 @@ class Journal extends SQL {
 		if ($preuve) {
 			$date_horodatage = $this->horodateur->getTimeStamp($preuve);
 		}
-
-		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
-		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
+	
+		
+		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage,document_type) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage,$document_type);
 		
 		$sql = "SELECT id_j FROM journal WHERE type=? AND id_e=? AND id_u=? AND id_d=? AND action=? AND message=? AND date=? AND message_horodate=? AND preuve=? AND date_horodatage=?";
 		return $this->queryOne($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
@@ -75,12 +84,18 @@ class Journal extends SQL {
 	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		list($sql,$value) = $this->getQueryAll($id_e, $type, $id_d, $id_u, $offset, $limit,$recherche,$date_debut,$date_fin);
 		
-		return $this->query($sql,$value);
+		$result = $this->query($sql,$value);
+		foreach($result as $i => $line){
+			$documentType = $this->documentTypeFactory->getFluxDocumentType($line['document_type']);
+			$result[$i]['document_type_libelle'] = $documentType->getName();
+			$result[$i]['action_libelle'] = $documentType->getAction()->getActionName($line['action']);
+		}
+		return $result;
 	}
 	
 	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		$value = array();
-		$sql = "SELECT journal.*,document.titre,document.type as document_type,entite.denomination, utilisateur.nom, utilisateur.prenom " .
+		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom " .
 			" FROM journal " .
 			" LEFT JOIN document ON journal.id_d = document.id_d " .
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
@@ -166,17 +181,30 @@ class Journal extends SQL {
 		return $type_string[$type];
 	}
 	
-	public function getInfo($id_j){
+	public function getInfo($id_j){		
 		$sql = "SELECT * FROM journal WHERE id_j=?";
 		return $this->queryOne($sql,$id_j);
 	}
+	
 	public function getAllInfo($id_j){
+		global $objectInstancier;
+		
 		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom FROM journal " .
 			" LEFT JOIN document ON journal.id_d = document.id_d " .
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
 			" LEFT JOIN utilisateur ON journal.id_u = utilisateur.id_u " .
 			" WHERE id_j=?"; 
-		return $this->queryOne($sql,$id_j);
+		$result = $this->queryOne($sql,$id_j);
+		
+		if (!$result){
+			return $result;
+		}
+		
+		$documentType = $this->documentTypeFactory->getFluxDocumentType($result['document_type']);
+		$result['document_type_libelle'] = $documentType->getName();
+		$result['action_libelle'] = $documentType->getAction()->getActionName($result['action']);
+		
+		return $result;
 	}
 	
 	public function horodateAll(){
@@ -195,6 +223,4 @@ class Journal extends SQL {
 			
 		}
 	}
-	
-	
 }
