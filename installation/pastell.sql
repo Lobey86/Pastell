@@ -169,6 +169,7 @@ CREATE TABLE journal (
 	`preuve` text NOT NULL,
 	`date_horodatage` datetime NOT NULL,
 	`message_horodate` text NOT NULL,
+	`document_type` varchar(128) NOT NULL,
 	PRIMARY KEY (`id_j`),
 	KEY id_j (`id_u`,`id_j`),
 	FULLTEXT KEY message_horodate (`message_horodate`)

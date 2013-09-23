@@ -34,19 +34,25 @@
 				<?php echo $info['titre']?>
 			</a>
 		</td>
-		</tr>
+</tr>
+
 <tr>
-		<th>Action</th>
-		<td><?php echo  $info['action']?></td>
+	<th>Type de document</th>
+	<td><?php echo $info['document_type_libelle']?> (<?php echo $info['document_type']?>)</td>
+</tr>
+
+<tr>
+	<th>Action</th>
+	<td><?php echo $info['action_libelle']?> (<?php echo  $info['action']?>)</td>
 </tr>
 <tr>
-		<th>Message</th>
-		<td><?php echo  $info['message']?></td>
-		</tr>
+	<th>Message</th>
+	<td><?php echo  $info['message']?></td>
+</tr>
 <tr>
-		<th>Message horodaté: </th>
-		<td><?php echo  $info['message_horodate']?></td>
-	</tr>
+	<th>Message horodaté: </th>
+	<td><?php echo  $info['message_horodate']?></td>
+</tr>
 <tr>
 		<th>Date et heure de l'horodatage: </th>
 		<td><?php echo  $info['date_horodatage']?></td>

@@ -48,17 +48,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u
 			</a>
 		</td>
 		<td>
-		<?php
-			if ($ligne['action'] == 'supression'){
-				echo "Supprimé";
-			} elseif ($ligne['id_d'] && $ligne['document_type']){ 
-				$documentType = $this->DocumentTypeFactory->getFluxDocumentType($ligne['document_type']);
-				$theAction = $documentType->getAction();
-				echo $theAction->getActionName($ligne['action']);
-			} else {
-				echo  $ligne['action'];
-			}
-		?>
+		<?php echo  $ligne['action_libelle']; ?>
 		</td>
 		
 		<td><?php echo $ligne['message']?></td>
