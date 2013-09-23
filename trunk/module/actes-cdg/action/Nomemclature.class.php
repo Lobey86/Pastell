@@ -98,7 +98,7 @@ class Nomemclature extends ChoiceActionExecutor {
 	
 	
 	private function getFile($id_e){
-		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,'actes','TdT');
+		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,$this->type,'TdT');
 		
 		if (! $donneesFormulaire){
 			throw new Exception("Aucun fichier de nomemclature disponible");
@@ -116,7 +116,7 @@ class Nomemclature extends ChoiceActionExecutor {
 
 		
 		foreach($allAncetre as $ancetre){
-			$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre['id_e'],'actes','TdT');
+			$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre['id_e'],$this->type,'TdT');
 			
 			$file = $donneesFormulaireAncetre->get('nomemclature_file');
 			if ($file){
