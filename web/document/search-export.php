@@ -24,8 +24,8 @@ $documentActionEntite = new DocumentActionEntite($sqlQuery);
 
 $allDroitEntite = $objectInstancier->RoleUtilisateur->getAllDocumentLecture($objectInstancier->Authentification->getId(),$id_e);
 
-$limit = $documentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$allDroitEntite);
-$listDocument = $documentActionEntite->getListBySearch($id_e,$type,$offset,$limit,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$tri,$allDroitEntite);	
+$limit = $documentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$allDroitEntite,$etatTransit,$state_begin,$state_end);
+$listDocument = $documentActionEntite->getListBySearch($id_e,$type,$offset,$limit,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$tri,$allDroitEntite,$etatTransit,$state_begin,$state_end);	
 
 foreach($listDocument as $i => $doc){
 	$result[] = array(
