@@ -2,11 +2,8 @@
 
 class TedetisRecupHeliosCG extends ActionExecutor {
 
-	public function go(){
-		
+	public function go(){		
 		$tdT = $this->getConnecteur("TdT"); 
-		
-		
 		$tedetis_transaction_id = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
 		
 		$actionCreator = $this->getActionCreator();
@@ -14,9 +11,7 @@ class TedetisRecupHeliosCG extends ActionExecutor {
 			$actionCreator->addAction($this->id_e,0,'tdt-error',"Une erreur est survenu lors de l'envoie à ".$tedetis->getLogicielName());
 			return false;
 		}
-			
-		
-	
+
 		$status = $tdT->getStatusHelios($tedetis_transaction_id);
 		
 		if ($status === false){

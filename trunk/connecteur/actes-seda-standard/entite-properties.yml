@@ -2,6 +2,9 @@ name: ActesSEDAstandard
 
 type: Bordereau SEDA
 
+description: | 
+	Bordereau SEDA « standard » tel que spécifié par l'adullact.
+
 formulaire:
 	page0:
 		nom_entite: {name: "Nom de l'entité", commentaire: "Tel qu'il apparaitra dans le bordereau"}

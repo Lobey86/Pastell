@@ -1,12 +1,25 @@
 name: Fichiers de classification CDG
 type: classification-cdg
 	
+description: |
+	Ce connecteur permet d'importer un ou plusieurs fichiers de nomemclature dans Pastell.
+	
+	Ces fichiers permettent de spécifier la classification issue du CDG et de la mapper vers la classification des actes.
+	De plus, pour chaque élements de la classification, il est possible de spécifier un comportement par défaut pour les actes (passage par le TdT, le CDG, ...)
+	
+	Les fichiers CSV de nomemclature sont formatés de la manière suivante :
+	"Libellé","Niveau","Code Interne","Code ACTES","Transmissible ACTES","Transmissible CDG","Archivage"
+	
 formulaire:
 	Fichier de classification:
 		classification_cdg:
 			name: Fichier de classification fourni par le CDG
 			type: file
 			multiple: true
+			commentaire: |
+				Il faut mettre un fichier au format CSV.
+				Les colonnes du fichier doivent être les suivantes : "Libellé","Niveau","Code Interne","Code ACTES","Transmissible ACTES","Transmissible CDG","Archivage"
+			
 		classification_a_jour:
 			name: Fichier à jour
 			type: checkbox

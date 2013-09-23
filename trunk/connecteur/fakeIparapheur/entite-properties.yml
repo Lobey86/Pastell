@@ -1,5 +1,9 @@
 name: Fake iParapheur 
 type: signature
+
+description: |
+	Il s'agit d'un bouchon utilisé pour le développement ou les démonstrations pendant lesquels l'utilisation d'un vrai iParapheur ne se révelerait pas commode.
+
 formulaire:
 	page0:
 		iparapheur_type: 

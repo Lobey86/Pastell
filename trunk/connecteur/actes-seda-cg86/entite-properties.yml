@@ -2,6 +2,11 @@ name: ActesSEDACG86
 
 type: Bordereau SEDA
 
+description: |
+	Bordereau SEDA spécifique au CG86
+	
+	Il s'agit d'un portage de ce qui existait précédemment dans S²low
+
 formulaire:
 	page0:
 		nom_entite: 

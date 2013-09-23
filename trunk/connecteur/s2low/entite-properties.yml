@@ -2,6 +2,9 @@ name: S²low
 
 extends: TdT 
 
+description: |
+	Connecteur pour le logiciel S²low de l'Adullact. Permet l'utilisation des protocoles Actes et Helios.
+
 type: TdT
 
 formulaire:

@@ -2,6 +2,11 @@ name: OpenSign
 
 type: horodateur
 
+description: |
+	Connecteur permettant d'utiliser le système d'horodatage proposé par l'Adullact.
+	
+	Ce système apporte un niveau de preuve optimal pour l'horodatage du journal des événements.
+
 formulaire:
 	OpenSign:
 		opensign_wsdl: {name: "WSDL"}

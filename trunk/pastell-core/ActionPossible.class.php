@@ -99,7 +99,13 @@ class ActionPossible {
 		$action_rule = $action->getActionRule($action_name);
 		foreach($action_rule as $ruleName => $ruleValue){
 			if ( ! $this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleValue) ){
-				$this->lastBadRule = "$ruleName n'est pas vérifiée";
+				if ($ruleName == "last-action"){
+					$last_action = $this->documentActionEntite->getLastAction($id_e,$id_d);
+					$this->lastBadRule = "Le dernier état du document ($last_action) ne permet pas de déclencher cette action";	
+				} else {
+					$this->lastBadRule = "$ruleName n'est pas vérifiée";
+				}
+				
 				return false;
 			}
 		}

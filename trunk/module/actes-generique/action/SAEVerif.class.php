@@ -23,7 +23,7 @@ class SAEVerif extends ActionExecutor {
 			$message = $sae->getLastError();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'verif-sae-erreur',$message);	
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);										
+			$this->notify($this->action, $this->type,$message);										
 			return false;
 		} 
 		

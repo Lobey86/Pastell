@@ -41,7 +41,7 @@ class SAEValidation extends ActionExecutor {
 		}
 		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$next_action,$message);	
-		$this->getNotificationMail()->notify($this->id_e,$this->id_d,$next_action, $this->type,$message);				
+		$this->notify($next_action, $this->type,$message);				
 		
 		$this->setLastMessage($message);
 		return true;

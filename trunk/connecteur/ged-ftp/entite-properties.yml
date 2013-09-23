@@ -1,5 +1,9 @@
 name: GED-FTP
 type: GED
+
+description: |
+	Connecteur GED simple qui dépose les fichiers sur un répertoire FTP distant.
+
 formulaire:
 	page0:
 		server: {name: "Serveur FTP"}

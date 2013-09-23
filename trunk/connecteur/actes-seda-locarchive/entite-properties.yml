@@ -2,6 +2,9 @@ name: ActesSEDAlocarchive
 
 type: Bordereau SEDA
 
+description: |
+	Bordereau SEDA spécifique à Locarchive
+
 formulaire:
 	page0:
 		transferring_agency_description: 

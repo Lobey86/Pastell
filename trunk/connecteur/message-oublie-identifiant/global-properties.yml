@@ -2,6 +2,11 @@ name: Message oublie identifiant
 
 type: message-oublie-identifiant
 
+description: |
+	Par défaut, Pastell utilise un système de récupération de mot de passe classique (envoi d'un mail et modification de mot de passe).
+	
+	Ce connecteur permet de remplacer ce système par un message.
+
 formulaire:
 	Message:
 		procedure_recup:

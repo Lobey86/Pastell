@@ -1,5 +1,9 @@
 name: iParapheur
 type: signature
+
+description: |
+	Connecteur pour le iParapheur de l'Adullact
+
 formulaire:
 	page0:
 		iparapheur_activate: {name: "Module activé", type: checkbox}

@@ -1,6 +1,14 @@
 name: Horodateur Pastell interne
 type: horodateur
 
+description: |
+	Horodateur interne pour le journal des événements. 
+	
+	À défaut de pouvoir utilisé un système d'horodatage externe, ce système propose de mettre un timestamp sur chacun des événements avec un certificat local.
+	
+	Attention, le niveau de preuve n'est pas aussi fort qu'avec un horodateur externe.  
+
+
 formulaire:
 	OpenSign:
 		signer_certificate: 
