@@ -1,7 +1,7 @@
 name: Authentification CAS
 type: Authentification
 
-Description: |
+description: |
 	Permet l'utilisation d'un serveur CAS comme source d'authentification.
 	
 	Ce connecteur utilise le module PHP phpCAS disponible ici : https://wiki.jasig.org/display/CASC/phpCAS

@@ -1,6 +1,9 @@
 name: Mail sécurisé
 type: mailsec
 
+description: |
+	Connecteur permettant de configurer le mail sécurisé pour une entité.
+
 formulaire:
 	Mail sécurisé:
 		mailsec_from: {name: Email de l'emetteur, default: pastell@sigmalis.com}

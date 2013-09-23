@@ -1,6 +1,10 @@
 name: iParapheur
 type: signature
 
+description: |
+	Partie global du iParapheur permettant de mettre à jour l'ensemble des types/sous-type de tous les connecteurs iParapheur présents sur Pastell.
+
+
 action:
 	update-all-iparapheur:
 		name: Mettre à jour tout les sous-type

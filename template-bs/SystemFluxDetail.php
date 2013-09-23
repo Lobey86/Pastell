@@ -28,6 +28,36 @@
 <?php endif;?>
 </div>
 
+
+<div class="box">
+<h2>Connecteurs utilisés par ce flux :</h2>
+<ul>
+<?php foreach($all_connecteur as $connecteur):?>
+<li><?php hecho($connecteur) ?></li>
+<?php endforeach; ?>
+</ul>
+
+</div>
+
+<div class="box">
+<h2>Élements du formulaire</h2>
+<table class='table table-striped'>
+<tr>
+	<th>Id</th>
+	<th>Libellé</th>
+	<th>Commentaire</th>	
+</tr>
+<?php foreach($formulaire_fields as $field_id => $fields_properties) : ?>
+<tr>
+	<td><?php hecho($field_id)?></td>
+	<td><?php hecho($fields_properties['name'])?></td>
+	<td><?php hecho(isset($fields_properties['commentaire'])?$fields_properties['commentaire']:"")?></td>	
+</tr>
+<?php endforeach;?>
+</table>
+</div>
+
+
 <div class="box">
 <h2>Action du flux </h2>
 <table class='table table-striped'>

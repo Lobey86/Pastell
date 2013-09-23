@@ -1,5 +1,9 @@
 name: CMIS
 type: GED
+
+description: |
+	Connecteur GED pour le protocole standard CMIS.
+
 formulaire:
 	page0:
 		ged_activate: {name: "Module activé", type: checkbox}

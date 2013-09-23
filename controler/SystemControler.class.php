@@ -18,12 +18,14 @@ class SystemControler extends PastellControler {
 				$this->fluxDefAction(); break;
 			case 4:
 				$this->extensionListAction(); break;
+			case 5:
+				$this->ConnecteurListAction(); break;
 			case 0:
 			default: $this->actionAutoAction(); break;
 			
 		}
 		
-		$this->onglet_tab = array("Action automatique","Tests du système","Flux","Définition des flux","Extensions");
+		$this->onglet_tab = array("Action automatique","Tests du système","Flux","Définition des flux","Extensions","Connecteurs");
 		$this->page_number = $page_number;
 		$this->template_milieu = "SystemIndex";
 		$this->page_title = "Environnement système";
@@ -82,6 +84,12 @@ class SystemControler extends PastellControler {
 	public function extensionListAction(){
 		$this->all_extensions = $this->Extensions->getAll();
 		$this->onglet_content = "SystemExtensionList";
+	}
+	
+	public function connecteurListAction(){
+		$this->all_connecteur_entite = $this->ConnecteurDefinitionFiles->getAll();
+		$this->all_connecteur_globaux = $this->ConnecteurDefinitionFiles->getAllGlobal();
+		$this->onglet_content = "SystemConnecteurList";
 	}
 	
 	public function extensionAction(){
@@ -148,6 +156,7 @@ class SystemControler extends PastellControler {
 		
 		$name = $documentType->getName();
 		$this->description = $documentType->getDescription();
+		$this->all_connecteur = $documentType->getConnecteur();
 		$all_action = array();
 		$action = $documentType->getAction();
 		$action_list = $action->getAll();
@@ -164,6 +173,15 @@ class SystemControler extends PastellControler {
 		}
 		$this->all_action = $all_action;
 		
+		$formulaire = $documentType->getFormulaire();
+		
+		$allFields = $formulaire->getAllFields();
+		$form_fields = array();
+		foreach($allFields as $field){
+			$form_fields[$field->getName()] = $field->getAllProperties();
+			
+		}
+		$this->formulaire_fields = $form_fields;		
 		$all_connecteur_type = $this->ConnecteurDefinitionFiles->getAllType();
 		$all_type_entite = array_keys(Entite::getAllType());
 		

@@ -1,5 +1,8 @@
 name: WebGFC
 type: GFC
+description: |
+	Connecteur vers le logiciel WebGFC de l'Adullact.
+
 formulaire:
 	page0:
 		wsdl: {name: WSDL}

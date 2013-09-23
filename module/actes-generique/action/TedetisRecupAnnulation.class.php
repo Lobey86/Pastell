@@ -23,7 +23,7 @@ class TedetisRecupAnnulation extends ActionExecutor {
 			$message = "Echec de la récupération des informations : " .  $e->getMessage();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-tdt',$message);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
+			$this->notify($this->action, $this->type,$message);													
 			return false;
 		} 
 		
@@ -31,7 +31,6 @@ class TedetisRecupAnnulation extends ActionExecutor {
 			$this->setLastMessage("La transaction d'annulation a comme statut : " . TdtConnecteur::getStatusString($status));
 			return true;
 		}
-		
 		
 		$actionCreator->addAction($this->id_e,0,'annuler-tdt',"L'acte a été annulé par le contrôle de légalité");
 		

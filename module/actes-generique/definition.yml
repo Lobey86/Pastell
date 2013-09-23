@@ -2,6 +2,12 @@ nom: Actes (générique)
 
 type: Flux Généraux
 
+description: |
+	Le flux « Actes (générique) » permet de créer des actes et de les envoyer à un ou plusieurs des connecteurs suivant : signature, TdT, SAE et GED. 
+	
+	Le cheminement est le suivant : signature -> TdT -> SAE -> GED. Chacune de ces étapes est facultatives.
+	
+	Ce flux peut servir de base à tous les flux utilisant des actes.
 
 connecteur:
 	SAE
@@ -285,6 +291,7 @@ page-condition:
 
 
 action:
+
 	creation:		
 		name-action: Créer
 		name: Créé

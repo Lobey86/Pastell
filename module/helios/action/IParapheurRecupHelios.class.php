@@ -28,7 +28,7 @@ class IParapheurRecupHelios extends ActionExecutor {
 			$message = "La connexion avec le iParapheur a échoué : " . $signature->getLastError();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$message);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
+			$this->notify($this->action, $this->type,$message);													
 			return false;
 		}
 		

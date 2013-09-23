@@ -23,7 +23,7 @@ class TedetisRecup extends ActionExecutor {
 			$message = "Echec de la récupération des informations : " .  $e->getMessage();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-tdt',$message);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
+			$this->notify($this->action, $this->type,$message);													
 			return false;
 		} 
 		
@@ -65,7 +65,6 @@ class TedetisRecup extends ActionExecutor {
 	
 		$this->setLastMessage("L'acquittement du contrôle de légalité a été reçu.");
 		return true;
-
 	}
 
 }

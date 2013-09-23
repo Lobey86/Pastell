@@ -2,6 +2,12 @@ name: Message de connexion
 
 type: message-connexion
 
+description: |
+	Ce connecteur permet de configurer un message qui sera affiché sur l'écran de connexion de Pastell.
+	
+	Il est possible de spécifier une date de début et de fin d'affichage.
+
+
 formulaire:
 	Message:
 		message:

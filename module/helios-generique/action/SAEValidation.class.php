@@ -12,7 +12,7 @@ class SAEValidation extends ActionExecutor {
 			$message = "Impossible de trouver l'identifiant du transfert";
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-envoie-sae',$message);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);													
+			$this->notify($this->action, $this->type,$message);													
 			return false;
 		}
 		$validation = $sae->getReply($id_transfert);
@@ -31,7 +31,7 @@ class SAEValidation extends ActionExecutor {
 			$message = $sae->getLastError();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'validation-sae-erreur',$message);	
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$message);										
+			$this->notify($this->action, $this->type,$message);										
 			return false;
 		} 
 		
@@ -54,7 +54,7 @@ class SAEValidation extends ActionExecutor {
 		}
 		
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$next_action,$message);	
-		$this->getNotificationMail()->notify($this->id_e,$this->id_d,$next_action, $this->type,$message);				
+		$this->notify($next_action, $this->type,$message);				
 		
 		$this->setLastMessage($message);
 		return true;

@@ -34,7 +34,7 @@ class IParapheurRecup extends ActionExecutor {
 		if (time() - $time_action > $nb_jour_max * 86400){
 			$erreur = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max !";
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$erreur);		
-			$this->getNotificationMail()->notify($this->id_e,$this->id_d,$this->action, $this->type,$erreur);
+			$this->notify('erreur-verif-iparapheur', $this->type,$erreur);
 		}			
 		
 		if (! $erreur){
