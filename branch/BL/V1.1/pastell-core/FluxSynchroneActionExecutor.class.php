@@ -136,6 +136,9 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             // - ni comme des erreurs fonctionnelles : ne terminent donc pas le workflow
             // Erreur tracée, état inchangé
             $this->throwException($gofEx, false);
+        } catch (ConnecteurSuspensionException $gofEx) {
+            // Erreur tracée, état inchangé
+            $this->throwException($gofEx, false);
         } catch (ConnecteurAccesException $gofEx) {
             // La suspension du connecteur s'effectue en contexte asynchrone (appels par cron),
             // mais pas en contexte synchrone (appels par api ou par ihm).

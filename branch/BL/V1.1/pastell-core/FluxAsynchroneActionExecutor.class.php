@@ -30,6 +30,9 @@ abstract class FluxAsynchroneActionExecutor extends FluxSynchroneActionExecutor 
         } catch (ConnecteurActivationException $gofEx) {
             // Action synchrone reportée; sera déclenchée par action automatique.
             return parent::go();
+        } catch (ConnecteurSuspensionException $gofEx) {
+            // Action synchrone reportée; sera déclenchée par action automatique.
+            return parent::go();
         } catch (ConnecteurAccesException $gofEx) {
             // Action synchrone reportée; sera déclenchée par action automatique.
             return parent::go();

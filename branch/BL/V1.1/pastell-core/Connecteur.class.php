@@ -21,6 +21,12 @@ class ConnecteurActivationException extends ConnecteurException {
     }
 }
 
+class ConnecteurSuspensionException extends ConnecteurException {
+    public function __construct() {
+        parent::__construct('Le connecteur a suspendu les accès au service suite à des erreurs d\'accès répétées. Vérifiez l\'état du service et/ou la configuration d\'accès. La suspension sera levée par un test de connexion réussi.');
+    }
+}
+
 abstract class Connecteur {
 	
 	protected $lastError;

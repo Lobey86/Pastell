@@ -7,7 +7,7 @@ class ConnecteurSuspensionControler {
 
     public static function isSuspension(ConnecteurSuspensionIntf $connecteur) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
-        $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION);
+        $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         return $suspension;
     }
 
