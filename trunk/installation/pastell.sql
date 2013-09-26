@@ -3,9 +3,11 @@ CREATE TABLE action_auto_log (
 	`id_d` varchar(16) NOT NULL,
 	`etat_source` varchar(16) NOT NULL,
 	`etat_cible` varchar(16) NOT NULL,
-	`date` datetime NOT NULL,
-	`message` varchar(255) NOT NULL,
-	UNIQUE KEY id_e (`id_e`,`id_d`,`date`)
+	`first_try` datetime NOT NULL,
+	`last_try` datetime NOT NULL,
+	`nb_try` int(11) NOT NULL,
+	`last_message` varchar(255) NOT NULL,
+	UNIQUE KEY id_e (`id_e`,`id_d`,`first_try`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE agent (
 	`id_a` int(11) NOT NULL AUTO_INCREMENT,
