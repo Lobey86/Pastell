@@ -43,9 +43,13 @@ $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u
 		<td><a href='entite/detail.php?id_e=<?php echo $ligne['id_e'] ?>'><?php echo  $ligne['denomination']?></a></td>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo  $ligne['id_u']?>'><?php echo $ligne['prenom'] . " " . $ligne['nom']?></a></td>
 		<td>
+			<?php if ($ligne['id_d']) : ?>
 			<a href='document/detail.php?id_d=<?php echo $ligne['id_d']?>&id_e=<?php echo $ligne['id_e']?>'>
 				<?php echo $ligne['titre']?:$ligne['id_d']?>
 			</a>
+			<?php else : ?>
+				N/A
+			<?php endif;?>
 		</td>
 		<td>
 		<?php echo  $ligne['action_libelle']; ?>

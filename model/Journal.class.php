@@ -54,7 +54,7 @@ class Journal extends SQL {
 	public function addSQL($type,$id_e,$id_u,$id_d,$action,$message){
 		if ($id_d){
 			$document_info = $this->documentSQL->getInfo($id_d);
-			$document_type = $document_info['type'];
+			$document_type = $document_info['type']?:"";
 		} else {
 			$document_type = "";
 		}

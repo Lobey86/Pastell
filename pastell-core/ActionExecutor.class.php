@@ -161,7 +161,11 @@ abstract class ActionExecutor {
 	/***** Fonction utilitaire *****/
 	
 	public function addActionOK($message = ""){
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,$message);
+		$this->changeAction($this->action, $message);
+	}
+	
+	public function changeAction($action,$message){
+		$this->objectInstancier->ActionChange->addAction($this->id_d,$this->id_e,$this->id_u,$action,$message);
 		$this->setLastMessage($message);
 	}
 	

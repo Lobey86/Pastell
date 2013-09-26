@@ -1,4 +1,5 @@
 <?php
+#Devrait être séparé en deux : la partie SQL d'un côté et la partie métier de l'autre
 class ActionCreator extends SQL {
 	
 	private $journal;
@@ -27,7 +28,6 @@ class ActionCreator extends SQL {
 		if ( ! $document_action || $document_action['id_u'] != $id_u || $document_action['action'] != $action){
 			return $this->addAction($id_e, $id_u, $action,"Modification du document");
 		}
-		
 		
 		$sql = "UPDATE document_action SET date=now() WHERE id_a=?";
 		$this->query($sql,$document_action['id_a']);
@@ -64,7 +64,6 @@ class ActionCreator extends SQL {
 		
 		$sql = "INSERT INTO document_action_entite (id_a,id_e,id_j) VALUES (?,?,?)";
 		$this->query($sql,$this->id_a,$id_e,$id_j);
-		
 	}
 		
 }

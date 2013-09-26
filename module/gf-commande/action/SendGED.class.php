@@ -29,12 +29,9 @@ class SendGED extends ActionExecutor {
 		$this->sendFile($sub_folder."/Facture",'facture_signe',"Signature de la facture");
 		$this->sendFile($sub_folder."/Facture",'signature_facture',"Facture signée");
 		
-		
-		
-		$this->setLastMessage("Document envoyé en GED");
+		$this->addActionOK("Document envoyé sur la GED");
 		
 		$actionName  = $this->getActionName();
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Document envoyé sur la GED");
 		$this->setLastMessage("L'action $actionName a été executé sur le document");
 		return true;
 	}

@@ -3,9 +3,18 @@ require_once(dirname(__FILE__)."/../init.php");
 
 $JSONoutput = new JSONoutput();
 
-$certificatConnexion = new CertificatConnexion($sqlQuery);
-$id_u = $certificatConnexion->autoConnect();
+try{
+	$id_u = $objectInstancier->ConnexionControler->apiCasConnexion();
+} catch(Exception $e){
+	$JSONoutput->displayErrorAndExit($e->getMessage());
+	exit;
+}
 
+if (!$id_u){
+	$certificatConnexion = new CertificatConnexion($sqlQuery);
+	$id_u = $certificatConnexion->autoConnect();
+}
+	
 if ( ! $id_u && ! empty($_SERVER['PHP_AUTH_USER'])){
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$id_u = $utilisateurListe->getUtilisateurByLogin($_SERVER['PHP_AUTH_USER']);

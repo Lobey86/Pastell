@@ -1,11 +1,20 @@
 <?php
 require_once(dirname(__FILE__)."/../init.php");
 
-
 $recuperateur = new Recuperateur($_POST);
 
 $login = $recuperateur->get('login');
 $password = $recuperateur->get('password');
+
+$authentificationConnecteur = $objectInstancier->ConnecteurFactory->getGlobalConnecteur("authentification");
+
+if ($authentificationConnecteur && $login != 'admin'){
+	$lastError->setLastError("Veuillez utiliser le serveur CAS pour l'authentification");
+	header("Location: connexion.php");
+	exit;
+}
+
+
 
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 $id_u = $utilisateurListe->getUtilisateurByLogin($login);

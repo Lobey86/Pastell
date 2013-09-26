@@ -20,7 +20,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"system/index.php?page_number=0");
 	<th>Premier essai</th>
 	<th>Dernier essai</th>
 	<th>Nombre d'essais</th>
-	<th>Messages</th>
+	<th>Message</th>
 	
 </tr>
 <?php foreach($all_log as $i => $log) : ?>
@@ -32,7 +32,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"system/index.php?page_number=0");
 		<td><?php hecho($log['first_try'])?></td>
 		<td><?php hecho($log['last_try'])?></td>
 		<td><?php hecho($log['nb_try'])?> </td>
-		<td><a href='system/message.php?id_e=<?php echo $log['id_e']?>&id_d=<?php echo $log['id_d']?>'>voir</a></td>
+		<td><?php hecho($log['last_message'])?> </td>
 	</tr>
 <?php endforeach;?>
 

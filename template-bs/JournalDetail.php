@@ -26,7 +26,8 @@
 		<th>Utilisateur</th>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo  $info['id_u']?>'><?php echo $info['prenom'] . " " . $info['nom']?></a>
 		</td>
-		</tr>
+</tr>
+<?php if($info['id_d']) :?>
 <tr>
 		<th>Document</th>
 		<td>
@@ -40,7 +41,7 @@
 	<th>Type de document</th>
 	<td><?php echo $info['document_type_libelle']?> (<?php echo $info['document_type']?>)</td>
 </tr>
-
+<?php endif;?>
 <tr>
 	<th>Action</th>
 	<td><?php echo $info['action_libelle']?> (<?php echo  $info['action']?>)</td>

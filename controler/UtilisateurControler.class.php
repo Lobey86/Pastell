@@ -281,7 +281,7 @@ class UtilisateurControler extends PastellControler {
 		}
 		$infoChanged  = implode("; ",$infoChanged);
 		
-		$this->Journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,$this->getId_u(),"Edité",
+		$this->Journal->add(Journal::MODIFICATION_UTILISATEUR,$id_e,0,"Edité",
 		"Edition de l'utilisateur $login ($id_u) : $infoChanged");
 
 		return $id_u;

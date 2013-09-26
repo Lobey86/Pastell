@@ -68,9 +68,7 @@ class SAEEnvoiHelios extends ActionExecutor {
 			return false;
 		} 
 		
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au SAE");
-		
-		$this->setLastMessage("La transaction à été envoyé au SAE ({$authorityInfo['sae_wsdl']})");
+		$this->addActionOK("La transaction à été envoyé au SAE ({$authorityInfo['sae_wsdl']})");
 		return true;
 	}
 } 

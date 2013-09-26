@@ -43,8 +43,6 @@ class SAEEnvoiActes extends ActionExecutor {
 			$transactionsInfo['signature'] = $donneesFormulaire->copyAllFiles('signature',$tmp_folder);
 		}
 		
-		
-		
 		$actesSEDA = $this->getConnecteur('Bordereau SEDA');
 		$bordereau = $actesSEDA->getBordereau($transactionsInfo);
 		
@@ -64,9 +62,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		} 
 		
 		$donneesFormulaire->setData("sae_transfert_id",$transferId);
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au SAE");
-		
-		$this->setLastMessage("La transaction à été envoyé au SAE ");
+		$this->addActionOK("Le document a été envoyé au SAE");
 		return true;
 	}
 } 
