@@ -16,8 +16,25 @@ class ConnexionControler extends PastellControler {
 		$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 	}
 	
-	public function connexionAction(){
+	public function apiCasConnexion(){
+		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
 		
+		if ( ! $authentificationConnecteur){
+			return false;
+			
+		}
+		$login = $authentificationConnecteur->authenticate(SITE_BASE."/connexion/connexion.php");
+		if (!$login){
+			throw new Exception("Le serveur CAS n'a pas donné de login");
+		}
+		$id_u = $this->UtilisateurListe->getUtilisateurByLogin($login);
+		if (!$id_u){
+			throw new Exception("Votre login cas est inconnu sur Pastell ($login) ");
+		}
+		return $id_u;
+	}
+	
+	public function casConnexion(){
 		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
 		
 		if ($authentificationConnecteur){
@@ -39,6 +56,20 @@ class ConnexionControler extends PastellControler {
 			$this->Authentification->connexion($login, $id_u);
 			$this->redirect();
 		}
+		
+	}
+	
+	public function connexionAdminAction() {
+		$this->message_connexion = false;
+		$this->page="connexion";
+		$this->page_title="Connexion";
+		$this->template_milieu = "ConnexionIndex";
+		$this->renderDefault();
+	}
+	
+	public function connexionAction(){
+		
+		$this->casConnexion();
 		
 		$messageConnexion = $this->ConnecteurFactory->getGlobalConnecteur("message-connexion");
 		

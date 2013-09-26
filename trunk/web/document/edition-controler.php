@@ -39,8 +39,6 @@ $entite = new Entite($sqlQuery,$id_e);
 
 $actionPossible = $objectInstancier->ActionPossible;
 
-
-
 if ( ! $actionPossible->isActionPossible($id_e,$authentification->getId(),$id_d,$action)) {
 	$lastError->setLastError("L'action « $action »  n'est pas permise : " .$actionPossible->getLastBadRule() );
 	header("Location: detail.php?id_d=$id_d&id_e=$id_e&page=$page");
@@ -70,10 +68,9 @@ if ($action=='creation' || $action=='modification'){
 
 $actionCreator = new ActionCreator($sqlQuery,$journal,$id_d);
 if (! $info){
-	$actionCreator->addAction($id_e,$authentification->getId(),Action::CREATION,"Création du document");
+	$objectInstancier->ActionChange->addAction($id_d,$id_e,$authentification->getId(),Action::CREATION,"Création du document");
 } else if ($donneesFormulaire->isModified() ) {
-	
-	$actionCreator->updateModification($id_e, $authentification->getId(),$action);
+	$objectInstancier->ActionChange->updateModification($id_d,$id_e,$authentification->getId(),$action);
 } 
 
 

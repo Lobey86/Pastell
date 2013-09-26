@@ -24,7 +24,7 @@ class Nomemclature extends ChoiceActionExecutor {
 		$info_classification = "";
 		if ($info['transmission_actes']){
 			$id_e_col = $this->objectInstancier->EntiteSQL->getCollectiviteAncetre($this->id_e);
-			$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($this->id_e,'actes','TdT');	
+			$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($this->id_e,$this->type,'TdT');	
 				
 			$file = $donneesFormulaire->getFilePath('classification_file');
 		
@@ -64,19 +64,20 @@ class Nomemclature extends ChoiceActionExecutor {
 	}
 	
 	private function getNomemclatureContent(){
-		$infoCDG = $this->objectInstancier->EntiteSQL->getCDG($this->id_e);
-		if (! $infoCDG){
+		$id_e_cdg = $this->objectInstancier->EntiteSQL->getCDG($this->id_e);
+		if (! $id_e_cdg){
 			return false;
 		}
-				
+		
 		$file = $this->getFile($this->id_e);
 		
+		$donneesFormulaireCDG = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e_cdg,'actes-cdg','classification-cdg');
 		
-		$donneesFormulaireCDG = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCDG['id_e'],'actes-cdg','classification-cdg');
 		if (!$donneesFormulaireCDG){
 			throw new Exception("Le CDG ne présente pas de connecteur actes-cdg");
 		}		
 		$classifCDG = $donneesFormulaireCDG->get("classification_cdg");
+		
 		
 		if (! $classifCDG){
 			return false;

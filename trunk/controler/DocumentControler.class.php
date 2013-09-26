@@ -112,8 +112,7 @@ class DocumentControler extends PastellControler {
 			$document->save($id_d,$type);
 		
 			$this->DocumentEntite->addRole($id_d,$id_e,"editeur");
-			$actionCreator = new ActionCreator($this->SQLQuery,$this->Journal,$id_d);
-			$actionCreator->addAction($id_e,$this->Authentification->getId(),Action::CREATION,"Création du document");
+			$this->ActionChange->addAction($id_d,$id_e,$this->Authentification->getId(),Action::CREATION,"Création du document");
 			$action = 'modification';
 		}
 		

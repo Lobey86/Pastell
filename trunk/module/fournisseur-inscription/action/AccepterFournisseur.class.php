@@ -15,7 +15,6 @@ class AccepterFournisseur extends ActionExecutor {
 		$nomCol = $infoEntite['denomination'];
 		
 		$actionCreator = $this->getActionCreator();
-		
 		$actionCreator->addAction($this->id_e,$this->id_u,$this->action,"L'inscription de $nomFournisseur a été accepté");
 		$actionCreator->addToEntite($id_fournisseur,"$nomCol a accepté l'inscription");
 		

@@ -8,7 +8,6 @@ class MnesysSAE extends SAEConnecteur {
 		$this->url = $collectiviteProperties->get('url');
 	}
 	
-		
 	public function generateArchive($bordereau,$tmp_folder){
 		$fileName = "/tmp/donnee.zip";
 		$command = "zip -r $fileName $tmp_folder";
@@ -29,8 +28,7 @@ class MnesysSAE extends SAEConnecteur {
 		if ($result == "000"){
 			return "ok";
 		}
-		throw new Exception("Réponse de Mnesys non documenté");
-		
+		throw new Exception("Réponse de Mnesys non documenté : $result");
 	}
 	
 	public function getAcuseReception($id_transfert){

@@ -30,9 +30,7 @@ class IParapheurEnvoieHelios extends ActionExecutor {
 			return false;
 		}
 		
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,$this->action,"Le document a été envoyé au parapheur électronique");			
-		
-		$this->setLastMessage("Le document a été envoyé au parapheur électronique");
+		$this->addActionOK("Le document a été envoyé au parapheur électronique");
 		return true;			
 	}
 	

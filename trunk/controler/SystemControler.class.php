@@ -137,18 +137,7 @@ class SystemControler extends PastellControler {
 		$this->LastMessage->setLastMessage("Extension supprimée");
 		$this->redirect("/system/index.php?page_number=4");
 	}
-	
-	public function messageAction(){
-		$recuperateur=new Recuperateur($_GET);
-		$id_e = $recuperateur->getInt('id_e');
-		$id_d = $recuperateur->get('id_d');
-		$this->all_message = $this->ActionAutoLogSQL->getMessage($id_e,$id_d);
-		$this->template_milieu = "SystemActionAutoMessage";
-		$this->page_title = "Environnement système";
-		$this->renderDefault();
-	}
-	
-	
+
 	public function fluxDetailAction(){
 		$recuperateur=new Recuperateur($_GET);
 		$id = $recuperateur->get('id');		

@@ -48,7 +48,7 @@ class IParapheur extends Connecteur {
 	}
 	
 	public function getDossier($dossierID){
-		return  $this->getClient()->GetDossier($dossierID);
+		return  $this->getClient()->GetDossier(utf8_encode($dossierID));
 	}
 	
 	public function getBordereau($result){
@@ -73,7 +73,7 @@ class IParapheur extends Connecteur {
 	
 	public function getSignature($dossierID){
 		try{
-			$result =  $this->getClient()->GetDossier($dossierID);
+			$result =  $this->getClient()->GetDossier(utf8_encode($dossierID));
 			if ($result->MessageRetour->codeRetour != 'OK'){
 				$message = "[{$result->MessageRetour->severite}] {$result->MessageRetour->message}";
 				$this->lastError = utf8_decode($message);
@@ -99,7 +99,7 @@ class IParapheur extends Connecteur {
 	
 	public function archiver($dossierID){
 		try {
-			$result = $this->getClient()->ArchiverDossier(array("DossierID" => $dossierID,"ArchivageAction"=>"EFFACER"));
+			$result = $this->getClient()->ArchiverDossier(array("DossierID" => utf8_encode($dossierID),"ArchivageAction"=>"EFFACER"));
 		} catch(Exception $e){
 			$this->lastError = $e->getMessage();
 			return false;
@@ -109,7 +109,7 @@ class IParapheur extends Connecteur {
 	
 	public function effacerDossierRejete($dossierID){
 		try {
-			$result = $this->getClient()->EffacerDossierRejete($dossierID);
+			$result = $this->getClient()->EffacerDossierRejete(utf8_encode($dossierID));
 		} catch(Exception $e){
 			$this->lastError = $e->getMessage();
 			return false;
@@ -119,7 +119,7 @@ class IParapheur extends Connecteur {
 	
 	public function getAllHistoriqueInfo($dossierID){
 		try{
-			$result =  $this->getClient()->GetHistoDossier($dossierID);
+			$result =  $this->getClient()->GetHistoDossier(utf8_encode($dossierID));
 			if ( empty($result->LogDossier)){
 				$this->lastError = "Le dossier n'a pas été trouvé";
 				return false;
@@ -139,7 +139,7 @@ class IParapheur extends Connecteur {
 	
 	public function getHistorique($dossierID){
 		try{
-			$result =  $this->getClient()->GetHistoDossier($dossierID);
+			$result =  $this->getClient()->GetHistoDossier(utf8_encode($dossierID));
 			
 			if ( empty($result->LogDossier)){
 				$this->lastError = "Le dossier n'a pas été trouvé";
@@ -160,7 +160,7 @@ class IParapheur extends Connecteur {
 			$data = array(
 					"TypeTechnique"=>utf8_encode($typeTechnique),
 					"SousType"=> utf8_encode($sousType),
-					"DossierID" => $dossierID,
+					"DossierID" => utf8_encode($dossierID),
 					"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
 					"VisuelPDF" => array("_" => $visuel_pdf, "contentType" => "application/pdf"),
 					"Visibilite" => "SERVICE",
@@ -198,7 +198,7 @@ class IParapheur extends Connecteur {
 			$data = array(
 						"TypeTechnique"=>utf8_encode($typeTechnique),
 						"SousType"=> utf8_encode($sousType),
-						"DossierID" => $dossierID,
+						"DossierID" => utf8_encode($dossierID),
 						"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
 						"Visibilite" => "SERVICE",
 						

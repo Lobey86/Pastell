@@ -34,7 +34,7 @@ class PastellControler extends Controler {
 		$this->navigation_denomination = $this->EntiteSQL->getDenomination($id_e);
 		$this->navigation_all_ancetre = $this->EntiteSQL->getAncetreNav($id_e,$listeCollectivite);
 		$this->navigation_liste_fille = $this->EntiteSQL->getFilleInfoNavigation($id_e, $listeCollectivite);
-		$this->navigation_entite_affiche_toutes = ($id_e != 0 && (count($listeCollectivite) > 1 || $listeCollectivite[0] == 0));
+		$this->navigation_entite_affiche_toutes = ($id_e != 0 && (count($listeCollectivite) > 1 ||($listeCollectivite && $listeCollectivite[0] == 0)));
 		$this->navigation_url = $url;
 	}
 		

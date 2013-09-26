@@ -2,6 +2,11 @@
 
 class DocumentActionEntite extends SQL {
 
+	public function add($id_a,$id_e,$id_j){
+		$sql = "INSERT INTO document_action_entite (id_a,id_e,id_j) VALUES (?,?,?)";
+		$this->query($sql,$id_a,$id_e,$id_j);
+	}
+	
 	public function getTrueAction($id_e,$id_d){
 		$sql = "SELECT document_entite.last_action " .
 			" FROM document_entite " .  
