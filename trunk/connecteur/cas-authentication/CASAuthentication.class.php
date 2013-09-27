@@ -14,7 +14,7 @@ class CASAuthentication extends Connecteur {
 		$this->port = $donneesFormulaire->get('cas_port');
 		$this->context = $donneesFormulaire->get('cas_context');
 		$this->ca_file = $donneesFormulaire->getFilePath('cas_ca');
-		$this->proxy = $donneesFormulaire->getFilePath('cas_proxy');
+		$this->proxy = $donneesFormulaire->get('cas_proxy');
 		$cas_debug = $donneesFormulaire->get('cas_debug');
 		if ($cas_debug) {
 			phpCAS::setDebug($cas_debug);
