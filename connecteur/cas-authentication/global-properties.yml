@@ -28,6 +28,13 @@ formulaire:
 			name: Certificat du serveur CAS ou AC de celui-ci
 			type: file
 			
+		cas_proxy:
+			name: Proxy à autoriser
+			commentaire : https://proxy_host
+			
+		cas_debug:
+			name: Emplacement du fichier de log 
+			commentaire: active le mode debug
 			
 action:
 	test-ticket:
