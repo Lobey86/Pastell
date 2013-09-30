@@ -21,9 +21,10 @@ class ConnexionControler extends PastellControler {
 		
 		if ( ! $authentificationConnecteur){
 			return false;
-			
 		}
-		$login = $authentificationConnecteur->authenticate(SITE_BASE."/connexion/connexion.php");
+	
+		
+		$login = $authentificationConnecteur->authenticate();
 		if (!$login){
 			throw new Exception("Le serveur CAS n'a pas donné de login");
 		}
@@ -38,7 +39,7 @@ class ConnexionControler extends PastellControler {
 		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
 		
 		if ($authentificationConnecteur){
-			$login = $authentificationConnecteur->authenticate(SITE_BASE."/connexion/connexion.php");
+			$login = $authentificationConnecteur->authenticate();
 			if (!$login){
 				$this->LastError->setLastError("Le serveur CAS n'a pas donné de login");
 				$this->redirect("/connexion/cas-error.php");

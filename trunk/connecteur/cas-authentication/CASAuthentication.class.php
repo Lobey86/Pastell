@@ -39,9 +39,11 @@ class CASAuthentication extends Connecteur {
 		return false;
 	}
 	
-	public function authenticate($url){
+	public function authenticate($url = false){
 		$this->setClient();
-		phpCAS::setFixedServiceURL($url);
+		if ($url){
+			phpCAS::setFixedServiceURL($url);
+		}
 		phpCAS::handleLogoutRequests(false);
 		phpCAS::forceAuthentication();
 		return phpCAS::getUser();
