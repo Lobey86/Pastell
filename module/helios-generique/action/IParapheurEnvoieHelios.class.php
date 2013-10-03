@@ -12,6 +12,10 @@ class IParapheurEnvoieHelios extends ActionExecutor {
 		$finfo = new finfo(FILEINFO_MIME);
 		$content_type = $finfo->file($helios->getFilePath('fichier_pes'),FILEINFO_MIME_TYPE);
 		
+		if (! $helios->get('visuel_pdf')){
+			throw new Exception("Le visuel PDF est obligatoire pour l'envoi à la signature");
+		}
+		
 		$visuel_pdf  = file_get_contents($helios->getFilePath('visuel_pdf'));
 		
 		$file_array = $helios->get('fichier_pes');

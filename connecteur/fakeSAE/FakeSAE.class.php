@@ -1,10 +1,10 @@
 <?php
-class FakeSAE extends Connecteur {
+class FakeSAE extends SAEConnecteur {
 	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 	}
 	
-	public function sendArchive(){
+	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
 		return true;
 	}
 	
@@ -24,4 +24,9 @@ class FakeSAE extends Connecteur {
 	public function generateArchive($bordereau,$tmp_folder){
 		return "/tmp/test";
 	}	
+	
+	public function getErrorString($number){
+		
+	}
+	
 }
