@@ -15,7 +15,11 @@ formulaire:
 	PES:
 		Objet: {requis: true, title: true}	
 		fichier_pes: {name: Fichier PES, type: file, requis: true, commentaire: "format XML"}
-		visuel_pdf: {name: Visuel PDF, type: file, requis: true, commentaire: "format PDF"}
+		visuel_pdf: 
+			name: Visuel PDF
+			type: file
+			requis: false
+			commentaire: "Format PDF - obligatoire dans le cas de l'envoi au parapheur"
 		tedetis_transaction_id: {no-show: true}
 	
 	Cheminement:
