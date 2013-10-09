@@ -23,7 +23,6 @@ class ConnexionControler extends PastellControler {
 			return false;
 		}
 	
-		
 		$login = $authentificationConnecteur->authenticate();
 		if (!$login){
 			throw new Exception("Le serveur CAS n'a pas donné de login");
@@ -32,31 +31,39 @@ class ConnexionControler extends PastellControler {
 		if (!$id_u){
 			throw new Exception("Votre login cas est inconnu sur Pastell ($login) ");
 		}
+		
+		$verificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("Vérification");
+		
+		if (! $verificationConnecteur){
+			return $id_u;
+		}
+		
+		if (! $verificationConnecteur->getEntry($login)){
+			throw new Exception("Vous ne pouvez pas vous connecter car vous êtes inconnu sur l'annuaire LDAP");
+		}
 		return $id_u;
 	}
 	
-	public function casConnexion(){
-		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
+	private function casConnexion(){
 		
-		if ($authentificationConnecteur){
-			$login = $authentificationConnecteur->authenticate();
-			if (!$login){
-				$this->LastError->setLastError("Le serveur CAS n'a pas donné de login");
-				$this->redirect("/connexion/cas-error.php");
-			}
-			$id_u = $this->UtilisateurListe->getUtilisateurByLogin($login);
-			if (!$id_u){
-				$this->LastError->setLastError("Votre login cas est inconnu sur Pastell ($login) ");
-				$this->redirect("/connexion/cas-error.php");
-			}
-			$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
-			$this->Journal->setId($id_u);
-			$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
-			$this->Journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté via CAS depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
-			
-			$this->Authentification->connexion($login, $id_u);
-			$this->redirect();
+		try{
+			$id_u = $this->apiCasConnexion();
+		} catch(Exception $e){
+			$this->LastError->setLastError($e->getMessage());
+			$this->redirect("/connexion/cas-error.php");
 		}
+		
+		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
+		$login = $infoUtilisateur['login'];
+		
+		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
+		$this->Journal->setId($id_u);
+		$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
+		$this->Journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté via CAS depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
+		
+		$this->Authentification->connexion($login, $id_u);
+		
+		return true;
 		
 	}
 	
@@ -70,7 +77,9 @@ class ConnexionControler extends PastellControler {
 	
 	public function connexionAction(){
 		
-		$this->casConnexion();
+		if ($this->casConnexion()){
+			$this->redirect();
+		}
 		
 		$messageConnexion = $this->ConnecteurFactory->getGlobalConnecteur("message-connexion");
 		

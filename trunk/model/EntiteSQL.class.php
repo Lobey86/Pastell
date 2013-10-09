@@ -10,6 +10,12 @@ class EntiteSQL extends SQL {
 		return $this->getInfo($id_e);
 	}
 	
+
+	public function getIdByDenomination($denomination){
+		$sql = "SELECT id_e FROM entite WHERE denomination=?";
+		return $this->queryOne($sql,$denomination);
+	}
+	
 	public function getDenomination($id_e){
 		$info = $this->getInfo($id_e);
 		if (! $info){
