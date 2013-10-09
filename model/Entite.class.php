@@ -59,6 +59,7 @@ class Entite  extends SQL {
 		}
 		return $this->info;
 	}
+
 	
 	private function getInfoWithId($id_e){
 		$sql = "SELECT * FROM entite WHERE id_e=?";

@@ -134,8 +134,9 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 								<?php foreach($les_flux as $nom => $affichage) : ?>
 								
 								
-								<?php
-								$last_key = end(array_keys($les_flux));
+								<?php 
+								$array_keys = array_keys($les_flux);
+								$last_key = end($array_keys);
 								?>
 								<?php
 								$a_class = "";

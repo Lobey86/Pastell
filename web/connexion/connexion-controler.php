@@ -15,7 +15,6 @@ if ($authentificationConnecteur && $login != 'admin'){
 }
 
 
-
 $utilisateurListe = new UtilisateurListe($sqlQuery);
 $id_u = $utilisateurListe->getUtilisateurByLogin($login);
 
