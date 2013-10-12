@@ -2,6 +2,21 @@
 
 require_once(PASTELL_PATH . "/pastell-core/FluxSynchroneActionExecutor.class.php");
 
+/**
+ * Enregistre la demande d'action de manière à pouvoir l'exécuter de manière 
+ * asynchrone, c'est à dire plus tard.
+ * 
+ * Une tentative immédiate est tout de même tentée. 
+ * 
+ * En cas de succès, ceci permet : 
+ * - d'économiser le délai avant déclenchement des opérations automatiques
+ * - de lisser les accès aux services dans le temps, et éviter les pics 
+ *   induits par les accès rapprochés durant les opérations automatiques.
+ * 
+ * La demande retourne toujours un OK fonctionnel. Ainsi, si la tentative d'action 
+ * immédiate a échoué, l'erreur reste tracée, mais elle n'apparait pas dans le 
+ * retour de la demande.
+ */
 abstract class FluxAsynchroneActionExecutor extends FluxSynchroneActionExecutor {
     const ACTION_SYNCHRONE_DEFAUT = false;
     
@@ -13,11 +28,14 @@ abstract class FluxAsynchroneActionExecutor extends FluxSynchroneActionExecutor 
     }
 
     public function go() {
+        // Dans tous les cas, la demande est enregistrée.
+        $goRet = parent::go();
+        // Tentative immédiate effectuée
         try {
             if ($this->synchroneActionName === self::ACTION_SYNCHRONE_DEFAUT) {
                 $this->synchroneActionName = substr($this->action, 0, strlen($this->action) - strlen('-demande'));
             }
-            $syncGoRet = $this->objectInstancier->ActionExecutorFactory->executeOnDocumentThrow(
+            $this->objectInstancier->ActionExecutorFactory->executeOnDocumentThrow(
                     $this->id_d, 
                     $this->id_e, 
                     $this->id_u, 
@@ -25,22 +43,13 @@ abstract class FluxAsynchroneActionExecutor extends FluxSynchroneActionExecutor 
                     $this->id_destinataire,
                     $this->from_api,
                     $this->action_params);
-            $this->setLastMessage($this->objectInstancier->ActionExecutorFactory->getLastMessage());
-            return $syncGoRet;
-        } catch (ConnecteurActivationException $gofEx) {
-            // Action synchrone reportée; sera déclenchée par action automatique.
-            return parent::go();
-        } catch (ConnecteurSuspensionException $gofEx) {
-            // Action synchrone reportée; sera déclenchée par action automatique.
-            return parent::go();
-        } catch (ConnecteurAccesException $gofEx) {
-            // Action synchrone reportée; sera déclenchée par action automatique.
-            return parent::go();
         } catch (Exception $gofEx) {
-            // Action synchrone en erreur fonctionnelle. 
-            throw $gofEx;
+            // Le résultat de l'action synchrone a été enregistré. Selon l'état 
+            // appliqué, elle pourrait être retentée par les opérations automatiques.
+            // On ne remonte pas l'erreur car le retour doit concerner la demande, 
+            // qui a bien été enregistrée.
         }
-        parent::go();
+        return $goRet;
     }
 
     protected function goFonctionnel() {
