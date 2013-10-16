@@ -53,6 +53,10 @@ class ConnexionControler extends PastellControler {
 			$this->redirect("/connexion/cas-error.php");
 		}
 		
+		if (!$id_u){
+			return false;
+		}
+		
 		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
 		$login = $infoUtilisateur['login'];
 		
@@ -76,6 +80,7 @@ class ConnexionControler extends PastellControler {
 	}
 	
 	public function connexionAction(){
+		
 		
 		if ($this->casConnexion()){
 			$this->redirect();

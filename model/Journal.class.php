@@ -58,6 +58,9 @@ class Journal extends SQL {
 		} else {
 			$document_type = "";
 		}
+		if (!$id_e){
+			$id_e = "0";
+		}
 		
 		$now = date(Date::DATE_ISO);
 		$message_horodate = "$type - $id_e - $id_u - $id_d - $action - $message - $now - $document_type";
