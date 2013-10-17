@@ -1,9 +1,0 @@
-name: MnesysSAE
-type: SAE
-formulaire:
-	page0:
-		url:
-			name: URL du service
-		
-		
-action:

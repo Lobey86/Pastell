@@ -1,9 +1,0 @@
-name: iParapheur
-type: signature
-
-action:
-	update-all-iparapheur:
-		name: Mettre à jour tout les sous-type
-		action-class: UpdateAllIparapheur
-		rule:
-			droit_id_u: 'entite:edition'
