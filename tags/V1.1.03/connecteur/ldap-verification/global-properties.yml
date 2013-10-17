@@ -1,0 +1,71 @@
+name: Vérification LDAP
+type: Vérification
+
+description: |
+	Permet de vérifier la présence d'un utilisateur en train de se connecter dans le LDAP
+	Permet de faire des tests sur le LDAP afin de valider s'il peut se connecter à Pastell
+	Permet également de créer l'utilisateur s'il n'existe pas dans Pastell et qu'il est sur le LDAP
+	
+formulaire:
+	page0:
+		ldap_host:
+			name: Serveur LDAP
+			commentaire: localhost par défaut
+		ldap_port:
+			name: Port LDAP
+			commentaire: 389 par défaut 
+		ldap_user:
+			name: Utilisateur technique
+			commentaire: "Sous la forme d'un DN :  cn=admin,dc=example,dc=com" 
+		ldap_password:
+			name: Mot de passe
+			type: password
+		ldap_dn:
+			name: DN pour trouver un utilisateur
+			commentaire: |
+				Utiliser %LOGIN% pour mettre l'identifiant de l'utilisateur
+				Exemple: cn=%LOGIN%,dc=example,dc=com
+			
+		ldap_filter:
+			name: Filtre LDAP
+			commentaire: |
+				Filtre en langage LDAP "(objectClass=*)" ou bien "(memberOf=pastell)"
+		
+		ldap_attribute_entite:
+			name: Attribut contenant l'entité de base de l'utilisateur
+			commentaire: par exemple "memberOf"
+			 
+		ldap_regexp_entite:
+			name: Expression régulière pour extraire l'entité de base
+			commentaire: |
+				par exemple ou=%ENTITE_NAME%,ou=Groups,dc=example,dc=com
+		ldap_exclude_entite:
+			name: Groupe à exclure 
+			commentaire: |
+				exemple : pastell
+			
+			
+action:
+	test-connexion:
+		name: Tester la connexion LDAP
+		action-class: LDAPTestConnexion
+		
+	test-recup-entry:
+		name: Récupéré mon entrée
+		action-class: LDAPTestRecupEntry
+		
+	test-recup-entite:
+		name: Récupère mon entité
+		action-class: LDAPTestRecupEntite
+		
+	verif-user:
+		name: Vérifier que les utilisateurs du LDAP sont dans Pastell
+		action-class: LDAPIsPastellUser
+		
+	create-user:
+		name: Créer les utilisateurs du LDAP dans Pastell
+		action-class: LDAPCreateUser
+		
+		
+				
+				

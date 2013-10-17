@@ -1,0 +1,14 @@
+name: MnesysSAE
+type: SAE
+
+description: |
+	Connecteur de SAE pour le système Mnesys.
+	
+
+formulaire:
+	page0:
+		url:
+			name: URL du service
+		
+		
+action:
