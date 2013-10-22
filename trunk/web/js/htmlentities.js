@@ -188,6 +188,6 @@ function htmlentities (string, quote_style) {
 }
 
 format_item = function (item, position, length){ 
-    return htmlentities("" + item,"ENT_QUOTES");
+    return htmlentities("" + item,"ENT_NOQUOTES");
   } 
 

@@ -1,4 +1,4 @@
-<a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>« Voir tout les groupes</a>
+<a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>« Voir tous les groupes</a>
 
 <br/><br/>
 <div class="box_contenu">

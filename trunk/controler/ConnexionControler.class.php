@@ -2,6 +2,13 @@
 class ConnexionControler extends PastellControler {
 	
 	public function verifConnected(){
+		try {
+			$id_u = $this->apiCasConnexion();
+			if ($id_u){
+				$this->setConnexion($id_u);
+			}
+		} catch (Exception $e){}
+		
 		if (! $this->Authentification->isConnected()){
 			$this->redirect("/connexion/connexion.php");
 		}
@@ -44,31 +51,26 @@ class ConnexionControler extends PastellControler {
 		return $id_u;
 	}
 	
-	private function casConnexion(){
-		
-		try{
-			$id_u = $this->apiCasConnexion();
-		} catch(Exception $e){
-			$this->LastError->setLastError($e->getMessage());
-			$this->redirect("/connexion/cas-error.php");
-		}
-		
-		if (!$id_u){
-			return false;
-		}
-		
+	private function setConnexion($id_u){
 		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
 		$login = $infoUtilisateur['login'];
-		
-		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
 		$this->Journal->setId($id_u);
 		$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
 		$this->Journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté via CAS depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
 		
 		$this->Authentification->connexion($login, $id_u);
 		
-		return true;
-		
+	}
+	
+	private function casConnexion(){		
+		try{
+			$id_u = $this->apiCasConnexion();
+			$this->setConnexion($id_u);
+		} catch(Exception $e){
+			$this->LastError->setLastError($e->getMessage());
+			$this->redirect("/connexion/cas-error.php");
+		}
+		return $id_u;		
 	}
 	
 	public function connexionAdminAction() {
@@ -80,8 +82,6 @@ class ConnexionControler extends PastellControler {
 	}
 	
 	public function connexionAction(){
-		
-		
 		if ($this->casConnexion()){
 			$this->redirect();
 		}
