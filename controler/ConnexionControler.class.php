@@ -65,6 +65,9 @@ class ConnexionControler extends PastellControler {
 	private function casConnexion(){		
 		try{
 			$id_u = $this->apiCasConnexion();
+			if (! $id_u) {
+				return false;
+			}
 			$this->setConnexion($id_u);
 		} catch(Exception $e){
 			$this->LastError->setLastError($e->getMessage());
