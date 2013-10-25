@@ -1,0 +1,15 @@
+name: As@lae (Rest)
+type: SAE
+formulaire:
+	page0:
+		url:
+			name: "URL de base des webservices"
+			
+
+action:
+	ping:
+		name: Tester la connexion (réseau)
+		action-class: AsalaeRestPing
+		
+		
+		
