@@ -488,9 +488,7 @@ class DonneesFormulaire {
 		foreach($this->info as $field_name => $field_value){
 			$field = $this->formulaire->getField($field_name);
 			if ($field && $field->getType() == 'password'){
-				$field_value = htmlspecialchars($field_value,ENT_COMPAT);
-				$field_value = "\"".$field_value."\"";
-				
+				$field_value = htmlspecialchars($field_value,ENT_COMPAT);				
 			}
 			$result[$field_name] = $field_value; 
 		}
