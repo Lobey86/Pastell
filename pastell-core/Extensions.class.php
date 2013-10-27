@@ -100,6 +100,8 @@ class Extensions {
 		$result['nom'] = basename($path);
 		$result['flux'] = $this->getAllModuleByPath($path);
 		$result['connecteur'] = $this->getAllConnecteurByPath($path);
+		$versionning = new Versionning(false, $path."/revision.txt");
+		$result['revision'] = $versionning->getRevision();
 		return $result;
 	}
 	

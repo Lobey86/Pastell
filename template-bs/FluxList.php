@@ -1,7 +1,11 @@
 <h2>Listes des flux</h2>
 <table class="table table-striped">
 		<tr>
-				<th>Flux</th>
+				<th>Flux
+					<br/>
+					<em>Id du flux</em>
+				</th>
+				
 				<th>Type de connecteur</th>
 				<th>Connecteur</th>
 				<th>&nbsp;</th>
@@ -14,7 +18,11 @@ foreach($all_flux as $id_flux => $flux_definition) :
 	?>
 	<tr>
 		<?php if ($j == 0) :?>
-		<td rowspan='<?php echo (count($documentType->getConnecteur()))?>'><strong><?php hecho($documentType->getName() );?></strong></td>
+		<td rowspan='<?php echo (count($documentType->getConnecteur()))?>'><strong><?php hecho($documentType->getName() );?></strong>
+			<br/>
+			<em><?php hecho($id_flux)?></em>
+		</td>
+		
 		<?php endif;?>
 		<td><?php echo $connecteur_type;?></td>
 		<td>

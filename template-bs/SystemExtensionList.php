@@ -19,6 +19,7 @@
 	<th class="w200">Emplacement</th>
 	<th>Connecteurs</th>
 	<th>Flux</th>
+	<th>Numéro de révision</th>
 </tr>
 <?php $i=0; foreach($all_extensions as $id_e => $extension) : ?>
 	<tr>
@@ -39,6 +40,9 @@
 				</li>
 			<?php endforeach;?>
 			</ul>
+		</td>
+		<td>
+			<?php hecho($extension['revision'])?>
 		</td>
 	</tr>
 <?php endforeach;?>
