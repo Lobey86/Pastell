@@ -549,7 +549,7 @@ action:
 			last-action:
 				send-archive
 				verif-sae-erreur
-			droit_id_u: 'megalis:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: SAEVerif
 
 	verif-sae-erreur:
@@ -570,7 +570,7 @@ action:
 			last-action:
 				ar-recu-sae
 				validation-sae-erreur
-			droit_id_u: 'megalis:edition'
+			droit_id_u: 'actes-generique:edition'
 		action-class: SAEValidation
 		
 	validation-sae-erreur:

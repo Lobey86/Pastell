@@ -35,9 +35,19 @@ class CurlWrapper {
 		curl_setopt($this->curlHandle, $properties, $values); 
 	}
 	
+	public function setAccept($format){
+		$curlHttpHeader[] = "Accept: $format";
+		$this->setProperties( CURLOPT_HTTPHEADER, $curlHttpHeader);
+	}
+	
+	public function dontVerifySSLCACert(){
+		$this->setProperties( CURLOPT_SSL_VERIFYHOST , 0 );
+		$this->setProperties(CURLOPT_SSL_VERIFYPEER, 0);
+	}
+	
 	public function setServerCertificate($serverCertificate){
 		$this->setProperties( CURLOPT_CAINFO ,$serverCertificate ); 
-		$this->setProperties( CURLOPT_SSL_VERIFYHOST , 0 ); 
+		$this->setProperties(CURLOPT_SSL_VERIFYPEER, 0);
 	}
 	
 	public function setClientCertificate($clientCertificate,$clientKey,$clientKeyPassword)	{
@@ -48,14 +58,12 @@ class CurlWrapper {
 	
 	public function get($url){
 		$this->setProperties(CURLOPT_URL, $url);
-		
-		//$this->setProperties(CURLOPT_HEADER, 1);
-		//$this->setProperties( CURLOPT_VERBOSE, 1); 
 		if ($this->postData || $this->postFile ){
-				$this->curlSetPostData();
+			$this->curlSetPostData();
 		}
-		
+		//curl_setopt($this->curlHandle, CURLINFO_HEADER_OUT, true);
 		$output = curl_exec($this->curlHandle);
+			
 		$this->lastError = curl_error($this->curlHandle);
 		if ($this->lastError){
 			$this->lastError = "Erreur de connexion au serveur : " . $this->lastError;
@@ -84,10 +92,48 @@ class CurlWrapper {
 	        substr(sha1( 'CurlWrapper' . microtime()), 0, 12);
 	}
 	
-	private function curlSetPostData( ) {
-	   	//cURL ne permet pas de poster plusieurs fichiers avec le même nom ! 
-		//cette fonction est inspiré de http://blog.srcmvn.com/multiple-values-for-the-same-key-and-file-upl
+	private function curlSetPostData() {
 		$this->setProperties(CURLOPT_POST,true);
+		if ($this->isPostDataWithSimilarName()) {
+			$this->curlSetPostDataWithSimilarFilename();
+		} else {
+			$this->curlPostDataStandard();
+		}
+	}
+	
+	private function isPostDataWithSimilarName(){
+		//cURL ne permet pas de poster plusieurs fichiers avec le même nom !
+		//cette fonction est inspiré de http://blog.srcmvn.com/multiple-values-for-the-same-key-and-file-upl
+		foreach($this->postData as $name => $multipleValue){
+			if (count($multipleValue) > 1){
+				return true;
+			}
+		}
+		foreach($this->postFile as $name => $multipleValue){
+			if (count($multipleValue) > 1){
+				return true;
+			}
+		}
+	}
+	
+	private function curlPostDataStandard(){
+		$post = array();
+		foreach ( $this->postData as $name => $multipleValue ) {
+			foreach($multipleValue as $value ){
+				$post[$name] = $value;
+			}
+		}
+		foreach($this->postFile as $name => $multipleValue){
+			foreach($multipleValue as $fileName => $filePath ){
+				$post[$name] = "@$filePath;filename=$fileName";
+			}
+		}
+		curl_setopt($this->curlHandle, CURLOPT_POSTFIELDS, $post);
+	}
+	
+	private function curlSetPostDataWithSimilarFilename( ) {
+		//cette fonction, bien que résolvant la limitation du problème de nom multiple de fichier 
+		//nécessite le chargement en mémoire de l'ensemble des fichiers.
 	    $boundary = $this->getBoundary();
 	
 	    $body = array();
@@ -124,4 +170,9 @@ class CurlWrapper {
 	    $this->setProperties( CURLOPT_HTTPHEADER, $curlHttpHeader);
 	    $this->setProperties( CURLOPT_POSTFIELDS, $content);
 	}
+	
+	public function getHTTPCode() {
+		return curl_getinfo($this->curlHandle,CURLINFO_HTTP_CODE);
+	}
+	
 }
