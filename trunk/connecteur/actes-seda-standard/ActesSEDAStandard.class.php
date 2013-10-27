@@ -6,10 +6,10 @@ class ActesSEDAStandard extends Connecteur {
 		
 	public function  setConnecteurConfig(DonneesFormulaire $seda_config){
 		$this->authorityInfo = array(
-				"sae_id_versant" =>  $seda_config->get("sae_identifiant_versant"),
-				"sae_id_archive" =>  $seda_config->get("sae_identifiant_archive"),
-				"sae_numero_aggrement" =>  $seda_config->get("sae_numero_agrement"),
-				"sae_originating_agency" =>  $seda_config->get("sae_originating_agency"),
+				"sae_id_versant" =>  $seda_config->get("identifiant_versant"),
+				"sae_id_archive" =>  $seda_config->get("identifiant_archive"),
+				"sae_numero_aggrement" =>  $seda_config->get("numero_agrement"),
+				"sae_originating_agency" =>  $seda_config->get("originating_agency"),
 				"nom_entite" =>   $seda_config->get('nom_entite'),
 				"siren_entite" =>  $seda_config->get('siren_entite'),
 		);

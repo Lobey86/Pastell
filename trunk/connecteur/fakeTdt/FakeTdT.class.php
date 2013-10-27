@@ -14,7 +14,7 @@ class FakeTdT extends TdtAdapter {
 	}
 	
 	public function getARActes(){
-		return false;
+		return "<aracte/>";
 	}
 	
 	public function getDateAR($id_transaction){
