@@ -3,31 +3,44 @@
 class MnesysSAE extends SAEConnecteur {
 	
 	private $url;
+	private $tmpFile;
+	
+	public function __construct(TmpFile $tmpFile){
+		$this->tmpFile = $tmpFile;
+	}
 	
 	public function  setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->url = $collectiviteProperties->get('url');
 	}
 	
 	public function generateArchive($bordereau,$tmp_folder){
-		$fileName = "/tmp/donnee.zip";
+		$fileName = $this->tmpFile->create().".zip";
 		$command = "zip -r $fileName $tmp_folder";
 		$status = exec($command );
 		if (! $status){
-			$this->lastError = "Impossible de créer le fichier d'archive $fileName";
-			return false;
+			throw new Exception("Impossible de créer le fichier d'archive $fileName");
 		}
 		return $fileName;
 	}	
 	
 	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
-		file_put_contents("/tmp/bordereau_seda.xml", $bordereauSEDA);
+		$bordereauPath = $this->tmpFile->create();
+		file_put_contents($bordereauPath, $bordereauSEDA);
 		$curlWrapper = new CurlWrapper();
-		$curlWrapper->addPostFile('name_xml', "/tmp/bordereau_seda.xml");
-		$curlWrapper->addPostFile('name_zip', $archivePath);
+		$curlWrapper->dontVerifySSLCACert();
+		$curlWrapper->addPostData('name_xml', "bordereau_seda.xml");
+		$curlWrapper->addPostFile('name_xml', $bordereauPath, "bordereau_seda.xml");
+		$curlWrapper->addPostData('name_zip', "donnees.zip");
+		$curlWrapper->addPostFile('name_zip', $archivePath,"donnees.zip");
 		$result = $curlWrapper->get($this->url);
+		if (! $result){
+			throw new Exception($curlWrapper->getLastError());
+		}
 		if ($result == "000"){
 			return "ok";
 		}
+		$this->tmpFile->delete($archivePath);
+		$this->tmpFile->delete($bordereauPath);
 		throw new Exception("Réponse de Mnesys non documenté : $result");
 	}
 	

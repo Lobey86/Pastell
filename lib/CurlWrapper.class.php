@@ -62,8 +62,11 @@ class CurlWrapper {
 			$this->curlSetPostData();
 		}
 		//curl_setopt($this->curlHandle, CURLINFO_HEADER_OUT, true);
+		
 		$output = curl_exec($this->curlHandle);
-			
+
+		//print_r(curl_getinfo($this->curlHandle,CURLINFO_HEADER_OUT));
+		
 		$this->lastError = curl_error($this->curlHandle);
 		if ($this->lastError){
 			$this->lastError = "Erreur de connexion au serveur : " . $this->lastError;
@@ -102,21 +105,30 @@ class CurlWrapper {
 	}
 	
 	private function isPostDataWithSimilarName(){
+		$array = array();
+		
 		//cURL ne permet pas de poster plusieurs fichiers avec le même nom !
 		//cette fonction est inspiré de http://blog.srcmvn.com/multiple-values-for-the-same-key-and-file-upl
 		foreach($this->postData as $name => $multipleValue){
-			if (count($multipleValue) > 1){
-				return true;
+			foreach($multipleValue as $data) {
+				if (isset($array[$name])){
+					return true;
+				}
+				$array[$name] = true;
 			}
 		}
 		foreach($this->postFile as $name => $multipleValue){
-			if (count($multipleValue) > 1){
-				return true;
+			foreach($multipleValue as $data) {	
+				if (isset($array[$name])){
+					return true;
+				}
+				$array[$name] = true;
 			}
 		}
 	}
 	
 	private function curlPostDataStandard(){
+		//print_r($this->postFile);
 		$post = array();
 		foreach ( $this->postData as $name => $multipleValue ) {
 			foreach($multipleValue as $value ){

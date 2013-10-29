@@ -1,3 +1,5 @@
 <?php 
 
-echo "000";
+
+print_r($_FILES);
+print_r($_POST);

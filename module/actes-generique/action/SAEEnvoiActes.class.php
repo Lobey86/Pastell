@@ -49,6 +49,7 @@ class SAEEnvoiActes extends ActionExecutor {
 				
 		$sae = $this->getConnecteur('SAE');
 		$archive_path = $sae->generateArchive($bordereau,$tmp_folder);
+	
 		
 		$transferId = $sae->getTransferId($bordereau);
 		
