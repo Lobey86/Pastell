@@ -29,9 +29,9 @@ class MnesysSAE extends SAEConnecteur {
 		$curlWrapper = new CurlWrapper();
 		$curlWrapper->dontVerifySSLCACert();
 		$curlWrapper->addPostData('name_xml', "bordereau_seda.xml");
-		$curlWrapper->addPostFile('name_xml', $bordereauPath, "bordereau_seda.xml");
+		$curlWrapper->addPostFile('name_xml', $bordereauPath, "bordereau_seda.xml","text/xml","text");
 		$curlWrapper->addPostData('name_zip', "donnees.zip");
-		$curlWrapper->addPostFile('name_zip', $archivePath,"donnees.zip");
+		$curlWrapper->addPostFile('name_zip', $archivePath,"donnees.zip","application/zip","binary");
 		$result = $curlWrapper->get($this->url);
 		if (! $result){
 			throw new Exception($curlWrapper->getLastError());

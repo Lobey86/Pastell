@@ -1,13 +1,14 @@
 <?php
-
 class CurlWrapper {
 	
 	const POST_DATA_SEPARATOR = "\r\n";
 	
+
 	private $curlHandle;
 	private $lastError;
 	private $postData;
 	private $postFile;
+	private $postFileProperties;
 	
 	public function __construct(){
 		$this->curlHandle = curl_init();
@@ -83,11 +84,12 @@ class CurlWrapper {
 		$this->postData[$name][] = $value;
 	}
 	
-	public function addPostFile($field,$filePath,$fileName = false){
+	public function addPostFile($field,$filePath,$fileName = false,$contentType="application/octet-stream",$contentTransferEncoding=false){
 		if (! $fileName){
 			$fileName = basename($filePath);
 		}
 		$this->postFile[$field][$fileName] = $filePath;
+		$this->postFileProperties[$field][$fileName] = array($contentType,$contentTransferEncoding);
 	}
 	
 	private function getBoundary(){
@@ -164,7 +166,10 @@ class CurlWrapper {
 	    	foreach($multipleValue as $fileName => $filePath ){
 	    		$body[] = "--$boundary";
 				$body[] = "Content-Disposition: form-data; name=$name; filename=\"$fileName\"";
-	            $body[] = 'Content-Type: application/octet-stream';
+	            $body[] = "Content-Type: {$this->postFileProperties[$name][$fileName][0]}";
+	            if ($this->postFileProperties[$name][$fileName][1]) {
+	            	$body[] = "Content-Transfer-Encoding: {$this->postFileProperties[$name][$fileName][1]}";
+	            }
 	            $body[] = '';
 	            $body[] = file_get_contents($filePath);
 	    	}
@@ -174,6 +179,7 @@ class CurlWrapper {
 	    $body[] = '';
 	    
 	    $content = join(self::POST_DATA_SEPARATOR, $body);
+	    
 	    
 	    $curlHttpHeader[] = 'Content-Length: ' . strlen($content);
 		$curlHttpHeader[] = 'Expect: 100-continue';
