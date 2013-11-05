@@ -20,6 +20,10 @@ formulaire:
 		ldap_password:
 			name: Mot de passe
 			type: password
+		ldap_root:
+			name: Racine de recherche
+			commentaire: |
+				Exemple: dc=example,dc:com
 		ldap_dn:
 			name: DN pour trouver un utilisateur
 			commentaire: |
@@ -31,19 +35,7 @@ formulaire:
 			commentaire: |
 				Filtre en langage LDAP "(objectClass=*)" ou bien "(memberOf=pastell)"
 		
-		ldap_attribute_entite:
-			name: Attribut contenant l'entité de base de l'utilisateur
-			commentaire: par exemple "memberOf"
-			 
-		ldap_regexp_entite:
-			name: Expression régulière pour extraire l'entité de base
-			commentaire: |
-				par exemple ou=%ENTITE_NAME%,ou=Groups,dc=example,dc=com
-		ldap_exclude_entite:
-			name: Groupe à exclure 
-			commentaire: |
-				exemple : pastell
-			
+	
 			
 action:
 	test-connexion:
@@ -54,16 +46,12 @@ action:
 		name: Récupéré mon entrée
 		action-class: LDAPTestRecupEntry
 		
-	test-recup-entite:
-		name: Récupère mon entité
-		action-class: LDAPTestRecupEntite
-		
 	verif-user:
-		name: Vérifier que les utilisateurs du LDAP sont dans Pastell
+		name: Tester la synchronisation
 		action-class: LDAPIsPastellUser
 		
 	create-user:
-		name: Créer les utilisateurs du LDAP dans Pastell
+		name: Synchroniser
 		action-class: LDAPCreateUser
 		
 		

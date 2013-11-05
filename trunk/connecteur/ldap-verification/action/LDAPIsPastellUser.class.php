@@ -5,14 +5,30 @@ class LDAPIsPastellUser extends ActionExecutor {
 	public function go(){
 		$ldap = $this->getMyConnecteur();
 		$users = $ldap->getUserToCreate($this->objectInstancier->Utilisateur);
-		$result = "Déjà présent dans pastell : " . implode($users['allready'],",") ."<br/><br/>";
-		if ($users['todo']){
-			$result .= "A créer dans Pastell : <ul>";
-			foreach($users['todo'] as $user) {
-				$result .= "<li>{$user['login']}  ({$user['entite']})</li>";
-			}
-			$result .="</ul>";
+		$result = "<table border='1'><tr>
+						
+					<th>login</th>
+					<th>nom</th>
+					<th>prenom</th>
+					<th>email</th>
+					<th>création ?</th>
+					<th>synchronisation ?</th>
+				</tr>";
+		foreach($users as $user){
+			$create = $user['create']?"oui":"non";
+			$synchronize = $user['synchronize']?"oui":"non";
+			$result.="
+			<tr>
+				<td>{$user['login']}</td>
+				<td>{$user['nom']}</td>
+				<td>{$user['prenom']}</td>
+				<td>{$user['email']}</td>
+				<td>$create</td>
+				<td>$synchronize</td>
+			</tr>";
+			
 		}
+		$result .= "</table>";
 		$this->setLastMessage($result);
 		return true;
 	}

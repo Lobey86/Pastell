@@ -3,7 +3,6 @@ class CurlWrapper {
 	
 	const POST_DATA_SEPARATOR = "\r\n";
 	
-
 	private $curlHandle;
 	private $lastError;
 	private $postData;

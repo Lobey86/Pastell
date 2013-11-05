@@ -8,9 +8,7 @@ class LDAPVerification extends Connecteur {
 	private $ldap_password;
 	private $ldap_filter;
 	private $ldap_dn;
-	private $ldap_attribute_entite;
-	private $ldap_regexp_entite;
-	private $ldap_exclude_entite;
+	private $ldap_root;
 	
 	function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
 		foreach(array(	'ldap_host',
@@ -19,9 +17,7 @@ class LDAPVerification extends Connecteur {
 						'ldap_password',
 						'ldap_filter',
 						'ldap_dn',
-						'ldap_attribute_entite',
-						'ldap_regexp_entite',
-						'ldap_exclude_entite',
+						'ldap_root',
 				) as $variable){
 			$this->$variable = $donneesFormulaire->get($variable);
 		}
@@ -65,7 +61,7 @@ class LDAPVerification extends Connecteur {
 	
 	public function getAllUser(){
 		$ldap = $this->getConnexion();
-		$dn = "";
+		$dn = $this->ldap_root;
 		$filter = $this->ldap_filter;
 		if (!$filter){
 			$filter = "(objectClass=*)";
@@ -77,52 +73,34 @@ class LDAPVerification extends Connecteur {
 		$entries = ldap_get_entries($ldap,$result);
 		return $entries;
 	}
-	
-	public function getEntiteFromEntry($entry){
-		if (empty($entry[$this->ldap_attribute_entite])){
-			return false;
-		}
 		
-		$regexp = preg_replace("#%ENTITE_NAME%#","([^,]*)",$this->ldap_regexp_entite);
-		for($i=0; $i<$entry[$this->ldap_attribute_entite]['count']; $i++){
-			$dn = $entry[$this->ldap_attribute_entite][$i];
-			preg_match("#$regexp#",$dn,$matches);
-			if (empty($matches[1])){
-				continue;
-			}
-			if ($matches[1] == $this->ldap_exclude_entite){
-				continue;
-			}
-			return $matches[1];
-		}
-		return false;
-	}
-	
-	public function getEntite($user_id){
-		$entry = $this->getEntry($user_id);
-		return $this->getEntiteFromEntry($entry);
-	}
-	
 	public function getUserToCreate(Utilisateur $utilisateur){
 		$entries = $this->getAllUser();
 		unset($entries['count']);
-		$allready = array();
-		$todo = array();
+		$result = array();
 		foreach($entries as $entry){
 			$login = $this->getLogin($entry['dn']);
 			if (!$login){
 				continue;
 			}
-			if ($utilisateur->getIdFromLogin($login)){
-				$allready[] = $login;
+			$email = isset($entry['mail'])?$entry['mail'][0]:"";
+			$prenom = isset($entry['givenname'])?$entry['givenname'][0]:"";
+			$nom = $entry['sn'][0];
+			
+			$ldap_info = array('login'=>$login,'prenom'=>$prenom,'nom'=>$nom,'email'=>$email);
+			$id_u = $utilisateur->getIdFromLogin($login); 
+			if (! $id_u){
+				$ldap_info['create'] = true;
+				$ldap_info['synchronize'] = true;
 			} else {
-				$entite = $this->getEntiteFromEntry($entry)?:"entité racine";
-				$email = isset($entry['mail'])?$entry['mail'][0]:"";
-				$prenom = isset($entry['givenname'])?$entry['givenname'][0]:"";
-				$todo[] = array('login'=>$login,'entite'=>$entite,'prenom'=>$prenom,'nom'=>$entry['sn'][0],'email'=>$email);
+				$ldap_info['create'] = false;
+				$info = $utilisateur->getInfo($id_u);
+				$ldap_info['id_u'] = $info['id_u'];
+				$ldap_info['synchronize'] = $info['prenom'] != $prenom || $info['nom'] != $nom || $info['email'] != $email;
 			}
+			$result[] = $ldap_info;
 		}
-		return array('allready'=>$allready,'todo'=>$todo);
+		return $result;
 	}
 	
 }
