@@ -4,17 +4,19 @@ require_once(PASTELL_PATH . "/lib/SoapClientFactory.class.php");
 
 class ConnecteurSuspensionSoapClient extends NotBuggySoapClient {
 
+    private $objectInstancier;
     private $connecteur;
 
-    public function __construct($connecteur, $wsdl, array $options = array(), $is_jax_ws = false) {
+    public function __construct(ObjectInstancier $objectInstancier, $connecteur, $wsdl, array $options = array(), $is_jax_ws = false) {
         parent::__construct($wsdl, $options, $is_jax_ws);
+        $this->objectInstancier = $objectInstancier;
         $this->connecteur = $connecteur;
     }
 
     public function __doRequest($request, $location, $action, $version, $one_way = 0) {
         try {
             $result = parent::__doRequest($request, $location, $action, $version, $one_way);
-            ConnecteurSuspensionControler::onAccesSucces($this->connecteur);
+            $this->objectInstancier->ConnecteurSuspensionControler->onAccesSucces($this->connecteur);
             return $result;
         } catch (SoapFault $soapFault) {
             $this->checkSoapFault($soapFault);

@@ -5,13 +5,19 @@ class ConnecteurSuspensionControler {
     const ATTR_TENTATIVES_CONTEXT = 'tentatives-context';
     const ATTR_SUSPENSION = 'acces_suspendu';
 
-    public static function isSuspension(ConnecteurSuspensionIntf $connecteur) {
+    private $objectInstancier;
+
+    public function __construct(ObjectInstancier $objectInstancier) {
+        $this->objectInstancier = $objectInstancier;
+    }
+
+    public function isSuspension(ConnecteurSuspensionIntf $connecteur) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         return $suspension;
     }
 
-    public static function setSuspension(ConnecteurSuspensionIntf $connecteur, $suspension) {
+    public function setSuspension(ConnecteurSuspensionIntf $connecteur, $suspension) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $oldSuspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         if ($oldSuspension != $suspension) {
@@ -19,21 +25,21 @@ class ConnecteurSuspensionControler {
             if (!$suspension) {
                 // Réinitialiser le contexte des tentatives
                 $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
-                $hLock = self::lock($connecteurConfig);
+                $hLock = $this->lock($connecteurConfig);
                 try {
                     if (file_exists($fContext)) {
                         unlink($fContext);
                     }
                 } catch (Exception $ex) {
-                    self::unlock($hLock);
+                    $this->unlock($hLock);
                     throw $ex;
                 }
-                self::unlock($hLock);
+                $this->unlock($hLock);
             }
         }
     }
 
-    public static function onAccesEchec(ConnecteurSuspensionIntf $connecteur) {
+    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur, $id_e = 0, $id_u = 0) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         if ($suspension) {
@@ -41,7 +47,7 @@ class ConnecteurSuspensionControler {
         }
         $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
         // Verrouiller le contexte
-        $hLock = self::lock($connecteurConfig);
+        $hLock = $this->lock($connecteurConfig);
         try {
             // Lire le contexte des tentatives
             if (file_exists($fContext)) {
@@ -56,28 +62,28 @@ class ConnecteurSuspensionControler {
             file_put_contents($fContext, json_encode($context));
             // Suspend les accès si demandé
             if (!$poursuivre) {
-                self::setSuspension($connecteur, true);
+                $this->setSuspension($connecteur, true);
             }
         } catch (Exception $ex) {
-            self::unlock($hLock);
+            $this->unlock($hLock);
             throw $ex;
         }
         // Déverrouiller le contexte
-        self::unlock($hLock);
+        $this->unlock($hLock);
     }
 
-    public static function onAccesSucces(ConnecteurSuspensionIntf $connecteur) {
-        self::setSuspension($connecteur, false);
+    public function onAccesSucces(ConnecteurSuspensionIntf $connecteur) {
+        $this->setSuspension($connecteur, false);
     }
 
-    private static function lock(DonneesFormulaire $connecteurConfig) {
+    private function lock(DonneesFormulaire $connecteurConfig) {
         $fLock = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT . '-lock');
         $hLock = fopen($fLock, 'c');
         flock($hLock, LOCK_EX);
         return $hLock;
     }
 
-    private static function unlock($hLock) {
+    private function unlock($hLock) {
         flock($hLock, LOCK_UN);
         fclose($hLock);
     }
