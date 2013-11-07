@@ -39,7 +39,7 @@ class ConnecteurSuspensionControler {
         }
     }
 
-    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur, $id_e = 0, $id_u = 0) {
+    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         if ($suspension) {
