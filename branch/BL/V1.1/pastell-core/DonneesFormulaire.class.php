@@ -28,6 +28,10 @@ class DonneesFormulaire {
 	public function isReadOnly($field_name){
 		$field = $this->formulaire->getField($field_name);
 		
+		if ($field->getProperties('no-show')){
+			return true;
+		}
+		
 		$read_only_content = $field->getProperties('read-only-content') ;
 		if (!$read_only_content){
 			return false;
@@ -81,7 +85,7 @@ class DonneesFormulaire {
 			}
 			if ( $type == 'file'){
 				$this->saveFile($field,$fileUploader);
-			} elseif($field->getProperties('depend')) {
+			} elseif($field->getProperties('depend') && is_array($this->get($field->getProperties('depend')))) {
 				foreach($this->get($field->getProperties('depend')) as $i => $file){
 					if (empty($this->info[$field->getName()."_$i"])){
 						$this->info[$field->getName()."_$i"] = false;
@@ -273,13 +277,40 @@ class DonneesFormulaire {
 		return file_get_contents($file_path);
 	}
 	
+	//http://stackoverflow.com/questions/6595183/docx-file-type-in-php-finfo-file-is-application-zip
+	private function getOpenXMLMimeType($file_name){
+		$ext = pathinfo($file_name,PATHINFO_EXTENSION);
+		$openXMLExtension = array(
+				'xlsx' => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				'xltx' => "application/vnd.openxmlformats-officedocument.spreadsheetml.template",
+				'potx' =>  "application/vnd.openxmlformats-officedocument.presentationml.template",
+				'ppsx' =>  "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+				'pptx'   =>  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+				'sldx'   =>  "application/vnd.openxmlformats-officedocument.presentationml.slide",
+				'docx'   =>  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+				'dotx'   =>  "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
+				'xlam'   =>  "application/vnd.ms-excel.addin.macroEnabled.12",
+				'xlsb'   =>  "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
+		if (isset($openXMLExtension[$ext])){
+			return $openXMLExtension[$ext];
+		}
+		return false;
+	}
+	
 	public function getContentType($field_name,$num  = 0){
 		$file_path = $this->getFilePath($field_name,$num);
 		if (! file_exists($file_path)){
 			return;
 		}
 		$fileInfo = new finfo();
-		return $fileInfo->file($file_path,FILEINFO_MIME_TYPE);
+		$result = $fileInfo->file($file_path,FILEINFO_MIME_TYPE);
+		
+		if ($result == 'application/zip'){
+			$file_name = $this->getFileName($field_name,$num);
+			$result = $this->getOpenXMLMimeType($file_name)?:'application/zip';
+		}
+		
+		return $result;
 	}
 	
 	public function getFileName($field_name,$num = 0){
@@ -429,13 +460,29 @@ class DonneesFormulaire {
 		return $this->info;
 	}
 	
+	public function getMetaData(){
+		return file_get_contents($this->filePath);
+	}
+	
+	public function getAllFile(){
+		$result = array();
+		foreach($this->formulaire->getAllFields() as $field){
+			if ($field->getType() != 'file'){
+				continue;
+			}
+			if (! $this->get($field->getName())){
+				continue;
+			}
+			$result[] = $field->getName();
+		}
+		return $result;
+	}
+	
 	private function saveDataFile(){
 		foreach($this->info as $field_name => $field_value){
 			$field = $this->formulaire->getField($field_name);
 			if ($field && $field->getType() == 'password'){
 				$field_value = htmlspecialchars($field_value,ENT_COMPAT);
-				$field_value = "\"".$field_value."\"";
-				
 			}
 			$result[$field_name] = $field_value; 
 		}
@@ -467,6 +514,28 @@ class DonneesFormulaire {
 		
 		readfile($file_path);
 		return true;
+	}
+	
+	public function copyFile($field_name,$folder_destination,$num = 0){
+		$file_name = $this->get($field_name);
+		$file_name = $file_name[$num];
+		$file_path = $this->getFilePath($field_name,$num);
+		if (! file_exists($file_path)){
+			return false;
+		}
+		copy($file_path,"$folder_destination/$file_name");
+		return $folder_destination."/".$file_name;
+	}
+	
+	public function copyAllFiles($field_name,$folder_destination){
+		$result = array();
+		if (!$this->get($field_name) ){
+			return $result;
+		}
+		foreach($this->get($field_name) as $i => $file_name){
+			$result[] = $this->copyFile($field_name, $folder_destination,$i);
+		}
+		return $result;
 	}
 	
 }
