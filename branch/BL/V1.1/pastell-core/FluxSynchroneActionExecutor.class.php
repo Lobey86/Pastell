@@ -146,7 +146,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
                 // Erreur d'accès en contexte "cron" 
                 try {
                     // Gestion des suspensions
-                    $this->objectInstancier->ConnecteurSuspensionControler->onAccesEchec($gofEx->getConnecteur());
+                    $this->objectInstancier->ConnecteurSuspensionControler->onAccesEchec($gofEx->getConnecteur(), $gofEx);
                 } catch (Exception $onAccesEchecEx) {
                     // Erreur de gestion des suspensions => erreur tracée, état d'erreur
                     $this->throwException($onAccesEchecEx, true);
