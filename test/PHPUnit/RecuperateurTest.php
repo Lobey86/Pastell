@@ -1,7 +1,7 @@
 <?php 
 
 
-require_once(__DIR__.'/../../lib/Recuperateur.class.php');
+require_once 'init.php';
 
 class RecuperateurTest extends PHPUnit_Framework_TestCase {	
 	
