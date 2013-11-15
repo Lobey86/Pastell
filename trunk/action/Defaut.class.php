@@ -7,4 +7,4 @@ class Defaut extends ActionExecutor {
 		return true;
 	}
 
-}
+} 

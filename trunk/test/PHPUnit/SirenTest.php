@@ -1,5 +1,5 @@
 <?php 
-require_once(__DIR__.'/../../lib/Siren.class.php');
+require_once 'init.php';
 
 class SirenTest extends PHPUnit_Framework_TestCase {
 

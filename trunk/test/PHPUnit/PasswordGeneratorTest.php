@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__."/../../lib/PasswordGenerator.class.php");
+
+require_once 'init.php';
 
 class PasswordGeneratorTest extends PHPUnit_Framework_TestCase {
 
