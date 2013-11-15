@@ -10,8 +10,13 @@ abstract class ActionExecutor {
 	protected $from_api;
 	protected $id_ce;
 	protected $type;
+        protected $action_params;
 	
 	protected $objectInstancier;
+	private $docDonneesFormulaire;
+	private $docFormulaire;
+	private $connecteurs;
+        private $connecteurConfigs;
 	
 	private $lastMessage; 
 	
@@ -46,6 +51,10 @@ abstract class ActionExecutor {
 		$this->id_destinataire = $id_destinataire;	
 	}
 	
+        public function setActionParams(array $action_params) {
+            $this->action_params = $action_params;
+        }
+        
 	public function setFromApi($from_api){
 		$this->from_api = $from_api;
 	}
@@ -63,13 +72,18 @@ abstract class ActionExecutor {
 	}
 	
 	public function getDonneesFormulaire(){
-		return $this->getDonneesFormulaireFactory()->get($this->id_d);
+		if (!$this->docDonneesFormulaire) {
+			$this->docDonneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d);
+        	}
+        	return $this->docDonneesFormulaire;
 	}
 	
 	public function getFormulaire(){
-		$formulaire = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($this->type)->getFormulaire();
-		$formulaire->addDonnesFormulaire($this->getDonneesFormulaire());
-		return $formulaire;
+		if (!$this->docFormulaire) {
+			$this->docFormulaire = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($this->type)->getFormulaire();
+			$this->docFormulaire->addDonnesFormulaire($this->getDonneesFormulaire());
+                }
+		return $this->docFormulaire;
 	}
 	
 	public function getJournal(){
@@ -137,19 +151,29 @@ abstract class ActionExecutor {
 	}
 	
 	public function getConnecteur($type_connecteur){
-		$connecteur = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($this->id_e,$this->type,$type_connecteur);
-		if (! $connecteur ){
-			throw new Exception("Aucun connecteur $type_connecteur disponible");
-		}
+		$connecteur = @$this->connecteurs[$type_connecteur];
+		if (!$connecteur) {
+			$connecteur = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($this->id_e,$this->type,$type_connecteur);
+			if (!$connecteur ){
+				throw new Exception("Aucun connecteur $type_connecteur disponible");
+			}
+			$connecteur->setDocDonneesFormulaire($this->getDonneesFormulaire());
+			$this->connecteurs[$type_connecteur] = $connecteur;
+                }
 		return $connecteur;
 	}
 	
 	public function getConnecteurConfigByType($type_connecteur){
-		$connecteur_info = $this->objectInstancier->FluxEntiteSQL->getConnecteur($this->id_e,$this->type,$type_connecteur);
-		if (! $connecteur_info){
-			throw new Exception("Aucun connecteur $type_connecteur n'est défini pour le flux {$this->type}");
+		$connecteurConfig = @$this->connecteurConfigs[$type_connecteur];
+		if (!$connecteurConfig) {
+			$connecteur_info = $this->objectInstancier->FluxEntiteSQL->getConnecteur($this->id_e,$this->type,$type_connecteur);
+			if (! $connecteur_info){
+				throw new Exception("Aucun connecteur $type_connecteur n'est défini pour le flux {$this->type}");
+			}
+			$connecteurConfig = $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($connecteur_info['id_ce']);		
+			$this->connecteurConfigs[$type_connecteur] = $connecteurConfig;
 		}
-		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($connecteur_info['id_ce']);		
+		return $connecteurConfig;
 	}
 	
 	public function getConnecteurConfig($id_ce){
@@ -180,6 +204,13 @@ abstract class ActionExecutor {
 		}
 	}
 	
+	public function checkIntf($object, $intf) {
+		if (! ($object instanceof $intf)) {
+			throw new Exception('L\'objet ' . get_class($object) . ' n\'implémente pas le contrat d\'interface ' . $intf);
+		}
+		return true;
+	}
+
 	abstract public function go();
 	
 	
