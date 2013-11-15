@@ -47,7 +47,7 @@ class S2low  extends TdtConnecteur {
 	}
 	
 
-	private function ensureLogin(){		
+	protected function ensureLogin(){		
 		if ($this->ensureLogin){
 			return true;
 		}

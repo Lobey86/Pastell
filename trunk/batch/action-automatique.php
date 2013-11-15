@@ -18,7 +18,7 @@ foreach($objectInstancier->fluxDefinitionFiles->getAll() as $type => $config){
 	foreach($tabAction as $etat_actuel => $etat_cible){	
 		foreach ($documentEntite->getFromAction($type,$etat_actuel) as $infoDocument){
 			echo "Traitement de ({$infoDocument['id_e']},{$infoDocument['id_d']},{$infoDocument['type']},$etat_actuel->$etat_cible) : ";
-			$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($infoDocument['id_e'],0,$infoDocument['id_d'],$etat_cible,array(),true);
+			$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($infoDocument['id_e'],0,$infoDocument['id_d'],$etat_cible,array(),true, array());
 			$message =  $objectInstancier->ActionExecutorFactory->getLastMessage();
 			$objectInstancier->ActionAutoLogSQL->add($infoDocument['id_e'],$infoDocument['id_d'],$etat_actuel,$etat_cible,$message);
 			echo "$message\n";
@@ -33,7 +33,7 @@ foreach($all_connecteur as $connecteur){
 	$documentType = $objectInstancier->DocumentTypeFactory->getGlobalDocumentType($connecteur['id_connecteur']);
 	$all_action = $documentType->getAction()->getAutoAction();
 	foreach($all_action as $action){
-		$result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($connecteur['id_ce'],0,$action);
+		$result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($connecteur['id_ce'],0,$action, true, array());
 		if (!$result){
 			echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
 		} else {

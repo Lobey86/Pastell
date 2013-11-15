@@ -237,15 +237,15 @@ class EntiteControler extends PastellControler {
 	}
 	
 	public function edition($id_e,$nom,$siren,$type,$entite_mere,$centre_de_gestion,$has_ged,$has_archivage){
-		if ($id_e){
-			$this->hasDroitEdition($id_e);	
-		}
-		$this->hasDroitEdition($entite_mere);
-		
+                //  Suppression du controle des droits. Ce controle doit être remonté sur l'appelant
 		if (!$nom){
 			throw new Exception("Le nom est obligatoire");
 		}
-		
+		//Ajout du controle sur le type d'entité
+                if (!$type || ($type!=Entite::TYPE_SERVICE && $type!=Entite::TYPE_CENTRE_DE_GESTION && $type!=Entite::TYPE_COLLECTIVITE )) {
+                    throw new Exception("Le type d'entité doit être renseigné. Les valeurs possibles sont collectivite, service ou centre_de_gestion.");
+                }
+                
 		if ($type == Entite::TYPE_SERVICE && ! $entite_mere){
 			throw new Exception("Un service doit être ataché à une entité mère (collectivité, centre de gestion ou service)");
 		}
@@ -254,13 +254,12 @@ class EntiteControler extends PastellControler {
 			if ( ! $siren ){
 				throw new Exception("Le siren est obligatoire");
 			} 
-					
+			// Pourquoi en modification, les sirens invalides sont acceptés ???
 			if (  ! ( $this->Siren->isValid($siren) || ($id_e && $this->EntiteSQL->exists($id_e)))){
 				throw new Exception("Votre siren ne semble pas valide");
 			}
 		} 
-		
-		
+				
 		if ( ! $id_e && $siren){
 			if ($this->EntiteListe->getBySiren($siren)){
 				throw new Exception("Ce SIREN est déjà utilisé");
@@ -284,6 +283,11 @@ class EntiteControler extends PastellControler {
 		$has_ged = $recuperateur->get('has_ged',0);
 		$has_archivage = $recuperateur->get('has_archivage',0);
 		try {
+                        // Ajout du controle des droits qui ne se fait plus sur la function "edition" commune aux APIs et à la console Pastell
+                        if ($id_e){
+                            $this->hasDroitEdition($id_e);	
+                        }
+                        $this->hasDroitEdition($entite_mere);
 			$id_e = $this->edition($id_e, $nom, $siren, $type, $entite_mere, $centre_de_gestion, $has_ged, $has_archivage);
 		} catch(Exception $e){
 			$this->LastError->setLastError($e->getMessage());

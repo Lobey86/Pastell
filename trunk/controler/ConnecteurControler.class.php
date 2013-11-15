@@ -11,66 +11,113 @@ class ConnecteurControler extends PastellControler {
 		return $connecteur_entite_info;
 	}
 	
+        //Refactoring de la fonction doNouveau pour appeler la nouvelle function "nouveau"
 	public function doNouveau(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_e = $recuperateur->getInt('id_e');
 		$libelle = $recuperateur->get('libelle');
 		$id_connecteur = $recuperateur->get('id_connecteur');
 		
-		if (!$libelle){
-			$this->LastError->setLastError("Le libelé est obligatoire");	
-			$this->redirect("/connecteur/new.php?id_e=$id_e");
-		}
-		
-		$this->hasDroitEdition($id_e);
-		
-		if ($id_e){
-			$connecteur_info = $this->ConnecteurDefinitionFiles->getInfo($id_connecteur);
-		} else {
-			$connecteur_info = $this->ConnecteurDefinitionFiles->getInfoGlobal($id_connecteur);
-		}
-		
-		if (!$connecteur_info){
-			$this->LastError->setLastError("Aucun connecteur de ce type.");	
-		} else {
-			$this->ConnecteurEntiteSQL->addConnecteur($id_e,$id_connecteur,$connecteur_info['type'],$libelle);
-			$this->lastMessage->setLastMessage("Connecteur ajouté avec succès");
-		}
-		$this->redirect("/entite/detail.php?id_e=$id_e&page=3");
+                try {
+                    if ($id_e) {
+                        $this->hasDroitEdition($id_e);
+                    }                    
+                    $this->nouveau($id_e, $id_connecteur, $libelle);
+                    $this->lastMessage->setLastMessage("Connecteur ajouté avec succès");                    
+                    $this->redirect("/entite/detail.php?id_e=$id_e&page=3");                    
+                } catch (Exception $ex) {
+                    $this->LastError->setLastError($ex->getMessage());
+		    $this->redirect("/connecteur/new.php?id_e=$id_e");
+                } 
 	}
 	
+        // Nouvelle méthode commune entre ihm (doNouveau) et API.
+        public function nouveau($id_e, $id_connecteur, $libelle) {
+            if (!$libelle){
+                throw new Exception("Le libellé est obligatoire.");
+            }				
+		
+            if ($id_e){
+		$connecteur_info = $this->ConnecteurDefinitionFiles->getInfo($id_connecteur);
+            } else {
+		$connecteur_info = $this->ConnecteurDefinitionFiles->getInfoGlobal($id_connecteur);
+            }
+            if (!$connecteur_info){
+		throw new Exception("Aucun connecteur de ce type.");	
+            } else {
+		return $this->ConnecteurEntiteSQL->addConnecteur($id_e,$id_connecteur,$connecteur_info['type'],$libelle);
+            }
+        }
+        
+        
+        //Refactoring de la methode doDelete()
 	public function doDelete(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');
 		
 		$this->verifDroitOnConnecteur($id_ce);
-		$info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
-		
-		$id_used = $this->FluxEntiteSQL->isUsed($info['id_ce']); 
-		
-		if ($id_used){
-			$this->LastError->setLastError("Ce connecteur est utilisé par des flux :  " . implode(", ",$id_used));
-			$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
-		}
-		
-		$this->ConnecteurEntiteSQL->delete($id_ce);
-
-		$this->LastMessage->setLastMessage("Le connecteur « {$info['libelle']} » a été supprimé");
-		$this->redirect("/entite/detail.php?id_e={$info['id_e']}&page=3");
+		try {                    
+                    $info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
+                    $this->delete($id_ce);
+                    $this->LastMessage->setLastMessage("Le connecteur « {$info['libelle']} » a été supprimé.");
+                    $this->redirect("/entite/detail.php?id_e={$info['id_e']}&page=3");
+                } catch (Exception $ex) {
+                    $this->LastError->setLastError($ex->getMessage());
+                    $this->redirect("/connecteur/edition.php?id_ce=$id_ce");
+                }                                
 	}
-	
+        
+	//Nouvelle méthode "delete" commune entre ihm(doDelete) et API.
+        public function delete($id_ce) {
+            
+            $info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
+            if (!$info) {
+                throw new Exception("Ce connecteur n'existe pas.");
+            }
+	    $id_used = $this->FluxEntiteSQL->isUsed($info['id_ce']); 
+		
+            if ($id_used){
+                throw new Exception("Ce connecteur est utilisé par des flux :  " . implode(", ",$id_used));		
+	    }
+            //Suppression des fichiers sur le disque.
+            $donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
+            $donneesFormulaire->delete();
+            // Suppression du connecteur de la bdd
+            $this->ConnecteurEntiteSQL->delete($id_ce);
+        }
+        
+        
+        //Refactoring de la methode doEditionLibelle
 	public function doEditionLibelle(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');
 		$libelle = $recuperateur->get('libelle');
 		$this->verifDroitOnConnecteur($id_ce);
 		
-		$this->ConnecteurEntiteSQL->edit($id_ce,$libelle);
-
-		$this->LastMessage->setLastMessage("Le connecteur « $libelle » a été modifié");
+                try {
+                    $this->editionLibelle($id_ce, $libelle);
+                }catch (Exception $ex) {
+                    $this->LastError->setLastError($ex->getMessage());
+                    $this->redirect("/connecteur/edition-libelle.php?id_ce=$id_ce");                    
+                }
+		$this->LastMessage->setLastMessage("Le connecteur « $libelle » a été modifié.");
 		$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 	}
 	
+        
+        //Nouvelle méthode commune en IHM (doEditionLibelle) et API.
+        public function editionLibelle($id_ce, $libelle) {            
+            $info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
+            if (!$info) {
+                throw new Exception("Ce connecteur n'existe pas.");
+            }            
+            if (!$libelle) {
+                throw new Exception ("Le libellé est obligatoire.");
+            }            
+            $this->ConnecteurEntiteSQL->edit($id_ce,$libelle);
+        }
+        
+        
 	public function doEditionModif(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_ce = $recuperateur->getInt('id_ce');

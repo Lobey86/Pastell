@@ -110,6 +110,7 @@ class JournalControler extends PastellControler {
 		$this->liste_collectivite = $liste_collectivite;
 		
 		$this->setNavigationInfo($id_e, "journal/index.php?a=a");
+
 		$this->infoEntite  = $infoEntite;
 		$this->page_title = $page_title;
 		$this->template_milieu = "JournalIndex";
