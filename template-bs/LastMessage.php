@@ -1,15 +1,12 @@
 <?php 
-//TODO a nettoyer
-global $lastMessage;
-global $lastError;
-if ($lastMessage->getLastMessage()) : ?>
+if ($this->LastMessage->getLastMessage()) : ?>
 <div class="alert alert-success">
-	<?php echo $lastMessage->getLastMessage()?>
+	<?php echo $this->LastMessage->getLastMessage()?>
 </div>
 <?php endif;?>
 
-<?php if ($lastError->getLastError()) : ?>
+<?php if ($this->LastError->getLastError()) : ?>
 <div class="alert alert-error">
-	<?php echo $lastError->getLastError()?>
+	<?php echo $this->LastError->getLastError()?>
 </div>
 <?php endif;?>
