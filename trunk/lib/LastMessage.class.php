@@ -31,6 +31,7 @@ class LastMessage {
 	public function setLastMessage($message){
 		$_SESSION[$this->sessionKey] = $message;
 		$_SESSION['last_post']=$_POST;
+		$this->lastMessage = $message;
 	}
 	
 	public function setEncodingInput($encoding = ENT_QUOTES){

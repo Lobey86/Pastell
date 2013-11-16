@@ -124,8 +124,12 @@ class SystemControler extends PastellControler {
 		$recuperateur = new Recuperateur($_POST);
 		$id_e = $recuperateur->get("id_e");
 		$path = $recuperateur->get("path");
-		$this->ExtensionSQL->edit($id_e,$path);
-		$this->LastMessage->setLastMessage("Extension éditée");
+		if (file_exists($path)){
+			$this->ExtensionSQL->edit($id_e,$path);
+			$this->LastMessage->setLastMessage("Extension éditée");
+		} else {
+			$this->LastError->setLastError("Le chemin « $path » n'existe pas sur le système de fichier");
+		}
 		$this->redirect("/system/index.php?page_number=4");
 	}
 	
@@ -142,7 +146,6 @@ class SystemControler extends PastellControler {
 		$recuperateur=new Recuperateur($_GET);
 		$id = $recuperateur->get('id');		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id);
-		
 		$name = $documentType->getName();
 		$this->description = $documentType->getDescription();
 		$this->all_connecteur = $documentType->getConnecteur();

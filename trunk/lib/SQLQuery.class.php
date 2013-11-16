@@ -21,7 +21,7 @@ class SQLQuery {
 		$this->pdo = null;
 	}
 	
-	private function getPdo(){
+	public function getPdo(){
 		if ( ! $this->pdo){
 			
 			$this->pdo = new PDO($this->dsn,$this->user,$this->password);

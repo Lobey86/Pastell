@@ -1,6 +1,6 @@
 <?php
 
-require_once 'init.php';
+require_once __DIR__.'/../init.php';
 
 class TimerTest extends PHPUnit_Framework_TestCase {
 	
