@@ -81,18 +81,9 @@ class Extensions {
 	public function getInfo($id_e){
 		$info = $this->extensionSQL->getInfo($id_e);
 		$info = $this->getInfoFromPath($info['path']);
-		$info['manifest'] = $this->getManifest($info['path']);
 		$info['id_e'] = $id_e;
 		$info['exists'] = file_exists($info['path']);
 		return $info;
-	}
-	
-	public function getManifest($path){
-		$manifest_path = "$path/".self::MANIFEST_FILENAME;
-		if (! file_exists($manifest_path)){
-			return false;
-		}
-		return $this->yml_loader->getArray($manifest_path);
 	}
 	
 	private function getInfoFromPath($path){
@@ -100,9 +91,13 @@ class Extensions {
 		$result['nom'] = basename($path);
 		$result['flux'] = $this->getAllModuleByPath($path);
 		$result['connecteur'] = $this->getAllConnecteurByPath($path);
-		$versionning = new Versionning(false, $path."/revision.txt");
-		$result['revision'] = $versionning->getRevision();
+		$result['manifest'] = $this->getManifest($path);
 		return $result;
+	}
+	
+	private function getManifest($path){
+		$manifestReader = new ManifestReader(new YMLLoader(), "$path/".self::MANIFEST_FILENAME);
+		return $manifestReader->getInfo();
 	}
 	
 	private function getAllModuleByPath($path){

@@ -31,8 +31,10 @@ require_once( PASTELL_PATH . "/lib/util.php");
 
 $objectInstancier = new ObjectInstancier();
 $objectInstancier->Timer = new Timer();
-$objectInstancier->versionFile = __DIR__."/version.txt";
-$objectInstancier->revisionFile = __DIR__."/revision.txt";
+
+$objectInstancier->manifest_file_path = __DIR__."/manifest.yml";
+
+
 $objectInstancier->workspacePath = WORKSPACE_PATH;
 $objectInstancier->template_path = TEMPLATE_PATH;
 $objectInstancier->api_definition_file_path = __DIR__ . "/pastell-core/api-definition.yml";
@@ -59,7 +61,6 @@ try {
 } catch (Exception $e){}
 
 $sqlQuery = $objectInstancier->SQLQuery;
-$versionning = $objectInstancier->Versionning;
 $lastError = $objectInstancier->LastError;
 $lastMessage = $objectInstancier->LastMessage;
 $authentification = $objectInstancier->Authentification;
