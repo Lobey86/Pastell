@@ -1,2 +1,7 @@
 
 - Déplacement des interfaces de connecteurs dans le répertoire connecteur-type
+
+- Ajout de la constante de configuration "DETAIL_ENTITE_API"
+qui permet de dire quel script utilisé pour la fonction detail-entite.php suite au problème de fusion des branches adullact et bl.
+
+Le script adullact et la directive disparaitront dans la version 1.2 de Pastell.
