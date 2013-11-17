@@ -32,9 +32,12 @@ class APIAction {
 	}
 	
 	public function version(){
-		$infoVersionning = $this->objectInstancier->Versionning->getAllInfo();
-		$infoVersionning['version_complete'] = $infoVersionning['version-complete'];
-		return $infoVersionning; 
+		$info = $this->objectInstancier->ManifestReader->getInfo();
+		$result['version'] = $info['version'];
+		$result['revision'] = $info['revision'];
+		$result['version_complete'] = $info['version-complete'];
+		$result['version-complete'] = $info['version-complete'];
+		return $result; 
 	}
 	
 	public function documentType(){

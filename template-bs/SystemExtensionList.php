@@ -42,7 +42,7 @@
 			</ul>
 		</td>
 		<td>
-			<?php hecho($extension['revision'])?>
+			<?php hecho($extension['manifest']['revision'])?>
 		</td>
 	</tr>
 <?php endforeach;?>
