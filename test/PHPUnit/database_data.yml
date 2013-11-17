@@ -21,12 +21,44 @@ utilisateur_role:
   id_u: 1
   role: admin
   id_e: 0
-  
+ 
+entite:
+ -
+  id_e: 1
+  type: collectivite
+  denomination: Bourg-en-Bresse
+  entite_mere: 0
+ -
+  id_e: 2
+  type: service
+  denomination: CCAS
+  entite_mere: 1	
+
 entite_ancetre:
  -
   id_e_ancetre: 0
   id_e: 0
   niveau: 0
+ -
+  id_e_ancetre: 0
+  id_e: 1
+  niveau: 1
+ -
+  id_e_ancetre: 1
+  id_e: 1
+  niveau: 0
+ -
+  id_e_ancetre: 2
+  id_e: 2
+  niveau: 0
+ -
+  id_e_ancetre: 1
+  id_e: 2
+  niveau: 1
+ -
+  id_e_ancetre: 0
+  id_e: 2
+  niveau: 2
 
 role:
  -
@@ -45,4 +77,18 @@ role_droit:
   droit: system:edition
  -
   role: admin
-  droit: system:lecture  
+  droit: system:lecture 
+ -
+  role: admin
+  droit: message-service:edition
+ -
+  role: admin
+  droit: message-service:lecture
+  
+document:
+document_action:
+document_action_entite:
+document_entite:
+journal:
+
+  

@@ -2,6 +2,8 @@
 
 class APIAction {
 	
+	const RESULT_OK = "ok";
+	
 	private $objectInstancier;
 	private $id_u;
 	
@@ -203,7 +205,7 @@ class APIAction {
 		$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,$id_d);
 		$actionCreator->addAction($id_e,$this->id_u,Action::MODIFICATION,"Modification du document [WS]");
 		
-		$result['result'] = "ok";
+		$result['result'] = self::RESULT_OK;
 		$result['formulaire_ok'] = $donneesFormulaire->isValidable()?1:0;
 		if (! $result['formulaire_ok']){
 			$result['message'] = $donneesFormulaire->getLastError();
@@ -308,7 +310,7 @@ class APIAction {
                 $this->objectInstancier->Utilisateur->removeCertificat($id_u_a_modifier);
             }
 
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;
         }
         
@@ -357,7 +359,7 @@ class APIAction {
             $this->objectInstancier->RoleUtilisateur->removeAllRole($id_u);
             $utilisateurModel->desinscription($id_u);
         
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;
         }
         
@@ -393,7 +395,7 @@ class APIAction {
     
             $this->objectInstancier->RoleUtilisateur->addRole($id_u,$role,$id_e);   
     
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;
         }
         
@@ -437,7 +439,7 @@ class APIAction {
                     
             $entiteSQL->removeEntite($id_e);
     
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;            
         }
         
@@ -455,7 +457,7 @@ class APIAction {
     
             $this->objectInstancier->RoleUtilisateur->removeRole($id_u,$role,$id_e);   
     
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;
         }
         
@@ -558,7 +560,7 @@ class APIAction {
           
             $id_e_modifie = $this->objectInstancier->EntiteControler->edition($id_e, $denomination, $siren, $type, $entite_mere, $centre_de_gestion, 'non', 'non');
     
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;
     
         }
@@ -577,7 +579,7 @@ class APIAction {
             $this->verifDroit($id_e, "entite:edition");            
             
             $id_ce = $this->objectInstancier->ConnecteurControler->delete($id_ce);
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;
         }
         
@@ -586,7 +588,7 @@ class APIAction {
             $this->verifDroit($id_e, "entite:edition");
             
             $this->objectInstancier->ConnecteurControler->editionLibelle($id_ce, $libelle);
-            $result['result']="ok";
+            $result['result']=self::RESULT_OK;
             return $result;
         }
         
@@ -640,7 +642,7 @@ class APIAction {
                                             
             $fluxEntiteSQL->removeConnecteur($id_fe);
     
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;            
         }
         
@@ -672,7 +674,7 @@ class APIAction {
                 $resultAction = $this->objectInstancier->ActionExecutorFactory->executeOnConnecteur($id_ce,$this->objectInstancier->Authentification->getId(),$action, true);
             }
             
-            $result['result'] = "ok";
+            $result['result'] = self::RESULT_OK;
             return $result;            
         }
         
