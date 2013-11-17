@@ -16,7 +16,7 @@ class ManifestReader {
 		
 		foreach(array('version','revision','nom','description','pastell-version') as $key){
 			if (! isset($result[$key])){
-				$result[$key] = "non défini";
+				$result[$key] = false;
 			}
 		}
 		
@@ -35,5 +35,15 @@ class ManifestReader {
 	public function getVersion(){
 		$info = $this->getInfo();
 		return $info['version'];
+	}
+	
+	public function isRevisionOK($version_attendue){
+		$info = $this->getInfo();
+		foreach($info['extensions_versions_accepted'] as $version_accepted ){
+			if ($version_accepted == $version_attendue){
+				return true;
+			}
+		}
+		return false;
 	}
 }
