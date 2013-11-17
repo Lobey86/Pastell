@@ -98,5 +98,9 @@ if (!defined("TIMEZONE")){
 	define("TIMEZONE","Europe/Paris");
 }
 
+if (!defined("DETAIL_ENTITE_API")){
+	define("DETAIL_ENTITE_API","detail-entite-adullact.php");
+}
+
 date_default_timezone_set(TIMEZONE);
 
