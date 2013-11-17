@@ -10,18 +10,20 @@
 </table>
 
 
-<?php if (! $extension_info['exists']) : ?>
+<?php if ($extension_info['error']) : ?>
 	<div class='alert alert-error'>
-		Impossible de lire l'extension sur le système de fichier
+		<?php hecho($extension_info['error-detail'])?>
 	</div>
 <?php endif ?>
 
 
-<?php if (! $extension_info['manifest']) : ?>
-	<div class='alert'>
-		Cette extension ne contient pas de fichier manifest.yml
+
+<?php if ($extension_info['warning']) : ?>
+	<div class='alert alert'>
+		<?php hecho($extension_info['warning-detail'])?>
 	</div>
-<?php else : ?>
+<?php endif ?>
+
 <table class='table table-striped'>
 <tr>
 	<th>Nom</th>
@@ -33,10 +35,22 @@
 </tr>
 <tr>
 	<th>Version de Pastell attendue</th>
-	<td><?php hecho($extension_info['manifest']['pastell-version']) ?></td>
+	<td>
+		
+		<?php hecho($extension_info['manifest']['pastell-version']) ?>
+	
+	</td>
+</tr>
+<tr>
+	<th>Nom symbolique</th>
+	<td><?php hecho($extension_info['nom']) ?></td>
+</tr>
+<tr>
+	<th>Emplacement de l'extension sur le système de fichier</th>
+	<td><?php hecho($extension_info['path']); ?></td>
 </tr>
 </table>
-<?php endif;?> 
+ 
 <a href='system/extension-edition.php?id_extension=<?php echo $extension_info['id_e']?>' class='btn'>Modifier</a>
 <a href='system/extension-delete.php?id_e=<?php echo $extension_info['id_e']?>' class='btn btn-danger' onclick='return confirm("Êtes-vous sûr de vouloir supprimer cette extension ?")'>Supprimer</a>
 </div>

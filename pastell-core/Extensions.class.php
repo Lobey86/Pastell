@@ -8,16 +8,18 @@ class Extensions {
 	
 	private $extensionSQL;
 	private $yml_loader;
+	private $pastellManifestReader;
 	
-	public function __construct(ExtensionSQL $extensionSQL,YMLLoader $yml_loader){
+	public function __construct(ExtensionSQL $extensionSQL,YMLLoader $yml_loader, ManifestReader $pastellManifestReader){
 		$this->extensionSQL = $extensionSQL;
 		$this->yml_loader = $yml_loader;
+		$this->pastellManifestReader = $pastellManifestReader;
 	}
 	
 	public function getAll(){
 		$extensions_list = array();
 		foreach($this->extensionSQL->getAll() as $extension){
-			$extensions_list[$extension['id_e']] = $this->getInfoFromPath($extension['path']); 
+			$extensions_list[$extension['id_e']] = $this->getInfo($extension['id_e']); 
 		}
 		return $extensions_list;
 	}
@@ -81,8 +83,21 @@ class Extensions {
 	public function getInfo($id_e){
 		$info = $this->extensionSQL->getInfo($id_e);
 		$info = $this->getInfoFromPath($info['path']);
+		$info['error'] = false;
+		$info['warning'] = false;
+		
 		$info['id_e'] = $id_e;
-		$info['exists'] = file_exists($info['path']);
+		if (! file_exists($info['path'])){
+			$info['error'] = "Extension non-trouvé";
+			$info['error-detail'] = "L'emplacement {$info['path']} n'a pas été trouvé sur le système de fichier";
+		} else if (! $info['manifest']['nom']){
+			$info['warning'] = "manifest.yml absent";
+			$info['warning-detail'] = "Le fichier manifest.yml n'a pas été trouvé dans {$info['path']}";	
+		} else if (! $this->pastellManifestReader->isRevisionOK($info['manifest']['pastell-version'])) {
+			$version = $this->pastellManifestReader->getVersion();
+			$info['warning'] = "Version de pastell incorrecte";
+			$info['warning-detail'] = "Ce module attent une version de Pastell ({$info['manifest']['pastell-version']}) non prise en charge par ce Pastell";
+		}
 		return $info;
 	}
 	
