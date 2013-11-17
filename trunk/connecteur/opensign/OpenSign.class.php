@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DIR__."/../../connecteur-type/Horodateur.class.php");
-
 class OpenSignException extends ConnecteurException {}
 
 class OpenSign extends Horodateur {

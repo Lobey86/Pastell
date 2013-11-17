@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DIR__."/../../connecteur-type/TdtConnecteur.class.php");
-
 class S2lowException extends TdTException {}
 
 class S2low  extends TdtConnecteur {

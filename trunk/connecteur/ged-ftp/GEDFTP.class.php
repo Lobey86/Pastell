@@ -1,7 +1,5 @@
 <?php 
 
-require_once(__DIR__ . "/../../connecteur-type/GEDConnecteur.class.php");
-
 class GEDFTP extends GEDConnecteur {
 	
 	private $server;

@@ -1,8 +1,10 @@
 <?php
-require_once(__DIR__."/../../connecteur-type/TdtAdapter.class.php");
-
 
 class FakeTdT extends TdtAdapter {
+	
+	public function getLogicielName(){
+		return "FakeTdT";
+	}
 	
 	public function postActes(DonneesFormulaire $donneesFormulaire){
 		$donneesFormulaire->setData('tedetis_transaction_id',mt_rand(1,mt_getrandmax()));
