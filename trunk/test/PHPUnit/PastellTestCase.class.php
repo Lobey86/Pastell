@@ -4,33 +4,50 @@ require_once "PHPUnit/Extensions/Database/TestCase.php";
 
 abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 	
+	const ID_E_COL = 1;
+	const ID_E_SERVICE = 2;
+	const ID_U_ADMIN = 1;
+	
+	
 	private $databaseConnection;
 	private $objectInstancier;
 	
 	public function __construct(){
 		parent::__construct();
-		
 		$this->objectInstancier = new ObjectInstancier();
-		
-		$testStream = vfsStream::setup('test');
-		$testStreamUrl = vfsStream::url('test');
-		$revision_path = $testStreamUrl."/revision.txt";
-		$version_path  = $testStreamUrl."/version.txt";
-		file_put_contents($revision_path ,'$Rev: 666 $');
-		file_put_contents($version_path, '1.12');
-		
-		$this->objectInstancier->versionFile = $version_path;
-		$this->objectInstancier->revisionFile = $revision_path;
-		
 		$this->objectInstancier->SQLQuery = new SQLQuery(BD_DSN_TEST,BD_USER_TEST,BD_PASS_TEST);
-		
 		$this->objectInstancier->template_path = TEMPLATE_PATH;
-		
 		$this->databaseConnection = $this->createDefaultDBConnection($this->objectInstancier->SQLQuery->getPdo(), BD_DBNAME_TEST);
 	}
 	
+	public function reinitDatabaseOnSetup(){
+		return false;
+	}
+	
+	public function reinitFileSystemOnSetup(){
+		return false;
+	}
+	
+	
 	public function getObjectInstancier(){
 		return $this->objectInstancier;
+	}
+	
+	public function reinitFileSystem(){
+		$structure = array(
+				'revision.txt' => '$Rev: 666 $',
+				'version.txt' => '1.12',
+				'workspace' => array()
+		);		
+		$testStream = vfsStream::setup('test',null,$structure);
+		$testStreamUrl = vfsStream::url('test');
+		$this->objectInstancier->versionFile = $testStreamUrl."/version.txt";
+		$this->objectInstancier->revisionFile = $testStreamUrl."/revision.txt";
+		$this->objectInstancier->workspacePath = $testStreamUrl."/workspace/";
+	}
+	
+	public function reinitDatabase(){
+		$this->getConnection()->createDataSet();
 	}
 	
 	/**
@@ -47,8 +64,13 @@ abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet( __DIR__."/database_data.yml");
 	}
 	
-	public function setUpWithDBReinit(){
+	protected function setUp(){
 		parent::setUp();
-		$this->getConnection()->createDataSet();
+		if ($this->reinitDatabaseOnSetup()) {
+			$this->reinitDatabase();
+		}
+		if ($this->reinitFileSystemOnSetup()){
+			$this->reinitFileSystem();
+		}
 	}
 }

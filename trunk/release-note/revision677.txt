@@ -1,0 +1,2 @@
+
+- Déplacement des interfaces de connecteurs dans le répertoire connecteur-type

@@ -16,8 +16,12 @@ class SystemControlerTest extends PastellTestCase {
 		return $this->getObjectInstancier()->SystemControler;
 	}
 	
-	public function setUp(){
-		parent::setUpWithDBReinit();
+	public function reinitDatabaseOnSetup(){
+		return true;
+	}
+	
+	public function reinitFileSystemOnSetup(){
+		return true;
 	}
 	
 	/**
