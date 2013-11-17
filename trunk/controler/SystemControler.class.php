@@ -52,6 +52,7 @@ class SystemControler extends PastellControler {
 			"PHP" => $this->checkPHP['min_value'],
 			"OpenSSL" => '1.0.0a',
 		);
+		$this->manifest_info = $this->ManifestReader->getInfo();
 		$cmd =  OPENSSL_PATH . " version";
 		$openssl_version = `$cmd`;
 		$this->valeurReel = array('OpenSSL' =>  $openssl_version, 'PHP' => $this->checkPHP['environnement_value']); 

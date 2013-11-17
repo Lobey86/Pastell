@@ -7,10 +7,10 @@ description: |
 version: 1.1.4
 
 last_changed_date: |
-	$LastChangedDate: 2013-11-17 09:47:22 +0100 (dim., 17 nov. 2013) $
+	$LastChangedDate$
 
 revision: |
-	$Rev: 679 $
+	$Rev$
 
 extensions_versions_accepted:
 	- 1.1.4 
