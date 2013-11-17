@@ -12,7 +12,7 @@ class APIActionTest extends PastellTestCase {
 	public function testVersion(){
 		$apiAction = new APIAction($this->getObjectInstancier(), 1);
 		$version = $apiAction->version();
-		$this->assertEquals('1.12', $version['version']);
+		$this->assertEquals('1.1.4', $version['version']);
 	}
 	
 }

@@ -5,8 +5,26 @@
 <table class='table table-striped'>
 
 <tr>
+	<th class="w140">Version</th>
+	<td><?php echo $manifest_info['version']; ?></td>
+</tr>
+<tr>
 	<th class="w140">Révision</th>
-	<td><?php echo nl2br(utf8_decode(file_get_contents( PASTELL_PATH."/revision.txt"))) ?></td>
+	<td><?php echo $manifest_info['revision']; ?></td>
+</tr>
+<tr>
+	<th class="w140">Date du commit</th>
+	<td><?php echo $manifest_info['last_changed_date']; ?></td>
+</tr>
+<tr>
+	<th class="w140">Versions compatibles pour les modules</th>
+	<td>
+		<ul>
+		<?php foreach($manifest_info['extensions_versions_accepted'] as $version_module): ?>
+			<li><?php hecho($version_module)?></li>
+		<?php endforeach;?>
+		</ul>
+	</td>
 </tr>
 </table>
 
