@@ -176,7 +176,7 @@ class AfficheurFormulaire {
 									<input type='file' id='<?php echo $field->getName();?>'  name='<?php echo $field->getName()?>' />
 								<?php endif; ?>
 								<?php if ($field->isMultiple()): ?>
-									<button type='submit' name='ajouter' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>'><i class='icon-plus'></i>Ajouter</button>
+									<button type='submit' name='ajouter' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='Ajouter'><i class='icon-plus'></i>Ajouter</button>
 									<!--<input class='input_normal send_button' type='submit' name='ajouter' value='Ajouter' />-->
 								<?php endif;?>
 								<?php if ( ( $field->isMultiple()) || (! $this->donneesFormulaire->get($field->getName()))) : ?>
