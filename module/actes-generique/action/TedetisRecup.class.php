@@ -23,9 +23,17 @@ class TedetisRecup extends ActionExecutor {
 			$message = "Echec de la récupération des informations : " .  $e->getMessage();
 			$this->setLastMessage($message);
 			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-tdt',$message);		
-			$this->notify($this->action, $this->type,$message);													
+			$this->notify('erreur-verif-tdt', $this->type,$message);													
 			return false;
 		} 
+		
+		if ($status == TdtConnecteur::STATUS_ERREUR){
+			$message = "Transaction en erreur sur le TdT";
+			$this->setLastMessage($message);
+			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-tdt',$message);
+			$this->notify('erreur-verif-tdt', $this->type,$message);
+			return false;
+		}
 		
 		if ($status != TdtConnecteur::STATUS_ACQUITTEMENT_RECU){
 			$this->setLastMessage("La transaction a comme statut : " . TdtConnecteur::getStatusString($status));

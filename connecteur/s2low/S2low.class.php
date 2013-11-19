@@ -1,6 +1,5 @@
 <?php
 
-class S2lowException extends TdTException {}
 
 class S2low  extends TdtConnecteur {
 	
@@ -30,6 +29,7 @@ class S2low  extends TdtConnecteur {
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->curlWrapper = new CurlWrapper();
 		$this->curlWrapper->setServerCertificate($collectiviteProperties->getFilePath('server_certificate'));	
+		$this->curlWrapper->dontVerifySSLCACert();
 		$this->curlWrapper->setClientCertificate(	$collectiviteProperties->getFilePath('user_certificat_pem'),
 													$collectiviteProperties->getFilePath('user_key_pem'),
 													$collectiviteProperties->get('user_certificat_password'));
@@ -342,6 +342,7 @@ class S2low  extends TdtConnecteur {
 		$donneesFormulaire->setData("has_reponse_{$libelle}",true);
 		return true;
 	}
-	
-	
 }
+
+class S2lowException extends TdTException {}
+
