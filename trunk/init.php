@@ -13,10 +13,12 @@ if ( ! function_exists('pastell_autoload')) {
 	//Note : c'est un peu à la one-again, il faudrait sans doute refactorer cette fonction pour qu'elle
 	//fonctionne dans tous les cas.
 	function pastell_autoload($class_name) {	
-		$result = include($class_name . '.class.php');
+		@ $result = include($class_name . '.class.php');
 		if ( ! $result ){
-			throw new Exception("Impossible de trouver $class_name");
+			return false;
+			//throw new Exception("Impossible de trouver $class_name");
 		}
+		return true;
 	}
 }
 
