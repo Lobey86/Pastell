@@ -14,7 +14,7 @@ class Recuperateur {
 		return $this->doSomethingOnValueOrArray('intval',$this->get($name,$default));
 	}
 	
-	public function getNoTrim($name,$default = false){
+	public function getNoTrim($name,$default){
 		if ( empty($this->tableauInput[$name])) {
 			return $default;
 		}
@@ -27,6 +27,9 @@ class Recuperateur {
 		}
 		
 		$value = $this->tableauInput[$name];		
+		if (get_magic_quotes_gpc()){
+			$value = $this->doSomethingOnValueOrArray("stripslashes",$value);
+		}		
 		if(is_array($value)){
 			foreach($value as $i => $v){
 				$value[$i] = str_replace("&#8217;","'",$v);

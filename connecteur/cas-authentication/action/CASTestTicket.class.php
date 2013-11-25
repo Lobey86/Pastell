@@ -5,7 +5,7 @@ class CASTestTicket extends ActionExecutor {
 	
 	public function go(){
 		$cas = $this->getMyConnecteur();
-		$login = $cas->authenticate(SITE_BASE."/connexion/cas-pastell.php?id_ce={$this->id_ce}");
+		$login = $cas->authenticate(SITE_BASE."/connexion/cas.php?id_ce={$this->id_ce}");
 		if (!$login){
 			$this->setLastMessage("Aucune session en cours");
 			return false;

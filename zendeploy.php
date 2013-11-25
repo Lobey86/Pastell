@@ -8,3 +8,5 @@ $description = "";
 $webapp_name = "pastell";
 $file_to_preserve = array("LocalSettings.php",'log','workspace');
 $database_definition_file = "installation/pastell.bin";
+
+$post_install = "installation/post-install.sh";

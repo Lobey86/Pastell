@@ -30,20 +30,6 @@ if (!defined("BD_PASS")){
 }
 
 
-//Définition de la connexion à la base de données pour les tests unitaires et les tests de validation
-if (!defined("BD_DSN_TEST")){
-	define("BD_DSN_TEST","mysql:dbname=pastell_test;host=localhost;port=8889");
-}
-if (!defined("BD_USER_TEST")){
-	define("BD_USER_TEST","user");
-}
-if (!defined("BD_PASS_TEST")){
-	define("BD_PASS_TEST","user");
-}
-if (!defined("BD_DBNAME_TEST")){
-	define("BD_DBNAME_TEST","pastell_test");
-}
-
 //Certificat de signature des timestamps
 if (! defined("SIGN_SERVER_CERTIFICATE")){
 	define("SIGN_SERVER_CERTIFICATE", PASTELL_PATH . "/data-exemple/timestamp-cert.pem");
@@ -96,10 +82,6 @@ if (!defined("TEMPLATE_PATH")){
 
 if (!defined("TIMEZONE")){
 	define("TIMEZONE","Europe/Paris");
-}
-
-if (!defined("DETAIL_ENTITE_API")){
-	define("DETAIL_ENTITE_API","detail-entite-adullact.php");
 }
 
 date_default_timezone_set(TIMEZONE);

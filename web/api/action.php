@@ -9,9 +9,5 @@ $id_destinataire = $recuperateur->get('destinataire');
 if (!$id_destinataire){
 	$id_destinataire = array();
 }
-$action_params = $recuperateur->get('action_params');
-if (!$action_params) {
-	$action_params=array();
-}
 
-$api_json->action($id_e, $id_d,$action,$id_destinataire, true, $action_params);
+$api_json->action($id_e, $id_d,$action,$id_destinataire);

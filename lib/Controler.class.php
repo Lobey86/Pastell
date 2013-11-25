@@ -1,29 +1,14 @@
 <?php
-
-
-class LastErrorException extends Exception {}
-class LastMessageException extends Exception {}
-
-
 class Controler {
 
 	private $objectInstancier;
 	private $selectedView;
 	private $viewParameter;
 	protected $lastError;
-	private $dont_redirect;
 	
 	public function __construct(ObjectInstancier $objectInstancier){
 		$this->objectInstancier = $objectInstancier;
 		$this->viewParameter = array();
-	}
-	
-	public function setDontRedirect($dont_redirect){
-		$this->dont_redirect = $dont_redirect;
-	}
-	
-	public function isDontRedirect(){
-		return $this->dont_redirect;
 	}
 	
 	public function getLastError(){
@@ -56,27 +41,14 @@ class Controler {
 	}
 	
 	public function exitToIndex(){
-		$this->doRedirect($this->objectInstancier->site_index);
-	}
-	
-	public function redirect($to = ""){
-		$this->doRedirect(SITE_BASE."$to");
-	}
-	
-	private function doRedirect($url){
-		if ($this->isDontRedirect()){
-			$error = $this->LastError->getLastError();
-			if ($error){
-				throw new LastErrorException("Redirection vers $url : $error");
-			} else {
-				$message = $this->LastMessage->getLastMessage();
-				throw new LastMessageException("Rediection vers $url: $message");
-			}
-		}
-		header("Location: $url");
+		header("Location: ".$this->objectInstancier->site_index);
 		exit;
 	}
 	
+	public function redirect($to = ""){
+		header("Location: ".SITE_BASE."$to");
+		exit;
+	}
 
 	public function renderDefault(){
 		$template_milieu = $this->viewParameter['template_milieu'];

@@ -6,6 +6,7 @@
 
 <tr>
 	<th>Révision</th>
+	<td><?php echo nl2br(utf8_decode(file_get_contents( PASTELL_PATH."/revision.txt"))) ?></td>
 </tr>
 </table>
 <h2>Extensions PHP</h2>

@@ -18,10 +18,7 @@ if (! is_array($nouveau_bouton_url)){
 	$nouveau_bouton_url = $nb;
 }
 
-if (! headers_sent()) {
-	header("Content-type: text/html; charset=iso-8859-15");	
-}
-?>
+header("Content-type: text/html; charset=iso-8859-15");	 ?>
 <!DOCTYPE html>
 <html>
 	<head>

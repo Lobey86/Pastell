@@ -140,9 +140,7 @@ class DonneesFormulaire {
 				$this->saveFile($allField[$filename],$fileUploader);
 			}
 		}
-		if ($this->isModified) {
-			$this->saveDataFile();                
-		}
+		$this->saveDataFile();
 	}
 	
 	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
@@ -228,6 +226,7 @@ class DonneesFormulaire {
 		return $this->info[$item];
 	}
 	
+	
 	public function setTabDataVerif(array $input_field){
 		$allField = $this->formulaire->getAllFields();
 		foreach($input_field as $field_name => $value){
@@ -239,10 +238,10 @@ class DonneesFormulaire {
 				}
 			}
 		}
-	
+
 		foreach($allField as $field_name=>$field){
-			if($field->getProperties('depend') &&
-			is_array($this->get($field->getProperties('depend')))) {
+			if($field->getProperties('depend') && 
+				is_array($this->get($field->getProperties('depend')))) {
 				foreach($this->get($field->getProperties('depend')) as $i => $file){
 					if (isset($input_field[$field_name."_$i"])){
 						$this->setInfo2($field_name."_$i",$input_field[$field_name."_$i"]);
@@ -253,7 +252,6 @@ class DonneesFormulaire {
 		}
 		$this->saveDataFile();
 	}
-	
 	
 	public function addFileFromData($field_name,$file_name,$raw_data,$file_num = 0){
 		$this->info[$field_name][$file_num] = $file_name;
@@ -496,8 +494,6 @@ class DonneesFormulaire {
 		}
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
-                // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
-                $this->isModified=false;                
 	}
 	
 	public function sendFile($field_name,$num=0){

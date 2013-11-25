@@ -9,7 +9,6 @@ class Journal extends SQL {
 	const CONNEXION = 6;
 	const DOCUMENT_CONSULTATION = 7 ;
 	const ENVOI_MAIL = 8;
-	const DOCUMENT_ACTION_ERROR = 9;
 	
 	private $id_u;
 	private $utilisateurSQL;
@@ -180,8 +179,7 @@ class Journal extends SQL {
 						"Mail sécurisé",
 						"Connexion",
 						"Consultation de document",
-						"Envoi de mail",
-						"Erreur lors de la tenetative d'une action"
+						"Envoi de mail"
 		);
 		return $type_string[$type];
 	}

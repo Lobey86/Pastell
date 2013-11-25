@@ -1,4 +1,6 @@
 <?php
+require_once(__DIR__."/../../connecteur-type/Horodateur.class.php");
+
 class HorodateurPastell extends Horodateur {
 	
 	private $signerCertificate;

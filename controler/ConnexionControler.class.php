@@ -2,9 +2,6 @@
 class ConnexionControler extends PastellControler {
 	
 	public function verifConnected(){
-		if ($this->Authentification->isConnected()){
-			return true;
-		}
 		try {
 			$id_u = $this->apiCasConnexion();
 			if ($id_u){
@@ -21,7 +18,7 @@ class ConnexionControler extends PastellControler {
 		$recuperateur = new Recuperateur($_GET);
 		$id_ce = $recuperateur->getInt('id_ce');
 		$casAuthentication = $this->ConnecteurFactory->getConnecteurById($id_ce);
-		$login = $casAuthentication->authenticate(SITE_BASE."/connexion/cas-pastell.php?id_ce=$id_ce");
+		$login = $casAuthentication->authenticate(SITE_BASE."/connexion/cas.php?id_ce=$id_ce");
 		$this->LastMessage->setLastMessage("Authentification avec le login : $login");
 		$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 	}

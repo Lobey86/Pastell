@@ -30,7 +30,7 @@ class DonneesFormulaireFactory{
 		}
 		
 		$formulaire = $this->documentTypeFactory->getFluxDocumentType($document_type)->getFormulaire();
-		return $this->getFromCacheNewPlan($id_d, $formulaire);
+		return $this->getFromCache($id_d, $formulaire);
 	}
 	
 	public function getConnecteurEntiteFormulaire($id_ce){
@@ -52,25 +52,6 @@ class DonneesFormulaireFactory{
 		return $cache[$id_document];
 	}
 	
-	private function getFromCacheNewPlan($id_document,Formulaire $formulaire){
-		static $cache;
-		if (empty($cache[$id_document])){
-			$dir = $this->getNewDirectoryPath($id_document);
-			if (! file_exists($dir)) {
-				mkdir($dir,0777,true);
-			}
-			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
-		}
-		return $cache[$id_document];
-	}
 	
-	private function getNewDirectoryPath($id_document){
-		if (strlen($id_document) < 2){
-			return $this->workspacePath;
-		}
-		$a = $id_document[0];
-		$b = $id_document[1];
-		return $this->workspacePath."/$a/$b/";
-	}
 	
 }

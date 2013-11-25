@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . "/../../connecteur-type/GEDConnecteur.class.php");
+
 class CMIS extends GEDConnecteur {
 	
 	const NS_CMIS  = "http://docs.oasis-open.org/ns/cmis/core/200908/";

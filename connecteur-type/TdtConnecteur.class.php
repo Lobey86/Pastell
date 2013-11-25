@@ -4,7 +4,7 @@ class TdTException extends Exception {}
 
 abstract class TdtConnecteur extends Connecteur{
 	
-	const STATUS_ERREUR = -1;
+	const STATUS_ERREUR = 1;
 	const STATUS_ANNULE = 0;
 	const STATUS_POSTE = 1;
 	const STATUS_EN_ATTENTE_DE_TRANSMISSION = 2;

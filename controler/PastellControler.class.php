@@ -17,7 +17,7 @@ class PastellControler extends Controler {
 		if  ($this->hasDroit($id_e,$droit)){
 			return true;
 		}
-		$this->LastError->setLastError("Vous n'avez pas les droits nécessaires ($id_e:$droit) pour accéder à cette page");
+		$this->LastError->setLastError("Vous n'avez pas les droits nécessaires pour accéder à cette page");
 		$this->redirect($redirect_to);
 	}
 	
@@ -61,7 +61,7 @@ class PastellControler extends Controler {
 		$this->roleUtilisateur = $this->RoleUtilisateur;
 		$this->sqlQuery = $this->SQLQuery;
 		$this->objectInstancier = $this->ObjectInstancier;
-		$this->manifest_info = $this->ManifestReader->getInfo();
+		$this->versionning = $this->Versionning;
 		$this->timer = $this->Timer;
 		parent::renderDefault();
 	}

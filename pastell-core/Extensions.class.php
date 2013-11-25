@@ -8,18 +8,16 @@ class Extensions {
 	
 	private $extensionSQL;
 	private $yml_loader;
-	private $pastellManifestReader;
 	
-	public function __construct(ExtensionSQL $extensionSQL,YMLLoader $yml_loader, ManifestReader $pastellManifestReader){
+	public function __construct(ExtensionSQL $extensionSQL,YMLLoader $yml_loader){
 		$this->extensionSQL = $extensionSQL;
 		$this->yml_loader = $yml_loader;
-		$this->pastellManifestReader = $pastellManifestReader;
 	}
 	
 	public function getAll(){
 		$extensions_list = array();
 		foreach($this->extensionSQL->getAll() as $extension){
-			$extensions_list[$extension['id_e']] = $this->getInfo($extension['id_e']); 
+			$extensions_list[$extension['id_e']] = $this->getInfoFromPath($extension['path']); 
 		}
 		return $extensions_list;
 	}
@@ -83,22 +81,18 @@ class Extensions {
 	public function getInfo($id_e){
 		$info = $this->extensionSQL->getInfo($id_e);
 		$info = $this->getInfoFromPath($info['path']);
-		$info['error'] = false;
-		$info['warning'] = false;
-		
+		$info['manifest'] = $this->getManifest($info['path']);
 		$info['id_e'] = $id_e;
-		if (! file_exists($info['path'])){
-			$info['error'] = "Extension non-trouvé";
-			$info['error-detail'] = "L'emplacement {$info['path']} n'a pas été trouvé sur le système de fichier";
-		} else if (! $info['manifest']['nom']){
-			$info['warning'] = "manifest.yml absent";
-			$info['warning-detail'] = "Le fichier manifest.yml n'a pas été trouvé dans {$info['path']}";	
-		} else if (! $this->pastellManifestReader->isRevisionOK($info['manifest']['pastell-version'])) {
-			$version = $this->pastellManifestReader->getVersion();
-			$info['warning'] = "Version de pastell incorrecte";
-			$info['warning-detail'] = "Ce module attent une version de Pastell ({$info['manifest']['pastell-version']}) non prise en charge par ce Pastell";
-		}
+		$info['exists'] = file_exists($info['path']);
 		return $info;
+	}
+	
+	public function getManifest($path){
+		$manifest_path = "$path/".self::MANIFEST_FILENAME;
+		if (! file_exists($manifest_path)){
+			return false;
+		}
+		return $this->yml_loader->getArray($manifest_path);
 	}
 	
 	private function getInfoFromPath($path){
@@ -106,13 +100,9 @@ class Extensions {
 		$result['nom'] = basename($path);
 		$result['flux'] = $this->getAllModuleByPath($path);
 		$result['connecteur'] = $this->getAllConnecteurByPath($path);
-		$result['manifest'] = $this->getManifest($path);
+		$versionning = new Versionning(false, $path."/revision.txt");
+		$result['revision'] = $versionning->getRevision();
 		return $result;
-	}
-	
-	private function getManifest($path){
-		$manifestReader = new ManifestReader(new YMLLoader(), "$path/".self::MANIFEST_FILENAME);
-		return $manifestReader->getInfo();
 	}
 	
 	private function getAllModuleByPath($path){
