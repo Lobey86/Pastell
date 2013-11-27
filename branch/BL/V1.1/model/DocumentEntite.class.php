@@ -45,14 +45,18 @@ class DocumentEntite extends SQL {
 		return $this->query($sql,$type,$action);
 	}
 	
-	public function getAll($id_e){
-		$sql = "SELECT * FROM document_entite " .
-				" JOIN document ON document_entite.id_d=document.id_d " .
-				" WHERE id_e=?";
-		return $this->query($sql,$id_e);
-	}
-	
-	public function getAllByFluxAction($flux,$action_from){
+        public function getAll($id_e) {
+                $sql = "SELECT * FROM document_entite " .
+                       " JOIN document ON document_entite.id_d=document.id_d";
+                if (isset($id_e)) {
+                    $sql .= " WHERE id_e=?";
+                    return $this->query($sql, $id_e);
+                } else {
+                    return $this->query($sql);
+                }
+        }
+
+        public function getAllByFluxAction($flux,$action_from){
 			$sql = "SELECT * FROM document_entite " .
 				" JOIN document ON document_entite.id_d=document.id_d " .
 				" JOIN entite ON document_entite.id_e = entite.id_e " .
