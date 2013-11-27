@@ -1,6 +1,5 @@
 <?php
 
-class OpenSignException extends ConnecteurException {}
 
 class OpenSign extends Horodateur {
 	
@@ -62,3 +61,5 @@ class OpenSign extends Horodateur {
 		return $result;
 	}
 }
+
+class OpenSignException extends ConnecteurException {}
