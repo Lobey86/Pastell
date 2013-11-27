@@ -29,7 +29,7 @@ if(php_sapi_name() != "cli") {
 }
 
 require_once( PASTELL_PATH . "/lib/util.php");
-
+require_once("Connecteur.class.php");
 
 $objectInstancier = new ObjectInstancier();
 $objectInstancier->Timer = new Timer();
