@@ -1,6 +1,9 @@
 <?php
 
 
+class OpenSignException extends ConnecteurException {}
+
+
 class OpenSign extends Horodateur {
 	
 	const DEFAULT_TIMEOUT = 2;
@@ -62,4 +65,3 @@ class OpenSign extends Horodateur {
 	}
 }
 
-class OpenSignException extends ConnecteurException {}

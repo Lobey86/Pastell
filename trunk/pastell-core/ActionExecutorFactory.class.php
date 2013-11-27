@@ -54,7 +54,13 @@ class ActionExecutorFactory {
 		if ($from_api){
 			$result = $actionClass->displayAPI();
 		} else {
+			//try {
+				
 			$result = $actionClass->display();
+			/*} catch (Exception $e) {
+				$this->lastMessage = $e->getMessage();
+				return false;
+			}*/
 		}		
 		return $result;
 	}
@@ -90,7 +96,12 @@ class ActionExecutorFactory {
 		$actionClass = $this->getInstance($action_class_name,$connecteur_entite_info['id_e'],$id_u,$action_name);
 		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);
 		$actionClass->setField($field);
-		$result = $actionClass->display();		
+		try {
+		$result = $actionClass->display();
+		} catch(Exception $e) {
+			$this->lastMessage = $e->getMessage();
+			return false;
+		}		
 		$this->lastMessage = $actionClass->getLastMessage();		
 		return $result;		
 	}
