@@ -191,7 +191,10 @@ class IParapheur extends Connecteur {
 	}
 	
 	
-	public function sendDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,array $all_annexes = array()){
+	public function sendDocument($typeTechnique,$sousType,$dossierID,$document_content,$content_type,
+			array $all_annexes = array(),
+			$date_limite = false
+			){
 		try {
 			$client = $this->getClient();		
 			
@@ -203,6 +206,10 @@ class IParapheur extends Connecteur {
 						"Visibilite" => "SERVICE",
 						
 				); 
+			
+			if ($date_limite) {
+				$data['DateLimite'] = $date_limite;
+			}
 			if ($all_annexes){
 				$data["DocumentsAnnexes"] = array();
 			}
