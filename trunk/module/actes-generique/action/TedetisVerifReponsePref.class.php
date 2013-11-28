@@ -20,7 +20,7 @@ class TedetisVerifReponsePref extends ActionExecutor {
 			return true;
 		}
 		foreach($all_response as $response){
-			$this->saveResponse($response);
+			$this->saveAutreDocument($response);
 		}
 		
 		$last_action = $this->getDocumentActionEntite()->getLastActionNotModif($this->id_e,$this->id_d);
@@ -60,23 +60,39 @@ class TedetisVerifReponsePref extends ActionExecutor {
 		return $txt_message[$id_type];
 	}
 	
-	private function saveResponse($response){
-		
-		if ($response['status'] != TdtConnecteur::STATUS_ACTES_MESSAGE_PREF_RECU){
-			return;
+	private function saveAutreDocument($response){
+		if ($response['status'] == TdtConnecteur::STATUS_ACTES_MESSAGE_PREF_RECU){
+			return $this->saveReponse($response);
 		}
-		
-		$tdT = $this->getConnecteur("TdT"); 
+		if ($response['status'] == TdtConnecteur::STATUS_ACTES_MESSAGE_PREF_ACQUITTEMENT_RECU) {
+			return $this->saveAcquittement($response);
+		}
+	}
 	
+	private function saveAcquittement($response){
+		$tdT = $this->getConnecteur("TdT");
+		
+		$type = $this->getLibelleType($response['type']);
+		$has_acquittement = $this->getDonneesFormulaire()->get("{$type}_has_acquittement");
+		if ($has_acquittement){
+			return false;
+		}
+		$this->getDonneesFormulaire()->setData("{$type}_has_acquittement",true);
+		
+	}
+	
+	private function saveReponse($response){
+		$tdT = $this->getConnecteur("TdT");
+		
 		$type = $this->getLibelleType($response['type']);
 		$type_id = $this->getDonneesFormulaire()->get("{$type}_id");
 		if ($type_id){
 			if ($type_id != $response['id']){
-				$this->many_same_message[] = $type; 
+				$this->many_same_message[] = $type;
 			}
-			return;
+			return false;
 		}
-				
+		
 		$file_content = $tdT->getReponsePrefecture($response['id']);
 		$this->getDonneesFormulaire()->setData("has_{$type}",true);
 		$this->getDonneesFormulaire()->setData("{$type}_id",$response['id']);
@@ -85,7 +101,8 @@ class TedetisVerifReponsePref extends ActionExecutor {
 		$message = "Réception d'un message ($type) de la préfecture";
 		$this->addActionOK($message);
 		$this->notify('verif-reponse-tdt', 'actes', $message);
-		
+		return true;
 	}
+	
 	
 }

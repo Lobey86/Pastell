@@ -117,7 +117,7 @@ class DonneesFormulaire {
 				} 
 			}
 		}
-		$this->saveDataFile();
+		$this->saveDataFile(false);
 	}
 	
 	private function setInfo(Field $field, $value){
@@ -129,7 +129,6 @@ class DonneesFormulaire {
 		}
 
 		$this->setInfo2($field->getName(),$value);
-	
 		$this->isModified = true;
 	}
 	
@@ -486,7 +485,7 @@ class DonneesFormulaire {
 		return $result;
 	}
 	
-	private function saveDataFile(){
+	private function saveDataFile($setModifiedToFalse = true){
 		foreach($this->info as $field_name => $field_value){
 			$field = $this->formulaire->getField($field_name);
 			if ($field && $field->getType() == 'password'){
@@ -496,8 +495,12 @@ class DonneesFormulaire {
 		}
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
-                // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
-                $this->isModified=false;                
+        
+        // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
+        if ($setModifiedToFalse) {
+        	$this->isModified=false;  
+        }              
+		
 	}
 	
 	public function sendFile($field_name,$num=0){
