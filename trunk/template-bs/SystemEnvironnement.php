@@ -77,6 +77,24 @@
 	<?php endforeach;?>
 </table>
 </div>
+
+<div class="box">
+<h2>Commande présente</h2>
+
+<table class='table table-striped'>
+	<tr>
+		<th class="w140">Commande</th>
+		<th>Résultat</th>
+	</tr>
+	<?php foreach($commandeTest as $commande => $emplacement) : ?>
+	<tr>
+		<th><?php echo $commande?></th>
+		<td><?php echo $emplacement?:"<b style='color:red'>La commande n'est pas disponible</b>"; ?></td>
+	</tr>
+	<?php endforeach;?>
+</table>
+</div>
+
 <div class="box">
 <h2>Constante</h2>
 <table class='table table-striped'>
