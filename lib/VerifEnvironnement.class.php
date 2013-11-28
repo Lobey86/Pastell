@@ -43,4 +43,12 @@ class VerifEnvironnement {
 		return true;
 	}
 	
+	public function checkCommande(array $allCommande) {
+		$result = array();
+		foreach($allCommande as $commande) {
+			$result[$commande] = exec("which $commande");
+		}
+		return $result;
+	}
+	
 }
