@@ -18,7 +18,7 @@ class ActionChange extends SQL {
 		$this->documentActionEntite->add($id_a, $id_e, $id_j);
 	}
 	
-	public function updateModification($id_d, $id_e,$id_u,$action){		
+	public function updateModification($id_d, $id_e,$id_u,$action){				
 		$document_action = $this->documentActionSQL->getLastActionInfo($id_d, $id_e); 		
 		if ( ! $document_action || $document_action['id_u'] != $id_u || $document_action['action'] != $action){
 			return $this->addAction($id_d,$id_e, $id_u, $action,"Modification du document");

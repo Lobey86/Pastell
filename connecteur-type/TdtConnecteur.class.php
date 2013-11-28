@@ -20,6 +20,8 @@ abstract class TdtConnecteur extends Connecteur{
 	const STATUS_ACTES_MESSAGE_PREF_RECU = 7 ;
 	const STATUS_ACTES_MESSAGE_PREF_ENVOYE = 8 ;
 	
+	const STATUS_ACTES_MESSAGE_PREF_ACQUITTEMENT_RECU = 11;
+	
 	const STATUS_ACTES_EN_ATTENTE_DE_POSTER = 17;
 	
 	
