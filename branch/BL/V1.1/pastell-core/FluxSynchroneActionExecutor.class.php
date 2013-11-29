@@ -8,6 +8,7 @@ require_once(PASTELL_PATH . "/pastell-core/ActionExecutor.class.php");
  *   suspension/reprises du connecteur concerné
  * - la détection des services désactivés
  * - le log dans le journal, avec mention de l'appelant (application métier (api, cron) ou console)
+ * - et d'informations complémentaires, à but statistiques essentiellement, et paramétrables par action
  * - la distinction entre actions de workflow (pouvant modifier l'état) et 
  *   actions de recueil d'information (obtention sans modification)
  * - la redirection éventuelle
@@ -29,10 +30,15 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
     const GO_KEY_ETAT = 'goEtat';
     const GO_KEY_MESSAGE = 'goMessage';
     const GO_KEY_REDIRECT = 'goRedirect';
+    const GO_KEY_JOURNALINFOS = 'goInfos';
     // Valeurs conventionnées pour GO_KEY_*
     const GO_ETAT_INCHANGE = 'etat-inchange';
     const GO_ETAT_OK = 'etat-action';
     const GO_MESSAGE_ACTION = 'action-name';
+    // Attributs pour le message du journal
+    const KEY_JOURNAL_PILOTE = 'app';
+    const KEY_JOURNAL_DOCTAILLE = 'taille';
+    const KEY_JOURNAL_MESSAGE = 'msg';
 
     private $fluxActions;
     private $workflowActions;
@@ -102,6 +108,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             }
             $gofEtat = $gof[self::GO_KEY_ETAT];
             $gofMessage = @$gof[self::GO_KEY_MESSAGE];
+            $gofJournalInfos = @$gof[self::GO_KEY_JOURNALINFOS];
             if ($gofEtat == self::GO_ETAT_INCHANGE) {
                 $goRet = true;
                 $goEtat = null;
@@ -116,7 +123,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
                 $goMessage = $gofMessage && ($gofMessage != self::GO_MESSAGE_ACTION) ? $gofMessage : $this->getActionName($goEtat);
             }
             if ($this->isWorkflow()) {
-                $this->logAction($goEtat, $goMessage);
+                $this->logAction($goEtat, $goMessage, $gofJournalInfos);
             }
             // En contexte console, conversion pour affichage.
             if (!$this->isActionAuto() && !$this->from_api) {
@@ -215,8 +222,8 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         return $actions->getActionName($action);
     }
 
-    private function logAction($action, $messageLog) {
-        $message = $this->getMessageJournal($messageLog);
+    private function logAction($action, $messageLog, $infos = NULL) {
+        $message = $this->getMessageJournal($messageLog, $infos);
         if ($action) {
             $this->getActionCreator()->addAction($this->id_e, $this->id_u, $action, $message);
         } else {
@@ -235,11 +242,22 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         return $pilote;
     }
 
-    protected function getMessageJournal($message) {
-        // Note : troncature de fin possible; donc terminer par le message.
-        $pilote = $this->getPilote();
-        $log = 'app:' . $pilote
-                . ',msg:' . $message;
+    protected function getMessageJournal($message, $infos = NULL) {
+        // Note : le champ message dans la BD étant limité en taille, il y a risque de troncature de fin; 
+        // on termine donc toujours par le message, les informations statistiques étant prioritaires.
+        $log = '';
+        if (!isset($infos)) {
+            $infos = array();
+        }
+        $pilote = @$infos[self::KEY_JOURNAL_PILOTE];
+        if (!isset($pilote)) {
+            $pilote = $this->getPilote();
+            $infos = array(self::KEY_JOURNAL_PILOTE => $pilote) + $infos;
+        }        
+        foreach ($infos as $key => $value) {
+            $log .= $key . ':' . $value . ',';
+        }
+        $log .= self::KEY_JOURNAL_MESSAGE . ':' . $message;
         return $log;
     }
 
@@ -317,7 +335,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             $zenMail->setContenuText($contenu);
         }
         $zenMail->send();
-        $this->getJournal()->addSQL(Journal::DOCUMENT_ACTION, $this->id_e, $this->id_u, $this->id_d, $action, 'Notification envoyée à ' . $email);
+        $this->getJournal()->addSQL(Journal::NOTIFICATION, $this->id_e, $this->id_u, $this->id_d, $action, 'Notification envoyée à ' . $email);
     }
 
 }
