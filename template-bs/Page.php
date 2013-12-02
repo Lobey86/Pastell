@@ -73,7 +73,10 @@ if (! headers_sent()) {
 				</div>
 				<?php if ($authentification->isConnected() ) : ?> 
 					<div id="bloc_login">
-					
+						<?php if ($roleUtilisateur->hasDroit($authentification->getId(),'system:lecture',0) && $this->LastUpstart->hasWarning()): ?>
+						<b style='color:red'>Le script action-automatique ne fonctionne pas</b>
+						&nbsp;&nbsp;
+						<?php endif;?>
 						<img src="img_lbi/commun/picto_user.png" alt="" class="absmiddle" />
 						<strong><a href='utilisateur/moi.php'><?php hecho($authentification->getLogin()) ?></a></strong>
 						&nbsp;&nbsp;&nbsp;&nbsp;
@@ -83,7 +86,7 @@ if (! headers_sent()) {
 				<?php endif; ?> 
 			</div>
 			<?php if ($authentification->isConnected() ) : ?>
-				<div id="main_menu">
+				<div id="main_menu">				
 					<a href="document/index.php" class="picto_flux">Accueil</a>
 					<a href="entite/detail.php" class="picto_utilisateurs">Administration</a>
 					<a href="journal/index.php" class="picto_journal">Journal des évènements</a>

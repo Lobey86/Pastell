@@ -49,6 +49,8 @@ $objectInstancier->bd_user = BD_USER;
 $objectInstancier->bd_password = BD_PASS;
 
 $objectInstancier->upstart_touch_file = UPSTART_TOUCH_FILE;
+$objectInstancier->upstart_time_send_warning = UPSTART_TIME_SEND_WARNING;
+
 
 $id_u_journal = 0;
 if ($objectInstancier->Authentification->isConnected()) {

@@ -45,4 +45,10 @@ class SystemControlerTest extends PastellTestCase {
 		$this->expectOutputRegex("##");
 		$this->getSystemControler()->fluxDetailAction();
 	}
+	
+	public function testIndex() {
+		$this->expectOutputRegex("##");
+		$this->getSystemControler()->indexAction();
+	}
+	
 }

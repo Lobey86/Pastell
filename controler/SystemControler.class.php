@@ -35,7 +35,7 @@ class SystemControler extends PastellControler {
 	private function actionAutoAction(){
 		$recuperateur=new Recuperateur($_GET);
 		$offset = $recuperateur->getInt('offset');
-		$this->last_upstart =  $this->LastUpstart->getLastMtime();
+		$this->last_upstart =  $this->LastUpstart->getLastMtime()?:"JAMAIS !";
 		$this->all_log = $this->ActionAutoLogSQL->getLog($offset);
 		$this->offset = $offset;
 		$this->limit = ActionAutoLogSQL::LIMIT_AFFICHE;
