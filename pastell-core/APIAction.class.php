@@ -202,7 +202,7 @@ class APIAction {
 		$document->setTitre($id_d,$titre);
 		
 		foreach($donneesFormulaire->getOnChangeAction() as $action) {	
-			$result = $this->objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$this->id_u,$id_d,$action,array(),true);
+			$this->objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$this->id_u,$id_d,$action,array(),true);
 		}
 				
 		$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,$id_d);

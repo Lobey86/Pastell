@@ -331,7 +331,7 @@ class DonneesFormulaire {
 	}
 	
 	public function geth($item,$default = false){
-		return nl2br(htmlentities($this->get($item,$default),ENT_QUOTES));
+		return nl2br(htmlentities($this->get($item,$default),ENT_QUOTES,"ISO-8859-15"));
 	}
 
 	public function isValidable(){

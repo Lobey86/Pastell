@@ -72,7 +72,9 @@ class ConnecteurDefinitionFiles {
 		}
 		$class_file = $all[0];
 		$class_name = basename($class_file,".class.php");
-		require_once($class_file);
+		if (!class_exists($class_name,false)) {	
+			require_once($class_file);
+		}
 		return $class_name;
 	}
 }

@@ -464,7 +464,7 @@ class ActesSEDACG86  extends Connecteur {
 			return $info[$debut];
 		}
 		
-		throw new Exception("La classification de cet actes est inconnu");
+		throw new Exception("Bordereau CG86 : impossible de déterminer le sujet de l'acte : la classification de cet actes est inconnu ");
 		
 	}
 	

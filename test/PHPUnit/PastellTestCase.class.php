@@ -2,6 +2,8 @@
 require_once 'vfsStream/vfsStream.php';
 require_once "PHPUnit/Extensions/Database/TestCase.php";
 
+define("FIXTURES_PATH",__DIR__."/fixtures/");
+
 abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 	
 	const ID_E_COL = 1;
@@ -21,6 +23,7 @@ abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 		$this->objectInstancier->temp_directory = sys_get_temp_dir();
 		$this->objectInstancier->upstart_touch_file = sys_get_temp_dir()."/upstart.mtime";
 		$this->objectInstancier->upstart_time_send_warning = 600;
+		$this->objectInstancier->Journal->setId(1);		
 		$this->databaseConnection = $this->createDefaultDBConnection($this->objectInstancier->SQLQuery->getPdo(), BD_DBNAME_TEST);
 	}
 	
@@ -39,7 +42,13 @@ abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 	
 	public function reinitFileSystem(){
 		$structure = array(
-				'workspace' => array(),
+				'workspace' => array(
+					'connecteur_1.yml' => '---
+iparapheur_type: Actes
+iparapheur_retour: Archive'
+						
+						
+		),
 				'log' => array()
 		);		
 		$testStream = vfsStream::setup('test',null,$structure);

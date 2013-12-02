@@ -84,11 +84,81 @@ role_droit:
  -
   role: admin
   droit: message-service:lecture
+ -
+  role: admin
+  droit: actes-generique:lecture
+ -
+  role: admin
+  droit: actes-generique:edition
   
 document:
 document_action:
 document_action_entite:
 document_entite:
 journal:
+
+connecteur_entite:
+ -
+  id_ce: 1
+  id_e: 1
+  libelle: Fake iParapheur
+  id_connecteur: fakeIparapheur
+  type: signature
+ -
+  id_ce: 2
+  id_e: 1
+  libelle: Fake Tdt
+  id_connecteur: fakeTdt 
+  type: TdT
+ - 
+  id_ce: 3
+  id_e: 1
+  libelle: SEDA Standard
+  id_connecteur: actes-seda-standard
+  type: Bordereau SEDA
+ -
+  id_ce: 4
+  id_e: 1
+  libelle: Fake SAE
+  id_connecteur: fakeSAE
+  type: SAE
+ -
+  id_ce: 5
+  id_e: 1
+  libelle: Fake GED
+  id_connecteur: FakeGED
+  type: GED
+flux_entite:
+ -
+  id_fe: 1
+  id_e: 1
+  flux: actes-generique
+  id_ce: 1
+  type: signature  
+ -
+  id_fe: 2
+  id_e: 1
+  flux: actes-generique
+  id_ce: 2
+  type: TdT
+ -
+  id_fe: 3
+  id_e: 1
+  flux: actes-generique
+  id_ce: 3
+  type: Bordereau SEDA
+ -
+  id_fe: 4
+  id_e: 1
+  flux: actes-generique
+  id_ce: 4
+  type: SAE 
+ - 
+  id_fe: 5
+  id_e: 1
+  flux: actes-generique
+  id_ce: 5
+  type: GED
+  
 
   

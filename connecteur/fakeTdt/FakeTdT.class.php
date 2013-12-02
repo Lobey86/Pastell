@@ -24,11 +24,11 @@ class FakeTdT extends TdtAdapter {
 	}
 	
 	public function getBordereau($id_transaction){
-		return false;
+		return file_get_contents(__DIR__."/fixtures/vide.pdf");
 	}
 	
 	public function getActeTamponne($id_transaction){
-		return false;
+		return file_get_contents(__DIR__."/fixtures/vide.pdf");
 	}
 	
 	public function getListReponsePrefecture($transaction_id){

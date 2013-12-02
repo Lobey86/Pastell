@@ -26,6 +26,8 @@ class Authentification {
 	}
 	
 	public function deconnexion(){
-		unset($_SESSION['connexion']);
+		if ($this->isConnected()) {
+			unset($_SESSION['connexion']);
+		}
 	}
 }
