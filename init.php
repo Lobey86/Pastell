@@ -15,8 +15,8 @@ if ( ! function_exists('pastell_autoload')) {
 	function pastell_autoload($class_name) {	
 		@ $result = include($class_name . '.class.php');
 		if ( ! $result ){
-			return false;
 			//throw new Exception("Impossible de trouver $class_name");
+			return false;
 		}
 		return true;
 	}
@@ -35,6 +35,7 @@ $objectInstancier = new ObjectInstancier();
 $objectInstancier->Timer = new Timer();
 
 $objectInstancier->manifest_file_path = __DIR__."/manifest.yml";
+$objectInstancier->temp_directory = sys_get_temp_dir();
 
 
 $objectInstancier->workspacePath = WORKSPACE_PATH;

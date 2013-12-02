@@ -15,11 +15,18 @@ class MnesysSAE extends SAEConnecteur {
 	
 	public function generateArchive($bordereau,$tmp_folder){
 		$fileName = $this->tmpFile->create().".zip";
-		$command = "zip -r $fileName $tmp_folder";
-		$status = exec($command );
-		if (! $status){
-			throw new Exception("Impossible de créer le fichier d'archive $fileName");
+		
+		$zip = new ZipArchive;
+		
+		if (! $zip->open($fileName,ZIPARCHIVE::CREATE)) {
+			throw new Exception("Impossible de créer le fichier d'archive : $fileName");
 		}
+		foreach(scandir($tmp_folder) as $fileToAdd) {
+			if (is_file("$tmp_folder/$fileToAdd")) {
+				$zip->addFile("$tmp_folder/$fileToAdd", $fileToAdd);
+			}
+		}
+		$zip->close();
 		return $fileName;
 	}	
 	
@@ -32,6 +39,7 @@ class MnesysSAE extends SAEConnecteur {
 		$curlWrapper->addPostFile('name_xml', $bordereauPath, "bordereau_seda.xml","text/xml","text");
 		$curlWrapper->addPostData('name_zip', "donnees.zip");
 		$curlWrapper->addPostFile('name_zip', $archivePath,"donnees.zip","application/zip","binary");
+		
 		$result = $curlWrapper->get($this->url);
 		if (! $result){
 			throw new Exception($curlWrapper->getLastError());

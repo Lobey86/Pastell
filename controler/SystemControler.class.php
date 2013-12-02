@@ -57,7 +57,7 @@ class SystemControler extends PastellControler {
 		$openssl_version = `$cmd`;
 		$this->valeurReel = array('OpenSSL' =>  $openssl_version, 'PHP' => $this->checkPHP['environnement_value']); 
 
-		$this->commandeTest = $this->VerifEnvironnement->checkCommande(array("zip"));
+		$this->commandeTest = $this->VerifEnvironnement->checkCommande(array());
 		$this->onglet_content = "SystemEnvironnement";
 	}
 	
