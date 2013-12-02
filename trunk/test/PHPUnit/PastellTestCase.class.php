@@ -18,6 +18,9 @@ abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 		$this->objectInstancier->SQLQuery = new SQLQuery(BD_DSN_TEST,BD_USER_TEST,BD_PASS_TEST);
 		$this->objectInstancier->template_path = TEMPLATE_PATH;
 		$this->objectInstancier->manifest_file_path = __DIR__."/fixtures/manifest.yml";
+		$this->objectInstancier->temp_directory = sys_get_temp_dir();
+		$this->objectInstancier->upstart_touch_file = sys_get_temp_dir()."/upstart.mtime";
+		$this->objectInstancier->upstart_time_send_warning = 600;
 		$this->databaseConnection = $this->createDefaultDBConnection($this->objectInstancier->SQLQuery->getPdo(), BD_DBNAME_TEST);
 	}
 	
@@ -36,7 +39,8 @@ abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 	
 	public function reinitFileSystem(){
 		$structure = array(
-				'workspace' => array()
+				'workspace' => array(),
+				'log' => array()
 		);		
 		$testStream = vfsStream::setup('test',null,$structure);
 		$testStreamUrl = vfsStream::url('test');

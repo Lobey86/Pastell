@@ -4,6 +4,11 @@ require_once __DIR__.'/../init.php';
 require_once PASTELL_PATH."/connecteur/MnesysSAE/MnesysSAE.class.php";
 
 class MnesysSAETest extends PastellTestCase  {
+	
+	public function testConstructByObjectInstancier() {
+		$mnesys_sae = $this->getObjectInstancier()->MnesysSAE;
+		$this->assertInstanceOf("MnesysSAE", $mnesys_sae);
+	}
 
 	//VfsStream ne fonctionne pas avec ZipArchiver ...
 	public function testGenerateArchive(){
@@ -26,7 +31,6 @@ class MnesysSAETest extends PastellTestCase  {
 		
 		
 		$tmpFolder->delete($test_folder);
-		$tmpFile->delete($archive_path);
-		
+		$tmpFile->delete($archive_path);		
 	}
 }

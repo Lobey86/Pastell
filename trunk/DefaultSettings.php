@@ -86,6 +86,10 @@ if (!defined("UPSTART_TOUCH_FILE")){
 	define("UPSTART_TOUCH_FILE",__DIR__."/log/upstart.mtime");
 }
 
+if (!defined("UPSTART_TIME_SEND_WARNING")){
+	define("UPSTART_TIME_SEND_WARNING",600);
+}
+
 if (!defined("AIDE_URL")){
 	define("AIDE_URL","aide/index.php");
 }
