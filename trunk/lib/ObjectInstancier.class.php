@@ -30,7 +30,7 @@ class ObjectInstancier {
         $allParameters = $constructor->getParameters();
         $param = $this->bindParameters($allParameters);        
         return $reflexionClass->newInstanceArgs($param);
-		} catch (Exception $e){
+		} catch (Exception $e){			
 			throw new Exception("En essayant d'inclure $className",0,$e);
 		}
 	}
