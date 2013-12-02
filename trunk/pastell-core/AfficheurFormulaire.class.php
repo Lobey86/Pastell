@@ -128,8 +128,7 @@ class AfficheurFormulaire {
 			
 			<table class='<?php echo FormulaireRenderer::TABLE_MODIF_CLASS ?>'>
 			<?php foreach ($this->formulaire->getFields() as $field) :
-			
-			
+						
 				if ($field->getProperties('read-only') && $field->getType() == 'file'){
 					continue;
 				}
@@ -344,12 +343,6 @@ class AfficheurFormulaire {
 			<?php
 			$i=0;
 			foreach ($this->getFieldStatic() as $field) :
-			
-					if ($field->getType() == 'externalData' && $this->donneesFormulaire->geth($field->getName()) == '') {
-						continue;
-					} 
-					
-					
 					if (! $this->show($field)){
 						continue;
 					}
