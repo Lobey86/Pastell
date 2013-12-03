@@ -90,7 +90,14 @@ role_droit:
  -
   role: admin
   droit: actes-generique:edition
-  
+ -
+  role: admin
+  droit: role:lecture
+ -
+  role: admin
+  droit: role:edition
+   
+ 
 document:
 document_action:
 document_action_entite:
@@ -128,6 +135,26 @@ connecteur_entite:
   libelle: Fake GED
   id_connecteur: FakeGED
   type: GED
+  
+ -
+  id_ce: 6
+  id_e: 1
+  libelle: SEDA CG86
+  id_connecteur: actes-seda-cg86
+  type: Bordereau SEDA
+ -
+  id_ce: 7
+  id_e: 1
+  libelle: SEDA locarchive
+  id_connecteur: actes-seda-locarchive
+  type: Bordereau SEDA
+ - 
+  id_ce: 8
+  id_e: 1
+  libelle: SEDA parametrable
+  id_connecteur: actes-seda-parametrable
+  type: Bordereau SEDA
+  
 flux_entite:
  -
   id_fe: 1

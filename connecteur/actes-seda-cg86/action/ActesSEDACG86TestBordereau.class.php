@@ -1,6 +1,6 @@
 <?php 
 
-class TestBordereau extends ActionExecutor {
+class ActesSEDACG86TestBordereau extends ActionExecutor {
 	
 	public function go(){
 		$archivesSEDA = $this->getMyConnecteur();
@@ -34,6 +34,10 @@ class TestBordereau extends ActionExecutor {
 		);
 		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);	
+		if($this->from_api){
+			$this->setLastMessage($bordereau);
+			return true;
+		}
 		header("Content-type: text/xml");
 		header("Content-disposition: inline; filename=bordereau.xml");
 		echo $bordereau;

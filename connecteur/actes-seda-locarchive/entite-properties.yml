@@ -117,4 +117,4 @@ formulaire:
 action:	
 	test-bordereau :
 		name: Générer un bordereau de test
-		action-class: TestBordereau
+		action-class: ActesSEDALocarchiveTestBordereau

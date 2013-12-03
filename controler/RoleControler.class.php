@@ -33,10 +33,10 @@ class RoleControler extends PastellControler {
 		$role = $recuperateur->get('role');
 		
 		if ($role){
-			$this->page_title = "Modification du rôle $role ";
+			$this->page_title = "Modification du r&ocirc;le $role ";
 			$this->role_info = $this->RoleSQL->getInfo($role);
 		} else {
-			$this->page_title = "Ajout d'un rôle";	
+			$this->page_title = "Ajout d'un r&ocirc;le";	
 			$this->role_info = array('libelle'=>'','role'=>'');
 		}
 		$this->template_milieu = "RoleEdition";

@@ -40,7 +40,7 @@ formulaire:
 action:	
 	test-bordereau :
 		name: Générer un bordereau de test
-		action-class: TestBordereau
+		action-class: ActesSEDACG86TestBordereau
 		
 	validate-bordereau:
 		name: Valider le bordereau via le schéma XSD
