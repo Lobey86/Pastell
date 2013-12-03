@@ -1,7 +1,11 @@
 <?php 
 
 function pastell_autoload($class_name) {
-	require_once($class_name . '.class.php');
+	$result = @ include_once($class_name . '.class.php');
+	if ( ! $result ){
+		return false;
+	}
+	return true;
 }
 require_once(__DIR__."/../../init.php");
 

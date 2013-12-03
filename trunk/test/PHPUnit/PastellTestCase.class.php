@@ -24,6 +24,8 @@ abstract class PastellTestCase extends PHPUnit_Extensions_Database_TestCase {
 		$this->objectInstancier->upstart_touch_file = sys_get_temp_dir()."/upstart.mtime";
 		$this->objectInstancier->upstart_time_send_warning = 600;
 		$this->objectInstancier->Journal->setId(1);		
+		$this->objectInstancier->api_definition_file_path = PASTELL_PATH . "/pastell-core/api-definition.yml";
+		
 		$this->databaseConnection = $this->createDefaultDBConnection($this->objectInstancier->SQLQuery->getPdo(), BD_DBNAME_TEST);
 	}
 	
@@ -82,5 +84,7 @@ iparapheur_retour: Archive'
 		if ($this->reinitFileSystemOnSetup()){
 			$this->reinitFileSystem();
 		}
+		$_POST = array();
+		$_GET = array();
 	}
 }

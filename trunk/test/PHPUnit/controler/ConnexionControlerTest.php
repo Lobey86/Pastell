@@ -47,6 +47,34 @@ class ConnexionControlerTest extends PastellTestCase {
 		$this->getConnexionControler()->connexionAdminAction();
 	}
 	
+	public function testOublieIdentifiant(){
+		$this->expectOutputRegex("##");
+		$this->getConnexionControler()->oublieIdentifiantAction();
+	}
+
+	public function testChangementMdpAction(){
+		$this->expectOutputRegex("##");
+		$this->getConnexionControler()->changementMdpAction();
+	}
+	
+	public function testChangementNoDroitAction(){
+		$this->expectOutputRegex("##");
+		$this->getConnexionControler()->noDroitAction();
+	}
+	
+	public function testCasErrorAction(){
+		$this->expectOutputRegex("##");
+		$this->getConnexionControler()->casErrorAction();
+	}
+	
+	/**
+	 * @expectedException LastMessageException
+	 */
+	public function testLogoutAction(){
+		$this->getConnexionControler()->logoutAction();
+	}
 	
 	
+	
+
 }

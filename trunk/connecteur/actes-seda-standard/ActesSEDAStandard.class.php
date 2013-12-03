@@ -1,6 +1,6 @@
 <?php 
 
-class ActesSEDAStandard extends Connecteur {
+class ActesSEDAStandard extends SEDAConnecteur {
 	
 	private $authorityInfo;
 		
@@ -16,7 +16,7 @@ class ActesSEDAStandard extends Connecteur {
 	}
 
 	
-	public function checkInformation(array $information){
+	private function checkInformation(array $information){
 		$info = array('numero_acte_collectivite','subject','decision_date',
 					'nature_descr','nature_code','classification',
 					'latest_date','actes_file','ar_actes');		
@@ -27,7 +27,7 @@ class ActesSEDAStandard extends Connecteur {
 		}
 	}
 
-	public function getBordereau($transactionsInfo){
+	public function getBordereau(array $transactionsInfo){
 		$this->checkInformation($transactionsInfo);
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2";

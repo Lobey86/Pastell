@@ -71,11 +71,14 @@ abstract class ActionExecutor {
 		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
 	}
 	
+	/**
+	 * return DonneesFormulaire
+	 */
 	public function getDonneesFormulaire(){
 		if (!$this->docDonneesFormulaire) {
 			$this->docDonneesFormulaire = $this->getDonneesFormulaireFactory()->get($this->id_d);
-        	}
-        	return $this->docDonneesFormulaire;
+        }
+        return $this->docDonneesFormulaire;
 	}
 	
 	public function getFormulaire(){

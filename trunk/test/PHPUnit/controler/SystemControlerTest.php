@@ -5,7 +5,6 @@ class SystemControlerTest extends PastellTestCase {
 	
 	public function __construct(){
 		parent::__construct();
-		$this->getObjectInstancier()->Authentification->Connexion('admin',1);
 		$this->getSystemControler()->setDontRedirect(true);
 	}
 	
@@ -22,6 +21,11 @@ class SystemControlerTest extends PastellTestCase {
 	
 	public function reinitFileSystemOnSetup(){
 		return true;
+	}
+	
+	public function setUp(){
+		$this->getObjectInstancier()->Authentification->Connexion('admin',1);
+		parent::setUp();
 	}
 	
 	/**

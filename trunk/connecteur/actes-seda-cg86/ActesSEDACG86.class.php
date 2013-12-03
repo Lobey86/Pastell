@@ -3,7 +3,7 @@
 //Conforme aux demandes du CG86
 //Document utilisé : profil_actes_juin2012.ods
 
-class ActesSEDACG86  extends Connecteur {
+class ActesSEDACG86  extends SEDAConnecteur {
 	
 	private $authorityInfo;
 	private $seda_config;
@@ -21,26 +21,14 @@ class ActesSEDACG86  extends Connecteur {
 		$this->seda_config = $seda_config;
 	}
 	
-	private function getInfoARActes($file_path){
-		$file_name = basename($file_path);
-		@ $xml = simplexml_load_file($file_path);
-		if ($xml === false){
-			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
-		}
-		$namespaces = $xml->getNameSpaces(true);
-		$attr = $xml->attributes($namespaces['actes']);
-		if (!$attr){
-			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
-		}
-		return array('DateReception' => $attr['DateReception'],'IDActe'=>$attr['IDActe']);
-	}
+	
 	
 	private function getContentType($file_path){
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		return finfo_file($finfo,$file_path);
 	}
 	
-	public function getTransferIdentifier(){
+	private function getTransferIdentifier(){
 		$last_date = $this->seda_config->get("date_dernier_transfert");
 		$numero_transfert = $this->seda_config->get("dernier_numero_transfert");
 		
@@ -57,7 +45,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $this->authorityInfo['sae_numero_aggrement'] ."-". $date ."-".$numero_transfert;
 	}
 	
-	public function getLatestDate($transactionsInfo){
+	private function getLatestDate($transactionsInfo){
 		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
 		$date = $ar_actes_info['DateReception'];
 		
@@ -78,7 +66,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $date;
 	}
 	
-	public function checkInformation(array $information){
+	private function checkInformation(array $information){
 		$info = array('numero_acte_collectivite','subject','decision_date',
 					'nature_descr','nature_code','classification',
 					'latest_date','actes_file','ar_actes');		
@@ -96,7 +84,7 @@ class ActesSEDACG86  extends Connecteur {
 		
 	}
 	
-	public function getBordereau($transactionsInfo){
+	public function getBordereau(array $transactionsInfo){
 		$this->checkInformation($transactionsInfo);
 		
 		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
@@ -320,7 +308,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $xml_string;
 	}
 	
-	public function getARRecuType($type){
+	private function getARRecuType($type){
 		$array = array(	
 				'3R'=>"Accusé de réception d'une réponse à une demande de pièces complémentaires",
 				'4R'=>"Accusé de réception d'une réponse à une lettre d'observations",
@@ -333,7 +321,7 @@ class ActesSEDACG86  extends Connecteur {
 		
 
 	
-	public function getARName($type){
+	private function getARName($type){
 		$array = array(	
 				'3A'=>"Accusé de réception d'une demande de pièces complémentaires",
 				'4A'=>"Accusé de réception d'une lettre d'observations",
@@ -345,7 +333,7 @@ class ActesSEDACG86  extends Connecteur {
 		
 	}
 	
-	public function getReponseDocumentName($type){
+	private function getReponseDocumentName($type){
 			$array = array(	
 						'2R'=>"Réponse à un courrier simple",
 						'3R'=>"Réponse",
@@ -354,7 +342,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $array[$type];
 	}
 	
-	public function getReponseName($type){
+	private function getReponseName($type){
 		$array = array(	
 						'2R'=>"Réponse à un courrier simple",
 						'3R'=>"Réponse à une demande de pièces complémentaires",
@@ -363,7 +351,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $array[$type];
 	}
 	
-	public function getRelatedTransactionName($type){
+	private function getRelatedTransactionName($type){
 		$array = array(	
 						'2A'=>"Envoi d'un courrier simple",
 						'3A'=>"Envoi d'une demande de pièces complémentaires",
@@ -372,7 +360,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $array[$type];
 	}
 	
-	public function getRelatedTransactionType($type){
+	private function getRelatedTransactionType($type){
 		$array = array(	
 						'2A'=>"Courrier simple",
 						'3A'=>"Demande de pièces complémentaires",
@@ -382,7 +370,7 @@ class ActesSEDACG86  extends Connecteur {
 	}
 	
 	
-	public function getDL($node_name,$name,$id = false){
+	private function getDL($node_name,$name,$id = false){
 		$node = new ZenXML($node_name);
 		$node->DescriptionLevel = "file"; 
 		$node->DescriptionLevel['listVersionID'] = "edition 2009";
@@ -418,7 +406,7 @@ class ActesSEDACG86  extends Connecteur {
 		return $document;
 	}
 	
-	public function getContainsElement($description){
+	private function getContainsElement($description){
 		$contains = new ZenXML("Contains");		
 		$contains->DescriptionLevel = "file";
 		$contains->DescriptionLevel['listVersionID'] = "edition 2009";
@@ -468,7 +456,7 @@ class ActesSEDACG86  extends Connecteur {
 		
 	}
 	
-	public function getAccessRestriction($classification,$nature){
+	private function getAccessRestriction($classification,$nature){
 		if ($classification[0] == 4 && in_array($nature,array(3,4))){
 			return "AR048";
 		}
@@ -478,7 +466,7 @@ class ActesSEDACG86  extends Connecteur {
 		return "AR038";
 	}
 	
-	public function getDuration($nature){
+	private function getDuration($nature){
 		switch($nature){
 			case 4 :
 				return "P10Y";
