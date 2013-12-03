@@ -16,19 +16,3 @@ formulaire:
 		sae_delai_ar: {name: Temps maximum d'attente de l'AR (minutes), commentaire: temps en minute au bout de laquelle une erreur est déclenché, default: 60}
 		sae_delai_validation : {name: Temps maximum d'attente de la réponse de l'archiviste (jours), commentaire: temps en jour au bout de laquelle une erreur est déclenché, default: 7}
 		
-		
-action:
-	test-sae-bordereau:
-		name: Générer un bordereau de test
-		action-class: SAETestGenerateSEDA
-		tab: SAE
-		rule:
-			droit_id_u: 'entite:edition'
-	
-	
-	test-sae-envoie:
-		name: Archiver un document de test
-		action-class: SAETestSEDA
-		tab: SAE
-		rule:
-			droit_id_u: 'entite:edition'

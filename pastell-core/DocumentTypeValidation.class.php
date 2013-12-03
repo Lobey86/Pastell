@@ -28,8 +28,13 @@ class DocumentTypeValidation {
 		return $module_def;
 	}
 	
-	public function validate($module_id,array $typeDefinition,array $connecteur_type_list,array $all_type_entite){
+	public function validate($module_id,$typeDefinition,array $connecteur_type_list,array $all_type_entite){
+		
 		$this->last_error = array();
+		if (! is_array($typeDefinition)) {
+			$this->last_error[] = "Fichier definition.yml absent";
+			return false;
+		}
 		$result = $this->validatePart('definition.yml',$typeDefinition,'');
 		$result &= $this->validatePageCondition($typeDefinition);
 		$result &= $this->validateOneTitre($typeDefinition);

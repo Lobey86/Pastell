@@ -4,7 +4,7 @@ cf : http://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-inst
 -->
 <phpunit backupGlobals="false">
     <testsuites>
-        <testsuite name="Test">
+        <testsuite name="Pastell Core">
             <directory>.</directory>
         </testsuite>
     </testsuites>
@@ -15,7 +15,7 @@ cf : http://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-inst
 </logging>
 <filter>
 <whitelist processUncoveredFilesFromWhitelist="false">
-    <directory suffix=".php">../..</directory>
+    <directory suffix=".php">../../</directory>
     <exclude>
 		<directory suffix=".php">..</directory>
 		<directory>../../ext</directory>

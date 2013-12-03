@@ -69,10 +69,13 @@ class SystemControler extends PastellControler {
 			$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id_flux);
 			$all_flux[$id_flux]['nom'] = $documentType->getName();
 			$all_flux[$id_flux]['type'] = $documentType->getType();
-			$all_flux[$id_flux]['is_valide'] = $this->DocumentTypeValidation->validate($id_flux,
-														$this->DocumentTypeFactory->getDocumentTypeArray($id_flux),
+			$document_type_array = $this->DocumentTypeFactory->getDocumentTypeArray($id_flux);
+			$all_flux[$id_flux]['is_valide'] = 
+					$this->DocumentTypeValidation->validate($id_flux,
+														$document_type_array,
 														$all_connecteur_type,
 														$all_type_entite);
+			
 		}
 		$this->all_flux = $all_flux;
 		$this->onglet_content = "SystemFlux";
