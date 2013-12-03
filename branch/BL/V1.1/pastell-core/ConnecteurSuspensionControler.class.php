@@ -65,6 +65,7 @@ class ConnecteurSuspensionControler {
             // Suspend les accès si demandé
             if (!$poursuivre) {
                 $suspensionDetail = array(
+                    'date' => date('d/m/Y H:i:s'),
                     'code' => $accesException->getCode(),
                     'file' => $accesException->getFile(),
                     'line' => $accesException->getLine(),
