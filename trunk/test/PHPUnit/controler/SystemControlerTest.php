@@ -55,4 +55,26 @@ class SystemControlerTest extends PastellTestCase {
 		$this->getSystemControler()->indexAction();
 	}
 	
+	public function testAddBuggyExtension(){
+		$structure = array(
+				'extension_buggy' => array(
+						'module' => array(
+							'toto'=>array()
+						)
+		
+				),
+		);
+		$testStream = vfsStream::setup('root_buggy',null,$structure);
+		$testStreamUrl = vfsStream::url('root_buggy');
+		$_POST['path'] = $testStreamUrl."/extension_buggy/";
+		try {
+			$this->getSystemControler()->doExtensionEditionAction();
+		} catch (LastMessageException $e) {}
+		$_GET['page_number'] = 2;
+		$this->expectOutputRegex("##");
+		$this->getSystemControler()->indexAction();
+				
+	}
+	
+	
 }
