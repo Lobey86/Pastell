@@ -75,8 +75,6 @@ class CMIS extends GEDConnecteur {
 			return false;
 		}
 		
-		
-		
 		$repInfo = $xml->workspace->children(self::NS_CMIS_RA)->repositoryInfo;
 		
 		$result = array();
