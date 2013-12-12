@@ -33,7 +33,7 @@ if ($id_e != 0) {
 	
 	$count = $documentActionEntite->getNbDocument($id_e,$type,$search,$filtre);
 	
-	$this->SuivantPrecedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type&search=$search");
+	$this->SuivantPrecedent($offset,$limit,$count,"document/list.php?id_e=$id_e&type=$type&search=$search&filtre=$filtre");
 
 	$this->render("DocumentListBox");
 	
