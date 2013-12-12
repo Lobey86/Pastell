@@ -208,7 +208,7 @@ class IParapheur extends Connecteur {
 				); 
 			
 			if ($date_limite) {
-				$data['DateLimite'] = $date_limeite;
+				$data['DateLimite'] = $date_limite;
 			}
 			if ($all_annexes){
 				$data["DocumentsAnnexes"] = array();
