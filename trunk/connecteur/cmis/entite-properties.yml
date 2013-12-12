@@ -16,13 +16,13 @@ action:
 	test-ged:
 		name: Tester la connectivité à la GED
 		action-class: GEDTestConnect
-		tab: GED
-		rule:
-			droit_id_u: 'entite:edition'
 	
 	test-ged-folder:
 		name: Tester l'accès au répertoire
 		action-class: GEDTestFolder
-		tab: GED
-		rule:
-			droit_id_u: 'entite:edition'
+			
+	test-ged-create-folder:
+		name: Tester la création d'un répertoire
+		action-class: GEDTestCreateFolder
+		
+		
