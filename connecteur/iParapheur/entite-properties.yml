@@ -35,6 +35,13 @@ formulaire:
 				Nombre de jours avant de déclencher une erreur si il n'y a pas de réponse du parapheur.
 				(Peut ne pas être implémenter par les différents flux)
 			default: 30
+		iparapheur_visibilite:
+			name: Visibilité pour le iParapheur
+			type: select
+			value:
+				CONFIDENTIEL: CONFIDENTIEL
+				SERVICE: SERVICE
+				PUBLIC: PUBLIC
 		
 action:
 	test-iparapheur:

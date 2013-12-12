@@ -48,8 +48,8 @@ class CMIS extends GEDConnecteur {
         }
         $result =  curl_exec($session);
         $codeResponse = curl_getinfo($session, CURLINFO_HTTP_CODE);
-         
-        if ($codeResponse != 200){
+                 
+        if ( ! in_array($codeResponse, array('200','201')) ){
         	$this->lastError = curl_error($session);
         	if (! $this->lastError){
         		$this->lastError = "Erreur $codeResponse (la GED a retourné : $result)";

@@ -14,8 +14,8 @@ class IParapheur extends Connecteur {
 	private $userCertOnly;
 	
 	private $iparapheur_type;
-	
 	private $iparapheur_nb_jour_max;
+	private $visibilite;
 	
 	private $soapClientFactory;
 	
@@ -35,6 +35,8 @@ class IParapheur extends Connecteur {
 		$this->userCertOnly = $collectiviteProperties->getFilePath("iparapheur_user_certificat_pem");
 		$this->iparapheur_type = $collectiviteProperties->get("iparapheur_type");
 		$this->iparapheur_nb_jour_max = $collectiviteProperties->get("iparapheur_nb_jour_max");
+		
+		$this->visibilite = $collectiviteProperties->get('iparapheur_visibilite')?:"SERVICE";
 	}
 	
 	public function getNbJourMaxInConnecteur(){
@@ -163,7 +165,7 @@ class IParapheur extends Connecteur {
 					"DossierID" => utf8_encode($dossierID),
 					"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
 					"VisuelPDF" => array("_" => $visuel_pdf, "contentType" => "application/pdf"),
-					"Visibilite" => "SERVICE",
+					"Visibilite" => $this->visibilite,
 					"XPathPourSignatureXML" => ".",
 					
 			); 
@@ -195,6 +197,7 @@ class IParapheur extends Connecteur {
 			array $all_annexes = array(),
 			$date_limite = false
 			){
+		
 		try {
 			$client = $this->getClient();		
 			
@@ -203,7 +206,7 @@ class IParapheur extends Connecteur {
 						"SousType"=> utf8_encode($sousType),
 						"DossierID" => utf8_encode($dossierID),
 						"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
-						"Visibilite" => "SERVICE",
+						"Visibilite" => $this->visibilite,
 						
 				); 
 			
