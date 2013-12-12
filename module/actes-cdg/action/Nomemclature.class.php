@@ -99,6 +99,7 @@ class Nomemclature extends ChoiceActionExecutor {
 	
 	
 	private function getFile($id_e){
+		
 		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,$this->type,'TdT');
 		
 		if (! $donneesFormulaire){
@@ -110,14 +111,14 @@ class Nomemclature extends ChoiceActionExecutor {
 		if ($file){
 			return $file;
 		}
-		
 		$allAncetre = $this->objectInstancier->EntiteSQL->getAncetre($id_e);
+
 		array_pop($allAncetre);
 		$allAncetre = array_reverse($allAncetre);
 
 		
 		foreach($allAncetre as $ancetre){
-			$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre['id_e'],$this->type,'TdT');
+			$donneesFormulaireAncetre = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($ancetre['id_e'],$this->type,'TdT');
 			
 			$file = $donneesFormulaireAncetre->get('nomemclature_file');
 			if ($file){
