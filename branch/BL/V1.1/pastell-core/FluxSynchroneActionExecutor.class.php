@@ -147,23 +147,15 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             // Erreur tracée, état inchangé
             $this->throwException($gofEx, false);
         } catch (ConnecteurAccesException $gofEx) {
-            // La suspension du connecteur s'effectue en contexte asynchrone (appels par cron),
-            // mais pas en contexte synchrone (appels par api ou par ihm).
-            if ($this->isActionAuto()) {
-                // Erreur d'accès en contexte "cron" 
-                try {
-                    // Gestion des suspensions
-                    $this->objectInstancier->ConnecteurSuspensionControler->onAccesEchec($gofEx->getConnecteur(), $gofEx);
-                } catch (Exception $onAccesEchecEx) {
-                    // Erreur de gestion des suspensions => erreur tracée, état d'erreur
-                    $this->throwException($onAccesEchecEx, true);
-                }
-                // Erreur tracée, état inchangé
-                $this->throwException($gofEx, false);
-            } else {
-                // Erreur d'accès en contexte "synchrone" => erreur tracée, état inchangé
-                $this->throwException($gofEx, false);
+            // Gestion des suspensions
+            try {
+                $this->objectInstancier->ConnecteurSuspensionControler->onAccesEchec($gofEx->getConnecteur(), $gofEx);
+            } catch (Exception $onAccesEchecEx) {
+                // Erreur de gestion des suspensions => erreur tracée, état d'erreur
+                $this->throwException($onAccesEchecEx, true);
             }
+            // Erreur tracée, état inchangé
+            $this->throwException($gofEx, false);
         } catch (Exception $gofEx) {
             // Erreur fonctionnelle => erreur tracée, état d'erreur
             $this->throwException($gofEx, true);
