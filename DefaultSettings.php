@@ -95,7 +95,7 @@ if (!defined("AIDE_URL")){
 }
 
 if (!defined("TEMPLATE_PATH")){
-	define("TEMPLATE_PATH",__DIR__."/template-bs/");
+	define("TEMPLATE_PATH",__DIR__."/template/");
 }
 
 if (!defined("TIMEZONE")){
