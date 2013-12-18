@@ -4,3 +4,5 @@ Cette révision marque le passage de la version 1.2 vers le début du développemen
 - les releases-notes sont désormais classées par version de pastell
 - supression de l'ancien "template"
 - le nouveau template se trouve dans le répertoire template (à la place de template-bs)
+- suppression de l'ancien répertoire web/img
+- renommage web/img_lbi en web/img
