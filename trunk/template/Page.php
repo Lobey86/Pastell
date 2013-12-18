@@ -36,9 +36,9 @@ if (! headers_sent()) {
 		<link rel="shortcut icon" type="images/x-icon" href="favicon.ico" />
 		
 		<!-- bootstrap et modif LBI -->
-		<link rel="stylesheet" type="text/css" href="img_lbi/commun.css" media="screen" />
-		<link type="text/css" href="img_lbi/bs_css/bootstrap.css" rel="stylesheet" />
-		<link type="text/css" href="img_lbi/bs_surcharge.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="img/commun.css" media="screen" />
+		<link type="text/css" href="img/bs_css/bootstrap.css" rel="stylesheet" />
+		<link type="text/css" href="img/bs_surcharge.css" rel="stylesheet" />
 	
 		
 		<!--[if gte IE 6]>
@@ -68,7 +68,7 @@ if (! headers_sent()) {
 			<div id="header">
 				<div id="bloc_logo">
 					<a href='<?php echo  SITE_BASE ?>'>
-						<img src="img_lbi/commun/logo_pastell.png" alt="Retour à l'accueil" />
+						<img src="img/commun/logo_pastell.png" alt="Retour à l'accueil" />
 					</a>
 				</div>
 				<?php if ($authentification->isConnected() ) : ?> 
@@ -77,10 +77,10 @@ if (! headers_sent()) {
 						<b style='color:red'>Le script action-automatique ne fonctionne pas</b>
 						&nbsp;&nbsp;
 						<?php endif;?>
-						<img src="img_lbi/commun/picto_user.png" alt="" class="absmiddle" />
+						<img src="img/commun/picto_user.png" alt="" class="absmiddle" />
 						<strong><a href='utilisateur/moi.php'><?php hecho($authentification->getLogin()) ?></a></strong>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<img src="img_lbi/commun/picto_logout.png" alt="" class="absmiddle" />
+						<img src="img/commun/picto_logout.png" alt="" class="absmiddle" />
 						<a href="<?php echo  SITE_BASE ?>connexion/logout.php">Se déconnecter</a>
 					</div>
 				<?php endif; ?> 
