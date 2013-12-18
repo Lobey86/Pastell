@@ -1,0 +1,5 @@
+
+Cette révision marque le passage de la version 1.2 vers le début du développement de la version suivante.
+
+- les releases-notes sont désormais classées par version de pastell
+- supression de l'ancien "template"
