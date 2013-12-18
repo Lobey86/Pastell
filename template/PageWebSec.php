@@ -13,11 +13,11 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<base href='<?php echo WEBSEC_BASE ?>' />
 		
 		<link rel="shortcut icon" type="images/x-icon" href="favicon.ico" />
-		<link rel="stylesheet" type="text/css" href="img_lbi/commun.css" media="screen" />
-		<link type="text/css" href="img_lbi/bs_css/bootstrap.css" rel="stylesheet" />
-		<link type="text/css" href="img_lbi/bs_surcharge.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="img/commun.css" media="screen" />
+		<link type="text/css" href="img/bs_css/bootstrap.css" rel="stylesheet" />
+		<link type="text/css" href="img/bs_surcharge.css" rel="stylesheet" />
 		<!--[if gte IE 6]>
-			<link rel="stylesheet" type="text/css" href="img_lbi/style_IE6.css" media="screen" />
+			<link rel="stylesheet" type="text/css" href="img/style_IE6.css" media="screen" />
 		<![endif]-->
 
 		
@@ -27,11 +27,11 @@ header("Content-type: text/html; charset=iso-8859-15");	 ?>
 		<div id="global">
 			<div id="header">
 				<div id="bloc_logo">
-						<img src="img_lbi/commun/logo_pastell.png" />
+						<img src="img/commun/logo_pastell.png" />
 				</div>
 			</div>
 			<div id="breadcrumb">
-				<img src="img_lbi/commun/puce_geographie.png" alt="" class="absmiddle" />
+				<img src="img/commun/puce_geographie.png" alt="" class="absmiddle" />
 			
 					Bienvenue
 			
