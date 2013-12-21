@@ -97,6 +97,9 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->ZenMail;
 	}
 	
+	/**
+	 * @return DonneesFormulaireFactory
+	 */
 	public function getDonneesFormulaireFactory(){
 		return $this->objectInstancier->DonneesFormulaireFactory;
 	}
@@ -139,6 +142,9 @@ abstract class ActionExecutor {
 	
 	
 	/**** Récupération de connecteur ****/
+	/**
+	 * @return DonneesFormulaire
+	 */
 	public function getConnecteurProperties(){
 		assert('$this->id_ce');
 		return $this->getConnecteurConfig($this->id_ce);

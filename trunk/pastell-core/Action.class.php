@@ -56,7 +56,7 @@ class Action {
 	
 	public function getActionRule($action_internal_name){
 		$tabAction = $this->getActionArray($action_internal_name);
-		if ( ! isset($tabAction[self::ACTION_RULE])){
+		if (empty($tabAction[self::ACTION_RULE])){
 			return array();
 		}
 		return $tabAction[self::ACTION_RULE];
