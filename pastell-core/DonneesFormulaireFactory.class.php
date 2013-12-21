@@ -73,4 +73,10 @@ class DonneesFormulaireFactory{
 		return $this->workspacePath."/$a/$b/";
 	}
 	
+	
+	public function getNonPersistingDonneesFormulaire(){
+		$formulaire = new Formulaire(array());
+		return new DonneesFormulaire("/tmp/xyz", $formulaire);
+	}
+	
 }

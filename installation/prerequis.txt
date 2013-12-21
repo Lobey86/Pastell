@@ -1,7 +1,7 @@
 Pré-requis à l'installation de Pastell.
 
 Pastell est prévu pour fonctionner sur un environnement LAMP (Linux Apache MySQL PHP).
-Il peut sans doute fonctionner sur d'autre OS (windows) et d'autres serveurs web (nginx, lighthttpd). 
+Il peut sans doute fonctionner sur d'autre OS (MS Windows, Mac OS) et d'autres serveurs web (nginx, lighthttpd). 
 Cela n'a toutefois pas été testé.
 
 
@@ -9,7 +9,7 @@ Cela n'a toutefois pas été testé.
 Pastell est développé et testé sur le système Ubuntu GNU/Linux.
 La version minimale recommandée pour Pastell est  :
 		
-		Ubuntu GNU/Linux 10.04 LTS
+		Ubuntu GNU/Linux 12.04 LTS
 
 Dans cette version, les paquet apache2, php5 et mysql-server sont suffisant pour 
 l'environnement LAMP de Pastell.
