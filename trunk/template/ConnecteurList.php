@@ -5,7 +5,9 @@
 </td>
 
 <td class='align_right'>
+<?php if ($droit_edition) : ?>
 <a href="connecteur/new.php?id_e=<?php echo $id_e?>" class='btn'>Nouveau</a>
+<?php endif;?>
 </td>
 
 </tr>

@@ -17,7 +17,6 @@ formulaire:
 			name: Adresse électronique du fournisseur
 			commentaire: Adresse électronique du fournisseur susceptible de s'inscrire sur Pastell
 			requis: true
-			
 		
 action:
 	creation:
@@ -42,5 +41,16 @@ action:
 		name: Invitation envoyée
 		rule:
 			document_is_valide: true
+			last-action:
+				modification
+				invitation
 		action-class: FournisseurInscriptionInvitation
+	
+	fournisseur-inscrit:
+		name: Inscription du fournisseur
+		rule:
+			role_id_e: no-role
+			
+		
+		
 	

@@ -7,7 +7,7 @@ $entiteListe = new EntiteListe($sqlQuery);
 
 $liste_collectivite = $entiteListe->getAll('collectivite');
 
-$zenMail = new ZenMail();
+$zenMail = $objectInstancier->ZenMail;
 $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification,$zenMail,$journal);
 

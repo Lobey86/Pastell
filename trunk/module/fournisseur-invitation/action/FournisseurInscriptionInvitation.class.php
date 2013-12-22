@@ -10,7 +10,8 @@ class FournisseurInscriptionInvitation extends ActionExecutor {
 	
 	public function go(){	
 		$mailFournisseurInvitation = $this->getMailFournisseurInvitation();
-		$mailFournisseurInvitation->send($this->getDonneesFormulaire(), $this->getEntite()->getInfo());
+		$url_inscription = SITE_BASE."/fournisseur/pre-inscription.php?id_e={$this->id_e}&id_d={$this->id_d}&s=%SECRET%";
+		$mailFournisseurInvitation->send($this->getDonneesFormulaire(), $this->getEntite()->getInfo(),$url_inscription);
 		$message = "Invitation envoyé à ".$this->getDonneesFormulaire()->get('email');
 		$this->addActionOK($message);
 		$this->setLastMessage($message);

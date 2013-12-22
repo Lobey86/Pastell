@@ -22,6 +22,7 @@ abstract class ChoiceActionExecutor extends ActionExecutor {
 		$this->viewParameter['id_d'] = $this->id_d;
 		$this->viewParameter['id_e'] = $this->id_e;
 		$this->viewParameter['id_ce'] = $this->id_ce;	
+		$this->viewParameter['action'] = $this->action;
 		$this->viewParameter['field'] = $this->field;	
 		return $this->viewParameter;
 	}

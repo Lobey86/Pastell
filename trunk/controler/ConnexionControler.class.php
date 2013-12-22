@@ -155,4 +155,40 @@ class ConnexionControler extends PastellControler {
 		$this->redirect("/connexion/connexion.php");
 	}
 	
+	public function connexionActionRedirect($redirect_fail){
+		$recuperateur = new Recuperateur($_POST);
+		$login = $recuperateur->get('login');
+		$password = $recuperateur->get('password');
+		
+		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
+		
+		if ($authentificationConnecteur && $login != 'admin'){
+			$this->LastError->setLastError("Veuillez utiliser le serveur CAS pour l'authentification");
+			$this->redirect($redirect_fail);
+		}
+		$id_u = $this->utilisateurListe->getUtilisateurByLogin($login);
+		
+		if ( ! $this->Utilisateur->verifPassword($id_u,$password) ){
+			$this->LastError->setLastError("Login ou mot de passe incorrect.");
+			$this->redirect($redirect_fail);
+		}
+		
+		if (! $this->CertificatConnexion->connexionGranted($id_u)){
+			$this->LastError->setLastError("Vous devez avoir un certificat valide pour ce compte");
+			$this->redirect($redirect_fail);
+		}
+		
+		$this->Journal->setId($id_u);
+		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
+		$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
+		$this->Journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
+		$this->Authentification->connexion($login, $id_u);
+		return $id_u;
+	}
+	
+	public function doConnexionAction(){		
+		$this->connexionActionRedirect("connexion/connexion.php");
+		$this->redirect();
+	}
+	
 }

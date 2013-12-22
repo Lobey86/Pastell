@@ -21,7 +21,7 @@ class MailFournisseurInvitationSendTest extends ActionExecutor {
 		$entiteInfo = $this->getEntite()->getInfo();
 		
 		$connecteur = $this->getMyConnecteur();
-		$connecteur->send($donneesFormulaire,$entiteInfo);
+		$connecteur->send($donneesFormulaire,$entiteInfo,SITE_BASE);
 		$this->setLastMessage("Message envoyé à $from");
 		$this->objectInstancier->TmpFile->delete($tmp_file);
 		return true;

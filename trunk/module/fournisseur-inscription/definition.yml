@@ -1,9 +1,12 @@
-nom: Inscription fournisseur
+nom: Adhésion fournisseur/collectivité
 type: Flux Fournisseur
 
 formulaire:
 	Information sur la société:
-		Raison sociale: {requis: true, title: true}
+		raison_sociale:
+			name: Raison sociale 
+			requis: true
+			title: true
 		Mnémonique ou sigle: 
 		Année de création: {requis: true}
 		Effectif (en salariés permanents):
@@ -13,6 +16,9 @@ formulaire:
 		Rattacher à un groupe, holding, maison mère: {type: checkbox}
 		Nom de la structure de rattachement:
 		Ancienne dénomination: {multiple: true}
+		siren:
+			name: Numéro SIREN
+			requis: true
 		SIRET:  {requis: true}
 		Code APE: 
 		Code Finess:
@@ -43,11 +49,7 @@ formulaire:
 		Responsable Juridique:
 		Télephone:
 		Téléphone portable:
-		Adresse email:
-		TODO Nom du contact1:
-		Fonction du contact 1 :
-		Nom du contact2:
-		Fonction du contact 2:
+		Adresse email:		
 		
 	Autres:
 		Date de demande d'inscription à Pastell:
@@ -60,9 +62,8 @@ action:
 	creation:
 		name-action: Créer
 		name: Créé
-		rule:
-			type_id_e: 
-				fournisseur
+		rule: 
+			role_id_e: no-role
 			no-last-action:
 			
 	modification:
@@ -76,13 +77,13 @@ action:
 				modification
 	
 	envoi :
-		name-action: Envoyer
-		name: Envoyé
+		name-action: Soumettre 
+		name: Soumis
 		rule:
 			role_id_e: editeur
 			droit_id_u: 'fournisseur-inscription:edition'
-		action-class: Envoyer
-		action-selection: collectivite
+			document_is_valide: true			
+		action-class: FournisseurSoumissionDonnee
 	
 	recu:
 		name: Reçu par la collectivité

@@ -88,7 +88,9 @@ if (! headers_sent()) {
 			<?php if ($authentification->isConnected() ) : ?>
 				<div id="main_menu">				
 					<a href="document/index.php" class="picto_flux">Accueil</a>
+					<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"entite:lecture",0)) : ?>
 					<a href="entite/detail.php" class="picto_utilisateurs">Administration</a>
+					<?php endif;?>					
 					<a href="journal/index.php" class="picto_journal">Journal des évènements</a>
 					<?php if ($roleUtilisateur->hasDroit($authentification->getId(),"role:lecture",0)) : ?>
 						<a href="role/index.php" class="picto_collectivites">Rôles</a>
