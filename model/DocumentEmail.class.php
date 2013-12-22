@@ -3,6 +3,8 @@ class DocumentEmail extends SQL {
 	
 	const DESTINATAIRE = 'to';
 	
+	private $zenMail;
+	
 	public static function getChaineTypeDestinataire($code){
 		$type = array('to' => 'Destinataire', 'cc' => 'Copie à' , 'bcc' => 'Copie caché à' );
 		return $type[$code]; 
@@ -10,9 +12,10 @@ class DocumentEmail extends SQL {
 	
 	private $sqlQuery;
 	
-	public function __construct(SQLQuery $sqlQuery){
+	public function __construct(SQLQuery $sqlQuery, ZenMail $zenMail){
 		parent::__construct($sqlQuery);
 		$this->sqlQuery = $sqlQuery;
+		$this->zenMail = $zenMail;
 	}
 
 	public function add($id_d,$email,$type){
@@ -86,9 +89,8 @@ class DocumentEmail extends SQL {
 		}
 		$message .= "\n\nConsulter le détail du document : " . SITE_BASE . "document/detail.php?id_d={$result['id_d']}&id_e=$id_e";
 	
-		$zenMail = new ZenMail();
 		$notification = new Notification($this->sqlQuery);
-		$notificationMail = new NotificationMail($notification,$zenMail,$journal);
+		$notificationMail = new NotificationMail($notification,$this->zenMail,$journal);
 		$notificationMail->notify($id_e, $result['id_d'], $next_action, 'mailsec', $message);
 		
 		return $this->getInfoFromKey($key);

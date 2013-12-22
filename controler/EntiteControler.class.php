@@ -333,6 +333,7 @@ class EntiteControler extends PastellControler {
 		$recuperateur = new Recuperateur($_GET);
 		$id_e = $recuperateur->getInt('id_e',0);
 		$this->hasDroitLecture($id_e);
+		$this->droit_edition = $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"entite:edition",$id_e);
 		$this->id_e = $id_e;
 		$this->all_connecteur = $this->ConnecteurEntiteSQL->getAll($id_e);
 		$this->tableau_milieu = "ConnecteurList";

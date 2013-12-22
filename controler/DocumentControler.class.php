@@ -199,7 +199,7 @@ class DocumentControler extends PastellControler {
 			}
 		}	
 		
-		$liste_collectivite = $this->roleUtilisateur->getEntite($this->getId_u(),"entite:lecture");
+		$liste_collectivite = $this->roleUtilisateur->getEntiteWithSomeDroit($this->getId_u());
 		
 		if (! $id_e ) {
 			if (count($liste_collectivite) == 0){

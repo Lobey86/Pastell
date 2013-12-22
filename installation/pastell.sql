@@ -56,6 +56,11 @@ CREATE TABLE annuaire_role (
 	`partage` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_r`)
 )  ENGINE=MyISAM  ;
+CREATE TABLE collectivite_fournisseur (
+	`id_e_col` int(11) NOT NULL,
+	`id_e_fournisseur` int(11) NOT NULL,
+	`is_valid` tinyint(1) NOT NULL
+)  ENGINE=InnoDB  ;
 CREATE TABLE connecteur_entite (
 	`id_ce` int(11) NOT NULL AUTO_INCREMENT,
 	`id_e` int(11) NOT NULL,

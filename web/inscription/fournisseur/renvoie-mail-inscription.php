@@ -11,7 +11,7 @@ if ( ! $infoUtilisateur || $infoUtilisateur['mail_verifie']){
 	exit;
 }
 
-$zMail = new ZenMail();
+$zMail = $objectInstancier->ZenMail;
 $mailVerification = new MailVerification($zMail);
 $mailVerification->send($infoUtilisateur);
 

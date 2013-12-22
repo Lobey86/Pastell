@@ -246,7 +246,6 @@ class UtilisateurControler extends PastellControler {
 		}
 		
 		if (! $id_u){
-			
 			$id_u = $this->UtilisateurCreator->create($login,$password,$password2,$email);
 			if ( ! $id_u){
 				throw new Exception($this->UtilisateurCreator->getLastError());
@@ -307,8 +306,8 @@ class UtilisateurControler extends PastellControler {
 		$certificat_content = $this->FileUploader->getFileContent('certificat');
 
 		try {
-                        // Ajout de la vérification des droits de l'utilisateur connecté
-                        $this->verifDroit($id_e, "utilisateur:edition");
+            // Ajout de la vérification des droits de l'utilisateur connecté
+            $this->verifDroit($id_e, "utilisateur:edition");
 			$id_u = $this->editionUtilisateur($id_e, $id_u, $email, $login, $password, $password2, $nom, $prenom, $certificat_content);
 		} catch (Exception $e){
 			$this->redirectEdition($id_e,$id_u,$e->getMessage());

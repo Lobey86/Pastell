@@ -29,11 +29,10 @@ if ($action == Action::MODIFICATION){
 }
 
 
-$id_destinataire = array();
+$id_destinataire = $recuperateur->get('destinataire')?:array();
 
 $action_destinataire =  $theAction->getActionDestinataire($action);
 if ($action_destinataire) {
-	$id_destinataire = $recuperateur->get('destinataire');
 	
 	if (! $id_destinataire){
 		header("Location: " . SITE_BASE . "/entite/choix-entite.php?id_d=$id_d&id_e=$id_e&action=$action&type=$action_destinataire");

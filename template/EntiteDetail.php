@@ -24,12 +24,6 @@ $id_e = $entiteExtendedInfo['id_e'];
 			<td><?php echo $entiteExtendedInfo['siren'] ?></td>
 		</tr>
 	<?php endif;?>
-	<?php if ($entiteExtendedInfo['type'] == Entite::TYPE_FOURNISSEUR ) : ?>
-		<tr>
-		<th>Etat</th>
-		<td><?php echo Entite::getChaineEtat($entiteExtendedInfo['etat']) ?></td>
-		</tr>
-	<?php endif;?>
 	<tr>
 		<th>Date d'inscription</th>
 		<td><?php echo time_iso_to_fr($entiteExtendedInfo['date_inscription']) ?></td>
@@ -99,8 +93,3 @@ $id_e = $entiteExtendedInfo['id_e'];
 		
 </table>
 
-
-
-<?php if($entiteExtendedInfo['type'] == Entite::TYPE_FOURNISSEUR): ?>
-<a class='btn btn-warning' href='supprimer.php'><i class='icon-white icon-refresh'></i>Redemander les informations</a>
-<?php endif; ?>
