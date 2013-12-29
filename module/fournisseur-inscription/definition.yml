@@ -75,7 +75,10 @@ action:
 			last-action: 
 				creation
 				modification
-	
+				refuser-collectivite
+				refuser-moderateur
+				accepter-moderateur
+				
 	envoi :
 		name-action: Soumettre 
 		name: Soumis
@@ -83,6 +86,8 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'fournisseur-inscription:edition'
 			document_is_valide: true			
+			last-action:
+				modification
 		action-class: FournisseurSoumissionDonnee
 	
 	recu:
@@ -90,7 +95,7 @@ action:
 		rule:
 			role_id_e: no-role
 
-	accepter:
+	accepter-collectivite:
 		name-action: Accepter l'inscription
 		name: Inscription acceptée
 		rule:
@@ -100,13 +105,39 @@ action:
 			
 		action-class: AccepterFournisseur
 		
-	refuser:
+	refuser-collectivite:
 		name-action: Refuser l'inscription
 		name: Inscription refusée
 		rule:
 			last-action: 
 				recu
 			role_id_e: lecteur
-			
 		action-class: RefuserFournisseur
+		
+	envoi-moderateur:
+		name-action: Soumettre à la modération 
+		name: Soumis à la modération
+		rule:
+			role_id_e: no_role
+	
+	
+	accepter-moderateur:
+		name-action: Accepter l'inscription
+		name: Inscription acceptée
+		rule:
+			last-action: 
+				envoi-moderateur
+			role_id_e: moderateur
+		action-class: AccepterModerateur
+		
+	refuser-moderateur:
+		name-action: Refuser l'inscription
+		name: Inscription refusée
+		rule:
+			last-action: 
+				envoi-moderateur
+			role_id_e: moderateur
+		action-class: RefuserModerateur
+		
+		
 		
