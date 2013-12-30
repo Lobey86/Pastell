@@ -62,7 +62,9 @@ $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 if ($action=='creation' || $action=='modification'){
 	$documentEntite = new DocumentEntite($sqlQuery);
-	$documentEntite->addRole($id_d,$id_e,"editeur");
+	if ( ! $documentEntite->getRole($id_e, $id_d)) {
+		$documentEntite->addRole($id_d,$id_e,"editeur");
+	}
 }
 
 
