@@ -20,6 +20,7 @@ formulaire:
 			name: Numéro SIREN
 			requis: true
 		SIRET:  {requis: true}
+		RCS: {requis: true}
 		Code APE: 
 		Code Finess:
 		Code INSEE:

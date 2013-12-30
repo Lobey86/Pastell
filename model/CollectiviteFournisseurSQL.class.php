@@ -26,4 +26,15 @@ class CollectiviteFournisseurSQL extends SQL {
 		$this->query($sql,$id_e_col,$id_e_fournisseur);
 	}
 	
+	public function getAllCollectiviteId($id_e_fournisseur){
+		$sql = "SELECT id_e_col FROM collectivite_fournisseur WHERE id_e_fournisseur=? AND is_valid=true";
+		return $this->queryOneCol($sql,$id_e_fournisseur);
+	}
+	
+	public function isRelationOk($id_e_col,$id_e_fournisseur){
+		$sql = "SELECT count(*) FROM collectivite_fournisseur WHERE id_e_col = ? AND id_e_fournisseur=? AND is_valid=true";
+		return $this->queryOne($sql,$id_e_col,$id_e_fournisseur);
+		
+	}
+	
 }

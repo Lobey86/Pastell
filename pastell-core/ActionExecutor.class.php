@@ -104,6 +104,9 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->DonneesFormulaireFactory;
 	}
 	
+	/**
+	 * @return DocumentEntite
+	 */
 	public function getDocumentEntite(){
 		return $this->objectInstancier->DocumentEntite;
 	}
