@@ -9,6 +9,12 @@ CREATE TABLE action_auto_log (
 	`last_message` varchar(255) NOT NULL,
 	UNIQUE KEY id_e (`id_e`,`id_d`,`first_try`)
 )  ENGINE=MyISAM  ;
+CREATE TABLE action_programmee (
+	`id_d` varchar(32) NOT NULL,
+	`id_e` int(11) NOT NULL,
+	`id_u` int(11) NOT NULL,
+	`action` varchar(32) NOT NULL
+)  ENGINE=InnoDB  ;
 CREATE TABLE agent (
 	`id_a` int(11) NOT NULL AUTO_INCREMENT,
 	`matricule` varchar(64) NOT NULL,
