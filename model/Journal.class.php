@@ -10,6 +10,7 @@ class Journal extends SQL {
 	const DOCUMENT_CONSULTATION = 7 ;
 	const ENVOI_MAIL = 8;
 	const DOCUMENT_ACTION_ERROR = 9;
+	const DOCUMENT_TRAITEMENT_LOT = 10;
 	
 	private $id_u;
 	private $utilisateurSQL;
@@ -181,7 +182,8 @@ class Journal extends SQL {
 						"Connexion",
 						"Consultation de document",
 						"Envoi de mail",
-						"Erreur lors de la tenetative d'une action"
+						"Erreur lors de la tenetative d'une action",
+						"Programmation d'un traitement par lot"
 		);
 		return $type_string[$type];
 	}

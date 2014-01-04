@@ -5,8 +5,6 @@ if ($id_e != 0) {
 <div class="box">
 
 <form class="form-inline" action='document/list.php' method='get'>
-
-
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 	<input type='hidden' name='type' value='<?php echo $type?>'/>
 	<input type='text' name='search' value='<?php echo $search?>'/>
@@ -39,6 +37,22 @@ if ($id_e != 0) {
 	
 
 }
+
+if ($type && $id_e) :
+?>
+<div class="box">
+	<h2>Traitement pas lot</h2>
+	<form action='document/traitement-lot.php' method='get'>
+		<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+		<input type='hidden' name='type' value='<?php echo $type?>'/>
+		<input type='hidden' name='search' value='<?php echo $search?>'/>
+		<input type='hidden' name='offset' value='<?php echo $offset?>'/>
+		<input type='hidden' name='filtre' value='<?php echo $filtre?>'/>
+		<input type='submit' value='Traitement par lot' class='btn'/>
+	</form> 
+</div>
+<?php 
+endif;
 
 $this->render("EntiteNavigation");
 

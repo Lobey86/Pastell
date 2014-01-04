@@ -44,7 +44,11 @@ foreach($all_connecteur as $connecteur){
 	echo "\n";
 }
 
+$objectInstancier->DocumentControler->doActionProgrammee();
+
 $journal->horodateAll();
+
+
 
 
 $objectInstancier->LastUpstart->updateMtime();
