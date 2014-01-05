@@ -96,6 +96,7 @@
 <th class="w140">Entité</th>
 <th>Type de document</th>
 <th>Action</th>
+<th>Type d'envoi</th>
 <th>&nbsp;</th>
 </tr>
 
@@ -122,6 +123,10 @@
 			Toutes
 		<?php endif;?>
 	</td>
+	<td>
+		<?php echo $infoNotification['daily_digest']?"Résumé journalier":"Envoi à chaque événement"?>
+	</td>
+	
 	
 	<td>
 		
@@ -147,7 +152,10 @@
 		</select>
 		
 		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
-	
+	<select name='daily_digest'>
+			<option value=''>Envoi à chaque événement</option>
+			<option value='1'>Résumé journalier</option>
+		</select>	
 	
 	<input type='submit' class="btn" value='ajouter'/>
 </form>

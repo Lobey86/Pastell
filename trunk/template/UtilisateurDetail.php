@@ -142,6 +142,7 @@ $allRole = $roleSQL->getAllRole();
 <th class='w200'>Entité</th>
 <th>Type de document</th>
 <th>Action</th>
+<th>Type d'envoi</th>
 <th>&nbsp;</th>
 </tr>
 
@@ -169,6 +170,9 @@ $allRole = $roleSQL->getAllRole();
 			Toutes
 		<?php endif;?>
 	</td>
+	<td>
+		<?php echo $infoNotification['daily_digest']?"Résumé journalier":"Envoi à chaque événement"?>
+	</td>
 	
 	<td>
 		<?php if ($utilisateur_edition) : ?>
@@ -194,6 +198,10 @@ $allRole = $roleSQL->getAllRole();
 		</select>
 		
 		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
+		<select name='daily_digest'>
+			<option value=''>Envoi à chaque événement</option>
+			<option value='1'>Résumé journalier</option>
+		</select>	
 			
 		<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
 	</form>

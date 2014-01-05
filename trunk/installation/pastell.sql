@@ -193,8 +193,19 @@ CREATE TABLE notification (
 	`id_e` int(11) NOT NULL,
 	`type` varchar(32) NOT NULL,
 	`action` varchar(16) NOT NULL,
+	`daily_digest` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_n`)
 )  ENGINE=MyISAM  ;
+CREATE TABLE notification_digest (
+	`id_nd` int(11) NOT NULL AUTO_INCREMENT,
+	`mail` varchar(255) NOT NULL,
+	`id_e` int(11) NOT NULL,
+	`id_d` varchar(32) NOT NULL,
+	`action` varchar(32) NOT NULL,
+	`type` varchar(32) NOT NULL,
+	`message` text NOT NULL,
+	PRIMARY KEY (`id_nd`)
+)  ENGINE=InnoDB  ;
 CREATE TABLE role (
 	`role` varchar(64) NOT NULL,
 	`libelle` varchar(255) NOT NULL,
