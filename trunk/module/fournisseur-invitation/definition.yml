@@ -19,6 +19,7 @@ formulaire:
 			requis: true
 		
 action:
+
 	creation:
 		name-action: Créer
 		name: Créé
@@ -42,6 +43,7 @@ action:
 		rule:
 			document_is_valide: true
 			last-action:
+				creation
 				modification
 				invitation
 		action-class: FournisseurInscriptionInvitation

@@ -44,8 +44,17 @@ formulaire:
 			type: file
 			commentaire: Mail alternatif pour les lecteurs de mail ne supportant pas le HTML. Si absent, un mail en texte sera généré à partir du fichier HTML
 			
-					 
+		fichier_fournisseur:
+			name: Fichier de fournisseurs
+			commentaire: | 
+				Fichier au format CSV comprenant : raison_sociale,email_contact
+			type: file		
+			 
 action:
 	test-send:
-		name: Envoyer le mail (au from) 
+		name: Tester l'envoi du mail (au from) 
 		action-class: MailFournisseurInvitationSendTest
+
+	import:
+		name: Créer les invitations
+		action-class: MailFournisseurImport
