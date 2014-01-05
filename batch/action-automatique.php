@@ -39,7 +39,6 @@ foreach($all_connecteur as $connecteur){
 		} else {
 			echo "ok";
 		}
-		
 	}
 	echo "\n";
 }

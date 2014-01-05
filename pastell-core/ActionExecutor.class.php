@@ -67,8 +67,14 @@ abstract class ActionExecutor {
 		$this->lastMessage = $message;
 	}
 	
-	public function getActionCreator(){
-		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
+	/**
+	 * @return ActionCreator
+	 */
+	public function getActionCreator($id_d = false){
+		if (! $id_d){
+			$id_d = $this->id_d;
+		}
+		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$id_d);	
 	}
 	
 	/**
@@ -111,6 +117,9 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->DocumentEntite;
 	}
 
+	/**
+	 * @return Document
+	 */
 	public function getDocument(){
 		return $this->objectInstancier->Document;
 	}
