@@ -9,7 +9,7 @@ $liste_collectivite = $entiteListe->getAll('collectivite');
 
 $zenMail = $objectInstancier->ZenMail;
 $notification = new Notification($sqlQuery);
-$notificationMail = new NotificationMail($notification,$zenMail,$journal);
+$notificationMail = $objectInstancier->NotificationMail;
 
 foreach($liste_collectivite as $col){
 	try {

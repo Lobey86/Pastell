@@ -90,7 +90,7 @@ class DocumentEmail extends SQL {
 		$message .= "\n\nConsulter le détail du document : " . SITE_BASE . "document/detail.php?id_d={$result['id_d']}&id_e=$id_e";
 	
 		$notification = new Notification($this->sqlQuery);
-		$notificationMail = new NotificationMail($notification,$this->zenMail,$journal);
+		$notificationMail = new NotificationMail($notification,$this->zenMail,$journal, new NotificationDigestSQL($sqlQuery));
 		$notificationMail->notify($id_e, $result['id_d'], $next_action, 'mailsec', $message);
 		
 		return $this->getInfoFromKey($key);
