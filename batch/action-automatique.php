@@ -7,7 +7,8 @@ require_once( __DIR__ . "/../web/init.php");
 
 $zenMail = $objectInstancier->ZenMail;
 $notification = new Notification($sqlQuery);
-$notificationMail = new NotificationMail($notification,$zenMail,$journal);
+$notificationMail = $objectInstancier->NotificationMail;
+
 
 $documentEntite = new DocumentEntite($sqlQuery);
 
