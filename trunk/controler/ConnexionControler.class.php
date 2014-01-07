@@ -166,7 +166,7 @@ class ConnexionControler extends PastellControler {
 			$this->LastError->setLastError("Veuillez utiliser le serveur CAS pour l'authentification");
 			$this->redirect($redirect_fail);
 		}
-		$id_u = $this->utilisateurListe->getUtilisateurByLogin($login);
+		$id_u = $this->UtilisateurListe->getUtilisateurByLogin($login);
 		
 		if ( ! $this->Utilisateur->verifPassword($id_u,$password) ){
 			$this->LastError->setLastError("Login ou mot de passe incorrect.");
