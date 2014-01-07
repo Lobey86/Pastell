@@ -37,6 +37,19 @@ action:
 				modification
 				invitation
 	
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		rule:
+			last-action: 
+				creation
+				modification
+				invitation
+			role_id_e: 
+				editeur
+		action-class: Supprimer
+		warning: "Êtes-vous sûr de vouloir supprimer cette invitation ?"
+	
 	invitation :
 		name-action: Inviter
 		name: Invitation envoyée
