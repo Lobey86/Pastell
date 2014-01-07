@@ -197,7 +197,7 @@ flux_entite:
   id_e: 1
   flux: actes-generique
   id_ce: 5
-  type: GE
+  type: GED
  -
   id_fe: 6
   id_e: 1

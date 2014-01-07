@@ -12,8 +12,8 @@ class FournisseurInvitationTest extends PastellTestCase {
 		return true;
 	}
 	
-	public function validation(){
-		
+	public function testValidation(){
+		return true;
 	}
 	
 	

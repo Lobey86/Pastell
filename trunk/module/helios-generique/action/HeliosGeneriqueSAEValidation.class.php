@@ -1,6 +1,6 @@
 <?php
 
-class SAEValidation extends ActionExecutor {
+class HeliosGeneriqueSAEValidation extends ActionExecutor {
 	
 	public function go(){
 		$sae = $this->getConnecteur('SAE');
