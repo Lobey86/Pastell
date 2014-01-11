@@ -1,0 +1,1 @@
+Le script horodatage est supprimé : l'action d'horodatage est maintenant incluse dans le script d'action automatique.
