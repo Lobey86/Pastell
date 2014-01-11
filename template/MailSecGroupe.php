@@ -51,9 +51,6 @@
 		</tbody>
 	</table>
 	<script>
-		 var format_item = function (item, position, length){ 
-		    return htmlentities("" + item,"ENT_QUOTES");
-		  } 
 	 
  		 $(document).ready(function(){
 				$("#name").autocomplete("mailsec/get-contact-ajax.php",  
