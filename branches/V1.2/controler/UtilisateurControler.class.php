@@ -101,7 +101,7 @@ class UtilisateurControler extends PastellControler {
 		$this->limit = 20;
 		
 		$this->count = $this->UtilisateurListe->getNbUtilisateurByCertificat($this->verif_number);
-		$this->liste = $this->utilisateurListe->getUtilisateurByCertificat($this->verif_number,$this->offset,$this->limit);
+		$this->liste = $this->UtilisateurListe->getUtilisateurByCertificat($this->verif_number,$this->offset,$this->limit);
 		
 		if (! $this->count){
 			$this->redirect("/index.php");
