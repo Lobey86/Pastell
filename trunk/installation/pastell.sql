@@ -177,7 +177,7 @@ CREATE TABLE journal (
 	`id_u` int(11) NOT NULL,
 	`id_d` varchar(16) NOT NULL,
 	`action` varchar(64) NOT NULL,
-	`message` varchar(128) NOT NULL,
+	`message` text NOT NULL,
 	`date` datetime NOT NULL,
 	`preuve` text NOT NULL,
 	`date_horodatage` datetime NOT NULL,
