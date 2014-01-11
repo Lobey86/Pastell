@@ -46,17 +46,14 @@
 		<tbody>
 			<tr>
 				<th>Contact : </th>
-				<td><input type='text' id='name' name='name' value='' /></td>
+				<td><input type='text' id='nom_contact' name='name' value='' /></td>
 			</tr>	
 		</tbody>
 	</table>
 	<script>
-		 var format_item = function (item, position, length){ 
-		    return htmlentities("" + item,"ENT_QUOTES");
-		  } 
 	 
  		 $(document).ready(function(){
-				$("#name").autocomplete("mailsec/get-contact-ajax.php",  
+				$("#nom_contact").autocomplete("mailsec/get-contact-ajax.php",  
 						{
 						cacheLength:0, 
 						max: 20, 
