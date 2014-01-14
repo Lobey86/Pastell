@@ -80,7 +80,7 @@ pour leur propre mail.</p>
 <form action='mailsec/partage-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
-	<input type='submit' value='Supprimer le partage'/>
+	<input type='submit' value='Supprimer le partage' class='btn'/>
 </form>
 <?php else:?>
 <div class='box_info'>
