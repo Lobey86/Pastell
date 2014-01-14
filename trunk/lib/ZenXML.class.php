@@ -41,8 +41,12 @@ class ZenXML implements ArrayAccess {
 		return $this->get($tag_name);
 	}
 	
-	private function getCDATA($data){
-		return htmlspecialchars(utf8_encode($data),ENT_QUOTES,"UTF-8");
+	private function getCDATA($data,$escape_special_char = true){
+		$data = utf8_encode($data);
+		if (! $escape_special_char) {
+			return $data;
+		}
+		return htmlspecialchars($data,ENT_QUOTES,"UTF-8");
 	}
 	
 	private function getAttr(){
@@ -66,7 +70,7 @@ class ZenXML implements ArrayAccess {
 		$attr = $this->getAttr();
 		$xml = "<{$this->tag_name}$attr>";
 		if ($this->cdata) {
-			$xml .=  $this->getCDATA($this->cdata);
+			$xml .=  $this->getCDATA($this->cdata,false);
 		}
 		foreach($this->child as $child){
 			$xml .= $child->asXML();
