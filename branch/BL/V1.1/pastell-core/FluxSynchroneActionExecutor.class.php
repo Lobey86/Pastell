@@ -20,6 +20,7 @@ require_once(PASTELL_PATH . "/pastell-core/ActionExecutor.class.php");
  * - redéfinition du formattage d'affichage par défaut, pour les actions d'obtention d'information
  */
 abstract class FluxSynchroneActionExecutor extends ActionExecutor {
+
     // Attributs génériques de flux 
 
     const FLUX_ATTR_PILOTE = 'app_pilote';
@@ -176,7 +177,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             'file' => $ex->getFile(),
             'line' => $ex->getLine(),
             'message' => utf8_encode($ex->getMessage()),
-            'trace' => $ex->getTrace());
+            'trace' => utf8_encode_array($ex->getTrace()));
         $messageDetail = json_encode($messageDetail);
         $doc = $this->getDonneesFormulaire();
         $doc->addFileFromData(self::FLUX_ATTR_ERREUR_DETAIL, 'erreur_detail', $messageDetail);
@@ -248,7 +249,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         if (!isset($pilote)) {
             $pilote = $this->getPilote();
             $infos = array(self::KEY_JOURNAL_PILOTE => $pilote) + $infos;
-        }        
+        }
         foreach ($infos as $key => $value) {
             $log .= $key . ':' . $value . ',';
         }

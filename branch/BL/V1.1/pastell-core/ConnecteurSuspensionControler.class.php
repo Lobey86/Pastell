@@ -70,7 +70,7 @@ class ConnecteurSuspensionControler {
                     'file' => $accesException->getFile(),
                     'line' => $accesException->getLine(),
                     'message' => utf8_encode($accesException->getMessage()),
-                    'trace' => $accesException->getTrace());
+                    'trace' => utf8_encode_array($accesException->getTrace()));
                 $suspensionDetail = json_encode($suspensionDetail);
                 $this->setSuspension($connecteur, $suspensionDetail);
             }
