@@ -14,4 +14,4 @@ if (!$action_params) {
 	$action_params=array();
 }
 
-$api_json->action($id_e, $id_d,$action,$id_destinataire, true, $action_params);
+$api_json->action($id_e, $id_d,$action,$id_destinataire, $action_params);
