@@ -122,13 +122,14 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
                 $goEtat = $gofEtat;
                 $goMessage = $gofMessage && ($gofMessage != self::GO_MESSAGE_ACTION) ? $gofMessage : $this->getActionName($goEtat);
             }
-            // On journalise seulement si le flux change d'état. 
+            $actionAuto = $this->isActionAuto();
+            // On ne journalise pas les actions automatiques qui ne changent pas l'état.
             // On optimise ainsi les volumes en éliminant les traces des actions automatiques "stériles".
-            if ($goEtat && ($goEtat != $this->action) && $this->isWorkflow()) {
+            if (!($actionAuto && ($gofEtat == self::GO_ETAT_INCHANGE))) {
                 $this->logAction($goEtat, $goMessage, $gofJournalInfos);
             }
             // En contexte console, conversion pour affichage.
-            if (!$this->isActionAuto() && !$this->from_api) {
+            if (!$actionAuto && !$this->from_api) {
                 $goMessage = $this->goFonctionnelDisplay($goMessage);
             }
             $this->setLastMessage($goMessage);
