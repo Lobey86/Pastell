@@ -182,7 +182,7 @@ class Journal extends SQL {
 						"Connexion",
 						"Consultation de document",
 						"Envoi de mail",
-						"Erreur lors de la tenetative d'une action",
+						"Erreur lors de la tentative d'une action",
 						"Programmation d'un traitement par lot"
 		);
 		return $type_string[$type];
