@@ -257,7 +257,7 @@ action:
 				send-archive
 				verif-sae-erreur
 			droit_id_u: 'helios-generique:edition'
-		action-class: HeliosGeneriqueSAEVerif
+		action-class: SAEVerif
 
 	verif-sae-erreur:
 		name: Erreur lors de la récupération de l'AR
@@ -278,7 +278,7 @@ action:
 				ar-recu-sae
 				validation-sae-erreur
 			droit_id_u: 'helios-generique:edition'
-		action-class: HeliosGeneriqueSAEValidation
+		action-class: SAEValidation
 		
 	validation-sae-erreur:
 		name: Erreur lors de la vérification de la validité du transfert

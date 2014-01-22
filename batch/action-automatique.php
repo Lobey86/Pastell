@@ -5,10 +5,9 @@ $min_exec_time = 60;
 
 require_once( __DIR__ . "/../web/init.php");
 
-$zenMail = $objectInstancier->ZenMail;
+$zenMail = new ZenMail();
 $notification = new Notification($sqlQuery);
-$notificationMail = $objectInstancier->NotificationMail;
-
+$notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $documentEntite = new DocumentEntite($sqlQuery);
 
@@ -40,15 +39,12 @@ foreach($all_connecteur as $connecteur){
 		} else {
 			echo "ok";
 		}
+		
 	}
 	echo "\n";
 }
 
-$objectInstancier->DocumentControler->doActionProgrammee();
-
 $journal->horodateAll();
-
-
 
 
 $objectInstancier->LastUpstart->updateMtime();

@@ -1,15 +1,15 @@
-<div class="box">
+<div class="box_contenu clearfix">
 
-<h2>Filtre du journal</h2>
+<h2>Filtre du journal </h2>
 
-<form action='journal/export-controler.php' method='post'>
+<form class="w700" action='journal/export-controler.php' method='post'>
 	<input type='hidden' name='id_e' value='<?php hecho($id_e)?>'>
 	<input type='hidden' name='id_d' value='<?php hecho($id_d)?>'>
 	<input type='hidden' name='id_u' value='<?php hecho($id_u)?>'>
 	<input type='hidden' name='type' value='<?php hecho($type)?>'>
-	<table class='table table-striped'>
+	<table>
 		<tr>
-			<th class='w200'>Entité</th>
+			<th>Entité</th>
 			<td><?php hecho($id_e?$entite_info['denomination']:"Toutes")?></td>
 		</tr>
 		<tr>
@@ -19,10 +19,6 @@
 		<tr>
 			<th>Document</th>
 			<td><?php hecho($id_d?$document_info['titre']:"Tous")?></td>
-		</tr>
-		<tr>
-			<th>Type</th>
-			<td><?php hecho($type?:"Tous")?></td>
 		</tr>
 		<tr>
 			<th><label for='recherche'>Recherche</label> </th>
@@ -48,7 +44,7 @@
 	
 	
 	
-	<input type='submit' class='btn' value='Récupérer le journal'/>
+	<input type='submit' value='Récupérer le journal'/>
 	
 	
 </form>
