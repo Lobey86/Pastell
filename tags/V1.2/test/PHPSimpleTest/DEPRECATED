@@ -1,5 +1,0 @@
-
-
-PHPSimpleTest n'est plus maintenu et ne sera sans doute plus compatible avec la version PHP 5.4
-
-Utiliser PHPUnit à la place
