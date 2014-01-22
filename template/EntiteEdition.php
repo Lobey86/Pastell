@@ -1,22 +1,22 @@
 <?php if ($id_e) : ?>
-	<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $id_e?>'>
-		<i class='icon-circle-arrow-left'></i>revenir à <?php echo $infoEntite['denomination']?>
+	<a href='entite/detail.php?id_e=<?php echo $id_e?>'>
+		« revenir à <?php echo $infoEntite['denomination']?>
 	</a>
 <?php elseif ($entite_mere) : ?>
-	<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $infoMere['id_e']?>'>
-		<i class='icon-circle-arrow-left'></i>revenir à <?php echo $infoMere['denomination']?>
+	<a href='entite/detail.php?id_e=<?php echo $infoMere['id_e']?>'>
+		« revenir à <?php echo $infoMere['denomination']?>
 	</a>
 <?php else: ?>
-	<a class='btn btn-mini' href='entite/detail.php'>
-		<i class='icon-circle-arrow-left'></i>Revenir à la liste des collectivités
+	<a href='entite/detail.php'>
+		« revenir à la liste des collectivités
 	</a>
 <?php endif;?>
+<br/><br/>
 
 
+<div class="box_contenu clearfix">
 
-<div class="box">
-
-<form action="entite/edition-controler.php" method='post'>
+<form class="w700" action="entite/edition-controler.php" method='post'>
 <input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 
 <?php if ($entite_mere) : ?>
@@ -26,9 +26,9 @@
 
 <?php endif;?>
 
-<table class='table table-striped'>
+<table>
 	<tr>
-	<td class='w300'>Type d'entité</rd>
+	<th>Type d'entité</th>
 	<td><select name='type'>
 	<?php foreach (array(Entite::TYPE_COLLECTIVITE, Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE) as $type) :?>
 		<option value='<?php echo $type?>'
@@ -39,14 +39,14 @@
 	</select></td>
 	</tr>
 <tr>
-<th><label for="denomination">Nom<span class='obl'>*</span></label>
+<th><label for="denomination">Nom<span>*</span></label>
 <p class='form_commentaire'>60 caractères max</p>
 </th>
 
 <td><input type="text" name="denomination" id="denomination" value='<?php echo $infoEntite['denomination']?>'/></td>
 </tr>
 <tr>
-<th><label for="siren">SIREN<span class='obl'>*</span></label>
+<th><label for="siren">SIREN<span>*</span></label>
 <p class='form_commentaire'>9 caractères obligatoires </p>
 <p class='form_commentaire'>obligatoire pour une collectivité</p></th>
 <td>
@@ -85,14 +85,16 @@
 	</select>
 </tr>
 </table>
+<span>*</span> champs obligatoires 
 
+<div class="align_right">
 <?php if ($id_e) : ?>
-<input type="submit" value="Modifier" class="btn" />
+<input type="submit" value="Modifier" class="submit" />
 
 <?php else : ?>
-<input type="submit" value="Créer" class="btn" />
+<input type="submit" value="Créer" class="submit" />
 <?php endif;?>
-
+</div>
 
 
 </form>

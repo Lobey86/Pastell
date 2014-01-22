@@ -1,12 +1,15 @@
+
+
 <?php 
 $this->SuivantPrecedent($offset,$limit,$count);
 ?>
 
-<div class="box">
+
+<div class="box_contenu clearfix">
 
 <h2>Utilisateurs utilisant ce certificat </h2>
 
-<table class="table table-striped">
+<table class="tab_01">
 	<tr>
 		<th>Nom Prénom</th>
 		<th>Login</th>
@@ -16,7 +19,7 @@ $this->SuivantPrecedent($offset,$limit,$count);
 	
 	
 ?>
-	<tr>
+	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo $user['id_u']?>'><?php echo $user['nom']?>&nbsp;<?php echo $user['prenom']?></a></td>
 		<td><?php echo $user['login']?></td>
 		<td><?php echo $user['email']?></td>
@@ -26,11 +29,11 @@ $this->SuivantPrecedent($offset,$limit,$count);
 </table>
 </div>
 
-<div class="box">
+<div class="box_contenu clearfix">
 
-<h2>Détail du certificat</h2>
-
-<table  class="table table-striped">
+<h2>Détail du certificat </h2>
+<br/><br/>
+<table  class="tab_04">
 	<tr>
 		<th>Numéro de série</th>
 		<td>

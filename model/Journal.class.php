@@ -10,7 +10,6 @@ class Journal extends SQL {
 	const DOCUMENT_CONSULTATION = 7 ;
 	const ENVOI_MAIL = 8;
 	const DOCUMENT_ACTION_ERROR = 9;
-	const DOCUMENT_TRAITEMENT_LOT = 10;
 	
 	private $id_u;
 	private $utilisateurSQL;
@@ -81,8 +80,8 @@ class Journal extends SQL {
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage,document_type) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage,$document_type);
 		
-		$sql = "SELECT id_j FROM journal WHERE type=? AND id_e=? AND id_u=? AND id_d=? AND action=? AND date=?  AND preuve=? ";
-		return $this->queryOne($sql,$type,$id_e,$id_u,$id_d,$action,$now,$preuve);
+		$sql = "SELECT id_j FROM journal WHERE type=? AND id_e=? AND id_u=? AND id_d=? AND action=? AND message=? AND date=? AND message_horodate=? AND preuve=? AND date_horodatage=?";
+		return $this->queryOne($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
 	}
 	
 	
@@ -182,8 +181,7 @@ class Journal extends SQL {
 						"Connexion",
 						"Consultation de document",
 						"Envoi de mail",
-						"Erreur lors de la tentative d'une action",
-						"Programmation d'un traitement par lot"
+						"Erreur lors de la tenetative d'une action"
 		);
 		return $type_string[$type];
 	}

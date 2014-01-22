@@ -9,12 +9,5 @@ $(document).ready(function() {
 		$(this.form).submit();
 	})
 	
-	$('#select-all').click(function(event) {
-		var result = this.checked;
-		$(':checkbox').each(function() {
-	            this.checked = result;                        
-		});
-	});
-	
 });
 

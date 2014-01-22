@@ -1,9 +1,8 @@
 <h2>Associations connecteurs globaux</h2>
-
-<table class="table table-striped">
+<table class="tab_01">
 		<tr>
-				<th class="w200">Type de connecteur</th>
-				<th class="w200">Connecteur</th>
+				<th>Type de connecteur</th>
+				<th>Connecteur</th>
 				<th>&nbsp;</th>
 		</tr>
 <?php 
@@ -13,7 +12,7 @@ foreach($all_connecteur_type as $connecteur_type => $global_connecteur) :
 
 	
 	?>
-	<tr>
+	<tr class='<?php echo $i++%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td><?php echo $connecteur_type;?></td>
 		<td>
 			<?php if ($global_connecteur) : ?>
@@ -24,7 +23,7 @@ foreach($all_connecteur_type as $connecteur_type => $global_connecteur) :
 			<?php endif;?>	
 		</td>
 		<td>
-			<a class='btn btn-mini' href='flux/edition.php?id_e=<?php echo $id_e?>&type=<?php echo $connecteur_type ?>'>Choisir un connecteur</a>
+			<a class='btn' href='flux/edition.php?id_e=<?php echo $id_e?>&type=<?php echo $connecteur_type ?>'>Choisir un connecteur</a>
 		</td>
 	</tr>
 	<?php endforeach;?>

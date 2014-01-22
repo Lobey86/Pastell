@@ -1,13 +1,13 @@
-<a class='btn btn-mini' href='mailsec/annuaire.php?id_e=<?php echo $id_e ?>'><i class='icon-circle-arrow-left'></i>Voir la liste des contacts</a>
+<a href='mailsec/annuaire.php?id_e=<?php echo $id_e ?>'>« Voir la liste des contacts</a>
 
-
-<div class="box">
-<h2>Liste des groupes de contacts de <?php echo $infoEntite['denomination'] ?></h2>
+<br/><br/>
+<div class="box_contenu">
+<h2>Liste des groupes de contacts de <?php echo $infoEntite['denomination'] ?> </h2>
 
 <form action='mailsec/del-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 
-<table  class="table table-striped">
+<table  class="tab_02">
 	<tr>
 	
 		<th>Nom</th>
@@ -40,7 +40,7 @@
 	
 </table>
 <?php if ($can_edit) : ?>
-<input type='submit' class='btn btn-danger' value='Supprimer'/>
+<input type='submit' value='Supprimer'/>
 <?php endif; ?>
 
 </form>
@@ -48,30 +48,30 @@
 
 <?php if ( $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e)) : ?>
 
-<div class="box">
+<div class="box_contenu">
 <h2>Ajouter un groupe</h2>
 <form action='mailsec/add-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	
-	<table class='table table-striped'>
-
+	<table>
+		<tbody>
 			<tr>
 				<th>Nom</th>
 				<td><input type='text' name='nom' value='<?php echo $this->LastError->getLastInput('nom') ?>' /></td>
 			</tr>
-
+		</tbody>
 	</table>
-	<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
+	<input type='submit' value='Ajouter'/>
 </form>
 </div>
 <?php endif;?>
 
 <?php if($groupe_herited) : ?>
 
-<div class="box">
+<div class="box_contenu">
 <h2>Liste des groupes hérités</h2>
 
-<table  class="table table-striped">
+<table  class="tab_02">
 	<tr>
 		<th>Entité</th>
 		<th>Nom</th>
@@ -99,7 +99,6 @@
 	</tr>
 <?php endforeach;?>
 	
-</table>
-</div>
+</table></div>
 
 <?php endif;?>

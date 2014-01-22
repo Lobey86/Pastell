@@ -22,7 +22,7 @@
 			</div>
 			
 			<div class="align_right">
-			<input type="submit" value="Modifier" class="btn" />
+			<input type="submit" value="Modifier" class="submit" />
 			</div>
 			
 			</form>
