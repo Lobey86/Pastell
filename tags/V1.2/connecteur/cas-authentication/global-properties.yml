@@ -1,0 +1,46 @@
+name: Authentification CAS
+type: Authentification
+
+description: |
+	Permet l'utilisation d'un serveur CAS comme source d'authentification.
+	
+	Ce connecteur utilise le module PHP phpCAS disponible ici : https://wiki.jasig.org/display/CASC/phpCAS
+	phpCAS est produit par Jasig qui est également à l'origine du serveur CAS.
+	phpCAS N'EST PAS FOURNI avec Pastell. Il est nécessaire de suivre et mettre à jour les évolutions de phpCAS.
+	
+	Pour activer ce connecteur, il faut l'associer dans les flux globaux au type Authentification
+	Le script delete-association-cas.php permet de supprimer l'association CAS afin de se sortir de problème de mauvaise configuration CAS.
+
+
+formulaire:
+	page0:
+		cas_host:
+			name: Serveur CAS
+		
+		cas_port:
+			name: Port 
+		
+		cas_context:
+			name: Contexte 
+			commentaire: chemin vers l'application CAS
+			
+		cas_ca:
+			name: Certificat du serveur CAS ou AC de celui-ci
+			type: file
+			
+		cas_proxy:
+			name: Proxy à autoriser
+			commentaire : https://proxy_host
+			
+		cas_debug:
+			name: Emplacement du fichier de log 
+			commentaire: active le mode debug
+			
+action:
+	test-ticket:
+		name: Tester la connexion CAS
+		action-class: CASTestTicket
+	
+	test-logout:
+		name: Tester la déconnexion
+		action-class: CASTestLogout
