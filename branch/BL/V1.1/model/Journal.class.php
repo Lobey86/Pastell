@@ -66,9 +66,9 @@ class Journal extends SQL {
 
 		$sql = "INSERT INTO journal(type,id_e,id_u,id_d,action,message,date,message_horodate,preuve,date_horodatage) VALUES (?,?,?,?,?,?,?,?,?,?)";
 		$this->query($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
-		
-		$sql = "SELECT id_j FROM journal WHERE type=? AND id_e=? AND id_u=? AND id_d=? AND action=? AND message=? AND date=? AND message_horodate=? AND preuve=? AND date_horodatage=?";
-		return $this->queryOne($sql,$type,$id_e,$id_u,$id_d,$action,$message,$now,$message_horodate,$preuve,$date_horodatage);
+        
+        $id_j = $this->lastInsertId();
+        return $id_j;
 	}
 	
 	

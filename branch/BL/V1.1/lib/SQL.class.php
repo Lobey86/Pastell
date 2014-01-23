@@ -30,4 +30,9 @@ abstract class SQL {
     	}
 		return $this->sqlQuery->queryOneCol($query,$param);
 	}
+    
+    public function lastInsertId($name = null) {
+        return $this->sqlQuery->lastInsertId($name);
+    }
+
 }

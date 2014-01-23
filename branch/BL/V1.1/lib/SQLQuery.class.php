@@ -124,4 +124,9 @@ class SQLQuery {
 		}
 		return $result;
 	}
+    
+    public function lastInsertId($name = null) {
+        return $this->getPdo()->lastInsertId($name);
+    }
+
 }
