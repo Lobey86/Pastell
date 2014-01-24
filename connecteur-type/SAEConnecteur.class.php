@@ -12,8 +12,7 @@ abstract class SAEConnecteur extends  Connecteur {
 		$command = "tar cvzf $tmp_folder/$fileName --directory $tmp_folder " . implode(" ",$file_to_add);
 		$status = exec($command );
 		if (! $status){
-			$this->lastError = "Impossible de créer le fichier d'archive $fileName";
-			return false;
+			throw new Exception("Impossible de créer le fichier d'archive $fileName - Commande : $command");
 		}
 		return $tmp_folder."/$fileName";
 	}	
