@@ -10,16 +10,17 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	
 	public function  setConnecteurConfig(DonneesFormulaire $seda_config){
 		$this->authorityInfo = array(
-				"identifiant_versant" =>  $seda_config->get("identifiant_versant"),
-				"identifiant_archive" =>  $seda_config->get("identifiant_archive"),
+				"identifiant_versant" =>  utf8_encode($seda_config->get("identifiant_versant")),
+				"identifiant_archive" =>  utf8_encode($seda_config->get("identifiant_archive")),
 				"sae_numero_aggrement" =>  $seda_config->get("numero_agrement"),
-				"identifiant_producteur" =>  $seda_config->get("identifiant_producteur"),
-				"nom_entite" =>   $seda_config->get('nom_entite'),
+				"identifiant_producteur" =>  utf8_encode($seda_config->get("identifiant_producteur")),
+				"nom_entite" =>   utf8_encode($seda_config->get('nom_entite')),
 				"siren_entite" =>  $seda_config->get('siren_entite'),
 		);
 		
 		$this->seda_config = $seda_config;
 	}
+	
 	
 	
 	
