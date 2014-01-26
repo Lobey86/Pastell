@@ -103,6 +103,9 @@ class Action {
 	}
 	
 	public function getWarning($action_name){
+		if ($action_name == ActionPossible::FATAL_ERROR_ACTION){
+			return true;
+		}
 		return $this->getProperties($action_name,self::WARNING);
 	}
 	
@@ -121,6 +124,9 @@ class Action {
 		return $result;
 	}
 	
+	public function getActionAutomatique($action){
+		return $this->getProperties($action,self::ACTION_AUTOMATIQUE);
+	}
 	
 	
 }
