@@ -173,6 +173,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             $this->logAction($etat, $messageLog);
         }
         $messageDetail = array(
+            'date' => date('d/m/Y H:i:s'),
             'code' => $ex->getCode(),
             'file' => $ex->getFile(),
             'line' => $ex->getLine(),
