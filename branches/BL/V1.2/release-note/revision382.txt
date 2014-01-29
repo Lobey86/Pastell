@@ -1,0 +1,38 @@
+
+La révision 381 comprends :
+- la modification de la gestion des connecteurs 
+- la livraison complète du module atexo/E-Mégalis
+
+Cette révision nécessite une mise à jour de la base de données. 
+
+Attention, cette révision nécessite de reconfigurer l'ensemble des connecteurs 
+(les anciens fichiers de configuration ne sont plus 
+opérationnel). Dans une prochaine révision, un script
+de mise à jour automatique de ces fichiers est prévu (cela n'est pas nécessaire 
+pour une installation de e-mégalis).
+
+Il est donc désormais nécessaire pour chaque collectivité :
+ 
+1/ De définir des connecteurs (S²low, As@lae, ...) dans l'onglet « Connecteur » de la collectivité
+
+2/ D'associer ces connecteurs à des flux (Actes, Helios, ...) dans l'onglet « Flux »
+
+
+Pour mettre en place le flux Mégalis, il faut : 
+
+1 - Configurer un connecteur global (Administration => Propriété globale => Connecteurs) de type 
+« mégalis » (qui doit pointer vers un serveur SSH). L'action « Récupérer les enveloppes » peut-être 
+executé à tous moment, mais elle est aussi executé de manière automatique.
+
+2 - Pour chaque collectivité : 
+2.1 Configurer un connecteur SAE
+2.2 Configurer un connecteur mégalis (facultatif)
+Le connecteur mégalis sert uniquement à générer des enveloppes de test sur le serveur SSH ! 
+Il semble donc inutile de l'utiliser en production.
+
+L'ensemble du processus mégalis est normalement automatique, les erreurs sont remontées et notifiées
+à leur abonnés.
+
+
+
+
