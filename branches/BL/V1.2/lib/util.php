@@ -40,7 +40,7 @@ function get_argv($num_arg) {
 
 
 function utf8_encode_array($array){
-	if (! is_array($array)){
+	if (! is_array($array) && !is_object($array)){
 		return utf8_encode($array);
 	}
 	$result = array();
