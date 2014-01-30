@@ -21,8 +21,10 @@ class ConnecteurSuspensionControler {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $oldSuspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         if ($oldSuspension != $suspension) {
-            $connecteurConfig->setData(self::ATTR_SUSPENSION, $suspension);
-            if (!$suspension) {
+            if ($suspension) {
+                $connecteurConfig->addFileFromData(self::ATTR_SUSPENSION, 'suspension_erreur_detail', $suspension);
+            } else {
+                $connecteurConfig->removeFile(self::ATTR_SUSPENSION);
                 // Réinitialiser le contexte des tentatives
                 $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
                 $hLock = $this->lock($connecteurConfig);
@@ -39,7 +41,7 @@ class ConnecteurSuspensionControler {
         }
     }
 
-    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur) {
+    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur, Exception $accesException) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         if ($suspension) {
@@ -62,7 +64,15 @@ class ConnecteurSuspensionControler {
             file_put_contents($fContext, json_encode($context));
             // Suspend les accès si demandé
             if (!$poursuivre) {
-                $this->setSuspension($connecteur, true);
+                $suspensionDetail = array(
+                    'date' => date('d/m/Y H:i:s'),
+                    'code' => $accesException->getCode(),
+                    'file' => $accesException->getFile(),
+                    'line' => $accesException->getLine(),
+                    'message' => utf8_encode($accesException->getMessage()),
+                    'trace' => utf8_encode_array($accesException->getTrace()));
+                $suspensionDetail = json_encode($suspensionDetail);
+                $this->setSuspension($connecteur, $suspensionDetail);
             }
         } catch (Exception $ex) {
             $this->unlock($hLock);
