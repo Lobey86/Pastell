@@ -2,8 +2,13 @@
 class ConnecteurEntiteSQL extends SQL {
 	
 	public function getAll($id_e){
-		$sql = "SELECT * FROM connecteur_entite WHERE id_e = ?";
-		return $this->query($sql,$id_e);
+		$sql = "SELECT * FROM connecteur_entite";
+		if (isset($id_e)) {
+			$sql .= " WHERE id_e = ?";
+			return $this->query($sql,$id_e);
+		} else {
+			return $this->query($sql);
+		}
 	}
 	
 	public function addConnecteur($id_e,$id_connecteur,$type,$libelle){
@@ -31,9 +36,13 @@ class ConnecteurEntiteSQL extends SQL {
 	}
 	
 	public function getDisponible($id_e,$type){
-		$sql = "SELECT * FROM connecteur_entite " .
-				" WHERE id_e=? AND type=?";
-		return $this->query($sql,$id_e,$type);
+		$sql = "SELECT * FROM connecteur_entite WHERE type=?";
+		if (isset($id_e)) {
+			$sql .= " AND id_e = ?";
+			return $this->query($sql,$type, $id_e);
+		} else {
+			return $this->query($sql,$type);
+		}
 	}
 	
 	public function getGlobal($id_connecteur){
