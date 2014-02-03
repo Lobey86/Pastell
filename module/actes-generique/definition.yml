@@ -59,14 +59,14 @@ formulaire:
 			type: checkbox
 			onchange: envoi-sae-change
 		
+		envoi_ged:
+			name: Transmission à la GED
+			type: checkbox
+		
 		envoi_sae:
 			name: Transmission au SAE
 			type: checkbox
 			onchange: envoi-sae-change
-		
-		envoi_ged:
-			name: Transmission à la GED
-			type: checkbox
 	
 	Parapheur:
 		iparapheur_type: 
@@ -328,13 +328,36 @@ action:
 		name: Supprimé
 		
 		rule:
-			last-action: 
-				creation
-				modification
-				recu-iparapheur
-				rejet-iparapheur
-			no-action:
-				send-tdt
+			or_1:
+				and_1:
+					last-action: 
+						creation
+						modification
+						recu-iparapheur
+						rejet-iparapheur
+				
+					no-action:
+					send-tdt
+				and_2:
+					last-action:
+						accepter-sae
+						rejeter-sae
+				and_3:
+					last-action:
+						send-ged
+					content:
+						envoie_sae: false
+				and_4:
+					last-action:
+						acquiter-tdt
+						erreur-verif-tdt
+					content:
+						envoie_sae: false
+						envoie_ged: false
+				and_5:
+					last-action:
+						termine
+					
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 		action-class: Supprimer
@@ -514,12 +537,12 @@ action:
 		rule:
 			role_id_e: no-role
 	
-	send-archive:
-		name-action: Verser au SAE
-		name: Versé au SAE
+	send-ged:
+		name-action: Verser à la GED
+		name: Versé à la GED
 		rule:
 			content:
-				envoi_sae: true
+				envoi_ged: true
 			or_1:
 				and_1:
 					last-action: 
@@ -537,8 +560,41 @@ action:
 				and_3:
 					last-action: 
 						acquiter-tdt
+						info-tdt					
+		action-class: GEDEnvoi
+	
+	send-archive:
+		name-action: Verser au SAE
+		name: Versé au SAE
+		rule:
+			content:
+				envoi_sae: true
+			or_1:
+				and_1:
+					last-action: 
+						creation
+						modification
+					document_is_valide: true
+					content:
+						envoi_signature: false
+						envoi_tdt: false
+						envoi_ged: false
+				and_2:
+					last-action: 
+						recu-iparapheur
+					content:
+						envoi_tdt: false
+						envoi_ged: false
+				and_3:
+					last-action: 
+						acquiter-tdt
 						info-tdt
+					content:
+						envoi_ged: false
 				and_4:
+					last-action:
+						send-ged
+				and_5:
 					last-action:
 						erreur-envoie-sae
 		action-class: SAEEnvoiActes
@@ -595,39 +651,7 @@ action:
 		rule: 
 			role_id_e: no-role
 			
-	send-ged:
-		name-action: Verser à la GED
-		name: Versé à la GED
-		rule:
-			content:
-				envoi_ged: true
-			or_1:
-				and_1:
-					last-action: 
-						creation
-						modification
-					document_is_valide: true
-					content:
-						envoi_signature: false
-						envoi_tdt: false
-						envoi_sae: false
-				and_2:
-					last-action: 
-						recu-iparapheur
-					content:
-						envoi_tdt: false
-						envoi_sae: false
-				and_3:
-					last-action: 
-						acquiter-tdt
-						info-tdt
-					content:
-						envoi_sae: false
-				and_4:
-					last-action:
-						accepter-sae
-			
-		action-class: GEDEnvoi
+
 	
 	
 	
