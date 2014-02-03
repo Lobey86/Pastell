@@ -1,0 +1,23 @@
+name: Fake TdT
+
+type: TdT
+
+formulaire:
+	page0:
+		classification_file: {name: "Fichier de classification", type: file}
+		nomemclature_file: 
+			name: "Fichier de nomenclature CDG"
+			type: externalData
+			link_name: liste des fichiers disponibles
+			choice-action: nomemclature-liste
+
+
+action:
+	
+	nomemclature-liste :
+		name: Liste des fichiers de nomemclature
+		action-class: NomemclatureListe
+		rule:
+			role_id_e: no-role
+			
+		
