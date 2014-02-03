@@ -34,7 +34,6 @@ class SAEValidation extends ActionExecutor {
 			$donneesFormulaire->setData("url_archive",$url);
 			$message = "La transaction a été acceptée par le SAE";
 			$next_action = "accepter-sae";			
-			
 		} else {
 			$message = "La transaction a été refusée par le SAE";
 			$next_action = "rejet-sae";		
