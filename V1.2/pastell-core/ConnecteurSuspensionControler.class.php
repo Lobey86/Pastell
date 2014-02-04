@@ -17,27 +17,35 @@ class ConnecteurSuspensionControler {
         return $suspension;
     }
 
-    public function setSuspension(ConnecteurSuspensionIntf $connecteur, $suspension) {
+    public function setSuspension(ConnecteurSuspensionIntf $connecteur, $suspension, $doLock = true) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $oldSuspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
-        if ($oldSuspension != $suspension) {
-            if ($suspension) {
-                $connecteurConfig->addFileFromData(self::ATTR_SUSPENSION, 'suspension_erreur_detail', $suspension);
-            } else {
-                $connecteurConfig->removeFile(self::ATTR_SUSPENSION);
-                // Réinitialiser le contexte des tentatives
-                $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
-                $hLock = $this->lock($connecteurConfig);
-                try {
-                    if (file_exists($fContext)) {
-                        unlink($fContext);
-                    }
-                } catch (Exception $ex) {
-                    $this->unlock($hLock);
-                    throw $ex;
+        $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
+        if ($doLock) {
+            $hLock = $this->lock($connecteurConfig);
+        }
+        try {
+            if ($oldSuspension != $suspension) {
+                if ($suspension) {
+                    $connecteurConfig->addFileFromData(self::ATTR_SUSPENSION, 'suspension_erreur_detail', $suspension);
+                } else {
+                    $connecteurConfig->removeFile(self::ATTR_SUSPENSION);
                 }
+            }
+            if (!$suspension) {
+                // Réinitialiser le contexte des tentatives
+                if (file_exists($fContext)) {
+                    unlink($fContext);
+                }
+            }
+        } catch (Exception $ex) {
+            if ($doLock) {
                 $this->unlock($hLock);
             }
+            throw $ex;
+        }
+        if ($doLock) {
+            $this->unlock($hLock);
         }
     }
 
@@ -72,7 +80,7 @@ class ConnecteurSuspensionControler {
                     'message' => utf8_encode($accesException->getMessage()),
                     'trace' => utf8_encode_array($accesException->getTrace()));
                 $suspensionDetail = json_encode($suspensionDetail);
-                $this->setSuspension($connecteur, $suspensionDetail);
+                $this->setSuspension($connecteur, $suspensionDetail, false);
             }
         } catch (Exception $ex) {
             $this->unlock($hLock);
@@ -99,4 +107,3 @@ class ConnecteurSuspensionControler {
     }
 
 }
-
