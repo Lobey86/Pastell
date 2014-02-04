@@ -62,8 +62,6 @@ class DocumentControler extends PastellControler {
 		
  		$action = $documentType->getAction();
 		if ($action->getProperties($true_last_action,'accuse_de_reception_action')){
-			/*$this->LastMessage->setLastMessage("Vous devez accusé reception du message");
-			$this->redirect("/document/list.php?id_e=$id_e&type={$info_document['type']}");*/
 			$this->redirect("/document/ar.php?id_e=$id_e&id_d=$id_d");
 		}
 		
@@ -83,6 +81,9 @@ class DocumentControler extends PastellControler {
 		$this->my_role = $this->documentEntite->getRole($id_e,$id_d);
 		$this->documentEmail = $this->DocumentEmail;
 		$this->documentActionEntite = $this->DocumentActionEntite;
+		
+		$this->next_action_automatique =  $this->theAction->getActionAutomatique($true_last_action);
+		$this->droit_erreur_fatale = $this->RoleUtilisateur->hasDroit($this->getId_u(),$info_document['type'].":edition",0);
 		
 		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";;
 		$this->template_milieu = "DocumentDetail"; 

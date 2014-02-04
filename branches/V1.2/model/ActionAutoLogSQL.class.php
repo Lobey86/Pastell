@@ -16,9 +16,13 @@ class ActionAutoLogSQL extends SQL {
 				$this->query($sql,$id_e,$id_d,$etat_precedent,$etat_cible,$message);
 			}			
 		} else {
-			$sql = "DELETE FROM action_auto_log WHERE id_e=? AND id_d=?";
-			$this->query($sql,$id_e,$id_d);
+			$this->delete($id_e, $id_d);
 		}
+	}
+	
+	public function delete($id_e,$id_d){
+		$sql = "DELETE FROM action_auto_log WHERE id_e=? AND id_d=?";
+		$this->query($sql,$id_e,$id_d);
 	}
 	
 	public function getLog($offset = 0){

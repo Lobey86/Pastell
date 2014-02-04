@@ -39,6 +39,28 @@ $afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_
 
 </div>
 
+<?php if ($next_action_automatique) : ?>
+<div class='box'>
+<h2>Action automatique</h2>
+<table class="table table-striped">
+		<tr>
+			<th>Action programmée sur le document</th>
+			<td><?php hecho($theAction->getActionName($next_action_automatique))?></td>
+		</tr>
+</table>
+<?php if($droit_erreur_fatale) : ?>
+<form action='document/action.php' method='post' >
+	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />
+	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
+	<input type='hidden' name='page' value='<?php echo $page ?>' />
+	<input type='hidden' name='action' value='fatal-error' />
+	
+	<input type='submit' class='btn btn-danger' value='Déclencher une erreur fatale sur le document'/>&nbsp;&nbsp;
+</form>
+<?php endif;?>
+</div>
+<?php endif;?>
+
 <div class="box">
 <h2>Entité concernée par le document</h2>
 

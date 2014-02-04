@@ -53,14 +53,8 @@ class ActionExecutorFactory {
 		
 		if ($from_api){
 			$result = $actionClass->displayAPI();
-		} else {
-			//try {
-				
+		} else {				
 			$result = $actionClass->display();
-			/*} catch (Exception $e) {
-				$this->lastMessage = $e->getMessage();
-				return false;
-			}*/
 		}		
 		return $result;
 	}
@@ -188,6 +182,9 @@ class ActionExecutorFactory {
 	}
 	
 	private function getActionClassName(DocumentType $documentType,$action_name){
+		if ($action_name == ActionPossible::FATAL_ERROR_ACTION){
+			return "FatalError";
+		}
 		$theAction = $documentType->getAction();		
 		$action_class_name = $theAction->getActionClass($action_name);
 		if (!$action_class_name){
