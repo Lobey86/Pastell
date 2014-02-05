@@ -1,0 +1,60 @@
+name: Stela
+
+type: TdT
+
+formulaire:
+	page0:
+		url: {name: "URL du service"}
+		server_certificate: {name: "AC du certificat du TDT (format PEM)", type: file, content-type: text/plain}
+		user_certificat: 
+			name: "Certificat utilisateur (format P12)"
+			type: file
+			content-type: application/octet-stream
+			onchange: update-certificate
+		user_certificat_password: 
+			name: "Mot de passe du certificat utilisateur" 
+			type: password
+			onchange: update-certificate
+		user_certificat_pem: {type: file, no-show: true}
+		user_key_pem: {type: file, no-show: true}		
+		classification_file: {name: "Fichier de classification", type: file, read-only: true}
+		nomemclature_file: 
+			name: "Fichier de nomenclature CDG"
+			type: externalData
+			choice-action: nomemclature-liste
+			link_name: liste des fichiers disponibles
+
+action:
+	test-tedetis:
+		name: Tester la connectivité
+		tab: TdT
+		action-class: TestConnexion
+		rule:
+			droit_id_u: 'entite:edition'
+			
+	
+	recup-classification:
+		name: Récupérer la classification
+		tab: TdT
+		action-class: RecupClassification
+		rule:
+			droit_id_u: 'entite:edition'
+	
+	update-certificate:
+		name: Mettre à jour les certificats
+		tab: TdT
+		action-class: UpdateCertificate
+		rule:
+			role_id_e: no-role
+	
+	nomemclature-liste :
+		name: Liste des fichiers de nomemclature
+		action-class: NomemclatureListe
+		rule:
+			role_id_e: no-role
+	create-pes:
+		name: Créer un fichier PES de test
+		tab: TdT
+		action-class: CreatePES
+		
+		
