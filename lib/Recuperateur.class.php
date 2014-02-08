@@ -29,10 +29,12 @@ class Recuperateur {
 		$value = $this->tableauInput[$name];		
 		if(is_array($value)){
 			foreach($value as $i => $v){
-				$value[$i] = str_replace("&#8217;","'",$v);
+				$v = str_replace("&#8217;","'",$v);
+				$value[$i] = str_replace("&#8211;","-",$v);
 			}
 		} else {
 			$value = str_replace("&#8217;","'",$value);
+			$value = str_replace("&#8211;","-",$value); //Attention, il faudrait mettre un "em dash" qui n'existe pas en iso-8859-1
 		}
 		
 		return $this->doSomethingOnValueOrArray("trim",$value);
