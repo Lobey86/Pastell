@@ -260,11 +260,6 @@ class EntiteControler extends PastellControler {
 			}
 		} 
 				
-		if ( ! $id_e && $siren){
-			if ($this->EntiteListe->getBySiren($siren)){
-				throw new Exception("Ce SIREN est déjà utilisé");
-			}
-		}
 		
 		$id_e = $this->EntiteCreator->edit($id_e,$siren,$nom,$type,$entite_mere,$centre_de_gestion);
 		$this->EntitePropertiesSQL->setProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged',$has_ged);
