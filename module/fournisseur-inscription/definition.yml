@@ -1,12 +1,9 @@
-nom: Adhésion fournisseur/collectivité
+nom: Inscription fournisseur
 type: Flux Fournisseur
 
 formulaire:
 	Information sur la société:
-		raison_sociale:
-			name: Raison sociale 
-			requis: true
-			title: true
+		Raison sociale: {requis: true, title: true}
 		Mnémonique ou sigle: 
 		Année de création: {requis: true}
 		Effectif (en salariés permanents):
@@ -16,11 +13,7 @@ formulaire:
 		Rattacher à un groupe, holding, maison mère: {type: checkbox}
 		Nom de la structure de rattachement:
 		Ancienne dénomination: {multiple: true}
-		siren:
-			name: Numéro SIREN
-			requis: true
 		SIRET:  {requis: true}
-		RCS: {requis: true}
 		Code APE: 
 		Code Finess:
 		Code INSEE:
@@ -50,7 +43,11 @@ formulaire:
 		Responsable Juridique:
 		Télephone:
 		Téléphone portable:
-		Adresse email:		
+		Adresse email:
+		TODO Nom du contact1:
+		Fonction du contact 1 :
+		Nom du contact2:
+		Fonction du contact 2:
 		
 	Autres:
 		Date de demande d'inscription à Pastell:
@@ -63,8 +60,9 @@ action:
 	creation:
 		name-action: Créer
 		name: Créé
-		rule: 
-			role_id_e: no-role
+		rule:
+			type_id_e: 
+				fournisseur
 			no-last-action:
 			
 	modification:
@@ -76,27 +74,22 @@ action:
 			last-action: 
 				creation
 				modification
-				refuser-collectivite
-				refuser-moderateur
-				accepter-moderateur
-				
+	
 	envoi :
-		name-action: Soumettre 
-		name: Soumis
+		name-action: Envoyer
+		name: Envoyé
 		rule:
 			role_id_e: editeur
 			droit_id_u: 'fournisseur-inscription:edition'
-			document_is_valide: true			
-			last-action:
-				modification
-		action-class: FournisseurSoumissionDonnee
+		action-class: Envoyer
+		action-selection: collectivite
 	
 	recu:
 		name: Reçu par la collectivité
 		rule:
 			role_id_e: no-role
 
-	accepter-collectivite:
+	accepter:
 		name-action: Accepter l'inscription
 		name: Inscription acceptée
 		rule:
@@ -106,39 +99,13 @@ action:
 			
 		action-class: AccepterFournisseur
 		
-	refuser-collectivite:
+	refuser:
 		name-action: Refuser l'inscription
 		name: Inscription refusée
 		rule:
 			last-action: 
 				recu
 			role_id_e: lecteur
+			
 		action-class: RefuserFournisseur
-		
-	envoi-moderateur:
-		name-action: Soumettre à la modération 
-		name: Soumis à la modération
-		rule:
-			role_id_e: no_role
-	
-	
-	accepter-moderateur:
-		name-action: Accepter l'inscription
-		name: Inscription acceptée
-		rule:
-			last-action: 
-				envoi-moderateur
-			role_id_e: moderateur
-		action-class: AccepterModerateur
-		
-	refuser-moderateur:
-		name-action: Refuser l'inscription
-		name: Inscription refusée
-		rule:
-			last-action: 
-				envoi-moderateur
-			role_id_e: moderateur
-		action-class: RefuserModerateur
-		
-		
 		

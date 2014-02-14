@@ -1,10 +1,7 @@
-<ul class="nav nav-pills" style="margin-top:10px;">
-	<li class='active'>
-		<span >Message</span>
-	</li>
-</ul>
-
-<div class="box">
+<div id="bloc_onglet">
+	<span >Message</span>
+</div>
+<div class="box_contenu">
 	<?php $afficheurFormulaire->afficheStatic(0,"recuperation-fichier.php?key=$my_key"); ?>
 </div>
 

@@ -1,11 +1,7 @@
 <h2>Listes des flux</h2>
-<table class="table table-striped">
+<table class="tab_01">
 		<tr>
-				<th>Flux
-					<br/>
-					<em>Id du flux</em>
-				</th>
-				
+				<th>Flux</th>
 				<th>Type de connecteur</th>
 				<th>Connecteur</th>
 				<th>&nbsp;</th>
@@ -16,13 +12,9 @@ foreach($all_flux as $id_flux => $flux_definition) :
 	$documentType = $this->DocumentTypeFactory->getFluxDocumentType($id_flux);
 	foreach($documentType->getConnecteur() as $j=>$connecteur_type) : 
 	?>
-	<tr>
+	<tr class='<?php echo $i++%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<?php if ($j == 0) :?>
-		<td rowspan='<?php echo (count($documentType->getConnecteur()))?>'><strong><?php hecho($documentType->getName() );?></strong>
-			<br/>
-			<em><?php hecho($id_flux)?></em>
-		</td>
-		
+		<td class='bg_class_blanc' rowspan='<?php echo (count($documentType->getConnecteur()))?>'><strong><?php hecho($documentType->getName() );?></strong></td>
 		<?php endif;?>
 		<td><?php echo $connecteur_type;?></td>
 		<td>
@@ -35,7 +27,7 @@ foreach($all_flux as $id_flux => $flux_definition) :
 			<?php endif;?>	
 		</td>
 		<td>
-			<a class='btn btn-mini' href='flux/edition.php?id_e=<?php echo $id_e?>&flux=<?php hecho($id_flux)?>&type=<?php echo $connecteur_type ?>'>Choisir un connecteur</a>
+			<a class='btn' href='flux/edition.php?id_e=<?php echo $id_e?>&flux=<?php hecho($id_flux)?>&type=<?php echo $connecteur_type ?>'>Choisir un connecteur</a>
 		</td>
 	</tr>
 	<?php endforeach;?>

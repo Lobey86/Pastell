@@ -3,14 +3,14 @@ $id_e = $entiteExtendedInfo['id_e'];
 ?>
 <h2>Informations générales
 	<?php if ($droit_edition) : ?>
-	<a class='btn btn-mini' href="entite/edition.php?id_e=<?php echo $id_e?>" class='btn'>
+	<a href="entite/edition.php?id_e=<?php echo $id_e?>" class='btn_maj'>
 			Modifier
 		</a>
 	<?php endif;?>
 </h2>
-<table class='table table-striped'>		
+<table class='tab_04'>		
 	<tr>
-		<th class='w200'>Type</th>
+		<th>Type</th>
 		<td><?php echo Entite::getNom($entiteExtendedInfo['type']) ?></td>
 	</tr>
 	
@@ -24,6 +24,12 @@ $id_e = $entiteExtendedInfo['id_e'];
 			<td><?php echo $entiteExtendedInfo['siren'] ?></td>
 		</tr>
 	<?php endif;?>
+	<?php if ($entiteExtendedInfo['type'] == Entite::TYPE_FOURNISSEUR ) : ?>
+		<tr>
+		<th>Etat</th>
+		<td><?php echo Entite::getChaineEtat($entiteExtendedInfo['etat']) ?></td>
+		</tr>
+	<?php endif;?>
 	<tr>
 		<th>Date d'inscription</th>
 		<td><?php echo time_iso_to_fr($entiteExtendedInfo['date_inscription']) ?></td>
@@ -32,7 +38,7 @@ $id_e = $entiteExtendedInfo['id_e'];
 	<tr>
 		<th>Entité mère</th>
 		<td>
-			<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $entiteExtendedInfo['entite_mere']['id_e']?>'>
+			<a href='entite/detail.php?id_e=<?php echo $entiteExtendedInfo['entite_mere']['id_e']?>'>
 				<?php echo $entiteExtendedInfo['entite_mere']['denomination'] ?>
 			</a>
 		</td>
@@ -53,12 +59,12 @@ $id_e = $entiteExtendedInfo['id_e'];
 			<?php endforeach;?>
 			</ul>
 			<?php if ($droit_edition) : ?>
-				<a class='btn btn-mini' href="entite/edition.php?entite_mere=<?php echo $id_e?>" >
-					<i class='icon-plus'></i>Ajouter une entité fille
+				<a href="entite/edition.php?entite_mere=<?php echo $id_e?>" >
+					Ajouter une entité fille
 				</a>
-				&nbsp;&nbsp;
-				<a class='btn btn-mini' href="entite/import.php?id_e=<?php echo $id_e?>" >
-					<i class='icon-file'></i>Importer des entités filles
+				<br/>
+				<a href="entite/import.php?id_e=<?php echo $id_e?>" >
+					Importer des entités filles
 				</a>
 			<?php endif;?>
 		</td>
@@ -93,3 +99,8 @@ $id_e = $entiteExtendedInfo['id_e'];
 		
 </table>
 
+
+
+<?php if($entiteExtendedInfo['type'] == Entite::TYPE_FOURNISSEUR): ?>
+<a href='supprimer.php'>Redemander les informations</a>
+<?php endif; ?>

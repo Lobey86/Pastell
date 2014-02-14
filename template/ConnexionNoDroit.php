@@ -1,11 +1,6 @@
 
-<div class="alert alert-error">
-	Vous n'avez aucun droit sur cette plateforme, veuillez contacter votre administrateur PASTELL.
-</div>
-
-
-<div class='box'>
-
-	
-
+<div class="box_error">
+	<p>
+		Vous n'avez aucun droit sur cette plateforme, veuillez contacter votre administrateur PASTELL.
+	</p>
 </div>

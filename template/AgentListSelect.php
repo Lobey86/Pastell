@@ -1,6 +1,7 @@
-<a class='btn btn-mini' href='document/edition.php?id_d=<?php echo $id_d ?>&id_e=<?php echo $id_e?>&page=<?php echo $page ?>'><i class='icon-circle-arrow-left'></i>Revenir à l'édition du document <em><?php echo $titre?></em></a>
+<a href='document/edition.php?id_d=<?php echo $id_d ?>&id_e=<?php echo $id_e?>&page=<?php echo $page ?>'>« Revenir à l'édition du document <em><?php echo $titre?></em></a>
+<br/><br/>
 
-<div class='box'>
+<div>
 <form action='document/external-data.php' method='get' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>' />
@@ -8,7 +9,7 @@
 	<input type='hidden' name='field' value='<?php echo $field?>' />
 	
 	<input type='text' name='search' value='<?php echo $search?>'/>
-	<input type='submit' value='Rechercher' class='btn' />
+	<input type='submit' value='Rechercher' />
 </form>
 </div>
 
@@ -16,7 +17,7 @@
 $this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-data.php?id_e=$id_e&id_d=$id_d&page=$page&field=$field");
 ?>
 
-<div class="box">
+<div class="box_contenu clearfix">
 <h2>Agent</h2>
 
 <form action='document/external-data-controler.php' method='post'>
@@ -25,7 +26,7 @@ $this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-dat
 	<input type='hidden' name='page' value='<?php echo $page?>' />
 	<input type='hidden' name='field' value='<?php echo $field?>' />
 
-<table class="table table-striped">
+<table class="tab_01">
 	<tr>
 		<th>&nbsp;</th>
 		<th>Matricule</th>
@@ -35,7 +36,7 @@ $this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-dat
 		<th>Grade</th>
 	</tr>
 	<?php foreach ($listAgent as $i => $agent) : ?>
-		<tr>
+		<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 			<td class="w30">				
 				<input type='radio' name='id_a' id="label_agent_<?php echo $i ?>" value='<?php echo $agent['id_a']?>'/></td>
 			<td><label for="label_agent_<?php echo $i ?>"><?php echo $agent["matricule"] ?></label></td>
@@ -48,8 +49,8 @@ $this->SuivantPrecedent($offset,AgentSQL::NB_MAX,$nbAgent,"document/external-dat
 	     
 	<?php endforeach;?>
 </table>
-
-<input type='submit' value='Choisir' class='btn' />
-
+<div class="align_right">
+<input type='submit' value='Choisir' class='submit' />
+</div>
 </form>
 </div>

@@ -2,56 +2,56 @@
 
 class FormulaireRenderer {
 	
-	const TABLE_CLASS = 'table table-striped';
+	const TABLE_CLASS = 'tab_01';
 	
-	const BUTTON_CLASS = 'btn';
+	const BUTTON_CLASS = 'send_button';
 	
-	const TABLE_MODIF_CLASS = 'table table-striped';
-	
+	const TABLE_MODIF_CLASS = '';
 	
 	public function showOnglet($tab,$tab_selected,$page_url){ ?>
-	
-		<ul class="nav nav-pills" style="margin-top:10px;">
-			<?php foreach ($tab as $page_num => $name) : ?>
-				<li <?php echo ($page_num == $tab_selected)?'class="active"':'' ?>>
-					<a href='<?php echo $page_url ?>&page=<?php echo $page_num?>'>
+	<div id="bloc_onglet">
+		<?php foreach ($tab as $page_num => $name) : ?>
+					<a href='<?php echo $page_url ?>&page=<?php echo $page_num?>' <?php echo ($page_num == $tab_selected)?'class="onglet_on"':'' ?>>
 					<?php echo $name?>
 					</a>
-				</li>
-			<?php endforeach;?>
-		</ul>
+		<?php endforeach;?>
+		</div>
 	<?php 
 	}
 	
 	public function showOngletStatic($tab,$page){ ?>
-		<ul class="nav nav-pills" style="margin-top:10px;">
-			<?php foreach ($tab as $page_num => $name) : ?>
-				<li <?php echo ($page_num == $page)?'class="active"':'' ?>>
-					<a>
+		
+		<div id="bloc_onglet">
+		<?php foreach ($tab as $page_num => $name) : ?>
+					<a <?php echo ($page_num == $page)?'class="onglet_on"':'' ?>>
 					<?php echo ($page_num + 1) . ". " . $name?>
 					</a>
-				</li>
-			<?php endforeach;?>
+		<?php endforeach;?>
+		</div>
 		
-
-		</ul>
 		<?php
+		
 	} 
-
+	
 	public function formEntete($i,$libelle){
 		?>
-					<tr>
-					<th class="w300">
+
+			<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
+					<td>
 						<?php echo $libelle ?>
-					</th>
-	<?php 
+					</td>
+		<?php 
 	}
 	
 	public function alert($message){ ?>
-		<div class="alert alert-error">
-				<?php  echo $message; ?>
-			</div>
+		<div class="box_error">
+					<p>
+						 <?php  echo $message ?>
+					</p>
+						
+				</div>
 	<?php 
 	}
+	
 	
 }

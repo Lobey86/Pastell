@@ -23,6 +23,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	
 	
 	
+	
 	private function getContentType($file_path){
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		return finfo_file($finfo,$file_path);

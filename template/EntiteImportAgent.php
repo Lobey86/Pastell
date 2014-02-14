@@ -1,24 +1,24 @@
-<div class="box">
-	<form action="entite/import-agent-controler.php" method='post' enctype='multipart/form-data'>
+<div class="box_contenu clearfix">
+	<form class="w700" action="entite/import-agent-controler.php" method='post' enctype='multipart/form-data'>
 		<input type='hidden' name='id_e' value='<?php hecho($entite_info['id_e'])?>' />
 		
-		<table class="table">
+		<table>
 		<?php if ($entite_info['id_e']) : ?>
 		<tr>
-			<th class='w200'>Collectivité (écrasera le SIREN du fichier) :</th>
+			<th>Collectivité (écrasera le SIREN du fichier) :</th>
 			<td><?php echo $entite_info['denomination'] ?></td>
 		</tr>
 		<?php endif;?>
 		<tr>
-			<th class='w200'>Fichier CSV</th>
+			<th>Fichier CSV</th>
 			<td><input type='file' name='csv_agent'/></td>
 		</tr>
 		</table>
-		<input type="submit" value="Importer" class="btn" />
+		<input type="submit" value="Importer" class="submit" />
 	</form>
 </div>
 
-<div class="alert alert-info">
+<div class="box_info">
 	<p><strong>Format du fichier</strong></p>
 	<p>Le fichier CSV doit contenir un agent par ligne.</p>
 	<p>Les lignes sont formatés de la manière suivante : 

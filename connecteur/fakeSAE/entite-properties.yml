@@ -10,12 +10,3 @@ formulaire:
 		sae_numero_agrement: {name: "Numéro d'aggrément"}
 		sae_originating_agency: {name: "OriginatingAgency" }
 		
-		last_bordereau:
-			name: Dernier bordereau envoyé
-			type: file
-			read-only: true
-			
-		last_file:
-			name: Dernier fichier zip envoyé
-			type: file
-			read-only: true
