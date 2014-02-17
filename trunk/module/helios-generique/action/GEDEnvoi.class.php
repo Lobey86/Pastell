@@ -27,11 +27,20 @@ class GEDEnvoi extends ActionExecutor {
 	
 	public function sendFile($folder,$key){
 		$ged = $this->getConnecteur("GED");		
-		$description = $this->getFormulaire()->getField($key)->getLibelle();
+		
+		if ($this->getFormulaire()->getField($key)){
+			$description = $this->getFormulaire()->getField($key)->getLibelle();
+		} else {
+			$description = $key;
+		}
+		
+		
+		
 		$content = $this->getDonneesFormulaire()->getFileContent($key);
 		if (!$content){
 			return;
 		}
+		
 		$filename = $this->getDonneesFormulaire()->getFileName($key);
 		$contentType =  $this->getDonneesFormulaire()->getContentType($key);
 		return $ged->addDocument($filename,$description,$contentType,$content,$folder);
