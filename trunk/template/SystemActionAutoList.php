@@ -1,6 +1,12 @@
 <div class="box">
 <h2>Upstart</h2>
-Dernier lancement du script action-automatique : <?php echo $last_upstart; ?> 
+Dernier lancement du script action-automatique : <?php echo $last_upstart; ?>
+
+<br/><br/>
+<a href='system/reload-upstart.php?num=15' class='btn btn-warning'>Terminer le script (SIGTERM)</a>
+<a href='system/reload-upstart.php?num=9' class='btn btn-danger'>Tuer le script (SIGKILL)</a>
+
+
 </div>
 
 <div class="box">

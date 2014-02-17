@@ -5,6 +5,9 @@ $min_exec_time = 60;
 
 require_once( __DIR__ . "/../web/init.php");
 
+$objectInstancier->LastUpstart->updatePID();
+
+
 $zenMail = $objectInstancier->ZenMail;
 $notification = new Notification($sqlQuery);
 $notificationMail = $objectInstancier->NotificationMail;
@@ -59,3 +62,7 @@ if ($sleep > 0){
 	echo "Arret du script : $sleep";
 	sleep($sleep);
 }
+$objectInstancier->LastUpstart->deletePID();
+
+
+
