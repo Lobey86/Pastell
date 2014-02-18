@@ -1,0 +1,13 @@
+name: Fake PEC
+type: PEC
+
+description: a supprimer
+	
+action:
+	generer-dia :
+		name: Générer une enveloppe DIA
+		action-class: DIAGenerate
+		
+			
+		
+		
