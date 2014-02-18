@@ -16,7 +16,7 @@ formulaire:
 			default: 60
 		
 		originating_agency: 
-			name: OriginatingAgency
+			name: Identifiant service versant
 	
 			
 
