@@ -14,7 +14,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 				"identifiant_archive" =>  utf8_encode($seda_config->get("identifiant_archive")),
 				"sae_numero_aggrement" =>  $seda_config->get("numero_agrement"),
 				"identifiant_producteur" =>  utf8_encode($seda_config->get("identifiant_producteur")),
-				"nom_entite" =>   utf8_encode($seda_config->get('nom_entite')),
+				"nom_entite" =>   $seda_config->get('nom_entite'),
 				"siren_entite" =>  $seda_config->get('siren_entite'),
 		);
 		
