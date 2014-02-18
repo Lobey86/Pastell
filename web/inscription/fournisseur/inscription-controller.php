@@ -51,7 +51,7 @@ $roleUtilisateur->addRole($id_u,"fournisseur",$id_e);
 
 $infoUtilisateur = $utilisateur->getInfo($id_u);
 
-$zMail = $objectInstancier->ZenMail;
+$zMail = new ZenMail();
 $mailVerification = new MailVerification($zMail);
 $mailVerification->send($infoUtilisateur);
 

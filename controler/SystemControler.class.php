@@ -191,21 +191,4 @@ class SystemControler extends PastellControler {
 		$this->renderDefault();
 	}
 	
-	public function reloadUpstart(){
-		$recuperateur=new Recuperateur($_GET);
-		$signum = $recuperateur->getInt('num',15);
-		
-		if ($signum != 9 && $signum != 15){
-			$signum = 15;
-		}
-		$pid = $this->LastUpstart->getPID();
-		if (! $pid){
-			$this->LastError->setLastError('Aucun script ne fonctionne actuellement');
-		} else {
-			system("kill -$signum $pid");
-			$this->LastMessage->setLastMessage("Le script (pid=$pid) a été arreté. Un nouveau script est peut-être en cours d'execution");
-		}
-		$this->redirect("system/index.php");
-	}
-	
 }

@@ -1,20 +1,17 @@
-<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $id_e ?>&page=5'><i class='icon-circle-arrow-left'></i>Administration de <?php echo $infoEntite['denomination']?></a>
+<a href='entite/detail.php?id_e=<?php echo $id_e ?>&page=5'>« Administration de <?php echo $infoEntite['denomination']?></a>
+<br/><br/>
+<a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes »</a>
+<br/>
+<a href='mailsec/groupe-role-list.php?id_e=<?php echo $id_e ?>'>Voir les groupes basés sur les rôles »</a>
 
-<div class='box'>
-
-<a class='btn btn-mini' href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'><i class='icon-chevron-right'></i>Voir les groupes</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a class='btn btn-mini' href='mailsec/groupe-role-list.php?id_e=<?php echo $id_e ?>'><i class='icon-chevron-right'></i>Voir les groupes basés sur les rôles</a>
-
-</div>
-
-<div class="box">
+<br/><br/>
+<div class="box_contenu">
 <h2>liste des contacts de <?php echo $infoEntite['denomination'] ?> </h2>
 
 <form action='mailsec/del-contact.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 
-<table  class="table table-striped">
+<table  class="tab_02">
 	<tr>
 	
 		<th>Description</th>
@@ -33,23 +30,21 @@
 <?php endforeach;?>
 	
 </table>
-
 <?php if ($can_edit) : ?>
-<input type='submit' class='btn btn-danger' value='Supprimer'/>
+<input type='submit' value='Supprimer'/>
 <?php endif; ?>
 </form>
-
 </div>
 
 <?php if ( $this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"annuaire:edition",$id_e)) : ?>
 
-<div class="box">
+<div class="box_contenu">
 <h2>Ajouter un contact</h2>
 <form action='mailsec/add-contact.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	
-	<table class="table table-striped">
-
+	<table>
+		<tbody>
 			<tr>
 				<th>Description</th>
 				<td><input type='text' name='description' value='<?php echo $this->LastError->getLastInput('description') ?>' /></td>
@@ -58,11 +53,9 @@
 				<th>Email</th>
 				<td><input type='text' name='email' value='<?php echo $this->LastError->getLastInput('email') ?>'/></td>
 			</tr>
-
+		</tbody>
 	</table>
-	<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
+	<input type='submit' value='Ajouter'/>
 </form>
 </div>
 <?php endif;?>
-
-</div>

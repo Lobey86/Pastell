@@ -39,7 +39,7 @@ class EnvoyerMailSec extends ActionExecutor {
 		$this->prepareMail();
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
-		$this->documentEmail = $this->objectInstancier->DocumentEmail;
+		$this->documentEmail = new DocumentEmail($this->getSQLQuery());
 		
 		foreach(array('to','cc','bcc') as $type){
 			$lesMails = $donneesFormulaire->getMailList($type);

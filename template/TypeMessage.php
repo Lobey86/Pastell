@@ -26,5 +26,5 @@
 	</select>
 	<?php endif;?>
 	
-	<input type='submit' class='btn' value='Sélectionner'/>
+	<input type='submit' value='Sélectionner'/>
 </form>

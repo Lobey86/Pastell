@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box_contenu clearfix">
 
 <h2>Types d'Actes</h2>
 Veuillez sélectionner un type d'Actes :

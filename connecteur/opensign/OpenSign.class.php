@@ -56,8 +56,8 @@ class OpenSign extends Horodateur {
 	}
 	
 	public function verify($data,$token){
-		$config_file = __DIR__."/data/openssl-tsa.cnf";
-		$result = $this->opensslTSWrapper->verify($data,$token,$this->opensign_ca,$this->opensign_x509,$config_file);
+				
+		$result = $this->opensslTSWrapper->verify($data,$token,$this->opensign_ca,$this->opensign_x509);
 		if (! $result){
 			throw new Exception($this->opensslTSWrapper->getLastError());
 		}
