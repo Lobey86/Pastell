@@ -34,7 +34,7 @@ class TedetisRecupAnnulation extends ActionExecutor {
 		
 		$actionCreator->addAction($this->id_e,0,'annuler-tdt',"L'acte a été annulé par le contrôle de légalité");
 		
-		$donneesFormulaire->setData('date_ar_annulation', $tdT->getDateAR($tedetis_transaction_id));
+		$this->getDonneesFormulaire()->setData('date_ar_annulation', $tdT->getDateAR($tedetis_transaction_id));
 		
 		$message = "L'acquittement pour l'annulation de l'acte a été reçu.";
 		$this->notify('annuler-tdt', 'actes',$message);
