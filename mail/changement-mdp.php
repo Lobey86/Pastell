@@ -18,4 +18,5 @@ Date : <?php echo date("Y-m-d h:i:s");?>
 Serveur : <?php echo $_SERVER['SERVER_NAME'] ?>
 
 URL: <?php echo $_SERVER['REQUEST_URI'] ?>
+
 ------------
