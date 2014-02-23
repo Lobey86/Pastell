@@ -1,6 +1,8 @@
 nom: DIA
 type: Flux Généraux
 
+description: flux DIA non terminé et non opérationel
+
 connecteur:
 	PEC
 

@@ -1,6 +1,8 @@
 nom: Message du CDG
 type: Flux Généraux
 
+description: Permet au CDG d'envoyer des messages à leurs collectivités
+
 formulaire:
 	Message du CDG:			
 		Objet: {requis: true, title: true}

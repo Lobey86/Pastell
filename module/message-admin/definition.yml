@@ -1,6 +1,8 @@
 nom: Message à mon admin
 type: Flux Généraux
 
+description: Permet d'envoyer un message à son administrateur Pastell (toute personne ayant le droit entite:edition sur l'entité de base de l'utilisateur)
+
 formulaire:
 	Message :			
 		Objet: {requis: true, title: true}

@@ -1,6 +1,8 @@
 nom: Commande
 type: Flux Financier
 
+description: flux deprecated ?
+
 connecteur:
 	signature
 	GED

@@ -1,6 +1,8 @@
 nom: Adhésion fournisseur/collectivité
 type: Flux Fournisseur
 
+description: Flux permettant au fournisseur d'enregistrer des informations avec faire valider par les collectivités et par un administrateur Pastell
+
 formulaire:
 	Information sur la société:
 		raison_sociale:
