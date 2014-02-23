@@ -166,6 +166,7 @@ class SystemControler extends PastellControler {
 				'do_name' => $action->getDoActionName($action_name),
 				'class' => $class_name,
 				'path' => $this->ActionExecutorFactory->getFluxActionPath($id,$class_name),
+				'action_auto' => $action->getActionAutomatique($action_name)
 			); 	
 		}
 		$this->all_action = $all_action;
