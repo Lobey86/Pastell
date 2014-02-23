@@ -157,9 +157,9 @@ class DocumentTypeValidation {
 		$all_content = $this->getElementRuleValue($typeDefinition, 'content');
 		$all_element_name = $this->getAllElementName($typeDefinition);
 		$result = true;
-		foreach($all_content as $content){
-			if (! in_array($content,$all_element_name)){
-				$this->last_error[] = "action:xx:rule:content:<b>$content</b> n'est pas défini dans le formulaire";
+		foreach($all_content as $key => $content){
+			if (! in_array($key,$all_element_name)){
+				$this->last_error[] = "action:xx:rule:content:<b>$key</b> n'est pas défini dans le formulaire";
 				$result = false;
 			}
 		}
@@ -275,13 +275,32 @@ class DocumentTypeValidation {
 		}
 		$properties_list = array();
 		foreach($typeDefinition['action'] as $action_name => $action_properties){
-			if (empty($action_properties['rule'][$rule_name])){
-				continue;
+			$prop = $this->findRule($action_properties['rule'], $rule_name);
+			if ($prop){
+				$properties_list = array_merge($properties_list,$prop);
 			}
-			$properties_list = array_merge($properties_list,$action_properties['rule'][$rule_name]);
 		}
 		return $properties_list;
 	}
+	
+	private function findRule(array $rule_array,$rule_name){
+		$result = array();
+		if (isset($rule_array[$rule_name])){
+			if (! is_array($rule_array[$rule_name])){
+				$result = array($rule_array[$rule_name]);
+			} else {
+				$result = $rule_array[$rule_name];
+			}		
+		}
+		foreach($rule_array as $r_name => $r_properties){
+			if (substr($r_name,0,3) == 'or_' || substr($r_name,0,4) == 'and_') {
+				$result = array_merge($result,$this->findRule($r_properties, $rule_name));
+			}
+		}
+		
+		return $result;
+	}
+	
 	
 	
 	private function getElementPropertiesValue($typeDefinition,$properties){
