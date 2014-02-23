@@ -66,9 +66,11 @@
 	<th>Nom de l'action</th>
 	<th>Nom de l'état</th>
 	<th>Classe</th>
+	<th>Action automatique</th>
 	<th>Emplacement</th>
 </tr>
-<?php foreach($all_action as $i => $action) : ?>
+<?php
+foreach($all_action as $i => $action) : ?>
 	<tr>
 		<td><?php hecho($action['id'])?></td>
 		<td>
@@ -81,6 +83,7 @@
 		</td>
 		<td><?php hecho($action['name'])?></td>
 		<td><?php hecho($action['class'])?></td>
+		<td><?php hecho($action['action_auto'])?></td>
 		<td><?php hecho($action['path'])?></td>
 	</tr>
 <?php endforeach;?>
