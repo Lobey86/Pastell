@@ -1,6 +1,9 @@
 nom: Facture
 type: Flux Financier
 
+description:
+	Flux permettant à un fournisseur d'envoyer une facture à une collectivité.
+
 connecteur:
 	GED
 	

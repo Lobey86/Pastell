@@ -1,6 +1,8 @@
 nom: Test
 type: Flux Généraux
 
+description: flux de test, ne pas utiliser.
+
 connecteur:
 	SAE
 

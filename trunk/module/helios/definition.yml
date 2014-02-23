@@ -2,6 +2,8 @@ nom: Helios
 
 type: Flux Généraux
 
+description: Ancien flux helios - a intégrer dans le flux helios-generique avant de supprimer
+
 connecteur:
 	SAE
 	TdT

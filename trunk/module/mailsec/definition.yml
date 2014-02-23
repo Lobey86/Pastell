@@ -1,6 +1,9 @@
 nom: Mail sécurisé 
 type: Flux Généraux
 
+description: Mail sécurisé permettant l'envoi de message avec attachement qui ne peuvent être lu que sur la plateforme. Il est possible de protéger les fichiers via un mot de passe.
+
+
 connecteur:
 	mailsec
 	
