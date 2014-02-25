@@ -37,6 +37,8 @@ formulaire:
 		envoi_sae:
 			name: Transmission au SAE
 			type: checkbox
+			onchange: envoi-sae-change
+			
 		
 		envoi_ged:
 			name: Transmission à la GED
@@ -72,6 +74,23 @@ formulaire:
 		ar_sae: {type: file, name: Accusé de réception SAE}
 		reply_sae: {type: file, name: Réponse du SAE}
 		url_archive: {name: URL sur le système d'archive, type: url}
+	
+	Informations complémentaires:
+		has_information_complementaire: 
+			no-show: true
+			read-only: true
+			
+		uniqid:
+			name: Identifiant unique de la transaction
+			requis: true
+			
+		fichier_reponse:
+			name: Fichier réponse 
+			requis: true
+			type: file
+			commentaire: Fichier contenant le PES retour
+			
+					
 
 page-condition:
 
@@ -89,6 +108,10 @@ page-condition:
 		
 	SAE:
 		ar_sae: true
+	
+	Informations complémentaires:
+		has_information_complementaire: true
+		
 		
 action:
 	creation:		
@@ -343,5 +366,12 @@ action:
 		rule:
 			role_id_e: no-role	
 		action-class: EnvoieSignatureChange
+	
+	envoi-sae-change:
+		name: Modification envoi_sae
+		no-workflow: true
+		rule: 
+			role_id_e: no-role
+		action-class: HeliosEnvoieSAEChange
 	
 			
