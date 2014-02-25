@@ -16,7 +16,7 @@ class SAEEnvoiHelios extends ActionExecutor {
 		$pes_retour = $donneesFormulaire->copyFile('fichier_reponse',$tmp_folder);
 		
 		$transactionsInfo = array(
-				'unique_id' => $donneesFormulaire->get('tedetis_transaction_id'),
+				'unique_id' => $donneesFormulaire->get('tedetis_transaction_id') || $donneesFormulaire->get('uniqid'),
 				'date' => date("Y-m-d"), 
 				'description' => 'inconnu', 
 				'pes_retour_description' => 'inconnu', 
