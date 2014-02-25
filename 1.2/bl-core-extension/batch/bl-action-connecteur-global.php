@@ -5,8 +5,8 @@
  * @param String id_connecteur id du connecteur global
  * @param String action nom de l'action exécutable sur le connecteur global
  * 
- * Exemple (http) : https://www.pastell.fr/batch/bl-action-connecteur-global.php?id_connecteur=signaturebl&action=update-cache-circuits
- * Exemple (CLI)  : /usr/bin/php /var/www/pastell/batch/bl-action-connecteur-global.php id_connecteur=signaturebl action=update-cache-circuits
+ * Exemple (http) : https://www.pastell.fr/bl-core-extension/batch/bl-action-connecteur-global.php?id_connecteur=signaturebl&action=update-cache-circuits
+ * Exemple (CLI)  : /usr/bin/php /var/www/pastell/bl-core-extension/batch/bl-action-connecteur-global.php id_connecteur=signaturebl action=update-cache-circuits
  */
 require_once( __DIR__ . "/../../web/init.php");
 require_once( __DIR__ . "/BLBatch.class.php");
