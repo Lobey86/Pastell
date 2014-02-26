@@ -203,12 +203,6 @@ if (sizeof($all_colASupprimer)>0) {
 }
 
 
-//////////////////////
-//  PASTELL 1.2.0.1 //
-//////////////////////
-$blscript->traceln('=================');
-$blscript->traceln('== Version 1.2 ==');
-$blscript->traceln('=================');
 //Pour éviter de repasser le script, test sur l'exécution de la dernière requête.
 $colonne_exist = $sqlQuery->query("SHOW COLUMNS FROM journal LIKE 'document_type';");
 $blscript->trace('Script de montée de version de la base de données : ');
@@ -243,7 +237,7 @@ if (empty($colonne_exist)) {
 
 $nbre_password_crypt = $sqlQuery->queryOne("SELECT count(id_u) FROM utilisateur WHERE password like ?", '$%');
 if ($nbre_password_crypt==0) {
-    require_once (dirname(__FILE__) . "/crypt-password.php");
+    require_once (dirname(__FILE__) . "/../../installation/crypt-password.php");
     $blscript->traceln('Cryptage des mots de passe des utilisateurs : OK');
 } else {
     $blscript->traceln('Cryptage des mots de passe des utilisateurs : DEJA EFFECTUE');
@@ -251,63 +245,9 @@ if ($nbre_password_crypt==0) {
 
 // Changement de workspace
 // Si aucun fichier à déplacer, le script ne fait rien
-require_once (dirname(__FILE__) . "/old-workspace-to-new-workspace.php");
+require_once (dirname(__FILE__) . "/../../installation/old-workspace-to-new-workspace.php");
 $blscript->traceln('Changement de structure du workspace : REJOUE');
 
 // Alimentation du champs document-type dans la table journal
-require_once (dirname(__FILE__) . "/fix-journal-document-type.php");
+require_once (dirname(__FILE__) . "/../../installation/fix-journal-document-type.php");
 $blscript->traceln('Alimentation de la colonne document-type dans la table journal : REJOUE');
-
-// Mise en place des extensions BL
-$blscript->trace('Mise en place extension BL : ');
-$prov_extension = false;
-$requeteExtension = "SELECT id_e FROM extension WHERE path = ?";
-$ext_fluxbl = "/var/www/pastell/extensionbl/fluxbl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_fluxbl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fluxbl);
-    $prov_extension=true;
-}
-
-$ext_iparapheurbl = "/var/www/pastell/extensionbl/iparapheurbl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_iparapheurbl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_iparapheurbl);
-    $prov_extension=true;
-}
-
-$ext_s2lowbl = "/var/www/pastell/extensionbl/s2lowbl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_s2lowbl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_s2lowbl);
-    $prov_extension=true;
-}
-
-$ext_srcibl = "/var/www/pastell/extensionbl/srcibl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_srcibl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_srcibl);
-    $prov_extension=true;
-}
-
-$ext_stelabl = "/var/www/pastell/extensionbl/stelabl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_stelabl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_stelabl);
-    $prov_extension=true;
-}
-
-$ext_globalbl = "/var/www/pastell/extensionbl/globalbl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_stelabl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_globalbl);
-    $prov_extension=true;
-}
-
-$ext_xflucobl = "/var/www/pastell/extensionbl/xflucobl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_xflucobl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_xflucobl);
-    $prov_extension=true;
-}
-if ($prov_extension) {
-    $blscript->traceln('OK');    
-} else {
-    $blscript->traceln('DEJA FAIT');    
-}
-
-
-$blscript->traceln('=================');
