@@ -43,7 +43,7 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_stelabl)) {
 }
 
 $ext_globalbl = "/var/www/pastell/extensionbl/globalbl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_stelabl)) {
+if (!$sqlQuery->queryOne($requeteExtension, $ext_globalbl)) {
     $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_globalbl);
     $prov_extension=true;
 }
