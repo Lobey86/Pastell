@@ -216,8 +216,7 @@ if (empty($colonne_exist)) {
     $sqlQuery->query("ALTER TABLE action_auto_log ADD last_message varchar(255) NOT NULL;");
     $sqlQuery->query("ALTER TABLE action_auto_log DROP date;");
     $sqlQuery->query("ALTER TABLE action_auto_log DROP message;");    
-    $sqlQuery->query("CREATE UNIQUE INDEX id_ei ON action_auto_log (id_e,id_d,first_try);");
-    $sqlQuery->query("CREATE TABLE extension (id_e int(11) NOT NULL AUTO_INCREMENT, nom varchar(128) NOT NULL, path text NOT NULL, PRIMARY KEY (id_e))  ENGINE=MyISAM;");
+    $sqlQuery->query("CREATE UNIQUE INDEX id_ei ON action_auto_log (id_e,id_d,first_try);");    
     $sqlQuery->query("ALTER TABLE journal CHANGE message message varchar(1024) NOT NULL;");
     $sqlQuery->query("ALTER TABLE journal ADD document_type varchar(128) NOT NULL;");
     $blscript->traceln('OK');        
