@@ -4,7 +4,10 @@ require_once( __DIR__ . "/../../web/init.php");
 require_once( __DIR__ . "/../batch/BLBatch.class.php");
 
 $blscript = new BLBatch();
-
+$table_extension_exist = $sqlQuery->query("SHOW TABLES LIKE 'extension';");
+if (empty($table_extension_exist)) {
+    $sqlQuery->query("CREATE TABLE extension (id_e int(11) NOT NULL AUTO_INCREMENT, nom varchar(128) NOT NULL, path text NOT NULL, PRIMARY KEY (id_e))  ENGINE=MyISAM;");    
+}
 // Mise en place des extensions BL
 $blscript->trace('Mise en place extension BL : ');
 $prov_extension = false;
