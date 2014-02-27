@@ -64,6 +64,4 @@ foreach ($objectInstancier->fluxDefinitionFiles->getAll() as $type => $config) {
     }
 }
 
-$journal->horodateAll();
-
 $objectInstancier->LastUpstart->updateMtime();
