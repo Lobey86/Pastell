@@ -8,7 +8,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		
 		$arrete = $donneesFormulaire->copyFile('arrete',$tmp_folder);
-		$annexe = $donneesFormulaire->copyAllFiles('annexe',$tmp_folder);
+		$annexe = $donneesFormulaire->copyAllFiles('autre_document_attache',$tmp_folder);
 		$ar_actes = $donneesFormulaire->copyFile('aractes',$tmp_folder);
 		
 		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
