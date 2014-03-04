@@ -9,7 +9,7 @@
 		<div class="control-group">
 			<label class="control-label" for="role">Rôle<span class="obl">*</span></label>
 			<div class="controls">
-				<input <?php echo $role_info['role']?"disabled='disabled'":"" ?> type='text' name='role' id='role' value='<?php hecho($role_info['role']) ?>' />
+				<input <?php echo $role_info['role']?"readonly='readonly'":"" ?> type='text' name='role' id='role' value='<?php hecho($role_info['role']) ?>' />
 			</div>
 		</div>
 		
