@@ -286,12 +286,12 @@ action:
 			role_id_e: no-role	
 		
 	accepter-sae:
-		name: Archive accepté par le SAE
+		name: Archive acceptée par le SAE
 		rule:
 			role_id_e: no-role
 			
 	rejet-sae:
-		name: Archive rejeter par le SAE
+		name: Archive rejetée par le SAE
 		rule: 
 			role_id_e: no-role
 			
