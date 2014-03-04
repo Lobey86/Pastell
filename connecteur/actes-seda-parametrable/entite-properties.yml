@@ -8,14 +8,17 @@ description: |
 formulaire:
 	page0:
 		seda_parametrable: 
-			name: Fichier SEDA 
+			name: "Fichier SEDA" 
 			requis: true
 			type: file
-			commentaire: Format XML avec les clés telles que définies par l'adullact
+			commentaire: "Format XML avec les clés telles que définies par l'adullact"
 		nom_collectivite:
-			name: Nom de la collectivité
+			name: "Nom de la collectivité"
 		siren:
-			name: Numéro SIREN de la collectivité
+			name: "Numéro SIREN de la collectivité"
+    dernier_numero_transfert:
+      name: "Numéro du dernier transfert"
+      read-only: true
 
 action:	
 	test-bordereau :
