@@ -23,6 +23,7 @@ class SAEEnvoiHelios extends ActionExecutor {
 				'pes_aller' => $pes_aller,
 				'pes_retour' => $pes_retour,
 				'pes_description' => 'inconnu',
+				'pes_aller_content' => $donneesFormulaire->getFileContent('fichier_pes_signe')
 		);
 		
 		

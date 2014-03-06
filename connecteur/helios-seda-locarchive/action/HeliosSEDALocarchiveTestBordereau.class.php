@@ -13,8 +13,8 @@ class HeliosSEDALocarchiveTestBordereau extends ActionExecutor {
 			'pes_description'=>'PES description',
 			'pes_retour_description'=>'PES retour description',
 			'pes_aller'=>'pes_aller.xml',
-			'pes_retour'=>'pes_retour.xml'
-			
+			'pes_retour'=>'pes_retour.xml',
+			'pes_aller_content' => file_get_contents(__DIR__."/../fixtures/pes_aller.xml")
 		);
 		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);	
