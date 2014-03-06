@@ -20,7 +20,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 
 	
 	private function checkInformation(array $information){
-		$info = array('unique_id','date','description','pes_description','pes_retour_description','pes_aller','pes_retour');		
+		$info = array('unique_id','date','description','pes_description','pes_retour_description','pes_aller','pes_retour','pes_aller_content');		
 		
 		foreach($info as $key){
 			if (empty($information[$key])){
@@ -29,8 +29,17 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		}
 	}
 
+	private function getSubjectFromPESAller($pes_aller_content){
+		$xml = simplexml_load_string($pes_aller_content);
+		if (! $xml){
+			throw new Exception("Impossible de lire le contenu du fichier PES aller");
+		}
+		return strval($xml->Enveloppe->Parametres->NomFic['V']);
+	}
+	
 	public function getBordereau(array $transactionsInfo){
 		$this->checkInformation($transactionsInfo);
+				
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns:xsi']="http://www.w3.org/2001/XMLSchema-instance";
 		$archiveTransfer['xsi:schemaLocation'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2 archives_echanges_v0-2_archivetransfer.xsd";
@@ -112,10 +121,8 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 			
 		$archiveTransfer->Contains->Contains[0] = $this->getContainsElement("Transmission d'un acte soumis au contrôle de légalité",$latestDate,$oldestDate);
 		//TODO PES = Numéro de mandat présent dans le bordereau (obligatoire)
-		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("PES",array(basename($transactionsInfo['pes_aller'])),$latestDate,$oldestDate);
-		
-		//TODO
-		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject = "TODO numéro de titre";
+		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("PES",array(basename($transactionsInfo['pes_aller'])),$latestDate,$oldestDate);		
+		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject = $this->getSubjectFromPESAller($transactionsInfo['pes_aller_content']);
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['altrender'] = "titre_pes";
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['type'] = "numero";
 		
