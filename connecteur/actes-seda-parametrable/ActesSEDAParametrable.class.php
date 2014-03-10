@@ -55,7 +55,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 				throw new ActesSEDAParametrableException("La condition $condition n'est pas connu");
 			}
 			if (! $this->condition[$condition]){
-				$elementNode->parentNode->removeChild($domNode);
+				$elementNode->parentNode->removeChild($elementNode);
 				return;
 			}
 			$elementNode->removeAttribute('pastellCondition');
