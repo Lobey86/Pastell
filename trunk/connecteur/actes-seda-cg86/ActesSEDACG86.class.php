@@ -85,6 +85,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	}
 	
 	public function getBordereau(array $transactionsInfo){
+		
 		$this->checkInformation($transactionsInfo);
 		
 		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
