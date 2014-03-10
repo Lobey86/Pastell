@@ -29,6 +29,8 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		}
 	}
 
+	
+	
 	private function getSubjectFromPESAller($pes_aller_content){
 		$xml = simplexml_load_string($pes_aller_content);
 		if (! $xml){
@@ -36,6 +38,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		}
 		return strval($xml->Enveloppe->Parametres->NomFic['V']);
 	}
+	
 	
 	public function getBordereau(array $transactionsInfo){
 		$this->checkInformation($transactionsInfo);
@@ -49,7 +52,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		
 		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
 		
-		
+		//$this->getSubjectFromPESAller($transactionsInfo['pes_aller_content']);
 		
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Codification interne";
 		

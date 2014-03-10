@@ -123,19 +123,56 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		$dom = new DOMDocument('1.0');
 		$dom->load($this->xml_file_path);
 		
+		$all_contains = $dom->getElementsByTagName("Contains");
+		$containsNode = $all_contains->item(0);
+		
+		foreach($this->getAllFile($transactionsInfo) as $file_name => $sha1){
+			$integrity = $dom->createElement("Integrity");
+			$c = $dom->createElement("Contains",$sha1);
+			$integrity->appendChild($c);
+			$u = $dom->createElement("UnitIdentifier",$file_name);
+			$integrity->appendChild($u);
+			$containsNode->parentNode->insertBefore($integrity,$containsNode);
+		}
+		
+		
 		$this->traiteNode($dom);
-				
+
 		return $dom->saveXML();
 	}
 	
-        private function getTransferIdentifier(){
-                $numero_transfert = $this->seda_config->get("dernier_numero_transfert");
-
-                $this->seda_config->setData('dernier_numero_transfert', $numero_transfert);
-
-                if(empty($numero_transfert))
-                        return 1;
-
-                return $numero_transfert++;
-        }
+	private function getAllFile($transactionsInfo){
+		
+		foreach(array('ar_actes','actes_file') as $key){
+			$fileName = $transactionsInfo[$key];
+			$result[basename($fileName)] = sha1_file($fileName);
+		}
+		foreach($transactionsInfo['annexe'] as $fileName){
+			$result[basename($fileName)] = sha1_file($fileName);
+		}
+		
+		foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){
+			$result[basename($echange_prefecture)] = sha1_file($echange_prefecture);
+		}
+		
+		foreach($transactionsInfo['echange_prefecture_ar'] as $echange_prefecture_ar){
+			if (! $echange_prefecture_ar){
+				continue;
+			}
+			if (basename($echange_prefecture_ar) == 'empty'){
+				continue;
+			}
+			$result[basename($echange_prefecture_ar)] = sha1_file($echange_prefecture_ar);
+		}
+		return $result;
+	}
+	
+	private function getTransferIdentifier(){
+		$numero_transfert = $this->seda_config->get("dernier_numero_transfert");
+		$this->seda_config->setData('dernier_numero_transfert', $numero_transfert);
+		if(empty($numero_transfert)) {
+			return 1;
+		}
+		return $numero_transfert++;
+	}
 }

@@ -16,19 +16,6 @@
 		<Identification/>
 	</ArchivalAgency>
 
-	<Integrity>
-		<Contains>03e1b92079d487c9f77cdc4874c507293bf2dd8e</Contains>
-		<UnitIdentifier>group</UnitIdentifier>
-	</Integrity>
-	<Integrity>
-		<Contains>4089e55b9193d26bfbbf968ea1283fe93f01f755</Contains>
-		<UnitIdentifier>passwd</UnitIdentifier>
-	</Integrity>
-	<Integrity>
-		<Contains>4089e55b9193d26bfbbf968ea1283fe93f01f755</Contains>
-		<UnitIdentifier>passwd</UnitIdentifier>
-	</Integrity>
-
 	<AAA pastellCondition="annexePresente">
 		<BBB>Présent si annexePresente</BBB>
 	</AAA>
