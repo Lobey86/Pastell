@@ -45,4 +45,10 @@ class BLDisplayHtml extends BLDisplayText {
         return $target;
     }
 
+    public function hyperlinkDisplay($value, $url, $doEncoding = true) {
+        $valueDisplay = $this->valueDisplay($value, $doEncoding);
+        $result = '<a href="' . $url . '" target="_blank">' . $valueDisplay . '</a>';
+        return $result;
+    }
+
 }
