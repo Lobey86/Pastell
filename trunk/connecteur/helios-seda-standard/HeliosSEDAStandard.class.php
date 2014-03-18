@@ -5,11 +5,11 @@ class HeliosSEDAStandard extends Connecteur {
 	
 	public function  setConnecteurConfig(DonneesFormulaire $seda_config){
 		$this->authorityInfo = array(
-				"sae_id_versant" =>  $seda_config->get("sae_identifiant_versant"),
-				"sae_id_archive" =>  $seda_config->get("sae_identifiant_archive"),
-				"sae_numero_aggrement" =>  $seda_config->get("sae_numero_agrement"),
-				"sae_originating_agency" =>  $seda_config->get("sae_originating_agency"),
-				"name" =>   $seda_config->get('denomination'),
+				"sae_id_versant" =>  $seda_config->get("identifiant_versant"),
+				"sae_id_archive" =>  $seda_config->get("identifiant_archive"),
+				"sae_numero_aggrement" =>  $seda_config->get("numero_agrement"),
+				"sae_originating_agency" =>  $seda_config->get("originating_agency"),
+				"name" =>   $seda_config->get('nom'),
 				"siren" =>  $seda_config->get('siren'),
 		);
 	}
