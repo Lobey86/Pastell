@@ -33,7 +33,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Adullact Projet";
 		
-		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['siren'];
+		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['sae_id_versant'];
 		$archiveTransfer->TransferringAgency->Identification['schemeName'] = "SIRENE";
 		$archiveTransfer->TransferringAgency->Identification['schemeAgencyName'] = "INSEE";
 		$archiveTransfer->TransferringAgency->Name = $this->authorityInfo['name'];
@@ -51,7 +51,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->ArchivalAgreement['schemeName'] = "Convention de transfert";
 		$archiveTransfer->Contains->ArchivalAgreement['schemeAgencyName'] = $this->authorityInfo['name'];
 		
-		$archiveTransfer->Contains->ArchivalProfile = "Profil flux comptable PES V2";
+		$archiveTransfer->Contains->ArchivalProfile = "HELIOS";
 		$archiveTransfer->Contains->ArchivalProfile['schemeAgencyName'] = "Adullact Projet";
 				
 		$archiveTransfer->Contains->DescriptionLanguage = "fr";
