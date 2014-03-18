@@ -534,7 +534,7 @@ class DonneesFormulaire {
 		if (! file_exists($file_path)){
 			return false;
 		}
-		copy($file_path,"$folder_destination/$file_name");
+		copy($file_path,utf8_encode("$folder_destination/$file_name"));
 		return $folder_destination."/".$file_name;
 	}
 	
