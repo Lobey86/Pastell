@@ -123,14 +123,14 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		
 			
 		$archiveTransfer->Contains->Contains[0] = $this->getContainsElement("Transmission d'un acte soumis au contrôle de légalité");
-		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("Actes",array(basename($transactionsInfo['actes_file'])));
+		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("Actes",array($transactionsInfo['actes_file']));
 		
 		if($transactionsInfo['annexe']){
 			$archiveTransfer->Contains->Contains[0]->Contains[] = $this->getContainsElementWithDocument("Annexe(s) d'un acte soumis au contrôle de légalité",$transactionsInfo['annexe']);
 		}
 
 		$arActes = $this->getContainsElementWithDocument("Accusé de réception d'un acte soumis au contrôle de légalité",
-															array(basename($transactionsInfo['ar_actes'])),
+															array($transactionsInfo['ar_actes']),
 															$transactionsInfo['latest_date']
 															);
 		
@@ -154,7 +154,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 				$fileType = "application/pdf";
 			}
 			$contains->Document[$i]->Attachment['mimeCode'] = $fileType;
-			$contains->Document[$i]->Attachment['filename'] = $fileName;
+			$contains->Document[$i]->Attachment['filename'] = basename($fileName);
 			$contains->Document[$i]->Control = "false";
 			$contains->Document[$i]->Copy = "true";
 			$contains->Document[$i]->Description = "Acte";
