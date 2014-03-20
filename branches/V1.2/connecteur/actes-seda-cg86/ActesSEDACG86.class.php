@@ -139,7 +139,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		
 		$archiveTransfer->Contains->ArchivalProfile = "ACTES-S2LOW-v1";
 		$archiveTransfer->Contains->ArchivalProfile['schemeName'] = "Profil de données";
-		$archiveTransfer->Contains->ArchivalProfile['schemeAgencyName'] = "Profil élaboré par les Archives départementales de le Vienne et mis en oeuvre sur la plate-forme S2LOW.";
+		$archiveTransfer->Contains->ArchivalProfile['schemeAgencyName'] = "Profil élaboré par les Archives départementales de la Vienne et mis en oeuvre sur la plate-forme S2LOW.";
 		
 		$archiveTransfer->Contains->DescriptionLanguage = "fr";
 		$archiveTransfer->Contains->DescriptionLanguage['listVersionID'] = "edition 2009";
