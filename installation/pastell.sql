@@ -1,8 +1,8 @@
 CREATE TABLE action_auto_log (
 	`id_e` int(11) NOT NULL,
 	`id_d` varchar(16) NOT NULL,
-	`etat_source` varchar(16) NOT NULL,
-	`etat_cible` varchar(16) NOT NULL,
+	`etat_source` varchar(64) NOT NULL,
+	`etat_cible` varchar(64) NOT NULL,
 	`first_try` datetime NOT NULL,
 	`last_try` datetime NOT NULL,
 	`nb_try` int(11) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE document_entite (
 	`id_d` varchar(8) NOT NULL,
 	`id_e` int(11) NOT NULL,
 	`role` varchar(16) NOT NULL,
-	`last_action` varchar(32) NOT NULL,
+	`last_action` varchar(64) NOT NULL,
 	`last_action_date` datetime NOT NULL,
 	KEY id_e (`id_e`,`id_d`)
 )  ENGINE=MyISAM  ;
@@ -181,7 +181,7 @@ CREATE TABLE notification (
 	`id_u` int(11) NOT NULL,
 	`id_e` int(11) NOT NULL,
 	`type` varchar(32) NOT NULL,
-	`action` varchar(16) NOT NULL,
+	`action` varchar(64) NOT NULL,
 	PRIMARY KEY (`id_n`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE role (
