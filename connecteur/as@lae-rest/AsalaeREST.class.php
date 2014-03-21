@@ -11,6 +11,7 @@ class AsalaeREST extends SAEConnecteur {
 	
 	private $last_error_code;
 	
+	private $connecteur_config;
 	
 	public function __construct(CurlWrapper $curlWrapper, TmpFile $tmpFile){
 		$this->curlWrapper = $curlWrapper;
@@ -22,11 +23,17 @@ class AsalaeREST extends SAEConnecteur {
 		$this->login = $donneesFormulaire->get('login');
 		$this->password = $donneesFormulaire->get('password');
 		$this->originatingAgency = $donneesFormulaire->get('originating_agency');
+		$this->connecteur_config = $donneesFormulaire;
 	}
 	
 	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz") {
 		$bordereau_file = $this->tmpFile->create();	
 		file_put_contents($bordereau_file, $bordereauSEDA);
+		
+		$this->connecteur_config->addFileFromData('last_bordereau', 'bordereau_seda.xml', $bordereauSEDA);
+		$this->connecteur_config->addFileFromData('last_file', 'donnes.tar.gz', file_get_contents($archivePath));
+		
+		
 		$this->curlWrapper->addPostFile('seda_message', $bordereau_file,"bordereau.xml");
 		$this->curlWrapper->addPostFile('attachments', $archivePath,$archive_file_name);		
 		$result = $this->getWS('/sedaMessages');
