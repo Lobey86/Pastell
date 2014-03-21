@@ -17,7 +17,16 @@ formulaire:
 		
 		originating_agency: 
 			name: Identifiant service versant
-	
+		
+		last_bordereau:
+			name: Dernier bordereau envoyé
+			type: file
+			read-only: true
+			
+		last_file:
+			name: Dernier fichier zip envoyé
+			type: file
+			read-only: true
 			
 
 action:

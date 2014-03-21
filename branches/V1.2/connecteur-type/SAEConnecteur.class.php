@@ -11,10 +11,12 @@ abstract class SAEConnecteur extends  Connecteur {
 		}
 		$fileName = uniqid()."_archive.tar.gz";
 		$command = "tar cvzf $tmp_folder/$fileName --directory $tmp_folder \"" . implode("\" \"",$file_to_add) ."\"";
-		$status = exec($command );
-		if (! $status){
-			throw new Exception("Impossible de créer le fichier d'archive $fileName - Commande : $command");
+		$status = exec($command,$output,$return_var);
+				
+		if ( $return_var != 0) {
+			throw new Exception("Impossible de créer le fichier d'archive $fileName - status : $return_var");
 		}
+		
 		return $tmp_folder."/$fileName";
 	}	
 	
