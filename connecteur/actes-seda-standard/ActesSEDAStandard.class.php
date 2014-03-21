@@ -56,7 +56,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		$archiveTransfer->Contains->ArchivalAgreement['schemeName'] = "Convention de transfert";
 		$archiveTransfer->Contains->ArchivalAgreement['schemeAgencyName'] = $this->authorityInfo['nom_entite'];
 		
-		$archiveTransfer->Contains->ArchivalProfile = "ACTES 1.4";
+		$archiveTransfer->Contains->ArchivalProfile = "ACTES";
 		$archiveTransfer->Contains->ArchivalProfile['schemeName'] = "Profil de données";
 		
 		$archiveTransfer->Contains->DescriptionLanguage = "fr";
