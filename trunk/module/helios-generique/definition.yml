@@ -81,8 +81,8 @@ formulaire:
 			read-only: true
 			
 		uniqid:
-			name: Identifiant unique de la transaction
-			requis: true
+			name: Identifiant unique de la transaction 
+			no-show: true
 			
 		fichier_reponse:
 			name: Fichier réponse 
