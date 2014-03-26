@@ -1,0 +1,8 @@
+Ajout du type de document dans les lignes du journal des événements, 
+afin de pouvoir afficher des informations cohérente sur les actions, 
+même lorsque le document a été supprimé de la base de données.
+
+Il est nécessaire de :
+- mettre à jour la base de données (dbupdate.php)
+- passer le script installation/fix-journal-document.php
+
