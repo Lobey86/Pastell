@@ -1,12 +1,12 @@
 <?php
 
-class SAEValidation extends ActionExecutor {
+class HeliosGeneriqueSAEValidation extends ActionExecutor {
 	
 	public function go(){
 		$sae = $this->getConnecteur('SAE');
 		$sae_config = $this->getConnecteurConfigByType('SAE');
 		
-		$id_transfert = $this->getDonneesFormulaire()->get('tedetis_transaction_id');
+		$id_transfert = $this->getDonneesFormulaire()->get('uniqid');
 		
 		if (!$id_transfert){
 			$message = "Impossible de trouver l'identifiant du transfert";
