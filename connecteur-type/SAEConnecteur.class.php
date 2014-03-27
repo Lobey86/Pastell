@@ -5,7 +5,6 @@ abstract class SAEConnecteur extends  Connecteur {
 	public function generateArchive($bordereau,$tmp_folder){
 		
 		$xml = simplexml_load_string($bordereau);
-		
 		foreach($xml->Integrity as $file){
 			$file_to_add[] = strval($file->UnitIdentifier);
 		}
