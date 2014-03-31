@@ -1,8 +1,6 @@
 nom: Test
 type: Flux Généraux
 
-description: flux de test, ne pas utiliser.
-
 connecteur:
 	SAE
 
@@ -30,26 +28,5 @@ action:
 				creation
 				modification
 			
-			
 	test:
-		rule:
-			content:
-				test1: toto
-			or_1:
-				last-action:
-					creation
-					modification
-				content:
-					test1: true
-			or_2:
-				and_1:
-					last-action:
-						creation
-						modification
-					content:
-						test2d: true
-				and_2:
-					last-action:
-						creation
-				
 		action-class: Test

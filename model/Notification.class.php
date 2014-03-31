@@ -2,14 +2,14 @@
 
 class Notification extends SQL {
 	
-	public function add($id_u,$id_e,$type,$action,$daily_digest){
-		$sql = "SELECT count(*) FROM notification WHERE id_u = ? AND id_e=? AND type=? AND action=? AND daily_digest=?";
-		$nb = $this->queryOne($sql,$id_u,$id_e,$type,$action,$daily_digest);
+	public function add($id_u,$id_e,$type,$action){
+		$sql = "SELECT count(*) FROM notification WHERE id_u = ? AND id_e=? AND type=? AND action=?";
+		$nb = $this->queryOne($sql,$id_u,$id_e,$type,$action);
 		if ($nb){
 			return;
 		}
-		$sql = "INSERT INTO notification(id_u,id_e,type,action,daily_digest) VALUES (?,?,?,?,?)";
-		$this->query($sql,$id_u,$id_e,$type,$action,$daily_digest);
+		$sql = "INSERT INTO notification(id_u,id_e,type,action) VALUES (?,?,?,?)";
+		$this->query($sql,$id_u,$id_e,$type,$action);
 	}
 	
 	public function getAll($id_u){
@@ -37,13 +37,6 @@ class Notification extends SQL {
 			$result[] = $ligne['email'];
 		}
 		return $result;
-	}
-	
-	public function getAllInfo($id_e,$type,$action){
-		$sql = "SELECT * FROM notification " .
-				" JOIN utilisateur ON notification.id_u = utilisateur.id_u " .
-				" WHERE (notification.id_e=? OR notification.id_e=0) AND (type=? OR type='0') AND (action=? OR action='0')";
-		return $this->query($sql,$id_e,$type,$action);
 	}
 	
 }

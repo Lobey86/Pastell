@@ -46,7 +46,7 @@ class OpensslTSWrapper {
 	}
 	
 
-	public function verify($data,$timestampReply, $CAFilePath, $certFilePath,$configFile){
+	public function verify($data,$timestampReply, $CAFilePath, $certFilePath){
 		$dataFilePath = $this->getTmpFile($data);
 		$timestampReplyFilePath = $this->getTmpFile($timestampReply);
 		
@@ -54,9 +54,7 @@ class OpensslTSWrapper {
 					" -data $dataFilePath " . 
 					" -in $timestampReplyFilePath " . 
 					" -CAfile $CAFilePath" . 
-					" -untrusted $certFilePath " .
-					" -config " . $configFile;
-					" 2>&1 ";
+					" -untrusted $certFilePath 2>&1 ";
 		
 		$result =  trim($this->execute( $command));
 		
@@ -78,7 +76,6 @@ class OpensslTSWrapper {
 					" -passin pass:".$signerKeyPassword . 
 					" -out $timestampReplyFile " . 
 					" -config " . $configFile;
-		
 		shell_exec($command);
 		
 		$timestampReply = file_get_contents($timestampReplyFile);

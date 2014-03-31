@@ -1,8 +1,6 @@
 nom: Message de la collectivité
 type: Flux Fournisseur
 
-description: Flux standard d'envoie de message entre fournisseur et collectivité
-
 formulaire:
 	Message:			
 		Objet: {requis: true, title: true}

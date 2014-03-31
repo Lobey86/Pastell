@@ -121,7 +121,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->Contains[0]->ContentDescription->Language['listVersionID'] = "edition 2009";
 
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[0]->Document->Attachment['mimeCode'] = 'text/xml';
+		$archiveTransfer->Contains->Contains[0]->Document->Attachment['mimeCode'] = 'application/xml';
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['filename'] = basename($transactionsInfo['pes_aller']);
 		$archiveTransfer->Contains->Contains[0]->Document->Description="PES";
 		$archiveTransfer->Contains->Contains[0]->Document->Type = "CDO";
@@ -141,7 +141,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Name = "PES ACK/NACK";
 		
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['mimeCode'] = 'text/xml';
+		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['mimeCode'] = 'application/xml';
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['filename'] = basename($transactionsInfo['pes_retour']);
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Description="PES ACK/NACK";
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Type = "CDO";

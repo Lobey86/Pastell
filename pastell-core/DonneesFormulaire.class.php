@@ -74,7 +74,7 @@ class DonneesFormulaire {
 		
 		$this->formulaire->addDonnesFormulaire($this);
 		$this->formulaire->setTabNumber($pageNumber);
-						
+				
 		foreach ($this->formulaire->getFields() as $field){
 			if (! $this->isEditable($field->getName())){
 					continue;
@@ -99,7 +99,6 @@ class DonneesFormulaire {
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
-				
 				if ($type == 'password'){
 					$value =  $recuperateur->getNoTrim($name,"");
 				}
@@ -496,6 +495,7 @@ class DonneesFormulaire {
 		}
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
+        
         // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
         if ($setModifiedToFalse) {
         	$this->isModified=false;  

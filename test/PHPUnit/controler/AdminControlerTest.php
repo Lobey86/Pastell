@@ -1,5 +1,8 @@
 <?php
+
 require_once __DIR__.'/../init.php';
+
+
 
 class AdminControlerTest extends PastellTestCase {
 
@@ -9,6 +12,7 @@ class AdminControlerTest extends PastellTestCase {
 	private function getAdminControler(){
 		return $this->getObjectInstancier()->AdminControler;
 	}
+	
 	
 	public function testCreateAdmin() {
 		$this->assertTrue($this->getAdminControler()->createAdmin('admin2','admin','admin@sigmalis.com'));
@@ -21,4 +25,6 @@ class AdminControlerTest extends PastellTestCase {
 	public function testFixDroit() {
 		$this->getAdminControler()->fixDroit();
 	}
+
+	
 }
