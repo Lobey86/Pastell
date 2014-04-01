@@ -4,7 +4,7 @@
 									echo  	$this->DocumentTypeFactory->getFluxDocumentType($type_list[0])->getName() ?> </h2>
 				<table class="table table-striped">
 				<tr>
-					<th class='w140'>Objet</th>
+					<th >Objet</th>
 					<?php if (count($type_list) > 1 ): ?>
 						<th>Type</th>
 					<?php endif;?>

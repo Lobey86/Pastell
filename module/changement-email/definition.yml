@@ -3,7 +3,7 @@ nom: Changement d'email
 type: Flux d'administration
 
 description: |
-	Flux permettant aux utilisateurs de changer leur adresse email après un contrôle par l'adminsitrateur.
+	Flux permettant aux utilisateurs de changer leur adresse email après un contrôle par l'administrateur.
 	Le flux vérifie d'abord l'existence de l'adresse email via un circuit de validation classique (envoie d'un mail à l'utilisateur qui contient un lien), 
 	puis, un document pastell est créé qui doit être validé par un administrateur Pastell (droit changement-email:edition sur l'entité de base de l'utilisateur).
 

@@ -10,7 +10,7 @@
 <table class='table table-striped'>
 
 <tr>
-<th class='w200'>Libellé</th>
+<th class='w200'>Libellé de l'instance</th>
 <td><input type='text' name='libelle' value=''/></td>
 </tr>
 
