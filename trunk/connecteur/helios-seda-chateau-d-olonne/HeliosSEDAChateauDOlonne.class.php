@@ -152,7 +152,6 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		$archiveTransfer->Contains->Contains[0]->Document->Type = "CDO";
 		$archiveTransfer->Contains->Contains[0]->Document->Type['listVersionID'] = "edition 2009";
 
-		//TODO : je ne comprend pas du tout ce que je dois mettre dans le contains[2] du bordereau
 		$archiveTransfer->Contains->Contains[1]->DescriptionLevel = "item";
 		$archiveTransfer->Contains->Contains[1]->DescriptionLevel['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->Contains[1]->Name = "PES";

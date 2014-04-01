@@ -5,7 +5,7 @@ class HeliosGeneriqueSAEVerif extends ActionExecutor {
 	public function go(){
 		$sae = $this->getConnecteur('SAE');
 		
-		$id_transfert = $this->getDonneesFormulaire()->get('tedetis_transaction_id') || $this->getDonneesFormulaire()->get('uniqid');
+		$id_transfert = $this->getDonneesFormulaire()->get('uniqid');
 		$sae_config = $this->getConnecteurConfigByType('SAE');
 		$ar = $sae->getAcuseReception($id_transfert);
 		

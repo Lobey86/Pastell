@@ -28,7 +28,7 @@ foreach($action_possible as $action_name) : ?>
 <h2>Autres opérations</h2>
 
 <a class='btn' href="connecteur/edition-libelle.php?id_ce=<?php echo $id_ce?>" >
-Modifier le libellé du connecteur (<?php hecho($connecteur_entite_info['libelle'])?>)
+Modifier le libellé de l'instance du connecteur (<?php hecho($connecteur_entite_info['libelle'])?>)
 </a>&nbsp;&nbsp;
 <a class='btn btn-danger' href="connecteur/delete.php?id_ce=<?php echo $id_ce?>" >
 Supprimer ce connecteur 
