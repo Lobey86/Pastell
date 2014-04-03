@@ -74,7 +74,7 @@ class DonneesFormulaire {
 		
 		$this->formulaire->addDonnesFormulaire($this);
 		$this->formulaire->setTabNumber($pageNumber);
-				
+						
 		foreach ($this->formulaire->getFields() as $field){
 			if (! $this->isEditable($field->getName())){
 					continue;
@@ -99,6 +99,7 @@ class DonneesFormulaire {
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
+				
 				if ($type == 'password'){
 					$value =  $recuperateur->getNoTrim($name,"");
 				}
@@ -527,24 +528,35 @@ class DonneesFormulaire {
 		return true;
 	}
 	
-	public function copyFile($field_name,$folder_destination,$num = 0){
+	private function renameFilename($file_path,$new_filename){
+		$path_parts = pathinfo($file_path);
+		return $path_parts['dirname'] . DIRECTORY_SEPARATOR .$new_filename .".".$path_parts['extension'];
+	}
+	
+	public function copyFile($field_name,$folder_destination,$num = 0,$new_filename = false){
 		$file_name = $this->get($field_name);
 		$file_name = $file_name[$num];
 		$file_path = $this->getFilePath($field_name,$num);
 		if (! file_exists($file_path)){
 			return false;
 		}
-		copy($file_path,utf8_encode("$folder_destination/$file_name"));
-		return $folder_destination."/".$file_name;
+		
+		$destination = "$folder_destination/$file_name";
+		if ($new_filename){
+			$destination = $this->renameFilename($destination, $new_filename);
+		}
+		copy($file_path,utf8_encode($destination));
+		return $destination;
 	}
 	
-	public function copyAllFiles($field_name,$folder_destination){
+	public function copyAllFiles($field_name,$folder_destination,$new_filename = false){
 		$result = array();
 		if (!$this->get($field_name) ){
 			return $result;
 		}
 		foreach($this->get($field_name) as $i => $file_name){
-			$result[] = $this->copyFile($field_name, $folder_destination,$i);
+			$destination = $new_filename?$new_filename."-".$i:false;
+			$result[] = $this->copyFile($field_name, $folder_destination,$i,$destination);
 		}
 		return $result;
 	}
