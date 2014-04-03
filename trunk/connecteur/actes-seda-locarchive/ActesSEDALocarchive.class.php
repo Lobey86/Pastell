@@ -28,10 +28,19 @@ class ActesSEDALocarchive extends SEDAConnecteur {
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
 		}
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename');
+		
+		foreach($info_sup as $key){
+			if (empty($information[$key])){
+				$information[$key] = false;
+			}
+		}
+		
+		return $information;
 	}
 
 	public function getBordereau(array $transactionsInfo){
-		$this->checkInformation($transactionsInfo);
+		$transactionsInfo = $this->checkInformation($transactionsInfo);
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns:xsi']="http://www.w3.org/2001/XMLSchema-instance";
 		$archiveTransfer['xsi:schemaLocation'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2 archives_echanges_v0-2_archivetransfer.xsd";
@@ -106,7 +115,7 @@ class ActesSEDALocarchive extends SEDAConnecteur {
 		$archiveTransfer->Contains->ContentDescription->OriginatingAgency->Address->Postcode = $this->seda_config->get('originating_agency_postcode');
 			
 		$archiveTransfer->Contains->Contains[0] = $this->getContainsElement("Transmission d'un acte soumis au contrôle de légalité",$latestDate,$oldestDate);
-		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("Actes",array(basename($transactionsInfo['actes_file'])),$latestDate,$oldestDate);
+		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("Actes",array(basename($transactionsInfo['actes_file'])),$latestDate,$oldestDate,array($transactionsInfo['actes_file_orginal_filename']));
 		
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->genreform = $transactionsInfo['nature_descr'];
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject = $transactionsInfo['nature_code'];
@@ -116,7 +125,7 @@ class ActesSEDALocarchive extends SEDAConnecteur {
 		foreach($transactionsInfo['annexe'] as $i => $document_annexe){
 			$num_annexe = $i + 1;
 			$archiveTransfer->Contains->Contains[0]->Contains[] = $this->getContainsElementWithDocument("Annexe n°$num_annexe d'un acte soumis au contrôle de légalité",
-																							array($document_annexe),$latestDate,$oldestDate);
+																							array($document_annexe),$latestDate,$oldestDate,isset($transactionsInfo['annexe_original_filename'][$i])?array($transactionsInfo['annexe_original_filename'][$i]):false);
 		}
 
 		$arActes = $this->getContainsElementWithDocument("Accusé de réception d'un acte soumis au contrôle de légalité",
@@ -130,7 +139,7 @@ class ActesSEDALocarchive extends SEDAConnecteur {
 		return $archiveTransfer->asXML();
 	}
 	
-	private function getContainsElementWithDocument($description,array $allFileInfo,$latestDate,$oldestDate){
+	private function getContainsElementWithDocument($description,array $allFileInfo,$latestDate,$oldestDate,$original_filename = false){
 		$contains = new ZenXML("Contains");
 		$contains->DescriptionLevel = "item";
 		$contains->DescriptionLevel['listVersionID'] = "edition 2009";
@@ -149,7 +158,11 @@ class ActesSEDALocarchive extends SEDAConnecteur {
 			}
 			$contains->Document[$i]->Attachment['filename'] = basename($fileName);
 	
-			$contains->Document[$i]->Description = "$description";
+			if ($original_filename && isset($original_filename[$i])){
+				$contains->Document[$i]->Description = "$description : $original_filename[$i]";
+			} else {
+				$contains->Document[$i]->Description = "$description";
+			}
 		
 			$contains->Document[$i]->Type = "CDO";
 			$contains->Document[$i]->Type["listVersionID"] = "edition 2009";
