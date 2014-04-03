@@ -7,14 +7,14 @@ class SAEEnvoiActes extends ActionExecutor {
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		
-		$arrete = $donneesFormulaire->copyFile('arrete',$tmp_folder);
-		$annexe = $donneesFormulaire->copyAllFiles('autre_document_attache',$tmp_folder);
-		$ar_actes = $donneesFormulaire->copyFile('aractes',$tmp_folder);
+		$arrete = $donneesFormulaire->copyFile('arrete',$tmp_folder,0,"acte");
+		$annexe = $donneesFormulaire->copyAllFiles('autre_document_attache',$tmp_folder,"annexe");
+		$ar_actes = $donneesFormulaire->copyFile('aractes',$tmp_folder,0,"aractes");
 		
 		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
 		
-		$echange_prefecture = $donneesFormulaire->copyAllFiles('echange_prefecture',$tmp_folder);
-		$echange_prefecture_ar = $donneesFormulaire->copyAllFiles('echange_prefecture_ar',$tmp_folder);
+		$echange_prefecture = $donneesFormulaire->copyAllFiles('echange_prefecture',$tmp_folder,"document-prefecture");
+		$echange_prefecture_ar = $donneesFormulaire->copyAllFiles('echange_prefecture_ar',$tmp_folder,"ar-prefecture");
 		
 		@ unlink($tmp_folder."/empty");
 		
@@ -37,15 +37,20 @@ class SAEEnvoiActes extends ActionExecutor {
 			'echange_prefecture' => $echange_prefecture,
 			'echange_prefecture_ar' => $echange_prefecture_ar,
 			'echange_prefecture_type' => $echange_prefecture_type,
+			
+			'actes_file_orginal_filename' => $donneesFormulaire->getFileName('arrete',0),
+			'annexe_original_filename' => $donneesFormulaire->get('autre_document_attache'),
+			'echange_prefecture_original_filename' => $donneesFormulaire->get('echange_prefecture')
 		);
+	
+		
 		
 		if ($donneesFormulaire->get("signature")){
-			$transactionsInfo['signature'] = $donneesFormulaire->copyAllFiles('signature',$tmp_folder);
+			$transactionsInfo['signature'] = $donneesFormulaire->copyAllFiles('signature',$tmp_folder,"signature");
 		}
 		
 		$actesSEDA = $this->getConnecteur('Bordereau SEDA');
 		$bordereau = $actesSEDA->getBordereau($transactionsInfo);
-		
 				
 		$sae = $this->getConnecteur('SAE');
 		$archive_path = $sae->generateArchive($bordereau,$tmp_folder);
@@ -63,6 +68,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		} 
 		
 		$donneesFormulaire->setData("sae_transfert_id",$transferId);
+		
 		$this->addActionOK("Le document a été envoyé au SAE");
 		return true;
 	}
