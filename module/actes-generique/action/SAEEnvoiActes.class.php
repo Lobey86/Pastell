@@ -51,11 +51,6 @@ class SAEEnvoiActes extends ActionExecutor {
 		
 		$actesSEDA = $this->getConnecteur('Bordereau SEDA');
 		$bordereau = $actesSEDA->getBordereau($transactionsInfo);
-		
-		header("Content-type: text/xml");
-		echo $bordereau;
-		exit;
-		
 				
 		$sae = $this->getConnecteur('SAE');
 		$archive_path = $sae->generateArchive($bordereau,$tmp_folder);
