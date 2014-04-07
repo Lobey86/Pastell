@@ -1,12 +1,19 @@
 <?php 
-if ($this->LastMessage->getLastMessage()) : ?>
-<div class="alert alert-success">
-	<?php echo $this->LastMessage->getLastMessage()?>
+//TODO a nettoyer
+global $lastMessage;
+global $lastError;
+if ($lastMessage->getLastMessage()) : ?>
+<div class="box_confirm">
+	<p>
+		<?php echo $lastMessage->getLastMessage()?>
+	</p>
 </div>
 <?php endif;?>
 
-<?php if ($this->LastError->getLastError()) : ?>
-<div class="alert alert-error">
-	<?php echo $this->LastError->getLastError()?>
+<?php if ($lastError->getLastError()) : ?>
+<div class="box_error">
+	<p>
+		<?php echo $lastError->getLastError()?>
+	</p>
 </div>
 <?php endif;?>

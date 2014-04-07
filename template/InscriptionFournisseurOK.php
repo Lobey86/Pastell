@@ -1,11 +1,10 @@
 
-<div class='alert alert-success'>
-Vous allez recevoir un email qui vous permettra de valider et de poursuivre votre demande d'inscription.
-
-
+<div class='box_confirm'>
+<p>
+Vous allez recevoir un email 
+qui vous permettra de valider et de poursuivre votre demande d'inscription.
+</p>
 </div>
-
-
-<div class="box">
-	<a class='btn' href='index.php'><i class='icon-home'></i>Revenir à l'accueil</a>
+<div class="box_contenu">
+<a href='index.php'>Revenir à l'accueil</a>
 </div>

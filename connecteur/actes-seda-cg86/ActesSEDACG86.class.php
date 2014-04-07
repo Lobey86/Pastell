@@ -85,7 +85,6 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	}
 	
 	public function getBordereau(array $transactionsInfo){
-		
 		$this->checkInformation($transactionsInfo);
 		
 		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
@@ -154,8 +153,8 @@ class ActesSEDACG86  extends SEDAConnecteur {
 											date('d/m/Y',strtotime($ar_actes_info['DateReception'])) .".";
 		
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = " Actes dématérialisés soumis au contrôle de légalité télétransmis via la plate-forme S2LOW de l'ADULLACT pour le ".
-											$this->authorityInfo['nom_entite'] . 
-											" puis transférés sur la plate-forme d'archivage électronique AS@LAE par l'ADULLACT, au moyen de l'outil Pastell. Les données archivées sont structurées selon le schéma métier Actes (Aide au contrôle de légalité dématérialisé) établi par le Ministère de l'intérieur, de l'outre mer et des collectivités territoriales. La description a été établie selon les règles du standard d'échange de données pour l'archivage version 0.2";
+																				$this->authorityInfo['nom_entite'] . 
+																			" puis transférés sur la plate-forme d'archivage électronique AS@LAE par l'ADULLACT, au moyen de l'outil Pastell. Les données archivées sont structurées selon le schéma métier Actes (Aide au contrôle de légalité dématérialisé) établi par le Ministère de l'intérieur, de l'outre mer et des collectivités territoriales. La description a été établie selon les règles du standard d'échange de données pour l'archivage version 0.2";
 			
 		$archiveTransfer->Contains->ContentDescription->Description = $transactionsInfo['nature_descr'] . " N° ".$transactionsInfo['numero_acte_collectivite'] . 
 										" en date du ". date('d/m/Y',strtotime($transactionsInfo['decision_date'])).

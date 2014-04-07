@@ -15,14 +15,13 @@ class HorodateurPastell extends Horodateur {
 	}
 	
 	public function getTimestampReply($data){
-		$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);		
+		$timestampRequest = $this->opensslTSWrapper->getTimestampQuery($data);
 		$config_file = __DIR__."/data/openssl-tsa.cnf";
 		return $this->opensslTSWrapper->createTimestampReply($timestampRequest,$this->signerCertificate,$this->signerKey,$this->signerKeyPassword,$config_file);
 	}	
 	
 	public function verify($data,$token){
-		$config_file = __DIR__."/data/openssl-tsa.cnf";
-		$result = $this->opensslTSWrapper->verify($data,$token,$this->ca_certificate,$this->signerCertificate,$config_file);
+		$result = $this->opensslTSWrapper->verify($data,$token,$this->ca_certificate,$this->signerCertificate);
 		if (!$result){
 			throw new Exception($this->opensslTSWrapper->getLastError());
 		}

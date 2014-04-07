@@ -96,12 +96,7 @@ role_droit:
  -
   role: admin
   droit: role:edition
- -
-  role: admin
-  droit: fournisseur-invitation:lecture
- -
-  role: admin
-  droit: fournisseur-invitation:edition
+   
  
 document:
 document_action:
@@ -159,13 +154,6 @@ connecteur_entite:
   libelle: SEDA parametrable
   id_connecteur: actes-seda-parametrable
   type: Bordereau SEDA
- - 
-  id_ce: 9
-  id_e: 1
-  libelle: mail-fournisseur-invitation
-  id_connecteur: mail-fournisseur-invitation
-  type: mail-fournisseur-invitation
-   
   
 flux_entite:
  -
@@ -198,13 +186,6 @@ flux_entite:
   flux: actes-generique
   id_ce: 5
   type: GED
- -
-  id_fe: 6
-  id_e: 1
-  flux:  fournisseur-invitation 
-  id_ce: 9
-  type: mail-fournisseur-invitation
- 
   
 
   

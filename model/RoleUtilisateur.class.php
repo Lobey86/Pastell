@@ -170,19 +170,6 @@ class RoleUtilisateur extends SQL {
 		return $result;
 	}
 	
-	public function getEntiteWithSomeDroit($id_u){
-		$sql = "SELECT  DISTINCT utilisateur_role.id_e " .
-				" FROM utilisateur_role " .
-				" JOIN role_droit ON utilisateur_role.role=role_droit.role ".
-				" LEFT JOIN entite ON utilisateur_role.id_e=entite.id_e " .
-				" WHERE id_u = ?  ";
-		$result = array();
-		foreach($this->query($sql,$id_u) as $line){
-			$result[] = $line['id_e'];
-		};
-		return $result;
-	}
-	
 	public function hasManyEntite($id_u,$role){
 		if ($this->hasDroit($id_u,$role,0)){
 			return true;

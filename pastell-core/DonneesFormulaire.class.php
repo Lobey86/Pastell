@@ -496,6 +496,7 @@ class DonneesFormulaire {
 		}
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
+        
         // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
         if ($setModifiedToFalse) {
         	$this->isModified=false;  

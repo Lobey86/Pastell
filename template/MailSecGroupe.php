@@ -1,7 +1,7 @@
-<a class='btn btn-mini' href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'><i class='icon-circle-arrow-left'></i> Voir tous les groupes</a>
+<a href='mailsec/groupe-list.php?id_e=<?php echo $id_e ?>'>« Voir tous les groupes</a>
 
 <br/><br/>
-<div class="box">
+<div class="box_contenu">
 <h2>Liste des contacts de «<?php echo $infoGroupe['nom']?>» </h2>
 
 <?php $this->SuivantPrecedent($offset,AnnuaireGroupe::NB_MAX,$nbUtilisateur,"mailsec/groupe.php?id_e=$id_e&id_g=$id_g"); ?>
@@ -12,7 +12,7 @@
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
 
-<table  class="table table-striped">
+<table  class="tab_02">
 	<tr>
 	
 		<th>Description</th>
@@ -28,7 +28,7 @@
 	
 </table>
 <?php if ($can_edit) : ?>
-<input type='submit' value='Enlever du groupe' class='btn'/>
+<input type='submit' value='Enlever du groupe'/>
 <?php endif; ?>
 
 </form>
@@ -36,24 +36,24 @@
 
 <?php if ( $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:edition",$id_e)) : ?>
 
-<div class="box">
+<div class="box_contenu">
 <h2>Ajouter un contact à «<?php echo $infoGroupe['nom']?>» </h2>
 <form action='mailsec/add-contact-to-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
 	
-	<table class="table table-striped">
+	<table>
 		<tbody>
 			<tr>
 				<th>Contact : </th>
-				<td><input type='text' id='nom_contact' name='name' value='' /></td>
+				<td><input type='text' id='name' name='name' value='' /></td>
 			</tr>	
 		</tbody>
 	</table>
 	<script>
 	 
  		 $(document).ready(function(){
-				$("#nom_contact").autocomplete("mailsec/get-contact-ajax.php",  
+				$("#name").autocomplete("mailsec/get-contact-ajax.php",  
 						{
 						cacheLength:0, 
 						max: 20, 
@@ -63,13 +63,13 @@
 				});
  		 });
 	</script>
-	<input type='submit' value='Ajouter' class='btn'/>
+	<input type='submit' value='Ajouter'/>
 </form>
 </div>
 <?php endif;?>
 
 
-<div class="box">
+<div class="box_contenu">
 <h2>Partage</h2>
 
 <?php if ($infoGroupe['partage']) : ?>
@@ -80,7 +80,7 @@ pour leur propre mail.</p>
 <form action='mailsec/partage-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
-	<input type='submit' value='Supprimer le partage' class='btn'/>
+	<input type='submit' value='Supprimer le partage'/>
 </form>
 <?php else:?>
 <div class='box_info'>
@@ -89,7 +89,7 @@ pour leur propre mail.</p>
 <form action='mailsec/partage-groupe.php' method='post' >		
 	<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 	<input type='hidden' name='id_g' value='<?php echo $id_g ?>' />
-	<input type='submit' value='Partager' class='btn'/>
+	<input type='submit' value='Partager'/>
 </form>
 <?php endif;?>
 

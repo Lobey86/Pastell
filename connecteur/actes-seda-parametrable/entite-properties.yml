@@ -18,7 +18,7 @@ formulaire:
 			name: "Numéro SIREN de la collectivité"
     dernier_numero_transfert:
       name: "Numéro du dernier transfert"
-      read-only: true  
+      read-only: true
 
 action:	
 	test-bordereau :
