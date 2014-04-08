@@ -47,7 +47,7 @@ action:
 						creation
 						modification
 					content:
-						test2d: true
+						test2: true
 				and_2:
 					last-action:
 						creation
