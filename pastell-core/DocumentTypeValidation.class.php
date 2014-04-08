@@ -275,6 +275,9 @@ class DocumentTypeValidation {
 		}
 		$properties_list = array();
 		foreach($typeDefinition['action'] as $action_name => $action_properties){
+			if (empty($action_properties['rule'] )){
+				continue;
+			}
 			$prop = $this->findRule($action_properties['rule'], $rule_name);
 			if ($prop){
 				$properties_list = array_merge($properties_list,$prop);
