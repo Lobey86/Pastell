@@ -16,7 +16,7 @@ class FakeTdT extends TdtAdapter {
 	}
 	
 	public function getARActes(){
-		return "<aracte/>";
+		return file_get_contents(__DIR__."/fixtures/ar-actes.xml");
 	}
 	
 	public function getDateAR($id_transaction){
