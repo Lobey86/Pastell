@@ -82,9 +82,18 @@ class ActesSEDACG86  extends SEDAConnecteur {
 			}
 		}
 		
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename');
+		
+		foreach($info_sup as $key){
+			if (empty($information[$key])){
+				$information[$key] = false;
+			}
+		}
+		return $information;
 	}
 	
 	public function getBordereau(array $transactionsInfo){
+		
 		$this->checkInformation($transactionsInfo);
 		
 		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
@@ -153,8 +162,8 @@ class ActesSEDACG86  extends SEDAConnecteur {
 											date('d/m/Y',strtotime($ar_actes_info['DateReception'])) .".";
 		
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = " Actes dématérialisés soumis au contrôle de légalité télétransmis via la plate-forme S2LOW de l'ADULLACT pour le ".
-																				$this->authorityInfo['nom_entite'] . 
-																			" puis transférés sur la plate-forme d'archivage électronique AS@LAE par l'ADULLACT, au moyen de l'outil Pastell. Les données archivées sont structurées selon le schéma métier Actes (Aide au contrôle de légalité dématérialisé) établi par le Ministère de l'intérieur, de l'outre mer et des collectivités territoriales. La description a été établie selon les règles du standard d'échange de données pour l'archivage version 0.2";
+											$this->authorityInfo['nom_entite'] . 
+											" puis transférés sur la plate-forme d'archivage électronique AS@LAE par l'ADULLACT, au moyen de l'outil Pastell. Les données archivées sont structurées selon le schéma métier Actes (Aide au contrôle de légalité dématérialisé) établi par le Ministère de l'intérieur, de l'outre mer et des collectivités territoriales. La description a été établie selon les règles du standard d'échange de données pour l'archivage version 0.2";
 			
 		$archiveTransfer->Contains->ContentDescription->Description = $transactionsInfo['nature_descr'] . " N° ".$transactionsInfo['numero_acte_collectivite'] . 
 										" en date du ". date('d/m/Y',strtotime($transactionsInfo['decision_date'])).
@@ -222,13 +231,13 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$contentType = $this->getContentType($transactionsInfo['actes_file']);
 		$actes_is_signed = isset($transactionInfo['signature']);
 	
-		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,"Acte", $actes_is_signed);
+		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,$transactionsInfo['actes_file_orginal_filename'], $actes_is_signed);
 		
 		if ($transactionsInfo['annexe']) {
 			$c = $this->getDL("Contains","Annexe(s) d'un acte soumis au contrôle de légalité");
 			foreach($transactionsInfo['annexe'] as $i => $annexe){
 				$contentType = $this->getContentType($annexe);
-				$c->Document[$i] = $this->getDocument(basename($annexe),$contentType,false,"Annexe n° ".($i+1),$actes_is_signed);
+				$c->Document[$i] = $this->getDocument(basename($annexe),$contentType,false,"Annexe n° ".($i+1) .": ".$transactionsInfo['annexe_original_filename'][$i],$actes_is_signed);
 			}
 			$archiveTransfer->Contains->Contains[0]->Contains[] =  $c;
 		}
@@ -273,7 +282,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 				$file_nb = 1;
 				$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
 				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
-							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,false,$transactionsInfo['decision_date']);
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,$transactionsInfo['echange_prefecture_original_filename'][$num_contains],$transactionsInfo['decision_date']);
 						
 				$num_echange_ar = $num_echange;
 				$num_echange++;
@@ -282,7 +291,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 					$file_nb++;
 					$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
 					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
-							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,false,$transactionsInfo['decision_date']);
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,$transactionsInfo['echange_prefecture_original_filename'][$num_contains],$transactionsInfo['decision_date']);
 						
 			
 		
@@ -305,6 +314,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$xml_string = str_replace("####SAE_ID_ARCHIVE####", $this->authorityInfo['identifiant_archive'], $xml_string);
 		$xml_string = str_replace("####SAE_ORIGINATING_AGENCY####", $this->authorityInfo['identifiant_producteur'], $xml_string);
 		$xml_string = str_replace("&#039;", "'", $xml_string);
+	
 		return $xml_string;
 	}
 	
