@@ -1,14 +1,5 @@
 <?php 
 
-$recuperateur = new Recuperateur($_GET);
-$id_e_menu = $recuperateur->getInt('id_e',0);
-$type_e_menu = $recuperateur->get('type',"");
-
-$breadcrumbs = array();
-$entiteBC = new Entite($sqlQuery,$id_e_menu);
-foreach( $entiteBC->getAncetre() as $infoEntiteBR){
-	$breadcrumbs[] = $infoEntiteBR['denomination'];
-}
 
 if (! isset($nouveau_bouton_url)){
 	$nouveau_bouton_url = array();

@@ -90,7 +90,7 @@ class EntiteSQL extends SQL {
 	}
 	
 	public function getFilleInfoNavigation($id_e,array $liste_collectivite = array()){
-		if ($id_e != 0 || ($liste_collectivite[0] == 0)) {
+		if ($id_e != 0 || ! $liste_collectivite || ($liste_collectivite[0] == 0)) {
 			return $this->getFilleWithType($id_e,array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE));
 		} 
 		$liste_fille = array();

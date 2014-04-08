@@ -254,7 +254,6 @@ class DocumentControler extends PastellControler {
 			$this->redirect("/document/index.php?id_e=$id_e");
 		}
 		
-		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
 		
 		$liste_collectivite = $this->RoleUtilisateur->getEntite($this->getId_u(),$type.":lecture");
@@ -266,6 +265,7 @@ class DocumentControler extends PastellControler {
 		if (!$id_e && (count($liste_collectivite) == 1)){
 			$id_e = $liste_collectivite[0];
 			$this->id_e_menu = $id_e;
+			$this->type_e_menu = $type;
 		}
 			
 		

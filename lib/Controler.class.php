@@ -1,9 +1,6 @@
 <?php
-
-
 class LastErrorException extends Exception {}
 class LastMessageException extends Exception {}
-
 
 class Controler {
 
@@ -77,7 +74,6 @@ class Controler {
 		exit;
 	}
 	
-
 	public function renderDefault(){
 		$template_milieu = $this->viewParameter['template_milieu'];
 		$this->Gabarit->setParameters($this->getViewParameter());
@@ -87,5 +83,9 @@ class Controler {
 	public function render($template){
 		$this->Gabarit->setParameters($this->getViewParameter());
 		$this->Gabarit->render($template);
+	}
+	
+	public function isViewParameter($key){
+		return isset($this->viewParameter[$key]);
 	}
 }
