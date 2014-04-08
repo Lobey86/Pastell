@@ -82,6 +82,14 @@ class ActesSEDACG86  extends SEDAConnecteur {
 			}
 		}
 		
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename');
+		
+		foreach($info_sup as $key){
+			if (empty($information[$key])){
+				$information[$key] = false;
+			}
+		}
+		return $information;
 	}
 	
 	public function getBordereau(array $transactionsInfo){
@@ -223,13 +231,13 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$contentType = $this->getContentType($transactionsInfo['actes_file']);
 		$actes_is_signed = isset($transactionInfo['signature']);
 	
-		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,"Acte", $actes_is_signed);
+		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,$transactionsInfo['actes_file_orginal_filename'], $actes_is_signed);
 		
 		if ($transactionsInfo['annexe']) {
 			$c = $this->getDL("Contains","Annexe(s) d'un acte soumis au contrôle de légalité");
 			foreach($transactionsInfo['annexe'] as $i => $annexe){
 				$contentType = $this->getContentType($annexe);
-				$c->Document[$i] = $this->getDocument(basename($annexe),$contentType,false,"Annexe n° ".($i+1),$actes_is_signed);
+				$c->Document[$i] = $this->getDocument(basename($annexe),$contentType,false,"Annexe n° ".($i+1) .": ".$transactionsInfo['annexe_original_filename'][$i],$actes_is_signed);
 			}
 			$archiveTransfer->Contains->Contains[0]->Contains[] =  $c;
 		}
@@ -274,7 +282,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 				$file_nb = 1;
 				$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
 				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
-							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,false,$transactionsInfo['decision_date']);
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,$transactionsInfo['echange_prefecture_original_filename'][$num_contains],$transactionsInfo['decision_date']);
 						
 				$num_echange_ar = $num_echange;
 				$num_echange++;
@@ -283,7 +291,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 					$file_nb++;
 					$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
 					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb] 
-							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,false,$transactionsInfo['decision_date']);
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,$transactionsInfo['echange_prefecture_original_filename'][$num_contains],$transactionsInfo['decision_date']);
 						
 			
 		
@@ -306,6 +314,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$xml_string = str_replace("####SAE_ID_ARCHIVE####", $this->authorityInfo['identifiant_archive'], $xml_string);
 		$xml_string = str_replace("####SAE_ORIGINATING_AGENCY####", $this->authorityInfo['identifiant_producteur'], $xml_string);
 		$xml_string = str_replace("&#039;", "'", $xml_string);
+	
 		return $xml_string;
 	}
 	
