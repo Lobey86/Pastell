@@ -24,6 +24,10 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		}
 	}
 	
+	private function getTransferIdentifier($transactionsInfo) {
+		return sha1_file($transactionsInfo['pes_aller']) ."-". time();
+	}
+	
 	public function getBordereau($transactionsInfo){
 		$this->checkInformation($transactionsInfo);
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
@@ -32,7 +36,7 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
 		
 		#TODO : Identifiant unique CIVIL Finances - Identifiant unique du transfert généré par le logiciel CIVIL Finances (CIRIL)
-		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
+		$archiveTransfer->TransferIdentifier = $this->getTransferIdentifier($transactionsInfo);
 		
 		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['siren'];
 		$archiveTransfer->TransferringAgency->Identification['schemeName'] = "SIRENE";

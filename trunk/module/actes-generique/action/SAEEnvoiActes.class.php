@@ -42,8 +42,6 @@ class SAEEnvoiActes extends ActionExecutor {
 			'annexe_original_filename' => $donneesFormulaire->get('autre_document_attache'),
 			'echange_prefecture_original_filename' => $donneesFormulaire->get('echange_prefecture')
 		);
-	
-		
 		
 		if ($donneesFormulaire->get("signature")){
 			$transactionsInfo['signature'] = $donneesFormulaire->copyAllFiles('signature',$tmp_folder,"signature");

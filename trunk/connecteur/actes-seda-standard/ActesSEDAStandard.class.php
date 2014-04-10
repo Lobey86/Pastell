@@ -43,7 +43,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		$archiveTransfer['xmlns'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2";
 		$archiveTransfer->Comment = "Transfert d'un acte soumis au contrôle de légalité";
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
-		$archiveTransfer->TransferIdentifier = $transactionsInfo['numero_acte_collectivite'];
+		$archiveTransfer->TransferIdentifier = $transactionsInfo['numero_acte_collectivite']."-".time();
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Codification interne";
 		
 		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['sae_id_versant'];

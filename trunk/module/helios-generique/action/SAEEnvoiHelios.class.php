@@ -15,17 +15,8 @@ class SAEEnvoiHelios extends ActionExecutor {
 		$pes_aller = $donneesFormulaire->copyFile('fichier_pes_signe',$tmp_folder);
 		$pes_retour = $donneesFormulaire->copyFile('fichier_reponse',$tmp_folder);
 		
-		if ($donneesFormulaire->get('tedetis_transaction_id')){
-			$donneesFormulaire->setData('uniqid', $donneesFormulaire->get('tedetis_transaction_id'));
-		} else if (!  $donneesFormulaire->get('uniqid')){
-			$sha1_pes_aller = sha1_file($pes_aller);
-			$donneesFormulaire->setData('uniqid', $sha1_pes_aller);
-		}
-		
-		$uniqid = $donneesFormulaire->get('uniqid');
-		
 		$transactionsInfo = array(
-				'unique_id' => $uniqid,
+				'unique_id' => $donneesFormulaire->get('tedetis_transaction_id'),
 				'date' => date("Y-m-d"), 
 				'description' => 'inconnu', 
 				'pes_retour_description' => 'inconnu', 
@@ -49,6 +40,9 @@ class SAEEnvoiHelios extends ActionExecutor {
 			$this->setLastMessage("L'envoi du bordereau a échoué : " . $sae->getLastError());
 			return false;
 		} 
+		
+		$transferId = $sae->getTransferId($bordereau);
+		$donneesFormulaire->setData("sae_transfert_id",$transferId);
 		
 		$this->addActionOK("Le document a été envoyé au SAE");
 		return true;
