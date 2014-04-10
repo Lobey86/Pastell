@@ -34,8 +34,7 @@ class ActesSEDALocarchive extends SEDAConnecteur {
 			if (empty($information[$key])){
 				$information[$key] = false;
 			}
-		}
-		
+		}		
 		return $information;
 	}
 
