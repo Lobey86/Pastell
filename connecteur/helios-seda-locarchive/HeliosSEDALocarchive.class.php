@@ -20,7 +20,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 
 	
 	private function checkInformation(array $information){
-		$info = array('unique_id','date','description','pes_description','pes_retour_description','pes_aller','pes_retour','pes_aller_content');		
+		$info = array('date','description','pes_description','pes_retour_description','pes_aller','pes_retour','pes_aller_content');		
 		
 		foreach($info as $key){
 			if (empty($information[$key])){
@@ -28,7 +28,10 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 			}
 		}
 	}
-
+	
+	private function getTransferIdentifier($transactionsInfo) {
+		return sha1_file($transactionsInfo['pes_aller']) ."-". time();
+	}
 	
 	
 	private function getSubjectFromPESAller($pes_aller_content){
@@ -50,7 +53,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
 		
 		
-		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
+		$archiveTransfer->TransferIdentifier = $this->getTransferIdentifier($transactionsInfo);
 		
 		//$this->getSubjectFromPESAller($transactionsInfo['pes_aller_content']);
 		

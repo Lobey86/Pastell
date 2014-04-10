@@ -110,8 +110,8 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		$this->dico["#fichierActeNom#"] = basename($transactionsInfo['actes_file']);
 		$this->dico["#fichierActeMimeCode#"] = $this->mimeCode->getContentType($transactionsInfo['actes_file']);
 		$this->dico['#date#'] = date('Y-m-d');
-                $this->dico['#transferIdentifier#'] = $this->getTransferIdentifier();
-		
+        $this->dico['#transferIdentifier#'] = $this->getTransferIdentifier();
+        		
 		$nb_annexe = count($transactionsInfo['annexe']);
 		
 		$this->condition = array("annexePresente"=> $nb_annexe,
@@ -169,10 +169,11 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 	
 	private function getTransferIdentifier(){
 		$numero_transfert = $this->seda_config->get("dernier_numero_transfert");
-		$this->seda_config->setData('dernier_numero_transfert', $numero_transfert);
 		if(empty($numero_transfert)) {
-			return 1;
+			$numero_transfert = 0;
 		}
-		return $numero_transfert++;
+		$numero_transfert++;
+		$this->seda_config->setData('dernier_numero_transfert', $numero_transfert);
+		return $numero_transfert;
 	}
 }

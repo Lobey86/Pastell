@@ -15,12 +15,16 @@ class HeliosSEDAStandard extends Connecteur {
 	}
 	
 	public function checkInformation(array $information){
-		$info = array('unique_id','date','description','pes_description','pes_retour_description','pes_aller','pes_retour');		
+		$info = array('date','description','pes_description','pes_retour_description','pes_aller','pes_retour');		
 		foreach($info as $key){
 			if (empty($information[$key])){
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
 		}
+	}
+	
+	private function getTransferIdentifier($transactionsInfo) {
+		return sha1_file($transactionsInfo['pes_aller']) ."-". time();
 	}
 	
 	public function getBordereau($transactionsInfo){
@@ -30,7 +34,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Comment = "Transfert d'un flux comptable conforme au PES V2";
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
 		
-		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
+		$archiveTransfer->TransferIdentifier = $this->getTransferIdentifier($transactionsInfo);
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Adullact Projet";
 		
 		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['sae_id_versant'];
