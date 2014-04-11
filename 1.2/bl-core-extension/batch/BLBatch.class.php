@@ -55,6 +55,24 @@ class BLBatch {
         }
     }
 
+    public function read($prompt, $default = null) {
+        echo utf8_encode($prompt . ' : ');
+        $ret = utf8_decode(trim(fgets(STDIN)));
+        if (empty($ret)) {
+            if (isset($default)) {
+                return $default;
+            }
+            $this->error('Abandon');
+            exit(1);
+        }
+        return $ret;
+    }
+
+    private function error($text) {
+        echo utf8_encode($text . "\n");
+        exit(1);
+    }    
+    
     /**
      * En mode http comme en mode 'cli', les paramètres sont fournis au format {name}={value}.
      * @param string $name
