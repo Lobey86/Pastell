@@ -13,15 +13,8 @@ class SAEEnvoiActes extends ActionExecutor {
 		
 		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
 		
-		$echange_prefecture = $donneesFormulaire->copyAllFiles('echange_prefecture',$tmp_folder,"document-prefecture");
-		$echange_prefecture_ar = $donneesFormulaire->copyAllFiles('echange_prefecture_ar',$tmp_folder,"ar-prefecture");
 		
 		@ unlink($tmp_folder."/empty");
-		
-		$echange_prefecture_type = array();
-		foreach($echange_prefecture as $i => $echange){
-			$echange_prefecture_type[$i] = $donneesFormulaire->get("echange_prefecture_type_$i");
-		}
 		
 		$transactionsInfo = array(
 			'numero_acte_collectivite' => $donneesFormulaire->get('numero_de_lacte'),
@@ -34,14 +27,19 @@ class SAEEnvoiActes extends ActionExecutor {
 			'actes_file' => $arrete,
 			'ar_actes' => $ar_actes,
 			'annexe' => $annexe,
-			'echange_prefecture' => $echange_prefecture,
-			'echange_prefecture_ar' => $echange_prefecture_ar,
-			'echange_prefecture_type' => $echange_prefecture_type,
-			
 			'actes_file_orginal_filename' => $donneesFormulaire->getFileName('arrete',0),
 			'annexe_original_filename' => $donneesFormulaire->get('autre_document_attache'),
-			'echange_prefecture_original_filename' => $donneesFormulaire->get('echange_prefecture')
 		);
+		
+		if ($this->getDonneesFormulaire()->get('has_information_complementaire')){
+			$echangePrefecture = $this->getEchangePrefecture($donneesFormulaire,$tmp_folder);
+		} else {
+			$echangePrefecture = $this->getFromDocument($donneesFormulaire,$tmp_folder);
+		}
+		
+		
+		$transactionsInfo = array_merge($transactionsInfo,$echangePrefecture);
+		
 		
 		if ($donneesFormulaire->get("signature")){
 			$transactionsInfo['signature'] = $donneesFormulaire->copyAllFiles('signature',$tmp_folder,"signature");
@@ -70,4 +68,77 @@ class SAEEnvoiActes extends ActionExecutor {
 		$this->addActionOK("Le document a été envoyé au SAE");
 		return true;
 	}
+	
+	public function getEchangePrefecture($donneesFormulaire,$tmp_folder) {
+		$result['echange_prefecture'] = $donneesFormulaire->copyAllFiles('echange_prefecture',$tmp_folder,"document-prefecture");
+		$result['echange_prefecture_ar'] = $donneesFormulaire->copyAllFiles('echange_prefecture_ar',$tmp_folder,"ar-prefecture");
+		$result['echange_prefecture_type'] = array();
+		foreach($result['echange_prefecture'] as $i => $echange){
+			$result['echange_prefecture_type'][$i] = $donneesFormulaire->get("echange_prefecture_type_$i");
+		}
+		$result['echange_prefecture_original_filename'] = $donneesFormulaire->get('echange_prefecture');
+		return $result;
+	}
+	
+	
+	public function getFromDocument(DonneesFormulaire $donneesFormulaire,$tmp_folder){
+		$nb_document  = 1;
+		$result['echange_prefecture'] = array();
+		$result['echange_prefecture_ar'] = array();
+		$result['echange_prefecture_type'] = array();
+		$result['echange_prefecture_original_filename'] = array();
+		
+		if ($donneesFormulaire->get('has_courrier_simple')){
+			$result['echange_prefecture'][] = $donneesFormulaire->copyFile('courrier_simple', $tmp_folder,0,"document-prefecture-".$nb_document++);
+			$result['echange_prefecture_ar'][] = "empty";
+			$result['echange_prefecture_type'][] = "2A";
+			$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('courrier_simple',0);
+		}
+		
+		if($donneesFormulaire->get('has_demande_piece_complementaire')){
+			$result['echange_prefecture'][] = $donneesFormulaire->copyFile('demande_piece_complementaire', $tmp_folder,0,"document-prefecture-".$nb_document++);
+			$result['echange_prefecture_ar'][] = "empty";
+			$result['echange_prefecture_type'][] = "3A";
+			$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('demande_piece_complementaire',0);
+		}
+		
+		if($donneesFormulaire->get('has_reponse_demande_piece_complementaire')){
+			$result['echange_prefecture'][] = $donneesFormulaire->copyFile('reponse_demande_piece_complementaire', $tmp_folder,0,"document-prefecture-".$nb_document++);
+			$result['echange_prefecture_ar'][] = "empty";
+			$result['echange_prefecture_type'][] = "3R";
+			$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('reponse_demande_piece_complementaire',0);
+			if ($donneesFormulaire->get('reponse_pj_demande_piece_complementaire')) {
+				foreach($donneesFormulaire->get('reponse_pj_demande_piece_complementaire') as $i => $filename){
+					$result['echange_prefecture'][] = $donneesFormulaire->copyFile('reponse_pj_demande_piece_complementaire', $tmp_folder,$i,"document-prefecture-".$nb_document++);
+					$result['echange_prefecture_ar'][] = "empty";
+					$result['echange_prefecture_type'][] = "3RB";
+					$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('reponse_pj_demande_piece_complementaire',$i);
+				}
+			}
+		}
+		if($donneesFormulaire->get('has_lettre_observation')){
+			$result['echange_prefecture'][] = $donneesFormulaire->copyFile('lettre_observation', $tmp_folder,0,"document-prefecture-".$nb_document++);
+			$result['echange_prefecture_ar'][] = "empty";
+			$result['echange_prefecture_type'][] = "4A";
+			$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('lettre_observation',0);
+		}
+		
+		if($donneesFormulaire->get('has_reponse_lettre_observation')){
+			$result['echange_prefecture'][] = $donneesFormulaire->copyFile('reponse_lettre_observation', $tmp_folder,0,"document-prefecture-".$nb_document++);
+			$result['echange_prefecture_ar'][] = "empty";
+			$result['echange_prefecture_type'][] = "4R";
+			$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('reponse_lettre_observation',0);
+		}
+		
+		if($donneesFormulaire->get('has_defere_tribunal_administratif')){
+			$result['echange_prefecture'][] = $donneesFormulaire->copyFile('defere_tribunal_administratif', $tmp_folder,0,"document-prefecture-".$nb_document++);
+			$result['echange_prefecture_ar'][] = "empty";
+			$result['echange_prefecture_type'][] = "5A";
+			$result['echange_prefecture_original_filename'][] = $donneesFormulaire->getFileName('defere_tribunal_administratif',0);
+		}
+		
+		return $result;
+	}
+	
+	
 } 

@@ -26,7 +26,15 @@ class ActesSEDAStandard extends SEDAConnecteur {
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
 		}
-		$info_sup = array('actes_file_orginal_filename','annexe_original_filename');
+		
+		$info = array('annexe','echange_prefecture','echange_prefecture_ar','echange_prefecture_type');
+		foreach($info as $key){
+			if (! isset($information[$key])){
+				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
+			}
+		}
+		
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename');
 		
 		foreach($info_sup as $key){
 			if (empty($information[$key])){
@@ -59,6 +67,24 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		foreach($transactionsInfo['annexe'] as $fileName){
 			$archiveTransfer->Integrity[$i]->Contains = sha1_file($fileName);
 			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($fileName);
+			$i++;
+		}
+		
+		foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){
+			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture);
+			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($echange_prefecture);
+			$i++;
+		}
+		
+		foreach($transactionsInfo['echange_prefecture_ar'] as $echange_prefecture_ar){
+			if (! $echange_prefecture_ar){
+				continue;
+			}
+			if (basename($echange_prefecture_ar) == 'empty'){
+				continue;
+			}
+			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture_ar);
+			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($echange_prefecture_ar);
 			$i++;
 		}
 		
@@ -147,7 +173,72 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		unset($arActes->Document[0]->Attachment['mimeCode']);
 		$archiveTransfer->Contains->Contains[0]->Contains[] = $arActes;
 		
-		return $archiveTransfer->asXML();
+		//DEBUT
+		$num_echange = 0;
+		$num_contains = 0;
+		while(isset($transactionsInfo['echange_prefecture_type'][$num_echange])){
+				
+			$type = $transactionsInfo['echange_prefecture_type'][$num_echange];
+				
+		 	$archiveTransfer->Contains->Contains[$num_contains+1] =$this->getDL("Contains",$this->getRelatedTransactionName($type), $ar_actes_info['IDActe']);
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->DescriptionLevel="item";
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->DescriptionLevel['listVersionID']="edition 2009";
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->Name= $this->getRelatedTransactionType($type);
+				
+			$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
+				
+			$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[0]->Document
+			= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getRelatedTransactionType($type)." : ".$transactionsInfo['echange_prefecture_original_filename'][$num_contains],false,$transactionsInfo['decision_date']);
+		
+			$nb_contains_contains  = 1 ;
+				
+			if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange]) && (basename($transactionsInfo['echange_prefecture_ar'][$num_echange]) != 'empty')){
+				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]
+				= $this->getDL("Contains",$this->getARName($type));
+				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document
+				= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange]),"application/xml",false,"Accusé de réception",false,false,false);
+				$nb_contains_contains  = 2 ;
+			}
+				
+			$num_echange ++ ;
+			while(isset($transactionsInfo['echange_prefecture_type'][$num_echange]) && $transactionsInfo['echange_prefecture_type'][$num_echange][1] != 'A'){
+				$nb_contains_contains++;
+				$reponse_type = $transactionsInfo['echange_prefecture_type'][$num_echange];
+				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]
+				= $this->getDL("Contains",$this->getReponseName($reponse_type));
+		
+				$file_nb = 1;
+				$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
+				$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb]
+				= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type) ." ".$transactionsInfo['echange_prefecture_original_filename'][$num_echange],false,$transactionsInfo['echange_prefecture_original_filename'][$num_contains],$transactionsInfo['decision_date']);
+		
+				$num_echange_ar = $num_echange;
+				$num_echange++;
+		
+				while(isset($transactionsInfo['echange_prefecture_type'][$num_echange][2]) && $transactionsInfo['echange_prefecture_type'][$num_echange][2] == 'B'){
+					$file_nb++;
+					$contentType = $this->getContentType($transactionsInfo['echange_prefecture'][$num_echange]);
+					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document[$file_nb]
+					= $this->getDocument(basename($transactionsInfo['echange_prefecture'][$num_echange]),$contentType,false,$this->getReponseDocumentName($reponse_type),false,$transactionsInfo['echange_prefecture_original_filename'][$num_echange],$transactionsInfo['decision_date']);
+					$num_echange++;
+				}
+				if(! empty($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]) && (basename($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]) != 'empty')){
+					$nb_contains_contains++;
+					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]
+					= $this->getDL("Contains",$this->getARRecuType($reponse_type));
+					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document
+					= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]),"application/xml",false,"Accusé de réception",false,false,false);
+				}
+			}
+				
+			$num_contains++;
+		}
+		
+		//FIN
+		
+		$result =  $archiveTransfer->asXML();
+		
+		return $result;
 	}
 	
 	private function getContainsElementWithDocument($description,array $allFileInfo,$receiptDate = false,$original_filename = false){
@@ -249,5 +340,104 @@ class ActesSEDAStandard extends SEDAConnecteur {
 				return "P1Y";
 		}
 	}
+	private function getDL($node_name,$name,$id = false){
+		$node = new ZenXML($node_name);
+		$node->DescriptionLevel = "file";
+		$node->DescriptionLevel['listVersionID'] = "edition 2009";
+		$node->Name =$name;
+		if ($id !== false ){
+			$node->TransferringAgencyObjectIdentifier = "$id";
+			$node->TransferringAgencyObjectIdentifier['schemeAgencyName'] = "Ministère de l'intérieur, de l'outre-mer et des collectivités territoriales";
+		}
+		return $node;
+	}
 	
+	
+	private function getARRecuType($type){
+		$array = array(
+				'3R'=>"Accusé de réception d'une réponse à une demande de pièces complémentaires",
+				'4R'=>"Accusé de réception d'une réponse à une lettre d'observations",
+		);
+		if (empty($array[$type])){
+			throw new Exception("Accusé de réception non autorisé sur ce type de message (message $type)");
+		}
+		return $array[$type];
+	}
+	
+	
+	
+	private function getARName($type){
+		$array = array(
+				'3A'=>"Accusé de réception d'une demande de pièces complémentaires",
+				'4A'=>"Accusé de réception d'une lettre d'observations",
+		);
+		if (empty($array[$type])){
+			throw new Exception("Accusé de réception non autorisé sur ce type de message (message $type)");
+		}
+		return $array[$type];
+	
+	}
+	
+	private function getReponseDocumentName($type){
+		$array = array(
+				'2R'=>"Réponse à un courrier simple",
+				'3R'=>"Réponse",
+				'4R'=>"Réponse",
+		);
+		return $array[$type];
+	}
+	
+	private function getReponseName($type){
+		$array = array(
+				'2R'=>"Réponse à un courrier simple",
+				'3R'=>"Réponse à une demande de pièces complémentaires",
+				'4R'=>"Réponse à une lettre d'observations",
+		);
+		return $array[$type];
+	}
+	
+	private function getRelatedTransactionName($type){
+		$array = array(
+				'2A'=>"Envoi d'un courrier simple",
+				'3A'=>"Envoi d'une demande de pièces complémentaires",
+				'4A'=>"Envoi d'une lettre d'observations",
+				'5A'=>"Déféré au tribunal administratif");
+		return $array[$type];
+	}
+	
+	private function getRelatedTransactionType($type){
+		$array = array(
+				'2A'=>"Courrier simple",
+				'3A'=>"Demande de pièces complémentaires",
+				'4A'=>"Lettre d'observations",
+				'5A'=>"Déféré au tribunal administratif");
+		return $array[$type];
+	}
+	private function getContentType($file_path){
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		return finfo_file($finfo,$file_path);
+	}
+	private function getDocument($filename,$mimetype,$receipt = false,$description = false,$is_original = true,$receipt_submission=false,$response=false){
+		$document = new ZenXML("Document");
+		$document->Attachment['mimeCode'] = $mimetype;
+		$document->Attachment['filename'] = $filename;
+		$document->Control = "false";
+		$document->Copy = $is_original?"false":"true";
+		if ($description !== false){
+			$document->Description = $description;
+		}
+		if ($receipt){
+			$document->Receipt = date("c",strtotime($receipt));
+		}
+		if ($receipt_submission){
+			$document->Receipt = date("c",strtotime($receipt_submission));
+		}
+		if ($response){
+			$document->Response = date("c",strtotime($response));
+		}
+		$document->Type = "CDO";
+		$document->Type["listVersionID"] = "edition 2009";
+	
+		return $document;
+	}
 }

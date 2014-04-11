@@ -15,6 +15,14 @@ class FakeSAE extends SAEConnecteur {
 	public function sendArchive($bordereauSEDA,$archivePath,$file_type="TARGZ",$archive_file_name="archive.tar.gz"){
 		$this->collectiviteProperties->addFileFromData('last_bordereau', 'bordereau_seda.xml', $bordereauSEDA);
 		$this->collectiviteProperties->addFileFromData('last_file', 'donnes.zip', file_get_contents($archivePath));
+		if ($this->collectiviteProperties->get('result_send') == 2){
+			throw new Exception("Ce connecteur bouchon est configuré pour renvoyé une erreur");
+		}
+		if ($this->collectiviteProperties->get('result_send') == 3){
+			header("Content-type: text/xml");
+			echo $bordereauSEDA;
+			exit;
+		}
 		return true;
 	}
 	

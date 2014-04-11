@@ -9,6 +9,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 	private $dico;
 	private $condition;
 	
+	
 	public function __construct(MimeCode $mimeCode){
 		$this->mimeCode = $mimeCode;
 	}
@@ -20,21 +21,29 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		$this->condition = array();
                 $this->seda_config = $seda_config;
 	}
-
-	private function traiteNode(DomNode $domNode){		
+	
+	private function traiteNode(DomNode $domNode){
 		if ($domNode->nodeType == XML_TEXT_NODE){
-			$this->traiteTextNode($domNode);
+			$this->traiteTextNode($domNode);			
 			return;
 		}
 		
 		if ($domNode->nodeType == XML_ELEMENT_NODE){
 			$this->traiteAttribut($domNode);
+			if (! $domNode->parentNode) {
+				return;
+			}
 		}
-		
-		foreach($domNode->childNodes as $childNode){
+		$allNode = array();
+		//La suppression d'un child lors d'une énumération provoque un undefined behaviour
+		foreach($domNode->childNodes as $node){
+			$allNode[] = $node;
+		}
+		foreach($allNode  as $childNode){
 			$this->traiteNode($childNode);
 		}
 	}
+	
 	
 	private function traiteTextNode(DOMText $textNode){
 		preg_match_all("/#[\w]+#/", $textNode->nodeValue,$matches);
@@ -42,8 +51,10 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 			foreach($m as $pattern) {
 				if (! isset($this->dico[$pattern])){
 					throw new ActesSEDAParametrableException("La clé $pattern est inconnue");
+					return;
 				}
 				$textNode->nodeValue = preg_replace("/$pattern/", $this->dico[$pattern], $textNode->nodeValue);
+				
 			}
 		}
 	}
@@ -55,13 +66,15 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 				throw new ActesSEDAParametrableException("La condition $condition n'est pas connu");
 			}
 			if (! $this->condition[$condition]){
-				$elementNode->parentNode->removeChild($elementNode);
+				$parentNode  = $elementNode->parentNode;
+				$parentNode->removeChild($elementNode);
 				return;
 			}
 			$elementNode->removeAttribute('pastellCondition');
 		}
 				
 		if($elementNode->hasAttribute('pastellRepetition')){
+		
 			$repetition = $elementNode->getAttribute('pastellRepetition');
 			if ($repetition != 'annexes') {
 				throw new ActesSEDAParametrableException("La répetition $repetition n'est pas connu");
@@ -89,6 +102,8 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		$domElement->parentNode->removeChild($domElement);
 	}
 	
+
+	
 	public function getBordereau(array $transactionsInfo){
 		
 		$transactionInfo2SpecKey = array (
@@ -100,7 +115,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 			"natureLibelle"=>"nature_descr",
 		);
 		foreach($transactionInfo2SpecKey as $dicokey => $transactionKey) {
-			$this->dico["#$dicokey#"] = $transactionsInfo[$transactionKey];
+			$this->dico["#$dicokey#"] = utf8_encode($transactionsInfo[$transactionKey]);
 		}
 
 		$infoArActes = $this->getInfoARActes($transactionsInfo['ar_actes']);
@@ -117,7 +132,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		$this->condition = array("annexePresente"=> $nb_annexe,
 								"annexeUnique"=>$nb_annexe==1,
 								"annexeMultiple"=>$nb_annexe>1);
-		
+				
 		$this->annexe = $transactionsInfo['annexe'];
 		
 		$dom = new DOMDocument('1.0');
@@ -135,15 +150,13 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 			$containsNode->parentNode->insertBefore($integrity,$containsNode);
 		}
 		
-		
 		$this->traiteNode($dom);
-
 		return $dom->saveXML();
 	}
 	
 	private function getAllFile($transactionsInfo){
-		
-		foreach(array('ar_actes','actes_file') as $key){
+		//TODO ajouté ar_actes
+		foreach(array('actes_file') as $key){
 			$fileName = $transactionsInfo[$key];
 			$result[basename($fileName)] = sha1_file($fileName);
 		}
@@ -151,7 +164,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 			$result[basename($fileName)] = sha1_file($fileName);
 		}
 		
-		foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){
+		/*foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){
 			$result[basename($echange_prefecture)] = sha1_file($echange_prefecture);
 		}
 		
@@ -163,7 +176,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 				continue;
 			}
 			$result[basename($echange_prefecture_ar)] = sha1_file($echange_prefecture_ar);
-		}
+		}*/
 		return $result;
 	}
 	

@@ -5,6 +5,13 @@ description: |
 
 formulaire:
 	page0:
+		result_send:
+			name: Résultat de l'envoi
+			type: select
+			value:
+				1: ok
+				2: simuler un échec
+				3: afficher le bordereau
 		sae_identifiant_versant: {name: "Identifiant service versant"}
 		sae_identifiant_archive: {name: "Identifiant archive"}
 		sae_numero_agrement: {name: "Numéro d'aggrément"}
@@ -19,3 +26,4 @@ formulaire:
 			name: Dernier fichier zip envoyé
 			type: file
 			read-only: true
+			
