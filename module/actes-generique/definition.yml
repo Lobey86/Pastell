@@ -589,6 +589,8 @@ action:
 					last-action: 
 						acquiter-tdt
 						info-tdt
+						verif-reponse-tdt
+						send-reponse-prefecture
 					content:
 						envoi_ged: false
 				and_4:
@@ -597,6 +599,8 @@ action:
 				and_5:
 					last-action:
 						erreur-envoie-sae
+				
+						
 		action-class: SAEEnvoiActes
 		action-automatique: verif-sae
 
