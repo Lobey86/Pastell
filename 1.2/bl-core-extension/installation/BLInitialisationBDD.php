@@ -41,7 +41,6 @@ if (!$role) {
     $roleSQLClass->addDroit('adminEntite','role:lecture');
     $roleSQLClass->addDroit('adminEntite','journal:lecture');
     $roleSQLClass->addDroit('adminEntite','system:lecture');
-    $roleSQLClass->addDroit('adminEntite','system:edition');
     $roleSQLClass->addDroit('adminEntite','pesbl:lecture');
     $roleSQLClass->addDroit('adminEntite','pesbl:edition');
     $roleSQLClass->addDroit('adminEntite','documentinternebl:lecture');
@@ -121,39 +120,47 @@ if (strtolower($creationAdmin2)=='o') {
 }
 
 //Utilisateur adminComptes
-$creation_admincomptes = $blScript->read('Souhaitez-vous créer un utilisateur pour administrer les comptes (admincomptes) ? (O/N)');
-if (strtolower($creation_admincomptes)=='o') {
-    $userAdminCompte = new BLCreationUtilisateur($blScript);
-    $userAdminCompte->setId_e(0);
-    $userAdminCompte->setLogin('admincomptes');
-    $userAdminCompte->setNom('admincomptes');
-    $userAdminCompte->setPrenom('admincomptes');
-    $userAdminCompte->setRole('adminEntite');
-    $userAdminCompte->creerUtilisateur();
+$user_adminCompte = $objectInstancier->Utilisateur->getIdFromLogin('admincomptes');
+if (!$user_adminCompte) {
+    $creation_admincomptes = $blScript->read('Souhaitez-vous créer un utilisateur pour administrer les comptes (admincomptes) ? (O/N)');
+    if (strtolower($creation_admincomptes)=='o') {
+        $userAdminCompte = new BLCreationUtilisateur($blScript);
+        $userAdminCompte->setId_e(0);
+        $userAdminCompte->setLogin('admincomptes');
+        $userAdminCompte->setNom('admincomptes');
+        $userAdminCompte->setPrenom('admincomptes');
+        $userAdminCompte->setRole('adminEntite');
+        $userAdminCompte->creerUtilisateur();
+    }
 }
 
 //Utilisateur blready
-$creation_blready = $blScript->read('Souhaitez-vous créer un utilisateur pour le provisioning des comptes (blready) ? (O/N)');
-if (strtolower($creation_blready)=='o') {
-    $user_blready = new BLCreationUtilisateur($blScript);
-    $user_blready->setId_e(0);
-    $user_blready->setLogin('blready');
-    $user_blready->setNom('blready');
-    $user_blready->setPrenom('blready');
-    $user_blready->setRole('adminEntite');
-    $user_blready->creerUtilisateur();
+$user_blready = $objectInstancier->Utilisateur->getIdFromLogin('blready');
+if (!$user_blready) {
+    $creation_blready = $blScript->read('Souhaitez-vous créer un utilisateur pour le provisioning des comptes (blready) ? (O/N)');
+    if (strtolower($creation_blready)=='o') {
+        $user_blready = new BLCreationUtilisateur($blScript);
+        $user_blready->setId_e(0);
+        $user_blready->setLogin('blready');
+        $user_blready->setNom('blready');
+        $user_blready->setPrenom('blready');
+        $user_blready->setRole('adminEntite');
+        $user_blready->creerUtilisateur();
+    }
 }
-
 //Utilisateur blstat
-$creation_blstat = $blScript->read('Souhaitez-vous créer un utilisateur dédier à l\'exploitation du journal (blstat) ? (O/N)');
-if (strtolower($creation_blstat)=='o') {
-    $user_blstat = new BLCreationUtilisateur($blScript);
-    $user_blstat->setId_e(0);
-    $user_blstat->setLogin('blstat');
-    $user_blstat->setNom('blstat');
-    $user_blstat->setPrenom('blstat');
-    $user_blstat->setRole('apiStat');
-    $user_blstat->creerUtilisateur();
+$user_blstat = $objectInstancier->Utilisateur->getIdFromLogin('blstat');
+if (!$user_blstat) {
+    $creation_blstat = $blScript->read('Souhaitez-vous créer un utilisateur dédier à l\'exploitation du journal (blstat) ? (O/N)');
+    if (strtolower($creation_blstat)=='o') {
+        $user_blstat = new BLCreationUtilisateur($blScript);
+        $user_blstat->setId_e(0);
+        $user_blstat->setLogin('blstat');
+        $user_blstat->setNom('blstat');
+        $user_blstat->setPrenom('blstat');
+        $user_blstat->setRole('apiStat');
+        $user_blstat->creerUtilisateur();
+    }
 }
 
 /////////////////////////////////////////////////
