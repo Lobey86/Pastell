@@ -69,10 +69,16 @@ class SAEEnvoiActes extends ActionExecutor {
 		return true;
 	}
 	
-	public function getEchangePrefecture($donneesFormulaire,$tmp_folder) {
+	public function getEchangePrefecture(DonneesFormulaire $donneesFormulaire,$tmp_folder) {
 		$result['echange_prefecture'] = $donneesFormulaire->copyAllFiles('echange_prefecture',$tmp_folder,"document-prefecture");
-		$result['echange_prefecture_ar'] = $donneesFormulaire->copyAllFiles('echange_prefecture_ar',$tmp_folder,"ar-prefecture");
-		$result['echange_prefecture_type'] = array();
+		foreach($donneesFormulaire->get("echange_prefecture_ar") as $i => $ar_name){
+			if ($ar_name == "empty"){
+				$result['echange_prefecture_ar'][$i] = "empty";
+			} else {
+				$result['echange_prefecture_ar'][$i] = $donneesFormulaire->copyFile('echange_prefecture_ar', $tmp_folder,$i,"ar-prefecture-$i");
+			}
+		}		
+		
 		foreach($result['echange_prefecture'] as $i => $echange){
 			$result['echange_prefecture_type'][$i] = $donneesFormulaire->get("echange_prefecture_type_$i");
 		}
