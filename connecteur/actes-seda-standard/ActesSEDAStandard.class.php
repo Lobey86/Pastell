@@ -176,6 +176,8 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		//DEBUT
 		$num_echange = 0;
 		$num_contains = 0;
+		$ar_actes_info = $this->getInfoARActes($transactionsInfo['ar_actes']);
+		
 		while(isset($transactionsInfo['echange_prefecture_type'][$num_echange])){
 				
 			$type = $transactionsInfo['echange_prefecture_type'][$num_echange];
@@ -252,7 +254,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 				$fileType = $fileInfo[1];
 			} else  {
 				$fileName = $fileInfo;
-				$fileType = "application/pdf";
+				$fileType = $this->getContentType($fileInfo);
 			}
 			$contains->Document[$i]->Attachment['mimeCode'] = $fileType;
 			$contains->Document[$i]->Attachment['filename'] = basename($fileName);

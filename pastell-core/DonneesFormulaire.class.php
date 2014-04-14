@@ -529,7 +529,13 @@ class DonneesFormulaire {
 	
 	private function renameFilename($file_path,$new_filename){
 		$path_parts = pathinfo($file_path);
-		return $path_parts['dirname'] . DIRECTORY_SEPARATOR .$new_filename .".".$path_parts['extension'];
+		
+		if (isset($path_parts['extension'])){
+			return $path_parts['dirname'] . DIRECTORY_SEPARATOR .$new_filename .".".$path_parts['extension'];
+		} else {
+			return $path_parts['dirname'] . DIRECTORY_SEPARATOR .$new_filename;
+		}
+		
 	}
 	
 	public function copyFile($field_name,$folder_destination,$num = 0,$new_filename = false){
