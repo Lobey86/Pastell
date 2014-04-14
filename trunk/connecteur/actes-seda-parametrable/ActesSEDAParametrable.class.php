@@ -124,7 +124,7 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		
 		$this->dico["#fichierActeNom#"] = basename($transactionsInfo['actes_file']);
 		$this->dico["#fichierActeMimeCode#"] = $this->mimeCode->getContentType($transactionsInfo['actes_file']);
-		$this->dico['#date#'] = date('Y-m-d');
+		$this->dico['#date#'] = date('c');
         $this->dico['#transferIdentifier#'] = $this->getTransferIdentifier();
         		
 		$nb_annexe = count($transactionsInfo['annexe']);
