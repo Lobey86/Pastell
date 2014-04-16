@@ -1,7 +1,7 @@
 <?php
 class AnnuaireGroupe extends SQL {
 	
-	const NB_MAX = 5;
+	const NB_MAX = 20;
 	
 	private $id_e;
 	
@@ -45,10 +45,13 @@ class AnnuaireGroupe extends SQL {
 		return $this->query($sql,$id_g);
 	}
 	
-	public function getUtilisateur($id_g,$offset = 0){
+	public function getUtilisateur($id_g,$offset = 0,$limit=0){
+		if ($limit == 0){
+			$limit = self::NB_MAX;
+		}
 		$sql = "SELECT * FROM annuaire_groupe_contact " . 
 				" JOIN annuaire ON annuaire_groupe_contact.id_a=annuaire.id_a " .
-				" WHERE id_g=? LIMIT $offset,".self::NB_MAX;
+				" WHERE id_g=? LIMIT $offset,$limit";
 		return $this->query($sql,$id_g);
 	}
 	
