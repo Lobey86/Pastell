@@ -279,3 +279,8 @@ color: #B2B2B2;
 width: 150px;
 }
 
+
+.textarea_affiche_formulaire {
+	width: auto;
+	resize: both
+}
