@@ -16,18 +16,24 @@
 	</tr>
 <?php foreach($listGroupe as $groupe) : 
 	$nbUtilisateur = $annuaireGroupe->getNbUtilisateur($groupe['id_g']); 
-	$utilisateur = $annuaireGroupe->getUtilisateur($groupe['id_g']);
+	$utilisateur = $annuaireGroupe->getUtilisateur($groupe['id_g'],3);
 	$r = array();
 	foreach($utilisateur as $u){
 		$r[] = htmlentities( '"' . $u['description'] .'"'. " <".$u['email'].">",ENT_QUOTES);
 	}
 	$utilisateur = implode(",<br/>",$r);
+	
+	
 ?>
 	<tr>
 		<td><input type='checkbox' name='id_g[]' value='<?php echo $groupe['id_g'] ?>'/>
 			<a href='mailsec/groupe.php?id_e=<?php echo $id_e?>&id_g=<?php echo $groupe['id_g']?>'><?php echo $groupe['nom']?></a></td>
 		<td><?php if ($nbUtilisateur) : ?>
 				<?php echo $utilisateur;?>
+				<?php if($nbUtilisateur>3):?>
+				<br/> et <a href='mailsec/groupe.php?id_e=<?php echo $id_e?>&id_g=<?php echo $groupe['id_g']?>'><?php echo ($nbUtilisateur-3) ?> autres</a>
+				
+				<?php endif;?>
 			<?php else : ?>
 				Ce groupe est vide
 			<?php endif;?>	
