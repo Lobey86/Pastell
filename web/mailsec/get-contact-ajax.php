@@ -43,5 +43,5 @@ if (! $mailOnly){
 }
 
 foreach ($annuaire->getListeMail($q) as $item){
-	echo  $item['description'] . " <".$item['email'].">\n";
+	echo  '"'.$item['description'] . '"'." <".$item['email'].">\n";
 }
