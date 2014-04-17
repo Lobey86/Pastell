@@ -15,12 +15,16 @@ class HeliosSEDAStandard extends Connecteur {
 	}
 	
 	public function checkInformation(array $information){
-		$info = array('unique_id','date','description','pes_description','pes_retour_description','pes_aller','pes_retour');		
+		$info = array('date','description','pes_description','pes_retour_description','pes_aller','pes_retour');		
 		foreach($info as $key){
 			if (empty($information[$key])){
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
 		}
+	}
+	
+	private function getTransferIdentifier($transactionsInfo) {
+		return sha1_file($transactionsInfo['pes_aller']) ."-". time();
 	}
 	
 	public function getBordereau($transactionsInfo){
@@ -30,7 +34,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Comment = "Transfert d'un flux comptable conforme au PES V2";
 		$archiveTransfer->Date = date('c');//"2011-08-12T11:03:32+02:00";
 		
-		$archiveTransfer->TransferIdentifier = $transactionsInfo['unique_id'];
+		$archiveTransfer->TransferIdentifier = $this->getTransferIdentifier($transactionsInfo);
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Adullact Projet";
 		
 		$archiveTransfer->TransferringAgency->Identification = $this->authorityInfo['sae_id_versant'];
@@ -121,7 +125,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->Contains[0]->ContentDescription->Language['listVersionID'] = "edition 2009";
 
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[0]->Document->Attachment['mimeCode'] = 'application/xml';
+		$archiveTransfer->Contains->Contains[0]->Document->Attachment['mimeCode'] = 'text/xml';
 		$archiveTransfer->Contains->Contains[0]->Document->Attachment['filename'] = basename($transactionsInfo['pes_aller']);
 		$archiveTransfer->Contains->Contains[0]->Document->Description="PES";
 		$archiveTransfer->Contains->Contains[0]->Document->Type = "CDO";
@@ -141,7 +145,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Name = "PES ACK/NACK";
 		
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['mimeCode'] = 'application/xml';
+		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['mimeCode'] = 'text/xml';
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Attachment['filename'] = basename($transactionsInfo['pes_retour']);
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Description="PES ACK/NACK";
 		$archiveTransfer->Contains->Contains[0]->Contains[1]->Document->Type = "CDO";

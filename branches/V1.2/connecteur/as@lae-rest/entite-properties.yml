@@ -17,7 +17,7 @@ formulaire:
 		
 		originating_agency: 
 			name: Identifiant service versant
-		
+			
 		last_bordereau:
 			name: Dernier bordereau envoyé
 			type: file
@@ -38,3 +38,4 @@ action:
 		name: Tester la connexion (authentification)
 		action-class: AsalaeRestVersion
 		
+	

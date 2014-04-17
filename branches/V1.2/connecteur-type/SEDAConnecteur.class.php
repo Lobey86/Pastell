@@ -11,6 +11,10 @@ abstract class SEDAConnecteur extends  Connecteur {
 			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
 		}
 		$namespaces = $xml->getNameSpaces(true);
+		if (empty($namespaces['actes'])){
+			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
+		}
+		
 		$attr = $xml->attributes($namespaces['actes']);
 		if (!$attr){
 			throw new Exception("Le fichier AR actes $file_name n'est pas exploitable");
