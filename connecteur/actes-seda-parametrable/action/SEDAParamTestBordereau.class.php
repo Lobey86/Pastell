@@ -16,6 +16,9 @@ class SEDAParamTestBordereau extends ActionExecutor {
 			'actes_file' => __DIR__.'/../fixtures/vide.pdf',
 			'ar_actes' => __DIR__ . "/../fixtures/ar-actes.xml",
 			'annexe' => array('/etc/passwd','/etc/group'),
+			'echange_prefecture' => array(),
+			'echange_prefecture_ar'=>array(),
+			'echange_prefecture_type'=>array()
 		);		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);
 		if($this->from_api){
