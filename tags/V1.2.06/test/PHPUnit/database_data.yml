@@ -1,0 +1,191 @@
+extension:
+ -
+  id_e: 1
+  nom: pastell_cdg59
+  path: /var/lib/pastell/pastell_cdg59
+ -
+  id_e: 2
+  nom: pastell_stela
+  path: /var/lib/pastell/pastell_stela
+  
+utilisateur:
+ -
+  id_u: 1
+  email: eric@sigmalis.com
+  login: admin
+  mail_verifie: 1
+  id_e: 0
+  
+utilisateur_role:
+ -
+  id_u: 1
+  role: admin
+  id_e: 0
+ 
+entite:
+ -
+  id_e: 1
+  type: collectivite
+  denomination: Bourg-en-Bresse
+  entite_mere: 0
+ -
+  id_e: 2
+  type: service
+  denomination: CCAS
+  entite_mere: 1	
+
+entite_ancetre:
+ -
+  id_e_ancetre: 0
+  id_e: 0
+  niveau: 0
+ -
+  id_e_ancetre: 0
+  id_e: 1
+  niveau: 1
+ -
+  id_e_ancetre: 1
+  id_e: 1
+  niveau: 0
+ -
+  id_e_ancetre: 2
+  id_e: 2
+  niveau: 0
+ -
+  id_e_ancetre: 1
+  id_e: 2
+  niveau: 1
+ -
+  id_e_ancetre: 0
+  id_e: 2
+  niveau: 2
+
+role:
+ -
+  role: admin
+  libelle: Administrateur
+  
+role_droit:
+ -
+  role: admin
+  droit: entite:edition
+ -
+  role: admin
+  droit: entite:lecture
+ -
+  role: admin
+  droit: system:edition
+ -
+  role: admin
+  droit: system:lecture 
+ -
+  role: admin
+  droit: message-service:edition
+ -
+  role: admin
+  droit: message-service:lecture
+ -
+  role: admin
+  droit: actes-generique:lecture
+ -
+  role: admin
+  droit: actes-generique:edition
+ -
+  role: admin
+  droit: role:lecture
+ -
+  role: admin
+  droit: role:edition
+   
+ 
+document:
+document_action:
+document_action_entite:
+document_entite:
+journal:
+
+connecteur_entite:
+ -
+  id_ce: 1
+  id_e: 1
+  libelle: Fake iParapheur
+  id_connecteur: fakeIparapheur
+  type: signature
+ -
+  id_ce: 2
+  id_e: 1
+  libelle: Fake Tdt
+  id_connecteur: fakeTdt 
+  type: TdT
+ - 
+  id_ce: 3
+  id_e: 1
+  libelle: SEDA Standard
+  id_connecteur: actes-seda-standard
+  type: Bordereau SEDA
+ -
+  id_ce: 4
+  id_e: 1
+  libelle: Fake SAE
+  id_connecteur: fakeSAE
+  type: SAE
+ -
+  id_ce: 5
+  id_e: 1
+  libelle: Fake GED
+  id_connecteur: FakeGED
+  type: GED
+  
+ -
+  id_ce: 6
+  id_e: 1
+  libelle: SEDA CG86
+  id_connecteur: actes-seda-cg86
+  type: Bordereau SEDA
+ -
+  id_ce: 7
+  id_e: 1
+  libelle: SEDA locarchive
+  id_connecteur: actes-seda-locarchive
+  type: Bordereau SEDA
+ - 
+  id_ce: 8
+  id_e: 1
+  libelle: SEDA parametrable
+  id_connecteur: actes-seda-parametrable
+  type: Bordereau SEDA
+  
+flux_entite:
+ -
+  id_fe: 1
+  id_e: 1
+  flux: actes-generique
+  id_ce: 1
+  type: signature  
+ -
+  id_fe: 2
+  id_e: 1
+  flux: actes-generique
+  id_ce: 2
+  type: TdT
+ -
+  id_fe: 3
+  id_e: 1
+  flux: actes-generique
+  id_ce: 3
+  type: Bordereau SEDA
+ -
+  id_fe: 4
+  id_e: 1
+  flux: actes-generique
+  id_ce: 4
+  type: SAE 
+ - 
+  id_fe: 5
+  id_e: 1
+  flux: actes-generique
+  id_ce: 5
+  type: GED
+  
+
+  
