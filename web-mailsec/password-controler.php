@@ -5,9 +5,7 @@ $recuperateur = new Recuperateur($_POST);
 $key = $recuperateur->get('key');
 $password = $recuperateur->get('password');
 
-
-
-$documentEmail = $objectInstancier->DocumentEmail;
+$documentEmail = new DocumentEmail($sqlQuery);
 $info  = $documentEmail->getInfoFromKey($key);
 
 if (! $info ){

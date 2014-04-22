@@ -24,7 +24,7 @@ $info = $utilisateur->getInfo($id_u);
 $utilisateur->reinitPassword($id_u,$mailVerifPassword);
 
 
-$zenMail = $objectInstancier->ZenMail;
+$zenMail = new ZenMail();
 $zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 $zenMail->setDestinataire($info['email']);
 $zenMail->setSujet("[Pastell] Procédure de modification de mot de passe");

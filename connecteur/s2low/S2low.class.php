@@ -342,7 +342,6 @@ class S2low  extends TdtConnecteur {
 		$donneesFormulaire->setData("has_reponse_{$libelle}",true);
 		return true;
 	}
-	
 }
 
 class S2lowException extends TdTException {}

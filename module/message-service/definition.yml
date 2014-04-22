@@ -1,7 +1,6 @@
 nom: Message interne
 type: Flux Généraux
 
-description: Permet au collectivité d'envoyer des messages à leur service (entité fille)
 
 formulaire:
 	Message :			

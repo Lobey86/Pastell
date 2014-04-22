@@ -51,9 +51,9 @@ abstract class ActionExecutor {
 		$this->id_destinataire = $id_destinataire;	
 	}
 	
-	public function setActionParams(array $action_params) {
-		$this->action_params = $action_params;
-	}
+        public function setActionParams(array $action_params) {
+            $this->action_params = $action_params;
+        }
         
 	public function setFromApi($from_api){
 		$this->from_api = $from_api;
@@ -67,14 +67,8 @@ abstract class ActionExecutor {
 		$this->lastMessage = $message;
 	}
 	
-	/**
-	 * @return ActionCreator
-	 */
-	public function getActionCreator($id_d = false){
-		if (! $id_d){
-			$id_d = $this->id_d;
-		}
-		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$id_d);	
+	public function getActionCreator(){
+		return new ActionCreator($this->getSQLQuery(),$this->getJournal(),$this->id_d);	
 	}
 	
 	/**
@@ -103,23 +97,14 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->ZenMail;
 	}
 	
-	/**
-	 * @return DonneesFormulaireFactory
-	 */
 	public function getDonneesFormulaireFactory(){
 		return $this->objectInstancier->DonneesFormulaireFactory;
 	}
 	
-	/**
-	 * @return DocumentEntite
-	 */
 	public function getDocumentEntite(){
 		return $this->objectInstancier->DocumentEntite;
 	}
 
-	/**
-	 * @return Document
-	 */
 	public function getDocument(){
 		return $this->objectInstancier->Document;
 	}
@@ -154,9 +139,6 @@ abstract class ActionExecutor {
 	
 	
 	/**** Récupération de connecteur ****/
-	/**
-	 * @return DonneesFormulaire
-	 */
 	public function getConnecteurProperties(){
 		assert('$this->id_ce');
 		return $this->getConnecteurConfig($this->id_ce);

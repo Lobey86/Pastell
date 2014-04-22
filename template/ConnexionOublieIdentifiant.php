@@ -1,9 +1,9 @@
 
 <div class="w500">
 
-<div class="box clearfix">
+<div class="box_contenu clearfix">
 
-
+	<div class="box_connexion">
 	<?php if ($config && $config->get("procedure_recup")) : ?>
 	
 		<h2>Information</h2>
@@ -12,9 +12,9 @@
 		</p>
 		<p>&nbsp;&nbsp;</p>
 	<?php else : ?>
-
+		<h2>Merci d'indiquer une information</h2>
 		
-		<div class='alert alert-info'>
+		<div class='box_info'>
 		Afin que nous puissions permettre la réinitialisation du mot de passe, 
 		veuillez indiquer l'une des deux informations suivantes :
 		</div>
@@ -31,21 +31,18 @@
 		</tr>
 		</table>
 		
-
+		<div class="float_left">
+		<a href="connexion/connexion.php">Retourner à la connexion</a>
+		</div>
 		
 		<div class="align_right">
-		<input type="submit" value="Envoyer" class="btn" />
+		<input type="submit" value="Envoyer" class="submit" />
 		</div>
 		
 		</form>
-		
-		<hr/>
-		<div class="align_center">
-		<a href="connexion/connexion.php">Retourner à la connexion</a>
-		</div>
 	
 	<?php endif;?>
-
+		</div>
 	
 </div>
 </div>

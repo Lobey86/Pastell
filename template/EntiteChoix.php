@@ -1,5 +1,5 @@
 
-<div class="box">
+<div class="box_contenu clearfix">
 
 <h2><?php echo $type ?></h2>
 
@@ -8,7 +8,7 @@
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>' />
 	<input type='hidden' name='action' value=<?php echo $action?> />
 
-<table class="table table-striped">
+<table class="tab_01">
 	<tr>
 		<th>&nbsp;</th>
 		<th>Dénomination</th>
@@ -19,7 +19,7 @@ $cpt = 0;
 foreach($liste as $i => $entite) : 
 	$cpt++;
 	?>
-	<tr>
+	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td class="w30"><input type='checkbox' name='destinataire[]' id="label_denomination_<?php echo $cpt ?>" value='<?php echo $entite['id_e']?>'/></td>
 		<td><label for="label_denomination_<?php echo $cpt ?>">	<a href='entite/detail.php?id_e=<?php echo $entite['id_e']?>'><?php echo $entite['denomination']?></a></label></td>
 		<td>
@@ -29,8 +29,8 @@ foreach($liste as $i => $entite) :
 	</tr>
 <?php endforeach; ?>
 </table>
-
-<input type='submit' value='Envoyer le document' class='btn' />
-
+<div class="align_right">
+<input type='submit' value='Envoyer le document' class='submit' />
+</div>
 </form>
 </div>

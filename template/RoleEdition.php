@@ -1,33 +1,29 @@
 
-<a class='btn btn-mini' href='role/index.php'><i class="icon-circle-arrow-left"></i>Revenir à la liste des rôles</a>
+<a href='role/index.php'>« Revenir à la liste des rôles</a>
+<br/><br/>
 
-
-<div class="box">
-
-
-    <form class="form-horizontal" action='role/edition-controler.php' method='post'>
-		<div class="control-group">
-			<label class="control-label" for="role">Rôle<span class="obl">*</span></label>
-			<div class="controls">
-				<input <?php echo $role_info['role']?"readonly='readonly'":"" ?> type='text' name='role' id='role' value='<?php hecho($role_info['role']) ?>' />
-			</div>
+<div class="box_contenu clearfix">
+	<form class="w700" action='role/edition-controler.php' method='post'>
+		<table>
+			<tr>
+				<th><label for='role'>
+				Rôle
+				<span>*</span></label> </th>
+				 <td> <input <?php echo $role_info['role']?"readonly='readonly'":"" ?>type='text' name='role' value='<?php hecho($role_info['role']) ?>' /></td>
+			</tr>
+			<tr>
+				<th><label for='libelle'>
+				Libellé
+				<span>*</span></label> </th>
+				 <td> <input type='text' name='libelle' value='<?php hecho($role_info['libelle']) ?>' /></td>
+			</tr>
+		</table>
+	
+		<div class="align_right">
+			<input type='submit' class='submit' value="<?php echo $role_info?"Modifier":"Créer" ?>" />
 		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="libelle">Libellé<span class="obl">*</span></label>
-			<div class="controls">
-				<input type='text' name='libelle' id='libelle' value='<?php hecho($role_info['libelle']) ?>' />
-			</div>
-
-		</div>
-		
-		
-			<input type='submit' class='btn' value="<?php echo $role_info?"Modifier":"Créer" ?>" />
-
-    </form>
-
-
-
-
+	</form>
 </div>
+
+
 
