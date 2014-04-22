@@ -451,4 +451,39 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		return $array[$type];
 	}
 	
+	private function getRelatedTransactionType($type){
+		$array = array(
+				'2A'=>"Courrier simple",
+				'3A'=>"Demande de pièces complémentaires",
+				'4A'=>"Lettre d'observations",
+				'5A'=>"Déféré au tribunal administratif");
+		return $array[$type];
+	}
+	private function getContentType($file_path){
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		return finfo_file($finfo,$file_path);
+	}
+	private function getDocument($filename,$mimetype,$receipt = false,$description = false,$is_original = true,$receipt_submission=false,$response=false){
+		$document = new ZenXML("Document");
+		$document->Attachment['mimeCode'] = $mimetype;
+		$document->Attachment['filename'] = $filename;
+		$document->Control = "false";
+		$document->Copy = $is_original?"false":"true";
+		if ($description !== false){
+			$document->Description = $description;
+		}
+		if ($receipt){
+			$document->Receipt = date("c",strtotime($receipt));
+		}
+		if ($receipt_submission){
+			$document->Receipt = date("c",strtotime($receipt_submission));
+		}
+		if ($response){
+			$document->Response = date("c",strtotime($response));
+		}
+		$document->Type = "CDO";
+		$document->Type["listVersionID"] = "edition 2009";
+	
+		return $document;
+	}
 }
