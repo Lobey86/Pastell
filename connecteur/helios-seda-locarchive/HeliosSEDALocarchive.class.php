@@ -140,7 +140,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['type'] = "numero";
 		
 		$archiveTransfer->Contains->Contains[0]->Contains[1] = $this->getContainsElementWithDocument($transactionsInfo['pes_retour_description'] ,
-				array(basename($transactionsInfo['pes_retour'])),$latestDate,$oldestDate,$transactionsInfo['pes_aller_original_filename']);
+				array(basename($transactionsInfo['pes_retour'])),$latestDate,$oldestDate,$transactionsInfo['pes_retour_original_filename']);
 		
 		
 		
