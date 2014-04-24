@@ -106,13 +106,13 @@ $blScript->traceln('-----------------------------');
 
 $user_admin = $objectInstancier->RoleUtilisateur->getAllUtilisateur(0, 'admin');
 if (!$user_admin) {
-    $blScript->traceln('Création de l\'administrateur du site (admibles)');
+    $blScript->traceln('Création de l\'administrateur du site (ROLE : admin)');
     $user_admibles = new BLCreationUtilisateur($blScript);
     $user_admibles->creerAdmin();
     $login_admibles = $user_admibles->getLogin();
 }
 
-$creationAdmin2 = $blScript->read('Souhaitez-vous créer un compte administrateur de site supplémentaire ? (O/N)');
+$creationAdmin2 = $blScript->read('Souhaitez-vous créer un compte administrateur de site supplémentaire (ROLE : admin)? (O/N)');
 if (strtolower($creationAdmin2)=='o') {
     $user_admin = new BLCreationUtilisateur($blScript);
     $user_admin->creerAdmin();
@@ -122,7 +122,7 @@ if (strtolower($creationAdmin2)=='o') {
 //Utilisateur adminComptes
 $user_adminCompte = $objectInstancier->Utilisateur->getIdFromLogin('admincomptes');
 if (!$user_adminCompte) {
-    $creation_admincomptes = $blScript->read('Souhaitez-vous créer un utilisateur pour administrer les comptes (admincomptes) ? (O/N)');
+    $creation_admincomptes = $blScript->read('Souhaitez-vous créer un utilisateur pour administrer les comptes (LOGIN : admincomptes) ? (O/N)');
     if (strtolower($creation_admincomptes)=='o') {
         $userAdminCompte = new BLCreationUtilisateur($blScript);
         $userAdminCompte->setId_e(0);
@@ -137,7 +137,7 @@ if (!$user_adminCompte) {
 //Utilisateur blready
 $user_blready = $objectInstancier->Utilisateur->getIdFromLogin('blready');
 if (!$user_blready) {
-    $creation_blready = $blScript->read('Souhaitez-vous créer un utilisateur pour le provisioning des comptes (blready) ? (O/N)');
+    $creation_blready = $blScript->read('Souhaitez-vous créer un utilisateur pour le provisioning des comptes (LOGIN : blready) ? (O/N)');
     if (strtolower($creation_blready)=='o') {
         $user_blready = new BLCreationUtilisateur($blScript);
         $user_blready->setId_e(0);
@@ -151,7 +151,7 @@ if (!$user_blready) {
 //Utilisateur blstat
 $user_blstat = $objectInstancier->Utilisateur->getIdFromLogin('blstat');
 if (!$user_blstat) {
-    $creation_blstat = $blScript->read('Souhaitez-vous créer un utilisateur dédier à l\'exploitation du journal (blstat) ? (O/N)');
+    $creation_blstat = $blScript->read('Souhaitez-vous créer un utilisateur dédier à l\'exploitation du journal (LOGIN : blstat) ? (O/N)');
     if (strtolower($creation_blstat)=='o') {
         $user_blstat = new BLCreationUtilisateur($blScript);
         $user_blstat->setId_e(0);
@@ -177,7 +177,7 @@ if (strtolower($creationEntite) == 'o') {
         $id_e_entreprise = $entiteEntreprise->creerEntite();
         $denominationEntite = $entiteEntreprise->getDenomination();
         $blScript->traceln("Création de la collectivité 'entreprise' $denominationEntite : OK");
-        $blScript->traceln('-->Utilisateur admin de l\'entité');
+        $blScript->traceln('-->Utilisateur admin de l\'entité (ROLE : adminEntite sur l\'entité entreprise créée');
         //Création de l'utilisateur admin sur l'entité entreprise.        
         $userAdminEntreprise = new BLCreationUtilisateur($blScript);
         $userAdminEntreprise->setId_e($id_e_entreprise);
