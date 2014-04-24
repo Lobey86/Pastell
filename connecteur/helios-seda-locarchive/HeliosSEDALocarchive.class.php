@@ -26,15 +26,24 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 			if (empty($information[$key])){
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
+			
 		}
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename');
+		
+		foreach($info_sup as $key){
+			if (empty($information[$key])){
+				$information[$key] = false;
+			}
+		}
+		return $information;
 	}
 	
 	private function getTransferIdentifier($transactionsInfo) {
-		return sha1_file($transactionsInfo['pes_aller']) ."-". time();
+		return sha1($transactionsInfo['pes_aller']) ."-". time();
 	}
 	
-	
 	private function getSubjectFromPESAller($pes_aller_content){
+		
 		$xml = simplexml_load_string($pes_aller_content);
 		if (! $xml){
 			throw new Exception("Impossible de lire le contenu du fichier PES aller");
@@ -44,7 +53,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 	
 	
 	public function getBordereau(array $transactionsInfo){
-		$this->checkInformation($transactionsInfo);
+		$transactionsInfo = $this->checkInformation($transactionsInfo);
 				
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns:xsi']="http://www.w3.org/2001/XMLSchema-instance";
@@ -54,9 +63,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 		
 		
 		$archiveTransfer->TransferIdentifier = $this->getTransferIdentifier($transactionsInfo);
-		
-		//$this->getSubjectFromPESAller($transactionsInfo['pes_aller_content']);
-		
+				
 		$archiveTransfer->TransferIdentifier['schemeName'] = "Codification interne";
 		
 		$archiveTransfer->TransferringAgency->Description = $this->seda_config->get('transferring_agency_description');
@@ -127,22 +134,20 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 			
 		$archiveTransfer->Contains->Contains[0] = $this->getContainsElement("Transmission d'un acte soumis au contrôle de légalité",$latestDate,$oldestDate);
 		//TODO PES = Numéro de mandat présent dans le bordereau (obligatoire)
-		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("PES",array(basename($transactionsInfo['pes_aller'])),$latestDate,$oldestDate);		
+		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("PES",array(basename($transactionsInfo['pes_aller'])),$latestDate,$oldestDate,$transactionsInfo['pes_aller_original_filename']);		
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject = $this->getSubjectFromPESAller($transactionsInfo['pes_aller_content']);
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['altrender'] = "titre_pes";
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->ContentDescription->OtherMetadata->controlaccess->subject['type'] = "numero";
 		
-		
-		
-		$archiveTransfer->Contains->Contains[0]->Contains[1] = $this->getContainsElementWithDocument($transactionsInfo['pes_retour_description'],
-				array(basename($transactionsInfo['pes_retour'])),$latestDate,$oldestDate);
+		$archiveTransfer->Contains->Contains[0]->Contains[1] = $this->getContainsElementWithDocument($transactionsInfo['pes_retour_description'] ,
+				array(basename($transactionsInfo['pes_retour'])),$latestDate,$oldestDate,$transactionsInfo['pes_aller_original_filename']);
 		
 		
 		
 		return $archiveTransfer->asXML();
 	}
 	
-	private function getContainsElementWithDocument($description,array $allFileInfo,$latestDate,$oldestDate){
+	private function getContainsElementWithDocument($description,array $allFileInfo,$latestDate,$oldestDate,$original_filename){
 		$contains = new ZenXML("Contains");
 		$contains->DescriptionLevel = "item";
 		$contains->DescriptionLevel['listVersionID'] = "edition 2009";
@@ -161,7 +166,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 			}
 			$contains->Document[$i]->Attachment['filename'] = basename($fileName);
 	
-			$contains->Document[$i]->Description = "$description";
+			$contains->Document[$i]->Description = "$description - $original_filename";
 		
 			$contains->Document[$i]->Type = "CDO";
 			$contains->Document[$i]->Type["listVersionID"] = "edition 2009";
