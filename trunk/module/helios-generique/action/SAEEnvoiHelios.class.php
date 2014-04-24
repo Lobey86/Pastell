@@ -12,8 +12,8 @@ class SAEEnvoiHelios extends ActionExecutor {
 			$donneesFormulaire->addFileFromData('fichier_pes_signe',$file_name[0],$fichier_pes);
 		}
 		
-		$pes_aller = $donneesFormulaire->copyFile('fichier_pes_signe',$tmp_folder);
-		$pes_retour = $donneesFormulaire->copyFile('fichier_reponse',$tmp_folder);
+		$pes_aller = $donneesFormulaire->copyFile('fichier_pes_signe',$tmp_folder,0,"pes_aller");
+		$pes_retour = $donneesFormulaire->copyFile('fichier_reponse',$tmp_folder,0,"pes_retour");
 		
 		$transactionsInfo = array(
 				'unique_id' => $donneesFormulaire->get('tedetis_transaction_id'),
@@ -22,6 +22,8 @@ class SAEEnvoiHelios extends ActionExecutor {
 				'pes_retour_description' => 'inconnu', 
 				'pes_aller' => $pes_aller,
 				'pes_retour' => $pes_retour,
+				'pes_aller_original_filename' => $donneesFormulaire->getFileName('fichier_pes_signe',0),
+				'pes_retour_original_filename' => $donneesFormulaire->getFileName('fichier_reponse',0),
 				'pes_description' => 'inconnu',
 				'pes_aller_content' => $donneesFormulaire->getFileContent('fichier_pes_signe')
 		);
