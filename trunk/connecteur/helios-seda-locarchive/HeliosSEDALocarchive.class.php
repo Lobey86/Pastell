@@ -28,7 +28,7 @@ class HeliosSEDALocarchive extends SEDAConnecteur {
 			}
 			
 		}
-		$info_sup = array('actes_file_orginal_filename','annexe_original_filename');
+		$info_sup = array('pes_aller_original_filename','pes_retour_original_filename');
 		
 		foreach($info_sup as $key){
 			if (empty($information[$key])){
