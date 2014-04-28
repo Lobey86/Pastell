@@ -13,7 +13,7 @@ $recherche = $recuperateur->get('recherche');
 $date_debut = $recuperateur->get('date_debut');
 $date_fin = $recuperateur->get('date_fin');
 $format = $recuperateur->get('format');
-$nbreLigneMaxParPaquet = $recuperateur->get('nbreLigneMaxParPaquet', 10000);
+$nbreLigneMaxParPaquet = $recuperateur->get('nbre_ligne_max_paquet', 10000);
 
 if   (! $roleUtilisateur->hasDroit($id_u,"journal:lecture",$id_e)){
 	$JSONoutput->displayErrorAndExit("Acces interdit id_e=$id_e, id_d=$id_d,id_u=$id_u,type=$type");
