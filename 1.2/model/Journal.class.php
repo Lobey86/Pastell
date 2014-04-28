@@ -85,8 +85,8 @@ class Journal extends SQL {
 	}
 	
 	
-	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
-		list($sql,$value) = $this->getQueryAll($id_e, $type, $id_d, $id_u, $offset, $limit,$recherche,$date_debut,$date_fin);
+	public function getAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false, $tri_croissant=false){
+		list($sql,$value) = $this->getQueryAll($id_e, $type, $id_d, $id_u, $offset, $limit, $recherche, $date_debut, $date_fin, $tri_croissant);
 		
 		$result = $this->query($sql,$value);
 		foreach($result as $i => $line){
@@ -96,8 +96,9 @@ class Journal extends SQL {
 		}
 		return $result;
 	}
-	
-	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
+        
+        
+	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false, $tri_croissant=false){
 		$value = array();
 		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom " .
 			" FROM journal " .
@@ -134,8 +135,13 @@ class Journal extends SQL {
 			$sql.= "AND journal.date < ?";
 			$value[] = $date_fin;
 		}
-		
-		$sql .= " ORDER BY id_j DESC " ;
+        if($tri_croissant == true) {
+            $order_direction = "ASC";
+        }
+        else {
+            $order_direction = "DESC";                
+        }
+		$sql .= " ORDER BY id_j " . $order_direction;
 		if ($limit != -1){
 			$sql .= " LIMIT $offset,$limit";
 		}
