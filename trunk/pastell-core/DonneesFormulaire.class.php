@@ -557,6 +557,11 @@ class DonneesFormulaire {
 				return ".".$path_parts['extension'];
 			}
 		}
+		if (!$result){
+			if ($path_parts['extension']) {
+				$result = ".".$path_parts['extension']; 
+			}
+		}
 		
 		return $result;
 	}
