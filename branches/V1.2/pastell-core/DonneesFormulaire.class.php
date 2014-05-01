@@ -496,7 +496,6 @@ class DonneesFormulaire {
 		}
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
-        
         // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
         if ($setModifiedToFalse) {
         	$this->isModified=false;  
@@ -528,9 +527,48 @@ class DonneesFormulaire {
 		return true;
 	}
 	
+	public function extensionByMimeType($file_path,$file_name) {
+		$path_parts = pathinfo($file_name);
+		
+		$fileInfo = new finfo();
+		$contentType = $fileInfo->file($file_path,FILEINFO_MIME_TYPE);
+				
+		$map = array(
+				'application/pdf'   => '.pdf',
+				'application/zip'   => '.zip',
+				'application/xml'   => '.xml',
+				'image/gif'         => '.gif',
+				'image/jpeg'        => '.jpg',
+				'image/png'         => '.png',
+				'text/css'          => '.css',
+				'text/html'         => '.html',
+				'text/javascript'   => '.js',
+				'text/plain'        => '.txt',
+				'text/xml'          => '.xml',
+		);
+		$result = "";
+		
+		if (isset($map[$contentType])) {
+			$result = $map[$contentType];
+		}
+	
+		if ($result == ".zip"){
+			if (in_array($path_parts['extension'],array('xltx','potx','ppsx','sldx','docx','dotx','xlam','xlsb'))){
+				return ".".$path_parts['extension'];
+			}
+		}
+		if (!$result){
+			if ($path_parts['extension']) {
+				$result = ".".$path_parts['extension']; 
+			}
+		}
+		
+		return $result;
+	}
+	
 	private function renameFilename($file_path,$new_filename){
 		$path_parts = pathinfo($file_path);
-		return $path_parts['dirname'] . DIRECTORY_SEPARATOR .$new_filename .".".$path_parts['extension'];
+		return $path_parts['dirname'] . DIRECTORY_SEPARATOR .$new_filename;
 	}
 	
 	public function copyFile($field_name,$folder_destination,$num = 0,$new_filename = false){
@@ -543,7 +581,8 @@ class DonneesFormulaire {
 		
 		$destination = "$folder_destination/$file_name";
 		if ($new_filename){
-			$destination = $this->renameFilename($destination, $new_filename);
+			$extension = $this->extensionByMimeType($file_path,$file_name);				
+			$destination = $this->renameFilename($destination, $new_filename.$extension);
 		}
 		copy($file_path,utf8_encode($destination));
 		return $destination;
