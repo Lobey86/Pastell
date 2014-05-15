@@ -30,6 +30,9 @@ class ConnecteurSuspensionException extends ConnecteurException {
 abstract class Connecteur {
 	
 	protected $lastError;
+    /**
+     * @var DonneesFormulaire
+     */
 	private $docDonneesFormulaire;
 
 	abstract function setConnecteurConfig(DonneesFormulaire $donneesFormulaire);
@@ -48,7 +51,7 @@ abstract class Connecteur {
 	public function getDocDonneesFormulaire() {
 		return $this->docDonneesFormulaire;
 	}
-	
+
 	public function setDocDonneesFormulaire(DonneesFormulaire $docDonneesFormulaire) {
 		$this->docDonneesFormulaire = $docDonneesFormulaire;
 	}
