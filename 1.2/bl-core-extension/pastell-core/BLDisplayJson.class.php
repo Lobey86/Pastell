@@ -9,33 +9,23 @@ class BLDisplayJson extends BLDisplayValue {
         return $text;
     }
 
-    protected function formatCellHeader($colIndex, $colName) {
-        return $colName;
-    }
-
-    protected function formatRowHeader($rowValue) {
-        return $rowValue;
-    }
-
-    protected function formatCell($rowIndex, $colIndex, $colName, $cellValue) {
-        return $cellvalue;
-    }
-
-    protected function formatRow($rowIndex, $rowValue) {
-        return $rowValue;
-    }
-
-    protected function formatTable($tableValue) {
-        return $tableValue;
-    }
-
     protected function concat(&$target, &$source) {
-        $target[] = $source;
+        if (is_array($target)) {
+            $target[] = $source;
+        } elseif (isset($target)) {
+            $target = array($target, $source);
+        } else {
+            $target = $source;
+        }
         return $target;
     }
 
     protected function arrayDisplay(array $array, $doEncoding = true) {
         return $array;
+    }
+
+    protected function objectDisplay($object, $doEncoding = true) {
+        return $object;
     }
 
 }

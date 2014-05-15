@@ -1,25 +1,20 @@
 <?php
 
+require_once(__DIR__ . "/BLDisplayText.class.php");
+require_once(__DIR__ . "/BLDisplayJson.class.php");
+require_once(__DIR__ . "/BLDisplayHtml.class.php");
+
 abstract class BLDisplayValue {
 
-    protected $hasHeader;
     private $message;
 
     abstract protected function encode($text);
 
-    abstract protected function formatCellHeader($colIndex, $colName);
-
-    abstract protected function formatRowHeader($rowValue);
-
-    abstract protected function formatCell($rowIndex, $colIndex, $colName, $cellValue);
-
-    abstract protected function formatRow($rowIndex, $rowValue);
-
-    abstract protected function formatTable($tableValue);
-
     abstract protected function concat(&$value1, &$value2);
 
     abstract protected function arrayDisplay(array $array, $doEncoding = true);
+
+    abstract protected function objectDisplay($object, $doEncoding = true);
 
     public function stringDisplay($string, $doEncoding = true) {
         if ($doEncoding) {
@@ -33,8 +28,12 @@ abstract class BLDisplayValue {
     public function valueDisplay($value, $doEncoding = true) {
         if (is_string($value)) {
             $valueDisplay = $this->stringDisplay($value, $doEncoding);
-        } else {
+        } elseif (is_array($value)) {
             $valueDisplay = $this->arrayDisplay($value, $doEncoding);
+        } elseif (is_object($value)) {
+            $valueDisplay = $this->objectDisplay($value, $doEncoding);
+        } else {
+            $valueDisplay = $value;
         }
         return $valueDisplay;
     }
