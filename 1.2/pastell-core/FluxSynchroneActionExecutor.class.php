@@ -23,6 +23,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
 
     // Attributs génériques de flux 
 
+    const FLUX_ATTR_OBJET = 'objet';
     const FLUX_ATTR_PILOTE = 'app_pilote';
     const FLUX_ATTR_ERREUR_DETAIL = 'erreur_detail';
     // Valeurs conventionnées pour FLUX_ATTR_*
@@ -248,7 +249,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         }
         $pilote = @$infos[self::KEY_JOURNAL_PILOTE];
         if (!isset($pilote)) {
-        $pilote = $this->getPilote();
+            $pilote = $this->getPilote();
             $infos = array(self::KEY_JOURNAL_PILOTE => $pilote) + $infos;
         }
         foreach ($infos as $key => $value) {
@@ -266,23 +267,23 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             $display .= '<tr align="left">';
             if ($columns == NULL) {
                 $columns = array_keys($array[0]);
-            }
+                }
             foreach ($columns as $th) {
                 $display .= '<th>' . htmlentities($th) . '</th>';
             }
             $display .= '</tr>';
-            foreach ($array as $tr) {
-                $display .= '<tr>';
-                foreach ($columns as $th) {
-                    $td = $tr[$th];
+                foreach ($array as $tr) {
+                    $display .= '<tr>';
+                    foreach ($columns as $th) {
+                            $td = $tr[$th];
                     $datetime = strtotime($td);
                     if ($datetime !== false) {
                         $td = date("d/m/Y H:i:s", $datetime);
-                    }
+                        }
                     $display .= '<td>' . htmlentities($td) . '</td>';
+                    }
+                    $display .= '</tr>';
                 }
-                $display .= '</tr>';
-            }
             $display .= '</table>';
         }
         return $display;
@@ -317,7 +318,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
      */
     protected function mail($email, $action, $contenu, array $contenuScriptInfo = array(), $sujet = null, $emetteurName = null) {
         $doc = $this->getDonneesFormulaire();
-        $docObjet = $doc->get('objet');
+        $docObjet = $doc->get(self::FLUX_ATTR_OBJET);
         if (empty($sujet)) {
             $sujet = "Votre dossier " . $docObjet;
         }
