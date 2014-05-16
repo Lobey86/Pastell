@@ -25,7 +25,7 @@
 	<tr>
 		<td>
 		<?php if ($can_edit) : ?>
-		<input type='checkbox' name='email[]' value='<?php echo $utilisateur['email'] ?>'/>
+		<input type='checkbox' name='email[]' value='<?php hecho($utilisateur['email']) ?>'/>
 		<?php endif; ?>
 		<?php echo $utilisateur['description']?></td>
 		<td><?php echo $utilisateur['email']?></td>
