@@ -244,6 +244,13 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_xflucobl)) {
     $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_xflucobl);
     $prov_extension=true;
 }
+
+$ext_fasttdtheliosbl = "/var/www/pastell/extensionbl/fasttdtheliosbl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtheliosbl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fasttdtheliosbl);
+    $prov_extension=true;
+}
+
 if ($prov_extension) {
     $blScript->traceln('OK');    
 } else {

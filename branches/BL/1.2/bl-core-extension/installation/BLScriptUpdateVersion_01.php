@@ -20,9 +20,9 @@ if ($droitExist) {
 $blScript->trace('Mise en place extension BL Connecteur fasttdtheliosbl : ');
 $prov_extension = false;
 $requeteExtension = "SELECT id_e FROM extension WHERE path = ?";
-$ext_fluxbl = "/var/www/pastell/extensionbl/fasttdtheliosbl/";
-if (!$sqlQuery->queryOne($requeteExtension, $ext_fluxbl)) {
-    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fluxbl);
+$ext_fasttdtheliosblbl = "/var/www/pastell/extensionbl/fasttdtheliosbl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtheliosblbl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fasttdtheliosblbl);
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
