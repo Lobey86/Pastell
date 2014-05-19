@@ -227,6 +227,12 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_srcibl)) {
     $prov_extension=true;
 }
 
+$ext_srciparabl = "/var/www/pastell/extensionbl/srciparabl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_srciparabl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_srciparabl);
+    $prov_extension=true;
+}
+
 $ext_stelabl = "/var/www/pastell/extensionbl/stelabl/";
 if (!$sqlQuery->queryOne($requeteExtension, $ext_stelabl)) {
     $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_stelabl);
