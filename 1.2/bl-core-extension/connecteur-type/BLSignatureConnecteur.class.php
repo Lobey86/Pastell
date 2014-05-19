@@ -12,5 +12,9 @@ abstract class BLSignatureConnecteur extends Connecteur {
     const ATTR_SIGNATURE_CACHECIRCUITS = 'cache-circuits';
     const ATTR_SIGNATURE_DOSSIERID = 'parapheur_dossierid';
     const ATTR_SIGNATURE_DELETED = 'parapheur_deleted';
-
+    
+    public abstract function sendDocument();
+    public abstract function sendHeliosDocument();
+    public abstract function sendActeDocument();
+    
 }
