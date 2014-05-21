@@ -22,6 +22,7 @@ if   (! $roleUtilisateur->hasDroit($id_u,"journal:lecture",$id_e)){
 // Pour éviter des problèmes mémoires, au format CSV : 
 //  - le chargement des lignes se fait par paquet.
 //  - les lignes sont écrites dans le fichier CSV au fur et à mesure des chargements des paquets.
+//  - comme les traitements sont plus long, réinitialisation du temps max_execution_time dans chaque boucle.
 // NB : Le problème "mémoire", existe toujours pour le format JSON.
 
 if ($format == 'csv') {
@@ -35,7 +36,9 @@ if ($format == 'csv') {
     $filecsv = tempnam('/tmp/', 'exportjournal');
     $handle = fopen($filecsv, 'w');
     $continuer = true;
+    $max_execution_time= ini_get('max_execution_time');
     while ($continuer) {
+        ini_set('max_execution_time', $max_execution_time);
         $tab = $journal->getAll($id_e, $type, $id_d, $id_user, $ligneDepart, $nbreLigne, $recherche, $date_debut, $date_fin, true);
         $nbreLigne = sizeof($tab);
         $ligneDepart = $ligneDepart + $nbreLigne;
