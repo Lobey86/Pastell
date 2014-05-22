@@ -12,7 +12,7 @@ class BLBatchInit extends BLBatch {
         $id_ce = $objectInstancier->ConnecteurEntiteSQL->getGlobal($name);
         if (!$id_ce) {
             $this->traceln('Création du connecteur global ' . $name . ' : OK');
-            $id_ce = $objectInstancier->ConnecteurControler->nouveau(0, $name, $name . ' global');
+            $id_ce = $objectInstancier->ConnecteurEntiteSQL->addConnecteur(0,$name,$type, $name . ' global');
         } else {
             $this->traceln('Création du connecteur global ' . $name . ' : DEJA FAIT');
         }
