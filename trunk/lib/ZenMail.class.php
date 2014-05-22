@@ -35,7 +35,11 @@ class ZenMail {
 	}
 	
 	public function setSujet($sujet){
-		$this->sujet = "=?ISO-8859-1?Q?".strtr(imap_8bit($sujet),' ','_')."?=";
+		if (imap_8bit($sujet) == $sujet){
+			$this->sujet = $sujet;
+		} else {
+			$this->sujet = "=?UTF-8?Q?".strtr(imap_8bit(utf8_encode($sujet)),' ','_')."?=";
+		}
 	}
 	
 	public function setContenu($script,$info){
