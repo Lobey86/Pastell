@@ -15,6 +15,12 @@ class SAEEnvoiHelios extends ActionExecutor {
 		$pes_aller = $donneesFormulaire->copyFile('fichier_pes_signe',$tmp_folder,0,"pes_aller");
 		$pes_retour = $donneesFormulaire->copyFile('fichier_reponse',$tmp_folder,0,"pes_retour");
 		
+		if ($donneesFormulaire->get('iparapheur_historique')){
+			$iparapheur_historique = $donneesFormulaire->copyFile('iparapheur_historique',$tmp_folder,0,"iparapheur_historique");
+		} else {
+			$iparapheur_historique = false;
+		}
+		
 		$transactionsInfo = array(
 				'unique_id' => $donneesFormulaire->get('tedetis_transaction_id'),
 				'date' => date("Y-m-d"), 
@@ -25,7 +31,8 @@ class SAEEnvoiHelios extends ActionExecutor {
 				'pes_aller_original_filename' => $donneesFormulaire->getFileName('fichier_pes_signe',0),
 				'pes_retour_original_filename' => $donneesFormulaire->getFileName('fichier_reponse',0),
 				'pes_description' => 'inconnu',
-				'pes_aller_content' => $donneesFormulaire->getFileContent('fichier_pes_signe')
+				'pes_aller_content' => $donneesFormulaire->getFileContent('fichier_pes_signe'),
+				'iparapheur_historique' => $iparapheur_historique
 		);
 		
 		
