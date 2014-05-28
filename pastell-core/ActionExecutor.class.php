@@ -124,6 +124,9 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->Document;
 	}
 	
+	/**
+	 * @return DocumentActionEntite
+	 */
 	public function getDocumentActionEntite(){
 		return $this->objectInstancier->DocumentActionEntite;
 	}
