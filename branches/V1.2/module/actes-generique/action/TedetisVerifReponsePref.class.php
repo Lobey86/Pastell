@@ -40,7 +40,7 @@ class TedetisVerifReponsePref extends ActionExecutor {
 		if ($last_action == 'attente-reponse-prefecture' || $last_action == 'envoie-reponse-prefecture'){
 			return;
 		}
-		foreach(array(3,4) as $id_type) {
+		foreach(array(2,3,4) as $id_type) {
 			$libelle = $this->getLibelleType($id_type);
 			if($this->getDonneesFormulaire()->get("has_$libelle") == true){
 				if ($this->getDonneesFormulaire()->get("has_reponse_$libelle") == false){
