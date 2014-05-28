@@ -22,7 +22,7 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 				throw new Exception("Impossible de générer le bordereau : le paramètre $key est manquant. ");
 			}
 		}
-		$info_sup = array('pes_aller_original_filename','pes_retour_original_filename');
+		$info_sup = array('pes_aller_original_filename','pes_retour_original_filename','iparapheur_historique');
 		
 		foreach($info_sup as $key){
 			if (empty($information[$key])){
@@ -63,15 +63,11 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		foreach($PES_XXXAller->Bordereau as $i => $bordereau){
 			$info['bordereau'][$i]['IdBord'] = strval($bordereau->BlocBordereau->IdBord['V']);
 			$info['bordereau'][$i]['NbrPce'] = strval($bordereau->BlocBordereau->NbrPce['V']);
-			$info['bordereau'][$i]['IdPce'] = strval($bordereau->Piece->BlocPiece->InfoPce->IdPce['V']);
-			$info['bordereau'][$i]['TypPce'] = strval($bordereau->Piece->BlocPiece->InfoPce->TypPce['V']);
-			$info['bordereau'][$i]['Obj'] = strval($bordereau->Piece->BlocPiece->InfoPce->Obj['V']);
-			$info['bordereau'][$i]['IdTiers'] = strval($bordereau->Piece->LigneDePiece->Tiers->InfoTiers->IdTiers['V']);
-			$info['bordereau'][$i]['Nom'] = strval($bordereau->Piece->LigneDePiece->Tiers->InfoTiers->Nom['V']);
-			$info['bordereau'][$i]['RefTiers'] = strval($bordereau->Piece->LigneDePiece->Tiers->InfoTiers->RefTiers['V']);
-			$info['bordereau'][$i]['NomPJ'] = strval($bordereau->Piece->BlocPiece->InfoPce->PJRef->NomPJ['V']);
-			$info['bordereau'][$i]['Support'] = strval($bordereau->Piece->BlocPiece->InfoPce->PJRef->Support['V']);
-			$info['bordereau'][$i]['IdUnique'] = strval($bordereau->Piece->BlocPiece->InfoPce->PJRef->IdUnique['V']);
+			foreach($bordereau->Piece as $j => $piece){
+				$info['bordereau'][$i]['Piece'][$j]['NomPJ'] = strval($piece->BlocPiece->InfoPce->PJRef->NomPJ['V']);
+				$info['bordereau'][$i]['Piece'][$j]['Support'] = strval($piece->BlocPiece->InfoPce->PJRef->Support['V']);
+				$info['bordereau'][$i]['Piece'][$j]['IdUnique'] = strval($piece->BlocPiece->InfoPce->PJRef->IdUnique['V']);
+			}
 		}
 		
 		return $info;
@@ -104,8 +100,11 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		$archiveTransfer->ArchivalAgency->Contact->PersonName = "Archives Municipales du Château d'Olonne";
 		
 		$i = 0;
-		foreach(array('pes_aller','pes_retour') as $file_to_add){
+		foreach(array('pes_aller','pes_retour','iparapheur_historique') as $file_to_add){
 			$file_path = $transactionsInfo[$file_to_add];
+			if (! $file_path){
+				continue;
+			}
 			$archiveTransfer->Integrity[$i]->Contains = sha1_file($file_path);
 			$archiveTransfer->Integrity[$i]->Contains['encodingCode'] = 'http://www.w3.org/2000/09/xmldsig#sha1';
 			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($file_path);
@@ -185,73 +184,78 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		$archiveTransfer->Contains->Appraisal->Duration = "P10Y";
 		$archiveTransfer->Contains->Appraisal->StartDate =  date('Y-m-d',strtotime($transactionsInfo['date']));
 	
-		$archiveTransfer->Contains->Contains[0]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[0]->DescriptionLevel['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->Contains[0]->Name = "Journal des transmissions";
+		$num_contains_contains = 0;
 		
-		$archiveTransfer->Contains->Contains[0]->ContentDescription->Language='fr';
-		$archiveTransfer->Contains->Contains[0]->ContentDescription->Language['listVersionID'] = "edition 2009";
-
-		$archiveTransfer->Contains->Contains[0]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[0]->Document->Attachment['mimeCode'] = 'text/xml';
-		//TODO : c'est quoi le journal des transmissions du parapheur ? J'ai mis le PES ALLER
-		$archiveTransfer->Contains->Contains[0]->Document->Attachment['filename'] = basename($transactionsInfo['pes_aller']);
-		$archiveTransfer->Contains->Contains[0]->Document->Description="Journal des transmissions";
-		$archiveTransfer->Contains->Contains[0]->Document->Type = "CDO";
-		$archiveTransfer->Contains->Contains[0]->Document->Type['listVersionID'] = "edition 2009";
-
+		if ($transactionsInfo['iparapheur_historique']){
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->DescriptionLevel = "item";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Name = "Journal des transmissions";
+			
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->ContentDescription->Language='fr';
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
+	
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['format'] = 'fmt/101';
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['mimeCode'] = 'text/xml';
+			
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['filename'] = basename($transactionsInfo['iparapheur_historique']);
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Description="Journal des transmissions";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Type = "CDO";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Type['listVersionID'] = "edition 2009";
+			$num_contains_contains++;
+		}
 		
-		$archiveTransfer->Contains->Contains[1]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[1]->DescriptionLevel['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->Contains[1]->Name = "PES";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->DescriptionLevel = "item";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Name = "PES";
 		
-		$archiveTransfer->Contains->Contains[1]->ContentDescription->Description= "Identifiant du payeur : {$infoPESAller['IdPost']}, Date de génération du flux : {$infoPESAller['DteStr']}, SIREN du budget principal de la collectivité : {$infoPESAller['IdColl']}, Code de la collectivité : {$infoPESAller['CodCol']}, Code du budget : {$infoPESAller['CodBud']}.";
-		$archiveTransfer->Contains->Contains[1]->ContentDescription->Language='fr';
-		$archiveTransfer->Contains->Contains[1]->ContentDescription->Language['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->ContentDescription->Description= "Identifiant du payeur : {$infoPESAller['IdPost']}, Date de génération du flux : {$infoPESAller['DteStr']}, SIREN du budget principal de la collectivité : {$infoPESAller['IdColl']}, Code de la collectivité : {$infoPESAller['CodCol']}, Code du budget : {$infoPESAller['CodBud']}.";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->ContentDescription->Language='fr';
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
 		
-		
-		
-		$archiveTransfer->Contains->Contains[1]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[1]->Document->Attachment['mimeCode'] = 'text/xml';
-		$archiveTransfer->Contains->Contains[1]->Document->Attachment['filename'] = basename($transactionsInfo['pes_aller']);
-		$archiveTransfer->Contains->Contains[1]->Document->Description="PES";
-		$archiveTransfer->Contains->Contains[1]->Document->Type = "CDO";
-		$archiveTransfer->Contains->Contains[1]->Document->Type['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['format'] = 'fmt/101';
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['mimeCode'] = 'text/xml';
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['filename'] = basename($transactionsInfo['pes_aller']);
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Description="PES";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Type = "CDO";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Type['listVersionID'] = "edition 2009";
 		
 		$num_contains = 0;
 		foreach($infoPESAller['bordereau'] as $i => $bordereauInfo) {
-			$archiveTransfer->Contains->Contains[1]->Contains[$num_contains]->DescriptionLevel = "item";
-			$archiveTransfer->Contains->Contains[1]->Contains[$num_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
-			$archiveTransfer->Contains->Contains[1]->Contains[$num_contains]->Name = "Bordereau";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->DescriptionLevel = "item";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->Name = "Bordereau";
 			
 			$entete = $infoPESAller['is_depense']?"EnteteDepense":"EnteteRecette";
 			
-			$archiveTransfer->Contains->Contains[1]->Contains[$num_contains]->ContentDescription->Description= "$entete, bordereau dématérialisé : {$infoPESAller['InfoDematerialisee']}, Identifiant du bordereau : {$bordereauInfo['IdBord']}, nombre de mouvements comptables : {$bordereauInfo['NbrPce']}, Identifiant de la pièce : Piece {$bordereauInfo['IdPce']}, type de pièce : {$bordereauInfo['TypPce']}, description : {$bordereauInfo['Obj']}, Identifiant du tiers : {$bordereauInfo['IdTiers']}, Nom du tiers : {$bordereauInfo['Nom']}, Identifiant éditeur : {$bordereauInfo['RefTiers']}";
-			$archiveTransfer->Contains->Contains[1]->Contains[$num_contains]->ContentDescription->Language='fr';
-			$archiveTransfer->Contains->Contains[1]->Contains[$num_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->ContentDescription->Description= "$entete, bordereau dématérialisé : {$infoPESAller['InfoDematerialisee']}, Identifiant du bordereau : {$bordereauInfo['IdBord']}, nombre de mouvements comptables : {$bordereauInfo['NbrPce']}";
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->ContentDescription->Language='fr';
+			$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
 			
 			$num_contains++;
-			
-			$archiveTransfer->Contains->Contains[1]->Contains[1]->DescriptionLevel = "file";
-			$archiveTransfer->Contains->Contains[1]->Contains[1]->DescriptionLevel['listVersionID'] = "edition 2009";
-			$archiveTransfer->Contains->Contains[1]->Contains[1]->Name = "Pièces justificatives";
-			
-			$archiveTransfer->Contains->Contains[1]->Contains[1]->ContentDescription->Description="identifiant de la pièce justificative : {$bordereauInfo['NomPJ']}, type de support : {$bordereauInfo['Support']}, identifiant attribué par éditeur : {$bordereauInfo['IdUnique']}";
-			$archiveTransfer->Contains->Contains[1]->Contains[1]->ContentDescription->Language='fr';
-			$archiveTransfer->Contains->Contains[1]->Contains[1]->ContentDescription->Language['listVersionID'] = "edition 2009";
-			$num_contains++;
+			foreach($bordereauInfo['Piece'] as $j => $piece){
+				$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->DescriptionLevel = "file";
+				$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
+				$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->Name = "Pièces justificatives";
+				
+				$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->ContentDescription->Description="identifiant de la pièce justificative : {$piece['NomPJ']}, type de support : {$piece['Support']}, identifiant attribué par éditeur : {$piece['IdUnique']}";
+				$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->ContentDescription->Language='fr';
+				$archiveTransfer->Contains->Contains[$num_contains_contains]->Contains[$num_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
+				$num_contains++;
+			}
 		}
 		
-		$archiveTransfer->Contains->Contains[2]->DescriptionLevel = "item";
-		$archiveTransfer->Contains->Contains[2]->DescriptionLevel['listVersionID'] = "edition 2009";
-		$archiveTransfer->Contains->Contains[2]->Name = "Accusé de réception : ACK / ACQUIT / NACK";
+		$num_contains_contains++;
 		
-		$archiveTransfer->Contains->Contains[2]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[2]->Document->Attachment['mimeCode'] = 'text/xml';
-		$archiveTransfer->Contains->Contains[2]->Document->Attachment['filename'] = basename($transactionsInfo['pes_retour']);
-		$archiveTransfer->Contains->Contains[2]->Document->Description="PES";
-		$archiveTransfer->Contains->Contains[2]->Document->Type = "CDO";
-		$archiveTransfer->Contains->Contains[2]->Document->Type['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->DescriptionLevel = "item";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Name = "Accusé de réception : ACK / ACQUIT / NACK";
+		
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['format'] = 'fmt/101';
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['mimeCode'] = 'text/xml';
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Attachment['filename'] = basename($transactionsInfo['pes_retour']);
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Description="PES";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Type = "CDO";
+		$archiveTransfer->Contains->Contains[$num_contains_contains]->Document->Type['listVersionID'] = "edition 2009";
 
 		return $archiveTransfer->asXML();
 	}

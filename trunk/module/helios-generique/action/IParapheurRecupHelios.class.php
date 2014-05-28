@@ -4,10 +4,11 @@ require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 
 class IParapheurRecupHelios extends ActionExecutor {
 	
-	public function throwError($signature,$message){
-		
+	public function throwError($signature,$message){		
 		$nb_jour_max = $signature->getNbJourMaxInConnecteur();
-		$lastAction = $this->getDocumentActionEntite()->getLastAction($this->id_e,$this->id_d);
+
+		$lastAction = $this->getDocumentActionEntite()->getLastActionInfo($this->id_e,$this->id_d);
+		
 		$time_action = strtotime($lastAction['date']);
 		if (time() - $time_action > $nb_jour_max * 86400){
 			$message = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max !";
