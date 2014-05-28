@@ -290,7 +290,7 @@ class S2low  extends TdtConnecteur {
 	}
 	
 	public function sendResponse(DonneesFormulaire $donneesFormulaire) {
-		foreach(array(3,4) as $id_type) {
+		foreach(array(2,3,4) as $id_type) {
 			$libelle = $this->getLibelleType($id_type);
 			if($donneesFormulaire->get("has_$libelle") == true){
 				if ($donneesFormulaire->get("has_reponse_$libelle") == false){
@@ -342,6 +342,7 @@ class S2low  extends TdtConnecteur {
 		$donneesFormulaire->setData("has_reponse_{$libelle}",true);
 		return true;
 	}
+	
 }
 
 class S2lowException extends TdTException {}
