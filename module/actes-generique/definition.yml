@@ -120,6 +120,7 @@ formulaire:
 			depend: echange_prefecture
 			value: 
 				2A: Courrier simple
+				2B: Réponse courrier simple
 				3A: Demande de pièces complémentaires
 				4A: Lettre d'observations
 				5A: Déféré au tribunal administratif
@@ -166,6 +167,14 @@ formulaire:
 		courrier_simple_date:
 			name: Date de réception du courrier simple 
 			type: date
+		has_reponse_lettre_courrier_simple:
+			no-show: true
+		reponse_courrier_simple:
+			name: Réponse à un courrier simple
+			requis: true
+			type:file
+			read-only-content:
+				has_reponse_lettre_courrier_simple: true
 			
 	Demande de pièces complementaires:
 		has_demande_piece_complementaire:
@@ -477,6 +486,7 @@ action:
 		rule:
 			role_id_e: no-role
 		editable-content:
+			reponse_courrier_simple
 			reponse_lettre_observation
 			nature_reponse_lettre_observation
 			nature_reponse_demande_piece_complementaire
@@ -500,6 +510,10 @@ action:
 					content:
 						has_demande_piece_complementaire: true
 						has_reponse_demande_piece_complementaire: false
+				and_3:
+					content:
+						has_courrier_simple: true
+						has_reponse_courrier_simple: false
 		action-class: TedetisSendReponsePref	
 	
 	
