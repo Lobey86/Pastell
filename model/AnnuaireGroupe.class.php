@@ -130,4 +130,9 @@ class AnnuaireGroupe extends SQL {
 		return false;
 	}
 	
+	public function hasAGroupe($id_a){
+		$sql = "SELECT count(*) FROM annuaire_groupe_contact WHERE id_a=?";
+		return $this->queryOne($sql,$id_a);
+	}
+	
 }
