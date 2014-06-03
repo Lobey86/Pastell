@@ -16,7 +16,7 @@
 	</tr>
 <?php foreach($listGroupe as $groupe) : 
 	$nbUtilisateur = $annuaireGroupe->getNbUtilisateur($groupe['id_g']); 
-	$utilisateur = $annuaireGroupe->getUtilisateur($groupe['id_g'],3);
+	$utilisateur = $annuaireGroupe->getUtilisateur($groupe['id_g'],0,3);
 	$r = array();
 	foreach($utilisateur as $u){
 		$r[] = htmlentities( '"' . $u['description'] .'"'. " <".$u['email'].">",ENT_QUOTES);
