@@ -256,6 +256,11 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtheliosbl)) {
     $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fasttdtheliosbl);
     $prov_extension=true;
 }
+$ext_ganeshparabl = "/var/www/pastell/extensionbl/ganeshparabl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_ganeshparabl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_ganeshparabl);
+    $prov_extension=true;
+}
 
 if ($prov_extension) {
     $blScript->traceln('OK');    
