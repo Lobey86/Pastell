@@ -72,14 +72,7 @@ class ConnecteurSuspensionControler {
             file_put_contents($fContext, json_encode($context));
             // Suspend les accès si demandé
             if (!$poursuivre) {
-                $suspensionDetail = array(
-                    'date' => date('d/m/Y H:i:s'),
-                    'code' => $accesException->getCode(),
-                    'file' => $accesException->getFile(),
-                    'line' => $accesException->getLine(),
-                    'message' => utf8_encode($accesException->getMessage()),
-                    'trace' => utf8_encode_array($accesException->getTrace()));
-                $suspensionDetail = json_encode($suspensionDetail);
+                $suspensionDetail = exceptionToJson($accesException);
                 $this->setSuspension($connecteur, $suspensionDetail, false);
             }
         } catch (Exception $ex) {
