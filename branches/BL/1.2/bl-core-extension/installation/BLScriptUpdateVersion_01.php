@@ -37,3 +37,15 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_srciparabl)) {
 } else {
     $blScript->traceln('DEJA FAIT');
 }
+
+// Mise en place de l'extension BL : Connecteur ganeshparabl
+$blScript->trace('Mise en place extension BL ganeshparabl : ');
+$requeteExtension = "SELECT id_e FROM extension WHERE path = ?";
+$ext_ganeshparabl = "/var/www/pastell/extensionbl/ganeshparabl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_ganeshparabl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_ganeshparabl);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
+}
+
