@@ -103,7 +103,7 @@ class NotBuggySoapClient extends SoapClient {
             $response = $this->formaterRetourMultiPartXOPToXML($response, $headers);
         } else {    	
             $pos = stripos($response, "<?xml");            
-            if (!$pos) {
+            if ($pos === false) {
                 $pos = stripos($response, "<soap:");
             }
             $response = substr($response, $pos);
