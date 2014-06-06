@@ -24,15 +24,7 @@ abstract class BLActionExecutor extends ActionExecutor {
     }
 
     protected function exceptionToJson(Exception $ex) {
-        $json = array(
-            'date' => date('d/m/Y H:i:s'),
-            'code' => $ex->getCode(),
-            'file' => $ex->getFile(),
-            'line' => $ex->getLine(),
-            'message' => utf8_encode($ex->getMessage()),
-            'trace' => utf8_encode_array($ex->getTrace()));
-        $json = json_encode($json);
-        return $json;
+        return exceptionToJson($ex);
     }
 
 }

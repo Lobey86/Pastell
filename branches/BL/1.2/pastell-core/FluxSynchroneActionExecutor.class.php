@@ -173,14 +173,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             $messageLog = $ex->getMessage();
             $this->logAction($etat, $messageLog);
         }
-        $messageDetail = array(
-            'date' => date('d/m/Y H:i:s'),
-            'code' => $ex->getCode(),
-            'file' => $ex->getFile(),
-            'line' => $ex->getLine(),
-            'message' => utf8_encode($ex->getMessage()),
-            'trace' => utf8_encode_array($ex->getTrace()));
-        $messageDetail = json_encode($messageDetail);
+        $messageDetail = exceptionToJson($ex);
         $doc = $this->getDonneesFormulaire();
         $doc->addFileFromData(self::FLUX_ATTR_ERREUR_DETAIL, 'erreur_detail', $messageDetail);
         throw $ex;
