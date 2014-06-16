@@ -20,6 +20,7 @@ class ValidateBordereau extends ActionExecutor {
 		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);	
 		
+		
 		libxml_use_internal_errors(true);
 		$dom = new DOMDocument();
 		$dom->loadXML($bordereau);

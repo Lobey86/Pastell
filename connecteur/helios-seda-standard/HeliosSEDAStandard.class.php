@@ -5,14 +5,14 @@ class HeliosSEDAStandard extends Connecteur {
 	
 	public function  setConnecteurConfig(DonneesFormulaire $seda_config){
 		$this->authorityInfo = array(
-				"identifiant_versant" =>  $seda_config->get("identifiant_versant"),
-				"identifiant_archive" =>  $seda_config->get("identifiant_archive"),
-				"sae_numero_aggrement" =>  $seda_config->get("numero_agrement"),
-				"sae_numero_aggrement_schemeName" =>  $seda_config->get("sae_numero_aggrement_schemeName"),
-				"sae_numero_aggrement_schemeAgencyName" =>  $seda_config->get("sae_numero_aggrement_schemeAgencyName"),
-				"originating_agency" =>  $seda_config->get("originating_agency"),
-				"name" =>   $seda_config->get('nom'),
-				"siren" =>  $seda_config->get('siren'),
+				"identifiant_versant" =>  utf8_encode($seda_config->get("identifiant_versant")),
+				"identifiant_archive" =>  utf8_encode($seda_config->get("identifiant_archive")),
+				"sae_numero_aggrement" =>  utf8_encode($seda_config->get("numero_agrement")),
+				"sae_numero_aggrement_schemeName" =>  utf8_encode($seda_config->get("sae_numero_aggrement_schemeName")),
+				"sae_numero_aggrement_schemeAgencyName" =>  utf8_encode($seda_config->get("sae_numero_aggrement_schemeAgencyName")),
+				"originating_agency" =>  utf8_encode($seda_config->get("originating_agency")),
+				"name" =>   utf8_encode($seda_config->get('nom')),
+				"siren" =>  utf8_encode($seda_config->get('siren')),
 		);
 	}
 	

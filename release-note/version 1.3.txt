@@ -10,3 +10,7 @@ Cette révision marque le passage de la version 1.2 vers le début du développemen
 Révision 728:
 
 L'ajout des daily-digest des notifications rends nécessaire l'utilisation de cron : il faut déclencher le script batch/cron-jour.php chaque jour afin d'envoyer ces daily-digest.
+
+Révision 940 :
+
+Il peut être nécessaire de passer le script installation/fix-nb-user-in-annuaire_groupe.php afin de corriger un problème sur la table annuaire_groupe.
