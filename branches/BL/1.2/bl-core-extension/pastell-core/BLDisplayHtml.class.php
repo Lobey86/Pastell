@@ -17,6 +17,14 @@ class BLDisplayHtml extends BLDisplayValue {
         return $target;
     }
 
+    protected function formatDatetime($datetime) {
+        $datetimeUnix = strtotime($datetime);
+        if ($datetimeUnix === false) {
+            return $datetime;
+        }
+        return date("d/m/Y H:i:s", $datetimeUnix);
+    }
+
     protected function formatCellHeader($colIndex, $colName) {
         $result = '<th>' . $colName . '</th>';
         return $result;

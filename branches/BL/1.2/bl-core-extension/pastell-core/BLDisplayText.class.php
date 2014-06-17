@@ -19,6 +19,14 @@ class BLDisplayText extends BLDisplayValue {
         return $target;
     }
 
+    protected function formatDatetime($datetime) {
+        $datetimeUnix = strtotime($datetime);
+        if ($datetimeUnix === false) {
+            return $datetime;
+        }
+        return date("d/m/Y H:i:s", $datetimeUnix);
+    }
+
     private function objectOrArrayDisplay($objectOrArray, $indentLevel = 0) {
         $display = '';
         $indent = str_repeat(self::INDENT, $indentLevel);
