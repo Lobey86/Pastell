@@ -19,8 +19,23 @@ abstract class BLSignatureConnecteur extends Connecteur {
     public abstract function sendDocument();
     public abstract function sendHeliosDocument();
     public abstract function sendActeDocument();
+    /** @link ConnecteurSignatureDocHistorisableIntf */
     public abstract function docHistorique();
     public abstract function searchHistoriqueLogValidation($histoAll);
     public abstract function searchHistoriqueLogRejet($histoAll);
     public abstract function getSignature();
+    
+    /**
+     * Normalise une date au format Pastell
+     * @param type $datetime
+     * @return type
+     */
+    protected function datetimeIsoToPastell($datetime) {
+        if (empty($datetime)) {
+            return $datetime;
+        }
+        $datetimePhp = is_string($datetime) ? strtotime($datetime) : $datetime;
+        $datetimePastell = date('Y-m-d\TH:i:s\.000P', $datetimePhp);
+        return $datetimePastell;
+    }
 }

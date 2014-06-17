@@ -20,6 +20,10 @@ class BLDisplayJson extends BLDisplayValue {
         return $target;
     }
 
+    protected function formatDatetime($datetime) {
+        return $datetime;
+    }
+    
     protected function arrayDisplay(array $array, $doEncoding = true) {
         return $array;
     }

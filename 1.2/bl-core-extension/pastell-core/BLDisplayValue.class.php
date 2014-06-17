@@ -15,6 +15,11 @@ abstract class BLDisplayValue {
     abstract protected function arrayDisplay(array $array, $doEncoding = true);
 
     abstract protected function objectDisplay($object, $doEncoding = true);
+    
+    /**
+     * @param string $datetime string au format ISO (@link strtotime)
+     */
+    abstract protected function formatDatetime($datetime);
 
     public function stringDisplay($string, $doEncoding = true) {
         if ($doEncoding) {
@@ -27,6 +32,9 @@ abstract class BLDisplayValue {
 
     public function valueDisplay($value, $doEncoding = true) {
         if (is_string($value)) {
+            if (preg_match('/^\d{1,4}[\/\- ]\d{1,2}[\/\- ]\d{1,4}/', $value)) {
+                $value = $this->formatDatetime($value);
+            }
             $valueDisplay = $this->stringDisplay($value, $doEncoding);
         } elseif (is_array($value)) {
             $valueDisplay = $this->arrayDisplay($value, $doEncoding);
@@ -34,7 +42,7 @@ abstract class BLDisplayValue {
             $valueDisplay = $this->objectDisplay($value, $doEncoding);
         } else {
             $valueDisplay = $value;
-        }
+        } 
         return $valueDisplay;
     }
 
