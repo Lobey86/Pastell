@@ -39,7 +39,7 @@ class BLCreationUtilisateur {
             if ($result){
                 $this->blBatch->traceln("Création de l'administrateur $this->login : OK");	
             } else {
-                $this->traceln($objectInstancier->AdminControler->getLastError());
+                $this->blBatch->traceln($objectInstancier->AdminControler->getLastError());
                 exit;
             }
             $objectInstancier->AdminControler->fixDroit();
