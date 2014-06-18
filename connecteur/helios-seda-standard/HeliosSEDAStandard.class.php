@@ -175,7 +175,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
 		
 		$archiveTransfer->Contains->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Document->Attachment['mimeCode'] = 'text/xml';
+		$archiveTransfer->Contains->Document->Attachment['mimeCode'] = 'application/xml';
 		$archiveTransfer->Contains->Document->Attachment['filename'] = basename($transactionsInfo['pes_aller']);
 		$archiveTransfer->Contains->Document->Description="PES";
 		$archiveTransfer->Contains->Document->Type = "CDO";
@@ -207,6 +207,7 @@ class HeliosSEDAStandard extends Connecteur {
 				foreach($piece['PJ'] as $pj){
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->DescriptionLevel = "file";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->DescriptionLevel['listVersionID'] = "edition 2009";
+					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->Name = "Pièces justificatives";
 					
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Description = $pj['NomPJ'];
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language = "fr";
@@ -228,7 +229,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->Contains[$num_contains]->Name = "Accusé de réception : {$infoPESRetour['root']}";
 		
 		$archiveTransfer->Contains->Contains[$num_contains]->Document->Attachment['format'] = 'fmt/101';
-		$archiveTransfer->Contains->Contains[$num_contains]->Document->Attachment['mimeCode'] = 'text/xml';
+		$archiveTransfer->Contains->Contains[$num_contains]->Document->Attachment['mimeCode'] = 'application/xml';
 		$archiveTransfer->Contains->Contains[$num_contains]->Document->Attachment['filename'] = basename($transactionsInfo['pes_retour']);
 		$archiveTransfer->Contains->Contains[$num_contains]->Document->Type = "CDO";
 		$archiveTransfer->Contains->Contains[$num_contains]->Document->Type['listVersionID'] = "edition 2009";
