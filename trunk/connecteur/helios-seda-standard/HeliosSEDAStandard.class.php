@@ -48,7 +48,8 @@ class HeliosSEDAStandard extends Connecteur {
 			$PES_XXXAller = $xml->PES_RecetteAller;
 		}
 		$info['bordereau'] = array();
-		foreach($PES_XXXAller->Bordereau as $i => $bordereau){
+		$i = 0;
+		foreach($PES_XXXAller->Bordereau as $bordereau){
 			$info['bordereau'][$i]['IdBord'] = strval($bordereau->BlocBordereau->IdBord['V']);
 			$info['bordereau'][$i]['TypBord'] = strval($bordereau->BlocBordereau->TypBord['V']);
 			$j = 0;
@@ -58,13 +59,16 @@ class HeliosSEDAStandard extends Connecteur {
 				$info['bordereau'][$i]['Piece'][$j]['NatPce'] = strval($piece->BlocPiece->InfoPce->NatPce['V']);
 				$k = 0;
 				$info['bordereau'][$i]['Piece'][$j]['PJ'] = array();
-				foreach($piece->BlocPiece->InfoPce->PJRef as $pj){
-					$info['bordereau'][$i]['Piece'][$j]['PJ'][$k]['NomPJ'] = strval($pj->NomPJ['V']); 
-					$k++;
+				if (! empty($piece->BlocPiece->InfoPce->PJRef)){
+					foreach($piece->BlocPiece->InfoPce->PJRef as $pj){
+						$info['bordereau'][$i]['Piece'][$j]['PJ'][$k] = strval($pj->NomPJ['V']); 
+						$k++;
+					}
 				}
 				$j++;
 			}
-		}
+			$i++;
+		}		
 		return $info;
 	}
 	private function extractInfoFromPESRetour($pes_retour_content){
@@ -159,7 +163,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordType["listVersionID"] = "edition 2009";
 		
 		if ($infoPESAller['is_recette']) {
-			$archiveTransfer->Contains->ContentDescription->AccessRestriction->Code = "AR038";
+			$archiveTransfer->Contains->ContentDescription->AccessRestriction->Code = "AR048";
 			$archiveTransfer->Contains->ContentDescription->AccessRestriction->Code['listVersionID'] = "edition 2009";
 			$archiveTransfer->Contains->ContentDescription->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
 		}
@@ -186,7 +190,7 @@ class HeliosSEDAStandard extends Connecteur {
 		foreach($infoPESAller['bordereau'] as $i=>$bordereau) {
 			$archiveTransfer->Contains->Contains[$num_contains]->DescriptionLevel = "item";
 			$archiveTransfer->Contains->Contains[$num_contains]->DescriptionLevel['listVersionID'] = "edition 2009";
-			$archiveTransfer->Contains->Contains[$num_contains]->Name = $this->getTypeBordereau($infoPESAller['bordereau'][$i]['TypBord'], $infoPESAller['is_recette']);
+			$archiveTransfer->Contains->Contains[$num_contains]->Name = $this->getTypeBordereau($infoPESAller['bordereau'][$i]['TypBord'], $infoPESAller['is_recette']) . " : ".$infoPESAller['bordereau'][$i]['IdBord'];
 			
 			$archiveTransfer->Contains->Contains[$num_contains]->ContentDescription->Language='fr';
 			$archiveTransfer->Contains->Contains[$num_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
@@ -204,12 +208,14 @@ class HeliosSEDAStandard extends Connecteur {
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Language = "fr";
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Language['listVersionID'] = "edition 2009";
 				$k = 0;
-				foreach($piece['PJ'] as $pj){
+				if ($piece['PJ']){
+					
+					
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->DescriptionLevel = "file";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->DescriptionLevel['listVersionID'] = "edition 2009";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->Name = "Pièces justificatives";
 					
-					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Description = $pj['NomPJ'];
+					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Description = implode(", ",$piece['PJ']);
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language = "fr";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language['listVersionID'] = "edition 2009";
 					
