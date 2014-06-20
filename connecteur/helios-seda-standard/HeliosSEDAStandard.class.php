@@ -54,14 +54,33 @@ class HeliosSEDAStandard extends Connecteur {
 			$info['bordereau'][$i]['TypBord'] = strval($bordereau->BlocBordereau->TypBord['V']);
 			$j = 0;
 			foreach($bordereau->Piece as $piece){
-				$info['bordereau'][$i]['Piece'][$j]['IdPce'] = strval($piece->BlocPiece->InfoPce->IdPce['V']);
-				$info['bordereau'][$i]['Piece'][$j]['TypPce'] = strval($piece->BlocPiece->InfoPce->TypPce['V']);
-				$info['bordereau'][$i]['Piece'][$j]['NatPce'] = strval($piece->BlocPiece->InfoPce->NatPce['V']);
+				if($piece->BlocPiece->InfoPce->IdPce['V'] != null)
+					$info['bordereau'][$i]['Piece'][$j]['IdPce'] = strval($piece->BlocPiece->InfoPce->IdPce['V']);
+				else
+					$info['bordereau'][$i]['Piece'][$j]['IdPce'] = strval($piece->BlocPiece->IdPce['V']);
+
+				if($piece->BlocPiece->InfoPce->TypPce['V'] != null)
+					$info['bordereau'][$i]['Piece'][$j]['TypPce'] = strval($piece->BlocPiece->InfoPce->TypPce['V']);
+				else
+					$info['bordereau'][$i]['Piece'][$j]['TypPce'] = strval($piece->BlocPiece->TypPce['V']);
+
+				if($piece->BlocPiece->InfoPce->NatPce['V'] != null)
+					$info['bordereau'][$i]['Piece'][$j]['NatPce'] = strval($piece->BlocPiece->InfoPce->NatPce['V']);
+				else
+					$info['bordereau'][$i]['Piece'][$j]['NatPce'] = strval($piece->BlocPiece->NatPce['V']);
+				
 				$k = 0;
 				$info['bordereau'][$i]['Piece'][$j]['PJ'] = array();
 				if (! empty($piece->BlocPiece->InfoPce->PJRef)){
 					foreach($piece->BlocPiece->InfoPce->PJRef as $pj){
 						$info['bordereau'][$i]['Piece'][$j]['PJ'][$k] = strval($pj->NomPJ['V']); 
+						$k++;
+					}
+				}
+				
+				if (! empty($piece->BlocPiece->PJRef)){
+					foreach($piece->BlocPiece->PJRef as $pj){
+						$info['bordereau'][$i]['Piece'][$j]['PJ'][$k]['NomPJ'] = strval($pj->NomPJ['V']);
 						$k++;
 					}
 				}
