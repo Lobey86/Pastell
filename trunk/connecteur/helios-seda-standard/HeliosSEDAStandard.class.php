@@ -140,7 +140,7 @@ class HeliosSEDAStandard extends Connecteur {
 		
 		$archiveTransfer->Contains->Name = "Flux comptable PES ({$infoPESAller['nomFic']}) en date du {$transactionsInfo['date']} {$infoPESRetour['root']} de {$this->authorityInfo['name']}";
 		
-		$archiveTransfer->Contains->ContentDescription->CustodialHistory = "Les pièces transférées au comptable public, sont intégrées au flux comptable PES V2 défini par le programme Helios et sont transférées pour archivage depuis le tiers de télétransmission ou la passerelle Helios pour le compte de {$this->authorityInfo['name']}. La description a été établie selon les règles du standard d'échange de données pour l'archivage électronique version 0.2, publié dans le référentiel général d'interopérabilité.";
+		$archiveTransfer->Contains->ContentDescription->CustodialHistory = "Les pièces transférées au comptable public, sont intégrées au flux comptable PES V2 défini par le programme Helios et sont transférées pour archivage depuis le tiers de télétransmission pour le compte de {$this->authorityInfo['name']}. La description a été établie selon les règles du standard d'échange de données pour l'archivage électronique version 0.2.";
 		$archiveTransfer->Contains->ContentDescription->Description = "Identifiant du payeur : {$infoPESAller['IdPost']} ; Identifiant de l'ordonateur :  {$infoPESAller['IdColl']} ; Code du budget :  {$infoPESAller['CodBud']} ; Domaine :  ". ($infoPESAller['is_depense']?"PES_DepenseAller":"PES_RecetteAller");
 		
 		$archiveTransfer->Contains->ContentDescription->Language = "fr";
