@@ -8,6 +8,8 @@
 # attente en secondes. 30 min = 1800 sec
 ATTENTE=1800
 
+echo [$(date +%d-%m-%Y\ %H\:%M\:%S)] Demarrage $0
+
 START=$(date -r /var/log/upstart/bl-action-auto.log '+%s')
 
 END=$(date '+%s')
@@ -33,3 +35,5 @@ Cordialement.
 Ce mail vous est envoyé automatiquement par le serveur $HOSTNAME.
 MAIL_CORPS
 fi
+
+echo [$(date +%d-%m-%Y\ %H\:%M\:%S)] Terminaison $0
