@@ -73,14 +73,14 @@ class HeliosSEDAStandard extends Connecteur {
 				$info['bordereau'][$i]['Piece'][$j]['PJ'] = array();
 				if (! empty($piece->BlocPiece->InfoPce->PJRef)){
 					foreach($piece->BlocPiece->InfoPce->PJRef as $pj){
-						$info['bordereau'][$i]['Piece'][$j]['PJ'][$k] = strval($pj->NomPJ['V']); 
+						$info['bordereau'][$i]['Piece'][$j]['PJ'][] = strval($pj->NomPJ['V']); 
 						$k++;
 					}
 				}
 				
 				if (! empty($piece->BlocPiece->PJRef)){
 					foreach($piece->BlocPiece->PJRef as $pj){
-						$info['bordereau'][$i]['Piece'][$j]['PJ'][$k]['NomPJ'] = strval($pj->NomPJ['V']);
+						$info['bordereau'][$i]['Piece'][$j]['PJ'][] = strval($pj->NomPJ['V']);
 						$k++;
 					}
 				}
@@ -228,8 +228,6 @@ class HeliosSEDAStandard extends Connecteur {
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Language['listVersionID'] = "edition 2009";
 				$k = 0;
 				if ($piece['PJ']){
-					
-					
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->DescriptionLevel = "file";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->DescriptionLevel['listVersionID'] = "edition 2009";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->Name = "Pièces justificatives";
