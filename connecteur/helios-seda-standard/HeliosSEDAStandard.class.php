@@ -138,7 +138,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->DescriptionLevel = "file";
 		$archiveTransfer->Contains->DescriptionLevel['listVersionID'] = "edition 2009";
 		
-		$archiveTransfer->Contains->Name = "Flux comptable PES ({$infoPESAller['nomFic']}) en date du {$transactionsInfo['date']} {$infoPESRetour['root']} de {$this->authorityInfo['name']}";
+		$archiveTransfer->Contains->Name = "Flux comptable PES ({$infoPESAller['nomFic']}) en date du {$transactionsInfo['date']} de {$this->authorityInfo['name']}";
 		
 		$archiveTransfer->Contains->ContentDescription->CustodialHistory = "Les pièces transférées au comptable public, sont intégrées au flux comptable PES V2 défini par le programme Helios et sont transférées pour archivage depuis le tiers de télétransmission pour le compte de {$this->authorityInfo['name']}. La description a été établie selon les règles du standard d'échange de données pour l'archivage électronique version 0.2.";
 		$archiveTransfer->Contains->ContentDescription->Description = "Identifiant du payeur : {$infoPESAller['IdPost']} ; Identifiant de l'ordonateur :  {$infoPESAller['IdColl']} ; Code du budget :  {$infoPESAller['CodBud']} ; Domaine :  ". ($infoPESAller['is_depense']?"PES_DepenseAller":"PES_RecetteAller");
@@ -193,7 +193,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->Appraisal->StartDate =  date('Y-m-d',strtotime($transactionsInfo['date']));
 		
 	
-		$archiveTransfer->Contains->AccessRestriction->Code = $infoPESAller['is_recette'] ? "AR038" : "AR048";
+		$archiveTransfer->Contains->AccessRestriction->Code = $infoPESAller['is_recette'] ? "AR048" : "AR038";
 		$archiveTransfer->Contains->AccessRestriction->Code['listVersionID'] = "edition 2009";
 		$archiveTransfer->Contains->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
 		
@@ -214,16 +214,18 @@ class HeliosSEDAStandard extends Connecteur {
 			$archiveTransfer->Contains->Contains[$num_contains]->ContentDescription->Language='fr';
 			$archiveTransfer->Contains->Contains[$num_contains]->ContentDescription->Language['listVersionID'] = "edition 2009";
 	
-			$archiveTransfer->Contains->Contains[$num_contains]->AccessRestriction->Code = "AR038";
-			$archiveTransfer->Contains->Contains[$num_contains]->AccessRestriction->Code['listVersionID'] = "edition 2009";
-			$archiveTransfer->Contains->Contains[$num_contains]->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
+			if ($infoPESAller['is_recette']) {
+				$archiveTransfer->Contains->Contains[$num_contains]->AccessRestriction->Code = "AR038";
+				$archiveTransfer->Contains->Contains[$num_contains]->AccessRestriction->Code['listVersionID'] = "edition 2009";
+				$archiveTransfer->Contains->Contains[$num_contains]->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
+			}
 			
 			foreach($bordereau['Piece'] as $j=>$piece){
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->DescriptionLevel = "item";
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->DescriptionLevel['listVersionID'] = "edition 2009";
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Name = $this->getTypePiece($piece['TypPce'],$infoPESAller['is_recette']) . ", ".$this->getNaturePiece($piece['NatPce'],$infoPESAller['is_recette']) ." : {$piece['IdPce']}";
 			
-				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Description = $transactionsInfo['pes_retour_description'];
+				//$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Description = $transactionsInfo['pes_retour_description'];
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Language = "fr";
 				$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->ContentDescription->Language['listVersionID'] = "edition 2009";
 				$k = 0;
@@ -236,9 +238,11 @@ class HeliosSEDAStandard extends Connecteur {
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language = "fr";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language['listVersionID'] = "edition 2009";
 					
-					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->Code = "AR038";
-					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->Code['listVersionID'] = "edition 2009";
-					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
+					if ($infoPESAller['is_recette']) {
+						$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->Code = "AR038";
+						$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->Code['listVersionID'] = "edition 2009";
+						$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
+					}
 					
 					$k++;
 				}
