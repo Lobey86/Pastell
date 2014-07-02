@@ -16,4 +16,9 @@ class BLActeAdministratifFlux extends BLFlux {
     const ATTR_DATE_LIMITE = 'parapheur_date_limite';
     const ATTR_ANNOTATION_ENVOI = 'parapheur_annotation_envoi';
     const ATTR_ANNOTATION_RETOUR = 'parapheur_annotation_retour';
+    const ATTR_DATE_DECISION = 'date_decision_acte';
+    const ATTR_NUMERO_ACTE = 'numero_acte';
+    const ATTR_NATURE_ACTE = 'nature_acte';
+    const ATTR_CLASSIFICATION_ACTE = 'classification_acte';
+    const ATTR_OBJET_ACTE = 'objet_acte';
 }
