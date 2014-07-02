@@ -267,6 +267,12 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_ganeshtdtheliosbl)) {
     $prov_extension=true;
 }
 
+$ext_ganeshtdtactesbl = "/var/www/pastell/extensionbl/ganeshtdtactesbl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_ganeshtdtactesbl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_ganeshtdtactesbl);
+    $prov_extension=true;
+}
+
 if ($prov_extension) {
     $blScript->traceln('OK');    
 } else {
