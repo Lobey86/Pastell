@@ -182,7 +182,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordType["listVersionID"] = "edition 2009";
 		
 		if ($infoPESAller['is_recette']) {
-			$archiveTransfer->Contains->ContentDescription->AccessRestriction->Code = "AR048";
+			$archiveTransfer->Contains->ContentDescription->AccessRestriction->Code = "AR038";
 			$archiveTransfer->Contains->ContentDescription->AccessRestriction->Code['listVersionID'] = "edition 2009";
 			$archiveTransfer->Contains->ContentDescription->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
 		}
