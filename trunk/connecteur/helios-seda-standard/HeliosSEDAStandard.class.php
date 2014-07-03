@@ -238,11 +238,11 @@ class HeliosSEDAStandard extends Connecteur {
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language = "fr";
 					$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->ContentDescription->Language['listVersionID'] = "edition 2009";
 					
-					if ($infoPESAller['is_recette']) {
+					/*if ($infoPESAller['is_recette']) {
 						$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->Code = "AR038";
 						$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->Code['listVersionID'] = "edition 2009";
 						$archiveTransfer->Contains->Contains[$num_contains]->Contains[$j]->Contains[$k]->AccessRestriction->StartDate = date('Y-m-d',strtotime($transactionsInfo['date']));
-					}
+					}*/
 					
 					$k++;
 				}
