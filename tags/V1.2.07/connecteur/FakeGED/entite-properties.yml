@@ -1,0 +1,11 @@
+name: FakeGED
+type: GED
+
+description: |
+	Connecteur GED pour les tests
+
+formulaire:
+	page0:
+		
+
+action:		
