@@ -36,6 +36,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
     // Valeurs conventionnées pour GO_KEY_*
     const GO_ETAT_INCHANGE = 'etat-inchange';
     const GO_ETAT_OK = 'etat-action';
+    const GO_ETAT_AUCUN = 'etat-aucun';
     const GO_MESSAGE_ACTION = 'action-name';
     // Attributs pour le message du journal
     const KEY_JOURNAL_PILOTE = 'app';
@@ -215,7 +216,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
 
     private function logAction($action, $messageLog, $infos = NULL) {
         $message = $this->getMessageJournal($messageLog, $infos);
-        if ($action) {
+        if ($action && ($action != self::GO_ETAT_AUCUN)) {
             $this->getActionCreator()->addAction($this->id_e, $this->id_u, $action, $message);
         } else {
             $this->getJournal()->addSQL(Journal::DOCUMENT_ACTION, $this->id_e, $this->id_u, $this->id_d, $this->action, $message);
