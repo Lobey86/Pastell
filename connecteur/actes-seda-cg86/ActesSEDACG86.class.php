@@ -101,7 +101,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$latestDate = $this->getLatestDate($transactionsInfo);
 		
 		$transactionsInfo['classification_tab'] = explode('.',$transactionsInfo['classification']);
-		
+		 
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2";
 		$archiveTransfer->Comment = "Transfert d'un acte soumis au contrôle de légalité";

@@ -1,13 +1,13 @@
 
-<a class='btn btn-mini' href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>&type=<?php echo $type?>&offset=<?php echo $offset ?>'><i class='icon-circle-arrow-left'></i>Retour au journal </a>
-
-<div class="box">
+<a href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>&type=<?php echo $type?>&offset=<?php echo $offset ?>'>« Retour au journal </a>
+<br/><br/>
+<div class="box_contenu clearfix">
 
 <h2>Détail de l'évenement <?php echo $id_j ?></h2>
 
-<table class="table table-striped">
+<table class="tab_04">
 <tr>
-		<th class='w200'>Numéro</th>
+		<th>Numéro</th>
 		<td><?php echo $id_j ?></td>
 </tr>
 <tr>
@@ -26,8 +26,7 @@
 		<th>Utilisateur</th>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo  $info['id_u']?>'><?php echo $info['prenom'] . " " . $info['nom']?></a>
 		</td>
-</tr>
-<?php if($info['id_d']) :?>
+		</tr>
 <tr>
 		<th>Document</th>
 		<td>
@@ -35,25 +34,19 @@
 				<?php echo $info['titre']?>
 			</a>
 		</td>
-</tr>
-
+		</tr>
 <tr>
-	<th>Type de document</th>
-	<td><?php echo $info['document_type_libelle']?> (<?php echo $info['document_type']?>)</td>
-</tr>
-<?php endif;?>
-<tr>
-	<th>Action</th>
-	<td><?php echo $info['action_libelle']?> (<?php echo  $info['action']?>)</td>
+		<th>Action</th>
+		<td><?php echo  $info['action']?></td>
 </tr>
 <tr>
-	<th>Message</th>
-	<td><?php echo  $info['message']?></td>
-</tr>
+		<th>Message</th>
+		<td><?php echo  $info['message']?></td>
+		</tr>
 <tr>
-	<th>Message horodaté: </th>
-	<td><?php echo  $info['message_horodate']?></td>
-</tr>
+		<th>Message horodaté: </th>
+		<td><?php echo  $info['message_horodate']?></td>
+	</tr>
 <tr>
 		<th>Date et heure de l'horodatage: </th>
 		<td><?php echo  $info['date_horodatage']?></td>

@@ -6,7 +6,7 @@ $key = $recuperateur->get('key');
 $field = $recuperateur->get('field');
 $num = $recuperateur->getInt('num');
 
-$documentEmail = $objectInstancier->DocumentEmail;
+$documentEmail = new DocumentEmail($sqlQuery);
 $info  = $documentEmail->getInfoFromKey($key);
 if (! $info ){
 	header("Location: invalid.php");

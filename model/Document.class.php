@@ -44,15 +44,6 @@ class Document extends SQL {
 		return $this->queryOne($sql,$titre,$type);
 	}
 	
-	public function getIdFromEntiteAndTitre($id_e,$titre,$type){
-		$sql = "SELECT document.id_d FROM document " .
-				" JOIN document_entite ON document.id_d=document_entite.id_d ".
-				" WHERE id_e=? AND titre=? AND type=?";
-		return $this->queryOne($sql,$id_e,$titre,$type);
-	}
-	
-	
-	
 	public function delete($id_d){
 		$sql = "DELETE FROM document WHERE id_d=?";
 		$this->query($sql,$id_d);

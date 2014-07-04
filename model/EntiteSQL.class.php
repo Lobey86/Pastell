@@ -10,10 +10,6 @@ class EntiteSQL extends SQL {
 		return $this->getInfo($id_e);
 	}
 	
-	public function getBySiren($siren){
-		$sql = "SELECT id_e FROM entite WHERE siren=?";
-		return $this->queryOne($sql,$siren);
-	}
 
 	public function getIdByDenomination($denomination){
 		$sql = "SELECT id_e FROM entite WHERE denomination=?";
@@ -90,7 +86,7 @@ class EntiteSQL extends SQL {
 	}
 	
 	public function getFilleInfoNavigation($id_e,array $liste_collectivite = array()){
-		if ($id_e != 0 || ! $liste_collectivite || ($liste_collectivite[0] == 0)) {
+		if ($id_e != 0 || ($liste_collectivite[0] == 0)) {
 			return $this->getFilleWithType($id_e,array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE));
 		} 
 		$liste_fille = array();

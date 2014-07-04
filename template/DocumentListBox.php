@@ -1,10 +1,10 @@
-			<div class="box">
+			<div class="box_contenu clearfix">
 		
 			<h2>Documents <?php if (count($type_list) == 1) 
 									echo  	$this->DocumentTypeFactory->getFluxDocumentType($type_list[0])->getName() ?> </h2>
-				<table class="table table-striped">
+				<table class="tab_01">
 				<tr>
-					<th >Objet</th>
+					<th class='w140'>Objet</th>
 					<?php if (count($type_list) > 1 ): ?>
 						<th>Type</th>
 					<?php endif;?>
@@ -21,7 +21,8 @@
 				$action = $documentType->getAction();
 				
 			?>
-				<tr>
+				<tr class='<?php echo ($i++)%2?'bg_class_gris':'bg_class_blanc'?>'>
+
 				
 					<td>
 						<?php 
@@ -35,7 +36,7 @@
 									
 								<input type='hidden' name='action' value='<?php echo $action->getProperties($document['last_action'],'accuse_de_reception_action') ?>' />
 									
-								<input type='submit' class='btn' value='Envoyer un accusé de réception'/>
+								<input type='submit' value='Envoyer un accusé de réception'/>
 							</form>
 						<?php else :?>
 	

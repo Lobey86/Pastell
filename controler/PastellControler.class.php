@@ -38,21 +38,7 @@ class PastellControler extends Controler {
 		$this->navigation_url = $url;
 	}
 		
-	public function setBreadcrumbs(){
-		if (! $this->isViewParameter('id_e_menu')){
-			$recuperateur = new Recuperateur($_GET);
-			$this->id_e_menu = $recuperateur->getInt('id_e',0);
-			$this->type_e_menu = $recuperateur->get('type',"");
-		}
 		
-		$breadcrumbs = array();
-		foreach( $this->EntiteSQL->getAncetre($this->id_e_menu) as $infoEntiteBR){
-			$breadcrumbs[] = $infoEntiteBR['denomination'];
-		}
-		$this->breadcrumbs = $breadcrumbs;
-	}	
-	
-	
 	public function getAllModule(){
 		$all_module = array();
 		
@@ -70,7 +56,6 @@ class PastellControler extends Controler {
 	}
 	
 	public function renderDefault(){
-		$this->setBreadcrumbs();
 		$this->all_module = $this->getAllModule();
 		$this->authentification = $this->Authentification;
 		$this->roleUtilisateur = $this->RoleUtilisateur;
