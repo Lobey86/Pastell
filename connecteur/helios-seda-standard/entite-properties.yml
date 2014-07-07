@@ -9,12 +9,33 @@ formulaire:
 	page0:
 		nom: {name: "Nom de l'entité", commentaire: "Tel qu'il apparaitra dans le bordereau"}
 		siren: {name: "Numéro SIREN de l'entité"}
-		identifiant_versant: {name: "Identifiant service versant"}
-		identifiant_archive: {name: "Identifiant archive"}
+		identifiant_versant: 
+			name: Identifiant service versant
+			commentaire: Noeud XML (ArchiveTransfer -> TransferringAgency) !
+			type: textarea
+		identifiant_archive: 
+			name: "Identifiant archive"
+			commentaire: "Noeud XML (ArchiveTransfer -> ArchivalAgency) !"
+			type: textarea
 		numero_agrement: {name: "Numéro d'aggrément"}
-		originating_agency: {name: "OriginatingAgency" }
+		
+		sae_numero_aggrement_schemeName : 
+			name: schemeName pour le numéro d'aggrément 
+		
+		sae_numero_aggrement_schemeAgencyName : 
+			name: schemeAgencyName pour le numéro d'aggrément 
+		
+		originating_agency: 
+			name: "Originating Agency"
+			commentaire: "Noeud XML !"
+			type: textarea
 	
 action:	
 	test-bordereau :
 		name: Générer un bordereau de test
 		action-class: TestBordereau
+		
+	validate-bordereau:
+		name: Valider le bordereau via le schéma XSD
+		action-class: ValidateBordereau
+		
