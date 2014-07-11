@@ -341,10 +341,10 @@ if (!$connecteur_horodateur) {
 }
 
 // Créer connecteur global pour connecteurs
-$blScript->createConnecteurGlobal('connecteurbl', 'connecteur');
+$blScript->createConnecteurGlobal('connecteurbl', 'adm_connecteur');
 // Créer connecteur global pour flux
-$blScript->createConnecteurGlobal('fluxbl', 'flux');
+$blScript->createConnecteurGlobal('fluxbl', 'adm_flux');
 // Créer connecteur global pour type de service signature
-$blScript->createConnecteurGlobal('signaturebl', 'signature');
+$blScript->createConnecteurGlobal('signaturebl', 'adm_signature');
 // Créer connecteur global pour type de service TdT
-$blScript->createConnecteurGlobal('tdtbl', 'tdt');
+$blScript->createConnecteurGlobal('tdtbl', 'adm_tdt');
