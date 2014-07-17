@@ -151,7 +151,7 @@ class Journal extends SQL {
 	
 	
 	public function countAll($id_e,$type,$id_d,$id_u,$recherche){
-		$sql = "SELECT count(journal.id_j) FROM journal WHERE 1 = 1";
+		$sql = "SELECT count(*) FROM journal WHERE 1=1";
 		$value = array();
 		
 		if ($id_e){
