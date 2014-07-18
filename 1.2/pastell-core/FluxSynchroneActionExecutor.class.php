@@ -148,36 +148,40 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             // - ni comme des erreurs d'accès : ne génèrent donc pas de suspension 
             // - ni comme des erreurs fonctionnelles : ne terminent donc pas le workflow
             // Erreur tracée, état inchangé
-            $this->throwException($gofEx, false);
+            return $this->onException($gofEx, false);
         } catch (ConnecteurSuspensionException $gofEx) {
             // Erreur tracée, état inchangé
-            $this->throwException($gofEx, false);
+            return $this->onException($gofEx, false);
         } catch (ConnecteurAccesException $gofEx) {
             // Gestion des suspensions
             try {
                 $this->objectInstancier->ConnecteurSuspensionControler->onAccesEchec($gofEx->getConnecteur(), $gofEx);
             } catch (Exception $onAccesEchecEx) {
                 // Erreur de gestion des suspensions => erreur tracée, état d'erreur
-                $this->throwException($onAccesEchecEx, true);
+                return $this->onException($onAccesEchecEx, true);
             }
             // Erreur tracée, état inchangé
-            $this->throwException($gofEx, false);
+            return $this->onException($gofEx, false);
         } catch (Exception $gofEx) {
             // Erreur fonctionnelle => erreur tracée, état d'erreur
-            $this->throwException($gofEx, true);
+            return $this->onException($gofEx, true);
         }
     }
 
-    private function throwException(Exception $ex, /* boolean */ $changeEtatErreur) {
+    private function onException(Exception $ex, /* boolean */ $changeEtatErreur) {
+        $message = $ex->getMessage();
+        // Journaliser
         if ($this->isWorkflow()) {
             $etat = $changeEtatErreur ? $this->action . '-erreur' : null;
-            $messageLog = $ex->getMessage();
-            $this->logAction($etat, $messageLog);
+            $this->logAction($etat, $message);
         }
+        // Persister le détail de l'erreur dans le flux
         $messageDetail = exceptionToJson($ex);
         $doc = $this->getDonneesFormulaire();
         $doc->addFileFromData(self::FLUX_ATTR_ERREUR_DETAIL, 'erreur_detail', $messageDetail);
-        throw $ex;
+        // Signaler l'echec. Pas de throw, pour ne pas journaliser à nouveau.
+        $this->setLastMessage($message);
+        return false;	
     }
 
     private function getFluxActions() {
@@ -214,12 +218,12 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         return $actions->getActionName($action);
     }
 
-    private function logAction($action, $messageLog, $infos = NULL) {
-        $message = $this->getMessageJournal($messageLog, $infos);
+    private function logAction($action, $message, $infos = NULL) {
+        $messageJournal = $this->getMessageJournal($message, $infos);
         if ($action && ($action != self::GO_ETAT_AUCUN)) {
-            $this->getActionCreator()->addAction($this->id_e, $this->id_u, $action, $message);
+            $this->getActionCreator()->addAction($this->id_e, $this->id_u, $action, $messageJournal);
         } else {
-            $this->getJournal()->addSQL(Journal::DOCUMENT_ACTION, $this->id_e, $this->id_u, $this->id_d, $this->action, $message);
+            $this->getJournal()->addSQL(Journal::DOCUMENT_ACTION, $this->id_e, $this->id_u, $this->id_d, $this->action, $messageJournal);
         }
     }
 
