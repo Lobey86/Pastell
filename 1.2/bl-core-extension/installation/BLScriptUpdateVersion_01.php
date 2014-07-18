@@ -108,3 +108,6 @@ foreach($liste_entreprise as $entreprise) {
     $blScript->createConnecteur('signaturebl', 'Administration Signature BL', $entreprise['id_e']);
     $blScript->createConnecteur('tdtbl', 'Administration TdT BL', $entreprise['id_e']);
 }
+
+$blScript->traceln('Ajout du connecteur global entitebl : ');
+$blScript->createConnecteur('entitebl', 'entitebl global', 0);
