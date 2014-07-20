@@ -1,6 +1,11 @@
 <?php
 require_once (PASTELL_PATH . "/ext/spyc.php");
 
+/**
+ * 
+ * Gestion des données de formulaire à partir d'un fichier YML de type clé:valeur
+ *
+ */
 class DonneesFormulaire {
 	
 	private $formulaire;

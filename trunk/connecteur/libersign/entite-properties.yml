@@ -1,0 +1,25 @@
+name: Libersign
+type: signature
+
+description: |
+	Connecteur permettant d'inclure l'applet de signature Libersign dans un flux Pastell
+
+formulaire:
+	page0:
+		iparapheur_type: 
+			name: "Type Parapheur"
+			type: select
+			value:
+				Actes: Actes
+				PES: PES
+				Document: Document
+		
+		iparapheur_retour:
+			name: Retour du iParapheur
+			type: select
+			value:
+				Archive: Archive
+				Rejet: Rejet
+				Erreur: Erreur
+				
+			

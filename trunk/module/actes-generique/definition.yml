@@ -346,23 +346,23 @@ action:
 						rejet-iparapheur
 				
 					no-action:
-					send-tdt
+						send-tdt
 				and_2:
 					last-action:
 						accepter-sae
-						rejeter-sae
+						rejet-sae
 				and_3:
 					last-action:
 						send-ged
 					content:
-						envoie_sae: false
+						envoi_sae: false
 				and_4:
 					last-action:
 						acquiter-tdt
 						erreur-verif-tdt
 					content:
-						envoie_sae: false
-						envoie_ged: false
+						envoi_sae: false
+						envoi_ged: false
 				and_5:
 					last-action:
 						termine
@@ -513,7 +513,7 @@ action:
 				and_3:
 					content:
 						has_courrier_simple: true
-						has_reponse_courrier_simple: false
+						has_reponse_lettre_courrier_simple: false
 		action-class: TedetisSendReponsePref	
 	
 	
@@ -574,7 +574,6 @@ action:
 				and_3:
 					last-action: 
 						acquiter-tdt
-						info-tdt					
 		action-class: GEDEnvoi
 	
 	send-archive:
@@ -602,7 +601,6 @@ action:
 				and_3:
 					last-action: 
 						acquiter-tdt
-						info-tdt
 						verif-reponse-tdt
 						send-reponse-prefecture
 					content:

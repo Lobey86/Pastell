@@ -30,7 +30,10 @@ class ActesSEDACG86TestBordereau extends ActionExecutor {
 				),
 			'echange_prefecture_type' => array('2A','2R','3A','3R','3RB','4A','4R','5A'),
 			'echange_prefecture_ar' => array('','',__DIR__.'/../fixtures/ar-actes.xml',__DIR__.'/../fixtures/ar-actes.xml','','','','','',''),
-			
+			'actes_file_orginal_filename' => "vide.pdf",
+			'annexe_original_filename' => array("annexe_01.pdf","annexe_02.pdf"),
+			'echange_prefecture_original_filename'=>array("vide.pdf","vide.pdf","vide.pdf","ActesSEDACG86.class.php","vide.pdf","vide.pdf","vide.pdf","vide.pdf")	
+				
 		);
 		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);	

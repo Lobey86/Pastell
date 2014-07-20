@@ -1,6 +1,6 @@
 <?php 
 
-class IParapheur extends Connecteur {
+class IParapheur extends SignatureConnecteur {
 	
 	const IPARAPHEUR_NB_JOUR_MAX_DEFAULT = 30;
 	
