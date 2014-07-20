@@ -11,7 +11,7 @@ class ConnecteurControler extends PastellControler {
 		return $connecteur_entite_info;
 	}
 	
-        //Refactoring de la fonction doNouveau pour appeler la nouvelle function "nouveau"
+    //Refactoring de la fonction doNouveau pour appeler la nouvelle function "nouveau"
 	public function doNouveau(){
 		$recuperateur = new Recuperateur($_POST);
 		$id_e = $recuperateur->getInt('id_e');
@@ -176,6 +176,7 @@ class ConnecteurControler extends PastellControler {
 		$this->renderDefault();
 	}
 	
+	
 	private function setConnecteurInfo(){
 		$recuperateur = new Recuperateur($_GET);
 		$id_ce = $recuperateur->getInt('id_ce');
@@ -183,9 +184,13 @@ class ConnecteurControler extends PastellControler {
 		$this->verifDroitOnConnecteur($id_ce);
 		
 		$connecteur_entite_info = $this->ConnecteurEntiteSQL->getInfo($id_ce);
-		$entite_info = $this->EntiteSQL->getInfo($connecteur_entite_info['id_e']);
+		$id_e = $connecteur_entite_info['id_e'];
+		$entite_info = $this->EntiteSQL->getInfo($id_e);
 		
-		$this->afficheurFormulaire = $this->AfficheurFormulaireFactory->getFormulaireConnecteur($id_ce);
+		$donneesFormulaire = $this->donneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
+		$this->afficheurFormulaire = new AfficheurFormulaire($donneesFormulaire);
+		$this->afficheurFormulaire->injectHiddenField("id_e",$id_e);
+		$this->afficheurFormulaire->injectHiddenField("id_ce",$id_ce);
 		
 		if ($connecteur_entite_info['id_e']){
 			$this->action = $this->DocumentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur'])->getAction();
@@ -194,7 +199,7 @@ class ConnecteurControler extends PastellControler {
 		} 
 		
 		
-		if (! $connecteur_entite_info['id_e']){
+		if (! $id_e){
 			$entite_info['denomination'] = "Entité racine";
 		}
 		$this->entite_info = $entite_info;
@@ -211,6 +216,8 @@ class ConnecteurControler extends PastellControler {
 	public function editionAction(){
 		$this->setConnecteurInfo();
 		$this->page_title = "Configuration des connecteurs pour « {$this->entite_info['denomination']} »";
+		$this->onglet_num = 0;
+		$this->recuperation_fichier_url = "connecteur/recuperation-fichier.php?id_ce=".$this->id_ce;
 		$this->template_milieu = "ConnecteurEdition";
 		$this->renderDefault();
 	}

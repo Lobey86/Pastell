@@ -55,15 +55,24 @@ class DocumentType {
 		return array();
 	}
 	
+	/**
+	 * Crée un objet de type Formulaire
+	 * @return Formulaire
+	 */
 	public function getFormulaire(){	
-		$formulaire =  new Formulaire($this->getFormulaireArray());
-		if (isset( $this->module_definition[self::PAGE_CONDITION])){
-			$formulaire->addPageCondition($this->module_definition[self::PAGE_CONDITION]);
+		return new Formulaire($this->getFormulaireArray());
+	}
+	
+	public function getPageCondition(){
+		if (isset($this->module_definition[self::PAGE_CONDITION])) {
+			return $this->module_definition[self::PAGE_CONDITION];
+		} else {
+			return array();
 		}
-		if (! empty($this->module_definition[self::AFFICHE_ONE])){
-			$formulaire->setAfficheOneTab();
-		}
-		return $formulaire;
+	}	
+	
+	public function isAfficheOneTab(){
+		return (! empty($this->module_definition[self::AFFICHE_ONE]));
 	}
 	
 	private function getFormulaireArray(){

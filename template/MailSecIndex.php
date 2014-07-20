@@ -5,6 +5,6 @@
 </ul>
 
 <div class="box">
-	<?php $afficheurFormulaire->afficheStatic(0,"recuperation-fichier.php?key=$my_key"); ?>
+	<?php $this->render("DonneesFormulaireDetail"); ?>
 </div>
 

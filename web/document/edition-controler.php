@@ -19,10 +19,6 @@ $formulaire = $documentType->getFormulaire();
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
-$formulaire->addDonnesFormulaire($donneesFormulaire);
-$formulaire->setTabNumber($page);
-
-
 $document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
 if (! $info){

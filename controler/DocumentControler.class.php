@@ -85,7 +85,16 @@ class DocumentControler extends PastellControler {
 		$this->next_action_automatique =  $this->theAction->getActionAutomatique($true_last_action);
 		$this->droit_erreur_fatale = $this->RoleUtilisateur->hasDroit($this->getId_u(),$info_document['type'].":edition",0);
 		
-		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";;
+		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";
+		
+		
+		$this->afficheurFormulaire = new AfficheurFormulaire($this->donneesFormulaire);
+		$this->afficheurFormulaire->setRole($this->my_role);
+		
+		$this->onglet_num = $page;
+		$this->recuperation_fichier_url = "document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e";
+		
+		
 		$this->template_milieu = "DocumentDetail"; 
 		$this->renderDefault();
 	}
@@ -130,22 +139,18 @@ class DocumentControler extends PastellControler {
 		
 		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
-		$formulaire = $documentType->getFormulaire();
 		
-
 		$infoEntite = $this->EntiteSQL->getInfo($id_e);
 		
 		$donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$type);
 		
-		$formulaire->addDonnesFormulaire($donneesFormulaire);
-		
+		$formulaire = $donneesFormulaire->getFormulaire();
 		if (! $formulaire->tabNumberExists($page)){
 			$page = 0;
 		}
 		
-		
 		$my_role = $this->documentEntite->getRole($id_e,$id_d);
-		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+		$afficheurFormulaire = new AfficheurFormulaire($donneesFormulaire);
 		$afficheurFormulaire->setRole($my_role);
 		
 		$afficheurFormulaire->injectHiddenField("id_d",$id_d);

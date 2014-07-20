@@ -42,7 +42,7 @@ class ActesGeneriqueTest extends PastellTestCase {
 		
 		$all_sous_type = $apiAction->externalData(PastellTestCase::ID_E_COL, $info['id_d'], 'iparapheur_sous_type');
 		$this->assertArrayHasKey(0, $all_sous_type);
-	
+		
 		foreach(array('send-iparapheur','verif-iparapheur',
 					'send-tdt','verif-tdt',
 					'send-ged','send-archive','verif-sae','validation-sae',

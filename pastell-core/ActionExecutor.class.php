@@ -87,12 +87,12 @@ abstract class ActionExecutor {
         return $this->docDonneesFormulaire;
 	}
 	
+	/**
+	 * Permet de récuperer l'objet Formulaire configuré pour ce DonneesFormulaire
+	 * @return Formulaire
+	 */
 	public function getFormulaire(){
-		if (!$this->docFormulaire) {
-			$this->docFormulaire = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($this->type)->getFormulaire();
-			$this->docFormulaire->addDonnesFormulaire($this->getDonneesFormulaire());
-                }
-		return $this->docFormulaire;
+		return $this->docDonneesFormulaire->getFormulaire();
 	}
 	
 	public function getJournal(){

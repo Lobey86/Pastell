@@ -40,7 +40,6 @@ class MailSecControler extends PastellControler {
 		$infoEntite = $this->EntiteSQL->getInfo($id_e);
 		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType('mailsec-destinataire');
-		$formulaire = $documentType->getFormulaire();
 		$donneesFormulaire = $this->DonneesFormulaireFactory->get($info['id_d'],'mailsec-destinataire');
 		
 		$ip = $_SERVER['REMOTE_ADDR'];
@@ -51,12 +50,15 @@ class MailSecControler extends PastellControler {
 		}
 		$info  = $this->DocumentEmail->consulter($key,$this->Journal);
 		
-		$this->afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-		$this->my_key = $key;
+		$this->afficheurFormulaire = new AfficheurFormulaire($donneesFormulaire);
+	
 		$this->page= "Mail sécurisé";
 		$this->page_title= $infoEntite['denomination'] . " - Mail sécurisé";
 		$this->template_milieu = "MailSecIndex";
 		
+		$this->manifest_info = $this->ManifestReader->getInfo();
+		$this->onglet_num = 0;
+		$this->recuperation_fichier_url = "recuperation-fichier.php?key=$key";
 		
 		$this->render("PageWebSec");
 	}

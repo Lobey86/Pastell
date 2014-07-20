@@ -18,11 +18,43 @@ class DonneesFormulaire {
 	private $editable_content;
 	private $has_editable_content;
 	
-	public function __construct($filePath, Formulaire $formulaire){
+	private $documentType;
+	
+	/**
+	 * 
+	 * @param string $filePath : emplacement vers un fichier YML contenant les données du document sous la forme de ligne clé:valeur
+	 * @param DocumentType $documentType
+	 */
+	public function __construct($filePath, DocumentType $documentType){
 		$this->filePath = $filePath;
-		$this->formulaire = $formulaire;
+		$this->documentType = $documentType;
+		$this->formulaire = $this->documentType->getFormulaire();
 		$this->retrieveInfo();
 		$this->onChangeAction = array();
+		$this->setOnglet();
+	}
+	
+	
+	private function setOnglet(){
+		$onglet_to_remove = array();
+		$page_condition = $this->documentType->getPageCondition();
+		foreach($page_condition as $page => $condition){
+			foreach($condition as $field => $value){
+				if ($this->get($field) != $value){
+					$onglet_to_remove[] = $page;
+				}
+			}
+		}
+		$this->formulaire->removeOnglet($onglet_to_remove);
+		$this->formulaire->setAfficheOneTab($this->documentType->isAfficheOneTab());
+	}
+	
+	/**
+	 * Permet de récupérer l'objet Formulaire configuré vis-à-vis des données de ce DonneesFormulaire
+	 * @return Formulaire
+	 */
+	public function getFormulaire(){
+		return $this->formulaire;
 	}
 	
 	public function setEditableContent(array $editable_content){
@@ -30,6 +62,12 @@ class DonneesFormulaire {
 		$this->editable_content = $editable_content;
 	}
 		
+	/**
+	 * Indique si le champs est modifiable
+	 * 
+	 * @param string $field_name
+	 * @return boolean
+	 */	
 	public function isReadOnly($field_name){
 		$field = $this->formulaire->getField($field_name);
 		
@@ -73,11 +111,9 @@ class DonneesFormulaire {
 		$this->info = Spyc::YAMLLoad($this->filePath);	
 	}
 	
-	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){	
-		
+	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){			
 		$this->isModified = false;
 		
-		$this->formulaire->addDonnesFormulaire($this);
 		$this->formulaire->setTabNumber($pageNumber);
 						
 		foreach ($this->formulaire->getFields() as $field){
@@ -215,12 +251,10 @@ class DonneesFormulaire {
 	}
 	
 	private function setInfo2($field_name,$field_value){
-		
 		$this->info[$field_name] = $field_value;
 	}
 		
 	public function get($item,$default=false){
-
 		$item  = Field::Canonicalize($item);
 		if (empty($this->info[$item])){
 			return $default;
@@ -234,15 +268,15 @@ class DonneesFormulaire {
 	}
 	
 	public function setTabDataVerif(array $input_field){
-		$allField = $this->formulaire->getAllFields();
+		$allField = $this->formulaire->getAllFieldsWithHiddenFields();
 		foreach($input_field as $field_name => $value){
-			if (isset($allField[$field_name])){
+			if (isset($allField[$field_name])){				
 				$this->setInfo2($field_name,$value);
 				$this->isModified = true;
 				if ($allField[$field_name]->getOnChange()){
 					$this->onChangeAction[] = $allField[$field_name]->getOnChange();
 				}
-			}
+			} 
 		}
 	
 		foreach($allField as $field_name=>$field){
@@ -341,7 +375,6 @@ class DonneesFormulaire {
 	}
 
 	public function isValidable(){
-		$this->formulaire->addDonnesFormulaire($this);
 		foreach($this->formulaire->getAllFields() as $field){
 			if ($field->isRequired() && ! $this->get($field->getName())){
 				$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . "» est obligatoire.";
@@ -505,7 +538,7 @@ class DonneesFormulaire {
         if ($setModifiedToFalse) {
         	$this->isModified=false;  
         }              
-		
+        $this->setOnglet();        
 	}
 	
 	public function sendFile($field_name,$num=0){
