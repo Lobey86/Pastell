@@ -8,7 +8,7 @@ Modifier
 </h2>
 <?php 
 
-$afficheurFormulaire->afficheStatic(0,"connecteur/recuperation-fichier.php?id_ce=$id_ce"); 
+$this->render("DonneesFormulaireDetail");
  
 $action_possible = $objectInstancier->ActionPossible->getActionPossibleOnConnecteur($id_ce,$authentification->getId());
  

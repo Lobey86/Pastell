@@ -9,34 +9,24 @@ class Formulaire {
 	private $tabSelected;
 	private $pageCondition;
 	private $afficheOneTab;
+	private $origFormArray;
 	
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
+		$this->origFormArray = $this->formArray;
 		$this->setTabNumber(0);	
 		$this->pageCondition = array();		
 	}
 
-	public function addPageCondition(array $pageCondition){
-		$this->pageCondition = $pageCondition;
-	}
-	
-	public function addDonnesFormulaire(DonneesFormulaire $donnesFormulaire){
-		$page_a_enlever = array();
-		
-		foreach($this->pageCondition as $page => $condition){
-			foreach($condition as $field => $value){
-				if ($donnesFormulaire->get($field) != $value){
-					$page_a_enlever[$page] = true;
-				}
-			}	
-		}
-		foreach($page_a_enlever as $page => $nb ){
+	public function removeOnglet(array $onglet_to_remove){
+		$this->formArray = $this->origFormArray;
+		foreach($onglet_to_remove as $page){
 			unset($this->formArray[$page]);
 		}
 	}
-	
-	public function setAfficheOneTab(){
-		$this->afficheOneTab = true;
+		
+	public function setAfficheOneTab($afficheOneTab = true){
+		$this->afficheOneTab = $afficheOneTab;
 	}
 	
 	public function afficheOneTab(){
@@ -68,7 +58,6 @@ class Formulaire {
 	}
 	
 	public function getFields(){
-		
 		$fields = array();	
 		if (! $this->tabSelected){
 			return $fields;
@@ -86,6 +75,17 @@ class Formulaire {
 			}
 		}
 		return false;
+	}
+	
+	public function getAllFieldsWithHiddenFields() {
+		$fields = array();
+		foreach ($this->origFormArray as $name => $tab) {
+			foreach($tab as $libelle => $properties){
+				$field = new Field($libelle,$properties);
+				$fields[$field->getName()]  = $field;
+			}
+		}
+		return $fields;
 	}
 	
 	public function getAllFields(){

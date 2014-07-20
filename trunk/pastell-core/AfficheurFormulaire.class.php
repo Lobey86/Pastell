@@ -15,11 +15,9 @@ class AfficheurFormulaire {
 	
 	private $formulaireRenderer;
 	
-	public function __construct(Formulaire $formulaire, DonneesFormulaire $donneesFormulaire){
-		$this->formulaire = $formulaire;
+	public function __construct(DonneesFormulaire $donneesFormulaire){
 		$this->donneesFormulaire = $donneesFormulaire;
-		
-		$this->formulaire->addDonnesFormulaire($donneesFormulaire);
+		$this->formulaire = $this->donneesFormulaire->getFormulaire();
 		$this->inject = array();
 		$this->formulaireRenderer = new FormulaireRenderer();
 	}
@@ -34,7 +32,6 @@ class AfficheurFormulaire {
 	}
 	
 	public function show(Field $field){
-		
 		if ($field->getProperties('no-show')){
 			return false;
 		}
@@ -50,28 +47,15 @@ class AfficheurFormulaire {
 				return true;
 			}
 		}
-		
 		return false;
-		
 	}
 	
-	public function isReadOnly($field_name){
-		
+	private function isReadOnly($field_name){
 		$field = $this->formulaire->getField($field_name);
 		if (!$field){
 			return false;
 		}
-		
-		$read_only_content = $field->getProperties('read-only-content') ;
-		if (!$read_only_content){
-			return false;
-		}	
-		foreach($read_only_content as $key => $value){
-			if ($this->donneesFormulaire->get($key) != $value){
-				return false;
-			}
-		}
-		return true;
+		return $this->donneesFormulaire->isReadOnly($field_name);
 	}
 	
 	public function isEditable($field_name){
@@ -97,10 +81,7 @@ class AfficheurFormulaire {
 	
 	public function afficheStaticTab($page){
 		$this->formulaireRenderer->showOngletStatic($this->formulaire->getTab(),$page);
-
-
 	}
-	
 	
 	private function getInjectedField($name){
 		if(isset($this->inject[$name])){
@@ -110,9 +91,7 @@ class AfficheurFormulaire {
 	}
 	
 	public function affiche($page_number,$action_url,$recuperation_fichier_url , $suppression_fichier_url,$externalDataURL ){
-
 		$this->formulaire->setTabNumber($page_number);
-		
 		
 		$id_d = $this->getInjectedField('id_d');
 		$id_e = $this->getInjectedField('id_e');
@@ -281,7 +260,6 @@ class AfficheurFormulaire {
 						<?php endif;?>
 						<?php if ($field->getProperties('autocomplete')) : ?>
 						 <script>
-							
  							 $(document).ready(function(){
 									$("#<?php echo $field->getName();?>").autocomplete("<?php echo $field->getProperties('autocomplete')?>",  
 											{multiple: true,
@@ -293,27 +271,19 @@ class AfficheurFormulaire {
 									});
  							 });
 						</script>
-						
 						<?php endif;?>
 					<?php endif;?>						
 					</td>
 				</tr>				
 			<?php 	endforeach; ?>
 			</table>
-		<?php if ($this->formulaire->hasRequiredField()): ?>
-		<!--* champs obligatoires.<br/>-->
-		<?php endif;?>
 		
-		<?php if ($page_number > 0 ): ?>
-			<input type='submit' name='precedent' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='« Précédent' />
-		<?php endif; ?>
-			
+			<?php if ($page_number > 0 ): ?>
+				<input type='submit' name='precedent' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='« Précédent' />
+			<?php endif; ?>
 			<input type='submit' name='enregistrer' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='Enregistrer' />
-			
-		<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
-			
-			<input type='submit' name='suivant' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='Suivant »' />
-
+			<?php if ( ($this->formulaire->getNbPage() > 1) && ($this->formulaire->getNbPage() > $page_number + 1)): ?>
+				<input type='submit' name='suivant' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='Suivant »' />
 			<?php endif; ?>
 		</form>
 	<?php }
@@ -331,9 +301,13 @@ class AfficheurFormulaire {
 			$id_e = $this->inject['id_e'];
 		}
 		
-		if (! $this->donneesFormulaire->isValidable()){
-				$this->formulaireRenderer->alert($this->donneesFormulaire->getLastError());
-		}
+		if (! $this->donneesFormulaire->isValidable()) : 
+			?>
+			<div class="alert alert-error">
+				<?php  echo $this->donneesFormulaire->getLastError(); ?>
+			</div>
+			<?php 
+		endif;
 		
 			$this->formulaire->setTabNumber($page);
 		?>
@@ -399,9 +373,7 @@ class AfficheurFormulaire {
 							<a href='<?php echo SITE_BASE . $field->getProperties('script')?>?id_e=<?php echo $id_e ?>'><?php echo $field->getProperties('link_name')?></a>
 						<?php elseif( $field->getType() == 'url') : ?>
 							<a target='_blank' href='<?php hecho($this->donneesFormulaire->geth($field->getName()))?>'><?php hecho($this->donneesFormulaire->geth($field->getName())) ?></a>
-						
 						<?php else:?>
-							
 							<?php echo $this->donneesFormulaire->geth($field->getName(),$field->getDefault())?>
 						<?php endif;?>			
 					</td>

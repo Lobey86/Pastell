@@ -1,6 +1,9 @@
 <?php
-
-
+/**
+ * Permet de créer un objet de type DonneesFormulaire
+ * @author eric
+ *
+ */
 class DonneesFormulaireFactory{
 	
 	private $documentTypeFactory;
@@ -29,8 +32,8 @@ class DonneesFormulaireFactory{
 			throw new Exception("Document inexistant");
 		}
 		
-		$formulaire = $this->documentTypeFactory->getFluxDocumentType($document_type)->getFormulaire();
-		return $this->getFromCacheNewPlan($id_d, $formulaire);
+		$documentType = $this->documentTypeFactory->getFluxDocumentType($document_type);
+		 return $this->getFromCacheNewPlan($id_d, $documentType);
 	}
 	
 	public function getConnecteurEntiteFormulaire($id_ce){
@@ -41,25 +44,25 @@ class DonneesFormulaireFactory{
 			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
 		} 
 		$id_document = "connecteur_$id_ce";
-		return $this->getFromCache($id_document,$documentType->getFormulaire());
+		return $this->getFromCache($id_document, $documentType);
 	}
 	
-	private function getFromCache($id_document,Formulaire $formulaire){
+	private function getFromCache($id_document,DocumentType $documentType){
 		static $cache;
 		if (empty($cache[$id_document])){
-			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $formulaire);
+			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $documentType);
 		}
 		return $cache[$id_document];
 	}
 	
-	private function getFromCacheNewPlan($id_document,Formulaire $formulaire){
+	private function getFromCacheNewPlan($id_document,DocumentType $documentType){
 		static $cache;
 		if (empty($cache[$id_document])){
 			$dir = $this->getNewDirectoryPath($id_document);
 			if (! file_exists($dir)) {
 				mkdir($dir,0777,true);
 			}
-			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
+			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $documentType);
 		}
 		return $cache[$id_document];
 	}
@@ -73,10 +76,8 @@ class DonneesFormulaireFactory{
 		return $this->workspacePath."/$a/$b/";
 	}
 	
-	
 	public function getNonPersistingDonneesFormulaire(){
-		$formulaire = new Formulaire(array());
-		return new DonneesFormulaire("/tmp/xyz", $formulaire);
+		$documentType = new DocumentType("empty", array());
+		return new DonneesFormulaire("/tmp/xyz", $documentType);
 	}
-	
 }

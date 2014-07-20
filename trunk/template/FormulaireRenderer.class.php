@@ -47,11 +47,5 @@ class FormulaireRenderer {
 	<?php 
 	}
 	
-	public function alert($message){ ?>
-		<div class="alert alert-error">
-				<?php  echo $message; ?>
-			</div>
-	<?php 
-	}
 	
 }

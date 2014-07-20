@@ -2,20 +2,12 @@
 <a class='btn btn-mini' href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>&last_id=<?php echo $id_d ?>'><i class="icon-circle-arrow-left"></i>Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
 
 
-<?php
-$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
-
-$afficheurFormulaire->setRole($my_role);
-
-$afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_e");
-
-
-?>
+<?php $afficheurFormulaire->afficheTab($page,"document/detail.php?id_d=$id_d&id_e=$id_e"); ?>
 
 <div class="box">
 
 <?php 
-$afficheurFormulaire->afficheStatic($page,"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e");
+$this->render("DonneesFormulaireDetail");
 ?>
 
 

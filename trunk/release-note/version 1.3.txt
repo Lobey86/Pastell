@@ -14,3 +14,15 @@ L'ajout des daily-digest des notifications rends nécessaire l'utilisation de cro
 Révision 940 :
 
 Il peut être nécessaire de passer le script installation/fix-nb-user-in-annuaire_groupe.php afin de corriger un problème sur la table annuaire_groupe.
+
+Révision 974
+
+Modification dans l'API pour développeur (pastell-core) :
+- Afin de supprimer la référence circulaire Formulaire<->DonneesFormulaire, la fonction Formulaire:addDonneesFormulaire a été SUPPRIME
+- L'objet Formulaire doit-être récupérer via la fonction DonneesFormulaire:getFormulaire qui renvoie l'objet Formulaire correctement 
+configurée pour l'affichage, la modification d'une page, etc...
+- Le constructeur de la classe AfficheurFormulaire(Formulaire,DonneesFormulaire) devient : AfficheurFormulaire(DonneesFormulaire) 
+- Le constructeur de la classe DonneesFormulaire(fichier_yml, Formulaire) devient DonneesFormulaire(fichier_yml,DocumentType)
+(cela n'a normalement pas d'impact puisque la construction de cet objet est du ressort de DonneesFormulaireFactory qui a bien sûr été mis à jour)
+
+
