@@ -101,4 +101,23 @@ class Field {
 		}
 	}
 	
+	public function isShowForRole($role){
+		if ($this->getProperties('no-show')){
+			return false;
+		}
+	
+		$show_role = $this->getProperties('show-role') ;
+	
+		if (! $show_role){
+			return true;
+		}
+	
+		foreach($show_role as $role_unit){
+			if ($role == $role_unit){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

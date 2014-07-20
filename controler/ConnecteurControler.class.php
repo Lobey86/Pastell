@@ -188,9 +188,12 @@ class ConnecteurControler extends PastellControler {
 		$entite_info = $this->EntiteSQL->getInfo($id_e);
 		
 		$donneesFormulaire = $this->donneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
-		$this->afficheurFormulaire = new AfficheurFormulaire($donneesFormulaire);
-		$this->afficheurFormulaire->injectHiddenField("id_e",$id_e);
-		$this->afficheurFormulaire->injectHiddenField("id_ce",$id_ce);
+		
+		$this->inject = array('id_e'=>$id_e,'id_ce'=>$id_ce,'id_d'=>'','action'=>'');
+		
+		$this->my_role = "";
+		
+		$this->donneesFormulaire = $donneesFormulaire;
 		
 		if ($connecteur_entite_info['id_e']){
 			$this->action = $this->DocumentTypeFactory->getEntiteDocumentType($connecteur_entite_info['id_connecteur'])->getAction();
@@ -205,10 +208,17 @@ class ConnecteurControler extends PastellControler {
 		$this->entite_info = $entite_info;
 		$this->connecteur_entite_info = $connecteur_entite_info;
 		$this->id_ce = $id_ce;
+		$this->id_e = $id_e;
 	}
 	public function editionModif(){
 		$this->setConnecteurInfo();
 		$this->page_title = "Configuration des connecteurs pour « {$this->entite_info['denomination']} »";
+		$this->action_url = "connecteur/edition-modif-controler.php";
+		$this->recuperation_fichier_url = "connecteur/recuperation-fichier.php?id_ce=".$this->id_ce;
+		$this->suppression_fichier_url = "connecteur/supprimer-fichier.php?id_ce=".$this->id_ce;
+		$this->page = 0;
+		$this->externalDataURL = "connecteur/external-data.php" ;
+		
 		$this->template_milieu = "ConnecteurEditionModif";
 		$this->renderDefault();
 	}
@@ -216,9 +226,9 @@ class ConnecteurControler extends PastellControler {
 	public function editionAction(){
 		$this->setConnecteurInfo();
 		$this->page_title = "Configuration des connecteurs pour « {$this->entite_info['denomination']} »";
-		$this->onglet_num = 0;
 		$this->recuperation_fichier_url = "connecteur/recuperation-fichier.php?id_ce=".$this->id_ce;
 		$this->template_milieu = "ConnecteurEdition";
+		
 		$this->renderDefault();
 	}
 	

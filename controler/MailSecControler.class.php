@@ -49,17 +49,17 @@ class MailSecControler extends PastellControler {
 			exit;
 		}
 		$info  = $this->DocumentEmail->consulter($key,$this->Journal);
-		
-		$this->afficheurFormulaire = new AfficheurFormulaire($donneesFormulaire);
+
 	
 		$this->page= "Mail sécurisé";
 		$this->page_title= $infoEntite['denomination'] . " - Mail sécurisé";
 		$this->template_milieu = "MailSecIndex";
 		
 		$this->manifest_info = $this->ManifestReader->getInfo();
-		$this->onglet_num = 0;
 		$this->recuperation_fichier_url = "recuperation-fichier.php?key=$key";
-		
+		$this->id_e = $id_e;
+		$this->donneesFormulaire = $donneesFormulaire;
+		$this->my_role = "";
 		$this->render("PageWebSec");
 	}
 	

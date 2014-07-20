@@ -7,15 +7,23 @@
 
 
 <?php 
-	if ($formulaire->getNbPage() > 1 ) {
-		$afficheurFormulaire->afficheStaticTab($page);
+	if ($donneesFormulaire->getFormulaire()->getNbPage() > 1 ) {
+?>
+		<ul class="nav nav-pills" style="margin-top:10px;">
+					<?php foreach ($donneesFormulaire->getFormulaire()->getTab() as $page_num => $name) : ?>
+						<li <?php echo ($page_num == $page)?'class="active"':'' ?>>
+							<a>
+							<?php echo ($page_num + 1) . ". " . $name?>
+							</a>
+						</li>
+					<?php endforeach;?>
+				
+		
+				</ul>
+		<?php 
 	}
 ?>
 
 <div class="box">
-<?php $afficheurFormulaire->affiche($page,"document/edition-controler.php",
-			"document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e",
-			"document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page&action=$action",
-			"document/external-data.php"
-			); ?>
+	<?php $this->render("DonneesFormulaireEdition"); ?>
 </div>
