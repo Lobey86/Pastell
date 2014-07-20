@@ -122,7 +122,7 @@ class DonneesFormulaire {
 	}
 	
 	private function setInfo(Field $field, $value){
-		if ($this->info[$field->getName()] == $value){
+		if ($this->info[$field->getName()] === $value){
 			return;
 		}
 		if ($field->getType() == 'date'){
@@ -491,6 +491,12 @@ class DonneesFormulaire {
 			$field = $this->formulaire->getField($field_name);
 			if ($field && $field->getType() == 'password'){
 				$field_value = htmlspecialchars($field_value,ENT_COMPAT);				
+			}
+			if ($field_value == '+'){
+				$field_value = '"+"';
+			}
+			if ($field_value == '-'){
+				$field_value = '"-"';
 			}
 			$result[$field_name] = $field_value; 
 		}
