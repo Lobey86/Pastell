@@ -2,9 +2,7 @@
 require_once (PASTELL_PATH . "/ext/spyc.php");
 
 /**
- * 
  * Gestion des données de formulaire à partir d'un fichier YML de type clé:valeur
- *
  */
 class DonneesFormulaire {
 	
@@ -638,4 +636,41 @@ class DonneesFormulaire {
 		return $result;
 	}
 	
+	/**
+	 * Liste des champs à afficher dans le formulaire
+	 * @return array:Field
+	 */
+	public function getDisplayFields($my_role){
+		$result = array();
+		foreach ($this->getFormulaire()->getAllDisplayFields() as $i => $field) {
+			if ($field->isShowForRole($my_role)){
+				$result[] = $field;
+			}
+		}
+		return $result;
+	}
+	
+	public function getDisplayFields2($my_role){
+		$result = array();
+		foreach ($this->getFormulaire()->getAllDisplayFields() as $i => $field) {
+			if ($field->isShowForRole($my_role)){
+				$displayField = new DisplayField($field, $this->getDisplayValue($field));
+				$result[] = $displayField;
+			}
+		}
+		return $result;
+	}
+	
+	public function getDisplayValue($field){
+		if (! $field->getProperties('depend')){
+			return $this->get($field->getName());
+		}
+		$cible = $this->get($field->getProperties('depend'));
+		$value = array();
+		foreach($cible as $j => $file){
+			$value[$file] = $this->geth($field->getName()."_$j");
+		}
+		return $value;
+		
+	}	
 }

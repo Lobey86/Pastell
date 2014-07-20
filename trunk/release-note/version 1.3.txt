@@ -26,3 +26,5 @@ configurée pour l'affichage, la modification d'une page, etc...
 (cela n'a normalement pas d'impact puisque la construction de cet objet est du ressort de DonneesFormulaireFactory qui a bien sûr été mis à jour)
 
 
+Révision 976
+- Suppresion de AfficheurFormulaire pour mettre les élements dans template (comme il se doit)

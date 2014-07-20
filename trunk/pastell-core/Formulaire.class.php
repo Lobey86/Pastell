@@ -99,6 +99,18 @@ class Formulaire {
 		return $fields;
 	}
 	
+	/**
+	 *
+	 * @return array:Field renvoie l'ensemble des champs affichable pour l'onglet sélectionner
+	 */
+	public function getAllDisplayFields(){
+		if ($this->afficheOneTab){
+			return $this->getAllFields();
+		} else {
+			return $this->getFields();
+		}
+	}
+	
 	public function getTitreField(){
 		foreach($this->getAllFields() as $field){
 			if ($field->isTitle()){

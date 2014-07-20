@@ -47,7 +47,7 @@ class DocumentControler extends PastellControler {
 		$this->renderDefault();
 		
 	}
-	
+	 
 	public function detailAction(){
 		$recuperateur = new Recuperateur($_GET);
 		$id_d = $recuperateur->get('id_d');
@@ -75,6 +75,8 @@ class DocumentControler extends PastellControler {
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		$this->formulaire =  $documentType->getFormulaire();
 		$this->donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$info_document['type']);
+		$this->donneesFormulaire->getFormulaire()->setTabNumber($page);
+		
 		$this->actionPossible = $this->ActionPossible;
 		$this->theAction = $documentType->getAction();
 		$this->documentEntite = $this->DocumentEntite;
@@ -88,10 +90,6 @@ class DocumentControler extends PastellControler {
 		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";
 		
 		
-		$this->afficheurFormulaire = new AfficheurFormulaire($this->donneesFormulaire);
-		$this->afficheurFormulaire->setRole($this->my_role);
-		
-		$this->onglet_num = $page;
 		$this->recuperation_fichier_url = "document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e";
 		
 		
@@ -149,21 +147,18 @@ class DocumentControler extends PastellControler {
 			$page = 0;
 		}
 		
-		$my_role = $this->documentEntite->getRole($id_e,$id_d);
-		$afficheurFormulaire = new AfficheurFormulaire($donneesFormulaire);
-		$afficheurFormulaire->setRole($my_role);
 		
-		$afficheurFormulaire->injectHiddenField("id_d",$id_d);
-		$afficheurFormulaire->injectHiddenField("form_type",$type);
-		$afficheurFormulaire->injectHiddenField("id_e",$id_e);
-		$afficheurFormulaire->injectHiddenField("action",$action);
+		$this->inject = array('id_e'=>$id_e,'id_d'=>$id_d,'form_type'=>$type,'action'=>$action,'id_ce'=>'');
+		
 		
 		$last_action = $this->DocumentActionEntite->getLastActionNotModif($id_e, $id_d);
 		
 		$editable_content = $documentType->getAction()->getEditableContent($last_action);
 		
-		if ($editable_content && (!in_array($last_action,array("creation","modification")) || $editable_content)){
-			$afficheurFormulaire->setEditableContent($editable_content);
+		if ( (! in_array($last_action,array("creation","modification"))) || $editable_content){
+			if ($editable_content){
+				$donneesFormulaire->setEditableContent($editable_content);
+			}
 		}
 		
 		$this->page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
@@ -184,7 +179,12 @@ class DocumentControler extends PastellControler {
 		$this->my_role = $this->documentEntite->getRole($id_e,$id_d);
 		$this->documentEmail = $this->DocumentEmail;
 		$this->documentActionEntite = $this->DocumentActionEntite;
-		$this->afficheurFormulaire = $afficheurFormulaire;
+
+		$this->action_url = "document/edition-controler.php";
+		$this->recuperation_fichier_url = "document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e";
+		$this->suppression_fichier_url = "document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page&action=$action";
+		$this->externalDataURL = "document/external-data.php" ;
+		
 		$this->template_milieu = "DocumentEdition"; 
 		$this->renderDefault();
 	}
