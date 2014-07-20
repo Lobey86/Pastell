@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Type de données de base de Pastell représentant un "formulaire" Pastell
+ */
 class Formulaire {
 
 	private $formArray;
@@ -13,10 +16,6 @@ class Formulaire {
 		$this->pageCondition = array();		
 	}
 
-	public function delTab($page){
-		unset($this->formArray[$page]);
-	}
-	
 	public function addPageCondition(array $pageCondition){
 		$this->pageCondition = $pageCondition;
 	}
@@ -100,7 +99,6 @@ class Formulaire {
 		return $fields;
 	}
 	
-	
 	public function getTitreField(){
 		foreach($this->getAllFields() as $field){
 			if ($field->isTitle()){
@@ -135,6 +133,4 @@ class Formulaire {
 	public function tabNumberExists($tab_number = 0){
 		return count($this->formArray)>$tab_number;
 	}
-	
-	
 }

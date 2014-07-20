@@ -45,8 +45,8 @@ class ActesGeneriqueTest extends PastellTestCase {
 	
 		foreach(array('send-iparapheur','verif-iparapheur',
 					'send-tdt','verif-tdt',
-					'send-archive','verif-sae','validation-sae',
-					'send-ged'
+					'send-ged','send-archive','verif-sae','validation-sae',
+					
 					) as $action) {
 
 			$result = $apiAction->detailDocument(PastellTestCase::ID_E_COL, $id_d);

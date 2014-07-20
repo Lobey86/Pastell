@@ -2,7 +2,9 @@ nom: Helios (générique)
 
 type: Flux Généraux
 
-description: Flux Hélios générique permettant de traiter les fichiers PES en les envoyant : au parapheur, au Tdt, à une GED et à un SAE ou à toutes combinaisons de ces quatre systèmes.
+description:| 
+	Flux Hélios générique permettant de traiter les fichiers PES en les envoyant : 
+	au parapheur, au Tdt, à une GED et à un SAE ou à toutes combinaisons de ces quatre systèmes.
 
 connecteur:
 	SAE
@@ -22,7 +24,8 @@ formulaire:
 			type: file
 			requis: false
 			commentaire: "Format PDF - obligatoire dans le cas de l'envoi au parapheur"
-			tedetis_transaction_id: {no-show: true}
+		tedetis_transaction_id: 
+			no-show: true
 	
 	Cheminement:
 		envoi_signature: 

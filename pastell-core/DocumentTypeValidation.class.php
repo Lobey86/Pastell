@@ -376,7 +376,11 @@ class DocumentTypeValidation {
 		foreach($typeDefinition as $key => $data){
 			$key_info = $this->getPossibleKeyInfo($part,$key);
 			if(! $key_info){
-				$this->last_error[] = "<b>$new_part</b>: la clé <b>$key</b> ($data) n'est pas attendu";
+				if (is_array($data)){
+					$data = "array()";
+				}
+				$error = "<b>$new_part</b>: la clé <b>$key</b> ($data) n'est pas attendu";
+				$this->last_error[] = $error;
 				continue;
 			}
 			$type_finded = $this->verifType($data,$key_info,$new_part,$key);

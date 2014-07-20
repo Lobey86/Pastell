@@ -305,9 +305,7 @@ class AfficheurFormulaire {
 		<?php endif;?>
 		
 		<?php if ($page_number > 0 ): ?>
-			
 			<input type='submit' name='precedent' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='« Précédent' />
-			
 		<?php endif; ?>
 			
 			<input type='submit' name='enregistrer' class='<?php echo FormulaireRenderer::BUTTON_CLASS ?>' value='Enregistrer' />
@@ -348,6 +346,7 @@ class AfficheurFormulaire {
 					}
 								
 			?>
+			<tr>
 				<?php $this->formulaireRenderer->formEntete($i++,$field->getLibelle()); ?>
 					<td>
 						<?php if ($field->getType() == 'checkbox') :?>

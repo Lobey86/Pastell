@@ -45,8 +45,7 @@ action:
 				creation
 				modification
 				invitation
-			role_id_e: 
-				editeur
+			role_id_e: editeur
 		action-class: Supprimer
 		warning: "Êtes-vous sûr de vouloir supprimer cette invitation ?"
 	

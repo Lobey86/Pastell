@@ -27,6 +27,9 @@ class LastUpstart {
 	}
 	
 	private function getInfo(){
+		if (! file_exists($this->upstart_touch_file)){
+			return array('pid'=>false,'time'=>0);
+		}
 		$content = file_get_contents($this->upstart_touch_file);
 		if (! $content){
 			return array('pid'=>false,'time'=>0);
