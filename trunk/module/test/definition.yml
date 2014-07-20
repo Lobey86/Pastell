@@ -17,7 +17,6 @@ formulaire:
 			script: tutu
 		
 		test2:
-			type: url
 	
 action:
 	creation:
