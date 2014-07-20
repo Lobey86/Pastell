@@ -32,7 +32,6 @@ class DonneesFormulaire {
 		$this->setOnglet();
 	}
 	
-	
 	private function setOnglet(){
 		$onglet_to_remove = array();
 		$page_condition = $this->documentType->getPageCondition();
@@ -86,7 +85,6 @@ class DonneesFormulaire {
 	}
 	
 	public function isEditable($field_name){
-		
 		if ($this->isReadOnly($field_name)){
 			return false;
 		}
@@ -161,7 +159,7 @@ class DonneesFormulaire {
 	}
 	
 	private function setInfo(Field $field, $value){
-		if ($this->info[$field->getName()] == $value){
+		if ($this->info[$field->getName()] === $value){
 			return;
 		}
 		if ($field->getType() == 'date'){
@@ -528,8 +526,15 @@ class DonneesFormulaire {
 			if ($field && $field->getType() == 'password'){
 				$field_value = htmlspecialchars($field_value,ENT_COMPAT);				
 			}
+			if ($field_value == '+'){
+				$field_value = '"+"';
+			}
+			if ($field_value == '-'){
+				$field_value = '"-"';
+			}
 			$result[$field_name] = $field_value; 
 		}
+		
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
         // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
