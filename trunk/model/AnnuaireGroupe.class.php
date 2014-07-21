@@ -16,7 +16,7 @@ class AnnuaireGroupe extends SQL {
 	}
 	
 	public function getGroupe(){
-		$sql = "SELECT * FROM annuaire_groupe WHERE id_e=?";
+		$sql = "SELECT * FROM annuaire_groupe WHERE id_e=? ORDER BY nom ASC";
 		return $this->query($sql,$this->id_e);
 	}
 	
