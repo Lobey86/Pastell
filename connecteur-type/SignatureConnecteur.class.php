@@ -24,4 +24,12 @@ abstract class SignatureConnecteur extends Connecteur {
 		public function hasTypeSousType(){
 			return true;
 		}	
+		
+		/**
+		 * Indique si le connecteur est un connecteur de signature "locale", c'est à dire par applet sur le navigateur et sans appel à un serveur de signature externe
+		 * @return boolean
+		 */
+		public function isLocalSignature(){
+			return false;	
+		}
 }

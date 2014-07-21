@@ -183,10 +183,16 @@ abstract class ActionExecutor {
 			}
 			$connecteur->setDocDonneesFormulaire($this->getDonneesFormulaire());
 			$this->connecteurs[$type_connecteur] = $connecteur;
-                }
+		}
 		return $connecteur;
 	}
 	
+	/**
+	 * 
+	 * @param string $type_connecteur
+	 * @throws Exception
+	 * @return DonneesFormulaire
+	 */
 	public function getConnecteurConfigByType($type_connecteur){
 		$connecteurConfig = @$this->connecteurConfigs[$type_connecteur];
 		if (!$connecteurConfig) {
@@ -200,6 +206,10 @@ abstract class ActionExecutor {
 		return $connecteurConfig;
 	}
 	
+	/**
+	 * @return DonneesFormulaire
+	 * @param unknown $id_ce
+	 */
 	public function getConnecteurConfig($id_ce){
 		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 	}
