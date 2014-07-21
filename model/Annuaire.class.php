@@ -10,12 +10,13 @@ class Annuaire extends SQL {
 	}
 	
 	public function getUtilisateur(){
-		$sql = "SELECT * FROM annuaire WHERE id_e=?";
+//		$sql = "SELECT * FROM annuaire WHERE id_e=?";
+		$sql = "SELECT * FROM annuaire WHERE id_e=? ORDER BY description ASC";
 		return $this->query($sql,$this->id_e);
 	}
 	
 	public function getFromEmail($email){
-		$sql = "SELECT id_a FROM annuaire WHERE id_e=? AND email=?";
+		$sql = "SELECT id_a FROM annuaire WHERE id_e=? AND email=? ORDER BY email ASC";
 		return $this->queryOne($sql,$this->id_e,$email);
 	}
 	
