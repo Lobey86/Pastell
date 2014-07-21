@@ -49,7 +49,7 @@ formulaire:
 			link_name: liste des matières et sous-matières
 			choice-action: classification
 		
-		envoi_signature:
+		envoi_signature_check:
 			name: Transmission au parapheur
 			type: checkbox
 			onchange: envoi-signature-change
@@ -69,6 +69,9 @@ formulaire:
 			onchange: envoi-sae-change
 	
 	Parapheur:
+		envoi_signature:
+			no-show: true
+	
 		iparapheur_type: 
 			name: Type iParapheur
 			read-only: true
@@ -81,6 +84,23 @@ formulaire:
 			choice-action: iparapheur-sous-type
 			link_name: liste des types
 		
+	Signature locale:
+		signature_locale_display:
+			no-show: true
+	
+		signature_link: 
+			name: Signer l'acte
+			type: externalData
+			choice-action: signature-locale
+			link_name: signer l'acte
+		
+		signature: 
+			name: Signature de l'acte
+			read-only: true
+			type: file
+			requis: true
+		
+	
 	Signature:
 		has_signature: {no-show: true}
 		signature: {name: Signature de l'acte, type: file}
@@ -279,6 +299,9 @@ page-condition:
 	Parapheur:
 		envoi_signature: true
 	
+	Signature locale:
+		signature_locale_display: true
+		
 	Signature:
 		has_signature: true
 		
@@ -699,6 +722,12 @@ action:
 		rule:
 			role_id_e: no-role
 		action-class: Classification
-					
+				
+	signature-locale:
+		name: Signature locale
+		no-workflow: true
+		rule:
+			role_id_e: no-role
+		action-class: SignatureLocale	
 			
 			

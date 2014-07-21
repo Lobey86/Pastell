@@ -43,4 +43,9 @@ class Libersign extends SignatureConnecteur {
 	public function effacerDossierRejete($dossierID){
 		throw new Exception("Not implemented");
 	}
+	
+	public function isLocalSignature(){
+		return true;
+	}
+
 }

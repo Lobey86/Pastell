@@ -6,20 +6,6 @@ description: |
 
 formulaire:
 	page0:
-		iparapheur_type: 
-			name: "Type Parapheur"
-			type: select
-			value:
-				Actes: Actes
-				PES: PES
-				Document: Document
-		
-		iparapheur_retour:
-			name: Retour du iParapheur
-			type: select
-			value:
-				Archive: Archive
-				Rejet: Rejet
-				Erreur: Erreur
-				
+		libersign_applet_url: 
+			name: "URL de l'applet"
 			
