@@ -143,10 +143,19 @@ class ConnecteurControler extends PastellControler {
 		$this->verifDroitOnConnecteur($id_ce);
 
 		$donneesFormulaire = $this->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
-		if ( ! $donneesFormulaire->sendFile($field,$num)){
-			$this->LastError->setLastError($donneesFormulaire->getLastError());
+		$filePath = $donneesFormulaire->getFilePath($field,$num);
+		if (!$filePath){
+			$this->LastError->setLastError("Ce fichier n'existe pas");
 			$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 		}
+		$fileName = $donneesFormulaire->getFileName($field,$num);
+		
+		header("Content-type: ".mime_content_type($filePath));
+		header("Content-disposition: attachment; filename=\"$fileName\"");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+		header("Pragma: public");
+		readfile($filePath);
 	}
 	
 	public function deleteFile(){

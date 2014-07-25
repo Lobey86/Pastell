@@ -16,8 +16,8 @@ $id_e = $inject['id_e'];
 			<?php endforeach;?>
 			
 			<table class='table table-striped'>
-			<?php foreach ($donneesFormulaire->getDisplayFields($my_role) as $field) :
-						
+			<?php foreach ($donneesFormulaire->getFieldDataList($my_role,$page_number) as $fieldData) :
+				$field = $fieldData->getField();						
 				if ($field->getProperties('read-only') && $field->getType() == 'file'){
 					continue;
 				}

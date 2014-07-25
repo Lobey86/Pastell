@@ -2,9 +2,9 @@
 <a class='btn btn-mini' href='document/list.php?type=<?php echo $info['type']?>&id_e=<?php echo $id_e?>&last_id=<?php echo $id_d ?>'><i class="icon-circle-arrow-left"></i>Liste des "<?php echo $documentType->getName() ?>" de <?php echo $infoEntite['denomination']?></a>
 
 
-<?php if (! $donneesFormulaire->getFormulaire()->afficheOneTab()): ?>
+<?php if ($donneesFormulaire->getNbOnglet() > 1): ?>
 		<ul class="nav nav-pills" style="margin-top:10px;">
-			<?php foreach ($donneesFormulaire->getFormulaire()->getTab() as $page_num => $name) : ?>
+			<?php foreach ($donneesFormulaire->getOngletList() as $page_num => $name) : ?>
 				<li <?php echo ($page_num == $page)?'class="active"':'' ?>>
 					<a href='<?php echo "document/detail.php?id_d=$id_d&id_e=$id_e" ?>&page=<?php echo $page_num?>'>
 					<?php echo $name?>
