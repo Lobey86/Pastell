@@ -5,7 +5,7 @@
 <?php endif; ?>
 	
 <table class='table table-striped'>
-<?php foreach($donneesFormulaire->getDisplayFields2($my_role) as $displayField): ?>
+<?php foreach($fieldDataList as $displayField): ?>
 		<tr>
 			<th class="w300">
 				<?php echo $displayField->getField()->getLibelle() ?>

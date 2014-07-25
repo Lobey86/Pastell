@@ -75,6 +75,7 @@ class DocumentControler extends PastellControler {
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		$this->formulaire =  $documentType->getFormulaire();
 		$this->donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$info_document['type']);
+		
 		$this->donneesFormulaire->getFormulaire()->setTabNumber($page);
 		
 		$this->actionPossible = $this->ActionPossible;
@@ -88,6 +89,12 @@ class DocumentControler extends PastellControler {
 		$this->droit_erreur_fatale = $this->RoleUtilisateur->hasDroit($this->getId_u(),$info_document['type'].":edition",0);
 		
 		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";
+		
+		if ($documentType->isAfficheOneTab()){
+			$this->fieldDataList = $this->donneesFormulaire->getFieldDataListAllOnglet($this->my_role); 
+		} else {
+			$this->fieldDataList = $this->donneesFormulaire->getFieldDataList($this->my_role,$page);
+		}
 		
 		
 		$this->recuperation_fichier_url = "document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e";

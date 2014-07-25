@@ -42,7 +42,7 @@ class EnvoyerMailSec extends ActionExecutor {
 		$this->documentEmail = $this->objectInstancier->DocumentEmail;
 		
 		foreach(array('to','cc','bcc') as $type){
-			$lesMails = $donneesFormulaire->getMailList($type);
+			$lesMails = $donneesFormulaire->getFieldData($type)->getMailList();
 			foreach($lesMails as $mail){
 				if (preg_match("/^groupe: \"(.*)\"$/",$mail,$matches)){
 					$groupe = $matches[1];

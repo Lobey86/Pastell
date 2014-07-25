@@ -18,6 +18,8 @@ class DocumentType {
 	private $module_id;
 	private $module_definition;
 	
+	private $formulaire;
+	
 	public function __construct($module_id,array $module_definition){
 		$this->module_id = $module_id; 
 		$this->module_definition = $module_definition;
@@ -59,8 +61,11 @@ class DocumentType {
 	 * Crée un objet de type Formulaire
 	 * @return Formulaire
 	 */
-	public function getFormulaire(){	
-		return new Formulaire($this->getFormulaireArray());
+	public function getFormulaire(){
+		if (!$this->formulaire){
+			$this->formulaire = new Formulaire($this->getFormulaireArray());
+		} 
+		return $this->formulaire;
 	}
 	
 	public function getPageCondition(){

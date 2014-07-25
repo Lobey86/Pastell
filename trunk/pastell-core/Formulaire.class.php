@@ -11,13 +11,63 @@ class Formulaire {
 	private $afficheOneTab;
 	private $origFormArray;
 	
+	private $fieldsList;
+	
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
 		$this->origFormArray = $this->formArray;
 		$this->setTabNumber(0);	
 		$this->pageCondition = array();		
+		$this->fieldsList = array();
+	}
+	
+	public function getOngletList(){
+		$result = array();
+		foreach ($this->origFormArray as $name => $tab) {
+			$result[] = $name;
+		}
+		return $result;
 	}
 
+	public function getFieldsList() {
+		$fields = array();
+		foreach ($this->origFormArray as $name => $tab) {
+			foreach($tab as $libelle => $properties){
+				$field = new Field($libelle,$properties);
+				$fields[$field->getName()]  = $field;
+			}
+		}
+		return $fields;
+	}
+	
+	public function getFieldsForOnglet($ongletName){
+		$fieldsList = array();
+		if (empty($this->formArray[$ongletName])){
+			return array();
+		}
+		foreach($this->formArray[$ongletName] as $fieldName => $fieldProperties){
+			$fieldsList[] = $this->createField($fieldName, $fieldProperties);
+		}
+		return $fieldsList;
+	}
+	
+	public function getFieldsForOngletList(array $ongletList) {
+		$fieldsList = array();
+		foreach($ongletList as $ongletName) {
+			$fieldsList = array_merge($fieldsList,$this->getFieldsForOnglet($ongletName)); 
+		}
+		return $fieldsList;
+	}
+	
+	private function createField($fieldName,$fieldProperties){
+		if (empty($this->fieldsList[$fieldName])){
+			$this->fieldsList[$fieldName] = new Field($fieldName, $fieldProperties); 
+		}
+		return $this->fieldsList[$fieldName];
+	}
+	
+	
+	/* Les méthodes suivantes doivent être dépréciées*/
 	public function removeOnglet(array $onglet_to_remove){
 		$this->formArray = $this->origFormArray;
 		foreach($onglet_to_remove as $page){
@@ -77,17 +127,6 @@ class Formulaire {
 		return false;
 	}
 	
-	public function getAllFieldsWithHiddenFields() {
-		$fields = array();
-		foreach ($this->origFormArray as $name => $tab) {
-			foreach($tab as $libelle => $properties){
-				$field = new Field($libelle,$properties);
-				$fields[$field->getName()]  = $field;
-			}
-		}
-		return $fields;
-	}
-	
 	public function getAllFields(){
 		$fields = array();
 		foreach ($this->formArray as $name => $tab) {
@@ -111,6 +150,7 @@ class Formulaire {
 		}
 	}
 	
+	
 	public function getTitreField(){
 		foreach($this->getAllFields() as $field){
 			if ($field->isTitle()){
@@ -121,7 +161,7 @@ class Formulaire {
 	}
 	
 	public function getField($fieldName){
-		foreach ($this->formArray as $name => $tab) {
+		foreach ($this->origFormArray as $name => $tab) {
 			foreach($tab as $libelle => $properties){
 				if(Field::Canonicalize($libelle) == Field::Canonicalize($fieldName)){
 					return new Field($libelle,$properties);	
