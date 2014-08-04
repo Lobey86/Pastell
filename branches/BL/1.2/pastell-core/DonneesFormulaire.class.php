@@ -486,14 +486,17 @@ class DonneesFormulaire {
 	}
 	
 	private function saveDataFile($setModifiedToFalse = true){
-		foreach($this->info as $field_name => $field_value){
-			$field = $this->formulaire->getField($field_name);
-			if ($field && $field->getType() == 'password'){
-				$field_value = htmlspecialchars($field_value,ENT_COMPAT);				
-			}
-			$result[$field_name] = $field_value; 
-		}
-		$dump = Spyc::YAMLDump($result);
+        $result = array();
+        if ($this->info) {
+            foreach ($this->info as $field_name => $field_value) {
+                $field = $this->formulaire->getField($field_name);
+                if ($field && $field->getType() == 'password') {
+                    $field_value = htmlspecialchars($field_value, ENT_COMPAT);
+                }
+                $result[$field_name] = $field_value;
+            }
+        }
+        $dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
         
         // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
