@@ -135,4 +135,9 @@ class AnnuaireGroupe extends SQL {
 		return $this->queryOne($sql,$id_a);
 	}
 	
+	public function deleteAllGroupFromContact($id_a){
+		$sql = "DELETE FROM annuaire_groupe_contact WHERE id_a=?";
+		$this->query($sql,$id_a);
+	}
+	
 }

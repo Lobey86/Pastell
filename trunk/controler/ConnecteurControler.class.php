@@ -237,7 +237,7 @@ class ConnecteurControler extends PastellControler {
 		$this->page_title = "Configuration des connecteurs pour « {$this->entite_info['denomination']} »";
 		$this->recuperation_fichier_url = "connecteur/recuperation-fichier.php?id_ce=".$this->id_ce;
 		$this->template_milieu = "ConnecteurEdition";
-		
+		$this->fieldDataList = $this->donneesFormulaire->getFieldDataListAllOnglet($this->my_role);
 		$this->renderDefault();
 	}
 	
