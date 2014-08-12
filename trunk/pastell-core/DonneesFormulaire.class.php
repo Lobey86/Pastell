@@ -88,6 +88,10 @@ class DonneesFormulaire {
 		if (empty($this->fieldDataList[$fieldName])){
 			$field = $this->getFormulaire()->getField($fieldName);
 			
+			if (! $field){
+				$field = new Field($fieldName, array());
+			}
+						
 			$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
 		}
 		return $this->fieldDataList[$fieldName];
