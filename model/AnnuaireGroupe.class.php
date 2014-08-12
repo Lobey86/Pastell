@@ -16,7 +16,7 @@ class AnnuaireGroupe extends SQL {
 	}
 	
 	public function getGroupe(){
-		$sql = "SELECT * FROM annuaire_groupe WHERE id_e=?";
+		$sql = "SELECT * FROM annuaire_groupe WHERE id_e=? ORDER BY nom ASC";
 		return $this->query($sql,$this->id_e);
 	}
 	
@@ -133,6 +133,11 @@ class AnnuaireGroupe extends SQL {
 	public function hasAGroupe($id_a){
 		$sql = "SELECT count(*) FROM annuaire_groupe_contact WHERE id_a=?";
 		return $this->queryOne($sql,$id_a);
+	}
+	
+	public function deleteAllGroupFromContact($id_a){
+		$sql = "DELETE FROM annuaire_groupe_contact WHERE id_a=?";
+		$this->query($sql,$id_a);
 	}
 	
 }
