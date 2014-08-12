@@ -33,6 +33,11 @@ class Action {
 	public function getActionName($action_internal_name){
 		$tabAction = $this->getActionArray($action_internal_name);
 		if (! isset($tabAction[self::ACTION_DISPLAY_NAME])){
+			
+			if ($action_internal_name == 'fatal-error'){
+				return "Erreur fatale";
+			}
+			
 			return $action_internal_name;
 		}
 		return $tabAction[self::ACTION_DISPLAY_NAME];
