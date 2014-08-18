@@ -49,7 +49,7 @@ class EnvoyerMailSec extends ActionExecutor {
 					$id_g = $annuaireGroupe->getFromNom($groupe);
 					$utilisateur = $annuaireGroupe->getAllUtilisateur($id_g);
 					foreach($utilisateur as $u){
-						$this->sendEmail($u['email'],$type);
+						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
 					}
 				} elseif(preg_match("/^role: \"(.*)\"$/",$mail,$matches)){
 					$role = $matches[1];
@@ -57,19 +57,19 @@ class EnvoyerMailSec extends ActionExecutor {
 					$utilisateur = $annuaireRoleSQL->getUtilisateur($id_r);
 					
 					foreach($utilisateur as $u){
-						$this->sendEmail($u['email'],$type);
+						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
 					}
 				} elseif(preg_match('/^groupe hérité de (.*): "(.*)"$/',$mail,$matches) || preg_match('/^groupe global: ".*"$/',$mail)) {
 					$id_g = $annuaireGroupe->getFromNomDenomination($all_ancetre,$mail);
 					$utilisateur = $annuaireGroupe->getAllUtilisateur($id_g);
 					foreach($utilisateur as $u){
-						$this->sendEmail($u['email'],$type);
+						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
 					}
 				} elseif(preg_match('/^rôle hérité de .*: ".*"$/',$mail,$matches) || preg_match('/^rôle global: ".*"$/',$mail)){
 					$id_r = $annuaireRoleSQL->getFromNomDenomination($all_ancetre,$mail);
 					$utilisateur = $annuaireRoleSQL->getUtilisateur($id_r);
 					foreach($utilisateur as $u){
-						$this->sendEmail($u['email'],$type);
+						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
 					}
 					
 				} else {
