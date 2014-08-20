@@ -102,4 +102,10 @@ class FichierCleValeur {
 	public function delete($key,$num){
 		array_splice($this->info[$key],$num,1);
 	}
+
+	public function deleteField($key){
+		unset($this->info[$key]);
+	}
 }
+
+

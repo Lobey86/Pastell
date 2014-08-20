@@ -40,7 +40,7 @@ class Nomemclature extends ChoiceActionExecutor {
 			
 		}
 		$donneesFormulaire = $this->getDonneesFormulaire();
-		$donneesFormulaire->setData('type',$classif." ".$info['nom']);
+		$donneesFormulaire->setData('nomemclature',$classif." ".$info['nom']);
 		$donneesFormulaire->setData('classification',$info_classification);
 		$donneesFormulaire->setData('envoi_tdt',$info['transmission_actes']);
 		$donneesFormulaire->setData('envoi_tdt_obligatoire',$info['transmission_actes']);
