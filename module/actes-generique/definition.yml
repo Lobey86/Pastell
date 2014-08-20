@@ -36,8 +36,12 @@ formulaire:
 			commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"
 			preg_match: "#^[0-9A-Z_]{1,15}$#"
 			preg_match_error: "15 caractères maxi, chiffres, lettres en majuscule ou _"
+			index: true
 				
-		Objet: {requis: true, title: true}
+		Objet: 
+			requis: true
+			title: true
+			
 		Date de l'acte: {type: date, requis: true, commentaire: date de la décision}
 		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF ou XML"}
 		Autre document attaché: {type: file, multiple: true, commentaire: "Attention ! La taille totale des documents acte + annexes ne peut pas dépasser 20 Mo."}
@@ -293,7 +297,12 @@ formulaire:
 		tedetis_annulation_id:
 			name: Identifiant de la transaction d'annulation
 
-			
+champs-affiches:
+	titre
+	numero_de_lacte 
+	entite
+	dernier_etat
+	date_dernier_etat
 
 page-condition:
 	Parapheur:

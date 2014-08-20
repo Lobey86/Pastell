@@ -12,6 +12,7 @@ class DocumentType {
 	const AFFICHE_ONE = 'affiche_one';
 	const CONNECTEUR = 'connecteur';
 	const DESCRIPTION = 'description';
+	const CHAMPS_AFFICHE = 'champs-affiches';
 	
 	const TYPE_FLUX_DEFAULT = 'Flux Généraux';
 	
@@ -100,4 +101,21 @@ class DocumentType {
 		}
 		return $this->module_definition[self::ACTION];
 	}
+	
+	public function getChampsAffiches(){
+		$default_fields = array('titre'=>'Objet','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date'); 
+		if (empty($this->module_definition[self::CHAMPS_AFFICHE])){
+			return $default_fields;
+		}
+		$result = array();
+		foreach( $this->module_definition[self::CHAMPS_AFFICHE] as $champs){
+			if (isset($default_fields[$champs])){
+				$result[$champs] = $default_fields[$champs];
+			} else {
+				$result[$champs] = $this->getFormulaire()->getField($champs)->getLibelle();
+			}
+		}
+		return $result;
+	}
+	
 }

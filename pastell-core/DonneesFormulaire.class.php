@@ -21,6 +21,8 @@ class DonneesFormulaire {
 	
 	private $fieldDataList;
 	
+	private $documentIndexor;
+	
 	/**
 	 * 
 	 * @param string $filePath : emplacement vers un fichier YML contenant les données du document sous la forme de ligne clé:valeur
@@ -32,6 +34,10 @@ class DonneesFormulaire {
 		$this->onChangeAction = array();
 		$this->fichierCleValeur = new FichierCleValeur($filePath);
 		$this->setOnglet();
+	}
+	
+	public function setDocumentIndexor(DocumentIndexor $documentIndexor){
+		$this->documentIndexor = $documentIndexor;
 	}
 	
 	public function getNbOnglet(){
@@ -87,11 +93,9 @@ class DonneesFormulaire {
 		$fieldName  = Field::Canonicalize($fieldName);
 		if (empty($this->fieldDataList[$fieldName])){
 			$field = $this->getFormulaire()->getField($fieldName);
-			
 			if (! $field){
 				$field = new Field($fieldName, array());
 			}
-						
 			$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
 		}
 		return $this->fieldDataList[$fieldName];
@@ -107,12 +111,7 @@ class DonneesFormulaire {
 			$value[$file] = $this->get($field->getName()."_$j");
 		}
 		return $value;
-	}
-	
-	
-	
-	/*** LES FONCTIONS SUIVANTES SONT DEPRECIEES ***/
-	
+	}	
 	
 	/*Fonction pour la construction de l'objet*/
 	private function setOnglet(){
@@ -156,7 +155,8 @@ class DonneesFormulaire {
 		return $this->fichierCleValeur->get($item);
 	}
 	
-	/*Fonctions utilisées pour le rendu/l'affichage des données
+	/*Fonctions utilisées pour le rendu/l'affichage des données*/
+	
 	/**
 	 * Indique si le champs est modifiable
 	 * 
@@ -188,7 +188,6 @@ class DonneesFormulaire {
 		if ($this->isReadOnly($field_name)){
 			return false;
 		}
-		
 		if ( ! $this->has_editable_content){
 			return true;
 		}
@@ -366,7 +365,33 @@ class DonneesFormulaire {
 		if ($setModifiedToFalse) {
 			$this->isModified=false;
 		}
+		$this->updateAllIndexedField();
 		$this->setOnglet();
+	}
+	
+	private function updateAllIndexedField(){
+		if (! $this->documentIndexor){
+			return;
+		}
+		foreach($this->fieldDataList as $fieldName => $fieldData){
+			$this->updateIndexedField($fieldData);
+		}
+	}
+	
+	private function updateIndexedField(FieldData $fieldData){
+		if ( ! $fieldData->getField()->isIndexed()){
+			return;
+		}
+		$value_list = $fieldData->getValue(); 
+		if (count($value_list) > 1){
+			return;
+		}
+		if (count($value_list) == 0){
+			$value = "";
+		} else {
+			$value = $value_list[0];
+		}
+		$this->documentIndexor->index($fieldData->getField()->getName(), $value);
 	}
 	
 	/*Fonctions permettant de savoir si il y a eu des choses modifiés après la sauvegarde*/

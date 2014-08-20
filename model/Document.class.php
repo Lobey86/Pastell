@@ -51,8 +51,6 @@ class Document extends SQL {
 		return $this->queryOne($sql,$id_e,$titre,$type);
 	}
 	
-	
-	
 	public function delete($id_d){
 		$sql = "DELETE FROM document WHERE id_d=?";
 		$this->query($sql,$id_d);
@@ -66,6 +64,9 @@ class Document extends SQL {
 		$sql = "DELETE FROM document_action WHERE id_d=?";
 		$this->query($sql,$id_d);
 		$sql = "DELETE FROM document_entite WHERE id_d=?";
+		$this->query($sql,$id_d);
+		
+		$sql = "DELETE FROM document_index WHERE id_d=?";
 		$this->query($sql,$id_d);
 	}
 	
