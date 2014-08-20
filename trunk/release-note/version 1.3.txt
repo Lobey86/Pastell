@@ -25,6 +25,12 @@ configurée pour l'affichage, la modification d'une page, etc...
 - Le constructeur de la classe DonneesFormulaire(fichier_yml, Formulaire) devient DonneesFormulaire(fichier_yml,DocumentType)
 (cela n'a normalement pas d'impact puisque la construction de cet objet est du ressort de DonneesFormulaireFactory qui a bien sûr été mis à jour)
 
-
 Révision 976
 - Suppresion de AfficheurFormulaire pour mettre les élements dans template (comme il se doit)
+
+Révision 991
+- Pour les modules dépendant du module "actes-cdg" notamment pour la partie permettant d'avoir une nomemclature spécifique au CDG et d'assurer une correspondance 
+avec la nomemclature actes, le champs "type" a été renommé en "nomemclature". L'ensemble des modules reposant sur le module actes-cdg doivent procéder à une mise à jour :
+* sur le fichier de définition du flux : mettre "nomemclature" à la place de "type" sur le champs concerné
+* faire passer le script "fix-module-champs.php nom_du_flux type nomemclature" afin de mettre à jour l'ensemble des documents issus de ce flux.
+

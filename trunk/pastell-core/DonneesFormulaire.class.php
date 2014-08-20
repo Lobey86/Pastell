@@ -312,6 +312,13 @@ class DonneesFormulaire {
 		$this->saveDataFile();		
 	}
 	
+	public function deleteField($fieldName){
+		$this->fichierCleValeur->deleteField($fieldName);
+		$this->saveDataFile();
+	}
+	
+	
+	
 	public function setTabData(array $field){
 		foreach($field as $name => $value){
 			$this->injectData($name,$value);

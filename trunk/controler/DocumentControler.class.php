@@ -332,7 +332,7 @@ class DocumentControler extends PastellControler {
 		$this->indexedFieldsList = $documentType->getFormulaire()->getIndexedFields();
 		$indexedFieldValue = array();
 		foreach($this->indexedFieldsList as $indexField => $indexLibelle){
-			$indexedFieldValue[$indexField]=$recuperateur->get($indexField);
+			$indexedFieldValue[$indexField] = $recuperateur->get($indexField);
 		}
 		
 		$this->listDocument = $this->DocumentActionEntite->getListBySearch($id_e,$type,
@@ -344,8 +344,6 @@ class DocumentControler extends PastellControler {
 		$this->url_tri = "document/list.php?id_e=$id_e&type=$type&search=$search&filtre=$filtre";
 		
 		$this->type_list = $this->getAllType($this->listDocument);
-		
-		
 		
 		$this->template_milieu = "DocumentList"; 
 		$this->renderDefault();
@@ -720,6 +718,16 @@ class DocumentControler extends PastellControler {
 			$fieldValue = $donneesFormulaire->get($field_name);
 			$documentIndexor->index($field_name, $fieldValue);
 		}
+	}
+	
+	public function fixModuleChamps($document_type,$old_field_name,$new_field_name){
+		foreach($this->Document->getAllByType($document_type) as $document_info){
+			$donneesFormulaire = $this->DonneesFormulaireFactory->get($document_info['id_d']);
+			$value = $donneesFormulaire->get($old_field_name);
+			$donneesFormulaire->setData($new_field_name,$value);
+			$donneesFormulaire->deleteField($old_field_name);
+		}
+		
 	}
 	
 	
