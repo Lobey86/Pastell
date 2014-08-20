@@ -66,7 +66,6 @@ class Formulaire {
 		return $this->fieldsList[$fieldName];
 	}
 	
-	
 	/* Les méthodes suivantes doivent être dépréciées*/
 	public function removeOnglet(array $onglet_to_remove){
 		$this->formArray = $this->origFormArray;
@@ -138,6 +137,17 @@ class Formulaire {
 		return $fields;
 	}
 	
+	
+	public function getIndexedFields(){
+		$result = array();
+		foreach ($this->getAllFields() as $fields){
+			if ($fields->isIndexed()){
+				$result[$fields->getName()] = $fields->getLibelle();
+			}
+		}
+		return $result;
+	}
+	
 	/**
 	 *
 	 * @return array:Field renvoie l'ensemble des champs affichable pour l'onglet sélectionner
@@ -162,7 +172,7 @@ class Formulaire {
 	
 	public function getField($fieldName){
 		foreach ($this->origFormArray as $name => $tab) {
-			foreach($tab as $libelle => $properties){
+			foreach($tab as $libelle => $properties){				
 				if(Field::Canonicalize($libelle) == Field::Canonicalize($fieldName)){
 					return new Field($libelle,$properties);	
 				}

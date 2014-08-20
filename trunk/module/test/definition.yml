@@ -12,11 +12,18 @@ formulaire:
 			name: Mot de passe
 			type: password
 		test1:
-			type: link
+			type: url
 			link_name: toto
-			script: tutu
-		
+			
 		test2:
+		
+		nom:
+			index: true
+		
+		prenom:
+			index: true
+		
+		
 	
 action:
 	creation:

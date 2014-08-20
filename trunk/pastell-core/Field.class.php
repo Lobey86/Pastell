@@ -2,6 +2,8 @@
 
 class Field {
 	
+	const INDEX_PROPERTIES_KEY = 'index';
+	
 	private $libelle;
 	private $properties;
 	
@@ -118,6 +120,10 @@ class Field {
 			}
 		}
 		return false;
+	}
+	
+	public function isIndexed(){
+		return $this->getProperties(self::INDEX_PROPERTIES_KEY);
 	}
 	
 }

@@ -10,16 +10,19 @@ class DonneesFormulaireFactory{
 	private $workspacePath;
 	private $connecteurEntiteSQL;
 	private $documentSQL;
+	private $documentIndexSQL;
 	
 	public function __construct(DocumentTypeFactory $documentTypeFactory, 
 								$workspacePath, 
 								ConnecteurEntiteSQL $connecteurEntiteSQL,
-								Document $documentSQL
+								Document $documentSQL,
+								DocumentIndexSQL $documentIndexSQL
 								){
 		$this->documentTypeFactory = $documentTypeFactory;
 		$this->workspacePath = $workspacePath;
 		$this->connecteurEntiteSQL = $connecteurEntiteSQL;
 		$this->documentSQL = $documentSQL;
+		$this->documentIndexSQL = $documentIndexSQL;
 	}
 	
 	public function get($id_d,$document_type = false){
@@ -33,7 +36,7 @@ class DonneesFormulaireFactory{
 		}
 		
 		$documentType = $this->documentTypeFactory->getFluxDocumentType($document_type);
-		 return $this->getFromCacheNewPlan($id_d, $documentType);
+		return $this->getFromCacheNewPlan($id_d, $documentType);
 	}
 	
 	public function getConnecteurEntiteFormulaire($id_ce){
@@ -51,6 +54,8 @@ class DonneesFormulaireFactory{
 		static $cache;
 		if (empty($cache[$id_document])){
 			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $documentType);
+			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
+			$cache[$id_document]->setDocumentIndexor($documentIndexor);
 		}
 		return $cache[$id_document];
 	}
@@ -63,6 +68,8 @@ class DonneesFormulaireFactory{
 				mkdir($dir,0777,true);
 			}
 			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $documentType);
+			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
+			$cache[$id_document]->setDocumentIndexor($documentIndexor);
 		}
 		return $cache[$id_document];
 	}

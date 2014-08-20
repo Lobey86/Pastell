@@ -38,6 +38,10 @@ definition.yml:
 			info: Permet d'afficher l'ensemble des onglets sur une seule page (en mode affichage, les onglets sont conservés en mode édition)
 			default: false
 			type: boolean
+		
+		champs-affiches:
+			info: Liste des champs à afficher dans la liste des documents
+			type: list
 			
 connecteur:
 	possible_key:
@@ -125,6 +129,11 @@ element_formulaire:
 		depend:
 			info: champs multiple dépendant d'un champ de type file (multiple)
 			type: string
+		index:
+			info: Indique si le champs est indexé par la base de données
+			type: boolean
+			default: false
+			
 			
 action:
 	possible_key:
@@ -272,3 +281,10 @@ properties:
 		*: 
 			key_name: properties
 			type: string_or_boolean	
+
+champs-affiches:
+	possible_key:
+		*:
+			key_name: champs
+			type: string
+

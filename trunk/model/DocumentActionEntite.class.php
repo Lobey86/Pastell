@@ -184,29 +184,38 @@ class DocumentActionEntite extends SQL {
 	}
 	
 	
-	public function getNbDocumentBySearch($id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end){
+	public function getNbDocumentBySearch($id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue = array()){
 		$col = "count(*) as nb";
 		$order = "";	
-		$result = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end);
+		$result = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue);
 		return $result[0]['nb'];
 		
 	}
 	
-	public function getListBySearch($id_e,$type,$offset,$limit,$search,$state,$last_state_begin,$last_state_end,$tri,$allDroitEntite,$etatTransit,$state_begin,$state_end){
+	public function getListBySearch($id_e,$type,$offset,$limit,$search,$state,$last_state_begin,$last_state_end,$tri,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue=array(),$sens_tri='DESC'){
 		$col = "*,document.type as type,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date, entite.denomination as entite_base";
 		
-		switch($tri){
-			case 'entite': $tri="entite.denomination"; break;
-			case 'title': $tri = "document.titre,document.id_d"; break;
-			default: $tri =  "document_entite.last_action_date DESC";
+		if (! in_array($sens_tri,array('ASC','DESC'))){
+			$sens_tri ='DESC';
 		}
 		
-		$order = " ORDER BY $tri  LIMIT $offset,$limit";	
-		$list = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end);
+		if (! in_array($tri, array_keys($indexedFieldValue))) {
+			switch($tri){
+				case 'entite': $tri="entite.denomination $sens_tri"; break;
+				case 'titre':
+				case 'title': $tri = "document.titre $sens_tri,document.id_d $sens_tri"; break;
+				default: $tri =  "document_entite.last_action_date $sens_tri";
+			}
+			$order = " ORDER BY $tri LIMIT $offset,$limit ";	
+		} else {
+			$order = " ORDER BY document_index.field_value $sens_tri LIMIT $offset,$limit ";
+		}
+		
+		$list = $this->getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue,$tri);
 		return $this->addEntiteToList($id_e,$list);
 	}	
 	
-	private function getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end){
+	private function getSearchSQL($col,$order,$id_e,$type,$search,$state,$last_state_begin,$last_state_end,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue = array(),$triIndexColName=false){
 		
 		$type_list = "'" . implode("','",$allDroitEntite) . "'";
 		
@@ -220,9 +229,29 @@ class DocumentActionEntite extends SQL {
 			$sql .= " JOIN document_action ON document_action.id_d=document.id_d AND document_action.id_e=entite.id_e ";	
 		}
 		
+		$binding = array();
+		
+		$i = 0;
+		foreach( $indexedFieldValue as $indexName => $indexValue){
+			if ($indexValue ){
+				$sql .= " JOIN document_index as document_index_$i ON document.id_d=document_index_$i.id_d " .
+						" AND document_index_$i.field_name=? AND document_index_$i.field_value LIKE ? ";
+				$binding[] = $indexName;
+				$binding[] = "%$indexValue%";
+			}
+			$i++;
+		}
+		
+		if ($triIndexColName && in_array($triIndexColName, array_keys($indexedFieldValue))){
+			$sql .= " LEFT JOIN document_index ON document.id_d=document_index.id_d AND document_index.field_name=? ";
+			$binding[] = $triIndexColName;		
+		}
+		
+		
+		
 		$sql .= " WHERE document.type IN ($type_list) ";
 				
-		$binding = array();
+		
 		if ($id_e){
 			$sql .= " AND document_entite.id_e = ? ";
 			$binding[] = $id_e;
@@ -259,8 +288,7 @@ class DocumentActionEntite extends SQL {
 			if ( $state_end){
 				$sql .= " AND document_action.date<?";
 				$binding[] = $state_end;
-			}
-			
+			}			
 		}
 		
 		
