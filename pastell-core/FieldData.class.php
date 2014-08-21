@@ -72,6 +72,15 @@ class FieldData {
 		return $this->value;
 	}
 	
+	public function getValueNum($num=0){
+		$valueList = $this->getValue();
+		if ($valueList){
+			return $valueList[0];
+		}
+		return false;
+	}
+	
+	
 	public function isURL(){
 		return (in_array($this->field->getType(),array('file','url','link')));
 	}
@@ -85,9 +94,6 @@ class FieldData {
 			return SITE_BASE . $this->field->getProperties('script')."?id_e=$id_e" ;
 		}
 	}
-	
-	
-	
 	
 	public function isValide(){
 		if ($this->field->isRequired() && ! $this->value){

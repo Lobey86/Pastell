@@ -715,8 +715,8 @@ class DocumentControler extends PastellControler {
 			echo "Réindexation du document {$document_info['titre']} ({$document_info['id_d']})\n";
 			$documentIndexor = new DocumentIndexor($this->DocumentIndexSQL, $document_info['id_d']);
 			$donneesFormulaire = $this->DonneesFormulaireFactory->get($document_info['id_d']);
-			$fieldValue = $donneesFormulaire->get($field_name);
-			$documentIndexor->index($field_name, $fieldValue);
+			$fieldData = $donneesFormulaire->getFieldData($field_name);
+			$documentIndexor->index($field_name, $fieldData->getValueNum());
 		}
 	}
 	

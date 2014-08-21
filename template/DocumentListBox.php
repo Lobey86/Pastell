@@ -1,6 +1,7 @@
 			<div class="box">
 			<h2>Documents <?php if (count($type_list) == 1) 
 									echo  	$this->DocumentTypeFactory->getFluxDocumentType($type_list[0])->getName() ?> </h2>
+									
 				<table class="table table-striped">
 				<tr>
 					<?php foreach($champs_affiches as $champs => $champs_libelle):?>
@@ -27,6 +28,7 @@
 			foreach($listDocument as $i => $document ) : 			
 				$documentType = $this->documentTypeFactory->getFluxDocumentType($document['type']);
 				$action = $documentType->getAction();
+				$formulaire = $documentType->getFormulaire();
 				
 			?>
 				<tr>
@@ -66,7 +68,13 @@
 							<?php elseif($champs=='date_dernier_etat') :?>
 								<?php echo time_iso_to_fr($document['last_action_date']) ?>	
 							<?php else:?>
-								<?php hecho($this->DocumentIndexSQL->get($document['id_d'],$champs));?>											
+							<?php if ($formulaire->getField($champs)->getType() == 'file') : ?>
+								<a href='document/recuperation-fichier.php?id_d=<?php echo $document['id_d']?>&id_e=<?php echo $document['id_e']?>&field=<?php echo $champs?>&num=0'>
+									<?php hecho($this->DocumentIndexSQL->get($document['id_d'],$champs));?>
+								</a>
+							<?php else:?>
+								<?php hecho($this->DocumentIndexSQL->get($document['id_d'],$champs));?>
+							<?php endif;?>											
 							<?php endif;?>
 											
 						</td>
