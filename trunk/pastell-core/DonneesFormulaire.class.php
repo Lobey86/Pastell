@@ -34,6 +34,26 @@ class DonneesFormulaire {
 		$this->onChangeAction = array();
 		$this->fichierCleValeur = new FichierCleValeur($filePath);
 		$this->setOnglet();
+		
+		foreach($this->getFormulaire()->getAllFields() as $field){
+			$this->setFieldData($field->getName());
+		}
+	}
+	
+	private function setFieldData($fieldName){
+		if (empty($this->fieldDataList[$fieldName])){
+			$field = $this->getFormulaire()->getField($fieldName);
+			if (! $field){
+				$field = new Field($fieldName, array());
+			}
+			$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
+		}
+	}
+	
+	
+	private function setNewValueToFieldData($fieldName){
+		$field = $this->getFieldData($fieldName)->getField();
+		$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
 	}
 	
 	public function setDocumentIndexor(DocumentIndexor $documentIndexor){
@@ -91,17 +111,11 @@ class DonneesFormulaire {
 	 */
 	public function getFieldData($fieldName){
 		$fieldName  = Field::Canonicalize($fieldName);
-		if (empty($this->fieldDataList[$fieldName])){
-			$field = $this->getFormulaire()->getField($fieldName);
-			if (! $field){
-				$field = new Field($fieldName, array());
-			}
-			$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
-		}
+		$this->setFieldData($fieldName);
 		return $this->fieldDataList[$fieldName];
 	}
 	
-	private function getDisplayValue($field){
+	private function getDisplayValue(Field $field){
 		if (! $field->getProperties('depend')){
 			return $this->get($field->getName());
 		}
@@ -297,13 +311,14 @@ class DonneesFormulaire {
 			} else {
 				$this->fichierCleValeur->setMulti($fname,  $fileUploader->getName($fname));
 			}
-			//TODO Ajout de la modif dans FieldData...
+			$this->setFieldData($fname);
 			$num = $this->fichierCleValeur->count($fname) - 1 ;
 			$fileUploader->save($fname , $this->getFilePath($fname,$num));
 			$this->isModified = true;
 			if ($field->getOnChange()){
 				$this->onChangeAction[] = $field->getOnChange();
 			}
+			
 		}
 	}
 	
@@ -316,8 +331,6 @@ class DonneesFormulaire {
 		$this->fichierCleValeur->deleteField($fieldName);
 		$this->saveDataFile();
 	}
-	
-	
 	
 	public function setTabData(array $field){
 		foreach($field as $name => $value){
@@ -355,6 +368,7 @@ class DonneesFormulaire {
 	public function addFileFromData($field_name,$file_name,$raw_data,$file_num = 0){
 		$this->fichierCleValeur->setMulti($field_name, $file_name,$file_num);
 		file_put_contents($this->getFilePath($field_name,$file_num),$raw_data);
+		$this->setNewValueToFieldData($field_name);		
 		$this->saveDataFile();
 	}
 	
@@ -389,15 +403,7 @@ class DonneesFormulaire {
 		if ( ! $fieldData->getField()->isIndexed()){
 			return;
 		}
-		$value_list = $fieldData->getValue(); 
-		if (count($value_list) > 1){
-			return;
-		}
-		if (count($value_list) == 0){
-			$value = "";
-		} else {
-			$value = $value_list[0];
-		}
+		$value = $fieldData->getValueNum(); 
 		$this->documentIndexor->index($fieldData->getField()->getName(), $value);
 	}
 	

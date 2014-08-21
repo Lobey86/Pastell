@@ -108,6 +108,7 @@ document_action:
 document_action_entite:
 document_entite:
 journal:
+document_index:
 
 connecteur_entite:
  -

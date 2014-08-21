@@ -40,6 +40,11 @@ class ActesGeneriqueTest extends PastellTestCase {
 		$result = $apiAction->sendFile(PastellTestCase::ID_E_COL, $info['id_d'], 'arrete', "vide.pdf",0, file_get_contents(FIXTURES_PATH)."/vide.pdf");
 		$this->assertEquals(APIAction::RESULT_OK, $result['result']);
 		
+		//TODO
+		//print_r($result);
+		//    [message] => Le formulaire est incomplet : le champ «Acte» est obligatoire.
+		
+		
 		$all_sous_type = $apiAction->externalData(PastellTestCase::ID_E_COL, $info['id_d'], 'iparapheur_sous_type');
 		$this->assertArrayHasKey(0, $all_sous_type);
 		

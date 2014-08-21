@@ -96,8 +96,6 @@ class Nomemclature extends ChoiceActionExecutor {
 	}
 	
 	
-	
-	
 	private function getFile($id_e){
 		
 		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,$this->type,'TdT');
