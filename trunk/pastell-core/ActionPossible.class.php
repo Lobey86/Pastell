@@ -143,6 +143,14 @@ class ActionPossible {
 			}
 			return false;
 		}
+		if (!strncmp($ruleName, 'no_', 3)){
+			foreach($ruleValue as $ruleName => $ruleElement){
+				if ($this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleElement)){
+					return false;
+				}
+			}
+			return true;
+		}
 		if (is_array($ruleValue) && ! in_array($ruleName,array('collectivite-properties','herited-properties','content','properties'))){
 			foreach($ruleValue as $ruleElement){
 				if ($this->verifRule($id_e,$id_u,$id_d,$type_document,$ruleName,$ruleElement)){					
@@ -200,7 +208,6 @@ class ActionPossible {
 		}
 		return true;
 	}
-	
 	
 	private function verifDocumentIsValide($id_d,$type){
 		return $this->donneesFormulaireFactory->get($id_d,$type)->isValidable();

@@ -203,7 +203,11 @@ rule:
 			key_name: rule
 		properties:
 			type: associative_array
-		  	
+		no_X: 
+			type: associative_array
+			key_name: rule
+		  			  
+	
 last-action:
 	possible_key:
 		*: 
