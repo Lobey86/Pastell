@@ -481,6 +481,12 @@ class DocumentTypeValidation {
 				return $result;
 			}
 		}
+		if (substr($key,0,3) == 'no_'){
+			if (isset($this->module_definition[$part]['possible_key']['no_X'])){
+				$result = $this->module_definition[$part]['possible_key']['no_X'];
+				return $result;
+			}
+		}
 		if (isset($this->module_definition[$part]['possible_key']['*'])){
 			$result = $this->module_definition[$part]['possible_key']['*'];
 			return $result;

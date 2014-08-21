@@ -78,7 +78,7 @@ abstract class ActionExecutor {
 	}
 	
 	/**
-	 * return DonneesFormulaire
+	 * @return DonneesFormulaire
 	 */
 	public function getDonneesFormulaire(){
 		if (!$this->docDonneesFormulaire) {
