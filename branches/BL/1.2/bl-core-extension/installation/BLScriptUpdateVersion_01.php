@@ -111,3 +111,46 @@ foreach($liste_entreprise as $entreprise) {
 
 $blScript->traceln('Ajout du connecteur global entitebl : ');
 $blScript->createConnecteur('entitebl', 'entitebl global', 0);
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Changement des types de connecteur sur les connecteur globaux de l'entite racine //
+//////////////////////////////////////////////////////////////////////////////////////
+$blScript->trace('Modification du type de connecteur sur les connecteurs globaux signature->adm_signature : ');
+$sql_select = "SELECT * FROM flux_entite WHERE id_e=0 AND type='signature' AND flux='global'";
+if ($sqlQuery->queryOne($sql_select)) {
+    $sql = "UPDATE flux_entite SET type = 'adm_signature' WHERE id_e=0 AND flux='global' AND type='signature'";
+    $sqlQuery->queryOne($sql);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
+}
+
+$blScript->trace('Modification du type de connecteur sur les connecteurs globaux connecteur->adm_connecteur : ');
+$sql_select = "SELECT * FROM flux_entite WHERE id_e=0 AND type='connecteur' AND flux='global'";
+if ($sqlQuery->queryOne($sql_select)) {
+    $sql = "UPDATE flux_entite SET type = 'adm_connecteur' WHERE id_e=0 AND flux='global' AND type='connecteur'";
+    $sqlQuery->queryOne($sql);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
+}
+
+$blScript->trace('Modification du type de connecteur sur les connecteurs globaux tdt->adm_tdt : ');
+$sql_select = "SELECT * FROM flux_entite WHERE id_e=0 AND type='tdt' AND flux='global'";
+if ($sqlQuery->queryOne($sql_select)) {
+    $sql = "UPDATE flux_entite SET type = 'adm_tdt' WHERE id_e=0 AND flux='global' AND type='tdt'";
+    $sqlQuery->queryOne($sql);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
+}
+
+$blScript->trace('Modification du type de connecteur sur les connecteurs globaux flux->adm_flux : ');
+$sql_select = "SELECT * FROM flux_entite WHERE id_e=0 AND type='flux' AND flux='global'";
+if ($sqlQuery->queryOne($sql_select)) {
+    $sql = "UPDATE flux_entite SET type = 'adm_flux' WHERE id_e=0 AND flux='global' AND type='flux'";
+    $sqlQuery->queryOne($sql);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
+}
