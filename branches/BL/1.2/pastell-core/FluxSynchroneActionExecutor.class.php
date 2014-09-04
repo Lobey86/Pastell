@@ -40,7 +40,8 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
     const GO_MESSAGE_ACTION = 'action-name';
     // Attributs pour le message du journal
     const KEY_JOURNAL_PILOTE = 'app';
-    const KEY_JOURNAL_DOCTAILLE = 'taille';
+    const KEY_JOURNAL_DOCTAILLE = 'taille'; // Taille du fichier document principal
+    const KEY_JOURNAL_FICHIERSTAILLE = 'tailletot'; // Taille de tous les fichiers
     const KEY_JOURNAL_MESSAGE = 'msg';
 
     private $fluxActions;
@@ -181,7 +182,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         $doc->addFileFromData(self::FLUX_ATTR_ERREUR_DETAIL, 'erreur_detail', $messageDetail);
         // Signaler l'echec. Pas de throw, pour ne pas journaliser à nouveau.
         $this->setLastMessage($message);
-        return false;	
+        return false;
     }
 
     private function getFluxActions() {
@@ -265,23 +266,23 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             $display .= '<tr align="left">';
             if ($columns == NULL) {
                 $columns = array_keys($array[0]);
-                }
+            }
             foreach ($columns as $th) {
                 $display .= '<th>' . htmlentities($th) . '</th>';
             }
             $display .= '</tr>';
-                foreach ($array as $tr) {
-                    $display .= '<tr>';
-                    foreach ($columns as $th) {
-                            $td = $tr[$th];
+            foreach ($array as $tr) {
+                $display .= '<tr>';
+                foreach ($columns as $th) {
+                    $td = $tr[$th];
                     $datetime = strtotime($td);
                     if ($datetime !== false) {
                         $td = date("d/m/Y H:i:s", $datetime);
-                        }
-                    $display .= '<td>' . htmlentities($td) . '</td>';
                     }
-                    $display .= '</tr>';
+                    $display .= '<td>' . htmlentities($td) . '</td>';
                 }
+                $display .= '</tr>';
+            }
             $display .= '</table>';
         }
         return $display;
