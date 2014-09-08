@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# Exécution des scripts qui se trouvent dans le répertoire du script courant
+# Exécution des scripts qui se trouvent dans le répertoire du script courant.
+# Il faut mutliplier les scripts si entre 2 scripts le contexte ou du cache doivent être réinitialisés.
 # Les scripts exécutés doivent se nommer : BLScriptUpdateVersion_XX.php (ex: BLScriptUpdateVersion_01.php, BLScriptUpdateVersion_02.php)
 # Ils sont exécutés dans l'ordre de leur numéro
 # S'il existe qu'un seul script, il doit quand-même être numéroté (ex: BLScriptUpdateVersion_01.php)
