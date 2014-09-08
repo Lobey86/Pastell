@@ -159,8 +159,6 @@ class DonneesFormulaire {
 		return $this->documentType->getFormulaire();
 	}
 	
-
-	
 	public function get($item,$default=false){
 		$item  = Field::Canonicalize($item);
 		if (! $this->fichierCleValeur->exists($item)){

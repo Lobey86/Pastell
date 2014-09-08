@@ -12,8 +12,11 @@
 		</a>
 	<?php endforeach;?>
 </ul>
-
-
+<?php if ($info && ! $info['is_active']) : ?>
+<div class='alert alert-warning'>
+Cette entité n'est pas active !
+</div>
+<?php endif;?>
 
 <div class="box">
 

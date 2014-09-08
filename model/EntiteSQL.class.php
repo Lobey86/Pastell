@@ -28,7 +28,6 @@ class EntiteSQL extends SQL {
 		return $info['denomination'];
 	}
 	
-	
 	public function getAncetre($id_e){
 		$sql = "SELECT * FROM entite_ancetre " . 
 				" JOIN entite ON entite_ancetre.id_e_ancetre=entite.id_e " . 
@@ -91,11 +90,14 @@ class EntiteSQL extends SQL {
 	
 	public function getFilleInfoNavigation($id_e,array $liste_collectivite = array()){
 		if ($id_e != 0 || ! $liste_collectivite || ($liste_collectivite[0] == 0)) {
-			return $this->getFilleWithType($id_e,array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE));
+			return $this->getNavigationFilleWithType($id_e,array(Entite::TYPE_COLLECTIVITE,Entite::TYPE_CENTRE_DE_GESTION,Entite::TYPE_SERVICE));
 		} 
 		$liste_fille = array();
 		foreach($liste_collectivite as $id_e_fille){
-			$liste_fille[] = $this->getInfo($id_e_fille);
+			$info_fille = $this->getInfo($id_e_fille);
+			if ($info_fille['is_active']){
+				$liste_fille[] = $info_fille;
+			} 
 		}
 		return $liste_fille;
 	}
@@ -121,13 +123,14 @@ class EntiteSQL extends SQL {
 		return $result;
 	}
 	
-	public function getFilleWithType($id_e,array $type){
+	private function getNavigationFilleWithType($id_e,array $type){
 		foreach($type as $i => $t){
 			$type[$i] = "'$t'";
 		}
 		$sql = "SELECT * FROM entite " .
 				" WHERE entite_mere=? " .
-				" AND type IN (".implode(",",$type).")" .
+				" AND type IN (".implode(",",$type).")" .	
+				" AND is_active = 1 ".			
 				" ORDER BY denomination";
 		return $this->query($sql,$id_e);
 	}
@@ -188,16 +191,28 @@ class EntiteSQL extends SQL {
                 throw new Exception ("Suppression impossible : des connecteurs sont définis sur l'entité {id_e=$id_e}");
             }
                         
-            //Suppression entite_properties
-            $sql= "DELETE FROM entite_properties where id_e=?";
-            $this->query($sql,$id_e);
-            // Suppression de l'ancetre entité
-            $sql= "DELETE FROM entite_ancetre where id_e=?";
-            $this->query($sql,$id_e);
-            // Suppression de l'entité
-            $sql = "DELETE FROM entite WHERE id_e=?";
-            $this->query($sql,$id_e);
-            
+            $this->deleteEntite($id_e);
+        }
+        
+        private function deleteEntite($id_e){
+        	//Suppression entite_properties
+        	$sql= "DELETE FROM entite_properties where id_e=?";
+        	$this->query($sql,$id_e);
+        	// Suppression de l'ancetre entité
+        	$sql= "DELETE FROM entite_ancetre where id_e=?";
+        	$this->query($sql,$id_e);
+        	// Suppression de l'entité
+        	$sql = "DELETE FROM entite WHERE id_e=?";
+        	$this->query($sql,$id_e);
+        }
+        
+        public function delete($id_e){        	
+        	$this->deleteEntite($id_e);
+        }
+        
+        public function setActive($id_e,$active){
+        	$sql = "UPDATE entite SET is_active=? WHERE id_e=?";
+        	$this->query($sql,$active,$id_e);
         }
             
 }

@@ -100,7 +100,7 @@ class Journal extends SQL {
 	
 	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		$value = array();
-		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom " .
+		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom,entite.siren " .
 			" FROM journal " .
 			" LEFT JOIN document ON journal.id_d = document.id_d " .
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .

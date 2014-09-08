@@ -138,6 +138,7 @@ CREATE TABLE entite (
 	`etat` int(11) NOT NULL,
 	`entite_mere` varchar(9),
 	`centre_de_gestion` int(11) NOT NULL,
+	`is_active` tinyint(1) NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id_e`),
 	KEY entite_mere (`entite_mere`,`type`,`id_e`),
 	KEY denomination_2 (`denomination`),

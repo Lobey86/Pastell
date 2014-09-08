@@ -29,6 +29,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u
 		<th>Date</th>
 		<th>Type</th>
 		<th>Entité</th>
+		<th>SIREN</th>
 		<th>Utilisateur</th>
 		<th>Document</th>
 		<th>État</th>
@@ -41,6 +42,7 @@ $this->SuivantPrecedent($offset,$limit,$count,"journal/index.php?id_e=$id_e&id_u
 		<td><?php echo  time_iso_to_fr($ligne['date']) ?></td>
 		<td><?php echo $this->Journal->getTypeAsString($ligne['type']) ?></td>
 		<td><a href='entite/detail.php?id_e=<?php echo $ligne['id_e'] ?>'><?php echo  $ligne['denomination']?></a></td>
+		<td><?php echo $ligne['siren'] ?></td>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo  $ligne['id_u']?>'><?php echo $ligne['prenom'] . " " . $ligne['nom']?></a></td>
 		<td>
 			<?php if ($ligne['id_d']) : ?>

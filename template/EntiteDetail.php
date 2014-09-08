@@ -3,10 +3,28 @@ $id_e = $entiteExtendedInfo['id_e'];
 ?>
 <h2>Informations générales
 	<?php if ($droit_edition) : ?>
-	<a class='btn btn-mini' href="entite/edition.php?id_e=<?php echo $id_e?>" class='btn'>
+	<a class='btn btn-mini' href="entite/edition.php?id_e=<?php echo $id_e?>">
 			Modifier
+	</a>
+	<?php if ($is_supprimable) : ?>
+
+		<a class='btn btn-mini btn-danger' href='entite/supprimer.php?id_e=<?php echo $id_e ?>'>Supprimer
+		
+		
 		</a>
 	<?php endif;?>
+		
+	<a class='btn btn-mini btn-warning' href='entite/activer.php?id_e=<?php echo $id_e?>&active=<?php echo ! $entiteExtendedInfo['is_active']?>'>
+	<?php if ($entiteExtendedInfo['is_active']) : ?>
+	Désactiver
+	<?php else :?>
+	Activer
+	<?php endif;?>
+	
+	</a>
+	
+	<?php endif;?>
+	
 </h2>
 <table class='table table-striped'>		
 	<tr>
@@ -32,7 +50,7 @@ $id_e = $entiteExtendedInfo['id_e'];
 	<tr>
 		<th>Entité mère</th>
 		<td>
-			<a class='btn btn-mini' href='entite/detail.php?id_e=<?php echo $entiteExtendedInfo['entite_mere']['id_e']?>'>
+			<a  href='entite/detail.php?id_e=<?php echo $entiteExtendedInfo['entite_mere']['id_e']?>'>
 				<?php echo $entiteExtendedInfo['entite_mere']['denomination'] ?>
 			</a>
 		</td>
@@ -49,7 +67,7 @@ $id_e = $entiteExtendedInfo['id_e'];
 			<?php foreach($entiteExtendedInfo['filles'] as $fille) : ?>
 				<li><a href='entite/detail.php?id_e=<?php echo $fille['id_e']?>'>
 					<?php echo $fille['denomination']?>
-				</a></li>
+				</a> <?php if (! $fille['is_active']):?>(désactivée)<?php endif;?></li>
 			<?php endforeach;?>
 			</ul>
 			<?php if ($droit_edition) : ?>

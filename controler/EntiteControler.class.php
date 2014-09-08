@@ -68,6 +68,7 @@ class EntiteControler extends PastellControler {
 		$this->has_ged  = $this->EntitePropertiesSQL->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_ged');
 		$this->has_sae = $this->EntitePropertiesSQL->getProperties($id_e,EntitePropertiesSQL::ALL_FLUX,'has_archivage');
 		$this->tableau_milieu = "EntiteDetail";
+		$this->is_supprimable = $this->isSupprimable($id_e);
 	}
 	
 	public function hasManyCollectivite(){
@@ -367,5 +368,57 @@ class EntiteControler extends PastellControler {
 		}
 	}
 	
+	private function isSupprimable($id_e){
+		if ($this->DocumentEntite->getNbAll($id_e)){
+			return false;
+		}
+		if (count($this->EntiteSQL->getFille($id_e))){
+			return false;
+		}
+		if ($this->UtilisateurListe->getNbUtilisateurWithEntiteDeBase($id_e)){
+			return false;
+		}
+		if ($this->UtilisateurListe->getNbUtilisateur($id_e)){
+			return false;
+		}
+		if ($this->ConnecteurEntiteSQL->getAll($id_e)){
+			return false;
+		}
+		return true;
+	}
+	
+	public function supprimerAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->getInt('id_e',0);
+		$this->hasDroitEdition($id_e);
+		
+		if ( ! $this->isSupprimable($id_e)){
+			$this->LastError->setLastError("L'entité ne peut pas être supprimée");
+			$this->redirect("/entite/detail.php?id_e=$id_e");
+		}
+		
+		$info = $this->EntiteSQL->getInfo($id_e);
+		$this->Journal->add(Journal::MODIFICATION_ENTITE,$info['entite_mere'],$this->Authentification->getId(),"Suppression","Suppression de l'entité $id_e qui contenait : \n".implode("\n,",$info));
+		$this->EntiteSQL->delete($id_e);
+		
+		$this->LastMessage->setLastMessage("L'entité « {$info['denomination']} » a été supprimée");
+		$this->redirect("/entite/detail.php?id_e={$info['entite_mere']}");
+	}
+	
+	public function activerAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_e = $recuperateur->getInt('id_e',0);
+		$active = $recuperateur->getInt('active',0);
+		$this->hasDroitEdition($id_e);
+		
+		$this->EntiteSQL->setActive($id_e,$active);
+		$info = $this->EntiteSQL->getInfo($id_e);
+		
+		$message = "L'entite «{$info['denomination']}» est désormais ". ($info['is_active']?'active':'inactive');
+		$this->LastMessage->setLastMessage($message);
+		
+		$this->redirect("/entite/detail.php?id_e=$id_e");
+		
+	}
 	
 }
