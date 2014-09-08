@@ -1,12 +1,28 @@
 <?php
 
+/**
+ * La classe Field représente un champ d'un formulaire Pastell défini dans un fichier de type definition.yml, entite-properties.yml ou global-properties.yml
+ */
 class Field {
 	
-	const INDEX_PROPERTIES_KEY = 'index';
 	
-	private $libelle;
+	const LIBELLE_PROPERTIES_KEY = 'name'; /** Clé permettant de définir le libellé (lisible par un humain). Cette clé est improprement appelée "name" !*/
+	const INDEX_PROPERTIES_KEY = 'index'; /** Clé permettant d'indiquer si le champs doit-être indexé. La valeur de la clé est true ou false */
+	
+	private $fieldName;
 	private $properties;
 	
+	/**
+	 * Le nom des champs ne contient que des chiffres,lettres en minuscule et le caractère _. 
+	 * Les autres charactères sont remplacés par un souligné, les lettres avec diacritique (accent, cédille) sont remplacé par leur variante sans diacritique.
+	 * 
+	 * CELA PROVIENT DES PREMIERES VERSIONS DE PASTELL, IL N'EST PAS CONSEILLE D'UTILISER DES NOMS DE CLES AVEC AUTRES CHOSES QUE DES LETTRES MINUSCULES, CHIFFRES
+	 * ET SOULIGNE
+	 * 
+	 * @deprecated
+	 * @param string $field_name
+	 * @return string
+	 */
 	public static function Canonicalize($field_name){	
 		$name = strtolower($field_name);
 		$name = strtr($name," àáâãäçèéêëìíîïñòóôõöùúûüýÿ","_aaaaaceeeeiiiinooooouuuuyy");
@@ -14,20 +30,31 @@ class Field {
 		return $name;
 	}
 	
-	public function __construct($libelle,$properties){
-		$this->libelle = $libelle;
+	/**
+	 * @param string $fieldName nom du champs
+	 * @param array $properties propriétés associés au champs
+	 */
+	public function __construct($fieldName,$properties){
+		$this->fieldName = $fieldName;
 		$this->properties = $properties;
 	}
 	
-	public function getLibelle(){
-		if (isset($this->properties['name'])){
-			return $this->properties['name'];
-		}
-		return $this->libelle;
+	/**
+	 * 
+	 * @return string retourne le nom de ce champ;
+	 */
+	public function getName(){
+		return self::Canonicalize($this->fieldName);
 	}
 	
-	public function getName(){
-		return self::Canonicalize($this->libelle);
+	/**
+	 * @return string Le libellé a affiché à l'utilisateur (human-readable). Si la clé du libellé n'est pas défini, on renvoie le nom du champs (non-canonicalisé);
+	 */
+	public function getLibelle(){
+		if (isset($this->properties[self::LIBELLE_PROPERTIES_KEY])){
+			return $this->properties[self::LIBELLE_PROPERTIES_KEY];
+		}
+		return $this->fieldName;
 	}
 	
 	public function isRequired(){

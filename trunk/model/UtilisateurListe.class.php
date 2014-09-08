@@ -112,4 +112,9 @@ class UtilisateurListe extends SQL {
 		return $this->query($sql);
 	}
 	
+	public function getNbUtilisateurWithEntiteDeBase($id_e){
+		$sql = "SELECT count(*) FROM utilisateur WHERE id_e=?";
+		$this->query($sql,$id_e);
+	}
+	
 }

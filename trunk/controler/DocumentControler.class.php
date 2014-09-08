@@ -75,7 +75,6 @@ class DocumentControler extends PastellControler {
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		$this->formulaire =  $documentType->getFormulaire();
 		$this->donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$info_document['type']);
-		
 		$this->donneesFormulaire->getFormulaire()->setTabNumber($page);
 		
 		$this->actionPossible = $this->ActionPossible;
@@ -234,8 +233,6 @@ class DocumentControler extends PastellControler {
 			$this->count = $this->DocumentActionEntite->getNbDocumentByEntite($id_e,$liste_type,$search);
 			$this->type_list = $this->getAllType($this->listDocument);
 		}
-		
-		
 		
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		$this->id_e = $id_e;
@@ -551,6 +548,9 @@ class DocumentControler extends PastellControler {
 		$this->id_e_menu = $this->id_e;
 		$this->verifDroit($this->id_e, "{$this->type}:lecture");
 		$this->infoEntite = $this->EntiteSQL->getInfo($this->id_e);
+		
+		$this->id_e_menu = $this->id_e;
+		$this->type_e_menu = $this->type;
 	}
 	
 	public function traitementLotAction(){
@@ -560,7 +560,7 @@ class DocumentControler extends PastellControler {
 		$page_title .= " pour " . $this->infoEntite['denomination'];
 		$this->page_title = $page_title;
 		
-	
+		
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		$this->setNavigationInfo($this->id_e,"document/list.php?type={$this->type}");
 		$this->theAction = $documentType->getAction();

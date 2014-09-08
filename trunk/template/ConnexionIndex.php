@@ -1,4 +1,4 @@
-<div class="w500">
+<div class="w700">
 
 
 <?php if ($message_connexion) : ?>

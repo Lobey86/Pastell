@@ -30,6 +30,7 @@ $this->SuivantPrecedent($offset,20,$nbCollectivite,"entite/detail.php?search=$se
 		<th class='w200'>Dénomination</th>
 		<th>Siren</th>
 		<th>Type</th>
+		<th>Active</th>
 	</tr>
 <?php foreach($liste_collectivite as $i => $info) : ?>
 	<tr>
@@ -38,6 +39,11 @@ $this->SuivantPrecedent($offset,20,$nbCollectivite,"entite/detail.php?search=$se
 		echo $info['siren'] ?></td>
 		<td>
 			<?php echo Entite::getNom($info['type']) ?>
+		</td>
+		<td>
+			<?php if(! $info['is_active']) :?>
+			<b>Désactivé</b>
+			<?php endif;?>
 		</td>
 	</tr>
 <?php endforeach; ?>

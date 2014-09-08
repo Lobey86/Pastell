@@ -1,26 +1,33 @@
 <?php
 
 /**
- * Type de données de base de Pastell représentant un "formulaire" Pastell
+ * Un Formulaire Pastell est un ensemble de champs Pastell (class Field) rangé dans des onglets.
+ * 
  */
 class Formulaire {
 
 	private $formArray;
 	private $tabSelected;
-	private $pageCondition;
 	private $afficheOneTab;
 	private $origFormArray;
-	
 	private $fieldsList;
 	
+	/**
+	 * Permet la construction d'un objet de type Formulaire
+	 * 
+	 * @param array $formulaireDefinition Un formulaire sous la forme d'un tableau associatif issu d'un fichier de définition de flux (definition.yml,entite-properties.yml,global-properties.yml)
+	 */
 	public function __construct(array $formulaireDefinition){
 		$this->formArray = $formulaireDefinition;	
 		$this->origFormArray = $this->formArray;
 		$this->setTabNumber(0);	
-		$this->pageCondition = array();		
 		$this->fieldsList = array();
 	}
 	
+	/**
+	 * 
+	 * @return array liste des noms des onglets 
+	 */
 	public function getOngletList(){
 		$result = array();
 		foreach ($this->origFormArray as $name => $tab) {
@@ -29,6 +36,9 @@ class Formulaire {
 		return $result;
 	}
 
+	/**
+	 * @return array:Field Ensemble des objets de type Field composant le formulaire
+	 */
 	public function getFieldsList() {
 		$fields = array();
 		foreach ($this->origFormArray as $name => $tab) {
@@ -40,6 +50,11 @@ class Formulaire {
 		return $fields;
 	}
 	
+	
+	/**
+	 * @param string $ongletName Nom de l'onglet (identique) à celui présent dans le fichier de définition du flux
+	 * @return array:Field Ensemble des objets de type Field composant le formulaire
+	 */
 	public function getFieldsForOnglet($ongletName){
 		$fieldsList = array();
 		if (empty($this->formArray[$ongletName])){
@@ -51,6 +66,11 @@ class Formulaire {
 		return $fieldsList;
 	}
 	
+	/**
+	 * 
+	 * @param array $ongletList Nom des onglets à récupérer
+	 * @return array:Field Tableau de l'ensemble des objets de type Field des onglets sélectionnés.
+	 */
 	public function getFieldsForOngletList(array $ongletList) {
 		$fieldsList = array();
 		foreach($ongletList as $ongletName) {

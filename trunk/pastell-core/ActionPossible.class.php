@@ -33,6 +33,8 @@ class ActionPossible {
 	}
 	
 	public function isActionPossible($id_e,$id_u,$id_d,$action_name){
+		
+	
 		$type_document = $this->getTypeDocument($id_e, $id_d);
 		
 		if ($action_name == self::FATAL_ERROR_ACTION){
@@ -46,6 +48,12 @@ class ActionPossible {
 		if ($id_e==0){
 			return false;
 		}
+		$entite_info = $this->entiteSQL->getInfo($id_e);
+		
+		if (! $entite_info['is_active']){
+			return false;
+		}
+		
 		return $this->internIsActionPossible($id_e, $id_u, 0, Action::CREATION, $type_document);
 	}
 
