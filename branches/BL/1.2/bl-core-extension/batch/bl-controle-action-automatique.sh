@@ -3,6 +3,7 @@
 #
 # Ce script permet de vérifier que le script des actions automatiques se déclenche correctement.
 # Envoi un mail si le fichier de log des actions automatiques n'a pas été modifié pendant plus de 30 minutes.
+# Paramètre $1 : fichier de log des actions automatiques.
 # A executer dans un cron.
 #
 # attente en secondes. 30 min = 1800 sec
@@ -10,7 +11,7 @@ ATTENTE=1800
 
 echo [$(date +%d-%m-%Y\ %H\:%M\:%S)] Demarrage $0
 
-START=$(date -r /var/log/upstart/bl-action-auto.log '+%s')
+START=$(date -r $1 '+%s')
 
 END=$(date '+%s')
 DUREE_SECONDE=$(( $END - $START ))
