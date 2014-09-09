@@ -3,7 +3,7 @@ require_once( __DIR__ . "/../../web/init.php");
 require_once( __DIR__ . "/../batch/BLBatch.class.php");
 
 class BLScriptSpecifique extends BLBatch {
-    
+
     function createConnecteur($idConnecteur, $libelle, $id_e) {
         global $objectInstancier;
         $this->trace('  - Création du connecteur ' . $idConnecteur . ' : ');
@@ -15,15 +15,16 @@ class BLScriptSpecifique extends BLBatch {
                 break;
             }
         }
-        if (!$id_ce) {                       
+        if (!$id_ce) {
             $id_ce = $objectInstancier->ConnecteurControler->nouveau($id_e, $idConnecteur, $libelle);
-            $this->traceln('OK ');            
+            $this->traceln('OK ');
         } else {
             $this->traceln('DEJA FAIT');
         }
     }
 }
 
+global $objectInstancier;
 $blScript = new BLScriptSpecifique();
 
 $blScript->traceln('Nettoyage des enregistrements faisant référence à des documents inexistants : ');
@@ -154,3 +155,16 @@ if ($sqlQuery->queryOne($sql_select)) {
 } else {
     $blScript->traceln('DEJA FAIT');
 }
+
+// m42366 : ne plus utiliser l'horodateur interne, qui retourne de temps en temps des "Error during serial number generation"
+$blScript->trace('Suppression de l\'horodateur interne : ');
+$connecteur_entite = $objectInstancier->ConnecteurEntiteSQL->getDisponible(0, 'horodateur');
+if ($connecteur_entite) {
+    $id_ce = $connecteur_entite[0]['id_ce'];
+    $objectInstancier->FluxEntiteSQL->deleteConnecteur(0, null, 'horodateur');
+    $objectInstancier->ConnecteurControler->delete($id_ce);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
+}
+
