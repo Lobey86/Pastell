@@ -210,6 +210,7 @@ $blScript->traceln('------------------------------------');
 $blScript->traceln('- Création des connecteurs globaux -');
 $blScript->traceln('------------------------------------');
 
+/* m42366 : ne plus utiliser l'horodateur interne, qui retourne de temps en temps des "Error during serial number generation"
 // Connecteur horodateur interne
 $blScript->trace('Création du connecteur global horodateur interne : ');
 global $objectInstancier;
@@ -266,7 +267,7 @@ if (!$connecteur_horodateur) {
 } else {
     $blScript->traceln('DEJA FAIT');
 }
-
+*/
 // Créer connecteur global pour connecteurs
 $blScript->createConnecteurGlobal('connecteurbl', 'adm_connecteur');
 // Créer connecteur global pour flux
