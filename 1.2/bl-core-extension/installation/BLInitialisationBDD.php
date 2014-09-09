@@ -7,7 +7,7 @@ require_once(__DIR__ . "/BLCreationEntite.class.php");
 
 
 class BLBatchInit extends BLBatch {
-        function createConnecteurGlobal($name, $type) {
+    function createConnecteurGlobal($name, $type) {
         global $objectInstancier;
         $id_ce = $objectInstancier->ConnecteurEntiteSQL->getGlobal($name);
         if (!$id_ce) {
@@ -19,6 +19,25 @@ class BLBatchInit extends BLBatch {
         if (!$objectInstancier->FluxEntiteSQL->isUsed($id_ce)) {
             //$this->traceln('Association du connecteur global ' . $name . ' au flux global');
             $id_fe = $objectInstancier->FluxControler->editionModif(0, null, $type, $id_ce);
+        }
+    }
+    
+    function createConnecteur($idConnecteur, $libelle, $id_e) {
+        global $objectInstancier;
+        $this->trace('  - Création du connecteur ' . $idConnecteur . ' : ');
+        $liste_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAllbyId($idConnecteur);
+        $id_ce=0;
+        foreach($liste_connecteur as $connecteur) {
+            if ($connecteur['id_e']==$id_e) {
+                $id_ce = $connecteur['id_ce'];
+                break;
+            }
+        }
+        if (!$id_ce) {                       
+            $id_ce = $objectInstancier->ConnecteurControler->nouveau($id_e, $idConnecteur, $libelle);
+            $this->traceln('OK ');            
+        } else {
+            $this->traceln('DEJA FAIT');
         }
     }
 }
@@ -46,7 +65,7 @@ if (!$role) {
     $roleSQLClass->addDroit('adminEntite','documentinternebl:lecture');
     $roleSQLClass->addDroit('adminEntite','documentinternebl:edition');
     $roleSQLClass->addDroit('adminEntite', 'acteadministratifbl:lecture');
-    $roleSQLClass->addDroit('adminEntite', 'acteadministratifbl:edition');    
+    $roleSQLClass->addDroit('adminEntite', 'acteadministratifbl:edition'); 
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
@@ -65,7 +84,7 @@ if (!$role) {
     $roleSQLClass->addDroit('adminDocument','documentinternebl:lecture');
     $roleSQLClass->addDroit('adminDocument','documentinternebl:edition');
     $roleSQLClass->addDroit('adminDocument', 'acteadministratifbl:lecture');
-    $roleSQLClass->addDroit('adminDocument', 'acteadministratifbl:edition');    
+    $roleSQLClass->addDroit('adminDocument', 'acteadministratifbl:edition');
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
@@ -83,7 +102,7 @@ if (!$role) {
     $roleSQLClass->addDroit('apiDocument','documentinternebl:lecture');
     $roleSQLClass->addDroit('apiDocument','documentinternebl:edition');
     $roleSQLClass->addDroit('apiDocument', 'acteadministratifbl:lecture');
-    $roleSQLClass->addDroit('apiDocument', 'acteadministratifbl:edition');    
+    $roleSQLClass->addDroit('apiDocument', 'acteadministratifbl:edition');
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
@@ -98,98 +117,6 @@ if (!$role) {
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
-}
-
-$blScript->traceln('-----------------------------');
-$blScript->traceln('- Création des utilisateurs -');
-$blScript->traceln('-----------------------------');
-
-$user_admin = $objectInstancier->RoleUtilisateur->getAllUtilisateur(0, 'admin');
-if (!$user_admin) {
-    $blScript->traceln('Création de l\'administrateur du site (ROLE : admin)');
-    $user_admibles = new BLCreationUtilisateur($blScript);
-    $user_admibles->creerAdmin();
-    $login_admibles = $user_admibles->getLogin();
-}
-
-$creationAdmin2 = $blScript->read('Souhaitez-vous créer un compte administrateur de site supplémentaire (ROLE : admin)? (O/N)');
-if (strtolower($creationAdmin2)=='o') {
-    $user_admin = new BLCreationUtilisateur($blScript);
-    $user_admin->creerAdmin();
-    $login_admin = $user_admin->getLogin();    
-}
-
-//Utilisateur adminComptes
-$user_adminCompte = $objectInstancier->Utilisateur->getIdFromLogin('admincomptes');
-if (!$user_adminCompte) {
-    $creation_admincomptes = $blScript->read('Souhaitez-vous créer un utilisateur pour administrer les comptes (LOGIN : admincomptes) ? (O/N)');
-    if (strtolower($creation_admincomptes)=='o') {
-        $userAdminCompte = new BLCreationUtilisateur($blScript);
-        $userAdminCompte->setId_e(0);
-        $userAdminCompte->setLogin('admincomptes');
-        $userAdminCompte->setNom('admincomptes');
-        $userAdminCompte->setPrenom('admincomptes');
-        $userAdminCompte->setRole('adminEntite');
-        $userAdminCompte->creerUtilisateur();
-    }
-}
-
-//Utilisateur blready
-$user_blready = $objectInstancier->Utilisateur->getIdFromLogin('blready');
-if (!$user_blready) {
-    $creation_blready = $blScript->read('Souhaitez-vous créer un utilisateur pour le provisioning des comptes (LOGIN : blready) ? (O/N)');
-    if (strtolower($creation_blready)=='o') {
-        $user_blready = new BLCreationUtilisateur($blScript);
-        $user_blready->setId_e(0);
-        $user_blready->setLogin('blready');
-        $user_blready->setNom('blready');
-        $user_blready->setPrenom('blready');
-        $user_blready->setRole('adminEntite');
-        $user_blready->creerUtilisateur();
-    }
-}
-//Utilisateur blstat
-$user_blstat = $objectInstancier->Utilisateur->getIdFromLogin('blstat');
-if (!$user_blstat) {
-    $creation_blstat = $blScript->read('Souhaitez-vous créer un utilisateur dédier à l\'exploitation du journal (LOGIN : blstat) ? (O/N)');
-    if (strtolower($creation_blstat)=='o') {
-        $user_blstat = new BLCreationUtilisateur($blScript);
-        $user_blstat->setId_e(0);
-        $user_blstat->setLogin('blstat');
-        $user_blstat->setNom('blstat');
-        $user_blstat->setPrenom('blstat');
-        $user_blstat->setRole('apiStat');
-        $user_blstat->creerUtilisateur();
-    }
-}
-
-/////////////////////////////////////////////////
-// Création des entités "entreprise"
-/////////////////////////////////////////////////
-$blScript->traceln('-------------------------------------');
-$blScript->traceln('- Création des entites \'entreprise\' -');
-$blScript->traceln('-------------------------------------');
-$creationEntite = $blScript->read('Souhaitez-vous créer une entité \'entreprise\' ? (O/N)');
-if (strtolower($creationEntite) == 'o') {
-    while(strtolower($creationEntite) == 'o') {
-        $blScript->traceln('-->Entité');
-        $entiteEntreprise = new BLCreationEntite($blScript);
-        $id_e_entreprise = $entiteEntreprise->creerEntite();
-        $denominationEntite = $entiteEntreprise->getDenomination();
-        $blScript->traceln("Création de la collectivité 'entreprise' $denominationEntite : OK");
-        $blScript->traceln('-->Utilisateur admin de l\'entité (ROLE : adminEntite sur l\'entité entreprise créée');
-        //Création de l'utilisateur admin sur l'entité entreprise.        
-        $userAdminEntreprise = new BLCreationUtilisateur($blScript);
-        $userAdminEntreprise->setId_e($id_e_entreprise);
-        $userAdminEntreprise->setLogin('admin@' . $denominationEntite);
-        $userAdminEntreprise->setNom('admin');
-        $userAdminEntreprise->setPrenom($denominationEntite);
-        $userAdminEntreprise->setRole('adminEntite');
-        $userAdminEntreprise->setEmail('a_completer@busbl.fr');
-        $userAdminEntreprise->creerUtilisateur();        
-        $blScript->traceln("");
-        $creationEntite = $blScript->read('Souhaitez-vous créer une nouvelle entité \'entreprise\' ? (O/N)');
-    }
 }
 
 $blScript->traceln('----------------');
@@ -348,3 +275,103 @@ $blScript->createConnecteurGlobal('fluxbl', 'adm_flux');
 $blScript->createConnecteurGlobal('signaturebl', 'adm_signature');
 // Créer connecteur global pour type de service TdT
 $blScript->createConnecteurGlobal('tdtbl', 'adm_tdt');
+
+
+$blScript->traceln('-----------------------------');
+$blScript->traceln('- Création des utilisateurs -');
+$blScript->traceln('-----------------------------');
+
+$user_admin = $objectInstancier->RoleUtilisateur->getAllUtilisateur(0, 'admin');
+if (!$user_admin) {
+    $blScript->traceln('Création de l\'administrateur du site (ROLE : admin)');
+    $user_admibles = new BLCreationUtilisateur($blScript);
+    $user_admibles->creerAdmin();
+    $login_admibles = $user_admibles->getLogin();
+}
+
+$creationAdmin2 = $blScript->read('Souhaitez-vous créer un compte administrateur de site supplémentaire (ROLE : admin)? (O/N)');
+if (strtolower($creationAdmin2)=='o') {
+    $user_admin = new BLCreationUtilisateur($blScript);
+    $user_admin->creerAdmin();
+    $login_admin = $user_admin->getLogin();    
+}
+
+//Utilisateur adminComptes
+$user_adminCompte = $objectInstancier->Utilisateur->getIdFromLogin('admincomptes');
+if (!$user_adminCompte) {
+    $creation_admincomptes = $blScript->read('Souhaitez-vous créer un utilisateur pour administrer les comptes (LOGIN : admincomptes) ? (O/N)');
+    if (strtolower($creation_admincomptes)=='o') {
+        $userAdminCompte = new BLCreationUtilisateur($blScript);
+        $userAdminCompte->setId_e(0);
+        $userAdminCompte->setLogin('admincomptes');
+        $userAdminCompte->setNom('admincomptes');
+        $userAdminCompte->setPrenom('admincomptes');
+        $userAdminCompte->setRole('adminEntite');
+        $userAdminCompte->creerUtilisateur();
+    }
+}
+
+//Utilisateur blready
+$user_blready = $objectInstancier->Utilisateur->getIdFromLogin('blready');
+if (!$user_blready) {
+    $creation_blready = $blScript->read('Souhaitez-vous créer un utilisateur pour le provisioning des comptes (LOGIN : blready) ? (O/N)');
+    if (strtolower($creation_blready)=='o') {
+        $user_blready = new BLCreationUtilisateur($blScript);
+        $user_blready->setId_e(0);
+        $user_blready->setLogin('blready');
+        $user_blready->setNom('blready');
+        $user_blready->setPrenom('blready');
+        $user_blready->setRole('adminEntite');
+        $user_blready->creerUtilisateur();
+    }
+}
+//Utilisateur blstat
+$user_blstat = $objectInstancier->Utilisateur->getIdFromLogin('blstat');
+if (!$user_blstat) {
+    $creation_blstat = $blScript->read('Souhaitez-vous créer un utilisateur dédier à l\'exploitation du journal (LOGIN : blstat) ? (O/N)');
+    if (strtolower($creation_blstat)=='o') {
+        $user_blstat = new BLCreationUtilisateur($blScript);
+        $user_blstat->setId_e(0);
+        $user_blstat->setLogin('blstat');
+        $user_blstat->setNom('blstat');
+        $user_blstat->setPrenom('blstat');
+        $user_blstat->setRole('apiStat');
+        $user_blstat->creerUtilisateur();
+    }
+}
+
+/////////////////////////////////////////////////
+// Création des entités "entreprise"
+/////////////////////////////////////////////////
+$blScript->traceln('-------------------------------------');
+$blScript->traceln('- Création des entites \'entreprise\' -');
+$blScript->traceln('-------------------------------------');
+$creationEntite = $blScript->read('Souhaitez-vous créer une entité \'entreprise\' ? (O/N)');
+if (strtolower($creationEntite) == 'o') {
+    while(strtolower($creationEntite) == 'o') {
+        $blScript->traceln('-->Entité');
+        $entiteEntreprise = new BLCreationEntite($blScript);
+        $id_e_entreprise = $entiteEntreprise->creerEntite();
+        $denominationEntite = $entiteEntreprise->getDenomination();
+        $blScript->traceln("Création de la collectivité 'entreprise' $denominationEntite : OK");
+        $blScript->traceln('-->Utilisateur admin de l\'entité (ROLE : adminEntite sur l\'entité entreprise créée');
+        //Création de l'utilisateur admin sur l'entité entreprise.        
+        $userAdminEntreprise = new BLCreationUtilisateur($blScript);
+        $userAdminEntreprise->setId_e($id_e_entreprise);
+        $userAdminEntreprise->setLogin('admin@' . $denominationEntite);
+        $userAdminEntreprise->setNom('admin');
+        $userAdminEntreprise->setPrenom($denominationEntite);
+        $userAdminEntreprise->setRole('adminEntite');
+        $userAdminEntreprise->setEmail('a_completer@busbl.fr');
+        $userAdminEntreprise->creerUtilisateur();
+        //Creation des connecteurs associés au entite entreprise
+        $blScript->traceln('Ajout des connecteurs d\'administration sur l\'entité entreprise : ');               
+        $blScript->createConnecteur('connecteurbl', 'Administration Connecteur BL', $id_e_entreprise);
+        $blScript->createConnecteur('fluxbl', 'Administration Flux BL', $id_e_entreprise);
+        $blScript->createConnecteur('signaturebl', 'Administration Signature BL', $id_e_entreprise);
+        $blScript->createConnecteur('tdtbl', 'Administration TdT BL', $id_e_entreprise);
+        // Pas d'association des connecteurs avec des flux        
+        $blScript->traceln("");
+        $creationEntite = $blScript->read('Souhaitez-vous créer une nouvelle entité \'entreprise\' ? (O/N)');
+    }
+}
