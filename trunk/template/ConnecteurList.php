@@ -14,7 +14,6 @@
 </table>
 
 
-
 <table class="table table-striped">
 <tr>
 			<th>Instance</th>

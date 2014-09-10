@@ -100,7 +100,7 @@
 <th>&nbsp;</th>
 </tr>
 
-<?php foreach ($notification->getAll($id_u) as $infoNotification) : ?>
+<?php foreach ($notification_list as $infoNotification) : ?>
 <tr>
 	<td>
 		<?php if ($infoNotification['id_e']) : ?>
@@ -117,21 +117,26 @@
 		<?php endif; ?>
 	</td>
 	<td>
-		<?php if ($infoNotification['action']) : ?>
-			<?php echo $infoNotification['action'] ?>
-		<?php else : ?>
-			Toutes
-		<?php endif;?>
+		<ul>
+		<?php 		
+		foreach($infoNotification['action'] as $action):?>
+			<li><?php echo $action?$action:'Toutes' ?></li>
+		<?php endforeach;?>
+		<li><a href='utilisateur/notification-action.php?id_u=<?php echo $infoNotification['id_u']?>&id_e=<?php echo $infoNotification['id_e']?>&type=<?php echo $infoNotification['type']?>'>Modifier</a></li>
+		</ul>
 	</td>
 	<td>
 		<?php echo $infoNotification['daily_digest']?"Résumé journalier":"Envoi à chaque événement"?>
+		<br/>
+		<form action='utilisateur/notification-toogle-daily-digest.php' method='post'>
+			<input type='hidden' name='id_n' value='<?php echo $infoNotification['id_n']?>'/>
+			<input type='submit' class='btn btn-mini' value='modifier'/>
+		</form>
 	</td>
 	
-	
 	<td>
-		
-			<a class='btn btn-mini' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
-				enlever cette notification
+			<a class='btn btn-mini btn-danger' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+				supprimer cette notification
 			</a>
 	</td>
 </tr>
@@ -140,27 +145,20 @@
 
 <form class="form-inline" action='utilisateur/ajouter-notification.php' method='post'>
 	<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+	<select name='id_e'>
+		<option value=''>...</option>
+		<?php foreach($arbre as $entiteInfo): ?>
+		<option value='<?php echo $entiteInfo['id_e']?>'>
+			<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
+			|_<?php echo $entiteInfo['denomination']?> </option>
+		<?php endforeach ; ?>
+	</select>
 	
-	
-		<select name='id_e'>
-			<option value=''>...</option>
-			<?php foreach($arbre as $entiteInfo): ?>
-			<option value='<?php echo $entiteInfo['id_e']?>'>
-				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
-				|_<?php echo $entiteInfo['denomination']?> </option>
-			<?php endforeach ; ?>
-		</select>
-		
-		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
+	<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
 	<select name='daily_digest'>
-			<option value=''>Envoi à chaque événement</option>
-			<option value='1'>Résumé journalier</option>
-		</select>	
-	
-	<input type='submit' class="btn" value='ajouter'/>
+		<option value=''>Envoi à chaque événement</option>
+		<option value='1'>Résumé journalier</option>
+	</select>		
+	<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
 </form>
-	
-	
-
-	
 </div>

@@ -1,7 +1,11 @@
 <?php
 
+function get_hecho($message,$quote_style=ENT_QUOTES){
+	return htmlentities($message,$quote_style,"iso-8859-15");
+}
+
 function hecho($message,$quot_style=ENT_QUOTES){
-	echo htmlentities($message,$quot_style,"iso-8859-15");
+	echo get_hecho($message,$quot_style); 
 }
 
 function getDateIso($value){
