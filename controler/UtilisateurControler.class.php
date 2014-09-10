@@ -167,7 +167,8 @@ class UtilisateurControler extends PastellControler {
 		$this->page_title = "Utilisateur ".$info['prenom']." " . $info['nom'];
 		$this->entiteListe = $this->EntiteListe;
 		$this->tabEntite = $this->RoleUtilisateur->getEntite($this->getId_u(),'entite:edition');
-		$this->notification = $this->Notification;
+		
+		$this->notification_list = $this->getNotificationList($id_u);
 		
 		$roleInfo =  $this->RoleUtilisateur->getRole($id_u);
 		
@@ -188,11 +189,20 @@ class UtilisateurControler extends PastellControler {
 		$this->template_milieu = "UtilisateurDetail";
 		$this->renderDefault();
 	}
+		
+	private function getNotificationList($id_u){
+		$result  = $this->Notification->getAll($id_u);
+		foreach($result as $i => $line){
+			$action  = $this->DocumentTypeFactory->getFluxDocumentType($line['type'])->getAction();
+			foreach($line['action'] as $j => $action_id){
+				$result[$i]['action'][$j] = $action->getActionName($action_id);
+			}
+		}
+		return $result;
+	}
 	
 	public function moiAction(){
 		$id_u = $this->getId_u();
-		
-		
 		$info = $this->Utilisateur->getInfo($id_u);
 		$this->certificat = new Certificat($info['certificat']);
 		
@@ -202,7 +212,8 @@ class UtilisateurControler extends PastellControler {
 		
 		$this->tabEntite = $this->RoleUtilisateur->getEntite($this->getId_u(),'entite:edition');
 		
-		$this->notification = $this->Notification;
+		$this->notification_list = $this->getNotificationList($id_u);
+		
 		$this->roleInfo =  $this->RoleUtilisateur->getRole($id_u);
 		$this->utilisateur_edition = $this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:edition",$info['id_e']);
 		
@@ -339,6 +350,149 @@ class UtilisateurControler extends PastellControler {
 		$this->verifDroit($id_e,"entite:edition");
 		$this->RoleUtilisateur->removeRole($id_u,$role,$id_e);
 		$this->redirect("/utilisateur/detail.php?id_u=$id_u");
+	}
+	
+	private function verifEditNotification($id_u,$id_e,$type){
+		$utilisateur_info = $this->Utilisateur->getInfo($id_u);
+	
+		if (
+				$this->RoleUtilisateur->hasDroit($this->getId_u(),"entite:edition",$id_e)
+				&&
+				$this->RoleUtilisateur->hasDroit($this->getId_u(),"utilisateur:edition",$utilisateur_info['id_e'])
+		){
+			return true;
+		}
+	
+		if (
+				$id_u == $this->getId_u()
+				&&
+				$this->RoleUtilisateur->hasDroit($this->getId_u(),"entite:lecture",$id_e)
+				&&
+				$this->RoleUtilisateur->hasDroit($this->getId_u(),"$type:lecture",$id_e)
+		){
+			return true;
+		}
+	
+		$this->LastError->setLastError("Vous n'avez pas les droits nécessaires pour faire cela");
+		$this->redirectToPageUtilisateur($id_u);
+	}
+	
+	private function redirectToPageUtilisateur($id_u){
+		if ($id_u == $this->getId_u()){
+			$this->redirect("/utilisateur/moi.php");
+		} else {
+			$this->redirect("/utilisateur/detail.php?id_u=$id_u");
+		}
+	}
+	
+	public function notificationAjoutAction(){
+		$recuperateur = new Recuperateur($_POST);
+		
+		$id_u = $recuperateur->getInt('id_u');
+		$id_e = $recuperateur->getInt('id_e',0);
+		$type = $recuperateur->get('type',0);
+		$daily_digest = $recuperateur->getInt('daily_digest',0);
+		
+		$this->verifEditNotification($id_u, $id_e,$type);
+		$this->Notification->add($id_u,$id_e,$type,0,$daily_digest);
+		$this->LastMessage->setLastMessage("La notification a été ajoutée");
+		$this->redirectToPageUtilisateur($id_u);
+	}
+	
+	public function notificationAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_u = $recuperateur->getInt('id_u');
+		$id_e = $recuperateur->getInt('id_e');
+		$type = $recuperateur->get('type');
+
+		$utilisateur_info = $this->Utilisateur->getInfo($id_u);
+		$this->verifEditNotification($id_u, $id_e,$type);
+		
+		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
+		
+		$action_list = $documentType->getAction()->getActionWithNotificationPossible();
+		
+		$this->action_list = $this->Notification->getNotificationActionList($id_u,$id_e,$type,$action_list);
+		$this->id_u = $id_u;
+		$this->id_e = $id_e;
+		$this->type = $type;
+		
+		
+		$this->page_title = get_hecho($utilisateur_info['login'])." - abonnement aux actions des documents du flux " ;
+		$this->template_milieu = "UtilisateurNotification";
+		$this->renderDefault();
+	}
+	
+	public function notificationSuppressionAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_n = $recuperateur->get('id_n');
+		
+		$infoNotification = $this->Notification->getInfo($id_n);
+		$id_u = $infoNotification['id_u'];
+		$id_e = $infoNotification['id_e'];
+		$type = $infoNotification['type'];
+		
+		$this->verifEditNotification($id_u, $id_e,$type);
+		$this->Notification->remove($id_n);
+		$this->LastMessage->setLastMessage("La notification a été supprimée");
+		$this->redirectToPageUtilisateur($id_u);
+	}
+	
+	public function doNotificationEditAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_u = $recuperateur->getInt('id_u');
+		$id_e = $recuperateur->getInt('id_e');
+		$type = $recuperateur->get('type');
+		
+		$utilisateur_info = $this->Utilisateur->getInfo($id_u);
+		$this->verifEditNotification($id_u, $id_e,$type);
+		
+		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
+		
+		$action_list = $documentType->getAction()->getActionWithNotificationPossible();
+		
+		$all_checked = true;
+		$no_checked = false;
+		foreach($action_list as $action){
+			$checked = !! $recuperateur->get($action['id']);
+			$action_checked[$action['id']] = $checked;
+			$all_checked = $all_checked && $checked;
+			$no_checked = $no_checked || $checked; 			
+		}
+		
+		$daily_digest = $this->Notification->hasDailyDigest($id_u,$id_e,$type);
+		
+		$this->Notification->removeAll($id_u,$id_e,$type);
+		
+		$this->LastMessage->setLastMessage("Les notifications ont été modifiées");
+		if (! $no_checked){
+			$this->redirectToPageUtilisateur($id_u);
+		}
+		if ($all_checked){
+			$this->Notification->add($id_u,$id_e,$type,Notification::ALL_TYPE,$daily_digest);
+			$this->redirectToPageUtilisateur($id_u);
+		}
+		foreach($action_list as $action){
+			if (! $action_checked[$action['id']]){
+				continue;
+			}
+			$this->Notification->add($id_u,$id_e,$type,$action['id'],$daily_digest);
+		}
+		$this->redirectToPageUtilisateur($id_u);
+	}
+	
+	public function notificationToogleDailyDigestAction(){
+		$recuperateur = new Recuperateur($_POST);
+		$id_n = $recuperateur->getInt('id_n');
+		$infoNotification = $this->Notification->getInfo($id_n);
+		$id_u = $infoNotification['id_u'];
+		$id_e = $infoNotification['id_e'];
+		$type = $infoNotification['type'];
+		
+		$this->verifEditNotification($id_u, $id_e,$type);
+		$this->Notification->toogleDailyDigest($id_u,$id_e,$type);
+		$this->LastMessage->setLastMessage("La notification a été modifié");
+		$this->redirectToPageUtilisateur($id_u);
 	}
 	
 }

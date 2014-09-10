@@ -42,7 +42,7 @@ class Gabarit {
 	
 	public function suivantPrecedent($offset,$limit,$nb_total,$link = null,$message=null) {
 		if (! $message){
-			$message = _('Position %1$s à %2$s sur %3$s');
+			$message = 'Position %1$s à %2$s sur %3$s';
 		}
 		
 		if (! $link){

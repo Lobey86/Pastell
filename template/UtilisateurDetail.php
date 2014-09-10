@@ -146,7 +146,7 @@ $allRole = $roleSQL->getAllRole();
 <th>&nbsp;</th>
 </tr>
 
-<?php foreach ($notification->getAll($id_u) as $infoNotification) : ?>
+<?php foreach ($notification_list as $infoNotification) : ?>
 <tr>
 	<td>
 		<?php if ($infoNotification['id_e']) : ?>
@@ -164,19 +164,25 @@ $allRole = $roleSQL->getAllRole();
 		<?php endif; ?>
 	</td>
 	<td>
-		<?php if ($infoNotification['action']) : ?>
-			<?php echo $infoNotification['action'] ?>
-		<?php else : ?>
-			Toutes
-		<?php endif;?>
+		<ul>
+		<?php foreach($infoNotification['action'] as $action):?>
+			<li><?php echo $action?$action:'Toutes' ?></li>
+		<?php endforeach;?>
+		<li><a href='utilisateur/notification-action.php?id_u=<?php echo $infoNotification['id_u']?>&id_e=<?php echo $infoNotification['id_e']?>&type=<?php echo $infoNotification['type']?>'>Modifier</a></li>
+		</ul>
 	</td>
 	<td>
 		<?php echo $infoNotification['daily_digest']?"Résumé journalier":"Envoi à chaque événement"?>
+		<br/>
+		<form action='utilisateur/notification-toogle-daily-digest.php' method='post'>
+			<input type='hidden' name='id_n' value='<?php echo $infoNotification['id_n']?>'/>
+			<input type='submit' class='btn btn-mini' value='modifier'/>
+		</form>
 	</td>
 	
 	<td>
 		<?php if ($utilisateur_edition) : ?>
-			<a class='btn btn-mini' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+			<a class='btn btn-mini btn-danger' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
 				enlever cette notification
 			</a>
 		<?php endif;?>

@@ -133,5 +133,12 @@ class Action {
 		return $this->getProperties($action,self::ACTION_AUTOMATIQUE);
 	}
 	
+	public function getActionWithNotificationPossible(){
+		$result = array();
+		foreach($this->getWorkflowAction() as $id => $name){
+			$result[] = array('id'=>$id,'action_name'=>$name);		
+		}
+		return $result;
+	}
 	
 }

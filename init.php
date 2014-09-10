@@ -28,6 +28,12 @@ if(php_sapi_name() != "cli") {
 	session_start();
 }
 
+if (! function_exists('apc_fetch')){
+	function apc_fetch(){}
+	function apc_store(){}
+}
+
+
 require_once( PASTELL_PATH . "/lib/util.php");
 require_once("Connecteur.class.php");
 

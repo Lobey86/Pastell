@@ -1,5 +1,6 @@
 <?php
 class AdminControler extends Controler {	
+	
 	public function createAdmin($login,$password,$email){
 		$this->fixDroit();
 		$id_u = $this->UtilisateurCreator->create($login,$password,$password,$email);
