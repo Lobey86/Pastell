@@ -26,10 +26,10 @@ class Unoconv {
 		
 		$info = pathinfo($source);
 		$new_filename = $info['filename'] . '.pdf' ;
-		$new_filepath = basename($source)."/".$new_filename;
+		$new_filepath = dirname($source)."/".$new_filename;
 		
 		if (! file_exists($new_filepath)){
-			throw new Exception("Le fichier « $new_filename » n'a pas pu être créé");
+			throw new Exception("Le fichier « $new_filepath » n'a pas pu être créé");
 		}
 		
 		return $new_filepath;
