@@ -370,6 +370,13 @@ class DonneesFormulaire {
 		$this->saveDataFile();
 	}
 	
+	public function addFileFromCopy($field_name,$file_name,$file_source_path,$file_num=0){
+		$this->fichierCleValeur->setMulti($field_name, $file_name,$file_num);
+		copy($file_source_path,$this->getFilePath($field_name,$file_num));
+		$this->setNewValueToFieldData($field_name);
+		$this->saveDataFile();
+	}
+	
 	public function removeFile($fieldName,$num = 0){
 		unlink($this->getFilePath($fieldName,$num));
 		for($i = $num + 1; $i < $this->fichierCleValeur->count($fieldName) ; $i++){

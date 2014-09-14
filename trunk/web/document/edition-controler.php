@@ -77,9 +77,17 @@ $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
 
+
 foreach($donneesFormulaire->getOnChangeAction() as $action_on_change) {	
 	$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$authentification->getId(),$id_d,$action_on_change);
+	if (!$result){
+		$objectInstancier->LastError->setLastError($objectInstancier->ActionExecutorFactory->getLastMessage());
+	} elseif ($objectInstancier->ActionExecutorFactory->getLastMessage()){
+		$objectInstancier->LastMessage->setLastMessage($objectInstancier->ActionExecutorFactory->getLastMessage());
+	}
 }
+
+
 
 if ( $recuperateur->get('ajouter') ){
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page&action=$action");

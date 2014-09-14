@@ -1,18 +1,9 @@
 <?php
 
-require_once( __DIR__ . "/../web/init.php");
 
 
-$zenMail = $objectInstancier->ZenMail;
+exec("/Users/eric/Logiciel/unoconv-master/unoconv -f pdf /var/folders/bp/0x43447x029dpz0yrtvzmygc0000gn/T/pastell_tmp_folder_263261074/201404-pastell-roadmap.odt",$output,$return_var);
 
-$zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
-$zenMail->setDestinataire("eric@sigmalis.com");
-$zenMail->setSujet("[Pastell] Notification");
-$zenMail->setContenuText("test");
+print_r($output);
 
-$filename = "test.pdf";
-$filepath = "/Users/eric/Desktop/BDC-addulact-projet-2014-9.pdf";
-
-$zenMail->addAttachment($filename, $filepath);
-
-$zenMail->send();
+echo $return_var;
