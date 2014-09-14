@@ -2,8 +2,6 @@
 class ActesGeneriqueArreteChange extends ActionExecutor{
 
 	public function go(){
-		
-		
 		$content_type = $this->getDonneesFormulaire()->getContentType('arrete');
 		//Vérifier que le doc est en xml ou en pdf
 		if (in_array($content_type,array("application/pdf","application/xml"))){
@@ -17,8 +15,11 @@ class ActesGeneriqueArreteChange extends ActionExecutor{
 		}
 
 		$pdfConverter = $this->getGlobalConnecteur('convertisseur-office-pdf');
+		if (! $pdfConverter){
+			throw new Exception("Le document « $filename » n'est pas dans le bon format et aucun convertisseur PDF n'est configuré.");
+		}
+
 		$pdfConverter->convertField($this->getDonneesFormulaire(),'arrete','arrete');
-		
 		$this->setLastMessage("Le document « $filename » a été converti au format PDF pour respecter la norme ACTES");
 		return true;
 	}
