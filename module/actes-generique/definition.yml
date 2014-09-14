@@ -43,7 +43,12 @@ formulaire:
 			title: true
 			
 		Date de l'acte: {type: date, requis: true, commentaire: date de la décision}
-		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF ou XML"}
+		Arreté: 
+			name: Acte
+			type: file
+			requis: true
+			commentaire: "format PDF ou XML"
+			onchange: arrete-change
 		Autre document attaché: {type: file, multiple: true, commentaire: "Attention ! La taille totale des documents acte + annexes ne peut pas dépasser 20 Mo."}
 		
 	Cheminement:
@@ -700,7 +705,12 @@ action:
 			role_id_e: no-role
 			
 
-	
+	arrete-change:
+		name: Modificatio de l'arrêté
+		no-workflow: true
+		rule:
+			role_id_e: no-role
+		action-class: ActesGeneriqueArreteChange
 	
 	
 	envoi-signature-change:		
