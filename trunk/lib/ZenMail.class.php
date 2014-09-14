@@ -15,6 +15,8 @@ class ZenMail {
 	
 	private $charset;
 	
+	private $attachment;
+	
 	public function __construct(FileContentType $fileContentType){
 		$this->setCharset(self::DEFAULT_CHARSET);
 		$this->image = array();
@@ -52,6 +54,10 @@ class ZenMail {
 	
 	public function setContenuText($content){
 		$this->contenu = $content;
+	}
+	
+	public function addAttachment($filename,$filepath){
+		$this->attachment[$filename] = $filepath;
 	}	
 	
 	public function send(){
@@ -61,11 +67,49 @@ class ZenMail {
 		assert('$this->sujet');
 		assert('$this->contenu');		
 		
-		$entete =	"From: ".$this->emmeteur."\r\n".
-					"Reply-To: ".$this->mailEmmeteur."\r\n".
-					"Content-Type: text/plain; charset=\"".$this->charset."\"";		
-    	mail($this->destinataire,$this->sujet,$this->contenu,$entete);   
+		if ($this->attachment) {
+			$this->sendTxtMailWithAttachment();
+		} else {
+			$entete =	"From: ".$this->emmeteur."\r\n".
+						"Reply-To: ".$this->mailEmmeteur."\r\n".
+						"Content-Type: text/plain; charset=\"".$this->charset."\"";		
+	    	mail($this->destinataire,$this->sujet,$this->contenu,$entete);
+		}   
 	}	
+	
+	private function sendTxtMailWithAttachment(){
+		$boundary = $this->getBoundary();
+		$entete =	"From: ".$this->emmeteur.PHP_EOL.
+				"Reply-To: ".$this->mailEmmeteur.PHP_EOL.
+				"MIME-Version: 1.0".PHP_EOL.
+				"Content-Type: multipart/mixed; boundary=\"$boundary\"";
+		
+		$message = "This is a multi-part message in MIME format".PHP_EOL.PHP_EOL;
+		
+		$message .= "--".$boundary.PHP_EOL .
+		"Content-Type: text/plain; charset=\"".$this->charset."\"".PHP_EOL.
+		"Content-Transfer-Encoding: 8bit".PHP_EOL.
+		PHP_EOL.
+		$this->contenu.PHP_EOL.PHP_EOL;
+		
+		foreach($this->attachment as $filename => $filepath){
+			$content_type = $this->fileContentType->getContentType($filepath); 
+			$message.="--".$boundary.PHP_EOL;
+			$message.=
+			"Content-Type: $content_type; name=\"$filename\"".PHP_EOL. 
+			"Content-Transfer-Encoding: base64".PHP_EOL. 
+			"Content-Disposition: attachment, filename=\"$filename\"".PHP_EOL.PHP_EOL;
+			
+			$attachment = chunk_split(base64_encode(file_get_contents($filepath)));
+			$message.=$attachment;			
+		} 
+		$message .= "--".$boundary.PHP_EOL;
+		
+		mail($this->destinataire,$this->sujet,$message,$entete);
+	}
+	
+	
+	
 	
 	private function getBoundary(){
 		return '_pastell_zen_mail_' .

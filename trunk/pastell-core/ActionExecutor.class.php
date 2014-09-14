@@ -99,6 +99,9 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->Journal;
 	}
 	
+	/**
+	 * @return ZenMail
+	 */
 	public function getZenMail(){
 		return $this->objectInstancier->ZenMail;
 	}
@@ -147,6 +150,9 @@ abstract class ActionExecutor {
 		return $this->objectInstancier->SQLQuery;
 	}
 	
+	/**
+	 * @return NotificationMail
+	 */
 	public function getNotificationMail(){
 		return $this->objectInstancier->NotificationMail;
 	}

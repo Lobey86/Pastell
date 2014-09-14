@@ -15,24 +15,25 @@ class NotificationMail {
 		$this->notificationDigestSQL = $notificationDigestSQL;
 	}
 	
-	public function notify($id_e,$id_d,$action,$type,$message){
-		
+	public function notify($id_e,$id_d,$action,$type,$message,array $attachment = array()){
 		$lesEmails = $this->notification->getAllInfo($id_e,$type,$action);
 		
 		foreach($lesEmails as $mail_info){	
 			if ($mail_info['daily_digest']) {
 				$this->register($mail_info['email'],$id_e,$id_d,$action,$type,$message);	
 			}else {	
-				$this->sendMail($mail_info['email'],$id_e,$id_d,$action,$type,$message);
+				$this->sendMail($mail_info['email'],$id_e,$id_d,$action,$type,$message,$attachment);
 			}
 		}
-		
 	}
 	
-	private function sendMail($mail,$id_e,$id_d,$action,$type,$message){
+	private function sendMail($mail,$id_e,$id_d,$action,$type,$message,array $attachment = array()){
 		$this->zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		$this->zenMail->setDestinataire($mail);
 		$this->zenMail->setSujet("[Pastell] Notification");
+		foreach($attachment as $filename => $filepath){
+			$this->zenMail->addAttachment($filename, $filepath);
+		}
 		$info = array('message'=>$message,'id_e' => $id_e,'id_d'=>$id_d,'action'=>$action,'type'=>$type);
 		$this->zenMail->setContenu(PASTELL_PATH . "/mail/notification.php",$info);
 		$this->zenMail->send();
