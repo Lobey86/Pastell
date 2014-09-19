@@ -29,5 +29,11 @@ interface ConnecteurSuspensionIntf {
      *         false : la limite est atteinte; les accès seront suspendus
      */
     public function onAccesEchec(&$tentativesContext);
+    
+    /**
+     * Retourne les informations du connecteur entité.
+     * @return array
+     */
+    public function getConnecteurInfo();
 }
 

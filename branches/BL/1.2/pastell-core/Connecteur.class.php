@@ -34,6 +34,7 @@ abstract class Connecteur {
      * @var DonneesFormulaire
      */
 	private $docDonneesFormulaire;
+    private $connecteur_info;
 
 	abstract function setConnecteurConfig(DonneesFormulaire $donneesFormulaire);
 		
@@ -55,4 +56,17 @@ abstract class Connecteur {
 	public function setDocDonneesFormulaire(DonneesFormulaire $docDonneesFormulaire) {
 		$this->docDonneesFormulaire = $docDonneesFormulaire;
 	}
+
+    /**
+     * Retourne les informations du connecteur entité.
+     * @return array
+     */
+    public function getConnecteurInfo() {
+        return $this->connecteur_info;
+    }
+
+    public function setConnecteurInfo(array $connecteur_info) {
+        $this->connecteur_info = $connecteur_info;
+    }
+
 }
