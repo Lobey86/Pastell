@@ -321,18 +321,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         if (empty($sujet)) {
             $sujet = "Votre dossier " . $docObjet;
         }
-        $zenMail = $this->getZenMail();
-        $zenMail->setEmetteur($emetteurName, PLATEFORME_MAIL);
-        $zenMail->setDestinataire($email);
-        $zenMail->setSujet($sujet);
-        if (substr($contenu, -4) == '.php') {
-            $contenuScriptInfo['docObjet'] = $docObjet;
-            $zenMail->setContenu($contenu, $contenuScriptInfo);
-        } else {
-            $zenMail->setContenuText($contenu);
-        }
-        $zenMail->send();
-        $this->getJournal()->addSQL(Journal::NOTIFICATION, $this->id_e, $this->id_u, $this->id_d, $action, 'Notification envoyée à ' . $email);
+        $this->objectInstancier->MailTo->mail($email, $sujet, $contenu, $action, $contenuScriptInfo, $emetteurName, $this->id_e, $this->id_u, $this->id_d);
     }
 
 }
