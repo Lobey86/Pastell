@@ -74,6 +74,20 @@ class ConnecteurSuspensionControler {
             if (!$poursuivre) {
                 $suspensionDetail = exceptionToJson($accesException);
                 $this->setSuspension($connecteur, $suspensionDetail, false);
+                $connecteur_info = $connecteur->getConnecteurInfo();                
+                $id_e = $connecteur_info['id_e'];
+                $id_ce = $connecteur_info['id_ce'];
+                $sujet = parse_url(SITE_BASE, PHP_URL_HOST) . ' : connecteur ' . $id_ce . ' suspendu';
+                $texte = "Libellé : " . $connecteur_info['libelle'] . "\t\n"
+                        . "Id : " . $id_ce . "\n"
+                        . "Identifiant : " . $connecteur_info['id_connecteur'] . "\n"
+                        . "Type : " . $connecteur_info['type'] . "\n"
+                        . "Entite : " . $id_e . "\n"
+                        . "\n"
+                        . "Page de configuration : " . SITE_BASE . 'connecteur/edition.php?id_ce=' . $id_ce . "\n"
+                        . "\n"
+                        . "Cause : " . $accesException->getMessage() . "\n";
+                $this->objectInstancier->MailTo->mailRacineAdmins($sujet, $texte, 'connecteur-suspendu', array(), null, $id_e, 0);
             }
         } catch (Exception $ex) {
             $this->unlock($hLock);
