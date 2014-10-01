@@ -15,7 +15,7 @@ if ( ! function_exists('pastell_autoload')) {
 	function pastell_autoload($class_name) {	
 		$result = include($class_name . '.class.php');
 		if ( ! $result ){
-			//throw new Exception("Impossible de trouver $class_name");
+			throw new Exception("Impossible de trouver $class_name");
 			return false;
 		}
 		return true;
