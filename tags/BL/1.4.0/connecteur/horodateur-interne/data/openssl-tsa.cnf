@@ -1,0 +1,27 @@
+oid_section             = new_oids
+
+
+[ new_oids ]
+
+# Policies used by the TSA examples.
+tsa_policy1 = 1.2.3.4.1
+
+[ tsa ]
+
+default_tsa = tsa_config1	# the default TSA section
+
+[ tsa_config1 ]
+
+serial		= /tmp/tsaserial	# The current serial number (mandatory)
+crypto_device	= builtin		# OpenSSL engine to use for signing
+
+default_policy	= tsa_policy1		# Policy if request did not specify it
+					# (optional)
+digests		= md5, sha1		# Acceptable message digests (mandatory)
+ordering		= yes	# Is ordering defined for timestamps?
+				# (optional, default: no)
+tsa_name		= yes	# Must the TSA name be included in the reply?
+				# (optional, default: no)
+ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
+				# (optional, default: no)
+
