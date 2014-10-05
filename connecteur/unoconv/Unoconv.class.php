@@ -1,5 +1,5 @@
 <?php
-class Unoconv {
+class Unoconv extends Connecteur {
 	
 	private $tmpFolder;
 	

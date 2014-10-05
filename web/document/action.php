@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
-$recuperateur = new Recuperateur($_POST);
+$recuperateur = new Recuperateur($_REQUEST);
 $id_d = $recuperateur->get('id_d');
 $action = $recuperateur->get('action');
 $id_e = $recuperateur->get('id_e');
