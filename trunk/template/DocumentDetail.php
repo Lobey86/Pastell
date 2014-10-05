@@ -24,7 +24,11 @@ $this->render("DonneesFormulaireDetail");
 
 <table>
 <tr>
-<?php foreach($actionPossible->getActionPossible($id_e,$authentification->getId(),$id_d) as $action_name) : ?>
+<?php foreach($actionPossible->getActionPossible($id_e,$authentification->getId(),$id_d) as $action_name) :
+if ($theAction->getProperties($action_name,'no-show')){
+continue;
+}
+?>
 <td>
 <form action='document/action.php' method='post' >
 	<input type='hidden' name='id_d' value='<?php echo $id_d ?>' />

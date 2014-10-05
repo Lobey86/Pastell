@@ -486,6 +486,33 @@ action:
 		action-class: TedetisEnvoie
 		action-automatique: verif-tdt
 	
+	document-transmis-tdt:
+		name-action: Transmettre les document au TdT
+		name: Transmis au TdT
+		rule:
+			role_id_e: no-role
+		 
+	
+	teletransmission-tdt:
+		name-action: Ordoner la télétransmission au TdT
+		name: Télétransmettre en préfecture 
+		
+		rule:
+			role_id_e: editeur
+			droit_id_u: 'actes-generique:edition'
+			last-action: document-transmis-tdt
+		action-class: TdtTeletransmettre
+	
+	return-teletransmission-tdt:
+		name: Retour de la télétransmission
+		no-show: true
+		rule:
+			role_id_e: editeur
+			droit_id_u: 'actes-generique:edition'
+			last-action: document-transmis-tdt
+		action-class: TdtRetourTeletransmettre
+		
+	
 	verif-tdt:
 		name-action: Vérifier le statut de la transaction
 		name: Statut vérifié par le TdT		
@@ -493,6 +520,7 @@ action:
 			last-action:
 				send-tdt
 				erreur-verif-tdt
+				document-transmis-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisRecup
