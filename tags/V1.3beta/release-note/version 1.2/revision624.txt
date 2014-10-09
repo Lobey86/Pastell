@@ -1,0 +1,9 @@
+Connecteur de la famille TdT
+
+Attention, ajout de la fonction 	
+
+	public function getActeTamponne($id_transaction);
+
+qui doit permettre de récuperer l'acte tamponné.
+
+La fonction peut retourner false si le TdT condidéré ne gère pas cette fonctionnalité.

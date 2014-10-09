@@ -1,0 +1,46 @@
+
+Cette révision marque le passage de la version 1.2 vers le début du développement de la version suivante.
+
+- les releases-notes sont désormais classées par version de pastell
+- supression de l'ancien "template"
+- le nouveau template se trouve dans le répertoire template (à la place de template-bs)
+- suppression de l'ancien répertoire web/img
+- renommage web/img_lbi en web/img
+
+Révision 728:
+
+L'ajout des daily-digest des notifications rends nécessaire l'utilisation de cron : il faut déclencher le script batch/cron-jour.php chaque jour afin d'envoyer ces daily-digest.
+
+Révision 940 :
+
+Il peut être nécessaire de passer le script installation/fix-nb-user-in-annuaire_groupe.php afin de corriger un problème sur la table annuaire_groupe.
+
+Révision 974
+
+Modification dans l'API pour développeur (pastell-core) :
+- Afin de supprimer la référence circulaire Formulaire<->DonneesFormulaire, la fonction Formulaire:addDonneesFormulaire a été SUPPRIME
+- L'objet Formulaire doit-être récupérer via la fonction DonneesFormulaire:getFormulaire qui renvoie l'objet Formulaire correctement 
+configurée pour l'affichage, la modification d'une page, etc...
+- Le constructeur de la classe AfficheurFormulaire(Formulaire,DonneesFormulaire) devient : AfficheurFormulaire(DonneesFormulaire) 
+- Le constructeur de la classe DonneesFormulaire(fichier_yml, Formulaire) devient DonneesFormulaire(fichier_yml,DocumentType)
+(cela n'a normalement pas d'impact puisque la construction de cet objet est du ressort de DonneesFormulaireFactory qui a bien sûr été mis à jour)
+
+Révision 976
+- Suppresion de AfficheurFormulaire pour mettre les élements dans template (comme il se doit)
+
+Révision 991
+- Pour les modules dépendant du module "actes-cdg" notamment pour la partie permettant d'avoir une nomemclature spécifique au CDG et d'assurer une correspondance 
+avec la nomemclature actes, le champs "type" a été renommé en "nomemclature". L'ensemble des modules reposant sur le module actes-cdg doivent procéder à une mise à jour :
+* sur le fichier de définition du flux : mettre "nomemclature" à la place de "type" sur le champs concerné
+* faire passer le script "fix-module-champs.php nom_du_flux type nomemclature" afin de mettre à jour l'ensemble des documents issus de ce flux.
+
+Révision 999
+L'homogénéisation des notifications a conduit à formalisé qui peut éditer les notifications :
+- soit on a le droit entite:edition sur l'entité à laquelle on s'abonne et le droit utilisateur:edition sur l'utilisateur qu'on essaie de modifier (relativement à sa collectivité de base)
+- soit on est l'utilisateur en question et dans ce cas, il faut : entite:lecture et type_de_document:lecture sur la collectivité sur laquelle on tente de s'abonner
+(le code précédent cette révision permettait incorrectement à plus de gens de modifier les notifications)
+
+
+
+
+
