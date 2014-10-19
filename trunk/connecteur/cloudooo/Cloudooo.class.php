@@ -1,4 +1,8 @@
 <?php
+
+
+require_once 'XML/RPC2/Client.php';
+
 class Cloudooo  extends Connecteur {
 	
 	private $tmpFolder;
@@ -8,6 +12,8 @@ class Cloudooo  extends Connecteur {
 	
 	public function __construct(TmpFolder $tmpFolder){
 		$this->tmpFolder = $tmpFolder;
+		
+		
 	}
 	
 	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
@@ -16,21 +22,38 @@ class Cloudooo  extends Connecteur {
 	}
 	
 	public function convertToPDF($source){
+		if (! include_once("XML/RPC2/Client.php")){
+			throw new Exception("Le paquet PEAR XML_RPC2 n'a pas été trouvé");
+		}
 		if (! file_exists($source) || ! is_readable($source)){
 			throw new Exception("Impossible de lire le fichier $source ");
 		}
 		
-		/*$unoconv = "{$this->unoconv_path} -f pdf $source";
-		
-		exec($unoconv,$output,$return_var);
-		if ($return_var != 0){
-			throw new Exception("La commande de conversion ($unoconv) a échoué (code $return_var) : \n".implode("\n",$output));
-		}
-		*/
-		
 		$info = pathinfo($source);
 		$new_filename = $info['filename'] . '.pdf' ;
 		$new_filepath = dirname($source)."/".$new_filename;
+		
+		$dataaConvertir = file_get_contents($source);
+		
+		$dataExtention = pathinfo($source,PATHINFO_EXTENSION);
+		$dataSortieExtention = "pdf";
+		
+		$options = array(
+				'uglyStructHack' => true
+		);
+		
+		$url = "http://{$this->cloudooo_hostname}:{$this->cloudooo_port}" ;
+		$client = @ XML_RPC2_Client::create($url, $options);
+		
+		try {
+			$result = $client->convertFile(base64_encode($dataaConvertir), $dataExtention, $dataSortieExtention, false, true);
+		} catch (XML_RPC2_FaultException $e) {
+			$this->log('Exception #' . $e->getFaultCode() . ' : ' . $e->getFaultString(), 'debug');
+			return false;
+		}
+		
+		file_put_contents($new_filepath, base64_decode($result));
+		
 		
 		if (! file_exists($new_filepath)){
 			throw new Exception("Le fichier « $new_filepath » n'a pas pu être créé");

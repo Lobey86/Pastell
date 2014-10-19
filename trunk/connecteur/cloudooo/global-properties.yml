@@ -6,15 +6,16 @@ description: |
 	Connecteur permettant de convertir les documents de type office (MS Office, LibreOffice, ...) vers le format PDF
 	Ce connecteur est basé sur cloudoo  
 	https://github.com/nexedi/cloudooo
+	Il est nécessaire d'installer le paquet PEAR XML_RPC2 afin de faire fonctionner ce connecteur 
 	
 formulaire:
 	Clooudooo:
-		cloudoo_hostname: 
-			name: Nom de l'hôte sur lequel tourne un serveur Cloudooo (exemple: localhost)
-			
-		cloudoo_port:
-			name: Numéro du port (exemple: 8011)
-		
+		cloudooo_hostname: 
+			name: Serveur
+			commentaire: "Nom de l'hôte sur lequel tourne un serveur Cloudooo (exemple: localhost)"
+		cloudooo_port:
+			name:  "Numéro du port"
+			commentaire: "(exemple: 8011)"
 		document_test:
 			name: Document de test
 			type: file
