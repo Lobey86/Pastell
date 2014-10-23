@@ -10,6 +10,7 @@ class CreationDocument extends Connecteur {
 	 * @var RecuperationFichier
 	 */
 	private $connecteurRecuperation;
+	private $mode_auto;
 
 	public function __construct(ObjectInstancier $objectInstancier){
 		$this->objectInstancier = $objectInstancier;
@@ -18,6 +19,15 @@ class CreationDocument extends Connecteur {
 	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
 		$id_ce = $donneesFormulaire->get("connecteur_recup_id");
 		$this->connecteurRecuperation = $this->objectInstancier->ConnecteurFactory->getConnecteurById($id_ce);
+		$this->mode_auto = $donneesFormulaire->get('connecteur_auto');
+		
+	}
+	
+	public function recupAllAuto($id_e){
+		if (!$this->mode_auto){
+			return array("Le mode automatique est désactivé");
+		}
+		return $this->recupAll($id_e);
 	}
 	
 	public function recupAll($id_e){
