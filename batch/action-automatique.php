@@ -47,6 +47,31 @@ foreach($all_connecteur as $connecteur){
 	echo "\n";
 }
 
+$all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAllLocal();
+
+foreach($all_connecteur as $connecteur){
+	try {
+		$documentType = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($connecteur['id_connecteur']);
+	} catch (Exception $e){
+		continue;	
+	}
+	
+	$all_action = $documentType->getAction()->getAutoAction();
+	foreach($all_action as $action){
+		echo "Connecteur {$connecteur['libelle']} (id_e :{$connecteur['id_e']} - action: $action): ";
+		$result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($connecteur['id_ce'],$connecteur['id_e'],$action, true, array());
+		if (!$result){
+			echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
+		} else {
+			echo $objectInstancier->ActionExecutorFactory->getLastMessage();
+		}
+		echo "\n";
+	}
+	
+}
+
+
+
 $objectInstancier->DocumentControler->doActionProgrammee();
 
 $journal->horodateAll();

@@ -41,6 +41,9 @@ class Extensions {
 	
 	public function getConnecteurPath($id_connecteur){
 		$result = $this->getAllConnecteur();
+		if (empty($result[$id_connecteur])){
+			return false;
+		}
 		return $result[$id_connecteur];
 	}
 	

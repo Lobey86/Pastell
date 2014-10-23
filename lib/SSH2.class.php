@@ -44,8 +44,10 @@ class SSH2 {
 		if ( ! $connexion ){
 			return false;
 		}
+		
 		$sftp = ssh2_sftp($connexion);
-		return scandir("ssh2.sftp://{$sftp}{$directory}");
+		$result = scandir("ssh2.sftp://{$sftp}{$directory}");	
+		return $result;
 	}
 	
 	public function getFileContent($path_on_server){
@@ -99,7 +101,7 @@ class SSH2 {
 			return $ssh_connexion;
 		}
 		
-		if ( !  ssh2_auth_password($ssh_connexion,$this->login,$this->password)){
+		if ( ! @ ssh2_auth_password($ssh_connexion,$this->login,$this->password)){
 			$this->lastError = "Login ou mot de passe incorrect";
 			return false;
 		}
