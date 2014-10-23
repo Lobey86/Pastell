@@ -48,7 +48,15 @@ action:
 		action-class: CreationDocumentRecup
 		rule:
 			droit_id_u: 'entite:edition'
-		action-automatique: recuperation
+		
+	recuperation-auto:
+		name: Récupérer et créer les documents
+		no-workflow: true
+		action-class: CreationDocumentRecupAuto
+		rule:
+			droit_id_u: 'entite:edition'
+		action-automatique: recuperation-auto
+		
 		
 	choix-recuperation: 
 		name: Choix connecteur de récupération
