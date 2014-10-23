@@ -31,7 +31,7 @@
 		</td></tr>
 		<tr>
 		<td>
-		Recherche </td><td><input type='text' name='search' value='<?php echo $search?>'/></td>
+		Recherche </td><td><input type='text' name='search' value='<?php hecho($search)?>'/></td>
 		</tr>
 		</table>
 		<input type='submit' class='btn' value='Afficher'/>
@@ -55,11 +55,11 @@
 	<tr>
 		<td>
 			<a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'>
-				<?php echo $user['prenom']?> <?php echo $user['nom']?>
+				<?php hecho($user['prenom'])?> <?php hecho($user['nom'])?>
 			</a>
 		</td>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'><?php echo $user['login']?></a></td>
-		<td><?php echo $user['email']?></td>
+		<td><?php hecho($user['email'])?></td>
 		<td>
 			<?php foreach($user['all_role'] as $role): ?>
 				<?php echo $role['libelle']?:"Aucun droit"; ?> - 

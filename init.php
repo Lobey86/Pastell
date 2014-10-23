@@ -25,6 +25,7 @@ if ( ! function_exists('pastell_autoload')) {
 spl_autoload_register('pastell_autoload');
 
 if(php_sapi_name() != "cli") {
+	ini_set("session.cookie_httponly", 1);
 	session_start();
 }
 

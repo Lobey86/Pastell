@@ -99,7 +99,7 @@ class SSH2 {
 			return $ssh_connexion;
 		}
 		
-		if ( ! @ ssh2_auth_password($ssh_connexion,$this->login,$this->password)){
+		if ( !  ssh2_auth_password($ssh_connexion,$this->login,$this->password)){
 			$this->lastError = "Login ou mot de passe incorrect";
 			return false;
 		}
