@@ -49,6 +49,7 @@ class FichierCleValeur {
 	}
 	
 	public function save(){
+		$result = array();
 		foreach($this->info as $field_name => $field_value){
 			if (is_array($field_value)){
 				foreach($field_value as $i => $value){

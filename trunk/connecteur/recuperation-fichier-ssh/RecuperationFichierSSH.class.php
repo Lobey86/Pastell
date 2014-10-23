@@ -37,11 +37,17 @@ class RecuperationFichierSSH extends RecuperationFichier {
 	}
 	
 	public function retrieveFile($filename, $destination){
-		
+		$this->configSSH2();
+		if (! $this->ssh2->retrieveFile($this->getProperties("ssh_directory") . "/" . $file_name,$destination)){
+			throw new Exception($this->ssh2->getLastError());
+		}
+		return true;
 	}
 	
 	public function deleteFile($filename){
-		
+		$this->configSSH2();
+		$result = $this->ssh2->deleteFile($this->getProperties("ssh_directory") . "/" . $filename);
+		return $result;
 	}
 	
 }

@@ -6,6 +6,11 @@ class ConnecteurEntiteSQL extends SQL {
 		return $this->query($sql,$id_e);
 	}
 	
+	public function getAllLocal(){
+		$sql = "SELECT * FROM connecteur_entite WHERE id_e != 0";
+		return $this->query($sql);
+	}
+	
 	public function addConnecteur($id_e,$id_connecteur,$type,$libelle){
 		$sql = "INSERT INTO connecteur_entite (id_e,id_connecteur,type,libelle) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$id_connecteur,$type,$libelle);
@@ -49,5 +54,10 @@ class ConnecteurEntiteSQL extends SQL {
 	public function getAllById($id_connecteur){
 		$sql = "SELECT * FROM connecteur_entite WHERE id_connecteur = ?";
 		return $this->query($sql,$id_connecteur);
+	}
+	
+	public function getByType($id_e,$type){
+		$sql = "SELECT * FROM connecteur_entite WHERE id_e=? AND type= ? ORDER BY libelle DESC";
+		return $this->query($sql,$id_e,$type);
 	}
 }
