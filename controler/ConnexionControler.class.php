@@ -26,6 +26,27 @@ class ConnexionControler extends PastellControler {
 		$this->redirect("/connecteur/edition.php?id_ce=$id_ce");
 	}
 	
+	public function openIdReturn(){
+		$recuperateur = new Recuperateur($_GET);
+		$state = $recuperateur->get('state');
+		$state = urldecode($state);
+		$state_array = array();
+		parse_str($state, $state_array);
+		$id_ce = $state_array['id_ce'];
+		$openIdAuthentication = $this->ConnecteurFactory->getConnecteurById($id_ce);
+		if (!$openIdAuthentication){
+			$this->redirect();
+		}
+		try {
+			$openIdAuthentication->returnAuthenticate($recuperateur);
+		} catch (Exception $e){
+			$this->LastError->setLastError($e->getMessage());
+			$this->redirect("connexion/connexion.php");
+		}
+	}
+	
+	
+	
 	public function apiCasConnexion(){
 		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
 		
