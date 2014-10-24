@@ -8,4 +8,10 @@ formulaire:
 	page0:
 		libersign_applet_url: 
 			name: "URL de l'applet"
+		libersign_city:
+			name: "Ville"
+			commentaire: "Nécessaire, pour être introduite dans la signature des fichier PES"
+		libersign_cp:
+			name: "Code postal"
+			commentaire: "Nécessaire, pour être introduite dans la signature des fichier PES"
 			
