@@ -38,11 +38,20 @@ class ConnexionControler extends PastellControler {
 			$this->redirect();
 		}
 		try {
-			$openIdAuthentication->returnAuthenticate($recuperateur);
+			$sub = $openIdAuthentication->returnAuthenticate($recuperateur);
 		} catch (Exception $e){
 			$this->LastError->setLastError($e->getMessage());
 			$this->redirect("connexion/connexion.php");
 		}
+		
+		$id_u = $this->Utilisateur->getIdFromLogin($sub);
+		if (!$id_u){
+			$this->LastError->setLastError("Aucun utilisateur ne correspond au login $sub");
+			$this->redirect("connexion/connexion.php");
+		}
+		
+		$this->setConnexion($id_u,"OpenID");
+		$this->redirect();
 	}
 	
 	
@@ -75,15 +84,14 @@ class ConnexionControler extends PastellControler {
 		return $id_u;
 	}
 	
-	private function setConnexion($id_u){
+
+	private function setConnexion($id_u,$external_system = "CAS"){
 		$infoUtilisateur = $this->Utilisateur->getInfo($id_u);
 		$login = $infoUtilisateur['login'];
 		$this->Journal->setId($id_u);
 		$nom = $infoUtilisateur['prenom']." ".$infoUtilisateur['nom'];
-		$this->Journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté via CAS depuis l'adresse ".$_SERVER['REMOTE_ADDR']);
-		
+		$this->Journal->add(Journal::CONNEXION,$infoUtilisateur['id_e'],0,"Connecté","$nom s'est connecté via $external_system depuis l'adresse ".$_SERVER['REMOTE_ADDR']);		
 		$this->Authentification->connexion($login, $id_u);
-		
 	}
 	
 	private function casConnexion(){		

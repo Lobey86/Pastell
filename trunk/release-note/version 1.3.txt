@@ -41,6 +41,6 @@ L'homogénéisation des notifications a conduit à formalisé qui peut éditer les no
 (le code précédent cette révision permettait incorrectement à plus de gens de modifier les notifications)
 
 
-
-
-
+Révision 2014
+Le script connecteur/cas-authentication/script/delete-association-cas.php passe dans installation/delete-association-authentification.php et permet 
+de supprimé l'association des tous les connecteurs globaux de type authentification (CAS et OpenID lors de cette révision)

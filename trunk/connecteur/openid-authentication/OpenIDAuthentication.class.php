@@ -1,10 +1,15 @@
 <?php
 require_once(PASTELL_PATH."/ext/Akita_JOSE/JWS.php");
+require_once(PASTELL_PATH."/ext/phpseclib/Crypt/Hash.php");
+require_once(PASTELL_PATH."/ext/phpseclib/Crypt/RSA.php");
+require_once(PASTELL_PATH."/ext/phpseclib/Math/BigInteger.php");
+require_once(PASTELL_PATH."/ext/base64url.php");
 
 class OpenIDAuthentication extends Connecteur {
 	
 	const PASTELL_OPENID_SESSION_TOKEN = "pastell_open_id_session_token";
 	const PASTELL_OPENID_SESSION_NONCE = "pastell_open_id_session_nonce";
+	const PASTELL_OPENIS_SESSION_ACCESS_TOKEN = "pastell_open_id_access_token";
 	
 	private $open_id_url;
 	private $client_id;
@@ -58,17 +63,14 @@ class OpenIDAuthentication extends Connecteur {
 	public function getPublicKey(){
 		$curlWrapper = new CurlWrapper();
 		$curlWrapper->httpAuthentication($this->client_id, $this->client_secret);
-		$certificat = $curlWrapper->get("https://accounts.ozwillo-preprod.eu/a/keys");
-		$certificat = json_decode($certificat);
+		$key_contents = $curlWrapper->get("https://accounts.ozwillo-preprod.eu/a/keys");
+		$key_contents = json_decode($key_contents);
+		$key_contents = $key_contents->keys[0];
 		
 		
-		print_r($certificat);
-		exit;
+		$modulus = new Math_BigInteger('0x' . bin2hex(base64url_decode($key_contents->n)), 16);
+		$exponent = new Math_BigInteger('0x' . bin2hex(base64url_decode($key_contents->e)), 16);
 		
-		include('Crypt/RSA.php');
-		
-		$modulus = new Math_BigInteger($modulusBinaryString, 256);
-		$exponent = new Math_BigInteger($exponentBinaryString, 256);
 		
 		$rsa = new Crypt_RSA();
 		$rsa->modulus = $modulus;
@@ -76,8 +78,7 @@ class OpenIDAuthentication extends Connecteur {
 		$rsa->publicExponent = $exponent;
 		$rsa->k = strlen($rsa->modulus->toBytes());
 		
-		echo $rsa->getPublicKey(CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
-		
+		return $rsa->getPublicKey(CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
 	}
 	
 	public function returnAuthenticate(Recuperateur $recuperateur){
@@ -124,24 +125,36 @@ class OpenIDAuthentication extends Connecteur {
 			throw new Exception("La nonce ne correspond pas");
 		}
 		
-	
-		
 		$jws = Akita_JOSE_JWS::load($id_token, true);
-		print_r($jws);
 		
+		$public_key = $this->getPublicKey();
 		
-		
-		
-		$public_key = openssl_pkey_get_public($certificat);
 		if(! $jws->verify($public_key)){
-			echo "dont verify";
+			echo "La vérification du JWT a échoué";
 		}
 		
-		print_r($payload);
-		
-		exit;
-		
-		
+		$_SESSION[self::PASTELL_OPENIS_SESSION_ACCESS_TOKEN] = $result_array['access_token'];
+				
+		return $payload['sub'];
+	}
+	
+	public function logout(){
+		$this->curlWrapper->httpAuthentication($this->client_id, $this->client_secret);
+		$post_data = array(
+				"token" =>$_SESSION[self::PASTELL_OPENIS_SESSION_ACCESS_TOKEN],
+				"token_type_hint" => 'access_token'
+		);
+		$this->curlWrapper->setPostDataUrlEncode($post_data);
+		$result = $this->curlWrapper->get($this->open_id_url."revoke");
+		if ($this->curlWrapper->getHTTPCode() != 200){
+			if (! $result){
+				$message_erreur = $this->curlWrapper->getLastError();
+			} else {
+				$result_array = json_decode($result,true);
+				$message_erreur = $result_array['error'];
+			}
+			throw new Exception("Erreur lors de la récupération des infos sur le serveur OpenID : ".$message_erreur);
+		}
 	}
 	
 }

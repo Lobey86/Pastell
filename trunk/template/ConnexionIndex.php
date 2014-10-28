@@ -57,8 +57,6 @@ $utilisateurInfo = $utilisateur->getInfo($id_u);
 		</div>
 </div>
 
-
-
 <?php if ($this->DocumentTypeFactory->isSuperTypePresent('Flux Fournisseur')) : ?>
 
 <div class="box">
