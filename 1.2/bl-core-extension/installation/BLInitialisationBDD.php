@@ -65,7 +65,9 @@ if (!$role) {
     $roleSQLClass->addDroit('adminEntite','documentinternebl:lecture');
     $roleSQLClass->addDroit('adminEntite','documentinternebl:edition');
     $roleSQLClass->addDroit('adminEntite', 'acteadministratifbl:lecture');
-    $roleSQLClass->addDroit('adminEntite', 'acteadministratifbl:edition'); 
+    $roleSQLClass->addDroit('adminEntite', 'acteadministratifbl:edition');
+    $roleSQLClass->addDroit('adminEntite', 'dsnbl:lecture');
+    $roleSQLClass->addDroit('adminEntite', 'dsnbl:edition');    
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
@@ -85,6 +87,8 @@ if (!$role) {
     $roleSQLClass->addDroit('adminDocument','documentinternebl:edition');
     $roleSQLClass->addDroit('adminDocument', 'acteadministratifbl:lecture');
     $roleSQLClass->addDroit('adminDocument', 'acteadministratifbl:edition');
+    $roleSQLClass->addDroit('adminDocument', 'dsnbl:lecture');
+    $roleSQLClass->addDroit('adminDocument', 'dsnbl:edition');    
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
@@ -103,6 +107,8 @@ if (!$role) {
     $roleSQLClass->addDroit('apiDocument','documentinternebl:edition');
     $roleSQLClass->addDroit('apiDocument', 'acteadministratifbl:lecture');
     $roleSQLClass->addDroit('apiDocument', 'acteadministratifbl:edition');
+    $roleSQLClass->addDroit('apiDocument', 'dsnbl:lecture');
+    $roleSQLClass->addDroit('apiDocument', 'dsnbl:edition');
     $blScript->traceln('OK');
 } else {
     $blScript->traceln('DEJA FAIT');
@@ -200,6 +206,12 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_ganeshtdtactesbl)) {
     $prov_extension=true;
 }
 
+$ext_netedsnbl = "/var/www/pastell/extensionbl/netedsnbl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_netedsnbl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_netedsnbl);
+    $prov_extension=true;
+}
+
 if ($prov_extension) {
     $blScript->traceln('OK');    
 } else {
@@ -276,7 +288,30 @@ $blScript->createConnecteurGlobal('fluxbl', 'adm_flux');
 $blScript->createConnecteurGlobal('signaturebl', 'adm_signature');
 // Créer connecteur global pour type de service TdT
 $blScript->createConnecteurGlobal('tdtbl', 'adm_tdt');
+// Créer connecteur global pour netedsnbl
 
+$creationAdmin2 = $blScript->read('Souhaitez-vous créer/paramétrer le connecteur global Net-Entreprises pour la DSN ? (O/N)');
+if (strtolower($creationAdmin2)=='o') {
+    $blScript->trace('Creation du connecteur global netedsnbl : ');
+    $id_ce_dsn = $objectInstancier->ConnecteurEntiteSQL->getGlobal('netedsnbl');
+    if (!$id_ce_dsn) {
+        $id_ce_dsn = $objectInstancier->ConnecteurControler->nouveau(0, 'netedsnbl', 'netedsnbl global');
+        $id_fe = $objectInstancier->FluxControler->editionModif(0, null, 'dsn', $id_ce_dsn);
+        $blScript->traceln('OK');
+    } else {        
+        $blScript->traceln('DEJA FAIT');
+    }         
+    $blScript->traceln('Parametrage du compte concentrateur sur le connecteur global :');
+    $data['siret'] = $blScript->read('Siret du declarant');
+    $data['nom'] = $blScript->read('Nom du declarant');
+    $data['prenom'] = $blScript->read('Prenom du declarant');
+    $data['motdepasse']= $blScript->read('Mot de passe du declarant');
+    $data['service'] = 98;
+    $data['range_max'] = 259200;    
+    $donneesFormulaire = $objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce_dsn);
+    $donneesFormulaire->setTabDataVerif($data);
+    $blScript->traceln('Paramétrage du compte concentrateur sur le connecteur global : TERMINE');
+}
 
 $blScript->traceln('-----------------------------');
 $blScript->traceln('- Création des utilisateurs -');
