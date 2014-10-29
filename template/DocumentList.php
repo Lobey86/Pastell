@@ -41,7 +41,7 @@ if ($id_e != 0) {
 if ($type && $id_e) :
 ?>
 <div class="box">
-	<h2>Traitement pas lot</h2>
+	<h2>Traitement par lot</h2>
 	<form action='document/traitement-lot.php' method='get'>
 		<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 		<input type='hidden' name='type' value='<?php echo $type?>'/>
