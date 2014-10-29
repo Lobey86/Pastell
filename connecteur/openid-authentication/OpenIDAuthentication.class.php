@@ -9,13 +9,16 @@ class OpenIDAuthentication extends Connecteur {
 	
 	const PASTELL_OPENID_SESSION_TOKEN = "pastell_open_id_session_token";
 	const PASTELL_OPENID_SESSION_NONCE = "pastell_open_id_session_nonce";
-	const PASTELL_OPENIS_SESSION_ACCESS_TOKEN = "pastell_open_id_access_token";
+	const PASTELL_OPENID_SESSION_ACCESS_TOKEN = "pastell_open_id_access_token";
+	const PASTELL_OPENID_SESSION_ID_TOKEN = "pastell_open_id_token";
+	
 	
 	private $open_id_url;
 	private $client_id;
 	private $client_secret;
 	private $curlWrapper;
 	private $url_callback;
+	private $site_index;
 	
 	/**
 	 * 
@@ -25,6 +28,7 @@ class OpenIDAuthentication extends Connecteur {
 	public function __construct(CurlWrapper $curlWrapper,$open_id_url_callback){
 		$this->curlWrapper = $curlWrapper;
 		$this->url_callback = $open_id_url_callback;
+		$this->site_index = SITE_BASE;
 	}
 	
 	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
@@ -115,6 +119,7 @@ class OpenIDAuthentication extends Connecteur {
 		$result_array = json_decode($result,true);
 		
 		$id_token = $result_array['id_token'];
+		$_SESSION[self::PASTELL_OPENID_SESSION_ID_TOKEN] = $id_token;
 		
 		
 		$all_part = explode(".",$id_token);
@@ -133,7 +138,7 @@ class OpenIDAuthentication extends Connecteur {
 			echo "La vérification du JWT a échoué";
 		}
 		
-		$_SESSION[self::PASTELL_OPENIS_SESSION_ACCESS_TOKEN] = $result_array['access_token'];
+		$_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN] = $result_array['access_token'];
 				
 		return $payload['sub'];
 	}
@@ -141,7 +146,7 @@ class OpenIDAuthentication extends Connecteur {
 	public function logout(){
 		$this->curlWrapper->httpAuthentication($this->client_id, $this->client_secret);
 		$post_data = array(
-				"token" =>$_SESSION[self::PASTELL_OPENIS_SESSION_ACCESS_TOKEN],
+				"token" =>$_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN],
 				"token_type_hint" => 'access_token'
 		);
 		$this->curlWrapper->setPostDataUrlEncode($post_data);
@@ -155,6 +160,18 @@ class OpenIDAuthentication extends Connecteur {
 			}
 			throw new Exception("Erreur lors de la récupération des infos sur le serveur OpenID : ".$message_erreur);
 		}
+		
+		$info=array("id_token_hing"=>$_SESSION[self::PASTELL_OPENID_SESSION_ID_TOKEN],
+				"post_redirect_uri"=>$this->site_index,
+		);
+		
+		$url = $this->open_id_url."logout?";
+		foreach($info as $key=>$value){
+			$url.=$key."=".$value."&";
+		}
+		header("Location: $url");
+		exit;
+		
 	}
 	
 }
