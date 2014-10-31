@@ -128,11 +128,11 @@ class Journal extends SQL {
 			$value[] = "%$recherche%";
 		}
 		if ($date_debut){
-			$sql.= "AND journal.date > ?";
+			$sql.= "AND DATE(journal.date) >= ?";
 			$value[] = $date_debut;
 		}
 		if ($date_fin){
-			$sql.= "AND journal.date < ?";
+			$sql.= "AND DATE(journal.date) <= ?";
 			$value[] = $date_fin;
 		}
 		
@@ -145,7 +145,7 @@ class Journal extends SQL {
 	
 	
 	
-	public function countAll($id_e,$type,$id_d,$id_u,$recherche){
+	public function countAll($id_e,$type,$id_d,$id_u,$recherche,$date_debut,$date_fin){
 		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
 		$value = array();
 		
@@ -168,6 +168,14 @@ class Journal extends SQL {
 		if ($recherche){
 			$sql .= " AND journal.message_horodate LIKE ?";
 			$value[] = "%$recherche%";
+		}
+		if ($date_debut){
+			$sql.= "AND DATE(journal.date) >= ?";
+			$value[] = $date_debut;
+		}
+		if ($date_fin){
+			$sql.= "AND DATE(journal.date) <= ?";
+			$value[] = $date_fin;
 		}
 		return $this->queryOne($sql,$value);
 	}

@@ -71,7 +71,7 @@ class RoleControler extends PastellControler {
 		$this->verifDroit(0,"role:edition");
 		$recuperateur = new Recuperateur($_POST);
 		$role = $recuperateur->get('role');
-		$droit = $recuperateur->get('droit');
+		$droit = $recuperateur->get('droit',array());
 		$this->RoleSQL->updateDroit($role,$droit);
 		$this->LastMessage->setLastMessage("Le rôle $role a été mis à jour");
 		$this->redirect("/role/detail.php?role=$role");
