@@ -171,7 +171,30 @@ class OpenIDAuthentication extends Connecteur {
 		}
 		header("Location: $url");
 		exit;
-		
 	}
+	
+	private function checkHTTPResponse(){
+		$http_code = $this->curlWrapper->getHTTPCode(); 
+		if ($http_code != 200){
+			if (! $result){
+				$message_erreur = $this->curlWrapper->getLastError();
+			} else {
+				$result_array = json_decode($result,true);
+				$message_erreur = $result_array['error'];
+			}
+				
+			throw new Exception("Erreur lors de la récupération des infos sur le serveur OpenID (HTTP code $http_code): ".$message_erreur);
+		}
+	}
+	
+	public function listAccount(){
+		$this->curlWrapper->addHeader("Authorization", "Bearer ".$_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN]);
+		$result = $this->curlWrapper->get("https://accounts.ozwillo-preprod.eu/apps/acl/instance/".$this->client_id);
+		$this->checkHTTPResponse();
+		print_r($result);
+		exit;
+	}
+		
+	
 	
 }

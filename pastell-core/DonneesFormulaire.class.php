@@ -40,9 +40,16 @@ class DonneesFormulaire {
 		}
 	}
 	
-	private function setFieldData($fieldName){
+	private function setFieldData($fieldName,$ongletNum=-1){
 		if (empty($this->fieldDataList[$fieldName])){
-			$field = $this->getFormulaire()->getField($fieldName);
+			if ($ongletNum != -1){
+				$onglet_list = $this->getOngletList();
+				$onglet_name = $onglet_list[$ongletNum];
+			} else {
+				$onglet_name = false;
+			}
+			
+			$field = $this->getFormulaire()->getField($fieldName,$onglet_name);
 			if (! $field){
 				$field = new Field($fieldName, array());
 			}
@@ -96,14 +103,15 @@ class DonneesFormulaire {
 	public function getFieldDataList($my_role,$ongletNum = 0){
 		$ongletList = $this->getOngletList();
 		$fieldNameList = $this->getFormulaire()->getFieldsForOnglet($ongletList[$ongletNum]);
-		return $this->getFieldDataListByFieldName($my_role,$fieldNameList);
+		return $this->getFieldDataListByFieldName($my_role,$fieldNameList,$ongletNum);
 	}
 	
-	private function getFieldDataListByFieldName($my_role,array $fieldNameList){
+	private function getFieldDataListByFieldName($my_role,array $fieldNameList,$ongletNum=-1){
 		$result = array();
 		foreach ($fieldNameList as $field) {
 			if ($field->isShowForRole($my_role)){
-				$result[] = $this->getFieldData($field->getName());
+				
+				$result[] = $this->getFieldData($field->getName(),$ongletNum);
 			}
 		}
 		return $result;
@@ -113,9 +121,10 @@ class DonneesFormulaire {
 	 * @param string $fieldName
 	 * @return FieldData
 	 */
-	public function getFieldData($fieldName){
+	public function getFieldData($fieldName,$ongletNum = -1){
 		$fieldName  = Field::Canonicalize($fieldName);
-		$this->setFieldData($fieldName);
+		unset($this->fieldDataList[$fieldName]);
+		$this->setFieldData($fieldName,$ongletNum);
 		return $this->fieldDataList[$fieldName];
 	}
 	

@@ -190,11 +190,20 @@ class Formulaire {
 		return false;
 	}
 	
-	public function getField($fieldName){
-		foreach ($this->origFormArray as $name => $tab) {
-			foreach($tab as $libelle => $properties){				
+	public function getField($fieldName,$ongletName = false){
+		if ($ongletName){
+			$tab = $this->origFormArray[$ongletName];
+			foreach($tab as $libelle => $properties){
 				if(Field::Canonicalize($libelle) == Field::Canonicalize($fieldName)){
-					return new Field($libelle,$properties);	
+					return new Field($libelle,$properties);
+				}
+			}
+		} else {
+			foreach ($this->origFormArray as $name => $tab) {
+				foreach($tab as $libelle => $properties){				
+					if(Field::Canonicalize($libelle) == Field::Canonicalize($fieldName)){
+						return new Field($libelle,$properties);	
+					}
 				}
 			}
 		}

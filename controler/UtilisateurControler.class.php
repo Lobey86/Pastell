@@ -256,6 +256,18 @@ class UtilisateurControler extends PastellControler {
 			throw new Exception("Les mots de passe ne correspondent pas");
 		}
 		
+		if ($certificat_content){
+			$certificat = new Certificat($certificat_content);
+			if (! $certificat->isValid()){
+				throw new Exception("Le certificat ne semble pas être valide");
+			}
+		}
+		$other_id_u =$this->Utilisateur->getIdFromLogin($login);
+		if ($id_u && $other_id_u && $other_id_u != $id_u){
+			throw new Exception("Un utilisateur avec le même login existe déjà.");
+		}
+		
+		
 		if (! $id_u){
 			$id_u = $this->UtilisateurCreator->create($login,$password,$password2,$email);
 			if ( ! $id_u){
@@ -267,12 +279,8 @@ class UtilisateurControler extends PastellControler {
 		}
 		$oldInfo = $this->Utilisateur->getInfo($id_u);
 		
-		if ($certificat_content){
-			$certificat = new Certificat($certificat_content);
-			if ( ! $this->Utilisateur->setCertificat($id_u,$certificat)){
-                            // Remplacement de la redirection par une exception
-                            throw new Exception("Le certificat n'est pas valide");                            
-			} 
+		if ($certificat){
+			$this->Utilisateur->setCertificat($id_u,$certificat);
 		}
 		
 		$this->Utilisateur->validMailAuto($id_u);

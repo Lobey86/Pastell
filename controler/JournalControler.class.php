@@ -70,7 +70,6 @@ class JournalControler extends PastellControler {
 		$this->date_debut = $recuperateur->get('date_debut');
 		$this->date_fin = $recuperateur->get('date_fin');
 		
-		
 		$liste_collectivite = $this->RoleUtilisateur->getEntite($this->getId_u(),'journal:lecture');
 		
 		if ( ! $liste_collectivite){
@@ -87,7 +86,7 @@ class JournalControler extends PastellControler {
 		$infoEntite = $this->EntiteSQL->getInfo($this->id_e);
 		
 		
-		$this->count = $this->Journal->countAll($this->id_e,$this->type,$this->id_d,$this->id_u,$this->recherche);
+		$this->count = $this->Journal->countAll($this->id_e,$this->type,$this->id_d,$this->id_u,$this->recherche,$this->date_debut,$this->date_fin);
 		
 		$page_title="Journal des évènements";
 		if ($this->id_e){

@@ -27,6 +27,10 @@ class CurlWrapper {
 		$this->setProperties(CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 	}
 	
+	public function addHeader($name,$value){
+		$this->setProperties(CURLOPT_HTTPHEADER, array("$name: $value"));
+	}
+	
 	public function getLastError(){
 		return $this->lastError;
 	}
