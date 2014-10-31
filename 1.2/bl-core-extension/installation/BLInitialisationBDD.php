@@ -290,8 +290,8 @@ $blScript->createConnecteurGlobal('signaturebl', 'adm_signature');
 $blScript->createConnecteurGlobal('tdtbl', 'adm_tdt');
 // Créer connecteur global pour netedsnbl
 
-$creationAdmin2 = $blScript->read('Souhaitez-vous créer/paramétrer le connecteur global Net-Entreprises pour la DSN ? (O/N)');
-if (strtolower($creationAdmin2)=='o') {
+$creationDSNGlobal = $blScript->read('Souhaitez-vous créer/paramétrer le connecteur global Net-Entreprises pour la DSN ? (O/N)');
+if (strtolower($creationDSNGlobal)=='o') {
     $blScript->trace('Creation du connecteur global netedsnbl : ');
     $id_ce_dsn = $objectInstancier->ConnecteurEntiteSQL->getGlobal('netedsnbl');
     if (!$id_ce_dsn) {

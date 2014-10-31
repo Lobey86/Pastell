@@ -122,22 +122,28 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_netedsnbl)) {
 ////////////////////////////////////////////////////////////////
 //           Ajout du connecteur global netedsnbl             //
 ////////////////////////////////////////////////////////////////
+// La création du connecteur est facultatif : Sur des bus installés chez les clients (SICTIAM...), Ils peuvent ne pas gérer les DSN.
+// S'ils gèrent, il leur faut un compte concentrateur.
 $name = 'netedsnbl';
 $id_ce = $objectInstancier->ConnecteurEntiteSQL->getGlobal($name);
-$blScript->trace("Création du connecteur global $name : ");
 if (!$id_ce) {
-    $id_ce = $blScript->createConnecteurGlobal($name,'dsn');
-    $blScript->traceln('OK');
-    $blScript->traceln('Paramétrage du compte concentrateur sur le connecteur global :');
-    $data['siret'] = $blScript->read('Siret du concentrateur');
-    $data['nom'] = $blScript->read('Nom du concentrateur');
-    $data['prenom'] = $blScript->read('Prenom du concentrateur');
-    $data['motdepasse']= $blScript->read('Mot de passe du concentrateur');
-    $data['service'] = 98;
-    $data['range_max'] = 259200;    
-    $donneesFormulaire = $objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
-    $donneesFormulaire->setTabDataVerif($data);
-    $blScript->traceln('Paramétrage du compte concentrateur sur le connecteur global : TERMINE');
+    $creationDSNGlobal = $blScript->read('Souhaitez-vous créer/paramétrer le connecteur global Net-Entreprises pour DSN ? (O/N)');
+    if (strtolower($creationDSNGlobal)=='o') {
+        $blScript->trace("Création du connecteur global $name : ");    
+        $id_ce = $blScript->createConnecteurGlobal($name,'dsn');
+        $blScript->traceln('OK');
+        $blScript->traceln('Paramétrage du compte concentrateur sur le connecteur global :');
+        $data['siret'] = $blScript->read('Siret du concentrateur');
+        $data['nom'] = $blScript->read('Nom du concentrateur');
+        $data['prenom'] = $blScript->read('Prenom du concentrateur');
+        $data['motdepasse']= $blScript->read('Mot de passe du concentrateur');
+        $data['service'] = 98;
+        $data['range_max'] = 259200;    
+        $donneesFormulaire = $objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
+        $donneesFormulaire->setTabDataVerif($data);
+        $blScript->traceln('Paramétrage du compte concentrateur sur le connecteur global : TERMINE');
+    }
 } else {
+    $blScript->trace("Création du connecteur global $name : ");
     $blScript->traceln('DEJA FAIT');
 }
