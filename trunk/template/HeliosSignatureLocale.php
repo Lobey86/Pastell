@@ -38,7 +38,6 @@
 		
 	 </applet>
 	 </div>
-<script type="text/javascript" src="/javascript/jfu/js/jquery.min.js"></script> 
 <form action='document/external-data-controler.php' id='form_sign' method='post'>
 	<input type='hidden' name='id_d' value='<?php echo $id_d?>' />
 	<input type='hidden' name='id_e' value='<?php echo $id_e?>' />
