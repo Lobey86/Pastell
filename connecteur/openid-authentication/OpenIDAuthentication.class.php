@@ -56,7 +56,7 @@ class OpenIDAuthentication extends Connecteur {
 					"nonce"=>$_SESSION[self::PASTELL_OPENID_SESSION_NONCE]
 		);
 		
-		$url = $this->open_id_url."auth?";
+		$url = $this->open_id_url."/a/auth?";
 		foreach($info as $key=>$value){
 			$url.=$key."=".$value."&";
 		}		
@@ -67,7 +67,7 @@ class OpenIDAuthentication extends Connecteur {
 	public function getPublicKey(){
 		$curlWrapper = new CurlWrapper();
 		$curlWrapper->httpAuthentication($this->client_id, $this->client_secret);
-		$key_contents = $curlWrapper->get("https://accounts.ozwillo-preprod.eu/a/keys");
+		$key_contents = $curlWrapper->get($this->open_id_url."/a/keys");
 		$key_contents = json_decode($key_contents);
 		$key_contents = $key_contents->keys[0];
 		
@@ -105,7 +105,7 @@ class OpenIDAuthentication extends Connecteur {
 		);
 		
 		$this->curlWrapper->setPostDataUrlEncode($post_data);
-		$result = $this->curlWrapper->get($this->open_id_url."token");
+		$result = $this->curlWrapper->get($this->open_id_url."/a/token");
 		if ($this->curlWrapper->getHTTPCode() != 200){
 			if (! $result){
 				$message_erreur = $this->curlWrapper->getLastError();
@@ -150,7 +150,7 @@ class OpenIDAuthentication extends Connecteur {
 				"token_type_hint" => 'access_token'
 		);
 		$this->curlWrapper->setPostDataUrlEncode($post_data);
-		$result = $this->curlWrapper->get($this->open_id_url."revoke");
+		$result = $this->curlWrapper->get($this->open_id_url."/a/revoke");
 		if ($this->curlWrapper->getHTTPCode() != 200){
 			if (! $result){
 				$message_erreur = $this->curlWrapper->getLastError();
@@ -165,7 +165,7 @@ class OpenIDAuthentication extends Connecteur {
 				"post_redirect_uri"=>$this->site_index,
 		);
 		
-		$url = $this->open_id_url."logout?";
+		$url = $this->open_id_url."/a/logout?";
 		foreach($info as $key=>$value){
 			$url.=$key."=".$value."&";
 		}
@@ -173,7 +173,7 @@ class OpenIDAuthentication extends Connecteur {
 		exit;
 	}
 	
-	private function checkHTTPResponse(){
+	private function checkHTTPResponse($result){
 		$http_code = $this->curlWrapper->getHTTPCode(); 
 		if ($http_code != 200){
 			if (! $result){
@@ -189,12 +189,19 @@ class OpenIDAuthentication extends Connecteur {
 	
 	public function listAccount(){
 		$this->curlWrapper->addHeader("Authorization", "Bearer ".$_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN]);
-		$result = $this->curlWrapper->get("https://accounts.ozwillo-preprod.eu/apps/acl/instance/".$this->client_id);
-		$this->checkHTTPResponse();
-		print_r($result);
-		exit;
+		$result = $this->curlWrapper->get($this->open_id_url."/apps/acl/instance/".$this->client_id);
+		$this->checkHTTPResponse($result);
+		$result = json_decode($result,true);
+		return $result;
 	}
 		
+	public function getUserInfo($user_id){
+		$this->curlWrapper->addHeader("Authorization", "Bearer ".$_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN]);
+		$result = $this->curlWrapper->get($this->open_id_url."/data?user=$user_id");
+		$this->checkHTTPResponse($result);
+		$result = json_decode($result,true);
+		return $result;
+	}
 	
 	
 }
