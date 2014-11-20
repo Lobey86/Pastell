@@ -1,5 +1,5 @@
 <?php 
-require_once(__DIR__."/../../../web/init.php");
+require_once(__DIR__."/../web/init.php");
 
 
 if (isset($_SERVER['REMOTE_ADDR'])){
