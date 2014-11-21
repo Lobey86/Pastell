@@ -1,0 +1,16 @@
+nom: Pastell coeur
+
+description: |
+	Pastell est un bus logiciel permettant de créer des documents (flux) 
+	et de les faire cheminer entre différents systèmes externe par le biais de connecteur
+	
+version: 1.1.4
+
+last_changed_date: |
+	$LastChangedDate: 2013-11-17 09:47:22 +0100 (dim., 17 nov. 2013) $
+
+revision: |
+	$Rev: 679 $
+
+extensions_versions_accepted:
+	- 1.1.4 

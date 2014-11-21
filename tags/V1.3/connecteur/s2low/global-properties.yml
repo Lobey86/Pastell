@@ -1,0 +1,21 @@
+name: S²low
+type: TdT
+
+description: |
+	Permet de faire des actions sur l'ensemble des connecteurs S²low installés sur Pastell.
+	
+
+action:
+	demande-classification:
+		name: Envoyer une demande de classifications pour toutes les collectivités
+		tab: TdT
+		action-class: DemandeClassificationAll
+		rule:
+			droit_id_u: 'entite:edition'
+	
+	recup-classification:
+		name: Récuperer la classification pour toutes les collectivités
+		tab: TdT
+		action-class: RecupClassificationAll
+		rule:
+			droit_id_u: 'entite:edition'
