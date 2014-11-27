@@ -7,6 +7,7 @@ class DonneesFormulaireFactory{
 	private $workspacePath;
 	private $connecteurEntiteSQL;
 	private $documentSQL;
+    private $cache;
 	
 	public function __construct(DocumentTypeFactory $documentTypeFactory, 
 								$workspacePath, 
@@ -45,25 +46,27 @@ class DonneesFormulaireFactory{
 	}
 	
 	private function getFromCache($id_document,Formulaire $formulaire){
-		static $cache;
-		if (empty($cache[$id_document])){
-			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $formulaire);
+		if (empty($this->cache[$id_document])){
+			$this->cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $formulaire);
 		}
-		return $cache[$id_document];
+		return $this->cache[$id_document];
 	}
 	
 	private function getFromCacheNewPlan($id_document,Formulaire $formulaire){
-		static $cache;
-		if (empty($cache[$id_document])){
+		if (empty($this->cache[$id_document])){
 			$dir = $this->getNewDirectoryPath($id_document);
 			if (! file_exists($dir)) {
 				mkdir($dir,0777,true);
 			}
-			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
+			$this->cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
 		}
-		return $cache[$id_document];
+		return $this->cache[$id_document];
 	}
 	
+    public function clearCache() {
+        unset($this->cache);
+    }
+    
 	private function getNewDirectoryPath($id_document){
 		if (strlen($id_document) < 2){
 			return $this->workspacePath;
