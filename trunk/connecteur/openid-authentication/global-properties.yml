@@ -24,6 +24,10 @@ action:
 		name: Tester la connexion OpenID
 		action-class: OpenIDTestLogin
 		
+	test-deconnexion:
+		name: Tester la déconnexion OpenID
+		action-class: OpenIDTestLogout
+	
 	recuperation-compte:
 		name: Lister les comptes disponibles
 		action-class: OpenIDRecuperationCompte

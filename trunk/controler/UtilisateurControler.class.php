@@ -279,7 +279,7 @@ class UtilisateurControler extends PastellControler {
 		}
 		$oldInfo = $this->Utilisateur->getInfo($id_u);
 		
-		if ($certificat){
+		if (! empty($certificat)){
 			$this->Utilisateur->setCertificat($id_u,$certificat);
 		}
 		

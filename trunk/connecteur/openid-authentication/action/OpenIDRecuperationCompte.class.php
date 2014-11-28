@@ -5,6 +5,9 @@ class OpenIDRecuperationCompte extends ActionExecutor {
 		$openID = $this->getMyConnecteur();
 		$account_list = $openID->listAccount();
 		
+		$exist = array();
+		$no_exist = array();
+		
 		foreach($account_list as $account){
 			$id_u = $this->objectInstancier->Utilisateur->getIdFromLogin($account['user_id']); 
 			if ($id_u){
