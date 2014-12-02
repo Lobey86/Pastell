@@ -1,5 +1,5 @@
 <?php 
-class HeliosSEDAChateauDOlonne extends Connecteur {
+class HeliosSEDAChateauDOlonne extends SEDAConnecteur {
 	
 	private $authorityInfo;
 	
@@ -73,7 +73,7 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 		return $info;
 	}
 	
-	public function getBordereau($transactionsInfo){
+	public function getBordereau(array $transactionsInfo){
 		
 		$infoPESAller = $this->extractInfoFromPESAller($transactionsInfo['pes_aller_content']);
 				
@@ -104,7 +104,7 @@ class HeliosSEDAChateauDOlonne extends Connecteur {
 			$file_path = $transactionsInfo[$file_to_add];
 			if (! $file_path){
 				continue;
-			}
+			}			
 			$archiveTransfer->Integrity[$i]->Contains = sha1_file($file_path);
 			$archiveTransfer->Integrity[$i]->Contains['encodingCode'] = 'http://www.w3.org/2000/09/xmldsig#sha1';
 			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($file_path);
