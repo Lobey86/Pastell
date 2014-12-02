@@ -144,7 +144,13 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		foreach($this->getAllFile($transactionsInfo) as $file_name => $sha1){
 			$integrity = $dom->createElement("Integrity");
 			$c = $dom->createElement("Contains",$sha1);
+			
 			$integrity->appendChild($c);
+			
+			$a = $dom->createAttribute("algorithme");
+			$a->value = "http://www.w3.org/2001/04/xmlenc#sha256";
+			$c->appendChild($a);
+			
 			$u = $dom->createElement("UnitIdentifier",$file_name);
 			$integrity->appendChild($u);
 			$containsNode->parentNode->insertBefore($integrity,$containsNode);
@@ -158,10 +164,10 @@ class ActesSEDAParametrable extends SEDAConnecteur {
 		//TODO ajouté ar_actes
 		foreach(array('actes_file') as $key){
 			$fileName = $transactionsInfo[$key];
-			$result[basename($fileName)] = sha1_file($fileName);
+			$result[basename($fileName)] =  hash_file("sha256",$fileName); 
 		}
 		foreach($transactionsInfo['annexe'] as $fileName){
-			$result[basename($fileName)] = sha1_file($fileName);
+			$result[basename($fileName)] = hash_file("sha256",$fileName); 
 		}
 		
 		/*foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){

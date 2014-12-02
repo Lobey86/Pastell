@@ -22,4 +22,12 @@ abstract class SEDAConnecteur extends  Connecteur {
 		return array('DateReception' => $attr['DateReception'],'IDActe'=>$attr['IDActe']);
 	}
 	
+	public function getIntegrityMarkup($fileName){
+		$node = new ZenXML("Integrity");
+		$node->Contains = hash_file("sha256",$fileName); 
+		$node->Contains['algorithme'] = "http://www.w3.org/2001/04/xmlenc#sha256";
+		$node->UnitIdentifier = basename($fileName);
+		return $node;
+	}
+	
 }

@@ -1,5 +1,5 @@
 <?php 
-class HeliosSEDAStandard extends Connecteur {
+class HeliosSEDAStandard extends SEDAConnecteur {
 	
 	private $authorityInfo;
 	
@@ -98,7 +98,7 @@ class HeliosSEDAStandard extends Connecteur {
 		return $info;
 	}
 	
-	public function getBordereau($transactionsInfo){
+	public function getBordereau(array $transactionsInfo){
 		$this->checkInformation($transactionsInfo);
 		
 		$infoPESAller = $this->extractInfoFromPESAller(file_get_contents($transactionsInfo['pes_aller']));
@@ -119,8 +119,7 @@ class HeliosSEDAStandard extends Connecteur {
 		$i = 0;
 		foreach(array('pes_aller','pes_retour') as $file_to_add){
 			$file_path = $transactionsInfo[$file_to_add];
-			$archiveTransfer->Integrity[$i]->Contains = sha1_file($file_path);
-			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($file_path);
+			$archiveTransfer->Integrity[$i] = $this->getIntegrityMarkup($file_path);
 			$i++;
 		}
 		

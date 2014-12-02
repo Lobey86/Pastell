@@ -20,7 +20,8 @@ En fonction des flux que l'on souhaite utiliser, il peut-être nécessaire d'ajout
 * fournisseur-message: *
 
 Il est également nécessaire d'avoir configurer un connecteur global de type "validation-fournisseur" et d'y avoir indiqué
-une entité Pastell qui sera responsable de la validation finale des fournisseurs.
+une entité Pastell qui sera responsable de la validation finale des fournisseurs. Attention cette collectivité modératrice ne peut pas 
+inviter des fournisseurs.
 
 
 Invitation du fournisseur
