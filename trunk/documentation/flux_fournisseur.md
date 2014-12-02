@@ -36,7 +36,7 @@ peut créer un document de ce type en spécifiant la raison sociale du fournisseur
 L'utilisateur peut renvoyer l'invitation autant de fois qu'il le souhaite (perte du mail par le fournisseur par exemple).
 Une fois le fournisseur inscrit, il n'est plus possible de lui ré-envoyer une invitation.
 
-Il est possible d'envoyer un grand nombre d'invitation via un fichier au format CSV, cette possibilité est à configuré dans le 
+Il est possible d'envoyer un grand nombre d'invitation via un fichier au format CSV, cette possibilité est à configurer dans le 
 connecteur mail-fournisseur-invitation et demandera donc des droits d'administration.
 
 Le mail d'invitation contient un lien permettant au fournisseur d'effectuer une préinscription sur Pastell en lui demandant un minimum 
@@ -49,10 +49,10 @@ Adhésion du fournisseur
 
 Le fournisseur doit d'abord soumettre ces informations d'adhésions à une ou plusieurs collectivités avec laquelle il souhaite communiquer.
 
-Lors de son inscription, un document de type "Adhésion fournisseur" à été créer, le fournisseur doit le compléter et l'envoyer à la ou 
+Lors de son inscription, un document de type "Adhésion fournisseur" à été créé, le fournisseur doit le compléter et l'envoyer à la ou 
 aux collectivités qui l'ont précedemment invité.
 
-Une fois que la collectivité recoit le document, elle peut soit :
+Une fois que la collectivité reçoit le document, elle peut soit :
 * accepter le document
 * refuser le document.
 
@@ -61,7 +61,7 @@ En cas de refus, le document est retourné au fournisseur qui pourra alors le mod
 En cas d'acceptation, le document est envoyé à l'entité Pastell défini par le connecteur global *validation-fournisseur*.
 Cette entité pourra à son tour accepter ou refuser le document.
 
-Le refus, comme précédemment renvoi le document au fournisseur.
+Le refus, comme précédemment, renvoi le document au fournisseur.
 
 En cas d'acceptation, il est alors possible pour cette collectivité et ce forunisseur d'utiliser les services de factures, de messagerie, etc.
 
