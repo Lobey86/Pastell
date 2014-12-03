@@ -140,10 +140,10 @@ abstract class ActionExecutor {
 
 	public function getEntite(){
 		static $entite;
-		if (! $entite){
-			$entite = new Entite($this->getSQLQuery(),$this->id_e);
+		if (empty($entite[$this->id_e])){
+			$entite[$this->id_e] = new Entite($this->getSQLQuery(),$this->id_e);
 		}
-		return $entite;
+		return $entite[$this->id_e];
 	}
 	
 	public function getSQLQuery(){
