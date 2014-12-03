@@ -1,0 +1,17 @@
+
+h2 {font-size:130%; margin:0 0 4px 0;color:#000;font-weight:normal;}
+
+form {
+margin: 0 0 0 0;
+}
+
+.breadcrumb {
+padding-left:20px;
+margin-bottom:0px;
+border-radius:0;
+/*background:#ededed;*/
+}
+
+input, textarea, .uneditable-input {
+    width: 306px;
+}
