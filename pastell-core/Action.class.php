@@ -33,11 +33,6 @@ class Action {
 	public function getActionName($action_internal_name){
 		$tabAction = $this->getActionArray($action_internal_name);
 		if (! isset($tabAction[self::ACTION_DISPLAY_NAME])){
-			
-			if ($action_internal_name == 'fatal-error'){
-				return "Erreur fatale";
-			}
-			
 			return $action_internal_name;
 		}
 		return $tabAction[self::ACTION_DISPLAY_NAME];
@@ -61,7 +56,7 @@ class Action {
 	
 	public function getActionRule($action_internal_name){
 		$tabAction = $this->getActionArray($action_internal_name);
-		if (empty($tabAction[self::ACTION_RULE])){
+		if ( ! isset($tabAction[self::ACTION_RULE])){
 			return array();
 		}
 		return $tabAction[self::ACTION_RULE];
@@ -133,12 +128,5 @@ class Action {
 		return $this->getProperties($action,self::ACTION_AUTOMATIQUE);
 	}
 	
-	public function getActionWithNotificationPossible(){
-		$result = array();
-		foreach($this->getWorkflowAction() as $id => $name){
-			$result[] = array('id'=>$id,'action_name'=>$name);		
-		}
-		return $result;
-	}
 	
 }

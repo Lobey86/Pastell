@@ -27,10 +27,6 @@ class CurlWrapper {
 		$this->setProperties(CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 	}
 	
-	public function addHeader($name,$value){
-		$this->setProperties(CURLOPT_HTTPHEADER, array("$name: $value"));
-	}
-	
 	public function getLastError(){
 		return $this->lastError;
 	}
@@ -86,18 +82,6 @@ class CurlWrapper {
 		
 		$this->postData[$name][] = $value;
 	}
-	
-	public function setPostDataUrlEncode(array $post_data){
-		$pd = array();
-		foreach($post_data as $k=>$v){
-			$pd[]="$k=$v";
-		}
-		$pd=implode("&",$pd);
-		$this->setProperties(CURLOPT_POST, true);
-		$this->setProperties(CURLOPT_POSTFIELDS,$pd);
-		$this->setProperties(CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
-	}
-	
 	
 	public function addPostFile($field,$filePath,$fileName = false,$contentType="application/octet-stream",$contentTransferEncoding=false){
 		if (! $fileName){

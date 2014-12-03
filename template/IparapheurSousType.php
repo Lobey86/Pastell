@@ -8,5 +8,5 @@
 		<option value='<?php hecho($type_message) ?>'><?php hecho($type_message)?></option>
 	<?php endforeach; ?>
 	</select>	
-	<input type='submit' class='btn' value='Sélectionner'/>
+	<input type='submit' value='Sélectionner'/>
 </form>

@@ -1,11 +1,12 @@
-<div class="box">
+
+<div class="box_contenu clearfix">
 
 <h2>Vos informations</h2>
 
-<table class='table table-striped'>
+<table class='tab_04'>
 
 <tr>
-<th class="w140">Login</th>
+<th>Login</th>
 <td><?php echo $info['login'] ?></td>
 </tr>
 
@@ -52,23 +53,19 @@
 
 </table>
 
-
-<a href='utilisateur/modif-password.php' class='btn'>Modifier mon mot de passe</a>
+<a href='utilisateur/modif-password.php' class='btn_maj'>Modifier mon mot de passe</a>
 <br/>
 <br/>
-<a href='utilisateur/modif-email.php' class='btn'>Modifier mon email</a>
+<a href='utilisateur/modif-email.php' class='btn_maj'>Modifier mon email</a>
 
 </div>
 
-
-
-
-<div class="box">
+<div class="box_contenu clearfix">
 <h2>Vos rôles sur Pastell : </h2>
 
-<table class='table table-striped'>
+<table class='tab_01'>
 <tr>
-<th class="w140">Rôle</th>
+<th>Rôle</th>
 <th>Entité</th>
 <th>&nbsp;</th>
 </tr>
@@ -89,18 +86,17 @@
 
 </div>
 
-<div class="box">
+<div class="box_contenu clearfix">
 <h2>Vos notifications</h2>
-<table class='table table-striped'>
+<table class='tab_02'>
 <tr>
-<th class="w140">Entité</th>
+<th>Entité</th>
 <th>Type de document</th>
 <th>Action</th>
-<th>Type d'envoi</th>
 <th>&nbsp;</th>
 </tr>
 
-<?php foreach ($notification_list as $infoNotification) : ?>
+<?php foreach ($notification->getAll($id_u) as $infoNotification) : ?>
 <tr>
 	<td>
 		<?php if ($infoNotification['id_e']) : ?>
@@ -117,48 +113,35 @@
 		<?php endif; ?>
 	</td>
 	<td>
-		<ul>
-		<?php 		
-		foreach($infoNotification['action'] as $action):?>
-			<li><?php echo $action?$action:'Toutes' ?></li>
-		<?php endforeach;?>
-		<li><a href='utilisateur/notification-action.php?id_u=<?php echo $infoNotification['id_u']?>&id_e=<?php echo $infoNotification['id_e']?>&type=<?php echo $infoNotification['type']?>'>Modifier</a></li>
-		</ul>
-	</td>
-	<td>
-		<?php echo $infoNotification['daily_digest']?"Résumé journalier":"Envoi à chaque événement"?>
-		<br/>
-		<form action='utilisateur/notification-toogle-daily-digest.php' method='post'>
-			<input type='hidden' name='id_n' value='<?php echo $infoNotification['id_n']?>'/>
-			<input type='submit' class='btn btn-mini' value='modifier'/>
-		</form>
+		<?php if ($infoNotification['action']) : ?>
+			<?php echo $infoNotification['action'] ?>
+		<?php else : ?>
+			Toutes
+		<?php endif;?>
 	</td>
 	
 	<td>
-			<a class='btn btn-mini btn-danger' href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
-				supprimer cette notification
+		
+			<a href='utilisateur/supprimer-notification.php?id_n=<?php echo $infoNotification['id_n'] ?>'>
+				enlever cette notification
 			</a>
 	</td>
 </tr>
 <?php endforeach;?>
 </table>
-
-<form class="form-inline" action='utilisateur/ajouter-notification.php' method='post'>
-	<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
-	<select name='id_e'>
-		<option value=''>...</option>
-		<?php foreach($arbre as $entiteInfo): ?>
-		<option value='<?php echo $entiteInfo['id_e']?>'>
-			<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
-			|_<?php echo $entiteInfo['denomination']?> </option>
-		<?php endforeach ; ?>
-	</select>
-	
-	<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
-	<select name='daily_digest'>
-		<option value=''>Envoi à chaque événement</option>
-		<option value='1'>Résumé journalier</option>
-	</select>		
-	<button type='submit' class='btn'><i class='icon-plus'></i>Ajouter</button>
-</form>
+<form action='utilisateur/ajouter-notification.php' method='post'>
+		<input type='hidden' name='id_u' value='<?php echo $id_u ?>' />
+		
+		<select name='id_e'>
+			<option value=''>...</option>
+			<?php foreach($arbre as $entiteInfo): ?>
+			<option value='<?php echo $entiteInfo['id_e']?>'>
+				<?php for($i=0; $i<$entiteInfo['profondeur']; $i++){ echo "&nbsp&nbsp;";}?>
+				|_<?php echo $entiteInfo['denomination']?> </option>
+			<?php endforeach ; ?>
+		</select>
+		<?php $this->DocumentTypeHTML->displaySelectWithCollectivite($all_module); ?>
+			
+		<input type='submit' value='ajouter'/>
+	</form>
 </div>

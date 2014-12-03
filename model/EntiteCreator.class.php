@@ -30,7 +30,7 @@ class EntiteCreator extends SQL {
 		$sql = "SELECT id_e FROM entite WHERE siren = ? AND denomination=? AND type=? AND entite_mere=? AND date_inscription=?";
 		$id_e =  $this->queryOne($sql,$siren,$denomination,$type,$entite_mere,$date_inscription);
 	
-		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"Créé","Création de l'entité $denomination - $siren");
+		$this->journal->add(Journal::MODIFICATION_ENTITE,$id_e,0,"Créé","");
 		
 		return $id_e;
 	}

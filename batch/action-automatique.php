@@ -5,13 +5,9 @@ $min_exec_time = 60;
 
 require_once( __DIR__ . "/../web/init.php");
 
-$objectInstancier->LastUpstart->updatePID();
-
-
-$zenMail = $objectInstancier->ZenMail;
+$zenMail = new ZenMail();
 $notification = new Notification($sqlQuery);
-$notificationMail = $objectInstancier->NotificationMail;
-
+$notificationMail = new NotificationMail($notification,$zenMail,$journal);
 
 $documentEntite = new DocumentEntite($sqlQuery);
 
@@ -43,40 +39,12 @@ foreach($all_connecteur as $connecteur){
 		} else {
 			echo "ok";
 		}
+		
 	}
 	echo "\n";
 }
 
-$all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAllLocal();
-
-foreach($all_connecteur as $connecteur){
-	try {
-		$documentType = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($connecteur['id_connecteur']);
-	} catch (Exception $e){
-		continue;	
-	}
-	
-	$all_action = $documentType->getAction()->getAutoAction();
-	foreach($all_action as $action){
-		echo "Connecteur {$connecteur['libelle']} (id_e :{$connecteur['id_e']} - action: $action): ";
-		$result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($connecteur['id_ce'],$connecteur['id_e'],$action, true, array());
-		if (!$result){
-			echo  $objectInstancier->ActionExecutorFactory->getLastMessage();
-		} else {
-			echo $objectInstancier->ActionExecutorFactory->getLastMessage();
-		}
-		echo "\n";
-	}
-	
-}
-
-
-
-$objectInstancier->DocumentControler->doActionProgrammee();
-
 $journal->horodateAll();
-
-
 
 
 $objectInstancier->LastUpstart->updateMtime();
@@ -87,7 +55,3 @@ if ($sleep > 0){
 	echo "Arret du script : $sleep";
 	sleep($sleep);
 }
-$objectInstancier->LastUpstart->deletePID();
-
-
-

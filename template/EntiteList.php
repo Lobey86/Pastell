@@ -1,49 +1,38 @@
 
-<table style='width:100%;'>
-<tr>
-<td>
+<div class='haut2'>
 <h2>Liste des collectivités</h2>
-</td>
 <?php if ($this->RoleUtilisateur->hasDroit($this->Authentification->getId(),"entite:edition",0)) : ?>
-<td class='align_right'>
-<a href="entite/import.php" class='btn'>Importer</a>
-<a href="entite/edition.php"  class='btn'>Nouveau</a>
-</td>
+<a href="entite/import.php" class='btn' >
+<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+Importer</a>
+<a href="entite/edition.php"  class='btn'>
+<img src="img/commun/picto_nouveau.png" alt="" class="absmiddle" />
+Nouveau</a>
 <?php endif;?>
-</tr>
-</table>
+</div>
 
-
-
-
-<form action='entite/detail.php' method='get' class="form-inline">
+<div>
+<form action='entite/detail.php' method='get' >
 	<input type='text' name='search' value='<?php echo $search?>'/>
-	<button type='submit' class='btn'><i class='icon-search'></i>Rechercher</button>
+	<input type='submit' value='Rechercher' />
 </form>
-
-
+</div>
 <?php 
 $this->SuivantPrecedent($offset,20,$nbCollectivite,"entite/detail.php?search=$search");
 ?>
-<table class="table table-striped">
+<table class="tab_01">
 	<tr>
-		<th class='w200'>Dénomination</th>
+		<th>Dénomination</th>
 		<th>Siren</th>
 		<th>Type</th>
-		<th>Active</th>
 	</tr>
 <?php foreach($liste_collectivite as $i => $info) : ?>
-	<tr>
+	<tr class='<?php echo $i%2?'bg_class_gris':'bg_class_blanc'?>'>
 		<td><a href='entite/detail.php?id_e=<?php echo  $info['id_e'] ?>'><?php hecho($info['denomination']) ?></a></td>
 		<td><?php 
 		echo $info['siren'] ?></td>
 		<td>
 			<?php echo Entite::getNom($info['type']) ?>
-		</td>
-		<td>
-			<?php if(! $info['is_active']) :?>
-			<b>Désactivé</b>
-			<?php endif;?>
 		</td>
 	</tr>
 <?php endforeach; ?>

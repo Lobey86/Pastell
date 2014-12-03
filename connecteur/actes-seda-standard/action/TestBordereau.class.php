@@ -14,12 +14,9 @@ class TestBordereau extends ActionExecutor {
 			'nature_descr' => 'bla',
 			'nature_code' => 'bla',
 			'classification' => '3.1',
-			'actes_file' => __DIR__ ."/../fixtures/vide.pdf",
-			'ar_actes' => __DIR__."/../fixtures/ar-actes.xml",
-			'annexe' => array(),
-			'echange_prefecture'=>array(),
-			'echange_prefecture_ar' => array(),
-			'echange_prefecture_type' => array(),
+			'actes_file' => '/etc/passwd',
+			'ar_actes' => '/etc/group',
+			'annexe' => array('/etc/passwd'),
 		);
 		
 		$bordereau = $archivesSEDA->getBordereau($transactionsInfo);

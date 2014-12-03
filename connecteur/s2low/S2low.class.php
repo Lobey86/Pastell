@@ -17,7 +17,6 @@ class S2low  extends TdtConnecteur {
 	const URL_ACTES_REPONSE_PREFECTURE =  "/modules/actes/actes_transac_get_document.php";
 	const URL_POST_REPONSE_PREFECTURE = "/modules/actes/actes_transac_reponse_create.php";
 	const URL_ACTES_TAMPONNE = "/modules/actes/actes_transac_get_tampon.php";
-	const URL_POST_CONFIRM = "/modules/actes/actes_transac_post_confirm_api.php";
 	
 	private $arActes;
 	private $reponseFile;
@@ -26,8 +25,6 @@ class S2low  extends TdtConnecteur {
 	
 	protected $ensureLogin;
 	protected $en_attente;
-	protected $authentication_for_teletransmisson;
-	
 	
 	public function setConnecteurConfig(DonneesFormulaire $collectiviteProperties){
 		$this->curlWrapper = new CurlWrapper();
@@ -45,15 +42,13 @@ class S2low  extends TdtConnecteur {
 		$this->tedetisURL = $collectiviteProperties->get('url');
 		$this->classificationFile = $collectiviteProperties->getFilePath('classification_file');	
 		$this->en_attente = $collectiviteProperties->get('envoi_en_attente');
-		$this->authentication_for_teletransmisson = $collectiviteProperties->get('authentication_for_teletransmisson');
 	}
 	
 
-	protected function ensureLogin(){	
+	protected function ensureLogin(){		
 		if ($this->ensureLogin){
 			return true;
 		}
-		
 		$output = $this->curlWrapper->get($this->tedetisURL .self::URL_LIST_LOGIN);
 		
 		
@@ -71,7 +66,6 @@ class S2low  extends TdtConnecteur {
 	private function exec($url){
 		$this->ensureLogin();
 		$output = $this->curlWrapper->get($this->tedetisURL .$url);
-		
 		$error = $this->curlWrapper->getLastError();
 		if ( ! $output && $error){
 			throw new S2lowException($error);			
@@ -157,16 +151,6 @@ class S2low  extends TdtConnecteur {
 	}
 	
 	
-	private function getIsEnAttente(){
-		if ( $this->en_attente){
-			return 1;
-		}
-		if ($this->authentication_for_teletransmisson){
-			return 1;
-		}
-		return 0;
-	}
-	
 	public function postActes(DonneesFormulaire $donneesFormulaire) {
 		$this->verifClassif();
 		
@@ -177,7 +161,7 @@ class S2low  extends TdtConnecteur {
 		$this->curlWrapper->addPostData('subject',$donneesFormulaire->get('objet'));
 		
 		$this->curlWrapper->addPostData('decision_date', date("Y-m-d", strtotime($donneesFormulaire->get('date_de_lacte'))));
-		$this->curlWrapper->addPostData('en_attente', $this->getIsEnAttente());
+		$this->curlWrapper->addPostData('en_attente', $this->en_attente?1:0);
 		
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');
@@ -357,10 +341,6 @@ class S2low  extends TdtConnecteur {
 		$donneesFormulaire->setData("{$libelle}_response_transaction_id",$id_transaction);
 		$donneesFormulaire->setData("has_reponse_{$libelle}",true);
 		return true;
-	}
-	
-	public function getRedirectURLForTeletransimission(){
-		return $this->tedetisURL .self::URL_POST_CONFIRM;
 	}
 	
 }

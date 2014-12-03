@@ -9,12 +9,6 @@ CREATE TABLE action_auto_log (
 	`last_message` varchar(255) NOT NULL,
 	UNIQUE KEY id_e (`id_e`,`id_d`,`first_try`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE action_programmee (
-	`id_d` varchar(32) NOT NULL,
-	`id_e` int(11) NOT NULL,
-	`id_u` int(11) NOT NULL,
-	`action` varchar(32) NOT NULL
-)  ENGINE=InnoDB  ;
 CREATE TABLE agent (
 	`id_a` int(11) NOT NULL AUTO_INCREMENT,
 	`matricule` varchar(64) NOT NULL,
@@ -62,11 +56,6 @@ CREATE TABLE annuaire_role (
 	`partage` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_r`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE collectivite_fournisseur (
-	`id_e_col` int(11) NOT NULL,
-	`id_e_fournisseur` int(11) NOT NULL,
-	`is_valid` tinyint(1) NOT NULL
-)  ENGINE=InnoDB  ;
 CREATE TABLE connecteur_entite (
 	`id_ce` int(11) NOT NULL AUTO_INCREMENT,
 	`id_e` int(11) NOT NULL,
@@ -117,12 +106,6 @@ CREATE TABLE document_entite (
 	`last_action_date` datetime NOT NULL,
 	KEY id_e (`id_e`,`id_d`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE document_index (
-	`id_d` varchar(64) NOT NULL,
-	`field_name` varchar(128) NOT NULL,
-	`field_value` varchar(128) NOT NULL,
-	PRIMARY KEY (`id_d`,`field_name`)
-)  ENGINE=InnoDB  ;
 CREATE TABLE droit (
 	`id_u` int(11) NOT NULL,
 	`droit` varchar(16) NOT NULL,
@@ -138,7 +121,6 @@ CREATE TABLE entite (
 	`etat` int(11) NOT NULL,
 	`entite_mere` varchar(9),
 	`centre_de_gestion` int(11) NOT NULL,
-	`is_active` tinyint(1) NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id_e`),
 	KEY entite_mere (`entite_mere`,`type`,`id_e`),
 	KEY denomination_2 (`denomination`),
@@ -184,7 +166,7 @@ CREATE TABLE journal (
 	`id_u` int(11) NOT NULL,
 	`id_d` varchar(16) NOT NULL,
 	`action` varchar(64) NOT NULL,
-	`message` text NOT NULL,
+	`message` varchar(1024) NOT NULL,
 	`date` datetime NOT NULL,
 	`preuve` text NOT NULL,
 	`date_horodatage` datetime NOT NULL,
@@ -200,19 +182,8 @@ CREATE TABLE notification (
 	`id_e` int(11) NOT NULL,
 	`type` varchar(32) NOT NULL,
 	`action` varchar(64) NOT NULL,
-	`daily_digest` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id_n`)
 )  ENGINE=MyISAM  ;
-CREATE TABLE notification_digest (
-	`id_nd` int(11) NOT NULL AUTO_INCREMENT,
-	`mail` varchar(255) NOT NULL,
-	`id_e` int(11) NOT NULL,
-	`id_d` varchar(32) NOT NULL,
-	`action` varchar(32) NOT NULL,
-	`type` varchar(32) NOT NULL,
-	`message` text NOT NULL,
-	PRIMARY KEY (`id_nd`)
-)  ENGINE=InnoDB  ;
 CREATE TABLE role (
 	`role` varchar(64) NOT NULL,
 	`libelle` varchar(255) NOT NULL,

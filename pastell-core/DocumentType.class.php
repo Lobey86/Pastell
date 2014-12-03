@@ -1,7 +1,5 @@
 <?php
-/**
- * Gère le contenu d'un fichier definition.yml d'un module
- */
+//Gère le contenu d'un fichier definition.yml d'un module
 class DocumentType {
 	
 	const NOM = 'nom';
@@ -12,14 +10,11 @@ class DocumentType {
 	const AFFICHE_ONE = 'affiche_one';
 	const CONNECTEUR = 'connecteur';
 	const DESCRIPTION = 'description';
-	const CHAMPS_AFFICHE = 'champs-affiches';
 	
 	const TYPE_FLUX_DEFAULT = 'Flux Généraux';
 	
 	private $module_id;
 	private $module_definition;
-	
-	private $formulaire;
 	
 	public function __construct($module_id,array $module_definition){
 		$this->module_id = $module_id; 
@@ -58,27 +53,15 @@ class DocumentType {
 		return array();
 	}
 	
-	/**
-	 * Crée un objet de type Formulaire
-	 * @return Formulaire
-	 */
-	public function getFormulaire(){
-		if (!$this->formulaire){
-			$this->formulaire = new Formulaire($this->getFormulaireArray());
-		} 
-		return $this->formulaire;
-	}
-	
-	public function getPageCondition(){
-		if (isset($this->module_definition[self::PAGE_CONDITION])) {
-			return $this->module_definition[self::PAGE_CONDITION];
-		} else {
-			return array();
+	public function getFormulaire(){	
+		$formulaire =  new Formulaire($this->getFormulaireArray());
+		if (isset( $this->module_definition[self::PAGE_CONDITION])){
+			$formulaire->addPageCondition($this->module_definition[self::PAGE_CONDITION]);
 		}
-	}	
-	
-	public function isAfficheOneTab(){
-		return (! empty($this->module_definition[self::AFFICHE_ONE]));
+		if (! empty($this->module_definition[self::AFFICHE_ONE])){
+			$formulaire->setAfficheOneTab();
+		}
+		return $formulaire;
 	}
 	
 	private function getFormulaireArray(){
@@ -101,21 +84,4 @@ class DocumentType {
 		}
 		return $this->module_definition[self::ACTION];
 	}
-	
-	public function getChampsAffiches(){
-		$default_fields = array('titre'=>'Objet','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date'); 
-		if (empty($this->module_definition[self::CHAMPS_AFFICHE])){
-			return $default_fields;
-		}
-		$result = array();
-		foreach( $this->module_definition[self::CHAMPS_AFFICHE] as $champs){
-			if (isset($default_fields[$champs])){
-				$result[$champs] = $default_fields[$champs];
-			} else {
-				$result[$champs] = $this->getFormulaire()->getField($champs)->getLibelle();
-			}
-		}
-		return $result;
-	}
-	
 }

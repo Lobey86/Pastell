@@ -64,16 +64,11 @@ class DocumentTypeFactory {
 		return $result;
 	}
 	
-	public function isSuperTypePresent($type){
+	public function isTypePresent($type){
 		$all = $this->getAllType();
 		return isset($all[$type]);
 	}
 
-	public function isTypePresent($type){
-		$all = $this->fluxDefinitionFiles->getAll();
-		return isset($all[$type]);
-	}
-	
 	public function getActionByRole($allDroit){
 		foreach($allDroit as $droit){
 			$r = explode(":",$droit);

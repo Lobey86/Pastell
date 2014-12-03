@@ -19,6 +19,10 @@ $formulaire = $documentType->getFormulaire();
 
 $donneesFormulaire = $donneesFormulaireFactory->get($id_d,$type);
 
+$formulaire->addDonnesFormulaire($donneesFormulaire);
+$formulaire->setTabNumber($page);
+
+
 $document = $objectInstancier->Document;
 $info = $document->getInfo($id_d);
 if (! $info){
@@ -58,9 +62,7 @@ $donneesFormulaire->saveTab($recuperateur,$fileUploader,$page);
 
 if ($action=='creation' || $action=='modification'){
 	$documentEntite = new DocumentEntite($sqlQuery);
-	if ( ! $documentEntite->getRole($id_e, $id_d)) {
-		$documentEntite->addRole($id_d,$id_e,"editeur");
-	}
+	$documentEntite->addRole($id_d,$id_e,"editeur");
 }
 
 
@@ -77,17 +79,9 @@ $titre = $donneesFormulaire->get($titre_field);
 
 $document->setTitre($id_d,$titre);
 
-
 foreach($donneesFormulaire->getOnChangeAction() as $action_on_change) {	
 	$result = $objectInstancier->ActionExecutorFactory->executeOnDocument($id_e,$authentification->getId(),$id_d,$action_on_change);
-	if (!$result){
-		$objectInstancier->LastError->setLastError($objectInstancier->ActionExecutorFactory->getLastMessage());
-	} elseif ($objectInstancier->ActionExecutorFactory->getLastMessage()){
-		$objectInstancier->LastMessage->setLastMessage($objectInstancier->ActionExecutorFactory->getLastMessage());
-	}
 }
-
-
 
 if ( $recuperateur->get('ajouter') ){
 	header("Location: edition.php?id_d=$id_d&id_e=$id_e&page=$page&action=$action");

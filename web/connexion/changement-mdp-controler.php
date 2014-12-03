@@ -24,7 +24,7 @@ if (! $password){
 	exit;
 }
 if ($password != $password2){
-	$lastError->setLastError("Les mots de passe ne correspondent pas");
+	$lastError->setLastError("Les mots de passes ne correspondent pas");
 	header("Location: changement-mdp.php?mail_verif=$mail_verif_password");
 	exit;
 }

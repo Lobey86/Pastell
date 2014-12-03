@@ -1,7 +1,6 @@
-<div class='alert alert-success'>
-	Votre inscription est validée
+<div class='box_confirm'>
+	<p>Votre inscription est validée</p>
 </div>
-
-<div class="box">
-	<a class='btn' href='index.php'><i class='icon-home'></i>Revenir à l'accueil</a>
+<div class="box_contenu">
+	<a href='index.php'>Revenir à l'accueil</a>
 </div>

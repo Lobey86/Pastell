@@ -36,19 +36,10 @@ formulaire:
 			commentaire: "15 caractères maxi, chiffres, lettres en majuscule ou _"
 			preg_match: "#^[0-9A-Z_]{1,15}$#"
 			preg_match_error: "15 caractères maxi, chiffres, lettres en majuscule ou _"
-			index: true
 				
-		Objet: 
-			requis: true
-			title: true
-			
+		Objet: {requis: true, title: true}
 		Date de l'acte: {type: date, requis: true, commentaire: date de la décision}
-		Arreté: 
-			name: Acte
-			type: file
-			requis: true
-			commentaire: "format PDF ou XML"
-			onchange: arrete-change
+		Arreté: {name: Acte, type: file, requis: true, commentaire: "format PDF ou XML"}
 		Autre document attaché: {type: file, multiple: true, commentaire: "Attention ! La taille totale des documents acte + annexes ne peut pas dépasser 20 Mo."}
 		
 	Cheminement:
@@ -58,7 +49,7 @@ formulaire:
 			link_name: liste des matières et sous-matières
 			choice-action: classification
 		
-		envoi_signature_check:
+		envoi_signature:
 			name: Transmission au parapheur
 			type: checkbox
 			onchange: envoi-signature-change
@@ -68,19 +59,16 @@ formulaire:
 			type: checkbox
 			onchange: envoi-sae-change
 		
-		envoi_ged:
-			name: Transmission à la GED
-			type: checkbox
-		
 		envoi_sae:
 			name: Transmission au SAE
 			type: checkbox
 			onchange: envoi-sae-change
+		
+		envoi_ged:
+			name: Transmission à la GED
+			type: checkbox
 	
 	Parapheur:
-		envoi_signature:
-			no-show: true
-	
 		iparapheur_type: 
 			name: Type iParapheur
 			read-only: true
@@ -93,23 +81,6 @@ formulaire:
 			choice-action: iparapheur-sous-type
 			link_name: liste des types
 		
-	Signature locale:
-		signature_locale_display:
-			no-show: true
-	
-		signature_link: 
-			name: Signer l'acte
-			type: externalData
-			choice-action: signature-locale
-			link_name: signer l'acte
-		
-		signature: 
-			name: Signature de l'acte
-			read-only: true
-			type: file
-			requis: true
-		
-	
 	Signature:
 		has_signature: {no-show: true}
 		signature: {name: Signature de l'acte, type: file}
@@ -302,20 +273,12 @@ formulaire:
 		tedetis_annulation_id:
 			name: Identifiant de la transaction d'annulation
 
-champs-affiches:
-	titre
-	numero_de_lacte 
-	entite
-	dernier_etat
-	date_dernier_etat
+			
 
 page-condition:
 	Parapheur:
 		envoi_signature: true
 	
-	Signature locale:
-		signature_locale_display: true
-		
 	Signature:
 		has_signature: true
 		
@@ -374,36 +337,13 @@ action:
 		name: Supprimé
 		
 		rule:
-			or_1:
-				and_1:
-					last-action: 
-						creation
-						modification
-						recu-iparapheur
-						rejet-iparapheur
-				
-					no-action:
-						send-tdt
-				and_2:
-					last-action:
-						accepter-sae
-						rejet-sae
-				and_3:
-					last-action:
-						send-ged
-					content:
-						envoi_sae: false
-				and_4:
-					last-action:
-						acquiter-tdt
-						erreur-verif-tdt
-					content:
-						envoi_sae: false
-						envoi_ged: false
-				and_5:
-					last-action:
-						termine
-					
+			last-action: 
+				creation
+				modification
+				recu-iparapheur
+				rejet-iparapheur
+			no-action:
+				send-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 		action-class: Supprimer
@@ -486,33 +426,6 @@ action:
 		action-class: TedetisEnvoie
 		action-automatique: verif-tdt
 	
-	document-transmis-tdt:
-		name-action: Transmettre les document au TdT
-		name: Transmis au TdT
-		rule:
-			role_id_e: no-role
-		 
-	
-	teletransmission-tdt:
-		name-action: Ordoner la télétransmission au TdT
-		name: Télétransmettre en préfecture 
-		
-		rule:
-			role_id_e: editeur
-			droit_id_u: 'actes-generique:edition'
-			last-action: document-transmis-tdt
-		action-class: TdtTeletransmettre
-	
-	return-teletransmission-tdt:
-		name: Retour de la télétransmission
-		no-show: true
-		rule:
-			role_id_e: editeur
-			droit_id_u: 'actes-generique:edition'
-			last-action: document-transmis-tdt
-		action-class: TdtRetourTeletransmettre
-		
-	
 	verif-tdt:
 		name-action: Vérifier le statut de la transaction
 		name: Statut vérifié par le TdT		
@@ -520,7 +433,6 @@ action:
 			last-action:
 				send-tdt
 				erreur-verif-tdt
-				document-transmis-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisRecup
@@ -578,7 +490,7 @@ action:
 				and_3:
 					content:
 						has_courrier_simple: true
-						has_reponse_lettre_courrier_simple: false
+						has_reponse_courrier_simple: false
 		action-class: TedetisSendReponsePref	
 	
 	
@@ -616,31 +528,6 @@ action:
 		rule:
 			role_id_e: no-role
 	
-	send-ged:
-		name-action: Verser à la GED
-		name: Versé à la GED
-		rule:
-			content:
-				envoi_ged: true
-			or_1:
-				and_1:
-					last-action: 
-						creation
-						modification
-					document_is_valide: true
-					content:
-						envoi_signature: false
-						envoi_tdt: false
-				and_2:
-					last-action: 
-						recu-iparapheur
-					content:
-						envoi_tdt: false
-				and_3:
-					last-action: 
-						acquiter-tdt
-		action-class: GEDEnvoi
-	
 	send-archive:
 		name-action: Verser au SAE
 		name: Versé au SAE
@@ -656,28 +543,18 @@ action:
 					content:
 						envoi_signature: false
 						envoi_tdt: false
-						envoi_ged: false
 				and_2:
 					last-action: 
 						recu-iparapheur
 					content:
 						envoi_tdt: false
-						envoi_ged: false
 				and_3:
 					last-action: 
 						acquiter-tdt
-						verif-reponse-tdt
-						send-reponse-prefecture
-					content:
-						envoi_ged: false
+						info-tdt
 				and_4:
 					last-action:
-						send-ged
-				and_5:
-					last-action:
 						erreur-envoie-sae
-				
-						
 		action-class: SAEEnvoiActes
 		action-automatique: verif-sae
 
@@ -732,13 +609,40 @@ action:
 		rule: 
 			role_id_e: no-role
 			
-
-	arrete-change:
-		name: Modificatio de l'arrêté
-		no-workflow: true
+	send-ged:
+		name-action: Verser à la GED
+		name: Versé à la GED
 		rule:
-			role_id_e: no-role
-		action-class: ActesGeneriqueArreteChange
+			content:
+				envoi_ged: true
+			or_1:
+				and_1:
+					last-action: 
+						creation
+						modification
+					document_is_valide: true
+					content:
+						envoi_signature: false
+						envoi_tdt: false
+						envoi_sae: false
+				and_2:
+					last-action: 
+						recu-iparapheur
+					content:
+						envoi_tdt: false
+						envoi_sae: false
+				and_3:
+					last-action: 
+						acquiter-tdt
+						info-tdt
+					content:
+						envoi_sae: false
+				and_4:
+					last-action:
+						accepter-sae
+			
+		action-class: GEDEnvoi
+	
 	
 	
 	envoi-signature-change:		
@@ -769,12 +673,6 @@ action:
 		rule:
 			role_id_e: no-role
 		action-class: Classification
-				
-	signature-locale:
-		name: Signature locale
-		no-workflow: true
-		rule:
-			role_id_e: no-role
-		action-class: SignatureLocale	
+					
 			
 			

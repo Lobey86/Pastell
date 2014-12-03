@@ -1,197 +1,32 @@
 <?php
+require_once (PASTELL_PATH . "/ext/spyc.php");
 
-/**
- * Gestion des données de formulaire à partir d'un fichier YML de type clé:valeur
- */
 class DonneesFormulaire {
-		
+	
+	private $formulaire;
 	private $filePath;
-	private $documentType;
-	
+	private $info;
+	private $isModified;
 	private $lastError;
-	
 	private $onChangeAction;
 
 	private $editable_content;
 	private $has_editable_content;
 	
-	private $isModified;
-	
-	private $fichierCleValeur;
-	
-	private $fieldDataList;
-	
-	private $documentIndexor;
-	
-	/**
-	 * 
-	 * @param string $filePath : emplacement vers un fichier YML contenant les données du document sous la forme de ligne clé:valeur
-	 * @param DocumentType $documentType
-	 */
-	public function __construct($filePath, DocumentType $documentType){
+	public function __construct($filePath, Formulaire $formulaire){
 		$this->filePath = $filePath;
-		$this->documentType = $documentType;
+		$this->formulaire = $formulaire;
+		$this->retrieveInfo();
 		$this->onChangeAction = array();
-		$this->fichierCleValeur = new FichierCleValeur($filePath);
-		$this->setOnglet();
-		
-		foreach($this->getFormulaire()->getAllFields() as $field){
-			$this->setFieldData($field->getName());
-		}
 	}
 	
-	private function setFieldData($fieldName,$ongletNum=-1){
-		if (empty($this->fieldDataList[$fieldName])){
-			if ($ongletNum != -1){
-				$onglet_list = $this->getOngletList();
-				$onglet_name = $onglet_list[$ongletNum];
-			} else {
-				$onglet_name = false;
-			}
-			
-			$field = $this->getFormulaire()->getField($fieldName,$onglet_name);
-			if (! $field){
-				$field = new Field($fieldName, array());
-			}
-			$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
-		}
-	}
-	
-	public function fieldExists($fieldName){
-		return $this->getFormulaire()->getField($fieldName);
-		
-	}
-	
-	private function setNewValueToFieldData($fieldName){
-		$field = $this->getFieldData($fieldName)->getField();
-		$this->fieldDataList[$fieldName] = new FieldData($field, $this->getDisplayValue($field));
-	}
-	
-	public function setDocumentIndexor(DocumentIndexor $documentIndexor){
-		$this->documentIndexor = $documentIndexor;
-	}
-	
-	public function getNbOnglet(){
-		if ($this->documentType->isAfficheOneTab()){
-			return 1;
-		}
-		return count($this->getOngletList());
-	}
-	
-	public function getOngletList(){
-		$onglet = $this->getFormulaire()->getOngletList();
-		$page_condition = $this->documentType->getPageCondition();
-		foreach($onglet as $ongletNum => $ongletName){
-			if (isset($page_condition[$ongletName])){
-				foreach($page_condition[$ongletName] as $field => $value){
-					if ($this->fichierCleValeur->get($field) != $value){
-						unset($onglet[$ongletNum]);
-						continue;
-					}
-				}
-			} 
-		}
-		return array_values($onglet);
-	} 
-	
-	public function getFieldDataListAllOnglet($my_role){
-		$ongletList = $this->getOngletList();
-		$fieldNameList = $this->getFormulaire()->getFieldsForOngletList($ongletList);
-		return $this->getFieldDataListByFieldName($my_role,$fieldNameList);
-	}
-	
-	public function getFieldDataList($my_role,$ongletNum = 0){
-		$ongletList = $this->getOngletList();
-		$fieldNameList = $this->getFormulaire()->getFieldsForOnglet($ongletList[$ongletNum]);
-		return $this->getFieldDataListByFieldName($my_role,$fieldNameList,$ongletNum);
-	}
-	
-	private function getFieldDataListByFieldName($my_role,array $fieldNameList,$ongletNum=-1){
-		$result = array();
-		foreach ($fieldNameList as $field) {
-			if ($field->isShowForRole($my_role)){
-				
-				$result[] = $this->getFieldData($field->getName(),$ongletNum);
-			}
-		}
-		return $result;
-	}
-	
-	/**
-	 * @param string $fieldName
-	 * @return FieldData
-	 */
-	public function getFieldData($fieldName,$ongletNum = -1){
-		$fieldName  = Field::Canonicalize($fieldName);
-		unset($this->fieldDataList[$fieldName]);
-		$this->setFieldData($fieldName,$ongletNum);
-		return $this->fieldDataList[$fieldName];
-	}
-	
-	private function getDisplayValue(Field $field){
-		if (! $field->getProperties('depend')){
-			return $this->get($field->getName());
-		}
-		$cible = $this->get($field->getProperties('depend'));
-		$value = array();
-		foreach($cible as $j => $file){
-			$value[$file] = $this->get($field->getName()."_$j");
-		}
-		return $value;
-	}	
-	
-	/*Fonction pour la construction de l'objet*/
-	private function setOnglet(){
-		$onglet_to_remove = array();
-		$page_condition = $this->documentType->getPageCondition();
-		foreach($page_condition as $page => $condition){
-			foreach($condition as $field => $value){
-				if ($this->get($field) != $value){
-					$onglet_to_remove[] = $page;
-				}
-			}
-		}
-		$this->getFormulaire()->removeOnglet($onglet_to_remove);
-		$this->getFormulaire()->setAfficheOneTab($this->documentType->isAfficheOneTab());
-	}
-	
-	
-	
-	//C'est un truc qu'on peut récupérer de DocumentType et de l'action en cours
 	public function setEditableContent(array $editable_content){
 		$this->has_editable_content = true;
 		$this->editable_content = $editable_content;
 	}
-	
-	/*Fonctions pour récupérer des objets ou des infos de plus bas niveau*/
-	/**
-	 * Permet de récupérer l'objet Formulaire configuré vis-à-vis des données de ce DonneesFormulaire
-	 * @return Formulaire
-	 */
-	public function getFormulaire(){
-		return $this->documentType->getFormulaire();
-	}
-	
-	public function get($item,$default=false){
-		$item  = Field::Canonicalize($item);
-		if (! $this->fichierCleValeur->exists($item)){
-			return $default;
-		}
-		return $this->fichierCleValeur->get($item);
-	}
-	
-	/*Fonctions utilisées pour le rendu/l'affichage des données*/
-	
-	/**
-	 * Indique si le champs est modifiable
-	 * 
-	 * @param string $field_name
-	 * @return boolean
-	 */	
-	public function isReadOnly($field_name){
-		$fieldData = $this->getFieldData($field_name);
 		
-		$field = $fieldData->getField(); 
+	public function isReadOnly($field_name){
+		$field = $this->formulaire->getField($field_name);
 		
 		if ($field->getProperties('no-show')){
 			return true;
@@ -210,43 +45,42 @@ class DonneesFormulaire {
 	}
 	
 	public function isEditable($field_name){
+		
 		if ($this->isReadOnly($field_name)){
 			return false;
 		}
+		
 		if ( ! $this->has_editable_content){
 			return true;
 		}
 		return in_array($field_name,$this->editable_content);
 	}
 	
-	
-	/*fonction sur l'emplacement et le nom des fichiers annexes*/
-	public function getFilePath($field_name,$num = 0){
-		return  $this->filePath."_".$field_name."_$num";
+
+	public function injectData($field,$data){
+		$this->info[$field] = $data;
 	}
 	
-	/*Fonctions de sauvegarde*/
-	public function injectData($fieldName,$fieldValue){
-		$this->fichierCleValeur->set($fieldName,$fieldValue);
-		$this->getFieldData($fieldName)->setValue($fieldValue);
+	private function retrieveInfo(){
+		if ( ! file_exists($this->filePath)){
+			return ;
+		}
+		$this->info = Spyc::YAMLLoad($this->filePath);	
 	}
 	
-	/**
-	 * Permet de sauver tous les champs contenu sur le même onglet. Les champs non renseigné sont mis à vide (sauf les champs de type password)
-	 * @param Recuperateur $recuperateur
-	 * @param FileUploader $fileUploader
-	 * @param int $pageNumber numéro de l'onglet
-	 */
-	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){
+	public function saveTab(Recuperateur $recuperateur, FileUploader $fileUploader,$pageNumber){	
+		
 		$this->isModified = false;
-		$this->getFormulaire()->setTabNumber($pageNumber);
-	
-		foreach ($this->getFormulaire()->getFields() as $field){
+		
+		$this->formulaire->addDonnesFormulaire($this);
+		$this->formulaire->setTabNumber($pageNumber);
+						
+		foreach ($this->formulaire->getFields() as $field){
 			if (! $this->isEditable($field->getName())){
-				continue;
+					continue;
 			}
 			$type = $field->getType();
-				
+			
 			if ($type == 'externalData'){
 				continue;
 			}
@@ -254,62 +88,93 @@ class DonneesFormulaire {
 				$this->saveFile($field,$fileUploader);
 			} elseif($field->getProperties('depend') && is_array($this->get($field->getProperties('depend')))) {
 				foreach($this->get($field->getProperties('depend')) as $i => $file){
-					$key_name = $field->getName()."_$i";
-					if (! $this->fichierCleValeur->exists($key_name)) {
-						$this->fichierCleValeur->set($key_name, false);
+					if (empty($this->info[$field->getName()."_$i"])){
+						$this->info[$field->getName()."_$i"] = false;
 					}
-					if ($this->fichierCleValeur->get($key_name) != $recuperateur->get($key_name)){
-						$this->fichierCleValeur->set($key_name,$recuperateur->get($key_name));
+					if ($this->info[$field->getName()."_$i"] != $recuperateur->get($field->getName()."_$i")){
+						$this->info[$field->getName()."_$i"] = $recuperateur->get($field->getName()."_$i");
 						$this->isModified = true;
 					}
-				}
+				}				
 			} else {
 				$name = $field->getName();
 				$value =  $recuperateur->get($name);
-	
+				
 				if ($type == 'password'){
 					$value =  $recuperateur->getNoTrim($name,"");
 				}
-				if (! $this->fichierCleValeur->exists($name)){
-					$this->fichierCleValeur->set($name,"");
-				}
-	
-				if ( ( $this->fichierCleValeur->get($name) != $value) &&  $field->getOnChange()  ){
+				if (! isset($this->info[$name])){
+						$this->info[$name] = "";
+					}
+				
+				if ( ( $this->info[$name] != $value) &&  $field->getOnChange()  ){
 					if (! in_array($field->getOnChange(),$this->onChangeAction)){
 						$this->onChangeAction[] = $field->getOnChange();
 					}
 				}
-	
+
 				if ( ( ($type != 'password' ) || $field->getProperties('may_be_null')  ) ||  $value){
-					$this->setInfo($field,$value);
-				}
+					$this->setInfo($field,$value);					
+				} 
 			}
 		}
 		$this->saveDataFile(false);
 	}
 	
 	private function setInfo(Field $field, $value){
-		if ($this->fichierCleValeur->get($field->getName()) === $value){
+		if ($this->info[$field->getName()] === $value){
 			return;
 		}
 		if ($field->getType() == 'date'){
 			$value = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$value);
 		}
-	
-		$this->injectData($field->getName(),$value);
+
+		$this->setInfo2($field->getName(),$value);
 		$this->isModified = true;
 	}
 	
 	public function saveAllFile(FileUploader $fileUploader){
-		$allField = $this->getFormulaire()->getAllFields();
+		$allField = $this->formulaire->getAllFields();
 		foreach($fileUploader->getAll() as $filename => $name){
 			if (isset($allField[$filename])){
 				$this->saveFile($allField[$filename],$fileUploader);
 			}
 		}
 		if ($this->isModified) {
+			$this->saveDataFile();                
+		}
+	}
+	
+	public function saveAll(Recuperateur $recuperateur,FileUploader $fileUploader){
+		$modif = array();
+		$allField = $this->formulaire->getAllFields();
+		foreach($recuperateur->getAll() as $key => $value){
+			
+			if (isset($allField[$key])){
+				$field = $this->formulaire->getField($key);
+				$this->setInfo($allField[$key],$value);		
+				$modif[] = $key;
+			}
+		}
+		foreach($fileUploader->getAll() as $filename => $name){
+			if (isset($allField[$filename])){
+				$this->saveFile($allField[$filename],$fileUploader);
+				$modif[] = $filename;
+			}
+		}
+		if ($this->isModified){
 			$this->saveDataFile();
 		}
+		return $modif;
+	}
+	
+	
+	public function isModified(){
+		return $this->isModified;
+	}
+	
+	public function getOnChangeAction(){
+		return $this->onChangeAction;
 	}
 	
 	private function saveFile(Field $field, FileUploader $fileUploader){
@@ -318,43 +183,56 @@ class DonneesFormulaire {
 		if ($fileUploader->getName($fname)){
 			
 			if ($field->isMultiple()){
-				$this->fichierCleValeur->addValue($fname, $fileUploader->getName($fname));
+				$this->info[$fname][] =  $fileUploader->getName($fname);
 			} else {
-				$this->fichierCleValeur->setMulti($fname,  $fileUploader->getName($fname));
+				$this->info[$fname][0] =  $fileUploader->getName($fname);
 			}
-			$this->setFieldData($fname);
-			$num = $this->fichierCleValeur->count($fname) - 1 ;
+			
+			$num = count($this->info[$fname]) - 1 ;
 			$fileUploader->save($fname , $this->getFilePath($fname,$num));
 			$this->isModified = true;
 			if ($field->getOnChange()){
 				$this->onChangeAction[] = $field->getOnChange();
 			}
-			
 		}
 	}
 	
 	public function setData($field_name,$field_value){		
-		$this->injectData($field_name,$field_value);
+		$this->setInfo2($field_name,$field_value);
 		$this->saveDataFile();		
-	}
-	
-	public function deleteField($fieldName){
-		$this->fichierCleValeur->deleteField($fieldName);
-		$this->saveDataFile();
 	}
 	
 	public function setTabData(array $field){
 		foreach($field as $name => $value){
-			$this->injectData($name,$value);
+			$this->setInfo2($name,$value);
 		}
 		$this->saveDataFile();
 	}
+	
+	private function setInfo2($field_name,$field_value){
+		
+		$this->info[$field_name] = $field_value;
+	}
+		
+	public function get($item,$default=false){
 
+		$item  = Field::Canonicalize($item);
+		if (empty($this->info[$item])){
+			return $default;
+		}
+		$field = $this->formulaire->getField($item);
+		if ($field && $field->getType() == 'password'){
+			return htmlspecialchars_decode($this->info[$item],ENT_COMPAT);				
+		}
+		
+		return $this->info[$item];
+	}
+	
 	public function setTabDataVerif(array $input_field){
-		$allField = $this->getFormulaire()->getFieldsList();
+		$allField = $this->formulaire->getAllFields();
 		foreach($input_field as $field_name => $value){
 			if (isset($allField[$field_name])){
-				$this->injectData($field_name,$value);
+				$this->setInfo2($field_name,$value);
 				$this->isModified = true;
 				if ($allField[$field_name]->getOnChange()){
 					$this->onChangeAction[] = $allField[$field_name]->getOnChange();
@@ -367,7 +245,7 @@ class DonneesFormulaire {
 			is_array($this->get($field->getProperties('depend')))) {
 				foreach($this->get($field->getProperties('depend')) as $i => $file){
 					if (isset($input_field[$field_name."_$i"])){
-						$this->injectData($field_name."_$i",$input_field[$field_name."_$i"]);
+						$this->setInfo2($field_name."_$i",$input_field[$field_name."_$i"]);
 						$this->isModified = true;
 					}
 				}
@@ -375,66 +253,29 @@ class DonneesFormulaire {
 		}
 		$this->saveDataFile();
 	}
-
+	
+	
 	public function addFileFromData($field_name,$file_name,$raw_data,$file_num = 0){
-		$this->fichierCleValeur->setMulti($field_name, $file_name,$file_num);
+		$this->info[$field_name][$file_num] = $file_name;
 		file_put_contents($this->getFilePath($field_name,$file_num),$raw_data);
-		$this->setNewValueToFieldData($field_name);		
 		$this->saveDataFile();
 	}
 	
-	public function addFileFromCopy($field_name,$file_name,$file_source_path,$file_num=0){
-		$this->fichierCleValeur->setMulti($field_name, $file_name,$file_num);
-		copy($file_source_path,$this->getFilePath($field_name,$file_num));
-		$this->setNewValueToFieldData($field_name);
-		$this->saveDataFile();
-	}
-	
-	public function removeFile($fieldName,$num = 0){
+	public function removeFile($fieldName,$num = 0){		
 		unlink($this->getFilePath($fieldName,$num));
-		for($i = $num + 1; $i < $this->fichierCleValeur->count($fieldName) ; $i++){
+		for($i = $num + 1; $i < count($this->info[$fieldName]) ; $i++){
 			rename($this->getFilePath($fieldName,$i),$this->getFilePath($fieldName,$i - 1));
 		}
-		$this->fichierCleValeur->delete($fieldName, $num);
+		
+		array_splice($this->info[$fieldName],$num,1);
 		$this->saveDataFile();
 	}
 	
-	private function saveDataFile($setModifiedToFalse = true){
-		$this->fichierCleValeur->save();
-		if ($setModifiedToFalse) {
-			$this->isModified=false;
-		}
-		$this->updateAllIndexedField();
-		$this->setOnglet();
+	
+	public function getFilePath($field_name,$num = 0){
+		return  $this->filePath."_".$field_name."_$num";
 	}
 	
-	private function updateAllIndexedField(){
-		if (! $this->documentIndexor){
-			return;
-		}
-		foreach($this->fieldDataList as $fieldName => $fieldData){
-			$this->updateIndexedField($fieldData);
-		}
-	}
-	
-	private function updateIndexedField(FieldData $fieldData){
-		if ( ! $fieldData->getField()->isIndexed()){
-			return;
-		}
-		$value = $fieldData->getValueNum(); 
-		$this->documentIndexor->index($fieldData->getField()->getName(), $value);
-	}
-	
-	/*Fonctions permettant de savoir si il y a eu des choses modifiés après la sauvegarde*/
-	public function isModified(){
-		return $this->isModified;
-	}
-	
-	public function getOnChangeAction(){
-		return $this->onChangeAction;
-	}
-	
-	/*Fonction de récupération de valeur*/
 	public function getFileContent($field_name,$num=0){
 		$file_path = $this->getFilePath($field_name,$num);
 		if (! is_readable($file_path)){
@@ -486,7 +327,7 @@ class DonneesFormulaire {
 	}
 	
 	public function getWithDefault($item){
-		$default = $this->getFormulaire()->getField($item)->getDefault();
+		$default = $this->formulaire->getField($item)->getDefault();
 		return $this->get($item,$default);
 	}
 	
@@ -495,12 +336,24 @@ class DonneesFormulaire {
 	}
 
 	public function isValidable(){
-		foreach($this->getFieldDataListAllOnglet(false) as $fieldData) {
-			if (! $fieldData->isValide()) {
-				$this->lastError = $fieldData->getLastError();				
+		$this->formulaire->addDonnesFormulaire($this);
+		foreach($this->formulaire->getAllFields() as $field){
+			if ($field->isRequired() && ! $this->get($field->getName())){
+				$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . "» est obligatoire.";
 				return false;
-			}	
-			$field = $fieldData->getField();
+			}
+			if ($field->getType() == 'mail-list' && $this->get($field->getName())){
+				if ( ! $this->is_mail_list($this->get($field->getName()))){
+					$this->lastError = "Le formulaire est incomplet : le champ «" . $field->getLibelle() . " ne contient pas une liste d'email valide.";
+					return false;
+				}
+			}
+			if ($field->pregMatch()){			
+				if ( ! preg_match($field->pregMatch(),$this->get($field->getName()))){
+					$this->lastError = "Le champ «{$field->getLibelle()}» est incorrect ({$field->pregMatchError()}) ";
+					return false;
+				}
+			}
 			if ($field->getProperties('is_equal')){
 				if ($this->get($field->getProperties('is_equal')) != $this->get($field->getName())){
 					$this->lastError =$field->getProperties('is_equal_error');
@@ -518,6 +371,87 @@ class DonneesFormulaire {
 		}
 		return true;
 	}
+
+	private function is_mail($mail){
+		if (preg_match('/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^[^@<]*<([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})>$/i',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^groupe: ".*"$/',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^role: ".*"$/',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^groupe hérité de .*: ".*"$/',$mail)){
+			return true;
+		}
+	
+		if (preg_match('/^rôle hérité de .*: ".*"$/',$mail)){
+			return true;
+		}
+	
+		if (preg_match('/^groupe global: ".*"$/',$mail)){
+			return true;
+		}
+		
+		if (preg_match('/^rôle global: ".*"$/',$mail)){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	private function is_mail_list($scalar_mail_list){
+		
+		foreach($this->get_mail_list($scalar_mail_list) as $mail){
+			if (! $mail){
+				continue;
+			}
+			if ( ! $this->is_mail(trim($mail))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public function getMailList($type){
+		return $this->get_mail_list($this->get($type));
+	}
+	
+	private function  get_mail_list($scalar_mail_list){
+		$mails = array(0=>'');
+		$i = 0;
+		$state = 1;
+		foreach(str_split($scalar_mail_list) as $letter){
+			if ($letter == '"'){
+				$state = 1 - $state;
+			}
+			if ($letter == ',' && $state){
+				$mails[++$i] = '';
+			} else {
+				$mails[$i].=$letter;
+			}
+		}
+		$result = array();
+		foreach($mails as $mail){
+			$mail = trim($mail);
+			if ($mail) {
+				$result[] = $mail;
+			} 
+			
+		}
+		return array_unique($result);
+	}
+	
+	
 	
 	public function getLastError(){
 		return $this->lastError;
@@ -531,7 +465,7 @@ class DonneesFormulaire {
 	}
 	
 	public function getRawData(){
-		return $this->fichierCleValeur->getInfo();
+		return $this->info;
 	}
 	
 	public function getMetaData(){
@@ -540,7 +474,7 @@ class DonneesFormulaire {
 	
 	public function getAllFile(){
 		$result = array();
-		foreach($this->getFormulaire()->getAllFields() as $field){
+		foreach($this->formulaire->getAllFields() as $field){
 			if ($field->getType() != 'file'){
 				continue;
 			}
@@ -550,6 +484,53 @@ class DonneesFormulaire {
 			$result[] = $field->getName();
 		}
 		return $result;
+	}
+	
+	private function saveDataFile($setModifiedToFalse = true){
+		foreach($this->info as $field_name => $field_value){
+			$field = $this->formulaire->getField($field_name);
+			if ($field && $field->getType() == 'password'){
+				$field_value = htmlspecialchars($field_value,ENT_COMPAT);				
+			}
+			if ($field_value == '+'){
+				$field_value = '"+"';
+			}
+			if ($field_value == '-'){
+				$field_value = '"-"';
+			}
+			$result[$field_name] = $field_value; 
+		}
+		$dump = Spyc::YAMLDump($result);
+		file_put_contents($this->filePath,$dump);
+        // Le dossier est enregistré : il faut réinitialiser la variable isModified=false
+        if ($setModifiedToFalse) {
+        	$this->isModified=false;  
+        }              
+		
+	}
+	
+	public function sendFile($field_name,$num=0){
+		$file_path = $this->getFilePath($field_name,$num);
+		$file_name_array = $this->get($field_name);
+		if (empty($file_name_array[$num])){
+			$this->lastError = "Ce fichier n'existe pas";
+			return false;
+		}
+		$file_name= $file_name_array[$num];
+
+		if (! file_exists($file_path)){
+			$this->lastError = "Ce fichier n'existe pas";
+			return false;
+		}
+
+		header("Content-type: ".mime_content_type($file_path));
+		header("Content-disposition: attachment; filename=\"$file_name\"");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+		header("Pragma: public");
+		
+		readfile($file_path);
+		return true;
 	}
 	
 	public function extensionByMimeType($file_path,$file_name) {
@@ -624,8 +605,5 @@ class DonneesFormulaire {
 		}
 		return $result;
 	}
-	
-
-	
 	
 }

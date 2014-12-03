@@ -1,5 +1,5 @@
 <?php
-class FakeIparapheur extends SignatureConnecteur {
+class FakeIparapheur extends Connecteur {
 	
 	private $retour;
 	private $iparapheur_type;

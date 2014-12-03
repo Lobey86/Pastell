@@ -1,23 +1,19 @@
-<table style='width:100%;'>
-<tr>
-<td>
-<h2>Liste des utilisateurs <?php echo $role_selected?" - $role_selected":""?></h2>
-</td>
+<h2>Liste des utilisateurs
 <?php if ($droitEdition) : ?>
-<td class='align_right'>
-	<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn'>Nouveau</a>
-</td>
+	<a href="utilisateur/edition.php?id_e=<?php echo $id_e?>" class='btn_add'>
+		Nouveau
+	</a>
 <?php endif;?>
-</tr>
-</table>
+<?php echo $role_selected?" - $role_selected":""?>
+</h2>
 
-
+<div>
 	<form action="entite/detail.php" method='get'>
 		<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
 		<input type='hidden' name='page' value='1'/>
-	<table class='table table-striped'>
+	<table class='w500'>
 		<tr>
-		<td class='w300'>Afficher les utilisateurs des entités filles</td>
+		<td>Afficher les utilisateurs des entités filles</td>
 		<td><input type='checkbox' name='descendance' <?php echo $descendance?"checked='checked'":""?>/><br/></td>
 		</tr>
 		<tr>
@@ -31,18 +27,22 @@
 		</td></tr>
 		<tr>
 		<td>
-		Recherche </td><td><input type='text' name='search' value='<?php hecho($search)?>'/></td>
+		Recherche </td><td><input type='text' name='search' value='<?php echo $search?>'/></td>
 		</tr>
+		<tr>
+		<td></td><td>
+		<input type='submit' value='Afficher'/>
+		</td></tr>
 		</table>
-		<input type='submit' class='btn' value='Afficher'/>
 	</form>
-
+	</div>
+<br/>
 <?php $this->SuivantPrecedent($offset,UtilisateurListe::NB_UTILISATEUR_DISPLAY,$nb_utilisateur,"entite/detail.php?id_e=$id_e&page=1&search=$search&descendance=$descendance&role_selected=$role_selected"); ?>
 
 
-<table class='table table-striped'>
+<table class='tab_02'>
 <tr>
-	<th class='w200'>Prénom Nom</th>
+	<th>Prénom Nom</th>
 	<th>login</th>
 	<th>email</th>
 	<th>Role</th>
@@ -55,11 +55,11 @@
 	<tr>
 		<td>
 			<a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'>
-				<?php hecho($user['prenom'])?> <?php hecho($user['nom'])?>
+				<?php echo $user['prenom']?> <?php echo $user['nom']?>
 			</a>
 		</td>
 		<td><a href='utilisateur/detail.php?id_u=<?php echo $user['id_u'] ?>'><?php echo $user['login']?></a></td>
-		<td><?php hecho($user['email'])?></td>
+		<td><?php echo $user['email']?></td>
 		<td>
 			<?php foreach($user['all_role'] as $role): ?>
 				<?php echo $role['libelle']?:"Aucun droit"; ?> - 
@@ -77,5 +77,5 @@
 <?php endforeach; ?>
 
 </table>
-
-<a class='btn btn-mini' href='utilisateur/export.php?id_e=<?php echo $id_e?>&descendance=<?php echo $descendance?>&role_selected=<?php echo $role_selected?>&search=<?php echo $search ?>'><i class='icon-file'></i>Exporter (CSV)</a>
+<br/><br/>
+<a href='utilisateur/export.php?id_e=<?php echo $id_e?>&descendance=<?php echo $descendance?>&role_selected=<?php echo $role_selected?>&search=<?php echo $search ?>'>Exporter (CSV)</a>
