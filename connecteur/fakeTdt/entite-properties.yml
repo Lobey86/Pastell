@@ -22,7 +22,7 @@ action:
 	
 	nomemclature-liste :
 		name: Liste des fichiers de nomemclature
-		action-class: NomemclatureListe
+		action-class: FakeNomemclatureListe
 		rule:
 			role_id_e: no-role
 			
