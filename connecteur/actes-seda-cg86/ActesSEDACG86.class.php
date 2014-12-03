@@ -101,7 +101,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$latestDate = $this->getLatestDate($transactionsInfo);
 		
 		$transactionsInfo['classification_tab'] = explode('.',$transactionsInfo['classification']);
-		 
+		
 		$archiveTransfer = new ZenXML('ArchiveTransfer');
 		$archiveTransfer['xmlns'] = "fr:gouv:ae:archive:draft:standard_echange_v0.2";
 		$archiveTransfer->Comment = "Transfert d'un acte soumis au contrôle de légalité";
@@ -114,20 +114,16 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		
 		$i = 0;
 		foreach(array('ar_actes','actes_file') as $key){
-			$fileName = $transactionsInfo[$key];
-			$archiveTransfer->Integrity[$i]->Contains = sha1_file($fileName);
-			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($fileName);
+			$archiveTransfer->Integrity[$i] = $this->getIntegrityMarkup($transactionsInfo[$key]);
 			$i++;
 		}
 		foreach($transactionsInfo['annexe'] as $fileName){
-			$archiveTransfer->Integrity[$i]->Contains = sha1_file($fileName);
-			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($fileName);
+			$archiveTransfer->Integrity[$i] = $this->getIntegrityMarkup($fileName);
 			$i++;
 		}
 	
 		foreach($transactionsInfo['echange_prefecture'] as $echange_prefecture){
-			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture);
-			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($echange_prefecture);
+			$archiveTransfer->Integrity[$i] = $this->getIntegrityMarkup($echange_prefecture);
 			$i++;
 		}
 		
@@ -138,8 +134,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 			if (basename($echange_prefecture_ar) == 'empty'){
 				continue;
 			}
-			$archiveTransfer->Integrity[$i]->Contains = sha1_file($echange_prefecture_ar);
-			$archiveTransfer->Integrity[$i]->UnitIdentifier = basename($echange_prefecture_ar);
+			$archiveTransfer->Integrity[$i] = $this->getIntegrityMarkup($echange_prefecture_ar);
 			$i++;
 		}
 		
