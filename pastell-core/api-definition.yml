@@ -205,6 +205,9 @@ function:
 			action_possible:
 				is_multiple: true
 				comment: "Liste des actions possible (exemple : modification, envoie-tdt, ...)"
+			action-possible:
+				is_multiple: true
+				comment: "Contient la même chose que action_possible, cette sortie est déprécié et sera supprimé dans une prochaine version de Pastell"
 			
 	detail-several-document: 
 		description: Détail sur plusieurs documents
@@ -223,6 +226,10 @@ function:
 			action_possible:
 				is_multiple: true
 				comment: "Liste des actions possible (exemple : modification, envoie-tdt, ...)"
+			action-possible:
+				is_multiple: true
+				comment: "Contient la même chose que action_possible, cette sortie est dépréciée et sera supprimée dans une prochaine version de Pastell"
+			
 				
 	create-document: 
 		description: Création d'un document

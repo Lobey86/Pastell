@@ -3,11 +3,16 @@ require_once(dirname(__FILE__)."/../init.php");
 
 $JSONoutput = new JSONoutput();
 
-try{
-	$id_u = $objectInstancier->ConnexionControler->apiCasConnexion();
-} catch(Exception $e){
-	$JSONoutput->displayErrorAndExit($e->getMessage());
-	exit;
+$recuperateur = new Recuperateur($_REQUEST);
+$auth = $recuperateur->get("auth");
+
+if ($auth=='cas') {
+	try{
+		$id_u = $objectInstancier->ConnexionControler->apiCasConnexion();
+	} catch(Exception $e){
+		$JSONoutput->displayErrorAndExit($e->getMessage());
+		exit;
+	}
 }
 
 if (!$id_u){

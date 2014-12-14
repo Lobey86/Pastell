@@ -54,12 +54,15 @@ formulaire:
 		*:
 			key_name: onglet
 			type: associative_array
+			info: le formulaire est composé d'un ensemble d'onglets
+			
 	
 onglet:
 	possible_key:
 		*:
 			key_name: element_formulaire
 			type: associative_array
+			info: un onglet est composé d'élement de formulaire
 	
 element_formulaire:
 	possible_key:
