@@ -17,7 +17,11 @@
 			</tr>
 		<?php foreach($properties['possible_key']  as $key_name => $key_properties) : ?>
 			<tr>
-				<td><strong><?php hecho($key_name)?></strong></td>
+				<td><strong><?php hecho($key_name)?>
+				<?php if (isset($key_properties['key_name'])):?>
+				(<?php hecho($key_properties['key_name'])?>)
+				<?php endif;?>
+				</strong></td>
 				<td><?php hecho($key_properties['type'])?>
 				<?php if(isset($key_properties['choice'])) : ?>
 					(<?php hecho(implode(',',$key_properties['choice']))?>)
