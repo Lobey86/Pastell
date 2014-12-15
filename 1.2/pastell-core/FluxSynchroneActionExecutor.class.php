@@ -321,6 +321,9 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         if (empty($sujet)) {
             $sujet = "Votre dossier " . $docObjet;
         }
+        if (!isset($contenuScriptInfo['docObjet'])) {
+            $contenuScriptInfo['docObjet'] = $docObjet;
+        }
         $this->objectInstancier->MailTo->mail($email, $sujet, $contenu, $action, $contenuScriptInfo, $emetteurName, $this->id_e, $this->id_u, $this->id_d);
     }
 
