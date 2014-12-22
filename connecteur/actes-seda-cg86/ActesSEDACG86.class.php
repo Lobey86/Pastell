@@ -25,6 +25,9 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	
 	private function getContentType($file_path){
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		if(preg_match("application/xml",$finfo))
+			$finfo = "text/xml";
+		
 		return finfo_file($finfo,$file_path);
 	}
 	
@@ -239,7 +242,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 			$archiveTransfer->Contains->Contains[0]->Contains[] =  $c;
 		}
 		$c = $this->getDL("Contains","Accusé de réception d'un acte soumis au contrôle de légalité",$ar_actes_info['IDActe']);
-		$c->Document = $this->getDocument(basename($transactionsInfo['ar_actes']), "application/xml",$ar_actes_info['DateReception'],false,true);
+		$c->Document = $this->getDocument(basename($transactionsInfo['ar_actes']), "text/xml",$ar_actes_info['DateReception'],false,true);
 		$archiveTransfer->Contains->Contains[0]->Contains[] = $c;
 		
 		
@@ -265,7 +268,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
 						= $this->getDL("Contains",$this->getARName($type));
 					$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document 
-						= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange]),"application/xml",false,"Accusé de réception",false,false,false);
+						= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange]),"text/xml",false,"Accusé de réception",false,false,false);
 					$nb_contains_contains  = 2 ;
 			}
 			
@@ -299,7 +302,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 						$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains] 
 							= $this->getDL("Contains",$this->getARRecuType($reponse_type));
 						$archiveTransfer->Contains->Contains[$num_contains+1]->Contains[$nb_contains_contains]->Document 
-							= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]),"application/xml",false,"Accusé de réception",false,false,false);
+							= $this->getDocument(basename($transactionsInfo['echange_prefecture_ar'][$num_echange_ar]),"text/xml",false,"Accusé de réception",false,false,false);
 				}	
 			}
 			
