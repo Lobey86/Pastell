@@ -25,10 +25,11 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	
 	private function getContentType($file_path){
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
-		if(preg_match("application/xml",$finfo))
-			$finfo = "text/xml";
-		
-		return finfo_file($finfo,$file_path);
+		$filetype = finfo_file($finfo,$file_path);
+        if(preg_match("/^application.*xml$/",$filetype))
+        	$filetype = "text/xml";
+
+		return $filetype;
 	}
 	
 	private function getTransferIdentifier(){
