@@ -47,7 +47,7 @@ class DocumentControler extends PastellControler {
 		$this->renderDefault();
 		
 	}
-	 
+	
 	public function detailAction(){
 		$recuperateur = new Recuperateur($_GET);
 		$id_d = $recuperateur->get('id_d');
@@ -75,8 +75,6 @@ class DocumentControler extends PastellControler {
 		$this->infoEntite = $this->EntiteSQL->getInfo($id_e);
 		$this->formulaire =  $documentType->getFormulaire();
 		$this->donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$info_document['type']);
-		$this->donneesFormulaire->getFormulaire()->setTabNumber($page);
-		
 		$this->actionPossible = $this->ActionPossible;
 		$this->theAction = $documentType->getAction();
 		$this->documentEntite = $this->DocumentEntite;
@@ -87,18 +85,7 @@ class DocumentControler extends PastellControler {
 		$this->next_action_automatique =  $this->theAction->getActionAutomatique($true_last_action);
 		$this->droit_erreur_fatale = $this->RoleUtilisateur->hasDroit($this->getId_u(),$info_document['type'].":edition",0);
 		
-		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";
-		
-		if ($documentType->isAfficheOneTab()){
-			$this->fieldDataList = $this->donneesFormulaire->getFieldDataListAllOnglet($this->my_role); 
-		} else {
-			$this->fieldDataList = $this->donneesFormulaire->getFieldDataList($this->my_role,$page);
-		}
-		
-		
-		$this->recuperation_fichier_url = "document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e";
-		
-		
+		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";;
 		$this->template_milieu = "DocumentDetail"; 
 		$this->renderDefault();
 	}
@@ -143,28 +130,35 @@ class DocumentControler extends PastellControler {
 		
 		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
+		$formulaire = $documentType->getFormulaire();
 		
+
 		$infoEntite = $this->EntiteSQL->getInfo($id_e);
 		
 		$donneesFormulaire = $this->DonneesFormulaireFactory->get($id_d,$type);
 		
-		$formulaire = $donneesFormulaire->getFormulaire();
+		$formulaire->addDonnesFormulaire($donneesFormulaire);
+		
 		if (! $formulaire->tabNumberExists($page)){
 			$page = 0;
 		}
 		
 		
-		$this->inject = array('id_e'=>$id_e,'id_d'=>$id_d,'form_type'=>$type,'action'=>$action,'id_ce'=>'');
+		$my_role = $this->documentEntite->getRole($id_e,$id_d);
+		$afficheurFormulaire = new AfficheurFormulaire($formulaire,$donneesFormulaire);
+		$afficheurFormulaire->setRole($my_role);
 		
+		$afficheurFormulaire->injectHiddenField("id_d",$id_d);
+		$afficheurFormulaire->injectHiddenField("form_type",$type);
+		$afficheurFormulaire->injectHiddenField("id_e",$id_e);
+		$afficheurFormulaire->injectHiddenField("action",$action);
 		
 		$last_action = $this->DocumentActionEntite->getLastActionNotModif($id_e, $id_d);
 		
 		$editable_content = $documentType->getAction()->getEditableContent($last_action);
 		
-		if ( (! in_array($last_action,array("creation","modification"))) || $editable_content){
-			if ($editable_content){
-				$donneesFormulaire->setEditableContent($editable_content);
-			}
+		if ($editable_content && (!in_array($last_action,array("creation","modification")) || $editable_content)){
+			$afficheurFormulaire->setEditableContent($editable_content);
 		}
 		
 		$this->page_title="Edition d'un document « " . $documentType->getName() . " » ( " . $infoEntite['denomination'] . " ) ";
@@ -185,12 +179,7 @@ class DocumentControler extends PastellControler {
 		$this->my_role = $this->documentEntite->getRole($id_e,$id_d);
 		$this->documentEmail = $this->DocumentEmail;
 		$this->documentActionEntite = $this->DocumentActionEntite;
-
-		$this->action_url = "document/edition-controler.php";
-		$this->recuperation_fichier_url = "document/recuperation-fichier.php?id_d=$id_d&id_e=$id_e";
-		$this->suppression_fichier_url = "document/supprimer-fichier.php?id_d=$id_d&id_e=$id_e&page=$page&action=$action";
-		$this->externalDataURL = "document/external-data.php" ;
-		
+		$this->afficheurFormulaire = $afficheurFormulaire;
 		$this->template_milieu = "DocumentEdition"; 
 		$this->renderDefault();
 	}
@@ -211,7 +200,7 @@ class DocumentControler extends PastellControler {
 			}
 		}	
 		
-		$liste_collectivite = $this->roleUtilisateur->getEntiteWithSomeDroit($this->getId_u());
+		$liste_collectivite = $this->roleUtilisateur->getEntite($this->getId_u(),"entite:lecture");
 		
 		if (! $id_e ) {
 			if (count($liste_collectivite) == 0){
@@ -221,12 +210,6 @@ class DocumentControler extends PastellControler {
 				$id_e = $liste_collectivite[0];
 			}
 		}
-		
-		$this->tri =  $recuperateur->get('tri','date_dernier_etat');
-		$this->sens_tri = $recuperateur->get('sens_tri','DESC');
-		
-		$this->url_tri = false;
-		
 		
 		if ($id_e){						
 			$this->listDocument = $this->DocumentActionEntite->getListDocumentByEntite($id_e,$liste_type,$offset,$limit,$search);
@@ -240,7 +223,6 @@ class DocumentControler extends PastellControler {
 		$this->offset = $offset;
 		$this->limit = $limit;
 		
-		$this->champs_affiches = array('titre'=>'Objet','type'=>'Type','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date');
 		
 		$this->setNavigationInfo($id_e,"document/index.php?a=a");
 		$this->page_title= "Liste des documents " . $this->infoEntite['denomination'] ;
@@ -272,6 +254,7 @@ class DocumentControler extends PastellControler {
 			$this->redirect("/document/index.php?id_e=$id_e");
 		}
 		
+		
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
 		
 		$liste_collectivite = $this->RoleUtilisateur->getEntite($this->getId_u(),$type.":lecture");
@@ -283,7 +266,6 @@ class DocumentControler extends PastellControler {
 		if (!$id_e && (count($liste_collectivite) == 1)){
 			$id_e = $liste_collectivite[0];
 			$this->id_e_menu = $id_e;
-			$this->type_e_menu = $type;
 		}
 			
 		
@@ -313,34 +295,12 @@ class DocumentControler extends PastellControler {
 		$this->filtre = $filtre;
 		$this->last_id = $last_id;
 		$this->type = $type;
-		
-		$this->tri =  $recuperateur->get('tri','date_dernier_etat');
-		$this->sens_tri = $recuperateur->get('sens_tri','DESC');
-		
-		
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		$this->setNavigationInfo($id_e,"document/list.php?type=$type");
 		
-		$this->champs_affiches = $documentType->getChampsAffiches();
-		
-		
-		$this->allDroitEntite = $this->RoleUtilisateur->getAllDocumentLecture($this->getId_u(),$this->id_e);
-		
-		$this->indexedFieldsList = $documentType->getFormulaire()->getIndexedFields();
-		$indexedFieldValue = array();
-		foreach($this->indexedFieldsList as $indexField => $indexLibelle){
-			$indexedFieldValue[$indexField] = $recuperateur->get($indexField);
-		}
-		
-		$this->listDocument = $this->DocumentActionEntite->getListBySearch($id_e,$type,
-				$offset,$limit,$search,$filtre,false,false,$this->tri,
-				$this->allDroitEntite,false,false,false,$indexedFieldValue,$this->sens_tri
-		);
-		
-		
-		$this->url_tri = "document/list.php?id_e=$id_e&type=$type&search=$search&filtre=$filtre";
-		
+		$this->listDocument = $this->DocumentActionEntite->getListDocument($id_e , $type , $offset, $limit,$search,$filtre ) ;
 		$this->type_list = $this->getAllType($this->listDocument);
+		
 		
 		$this->template_milieu = "DocumentList"; 
 		$this->renderDefault();
@@ -379,29 +339,12 @@ class DocumentControler extends PastellControler {
 		$this->etatTransit = $recuperateur->get('etatTransit');
 		
 
-		$this->tri =  $recuperateur->get('tri','date_dernier_etat');
-		$this->sens_tri = $recuperateur->get('sens_tri','DESC');
+		$this->tri =  $recuperateur->get('tri');
 		$this->go = $recuperateur->get('go',0);
 		$this->offset = $recuperateur->getInt('offset',0);
 		$this->search = $recuperateur->get('search');
 		
 		$this->limit = 20;
-		
-		$indexedFieldValue = array();
-		if ($this->type) {
-			$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
-			$this->indexedFieldsList = $documentType->getFormulaire()->getIndexedFields();
-			foreach($this->indexedFieldsList as $indexField => $indexLibelle){
-				$indexedFieldValue[$indexField]=$recuperateur->get($indexField);
-			}
-			$this->champs_affiches = $documentType->getChampsAffiches();
-		} else {
-			$this->champs_affiches = array('titre'=>'Objet','type'=>'Type','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date');
-			$this->indexedFieldsList = array();
-			
-		}
-		$this->indexedFieldValue = $indexedFieldValue;
-		
 		
 		$allDroit = $this->RoleUtilisateur->getAllDroit($this->getId_u());		
 		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:lecture");
@@ -414,91 +357,10 @@ class DocumentControler extends PastellControler {
 		$this->my_id_e= $this->id_e;
 		$this->listDocument = $this->DocumentActionEntite->getListBySearch($this->id_e,$this->type,
 				$this->offset,$this->limit,$this->search,$this->lastEtat,$this->last_state_begin_iso,$this->last_state_end_iso,
-				$this->tri,$this->allDroitEntite,$this->etatTransit,$this->state_begin_iso,$this->state_end_iso,
-				$indexedFieldValue,$this->sens_tri
-		);	
+				$this->tri,$this->allDroitEntite,$this->etatTransit,$this->state_begin_iso,$this->state_end_iso);	
 
-		$url_tri = "document/search.php?id_e={$this->id_e}&search={$this->search}&type={$this->type}&lastetat={$this->lastEtat}".
-						"&last_state_begin={$this->last_state_begin_iso}&last_state_end={$this->last_state_end_iso}&etatTransit={$this->etatTransit}".
-						"&state_begin={$this->state_begin_iso}&state_end={$this->state_end_iso}";
-
-		if ($this->type){
-			foreach($indexedFieldValue as $indexName => $indexValue){
-				$url_tri.="&".urlencode($indexName)."=".urlencode($indexValue);
-			}
-		}
-		
-		
-		$this->url_tri = $url_tri;
 		$this->type_list = $this->getAllType($this->listDocument);
 	}
-	
-	public function exportAction(){
-		$recuperateur = new Recuperateur($_GET);
-		$id_e = $recuperateur->get('id_e',0);
-		$type = $recuperateur->get('type');
-		$search = $recuperateur->get('search');
-		
-		$lastEtat = $recuperateur->get('lastetat');
-		$last_state_begin = $recuperateur->get('last_state_begin');
-		$last_state_end = $recuperateur->get('last_state_end');
-		
-		$last_state_begin_iso = getDateIso($last_state_begin);
-		$last_state_end_iso = getDateIso($last_state_end);
-		
-		$etatTransit = $recuperateur->get('etatTransit');
-		$state_begin =  $recuperateur->get('state_begin');
-		$state_end =  $recuperateur->get('state_end');
-		$tri =  $recuperateur->get('tri');
-		$sens_tri = $recuperateur->get('sens_tri');
-		
-		$offset = 0;
-
-		$allDroitEntite = $this->RoleUtilisateur->getAllDocumentLecture($this->Authentification->getId(),$id_e);
-		
-		
-		$indexedFieldValue = array();
-		if ($type) {
-			$documentType = $this->DocumentTypeFactory->getFluxDocumentType($type);
-			$indexedFieldsList = $documentType->getFormulaire()->getIndexedFields();
-			foreach($indexedFieldsList as $indexField => $indexLibelle){
-				$indexedFieldValue[$indexField]=$recuperateur->get($indexField);
-			}
-			$champs_affiches = $documentType->getChampsAffiches();
-		} else {
-			$champs_affiches = array('titre'=>'Objet','type'=>'Type','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date');
-			$indexedFieldsList = array();
-				
-		}
-		
-		
-		$limit = $this->DocumentActionEntite->getNbDocumentBySearch($id_e,$type,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue);
-		$listDocument = $this->DocumentActionEntite->getListBySearch($id_e,$type,$offset,$limit,$search,$lastEtat,$last_state_begin_iso,$last_state_end_iso,$tri,$allDroitEntite,$etatTransit,$state_begin,$state_end,$indexedFieldValue,$sens_tri);
-		
-		$line = array("ENTITE","ID_D","TYPE","TITRE","DERNIERE ACTION","DATE DERNIERE ACTION");
-		foreach($indexedFieldsList as $indexField=>$indexLibelle){
-			$line[] = $indexLibelle;
-		}
-		$result = array($line);
-		foreach($listDocument as $i => $document){
-			 $line = array(
-					$document['denomination'],
-					$document['id_d'],
-			 		$document['type'],
-					$document['titre'],
-					$document['last_action'],
-					$document['last_action_date'],
-						
-			);
-			foreach($indexedFieldsList as $indexField=>$indexLibelle){
-				$line[] = $this->DocumentIndexSQL->get($document['id_d'],$indexField);
-			}
-			$result[] = $line;
-		}
-	
-		$this->CSVoutput->sendAttachment("pastell-export-$id_e-$type-$search-$lastEtat-$tri.csv",$result);
-	}
-	
 	
 	public function searchAction(){				
 		$this->searchDocument();
@@ -527,208 +389,4 @@ class DocumentControler extends PastellControler {
 		$this->template_milieu = "DocumentWarning"; 
 		$this->renderDefault();
 	}
-	
-	
-	private function validTraitementParLot($input){
-		$recuperateur = new Recuperateur($input);
-		$this->id_e = $recuperateur->get('id_e',0);
-		$this->offset = $recuperateur->getInt('offset',0);
-		$this->search = $recuperateur->get('search');
-		$this->type = $recuperateur->get('type');
-		$this->filtre = $recuperateur->get('filtre');
-		$this->limit = 20;
-		
-		if (! $this->type){
-			$this->redirect("/document/index.php?id_e={$this->id_e}");
-		}
-		if (!$this->id_e){
-			$this->redirect("/document/index.php");
-		}
-		
-		$this->id_e_menu = $this->id_e;
-		$this->verifDroit($this->id_e, "{$this->type}:lecture");
-		$this->infoEntite = $this->EntiteSQL->getInfo($this->id_e);
-		
-		$this->id_e_menu = $this->id_e;
-		$this->type_e_menu = $this->type;
-	}
-	
-	public function traitementLotAction(){
-		$this->validTraitementParLot($_GET);
-		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
-		$page_title = "Traitement par lot pour les  documents " . $documentType->getName();
-		$page_title .= " pour " . $this->infoEntite['denomination'];
-		$this->page_title = $page_title;
-		
-		
-		$this->documentTypeFactory = $this->DocumentTypeFactory;
-		$this->setNavigationInfo($this->id_e,"document/list.php?type={$this->type}");
-		$this->theAction = $documentType->getAction();
-		
-		$listDocument = $this->DocumentActionEntite->getListDocument($this->id_e , $this->type , $this->offset, $this->limit,$this->search,$this->filtre ) ;
-		
-		$all_action = array();
-		foreach($listDocument as $i => $document){
-			$listDocument[$i]['action_possible'] = $this->ActionPossible->getActionPossible($this->id_e,$this->Authentification->getId(),$document['id_d']);
-			$all_action = array_merge($all_action,$listDocument[$i]['action_possible']);
-		}
-		$this->listDocument = $listDocument;
-		$this->all_action = array_unique($all_action);
-		$this->type_list = $this->getAllType($this->listDocument);		
-		$this->template_milieu = "DocumentTraitementLot";
-		$this->renderDefault();
-	}
-	
-	public function confirmTraitementLotAction(){
-		$this->validTraitementParLot($_GET);
-		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
-		$this->page_title = "Confirmation du traitement par lot pour les  documents " . $documentType->getName() ." pour " . $this->infoEntite['denomination'];
-		
-		$this->url_retour = "document/traitement-lot.php?id_e={$this->id_e}&type={$this->type}&search={$this->search}&filtre={$this->filtre}&offset={$this->offset}";
-		
-		$recuperateur = new Recuperateur($_GET);
-		$this->action_selected = $recuperateur->get('action');
-		$this->theAction = $documentType->getAction();
-		
-		$action_libelle = $this->theAction->getActionName($this->action_selected);
-		
-		$all_id_d = $recuperateur->get('id_d');
-		if (! $all_id_d){
-			$this->LastError->setLastError("Vous devez sélectionner au moins un document");
-			$this->redirect($this->url_retour);
-		}
-		
-		$error = "";
-		foreach($all_id_d as $id_d){
-			$infoDocument  = $this->DocumentActionEntite->getInfo($id_d,$this->id_e);
-			if (! $this->ActionPossible->isActionPossible($this->id_e,$this->Authentification->getId(),$id_d,$this->action_selected)){
-				$error .= "L'action « $action_libelle » n'est pas possible pour le document « {$infoDocument['titre']} »<br/>";
-			}
-			if ($this->ActionProgrammeeSQL->hasActionProgrammee($id_d,$this->id_e)) {
-				$error .= "Il y a déjà une action programmée pour le document « {$infoDocument['titre']} »<br/>";
-			}
-			$listDocument[] = $infoDocument;
-		}
-		if ($error){
-			$this->LastError->setLastError($error."<br/><br/>Aucune action n'a été executée");
-			$this->redirect($this->url_retour);
-		}
-				
-		$this->listDocument = $listDocument;
-		$this->template_milieu = "DocumentConfirmTraitementLot";
-		$this->renderDefault();
-	}
-	
-	public function doTraitementLotAction(){
-		$this->validTraitementParLot($_POST);
-		$recuperateur = new Recuperateur($_POST);
-		$action_selected = $recuperateur->get('action');
-		$all_id_d = $recuperateur->get('id_d');
-		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
-		
-		$action_libelle = $documentType->getAction()->getActionName($action_selected);
-		
-		$url_retour = "document/traitement-lot.php?id_e={$this->id_e}&type={$this->type}&search={$this->search}&filtre={$this->filtre}&offset={$this->offset}";
-		
-		$error = "";
-		$message ="";
-		foreach($all_id_d as $id_d){
-			$infoDocument  = $this->DocumentActionEntite->getInfo($id_d,$this->id_e);
-			if (! $this->ActionPossible->isActionPossible($this->id_e,$this->Authentification->getId(),$id_d,$action_selected)){
-				$error .= "L'action « $action_libelle » n'est pas possible pour le document « {$infoDocument['titre']} »<br/>";
-			} 
-			if ($this->ActionProgrammeeSQL->hasActionProgrammee($id_d,$this->id_e)) {
-				$error .= "Il y a déjà une action programmée pour le document « {$infoDocument['titre']} »<br/>";
-			}
-			$listDocument[] = $infoDocument;
-			$message .= "L'action « $action_libelle » est programmé pour le document « {$infoDocument['titre']} »<br/>";	
-		
-		}
-		if ($error){
-			$this->LastError->setLastError($error."<br/><br/>Aucune action n'a été executée");
-			$this->redirect($this->url_retour);
-		}
-		
-		foreach($all_id_d as $id_d){
-			$this->ActionProgrammeeSQL->add($id_d,$this->id_e,$this->Authentification->getId(),$action_selected);
-			$this->Journal->add(Journal::DOCUMENT_TRAITEMENT_LOT,$this->id_e,$id_d,$action_selected,"programmation dans le cadre d'un traitement par lot");
-		}
-		
-		$this->LastMessage->setLastMessage($message);
-		$url_retour = "document/list.php?id_e={$this->id_e}&type={$this->type}&search={$this->search}&filtre={$this->filtre}&offset={$this->offset}";
-		$this->redirect($url_retour);
-	}
-	
-	private function doOneAction($id_d,$id_e,$id_u,$action){
-
-		$info = $this->Document->getInfo($id_d);
-		if (! $this->RoleUtilisateur->hasDroit($id_u,"{$info['type']}:edition",$id_e)){
-				throw new Exception("Vous n'avez pas les droits suffisants pour executer l'action");
-		}
-						
-		if ( ! $this->ActionPossible->isActionPossible($id_e,$id_u,$id_d,$action)) {
-			throw new Exception("L'action « $action »  n'est pas permise : " .$this->ActionPossible->getLastBadRule());
-		}
-			
-		$result = $this->ActionExecutorFactory->executeOnDocument($id_e,$id_u,$id_d,$action,array(), true,array());
-		$message = $this->objectInstancier->ActionExecutorFactory->getLastMessage();
-			
-		if (! $result){
-			throw new Exception($message);
-		} 
-		return true;
-	}
-	
-	public function doActionProgrammee(){
-		$all_action = $this->ActionProgrammeeSQL->getAll();
-		foreach($all_action as $actionInfo){
-			try{
-				$this->doOneAction($actionInfo['id_d'],$actionInfo['id_e'],$actionInfo['id_u'],$actionInfo['action']);
-			} catch (Exception $e){
-				$info = $this->Document->getInfo($actionInfo['id_d']);
-				$this->NotificationMail->notify($actionInfo['id_e'],$actionInfo['id_d'],$actionInfo['action'],$info['type'],"Echec de l'execution de l'action dans la cadre d'un traitement par lot : ".$e->getMessage());
-			}
-			$this->ActionProgrammeeSQL->delete($actionInfo['id_d'],$actionInfo['id_e']);
-		}
-	}
-	
-	public function reindex($document_type,$field_name){
-		if (! $this->DocumentTypeFactory->isTypePresent($document_type)){
-			echo "[ERREUR] Le type de document $document_type n'existe pas sur cette plateforme.\n";
-			return;
-		}
-		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($document_type);
-		$formulaire = $documentType->getFormulaire();
-		
-		
-		$field = $formulaire->getField($field_name);
-		if (! $field){
-			echo "[ERREUR] Le champs $field_name n'existe pas pour le type de document $document_type\n";
-			return;
-		}
-		if (! $field->isIndexed()){
-			echo "[ERREUR] Le champs $document_type:$field_name n'est pas indexé\n";
-			return;
-		}
-
-		foreach($this->Document->getAllByType($document_type) as $document_info){
-			echo "Réindexation du document {$document_info['titre']} ({$document_info['id_d']})\n";
-			$documentIndexor = new DocumentIndexor($this->DocumentIndexSQL, $document_info['id_d']);
-			$donneesFormulaire = $this->DonneesFormulaireFactory->get($document_info['id_d']);
-			$fieldData = $donneesFormulaire->getFieldData($field_name);
-			$documentIndexor->index($field_name, $fieldData->getValueNum());
-		}
-	}
-	
-	public function fixModuleChamps($document_type,$old_field_name,$new_field_name){
-		foreach($this->Document->getAllByType($document_type) as $document_info){
-			$donneesFormulaire = $this->DonneesFormulaireFactory->get($document_info['id_d']);
-			$value = $donneesFormulaire->get($old_field_name);
-			$donneesFormulaire->setData($new_field_name,$value);
-			$donneesFormulaire->deleteField($old_field_name);
-		}
-		
-	}
-	
-	
 }

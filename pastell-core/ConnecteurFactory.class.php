@@ -7,11 +7,6 @@ class ConnecteurFactory {
 		$this->objectInstancier = $objectInstancier;
 	}
 	
-	/**
-	 * 
-	 * @param int $id_ce
-	 * @return Connecteur
-	 */
 	public function getConnecteurById($id_ce){
 		$connecteur_info = $this->objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
 		return $this->getConnecteurObjet($connecteur_info);
@@ -36,8 +31,7 @@ class ConnecteurFactory {
 		}
 		$class_name = $this->objectInstancier->ConnecteurDefinitionFiles->getConnecteurClass($connecteur_info['id_connecteur']);
 		$connecteurObject = $this->objectInstancier->newInstance($class_name);
-		$connecteurObject->setConnecteurConfig($this->getConnecteurConfig($connecteur_info['id_ce']));
-		$connecteurObject->setConnecteurInfo($connecteur_info);
+		$connecteurObject->setConnecteurConfig($this->getConnecteurConfig($connecteur_info['id_ce']));		
 		return $connecteurObject;
 	}
 	

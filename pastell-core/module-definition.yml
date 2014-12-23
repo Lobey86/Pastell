@@ -38,10 +38,6 @@ definition.yml:
 			info: Permet d'afficher l'ensemble des onglets sur une seule page (en mode affichage, les onglets sont conservés en mode édition)
 			default: false
 			type: boolean
-		
-		champs-affiches:
-			info: Liste des champs à afficher dans la liste des documents
-			type: list
 			
 connecteur:
 	possible_key:
@@ -54,15 +50,12 @@ formulaire:
 		*:
 			key_name: onglet
 			type: associative_array
-			info: le formulaire est composé d'un ensemble d'onglets
-			
 	
 onglet:
 	possible_key:
 		*:
 			key_name: element_formulaire
 			type: associative_array
-			info: un onglet est composé d'élement de formulaire
 	
 element_formulaire:
 	possible_key:
@@ -132,11 +125,6 @@ element_formulaire:
 		depend:
 			info: champs multiple dépendant d'un champ de type file (multiple)
 			type: string
-		index:
-			info: Indique si le champs est indexé par la base de données
-			type: boolean
-			default: false
-			
 			
 action:
 	possible_key:
@@ -206,11 +194,7 @@ rule:
 			key_name: rule
 		properties:
 			type: associative_array
-		no_X: 
-			type: associative_array
-			key_name: rule
-		  			  
-	
+		  	
 last-action:
 	possible_key:
 		*: 
@@ -288,10 +272,3 @@ properties:
 		*: 
 			key_name: properties
 			type: string_or_boolean	
-
-champs-affiches:
-	possible_key:
-		*:
-			key_name: champs
-			type: string
-

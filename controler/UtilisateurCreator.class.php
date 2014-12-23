@@ -27,7 +27,7 @@ class UtilisateurCreator {
 		}
 	
 		if ($password != $password2){
-			$this->lastError = "Les mots de passe ne correspondent pas";
+			$this->lastError = "Les mots de passes ne correspondent pas";
 			return false;
 		}
 		

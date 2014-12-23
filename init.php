@@ -25,15 +25,8 @@ if ( ! function_exists('pastell_autoload')) {
 spl_autoload_register('pastell_autoload');
 
 if(php_sapi_name() != "cli") {
-	ini_set("session.cookie_httponly", 1);
 	session_start();
 }
-
-if (! function_exists('apc_fetch')){
-	function apc_fetch(){}
-	function apc_store(){}
-}
-
 
 require_once( PASTELL_PATH . "/lib/util.php");
 require_once("Connecteur.class.php");
@@ -58,8 +51,7 @@ $objectInstancier->bd_password = BD_PASS;
 $objectInstancier->upstart_touch_file = UPSTART_TOUCH_FILE;
 $objectInstancier->upstart_time_send_warning = UPSTART_TIME_SEND_WARNING;
 
-$objectInstancier->open_id_url_callback = SITE_BASE."/connexion/openid-pastell.php";
- 
+
 $id_u_journal = 0;
 if ($objectInstancier->Authentification->isConnected()) {
 	$id_u_journal = $objectInstancier->Authentification->getId();

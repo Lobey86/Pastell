@@ -21,7 +21,7 @@ class EntiteListe extends SQL {
 	public function getAllCollectivite($offset,$denomination){
 		$result = array();
 		
-		$sql = "SELECT id_e,denomination,siren,type,is_active " . 
+		$sql = "SELECT id_e,denomination,siren,type " . 
 				" FROM entite WHERE entite_mere=0 AND type != 'fournisseur' AND type != 'citoyen'  " .
 				" AND denomination LIKE ? ". 
 				" ORDER BY denomination" .

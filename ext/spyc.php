@@ -505,8 +505,6 @@ class Spyc {
      * @return mixed
      */
   private function _toType($value) {
-  	
-  	
     if ($value === '') return null;
     $first_character = $value[0];
     $last_character = substr($value, -1, 1);
@@ -525,7 +523,6 @@ class Spyc {
     if (strpos($value, ' #') !== false)
       $value = preg_replace('/\s+#(.+)$/','',$value);
 
-    
     if ($first_character == '[' && $last_character == ']') {
       // Take out strings sequences and mappings
       $innerValue = trim(substr ($value, 1, -1));
@@ -538,7 +535,7 @@ class Spyc {
       }
       return $value;
     }
-    
+
     if (strpos($value,': ')!==false && $first_character != '{') {
       $array = explode(': ',$value);
       $key   = trim($array[0]);
@@ -570,7 +567,7 @@ class Spyc {
     if ($value == 'null' || $value == 'NULL' || $value == 'Null' || $value == '' || $value == '~') {
       return null;
     }
-    
+
     if (intval($first_character) > 0 && preg_match ('/^[1-9]+[0-9]*$/', $value)) {
       $intvalue = (int)$value;
       if ($intvalue != PHP_INT_MAX)
@@ -587,9 +584,8 @@ class Spyc {
                  array('false', 'off', '-', 'no', 'n'))) {
       return false;
     }
-    
+
     if (is_numeric($value)) {
-    	
       if ($value === '0') return 0;
       if (trim ($value, 0) === $value)
         $value = (float)$value;

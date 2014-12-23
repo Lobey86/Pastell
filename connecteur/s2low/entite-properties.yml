@@ -35,11 +35,6 @@ formulaire:
 			commentaire: "La transaction devra être confirmée par l'agent télétransmetteur avant d'être envoyée à la préfecture"  
 			type: checkbox
 
-		authentication_for_teletransmisson:
-			name: "Utiliser l'authentification par certificat sur S2low pour la télétransmission"
-			commentaire: "L'utilisateur est redirigé vers S2low afin de présenter un certificat valide, puis S2low redirige l'utilisateur vers Pastell"
-			type: checkbox
-
 action:
 	test-tedetis:
 		name: Tester la connectivité

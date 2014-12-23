@@ -1,7 +1,7 @@
 <?php
 //Crée un admin (crée aussi le rôle admin et fixe les droits si il n'existe pas
 
-require_once( __DIR__ . "/../web/init.php");
+require_once( dirname(__FILE__) . "/../web/init.php");
 
 
 $login = get_argv(1);

@@ -6,7 +6,6 @@ Afin de réinitialiser votre mot de passe, veuillez vous rendre sur la page suiva
 
 <?php echo SITE_BASE ?>/connexion/changement-mdp.php?mail_verif=<?php echo $info['mail_verif_password']?>
 
-
 Si vous n'avez pas initié cette procédure, veuillez prévenir votre administrateur Pastell.
 
 ----------

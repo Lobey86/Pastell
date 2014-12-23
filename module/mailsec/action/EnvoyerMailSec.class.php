@@ -39,17 +39,17 @@ class EnvoyerMailSec extends ActionExecutor {
 		$this->prepareMail();
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
-		$this->documentEmail = $this->objectInstancier->DocumentEmail;
+		$this->documentEmail = new DocumentEmail($this->getSQLQuery());
 		
 		foreach(array('to','cc','bcc') as $type){
-			$lesMails = $donneesFormulaire->getFieldData($type)->getMailList();
+			$lesMails = $donneesFormulaire->getMailList($type);
 			foreach($lesMails as $mail){
 				if (preg_match("/^groupe: \"(.*)\"$/",$mail,$matches)){
 					$groupe = $matches[1];
 					$id_g = $annuaireGroupe->getFromNom($groupe);
 					$utilisateur = $annuaireGroupe->getAllUtilisateur($id_g);
 					foreach($utilisateur as $u){
-						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
+						$this->sendEmail($u['email'],$type);
 					}
 				} elseif(preg_match("/^role: \"(.*)\"$/",$mail,$matches)){
 					$role = $matches[1];
@@ -57,19 +57,19 @@ class EnvoyerMailSec extends ActionExecutor {
 					$utilisateur = $annuaireRoleSQL->getUtilisateur($id_r);
 					
 					foreach($utilisateur as $u){
-						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
+						$this->sendEmail($u['email'],$type);
 					}
 				} elseif(preg_match('/^groupe hérité de (.*): "(.*)"$/',$mail,$matches) || preg_match('/^groupe global: ".*"$/',$mail)) {
 					$id_g = $annuaireGroupe->getFromNomDenomination($all_ancetre,$mail);
 					$utilisateur = $annuaireGroupe->getAllUtilisateur($id_g);
 					foreach($utilisateur as $u){
-						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
+						$this->sendEmail($u['email'],$type);
 					}
 				} elseif(preg_match('/^rôle hérité de .*: ".*"$/',$mail,$matches) || preg_match('/^rôle global: ".*"$/',$mail)){
 					$id_r = $annuaireRoleSQL->getFromNomDenomination($all_ancetre,$mail);
 					$utilisateur = $annuaireRoleSQL->getUtilisateur($id_r);
 					foreach($utilisateur as $u){
-						$this->sendEmail("".$u['description']."".' <'.$u['email'].'>',$type);
+						$this->sendEmail($u['email'],$type);
 					}
 					
 				} else {

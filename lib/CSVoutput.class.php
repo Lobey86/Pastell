@@ -11,12 +11,8 @@ class CSVoutput {
 	public function display(array $info){
 		$this->begin();
 		foreach($info as $line){
-			if (isset($line['message'])) {
-				$line['message'] = preg_replace("/(\r\n|\n|\r)/", " ", $line['message']);
-			}
-			if (isset($line['message_horodate'])) {
-				$line['message_horodate'] = preg_replace("/(\r\n|\n|\r)/", " ", $line['message_horodate']);
-			}
+                        $line['message'] = preg_replace("/(\r\n|\n|\r)/", " ", $line['message']);
+                        $line['message_horodate'] = preg_replace("/(\r\n|\n|\r)/", " ", $line['message_horodate']);
 			unset($line['preuve']);
 			$this->displayLine($line);
 		}

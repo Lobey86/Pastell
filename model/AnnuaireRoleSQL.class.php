@@ -9,7 +9,7 @@ class AnnuaireRoleSQL extends SQL {
 	}
 	
 	public function getAll($id_e){
-		$sql = "SELECT * FROM annuaire_role WHERE id_e_owner=? ORDER BY nom ASC";
+		$sql = "SELECT * FROM annuaire_role WHERE id_e_owner=?";
 		return $this->query($sql,$id_e);
 	}
 	

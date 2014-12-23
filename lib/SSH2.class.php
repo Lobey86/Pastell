@@ -44,10 +44,8 @@ class SSH2 {
 		if ( ! $connexion ){
 			return false;
 		}
-		
 		$sftp = ssh2_sftp($connexion);
-		$result = scandir("ssh2.sftp://{$sftp}{$directory}");	
-		return $result;
+		return scandir("ssh2.sftp://{$sftp}{$directory}");
 	}
 	
 	public function getFileContent($path_on_server){

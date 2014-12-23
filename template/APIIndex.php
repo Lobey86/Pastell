@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box_contenu clearfix">
 	<h2>Généralités</h2>
 <p>
 
@@ -7,7 +7,6 @@ L'authentification à l'API se fait soit : </p>
 <ul>
 	<li>via un certificat</li>
 	<li>via le login/mot de passe Pastell. Celui-ci doit être passé via une authentification HTTP en mode BASIC</li>
-	<li>via une connexion CAS, pour cela il faut ajouter un paramètre auth='cas' dans chacune des requête de l'API</li>
 </ul>
 <h3>Paramètres d'entrée</h3>
 <p>
@@ -22,7 +21,7 @@ il faudra utiliser POST.
 <?php 
 
 foreach($functions_list as $function_name => $function_properties) : ?>
-<div class="box">
+<div class="box_contenu clearfix">
 
 <h2><?php hecho($function_properties[APIDefinition::KEY_DESCRIPTION])?> : <?php hecho($function_name)?></h2>
 <p>Description: <?php hecho($function_properties[APIDefinition::KEY_COMMENT])?> </p>
@@ -34,7 +33,7 @@ Méthode SOAP : <?php hecho($function_properties[APIDefinition::KEY_SOAP_NAME])?>
 
 <h3>Paramètres d'entrée</h3>
 <?php if ($function_properties[APIDefinition::KEY_INPUT] ) : ?>
-<table class="table table-striped">
+<table class="tab_04">
 	<tr>
 		<th>Nom du paramètre</th>
 		<th>Obligatoire ? </th>
@@ -57,7 +56,7 @@ Méthode SOAP : <?php hecho($function_properties[APIDefinition::KEY_SOAP_NAME])?>
 
 <h3>Paramètres de sortie</h3>
 <?php if ($function_properties[APIDefinition::KEY_OUTPUT] ) : ?>
-<table class="table table-striped">
+<table class="tab_04">
 	<tr>
 		<th>Nom du paramètre</th>
 		<th>Commentaire</th>

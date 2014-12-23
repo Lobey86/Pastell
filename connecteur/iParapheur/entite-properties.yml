@@ -2,77 +2,74 @@ name: iParapheur
 type: signature
 
 description: |
-    Connecteur pour le iParapheur de l'Adullact
+	Connecteur pour le iParapheur de l'Adullact
 
 formulaire:
-    page0:
-        iparapheur_activate: {name: "Module activé", type: checkbox}
-        iparapheur_wsdl: {name: "URL du WSDL"}
-        iparapheur_user_certificat: 
-            name: "Certificat utilisateur (format P12)"
-            type: file
-            content-type: application/octet-stream
-            onchange: update-certificate
-        iparapheur_user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
-        iparapheur_user_key_pem: {type: file, no-show: true}
-        iparapheur_user_certificat_pem: {type: file, no-show: true}
-        iparapheur_user_key_only_pem:  {type: file, no-show: true}
-        iparapheur_login: {name: "Login HTTP"}
-        iparapheur_password:  {name: "Mot de passe HTTP", type: password}
-        iparapheur_type:
-            name: Type iParapheur
-            type: externalData
-            choice-action: iparapheur-type
-            link_name: liste des types
-            onchange: update-sous-type
-        iparapheur_sous_type:
-            name: Sous-type iParapheur
-            read-only: true
-            type: file
-        iparapheur_nb_jour_max:
-            name: Nombre de jours maximums dans le parapheur
-            commentaire: | 
-                Nombre de jours avant de déclencher une erreur si il n'y a pas de réponse du parapheur.
-                (Peut ne pas être implémenter par les différents flux)
-            default: 30
-        iparapheur_visibilite:
-            name: Visibilité pour le iParapheur
-            type: select
-            value:
-                CONFIDENTIEL: CONFIDENTIEL
-                SERVICE: SERVICE
-                PUBLIC: PUBLIC
-        visuel_pdf_default:
-            name: Visuel PDF par défaut
-            type: file
-            commentaire: Utiliser dans le cadre de l'envoi de flux PES
+	page0:
+		iparapheur_activate: {name: "Module activé", type: checkbox}
+		iparapheur_wsdl: {name: "URL du WSDL"}
+		iparapheur_user_certificat: 
+			name: "Certificat utilisateur (format P12)"
+			type: file
+			content-type: application/octet-stream
+			onchange: update-certificate
+		iparapheur_user_certificat_password: {name: "Mot de passe du certificat utilisateur" , type: password}
+		iparapheur_user_key_pem: {type: file, no-show: true}
+		iparapheur_user_certificat_pem: {type: file, no-show: true}
+		iparapheur_user_key_only_pem:  {type: file, no-show: true}
+		iparapheur_login: {name: "Login HTTP"}
+		iparapheur_password:  {name: "Mot de passe HTTP", type: password}
+		iparapheur_type:
+			name: Type iParapheur
+			type: externalData
+			choice-action: iparapheur-type
+			link_name: liste des types
+			onchange: update-sous-type
+		iparapheur_sous_type:
+			name: Sous-type iParapheur
+			read-only: true
+			type: file
+		iparapheur_nb_jour_max:
+			name: Nombre de jours maximums dans le parapheur
+			commentaire: | 
+				Nombre de jours avant de déclencher une erreur si il n'y a pas de réponse du parapheur.
+				(Peut ne pas être implémenter par les différents flux)
+			default: 30
+		iparapheur_visibilite:
+			name: Visibilité pour le iParapheur
+			type: select
+			value:
+				CONFIDENTIEL: CONFIDENTIEL
+				SERVICE: SERVICE
+				PUBLIC: PUBLIC
 		
 action:
-    test-iparapheur:
-        name: Test de la connexion
-        action-class: IParapheurTest
-        rule:
-            droit_id_u: 'entite:edition'	
-    test-iparapheur-send:
-        name: Créer un document test
-        action-class: IParapheurTestSend
-        rule:
-            droit_id_u: 'entite:edition'
+	test-iparapheur:
+		name: Test de la connexion
+		action-class: IParapheurTest
+		rule:
+			droit_id_u: 'entite:edition'
+		
+	test-iparapheur-send:
+		name: Créer un document test
+		action-class: IParapheurTestSend
+		rule:
+			droit_id_u: 'entite:edition'
 			
-    update-certificate:
-        name: Mettre à jour les certificats
-        action-class: UpdateCertificate
-        rule:
-            role_id_e: no-role
-
-    update-sous-type:
-        name: Mettre à jour les sous-types
-        action-class: UpdateSousType
-        rule:
-            droit_id_u: 'entite:edition'
-
-    iparapheur-type:
-        name: Liste des types iParapheur
-        rule: 
-            role_id_e: no-role
-        action-class: IparapheurType
+	update-certificate:
+		name: Mettre à jour les certificats
+		action-class: UpdateCertificate
+		rule:
+			role_id_e: no-role
+	
+	update-sous-type:
+		name: Mettre à jour les sous-types
+		action-class: UpdateSousType
+		rule:
+			droit_id_u: 'entite:edition'
+			
+	iparapheur-type:
+		name: name: Liste des type iParapheur
+		rule: 
+			role_id_e: no-role
+		action-class: IparapheurType

@@ -10,7 +10,6 @@ class Journal extends SQL {
 	const DOCUMENT_CONSULTATION = 7 ;
 	const ENVOI_MAIL = 8;
 	const DOCUMENT_ACTION_ERROR = 9;
-	const DOCUMENT_TRAITEMENT_LOT = 10;
 	
 	private $id_u;
 	private $utilisateurSQL;
@@ -99,7 +98,7 @@ class Journal extends SQL {
 	
 	public function getQueryAll($id_e,$type,$id_d,$id_u,$offset,$limit,$recherche = "",$date_debut=false,$date_fin=false){
 		$value = array();
-		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom,entite.siren " .
+		$sql = "SELECT journal.*,document.titre,entite.denomination, utilisateur.nom, utilisateur.prenom " .
 			" FROM journal " .
 			" LEFT JOIN document ON journal.id_d = document.id_d " .
 			" LEFT JOIN entite ON journal.id_e = entite.id_e " .
@@ -127,11 +126,11 @@ class Journal extends SQL {
 			$value[] = "%$recherche%";
 		}
 		if ($date_debut){
-			$sql.= "AND DATE(journal.date) >= ?";
+			$sql.= "AND journal.date > ?";
 			$value[] = $date_debut;
 		}
 		if ($date_fin){
-			$sql.= "AND DATE(journal.date) <= ?";
+			$sql.= "AND journal.date < ?";
 			$value[] = $date_fin;
 		}
 		
@@ -144,7 +143,7 @@ class Journal extends SQL {
 	
 	
 	
-	public function countAll($id_e,$type,$id_d,$id_u,$recherche,$date_debut,$date_fin){
+	public function countAll($id_e,$type,$id_d,$id_u,$recherche){
 		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
 		$value = array();
 		
@@ -168,14 +167,6 @@ class Journal extends SQL {
 			$sql .= " AND journal.message_horodate LIKE ?";
 			$value[] = "%$recherche%";
 		}
-		if ($date_debut){
-			$sql.= "AND DATE(journal.date) >= ?";
-			$value[] = $date_debut;
-		}
-		if ($date_fin){
-			$sql.= "AND DATE(journal.date) <= ?";
-			$value[] = $date_fin;
-		}
 		return $this->queryOne($sql,$value);
 	}
 	
@@ -189,8 +180,7 @@ class Journal extends SQL {
 						"Connexion",
 						"Consultation de document",
 						"Envoi de mail",
-						"Erreur lors de la tentative d'une action",
-						"Programmation d'un traitement par lot"
+						"Erreur lors de la tenetative d'une action"
 		);
 		return $type_string[$type];
 	}

@@ -1,28 +1,22 @@
 <?php
-/**
- * Permet de créer un objet de type DonneesFormulaire
- * @author eric
- *
- */
+
+
 class DonneesFormulaireFactory{
 	
 	private $documentTypeFactory;
 	private $workspacePath;
 	private $connecteurEntiteSQL;
 	private $documentSQL;
-	private $documentIndexSQL;
 	
 	public function __construct(DocumentTypeFactory $documentTypeFactory, 
 								$workspacePath, 
 								ConnecteurEntiteSQL $connecteurEntiteSQL,
-								Document $documentSQL,
-								DocumentIndexSQL $documentIndexSQL
+								Document $documentSQL
 								){
 		$this->documentTypeFactory = $documentTypeFactory;
 		$this->workspacePath = $workspacePath;
 		$this->connecteurEntiteSQL = $connecteurEntiteSQL;
 		$this->documentSQL = $documentSQL;
-		$this->documentIndexSQL = $documentIndexSQL;
 	}
 	
 	public function get($id_d,$document_type = false){
@@ -35,8 +29,8 @@ class DonneesFormulaireFactory{
 			throw new Exception("Document inexistant");
 		}
 		
-		$documentType = $this->documentTypeFactory->getFluxDocumentType($document_type);
-		return $this->getFromCacheNewPlan($id_d, $documentType);
+		$formulaire = $this->documentTypeFactory->getFluxDocumentType($document_type)->getFormulaire();
+		return $this->getFromCacheNewPlan($id_d, $formulaire);
 	}
 	
 	public function getConnecteurEntiteFormulaire($id_ce){
@@ -47,29 +41,25 @@ class DonneesFormulaireFactory{
 			$documentType = $this->documentTypeFactory->getGlobalDocumentType($connecteur_entite_info['id_connecteur']);
 		} 
 		$id_document = "connecteur_$id_ce";
-		return $this->getFromCache($id_document, $documentType);
+		return $this->getFromCache($id_document,$documentType->getFormulaire());
 	}
 	
-	private function getFromCache($id_document,DocumentType $documentType){
+	private function getFromCache($id_document,Formulaire $formulaire){
 		static $cache;
 		if (empty($cache[$id_document])){
-			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $documentType);
-			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
-			$cache[$id_document]->setDocumentIndexor($documentIndexor);
+			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $formulaire);
 		}
 		return $cache[$id_document];
 	}
 	
-	private function getFromCacheNewPlan($id_document,DocumentType $documentType){
+	private function getFromCacheNewPlan($id_document,Formulaire $formulaire){
 		static $cache;
 		if (empty($cache[$id_document])){
 			$dir = $this->getNewDirectoryPath($id_document);
 			if (! file_exists($dir)) {
 				mkdir($dir,0777,true);
 			}
-			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $documentType);
-			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
-			$cache[$id_document]->setDocumentIndexor($documentIndexor);
+			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
 		}
 		return $cache[$id_document];
 	}
@@ -83,8 +73,4 @@ class DonneesFormulaireFactory{
 		return $this->workspacePath."/$a/$b/";
 	}
 	
-	public function getNonPersistingDonneesFormulaire(){
-		$documentType = new DocumentType("empty", array());
-		return new DonneesFormulaire("/tmp/xyz", $documentType);
-	}
 }

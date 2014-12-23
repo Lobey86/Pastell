@@ -137,14 +137,11 @@ class ActionExecutorFactory {
 		
 		$actionClass = $this->getInstance($action_class_name,$connecteur_entite_info['id_e'],$id_u,$action_name);
 		$actionClass->setConnecteurId($connecteur_entite_info['id_connecteur'], $id_ce);
-		$actionClass->setField($field);		
-		try {	
-			$result = $actionClass->go();
-		} catch(Exception $e){
-			$this->lastMessage = $e->getMessage() ;
-		}
+		$actionClass->setField($field);			
+		$result = $actionClass->go();		
 		$actionClass->redirectToConnecteurFormulaire();
 	}
+	
 	
 	public function executeOnDocumentThrow($id_d,$id_e,$id_u,$action_name,$id_destinataire,$from_api, $action_params){
 		$infoDocument = $this->objectInstancier->Document->getInfo($id_d);

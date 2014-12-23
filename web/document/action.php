@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../init-authenticated.php");
 
-$recuperateur = new Recuperateur($_REQUEST);
+$recuperateur = new Recuperateur($_POST);
 $id_d = $recuperateur->get('id_d');
 $action = $recuperateur->get('action');
 $id_e = $recuperateur->get('id_e');
@@ -29,10 +29,11 @@ if ($action == Action::MODIFICATION){
 }
 
 
-$id_destinataire = $recuperateur->get('destinataire')?:array();
+$id_destinataire = array();
 
 $action_destinataire =  $theAction->getActionDestinataire($action);
 if ($action_destinataire) {
+	$id_destinataire = $recuperateur->get('destinataire');
 	
 	if (! $id_destinataire){
 		header("Location: " . SITE_BASE . "/entite/choix-entite.php?id_d=$id_d&id_e=$id_e&action=$action&type=$action_destinataire");

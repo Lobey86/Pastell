@@ -11,7 +11,7 @@ cf : http://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-inst
     <logging>
   <log type="coverage-html" target="/tmp/pastell-coverage" charset="UTF-8"
        yui="true" highlight="false"
-       lowUpperBound="35" highLowerBound="90"/> 
+       lowUpperBound="35" highLowerBound="90"/>
 </logging>
 <filter>
 <whitelist processUncoveredFilesFromWhitelist="false">
