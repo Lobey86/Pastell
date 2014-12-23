@@ -1,0 +1,2 @@
+La commande zip, utilisé par le connecteur MnesysSAE n'est plus nécessaire
+(remplacé par l'extension PHP zip, déjà présente)
