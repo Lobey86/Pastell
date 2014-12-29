@@ -83,7 +83,7 @@ class OasisProvisionning extends Connecteur {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $curlHttpHeader);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 		
-		curl_exec($ch);
+		$output = curl_exec($ch);
 		
 		if (curl_getinfo($this->curlHandle,CURLINFO_HTTP_CODE) != "201"){
 			throw new Exception("Erreur lors de la création de l'instance : $output");
