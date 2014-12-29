@@ -66,7 +66,7 @@ class OpenIDAuthentication extends Connecteur {
 		$info=array("response_type"=>'code',
 					"client_id"=> $this->client_id,
 					"scope"=>"openid%20profile",
-					"redirect_uri"=>urlencode($this->url_callback),
+					"redirect_uri"=>$this->url_callback,
 					"state"=>urlencode($state),
 					"nonce"=>$_SESSION[self::PASTELL_OPENID_SESSION_NONCE]
 		);
