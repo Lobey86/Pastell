@@ -12,7 +12,6 @@ class OpenIDAuthentication extends Connecteur {
 	const PASTELL_OPENID_SESSION_ACCESS_TOKEN = "pastell_open_id_access_token";
 	const PASTELL_OPENID_SESSION_ID_TOKEN = "pastell_open_id_token";
 	
-	
 	private $open_id_url;
 	private $client_id;
 	private $client_secret;
@@ -20,22 +19,38 @@ class OpenIDAuthentication extends Connecteur {
 	private $url_callback;
 	private $site_index;
 	
+	private $connecteurFactory;
+	
 	/**
 	 * 
 	 * @param CurlWrapper $curlWrapper
 	 * @param string $url_callback URL pour le retour de l'authentification OpenID
 	 */
-	public function __construct(CurlWrapper $curlWrapper,$open_id_url_callback){
+	public function __construct(CurlWrapper $curlWrapper,$open_id_url_callback,ConnecteurFactory $connecteurFactory){
 		$this->curlWrapper = $curlWrapper;
 		$this->url_callback = $open_id_url_callback;
 		$this->site_index = SITE_BASE;
+		$this->connecteurFactory = $connecteurFactory;
 	}
 	
 	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
-		$this->open_id_url = $donneesFormulaire->get("open_id_url");
 		$this->client_id = $donneesFormulaire->get("client_id");
 		$this->client_secret = $donneesFormulaire->get("client_secret");
+		
+		
+		$oasisProvisionning = $this->connecteurFactory->getGlobalConnecteurConfig('oasis-provisionning');
+		if (! $oasisProvisionning){
+			throw new Exception("Impossible de trouver un connecteur de provisionning OASIS");
+		}
+		$open_id_url = $oasisProvisionning->get('open_id_url');
+		if (! $open_id_url){
+			throw new Exception("Impossible de trouver une URL pour OpenID");
+		}
+		
+		$this->open_id_url = $open_id_url;
 	}
+	
+	
 	
 	private function getRandomToken(){
 		return sha1(mt_rand(0,mt_getrandmax()));
