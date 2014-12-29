@@ -1,0 +1,21 @@
+nom: Authentification OpenID
+type: Flux Généraux
+
+connecteur:
+	openid-authentication
+
+description: 
+	Permet au collectivité d'envoyer des messages à leur service (entité fille). Il s'agit d'un pseudo-flux permettant juste de sélectionner un connecteur de type openid-authentification
+
+
+
+formulaire:
+	Message :			
+		
+	
+action:
+	creation:
+		name-action: Créer
+		name: Créé
+		rule:
+			role_id_e: no-role
