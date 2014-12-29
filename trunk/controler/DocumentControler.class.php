@@ -560,7 +560,6 @@ class DocumentControler extends PastellControler {
 		$page_title .= " pour " . $this->infoEntite['denomination'];
 		$this->page_title = $page_title;
 		
-		
 		$this->documentTypeFactory = $this->DocumentTypeFactory;
 		$this->setNavigationInfo($this->id_e,"document/list.php?type={$this->type}");
 		$this->theAction = $documentType->getAction();
@@ -570,10 +569,17 @@ class DocumentControler extends PastellControler {
 		$all_action = array();
 		foreach($listDocument as $i => $document){
 			$listDocument[$i]['action_possible'] = $this->ActionPossible->getActionPossible($this->id_e,$this->Authentification->getId(),$document['id_d']);
+			if(($key = array_search('modification', $listDocument[$i]['action_possible'])) !== false) {
+				unset($listDocument[$i]['action_possible'][$key]);
+			}
 			$all_action = array_merge($all_action,$listDocument[$i]['action_possible']);
+				
 		}
 		$this->listDocument = $listDocument;
-		$this->all_action = array_unique($all_action);
+		
+		$all_action = array_unique($all_action);
+		
+		$this->all_action = $all_action; 
 		$this->type_list = $this->getAllType($this->listDocument);		
 		$this->template_milieu = "DocumentTraitementLot";
 		$this->renderDefault();
