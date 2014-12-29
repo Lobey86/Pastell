@@ -494,7 +494,7 @@ action:
 		 
 	
 	teletransmission-tdt:
-		name-action: Ordoner la télétransmission au TdT
+		name-action: Ordonner la télétransmission au TdT
 		name: Télétransmettre en préfecture 
 		
 		rule:

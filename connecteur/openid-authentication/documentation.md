@@ -1,4 +1,5 @@
 
+
 J'ai ajouté comme "nom" Pastell le "user_name" OASIS 
 
 Par contre, le "login" Pastell doit être associé Ã  l'"ID" OASIS. Ainsi, on a : 	447e1478-461b-4802-b3a5-81fb7ae912c2   comme exemple de login.
