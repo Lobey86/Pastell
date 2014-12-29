@@ -3,6 +3,12 @@
 class OasisProvisionning extends Connecteur {
 	
 	private $donneesFormulaire;
+	private $url_callback;
+	
+	
+	public function __construct($open_id_url_callback){
+		$this->url_callback = $open_id_url_callback;	
+	}
 	
 	public function setConnecteurConfig(DonneesFormulaire $donneesFormulaire){
 		$this->donneesFormulaire = $donneesFormulaire;
@@ -65,7 +71,7 @@ class OasisProvisionning extends Connecteur {
 						"contacts" => array(SITE_BASE),
 						"payment_option"=>"FREE",
 						"target_audience" => array("PUBLIC_BODIES"),
-						"redirect_uris" => array(SITE_BASE),
+						"redirect_uris" => array($this->url_callback),
 				)),
 				"instance_id"=>$instance_id,
 		);
