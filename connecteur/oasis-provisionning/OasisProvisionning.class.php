@@ -43,7 +43,7 @@ class OasisProvisionning extends Connecteur {
 	}
 	
 	public function deleteNextInstance(){
-		$thisdonneesFormulaire->removeFile('instance_en_attente',0);
+		$this->donneesFormulaire->removeFile('instance_en_attente',0);
 	}
 	
 	
