@@ -33,9 +33,9 @@ class OasisTraitementInstance extends ActionExecutor {
 
 		$this->objectInstancier->FluxEntiteSQL->addConnecteur($id_e,'openid-authentification','openid-authentication',$id_ce);
 						
-		//Informer OASIS que le service est ouvert
+		$oasisProvisionning->aknowledge($instance_info,$id_e);
 		
-		//Supprimer le fichier de next_instance
+		$oasisProvisionning->deleteNextInstance();
 	}
 	
 }
