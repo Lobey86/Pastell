@@ -42,8 +42,55 @@ class OasisProvisionning extends Connecteur {
 		return json_decode($instance_data,true);
 	}
 	
+	public function deleteNextInstance(){
+		$thisdonneesFormulaire->removeFile('instance_en_attente',0);
+	}
 	
 	
+	public function aknowledge(array $instance_info,$id_e){
+		$url = $instance_info['instance_registration_uri'];
+		$client_id = $instance_info['client_id'];
+		$client_secret = $instance_info['client_secret'];
+		$instance_id = $instance_info['instance_id'];
+		
+		$data = array(
+				"services"=>array(array('local_id'=>'pastell',
+						"service_uri" => SITE_BASE."/pastell/oasis/connexion.php?id_e=$id_e",
+						"visible" => true,
+						"name" => "Pastell",
+						"description" => false,
+						"tos_uri"=>SITE_BASE,
+						"policy_uri"=>SITE_BASE,
+						"icon"=>SITE_BASE,
+						"contacts" => array(SITE_BASE),
+						"payment_option"=>"FREE",
+						"target_audience" => array("PUBLIC_BODIES"),
+						"redirect_uris" => array(SITE_BASE),
+				)),
+				"instance_id"=>$instance_id,
+		);
+		
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_USERPWD, "$client_id:$client_secret");
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST,true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1);
+		
+		$curlHttpHeader[] = "Content-Type: application/json";
+		
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $curlHttpHeader);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+		
+		curl_exec($ch);
+		
+		if (curl_getinfo($this->curlHandle,CURLINFO_HTTP_CODE) != "201"){
+			throw new Exception("Erreur lors de la création de l'instance : $output");
+		}
+		
+		return true;
+	}
 	
 	
 	

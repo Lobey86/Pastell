@@ -1,14 +1,31 @@
 <?php
 
 
-$url = "https://kernel.ozwillo-preprod.eu/apps/pending-instance/904b7ca1-9336-4168-9d34-1c0ed3aa0d72";
+$url = "https://kernel.ozwillo-preprod.eu/apps/pending-instance/bc45bc20-cfdf-4a2e-a52b-f00ed3165bbe";
 //$url = "http://www.yahoo.fr/";
-$client_id = "904b7ca1-9336-4168-9d34-1c0ed3aa0d72";
-$client_secret = "xFQbU88Rx6b1aeXX6roVSHtKqdHBsv+RDUJZAu3/iBQ";
+$client_id = "bc45bc20-cfdf-4a2e-a52b-f00ed3165bbe";
+$client_secret = "3Z6hz8ah0i8p3YBhJhyPg3CZK63WwI5AbqbByIcpJ+w";
 
-$data = array("services"=>array('xx')); 
+$data = array(
+		"services"=>array(array('local_id'=>'pastell',
+				"service_uri" => 'http://dev.sigmalis.com/pastell/oasis/connexion.php?id_e=1',
+				"visible" => true,
+				"name" => "Pastell",
+				"description" => false,
+				"tos_uri"=>"http://dev.sigmalis.com/pastell",
+				"policy_uri"=>"http://dev.sigmalis.com/pastell",
+				"icon"=>"http://dev.sigmalis.com/pastell",
+				"contacts" => array("http://dev.sigmalis.com/pastell"),
+				"payment_option"=>"FREE",
+				"target_audience" => array("PUBLIC_BODIES"),
+				"redirect_uris" => array("http://dev.sigmalis.com/pastell"),
+		)),
+			"instance_id"=>"bc45bc20-cfdf-4a2e-a52b-f00ed3165bbe",
+		
+		
+		); 
 
-//'{"instance_id":"904b7ca1-9336-4168-9d34-1c0ed3aa0d72","client_id":"904b7ca1-9336-4168-9d34-1c0ed3aa0d72","client_secret":"xFQbU88Rx6b1aeXX6roVSHtKqdHBsv+RDUJZAu3/iBQ","user_id":"447e1478-461b-4802-b3a5-81fb7ae912c2","user":{"id":"447e1478-461b-4802-b3a5-81fb7ae912c2","name":"iguillaumedenis@yahoo.fr","email_address":"iguillaumedenis@yahoo.fr"},"organization_id":"4725bf47-8846-4fdb-adcf-542d373e0676","organization_name":"Sigmalis","organization":{"id":"4725bf47-8846-4fdb-adcf-542d373e0676","name":"Sigmalis","type":"PUBLIC_BODY"},"instance_registration_uri":"https://kernel.ozwillo-preprod.eu/apps/pending-instance/904b7ca1-9336-4168-9d34-1c0ed3aa0d72"}';
+echo json_encode($data);
 
 
 $ch = curl_init();
@@ -31,6 +48,6 @@ $output = curl_exec($ch);
 
 print_r(curl_getinfo($ch,CURLINFO_HEADER_OUT));
 
-//echo curl_error($ch);;
 
 print_r($output);
+echo "\n";
