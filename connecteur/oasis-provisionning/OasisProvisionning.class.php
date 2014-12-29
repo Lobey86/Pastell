@@ -55,7 +55,7 @@ class OasisProvisionning extends Connecteur {
 		
 		$data = array(
 				"services"=>array(array('local_id'=>'pastell',
-						"service_uri" => SITE_BASE."/pastell/oasis/connexion.php?id_e=$id_e",
+						"service_uri" => SITE_BASE."/oasis/connexion.php?id_e=$id_e",
 						"visible" => true,
 						"name" => "Pastell",
 						"description" => false,
@@ -85,7 +85,7 @@ class OasisProvisionning extends Connecteur {
 		
 		$output = curl_exec($ch);
 		
-		if (curl_getinfo($this->curlHandle,CURLINFO_HTTP_CODE) != "201"){
+		if (curl_getinfo($ch,CURLINFO_HTTP_CODE) != "201"){
 			throw new Exception("Erreur lors de la création de l'instance : $output");
 		}
 		
