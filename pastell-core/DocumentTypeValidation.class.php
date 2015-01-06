@@ -204,6 +204,10 @@ class DocumentTypeValidation {
 	private function getAllElementName($typeDefinition){
 		$result = array();
 		foreach($this->getList($typeDefinition,'formulaire') as $onglet => $element_list){
+			if (! $element_list){
+				$this->last_error[] = "formulaire:onglet: est vide";
+				continue;
+			}
 			foreach($element_list as $name => $prop){
 				$result[] = $name;
 				$result[] = Field::Canonicalize($name);
