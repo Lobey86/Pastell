@@ -93,6 +93,9 @@ class OasisProvisionning extends Connecteur {
 						"redirect_uris" => array($this->url_callback),
 				)),
 				"instance_id"=>$instance_id,
+				"destruction_uri"=>SITE_BASE."/oasis/cancel.php",
+				"destruction_secret"=>$this->donneesFormulaire->get('api_cancel_secret')
+				
 		);
 		
 		$ch = curl_init();
