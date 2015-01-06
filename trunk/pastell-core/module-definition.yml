@@ -136,6 +136,9 @@ element_formulaire:
 			info: Indique si le champs est indexé par la base de données
 			type: boolean
 			default: false
+		content-type:
+			info: Uniquement pour le type fichier. Indique que le fichier doit avoir le content-type indiqué ici (sinon, le document n'est pas valide)
+			type: string 
 			
 			
 action:
