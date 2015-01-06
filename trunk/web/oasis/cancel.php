@@ -23,9 +23,9 @@ if (empty($_SERVER['HTTP_X_HUB_SIGNATURE'])){
 
 try {
 	$instance_id = $oasisProvisionning->getInstanceIdFromDeleteInstanceMessage($rawdata,$x_hub_signature);
-	
+	$selected_id_e = false;
 	foreach($objectInstancier->ConnecteurEntiteSQL->getAllById("openid-authentication") as $connecteur_info){
-		$connecteur_config = $objectInstancier->ConnecteruFactory->getConnecteurConfig($connecteur_info['id_ce']);
+		$connecteur_config = $objectInstancier->ConnecteurFactory->getConnecteurConfig($connecteur_info['id_ce']);
 		if ($connecteur_config->get("instance_id") == $instance_id){
 			$selected_id_e = $connecteur_info['id_e'];
 			break;
