@@ -2,6 +2,11 @@
 
 require_once( __DIR__ . "/../init.php");
 
+$x_hub_signature = $_SERVER['HTTP_X_HUB_SIGNATURE'];
+$rawdata = file_get_contents('php://input');
+
+file_put_contents("/tmp/pastell-oasis.tmp", $x_hub_signature.$rawdata);
+
 $oasisProvisionning = $objectInstancier->ConnecteurFactory->getGlobalConnecteur('oasis-provisionning');
 if (!$oasisProvisionning){
 	http_response_code(400);
@@ -15,8 +20,6 @@ if (empty($_SERVER['HTTP_X_HUB_SIGNATURE'])){
 	exit;
 }
 
-$x_hub_signature = $_SERVER['HTTP_X_HUB_SIGNATURE'];
-$rawdata = file_get_contents('php://input');
 
 try {
 	$instance_id = $oasisProvisionning->getInstanceIdFromDeleteInstanceMessage($rawdata,$x_hub_signature);

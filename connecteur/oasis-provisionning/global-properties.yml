@@ -12,6 +12,9 @@ formulaire:
 		api_provisionning_secret:
 			name: Secret partagé pour l'API de provisionning
 		
+		api_cancel_secret:
+			name: Secret partagé pour le message de supression d'instance
+			
 		open_id_url:
 			name: URL OpenID
 			commentaire:|
