@@ -10,6 +10,9 @@ formulaire:
 			name: client_id
 		client_secret:
 			name: client_secret
+		instance_id:
+			name: instance_id
+			read-only: true
 			
 action:
 	test-connexion:

@@ -30,6 +30,7 @@ class OasisTraitementInstance extends ActionExecutor {
 		
 		$connecteurConfig->setData('client_id',$instance_info['client_id']);
 		$connecteurConfig->setData('client_secret',$instance_info['client_secret']);
+		$connecteurConfig->setData('instance_id',$instance_info['instance_id']);
 
 		$this->objectInstancier->FluxEntiteSQL->addConnecteur($id_e,'openid-authentification','openid-authentication',$id_ce);
 						

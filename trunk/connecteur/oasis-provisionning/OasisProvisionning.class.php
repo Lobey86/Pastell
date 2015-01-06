@@ -16,10 +16,8 @@ class OasisProvisionning extends Connecteur {
 	
 	
 	public function addInstance($instance_raw_data,$x_hub_signature){
-		$hmac = "sha1=".strtoupper((hash_hmac('sha1', $instance_raw_data, $this->donneesFormulaire->get('api_provisionning_secret'), false)));
-		if ($hmac != $x_hub_signature){
-			throw new Exception("Le HMAC ne correspond pas");
-		}
+		
+		$this->verifXHubSignature($instance_raw_data, $x_hub_signature);
 		
 		$instance_info = json_decode($instance_raw_data,true);
 		if (! $instance_info){
@@ -38,6 +36,27 @@ class OasisProvisionning extends Connecteur {
 		}
 		
 		$this->donneesFormulaire->addFileFromData('instance_en_attente', $file_name, $instance_raw_data,$num_field);
+	}
+	
+	private function verifXHubSignature($raw_data,$x_hub_signature){
+		$hmac = "sha1=".strtoupper((hash_hmac('sha1', $raw_data, $this->donneesFormulaire->get('api_provisionning_secret'), false)));
+		if ($hmac != $x_hub_signature){
+			throw new Exception("Le HMAC ne correspond pas");
+		}
+	}
+	
+	public function getInstanceIdFromDeleteInstanceMessage($raw_data,$x_hub_signature){
+		$this->verifXHubSignature($raw_data, $x_hub_signature);
+		
+		$info = json_decode($raw_data,true);
+		if (! $info){
+			throw new Exception("Impossible de décoder les données de supression");
+		}
+		$instance_id = $info['instance_id'];
+		if (! $instance_id){
+			throw new Exception("Impossible de trouver l'instance_id");
+		}
+		return $instance_id;
 	}
 	
 	public function getNextInstance(){
