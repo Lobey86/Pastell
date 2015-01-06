@@ -17,6 +17,11 @@ class ConnecteurFactory {
 		return $this->getConnecteurObjet($connecteur_info);
 	}
 	
+	public function getConnecteurConfig($id_ce){
+		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
+	}
+	
+	
 	public function getConnecteurByType($id_e,$id_flux,$type_connecteur){
 		$connecteur_info = $this->objectInstancier->FluxEntiteSQL->getConnecteur($id_e,$id_flux,$type_connecteur);
 		return $this->getConnecteurObjet($connecteur_info);		
@@ -39,10 +44,6 @@ class ConnecteurFactory {
 		$connecteurObject->setConnecteurConfig($this->getConnecteurConfig($connecteur_info['id_ce']));
 		$connecteurObject->setConnecteurInfo($connecteur_info);
 		return $connecteurObject;
-	}
-	
-	public function getConnecteurConfig($id_ce){
-		return $this->objectInstancier->DonneesFormulaireFactory->getConnecteurEntiteFormulaire($id_ce);
 	}
 		
 	public function getGlobalConnecteur($type){
