@@ -398,14 +398,12 @@ class DocumentControler extends PastellControler {
 		} else {
 			$this->champs_affiches = array('titre'=>'Objet','type'=>'Type','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date');
 			$this->indexedFieldsList = array();
-			
 		}
+				
 		$this->indexedFieldValue = $indexedFieldValue;
 		
 		
 		$allDroit = $this->RoleUtilisateur->getAllDroit($this->getId_u());		
-		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:lecture");
-		
 		$this->listeEtat = $this->DocumentTypeFactory->getActionByRole($allDroit);
 		
 		$this->documentActionEntite = $this->DocumentActionEntite;

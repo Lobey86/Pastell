@@ -55,6 +55,24 @@ class DocumentTypeValidation {
 		$result &= $this->validateRuleTypeIdE($typeDefinition,$all_type_entite);
 		$result &= $this->validateActionClass($module_id,$typeDefinition);
 		$result &= $this->validateChampsAffiche($typeDefinition);
+		$result &= $this->validateChampsRechercheAvancee($typeDefinition);
+		return $result;
+	}
+	
+	private function validateChampsRechercheAvancee($typeDefinition){
+		$result = true;
+		$all_champs_affiche = $this->getList($typeDefinition,'champs-recherche-avancee');
+		$all_element_name = $this->getAllElementIndexed($typeDefinition);
+		foreach($all_champs_affiche as $champs){
+			if (in_array($champs,array('type','id_e','lastetat','last_state_begin','etatTransit','state_begin','search','tri'))){
+				continue;
+			}
+			if (in_array($champs,$all_element_name)){
+				continue;
+			}
+			$this->last_error[] = "champs-affiches:<b>$champs</b> n'est pas une valeur par défaut ou un élement indexé du formulaire";
+			$result = false;
+		}
 		return $result;
 	}
 	
@@ -74,6 +92,9 @@ class DocumentTypeValidation {
 		}
 		return $result;
 	}
+	
+	
+	
 	
 	private function validateActionClass($module_id,$typeDefinition){
 		$all_action = $this->getList($typeDefinition,'action');

@@ -57,6 +57,16 @@ class Nomemclature extends ChoiceActionExecutor {
 		
 	}
 	
+	public function displayChoiceForSearch(){
+		$nomemclature = $this->getNomemclatureContent();
+		$typeActes = new TypeActes($nomemclature);
+		$data = $typeActes->getData($nomemclature);
+		foreach($data as $key => $name){
+			$result[$key] = $key.". ".$name['nom'];
+		}
+		return $result;
+	}
+	
 	public function display(){
 		$nomemclature = $this->getNomemclatureContent();
 		$this->typeActes = new TypeActes($nomemclature);
@@ -100,6 +110,7 @@ class Nomemclature extends ChoiceActionExecutor {
 		
 		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,$this->type,'TdT');
 		
+				
 		if (! $donneesFormulaire){
 			throw new Exception("Aucun fichier de nomemclature disponible");
 		}

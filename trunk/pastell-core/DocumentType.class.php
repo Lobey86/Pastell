@@ -13,6 +13,7 @@ class DocumentType {
 	const CONNECTEUR = 'connecteur';
 	const DESCRIPTION = 'description';
 	const CHAMPS_AFFICHE = 'champs-affiches';
+	const CHAMPS_RECHERCHE_AFFICHE = 'champs-recherche-avancee';
 	
 	const TYPE_FLUX_DEFAULT = 'Flux Généraux';
 	
@@ -117,5 +118,19 @@ class DocumentType {
 		}
 		return $result;
 	}
+	
+	public function getChampsRechercheAvancee(){
+		if (isset($this->module_definition[self::CHAMPS_RECHERCHE_AFFICHE])){
+			return $this->module_definition[self::CHAMPS_RECHERCHE_AFFICHE];
+		}
+		$default_field = array('type','id_e','lastetat','last_state_begin','etatTransit','state_begin','search');
+		
+		foreach($this->getFormulaire()->getIndexedFields() as $indexField => $indexLibelle){
+			$default_field[] = $indexField;
+		}
+		$default_field[] = 'tri';
+		return $default_field;
+	}
+	
 	
 }
