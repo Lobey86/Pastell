@@ -95,6 +95,12 @@ formulaire:
 		bordereau: 
 			name: Bordereau d'acquittement
 			type: file
+		actes_tamponne:
+                        name: Acte tamponne
+                        type: file
+                date_tdt_postage:
+                        name: Date de postage
+                        type: data
 			
 		aractes: 
 			name: Accusé de réception technique
