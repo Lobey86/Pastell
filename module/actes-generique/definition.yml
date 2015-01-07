@@ -138,6 +138,10 @@ formulaire:
 		bordereau: 
 			name: Bordereau d'acquittement
 			type: file
+
+		actes_tamponne:
+                        name: Acte tamponne
+                        type: file
 			
 		aractes: 
 			name: Accusé de réception technique

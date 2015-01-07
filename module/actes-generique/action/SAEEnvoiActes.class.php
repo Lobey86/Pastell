@@ -10,6 +10,8 @@ class SAEEnvoiActes extends ActionExecutor {
 		$arrete = $donneesFormulaire->copyFile('arrete',$tmp_folder,0,"acte");
 		$annexe = $donneesFormulaire->copyAllFiles('autre_document_attache',$tmp_folder,"annexe");
 		$ar_actes = $donneesFormulaire->copyFile('aractes',$tmp_folder,0,"aractes");
+		$acte_tamponne = $donneesFormulaire->copyFile('actes_tamponne',$tmp_folder,0,"acte_tamponne");
+		$bdx_s2low = $donneesFormulaire->copyFile('bordereau',$tmp_folder,0,"bordereau_s2low");
 		
 		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
 		
@@ -29,6 +31,9 @@ class SAEEnvoiActes extends ActionExecutor {
 			'annexe' => $annexe,
 			'actes_file_orginal_filename' => $donneesFormulaire->getFileName('arrete',0),
 			'annexe_original_filename' => $donneesFormulaire->get('autre_document_attache'),
+			'actes_file_tamponne' => $acte_tamponne,
+            'bordereau_acquit' => $bdx_s2low
+			
 		);
 		
 		if ($this->getDonneesFormulaire()->get('has_information_complementaire')){
