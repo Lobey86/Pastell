@@ -42,6 +42,10 @@ definition.yml:
 		champs-affiches:
 			info: Liste des champs à afficher dans la liste des documents
 			type: list
+		
+		champs-recherche-avancee:
+			info: Liste des champs à afficher dans la recherche avancée
+			type: list
 			
 connecteur:
 	possible_key:
@@ -297,4 +301,11 @@ champs-affiches:
 		*:
 			key_name: champs
 			type: string
+			
+champs-recherche-avancee:
+	possible_key:
+		*:
+			key_name: champs
+			type: string
+
 
