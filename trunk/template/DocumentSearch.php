@@ -25,7 +25,7 @@ function dateInput($name,$value=''){
 
 <form action='document/search.php' method='get' >
 	<input type='hidden' name='go' value='go' />
-	<?php  $this->rechercheAvanceFormulaireHTML->display(); ?>
+	<?php  $this->RechercheAvanceFormulaireHTML->display(); ?>
 	<input type='submit' class='btn' value='Rechercher' />
 </form>
 </div>
