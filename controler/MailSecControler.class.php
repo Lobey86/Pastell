@@ -60,6 +60,10 @@ class MailSecControler extends PastellControler {
 		$this->id_e = $id_e;
 		$this->donneesFormulaire = $donneesFormulaire;
 		$this->my_role = "";
+		
+		$this->fieldDataList = $this->donneesFormulaire->getFieldDataListAllOnglet($this->my_role);
+		
+		
 		$this->render("PageWebSec");
 	}
 	
