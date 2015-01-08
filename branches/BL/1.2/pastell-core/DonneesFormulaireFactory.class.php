@@ -47,7 +47,9 @@ class DonneesFormulaireFactory{
 	
 	private function getFromCache($id_document,Formulaire $formulaire){
 		if (empty($this->cache[$id_document])){
-			$this->cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $formulaire);
+            $doc = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $formulaire);
+            $doc->id_d = $id_document;
+			$this->cache[$id_document] = $doc;
 		}
 		return $this->cache[$id_document];
 	}
@@ -58,7 +60,9 @@ class DonneesFormulaireFactory{
 			if (! file_exists($dir)) {
 				mkdir($dir,0777,true);
 			}
-			$this->cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
+            $doc = new DonneesFormulaire("$dir/$id_document.yml", $formulaire);
+            $doc->id_d = $id_document;
+			$this->cache[$id_document] = $doc;
 		}
 		return $this->cache[$id_document];
 	}
