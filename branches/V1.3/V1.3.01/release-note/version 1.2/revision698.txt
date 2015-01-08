@@ -1,0 +1,3 @@
+Ajout du paramètre d'initialisation UPSTART_TIME_SEND_WARNING qui permet de spécifier le temps maximum avant que pastell ne
+considère que le script action-automatique ne tourne pas (ou tourne au ralenti) et dans ce cas affiche un warning (sur 
+toutes les pages) pour les utilsateurs ayant le droit system:lecture sur l'entité racine.
