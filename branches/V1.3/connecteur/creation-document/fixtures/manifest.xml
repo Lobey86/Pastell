@@ -1,0 +1,9 @@
+<flux type='helios-generique'>
+	<data name='objet' value="Exemple d'import d'un fichier PES"/>
+	<files name='fichier_pes'>
+		<file content='pes.xml' />
+	</files>
+	<files name='visuel_pdf'>
+		<file content='pes.pdf'/>
+	</files>
+</flux>
