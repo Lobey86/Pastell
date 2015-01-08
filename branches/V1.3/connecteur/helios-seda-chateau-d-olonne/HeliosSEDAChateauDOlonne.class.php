@@ -163,7 +163,7 @@ class HeliosSEDAChateauDOlonne extends SEDAConnecteur {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[1]->KeywordType = "genreform";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[1]->KeywordType["listVersionID"] = "edition 2009";
 		
-		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordContent = "comptabilité publique";
+		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordContent = "COMPTABILITE PUBLIQUE";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordReference = "T1-747";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordReference['SchemeName'] = "Thesaurus_matiere";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordReference['schemeVersionID'] = "version 2009";
@@ -171,7 +171,7 @@ class HeliosSEDAChateauDOlonne extends SEDAConnecteur {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordType = "subject";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordType["listVersionID"] = "edition 2009";
 		
-		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordContent = "pièce comptable";
+		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordContent = "PIECE COMPTABLE";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordReference = "T3-160";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordReference['SchemeName'] = "Liste d'autorité_typologie documentaire";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordReference['schemeVersionID'] = "version 2009";
