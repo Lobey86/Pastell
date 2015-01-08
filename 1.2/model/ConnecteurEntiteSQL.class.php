@@ -14,10 +14,7 @@ class ConnecteurEntiteSQL extends SQL {
 	public function addConnecteur($id_e,$id_connecteur,$type,$libelle){
 		$sql = "INSERT INTO connecteur_entite (id_e,id_connecteur,type,libelle) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$id_connecteur,$type,$libelle);
-		
-		$sql = "SELECT id_ce FROM connecteur_entite WHERE id_e=? AND id_connecteur=? AND type= ? AND libelle=? ORDER BY id_ce DESC LIMIT 1";
-		return $this->queryOne($sql,$id_e,$id_connecteur,$type,$libelle);
-		
+        return $this->lastInsertId();
 	}
 	
 	public function getInfo($id_ce){
