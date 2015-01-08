@@ -58,7 +58,7 @@ $objectInstancier->bd_password = BD_PASS;
 $objectInstancier->upstart_touch_file = UPSTART_TOUCH_FILE;
 $objectInstancier->upstart_time_send_warning = UPSTART_TIME_SEND_WARNING;
 
-$objectInstancier->open_id_url_callback = SITE_BASE."/oasis/connexion-return.php";
+$objectInstancier->open_id_url_callback = SITE_BASE."/connexion/openid-pastell.php";
  
 $id_u_journal = 0;
 if ($objectInstancier->Authentification->isConnected()) {

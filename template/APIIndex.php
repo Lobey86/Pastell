@@ -7,7 +7,6 @@ L'authentification à l'API se fait soit : </p>
 <ul>
 	<li>via un certificat</li>
 	<li>via le login/mot de passe Pastell. Celui-ci doit être passé via une authentification HTTP en mode BASIC</li>
-	<li>via une connexion CAS, pour cela il faut ajouter un paramètre auth='cas' dans chacune des requête de l'API</li>
 </ul>
 <h3>Paramètres d'entrée</h3>
 <p>

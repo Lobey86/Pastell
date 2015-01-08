@@ -108,8 +108,10 @@ class FieldData {
 			$this->lastError = "Le champ «{$this->field->getLibelle()}» est incorrect ({$this->field->pregMatchError()}) ";
 			return false;
 		}
+		
 		return true;
 	}
+	
 	
 	public function getMailList(){
 		return $this->get_mail_list($this->value);

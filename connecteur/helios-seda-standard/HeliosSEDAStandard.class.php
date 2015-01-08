@@ -164,7 +164,7 @@ class HeliosSEDAStandard extends SEDAConnecteur {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[1]->KeywordType["listVersionID"] = "edition 2009";
 		
 		
-		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordContent = "COMPTABILITE PUBLIQUE";
+		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordContent = "Comptabilité publique";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordReference = "T1-747";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordReference['schemeName'] = "Thésaurus matière";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordReference['schemeAgencyName'] = "Direction des archives de france";		
@@ -172,7 +172,7 @@ class HeliosSEDAStandard extends SEDAConnecteur {
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordType = "subject";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[2]->KeywordType["listVersionID"] = "edition 2009";
 		
-		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordContent = "PIECE COMPTABLE";
+		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordContent = "Pièce comptable";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordReference = "T3-160";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordReference['schemeName'] = "Liste d'autorité Typologie documentaire";
 		$archiveTransfer->Contains->ContentDescription->ContentDescriptive[3]->KeywordReference['schemeAgencyName'] = "Direction des Archives de France";	

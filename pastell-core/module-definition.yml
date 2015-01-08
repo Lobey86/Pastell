@@ -42,10 +42,6 @@ definition.yml:
 		champs-affiches:
 			info: Liste des champs à afficher dans la liste des documents
 			type: list
-		
-		champs-recherche-avancee:
-			info: Liste des champs à afficher dans la recherche avancée
-			type: list
 			
 connecteur:
 	possible_key:
@@ -58,15 +54,12 @@ formulaire:
 		*:
 			key_name: onglet
 			type: associative_array
-			info: le formulaire est composé d'un ensemble d'onglets
-			
 	
 onglet:
 	possible_key:
 		*:
 			key_name: element_formulaire
 			type: associative_array
-			info: un onglet est composé d'élement de formulaire
 	
 element_formulaire:
 	possible_key:
@@ -140,9 +133,6 @@ element_formulaire:
 			info: Indique si le champs est indexé par la base de données
 			type: boolean
 			default: false
-		content-type:
-			info: Uniquement pour le type fichier. Indique que le fichier doit avoir le content-type indiqué ici (sinon, le document n'est pas valide)
-			type: string 
 			
 			
 action:
@@ -301,11 +291,4 @@ champs-affiches:
 		*:
 			key_name: champs
 			type: string
-			
-champs-recherche-avancee:
-	possible_key:
-		*:
-			key_name: champs
-			type: string
-
 

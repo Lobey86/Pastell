@@ -494,23 +494,22 @@ action:
 		 
 	
 	teletransmission-tdt:
-		name-action: Ordonner la télétransmission au TdT
+		name-action: Ordoner la télétransmission au TdT
 		name: Télétransmettre en préfecture 
 		
 		rule:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
-			last-action: 
-				document-transmis-tdt
+			last-action: document-transmis-tdt
 		action-class: TdtTeletransmettre
 	
 	return-teletransmission-tdt:
 		name: Retour de la télétransmission
+		no-show: true
 		rule:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
-			last-action: 
-				document-transmis-tdt
+			last-action: document-transmis-tdt
 		action-class: TdtRetourTeletransmettre
 		
 	

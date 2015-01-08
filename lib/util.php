@@ -65,19 +65,3 @@ function time_iso_to_fr($datetime){
 function date_fr_to_iso($date){
 	return preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$date);	
 }
-
-// For 4.3.0 <= PHP <= 5.4.0
-if (!function_exists('http_response_code'))
-{
-	function http_response_code($newcode = NULL)
-	{
-		static $code = 200;
-		if($newcode !== NULL)
-		{
-			header('X-PHP-Response-Code: '.$newcode, true, $newcode);
-			if(!headers_sent())
-				$code = $newcode;
-		}
-		return $code;
-	}
-}

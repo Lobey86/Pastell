@@ -1,6 +1,6 @@
 <a class='btn btn-mini' href='document/traitement-lot.php?id_e=<?php echo $id_e ?>&type=<?php echo $type?>&search=<?php echo $search ?>&filtre=<?php echo $filtre?>&offset=<?php echo $offset ?>'><i class='icon-circle-arrow-left'></i>Retour</a>
 <div class="box">
-	<h2>Confirmez-vous l'action «<?php echo $theAction->getDoActionName($action_selected) ?>» sur ces documents ? </h2>
+	<h2>Confirmer vous l'action «<?php echo $theAction->getActionName($action_selected) ?>» sur ces documents  </h2>
 	<form action='document/do-traitement-par-lot.php' method='post'>
 		<input type='hidden' name='id_e' value='<?php echo $id_e ?>' />
 		<input type='hidden' name='type' value='<?php echo $type ?>' />
@@ -34,6 +34,6 @@
 		<?php endforeach;?>
 		</table>
 	
-		<input type='submit' class='btn ' value='Confirmer «<?php hecho($theAction->getDoActionName($action_selected)) ?>»'/>&nbsp;&nbsp;
+		<input type='submit' class='btn ' value='Confirmer «<?php hecho($theAction->getActionName($action_selected)) ?>»'/>&nbsp;&nbsp;
 	</form>
 </div>

@@ -95,9 +95,6 @@ abstract class ActionExecutor {
 		return $this->docDonneesFormulaire->getFormulaire();
 	}
 	
-	/**
-	 * @return Journal
-	 */
 	public function getJournal(){
 		return $this->objectInstancier->Journal;
 	}
