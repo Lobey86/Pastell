@@ -133,6 +133,9 @@ class DonneesFormulaire {
 			return $this->get($field->getName());
 		}
 		$cible = $this->get($field->getProperties('depend'));
+		if (!$cible){
+			$cible = array();
+		}
 		$value = array();
 		foreach($cible as $j => $file){
 			$value[$file] = $this->get($field->getName()."_$j");
