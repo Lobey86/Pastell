@@ -15,8 +15,8 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		);
 	}
 
-	
 	private function checkInformation(array $information){
+				
 		$info = array('numero_acte_collectivite','subject','decision_date',
 					'nature_descr','nature_code','classification',
 					'latest_date','actes_file','ar_actes',
@@ -34,7 +34,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 			}
 		}
 		
-		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename');
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename','signature');
 		
 		foreach($info_sup as $key){
 			if (empty($information[$key])){
@@ -156,7 +156,8 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		
 			
 		$archiveTransfer->Contains->Contains[0] = $this->getContainsElement("Transmission d'un acte soumis au contrôle de légalité");
-		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("Actes",array($transactionsInfo['actes_file']),false,array($transactionsInfo['actes_file_orginal_filename']));
+		
+		$archiveTransfer->Contains->Contains[0]->Contains[0] = $this->getContainsElementWithDocument("Actes",array($transactionsInfo['actes_file']),false,array($transactionsInfo['actes_file_orginal_filename']),$transactionsInfo['signature']);		
 		
 		if($transactionsInfo['annexe']){
 			$archiveTransfer->Contains->Contains[0]->Contains[] = $this->getContainsElementWithDocument("Annexe(s) d'un acte soumis au contrôle de légalité",$transactionsInfo['annexe'],false,$transactionsInfo['annexe_original_filename']);
@@ -240,7 +241,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		return $result;
 	}
 	
-	private function getContainsElementWithDocument($description,array $allFileInfo,$receiptDate = false,$original_filename = false){
+	private function getContainsElementWithDocument($description,array $allFileInfo,$receiptDate = false,$original_filename = false,$signature=false){
 		$contains = new ZenXML("Contains");
 		$contains->DescriptionLevel = "item";
 		$contains->DescriptionLevel['listVersionID'] = "edition 2009";
@@ -256,7 +257,7 @@ class ActesSEDAStandard extends SEDAConnecteur {
 			$contains->Document[$i]->Attachment['mimeCode'] = $fileType;
 			$contains->Document[$i]->Attachment['filename'] = basename($fileName);
 			$contains->Document[$i]->Control = "false";
-			$contains->Document[$i]->Copy = "true";
+			$contains->Document[$i]->Copy = $signature?"false":"true";
 			if ($original_filename && isset($original_filename[$i])){
 				$contains->Document[$i]->Description = $original_filename[$i];
 			}
@@ -266,6 +267,20 @@ class ActesSEDAStandard extends SEDAConnecteur {
 			$contains->Document[$i]->Type = "CDO";
 			$contains->Document[$i]->Type["listVersionID"] = "edition 2009";
 		}
+		
+		if ($signature){
+			$signature = $signature[0];
+			$i++;
+			$fileType = $this->getContentType($signature);				
+			$contains->Document[$i]->Attachment['mimeCode'] = $fileType;
+			$contains->Document[$i]->Attachment['filename'] = basename($signature);
+			$contains->Document[$i]->Control = "true";
+			$contains->Document[$i]->Copy = "false";
+			$contains->Document[$i]->Description = "Signature électronique de l'acte";
+			$contains->Document[$i]->Type = "PDIFIX";
+			$contains->Document[$i]->Type["listVersionID"] = "edition 2009";
+		}
+		
 		return $contains;
 	}
 	
@@ -416,6 +431,11 @@ class ActesSEDAStandard extends SEDAConnecteur {
 		return $array[$type];
 	}
 	private function getContentType($file_path){
+		$path_parts = pathinfo($file_path);
+		if ($path_parts['extension'] == 'p7c'){
+			return "application/pkcs7-mime";
+		}
+		
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		return finfo_file($finfo,$file_path);
 	}

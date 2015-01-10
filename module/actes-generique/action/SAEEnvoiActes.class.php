@@ -10,7 +10,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		$arrete = $donneesFormulaire->copyFile('arrete',$tmp_folder,0,"acte");
 		$annexe = $donneesFormulaire->copyAllFiles('autre_document_attache',$tmp_folder,"annexe");
 		$ar_actes = $donneesFormulaire->copyFile('aractes',$tmp_folder,0,"aractes");
-		
+				
 		$acte_nature = $this->getFormulaire()->getField('acte_nature')->getSelect();
 		
 		
@@ -39,8 +39,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		
 		
 		$transactionsInfo = array_merge($transactionsInfo,$echangePrefecture);
-		
-		
+				
 		if ($donneesFormulaire->get("signature")){
 			$transactionsInfo['signature'] = $donneesFormulaire->copyAllFiles('signature',$tmp_folder,"signature");
 		}
