@@ -13,8 +13,9 @@ class FieldData {
 	
 	public function setValue($value){
 		$field = $this->field;
-		if ($field->getProperties('depend')){
+		if ($field->getProperties('depend') && is_array($value)){
 			$new_value = array();
+			
 			foreach($value as $filename => $value){
 				if ($field->getType() == 'checkbox') {
 					$new_value[] = "$filename : ".($value?"OUI":"NON");
