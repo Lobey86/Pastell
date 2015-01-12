@@ -404,7 +404,6 @@ class DocumentControler extends PastellControler {
 		
 		
 		$allDroit = $this->RoleUtilisateur->getAllDroit($this->getId_u());		
-// 		$this->arbre = $this->RoleUtilisateur->getArbreFille($this->getId_u(),"entite:lecture");
 		
 		$this->listeEtat = $this->DocumentTypeFactory->getActionByRole($allDroit);
 		
