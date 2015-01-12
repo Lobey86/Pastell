@@ -17,14 +17,19 @@ class DocumentActionSQL extends SQL {
 		return $id_a;
 	}
 	
-	public function getLastActionInfo($id_d,$id_e){
-		$sql = "SELECT * FROM document_action " .
-				" WHERE id_d=? AND id_e=?" .
-				" ORDER BY date DESC LIMIT 1";
-		return $this->queryOne($sql,$id_d,$id_e);
-	}
-	
-	public function updateDate($id_a){
+	public function getLastActionInfo($id_d, $id_e, $action = false) {
+        $sql = "SELECT * FROM document_action " .
+               " WHERE id_d=? AND id_e=?";
+        $params = array($id_d, $id_e);
+        if ($action) {
+            $sql .= " AND action=?";
+            $params[] = $action;
+        }
+        $sql .= " ORDER BY date DESC LIMIT 1";
+        return $this->queryOne($sql, $params);
+    }
+
+    public function updateDate($id_a){
 		$sql = "UPDATE document_action SET date=now() WHERE id_a=?";
 		$this->query($sql,$id_a);
 	}
