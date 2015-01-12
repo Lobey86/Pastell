@@ -119,7 +119,9 @@ formulaire:
         has_information_complementaire: 
             no-show: true
             read-only: true
-        signature: {name: Signature de l'acte, type: file}
+        signature:
+            name: Signature de l'acte
+            type: file
         document_signe: {name: Bordereau de signature, type: file}
         bordereau: 
             name: Bordereau d'acquittement

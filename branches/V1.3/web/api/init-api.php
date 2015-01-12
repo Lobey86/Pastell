@@ -3,6 +3,8 @@ require_once(dirname(__FILE__)."/../init.php");
 
 $JSONoutput = new JSONoutput();
 
+//$id_u = false;
+
 try{
 	$id_u = $objectInstancier->ConnexionControler->apiCasConnexion();
 } catch(Exception $e){

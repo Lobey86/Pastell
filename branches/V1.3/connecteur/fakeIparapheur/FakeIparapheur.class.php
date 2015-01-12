@@ -46,7 +46,7 @@ class FakeIparapheur extends SignatureConnecteur {
 	}
 	
 	public function getSignature($dossierID){
-		$info['signature'] = "";
+		$info['signature'] = "Test Signature";
 		$info['document'] = "Document";
 		$info['nom_document'] = "document.txt";
 		return $info;

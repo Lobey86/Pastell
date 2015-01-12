@@ -36,8 +36,7 @@ class SAEEnvoiActes extends ActionExecutor {
 		} else {
 			$echangePrefecture = $this->getFromDocument($donneesFormulaire,$tmp_folder);
 		}
-		
-		
+				
 		$transactionsInfo = array_merge($transactionsInfo,$echangePrefecture);
 		
 		
