@@ -75,3 +75,21 @@ function time_iso_to_fr($datetime){
 function date_fr_to_iso($date){
 	return preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$date);	
 }
+
+function throwIfFalse($result, $message = false) {
+    if ($result === false) {
+        $this->throwLastError($message);
+    }
+    return $result;
+}
+
+function throwLastError($message = false) {
+    $last = error_get_last();
+    $cause = $last['message'];
+    if ($message) {
+        $ex = $message . ' Cause : ' . $cause;
+    } else {
+        $ex = $cause;
+    }
+    throw new Exception($ex);
+}
