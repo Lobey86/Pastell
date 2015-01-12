@@ -58,6 +58,20 @@ class ActionExecutorFactory {
 		}		
 		return $result;
 	}
+    
+    public function getChoiceForSearch($id_e,$id_u,$type,$action_name,$field){
+		$documentType = $this->objectInstancier->DocumentTypeFactory->getFluxDocumentType($type);
+		$action_class_name = $this->getActionClassName($documentType, $action_name);
+		$this->loadDocumentActionFile($type,$action_class_name);
+		$actionClass = $this->getInstance($action_class_name,$id_e,$id_u,$action_name);
+		$actionClass->field = $field;
+		$actionClass->setDocumentId($type, 0);
+		
+		$result = $actionClass->displayChoiceForSearch();
+		return $result;
+		
+	}
+
 	
 	public function isChoiceEnabled($id_e,$id_u,$id_d,$action_name){
 		
