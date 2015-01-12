@@ -43,6 +43,7 @@ class BLBatchInit extends BLBatch {
 }
 
 $blScript = new BLBatchInit();
+$todoList = array();
 
 $blScript->traceln('----------------------');
 $blScript->traceln('- Création des rôles -');
@@ -209,6 +210,12 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_ganeshtdtactesbl)) {
 $ext_netedsnbl = "/var/www/pastell/extensionbl/netedsnbl/";
 if (!$sqlQuery->queryOne($requeteExtension, $ext_netedsnbl)) {
     $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_netedsnbl);
+    $prov_extension=true;
+}
+
+$ext_insaebl = "/var/www/pastell/extensionbl/insaebl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_insaebl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_insaebl);
     $prov_extension=true;
 }
 
@@ -409,5 +416,23 @@ if (strtolower($creationEntite) == 'o') {
         // Pas d'association des connecteurs avec des flux        
         $blScript->traceln("");
         $creationEntite = $blScript->read('Souhaitez-vous créer une nouvelle entité \'entreprise\' ? (O/N)');
+    }
+}
+
+// Créer connecteur global pour type saeversant
+$name = 'saeversantbl';
+$blScript->createConnecteurGlobal($name, 'saeversant');
+$todoList[] = 'Compléter le paramétrage du connecteur global ' . $name . ', par IHM';
+
+// Créer connecteur global pour type sae
+$name = 'insaebl';
+$blScript->createConnecteurGlobal($name, 'sae');
+$todoList[] = 'Compléter le paramétrage du connecteur global ' . $name . ', par IHM';
+
+if ($todoList) {
+    $blScript->traceln();
+    $blScript->traceln('====> Paramétrages complémentaires à effectuer :');
+    foreach ($todoList as $todo) {
+        $blScript->traceln('- ' . $todo);
     }
 }
