@@ -12,11 +12,35 @@ class BLScriptUpdate extends BLBatch {
         }
         return $id_ce;
     }
+    
+    function suppressionDroitLectureJournal($role) {        
+        global $objectInstancier;
+        $droit_journal_lecture = 'journal:lecture';
+        
+        $this->trace("Suppression des droits de lecture du journal au rôle $role : ");
+        $sql_select = "SELECT * FROM role_droit WHERE role = ? AND droit = ?";
+        if ($objectInstancier->sqlQuery->queryOne($sql_select, $role, $droit_journal_lecture) == NULL) {    
+            $this->traceln('DEJA FAIT');
+        } else {
+            $sql_delete = "DELETE FROM role_droit WHERE role=? AND droit=?";
+            $objectInstancier->sqlQuery->queryOne($sql_delete, $role, $droit_journal_lecture);
+            $this->traceln('OK');
+        }
+    }
+    
 }
 
 $blScript = new BLScriptUpdate();
 $todoList = array();
 $roleSQLClass = $objectInstancier->RoleSQL;
+
+//////////////////////////////////////////////////
+// Suppression des droits de lecture du journal //
+//////////////////////////////////////////////////
+
+$blScript->suppressionDroitLectureJournal('adminEntite');
+$blScript->suppressionDroitLectureJournal('adminDocument');
+$blScript->suppressionDroitLectureJournal('apiDocument');
 
 ///////////////////////////////////////////////////////////////
 //             Ajout de l'extension BL insaebl             //
@@ -68,4 +92,19 @@ if ($todoList) {
     foreach ($todoList as $todo) {
         $blScript->traceln('- ' . $todo);
     }
+}
+
+///////////////////////////////////////////////////////////////
+//          Ajout de l'extension BL fasttdtactesbl           //
+///////////////////////////////////////////////////////////////
+
+// Mise en place de l'extension BL : Connecteur fasttdtactesbl
+$blScript->trace('Mise en place extension BL Connecteur fasttdtactesbl : ');
+$requeteExtension = "SELECT id_e FROM extension WHERE path = ?";
+$ext_fasttdtactesbl = "/var/www/pastell/extensionbl/fasttdtactesbl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtactesbl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fasttdtactesbl);
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('DEJA FAIT');
 }
