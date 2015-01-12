@@ -86,14 +86,6 @@ if (!$id_ce) {
     $blScript->traceln('DEJA FAIT');
 }
 
-if ($todoList) {
-    $blScript->traceln();
-    $blScript->traceln('====> Paramétrages complémentaires à effectuer :');
-    foreach ($todoList as $todo) {
-        $blScript->traceln('- ' . $todo);
-    }
-}
-
 ///////////////////////////////////////////////////////////////
 //          Ajout de l'extension BL fasttdtactesbl           //
 ///////////////////////////////////////////////////////////////
@@ -108,3 +100,17 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtactesbl)) {
 } else {
     $blScript->traceln('DEJA FAIT');
 }
+
+///////////////////////////////////////////////////////////////
+//          Affichage des paramétrages complémentaires
+//          (à conserver en fin de script)
+///////////////////////////////////////////////////////////////
+
+if ($todoList) {
+    $blScript->traceln();
+    $blScript->traceln('====> Paramétrages complémentaires à effectuer :');
+    foreach ($todoList as $todo) {
+        $blScript->traceln('- ' . $todo);
+    }
+}
+
