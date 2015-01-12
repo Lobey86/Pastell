@@ -58,8 +58,7 @@ if (!$role) {
     $roleSQLClass->addDroit('adminEntite','entite:lecture');
     $roleSQLClass->addDroit('adminEntite','utilisateur:edition');
     $roleSQLClass->addDroit('adminEntite','utilisateur:lecture');
-    $roleSQLClass->addDroit('adminEntite','role:lecture');
-    $roleSQLClass->addDroit('adminEntite','journal:lecture');
+    $roleSQLClass->addDroit('adminEntite','role:lecture');    
     $roleSQLClass->addDroit('adminEntite','system:lecture');
     $roleSQLClass->addDroit('adminEntite','pesbl:lecture');
     $roleSQLClass->addDroit('adminEntite','pesbl:edition');
@@ -80,8 +79,7 @@ if (!$role) {
     $roleSQLClass->edit('adminDocument','Administrateur de document');
     $roleSQLClass->addDroit('adminDocument','entite:lecture');
     $roleSQLClass->addDroit('adminDocument','utilisateur:lecture');
-    $roleSQLClass->addDroit('adminDocument','role:lecture');
-    $roleSQLClass->addDroit('adminDocument','journal:lecture');
+    $roleSQLClass->addDroit('adminDocument','role:lecture');    
     $roleSQLClass->addDroit('adminDocument','pesbl:lecture');
     $roleSQLClass->addDroit('adminDocument','pesbl:edition');
     $roleSQLClass->addDroit('adminDocument','documentinternebl:lecture');
@@ -100,8 +98,7 @@ $blScript->trace('  Création du rôle apiDocument : ');
 $role = $roleSQLClass->getInfo('apiDocument');
 if (!$role) {    
     $roleSQLClass->edit('apiDocument','Opérateur API sur document');
-    $roleSQLClass->addDroit('apiDocument','entite:lecture');
-    $roleSQLClass->addDroit('apiDocument','journal:lecture');
+    $roleSQLClass->addDroit('apiDocument','entite:lecture');    
     $roleSQLClass->addDroit('apiDocument','pesbl:lecture');
     $roleSQLClass->addDroit('apiDocument','pesbl:edition');
     $roleSQLClass->addDroit('apiDocument','documentinternebl:lecture');
@@ -216,6 +213,12 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_netedsnbl)) {
 $ext_insaebl = "/var/www/pastell/extensionbl/insaebl/";
 if (!$sqlQuery->queryOne($requeteExtension, $ext_insaebl)) {
     $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_insaebl);
+    $prov_extension=true;
+}
+
+$ext_fasttdtactesbl = "/var/www/pastell/extensionbl/fasttdtactesbl/";
+if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtactesbl)) {
+    $sqlQuery->queryOne("INSERT INTO extension (path) VALUES(?)", $ext_fasttdtactesbl);
     $prov_extension=true;
 }
 
