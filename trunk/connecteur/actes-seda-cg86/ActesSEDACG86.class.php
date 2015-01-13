@@ -24,6 +24,10 @@ class ActesSEDACG86  extends SEDAConnecteur {
 	
 	
 	private function getContentType($file_path){
+		$path_parts = pathinfo($file_path);
+		if ($path_parts['extension'] == 'p7c'){
+			return "application/pkcs7-mime";
+		}
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$filetype = finfo_file($finfo,$file_path);
         if(preg_match("/^application.*xml$/",$filetype))
@@ -86,7 +90,7 @@ class ActesSEDACG86  extends SEDAConnecteur {
 			}
 		}
 		
-		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename');
+		$info_sup = array('actes_file_orginal_filename','annexe_original_filename','echange_prefecture_original_filename','signature');
 		
 		foreach($info_sup as $key){
 			if (empty($information[$key])){
@@ -230,9 +234,21 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$archiveTransfer->Contains->Contains[0]->Contains[0]->Name="Acte";
 		
 		$contentType = $this->getContentType($transactionsInfo['actes_file']);
-		$actes_is_signed = isset($transactionInfo['signature']);
+		$actes_is_signed = isset($transactionsInfo['signature'][0]);
 	
-		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,$transactionsInfo['actes_file_orginal_filename'], $actes_is_signed);
+		
+		$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[0] = $this->getDocument(basename($transactionsInfo['actes_file']), $contentType,false,$transactionsInfo['actes_file_orginal_filename'], $actes_is_signed);
+		if ($actes_is_signed){
+			$fileType = $this->getContentType($transactionsInfo['signature'][0]);
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Attachment['mimeCode'] = $fileType;
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Attachment['filename'] = basename($transactionsInfo['signature'][0]);
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Control = "true";
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Copy = "false";
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Description = "Signature électronique de l'acte";
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Type = "PDIFIX";
+			$archiveTransfer->Contains->Contains[0]->Contains[0]->Document[1]->Type["listVersionID"] = "edition 2009";
+		}
+		
 		
 		if ($transactionsInfo['annexe']) {
 			$c = $this->getDL("Contains","Annexe(s) d'un acte soumis au contrôle de légalité");
