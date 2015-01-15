@@ -56,4 +56,9 @@ class ConnecteurEntiteSQL extends SQL {
 		$sql = "SELECT * FROM connecteur_entite WHERE id_connecteur = ?";
 		return $this->query($sql,$id_connecteur);
 	}
+    
+    public function getAllId() {
+        $sql = "SELECT distinct id_connecteur FROM connecteur_entite WHERE id_e <>0";
+        return  $this->query($sql);
+    }
 }
