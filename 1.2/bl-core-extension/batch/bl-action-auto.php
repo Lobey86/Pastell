@@ -7,8 +7,7 @@ $zenMail = new ZenMail();
 $notification = new Notification($sqlQuery);
 $notificationMail = new NotificationMail($notification, $zenMail, $journal);
 
-// Effectuer les actions des connecteurs (qui mettent à jour les caches) 
-// avant les actions des flux (qui utilisent ces caches).
+// Effectuer les actions des connecteurs globaux.
 
 $all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAll(0);
 
@@ -26,6 +25,35 @@ foreach ($all_connecteur as $connecteur) {
         }
     }
 }
+
+// Effectuer les actions automatiques des connecteurs entités (qui mettent à jour les caches) 
+// avant les actions des flux (qui utilisent ces caches).
+
+// Chargement des types de connecteur (id_connecteur)
+$list_id_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAllId();
+foreach ($list_id_connecteur as $id_connecteur) {
+    // On ne traite que les types de connecteur qui ont des actions automatiques dans leur définition (properties.yml).
+    $documentType = $objectInstancier->DocumentTypeFactory->getEntiteDocumentType($id_connecteur['id_connecteur']);   
+    $all_action_auto = $documentType->getAction()->getAutoAction();
+    if ($all_action_auto) {
+        // Chargement de tous les connecteurs entités de ce type pour exécuter les actions automatiques
+        $list_connecteur_entite = $objectInstancier->ConnecteurEntiteSQL->getAllById($id_connecteur['id_connecteur']);
+        // Execution des actions automatiques des connecteurs entités du type en cours.
+        foreach ($all_action_auto as $action_auto) {
+            foreach($list_connecteur_entite as $connecteur_entite) {
+                $blscript->checkBatchStop();
+                $blscript->traceln($blscript->heure() . " Traitement sur connecteur ({$connecteur_entite['id_ce']}, {$connecteur_entite['libelle']}, $action_auto) : ");
+                $result = $objectInstancier->ActionExecutorFactory->executeOnConnecteur($connecteur_entite['id_ce'], 0, $action_auto, true, array());
+                if (!$result) {
+                    $blscript->traceln($objectInstancier->ActionExecutorFactory->getLastMessage());
+                } else {
+                    $blscript->traceln("ok");
+                }            
+            }
+        }
+    }
+}
+
 
 $documentEntite = new DocumentEntite($sqlQuery);
 $tabFluxChange = array();
