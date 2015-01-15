@@ -13,7 +13,10 @@ abstract class BLSaeConnecteur extends Connecteur {
     const ATTR_SAE_VERSANT_CONTACT_SERVICE = 'versant_contact_service';
     const ATTR_SAE_VERSANT_CONTACT_PERSONNE = 'versant_contact_personne';
     const ATTR_SAE_VERSANT_CONTACT_FONCTION = 'versant_contact_fonction';
-    const ATTR_SAE_VERSANT_ADRESSE = 'versant_adresse';
+    const ATTR_SAE_VERSANT_ADRESSE_NUMERO = 'versant_adresse_numero';
+    const ATTR_SAE_VERSANT_ADRESSE_RUE = 'versant_adresse_rue';
+    const ATTR_SAE_VERSANT_ADRESSE_CODEPOSTAL = 'versant_adresse_codepostal';
+    const ATTR_SAE_VERSANT_ADRESSE_VILLE = 'versant_adresse_ville';
     
     // Attributs de flux, spécifiques à ce type de connecteur; 
     // accessibles uniquement par les connecteurs de ce type.
@@ -23,6 +26,7 @@ abstract class BLSaeConnecteur extends Connecteur {
     const ATTR_SAE_ARCHIVE_SEDA = 'archive_seda';
     const ATTR_SAE_AR_SEDA = 'ar_seda';
     const ATTR_SAE_AR_SEDA_COMMENTAIRE = 'ar_seda_commentaire';
+    const ATTR_SAE_DELETED = 'sae_deleted';
 
     // Etats de versement
     const AR_ATTENTE = 'attente';
