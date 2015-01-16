@@ -78,7 +78,7 @@ function date_fr_to_iso($date){
 
 function throwIfFalse($result, $message = false) {
     if ($result === false) {
-        $this->throwLastError($message);
+        throwLastError($message);
     }
     return $result;
 }
