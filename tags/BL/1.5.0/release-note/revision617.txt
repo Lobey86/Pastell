@@ -1,0 +1,26 @@
+Cette révision apporte une nouvelle manière de gérer les « extensions » Pastell.
+
+Une extension Pastell est un ensemble de modules (flux) et de connecteurs.
+
+La partie « Environnement Système » s'enrichit d'un onglet « Extensions » permettant de gérer celles-ci.
+
+Pour ajouter une extension, il suffit de saisir l'emplacement de l'extension dans le formulaire d'ajout. 
+
+Le nom, la description et la version de Pastell caractérisant l'extension 
+peuvent être renseignés dans la fichier « manifest.yml » qu'il faut mettre à la racine de l'extension.
+
+Exemple d'un fichier manifest.yml :
+===========
+nom: Flux et connecteurs Pastell spécifiques au CDG 85
+
+description: Flux Actes, Helios, Document, ainsi que le connecteur ged-mail spécifique au CDG85
+
+pastell-version: 1.1.1
+============
+
+Pour passer dans cette révision, il est conseillé (mais pas obligatoire) de :
+
+- supprimer tout les liens symboliques des répertoires « connecteur » et « module » qui auraient été créés précédemment.
+- utiliser l'interface d'administration « Environnement Système » > « Extension » et ajouter les extensions. 
+
+Cette révision nécessite en outre une mise à jour de la base de données.
