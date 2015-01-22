@@ -17,7 +17,8 @@ $prmAction = $blscript->getArg('action');
 
 $id_ce = $objectInstancier->ConnecteurEntiteSQL->getGlobal($prmIdConnecteur);
 if (!$id_ce) {
-    throw new Exception("Connecteur global d'id '$prmIdConnecteur' inconnu.");
+    $blscript->traceln("[ERREUR] Connecteur global d'id '$prmIdConnecteur' inconnu.");
+    exit(1);    
 }
 
 $connecteur = $objectInstancier->ConnecteurEntiteSQL->getInfo($id_ce);
