@@ -110,7 +110,7 @@ class Nomemclature extends ChoiceActionExecutor {
 		
 		$donneesFormulaire = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($id_e,$this->type,'TdT');
 		
-				
+		
 		if (! $donneesFormulaire){
 			throw new Exception("Aucun fichier de nomemclature disponible");
 		}

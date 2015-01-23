@@ -17,11 +17,12 @@ class OpenIDSynchroniserCompte extends ActionExecutor {
 			$password = mt_rand();
 			$id_u = $utilisateur->create($account['user_id'],$password,$account['user_email_address'],"");
 			$utilisateur->validMailAuto($id_u);
-			$utilisateur->setColBase($id_u,$this->id_e);
+			$utilisateur->setColBase($id_u,0);
 			$utilisateur->setNomPrenom($id_u,$account['user_name'],"");
 			
-			$this->objectInstancier->RoleUtilisateur->addRole($id_u,RoleUtilisateur::AUCUN_DROIT,$this->id_e);
-			$this->getJournal()->add(Journal::MODIFICATION_UTILISATEUR,$this->id_e,0,"Ajout","Ajout de l'utilisateur {$account['user_name']} via OpenID");
+			$this->objectInstancier->RoleUtilisateur->addRole($id_u,RoleUtilisateur::AUCUN_DROIT,0);
+			$this->objectInstancier->Journal->add(Journal::MODIFICATION_UTILISATEUR,0,0,"Ajout",
+					"Ajout de l'utilisateur {$account['user_name']} via OpenID");
 			
 			$create[] = $account['user_name'];
 			
