@@ -1,0 +1,37 @@
+name: Authentification OpenID
+type: Authentification
+
+description: |
+	Permet l'utilisation d'un serveur OpenID comme source d'authentification.
+		
+	Pour activer ce connecteur, il faut l'associer dans les flux globaux au type Authentification
+
+
+formulaire:
+	page0:
+		open_id_url:
+			name: URL OpenID
+			commentaire:|
+				URL de base du serveur OpenID 
+				(exemple: https://accounts.ozwillo-preprod.eu/a/)
+		client_id:
+			name: client_id
+		client_secret:
+			name: client_secret
+			
+action:
+	test-connexion:
+		name: Tester la connexion OpenID
+		action-class: OpenIDTestLogin
+		
+	test-deconnexion:
+		name: Tester la déconnexion OpenID
+		action-class: OpenIDTestLogout
+	
+	recuperation-compte:
+		name: Lister les comptes disponibles
+		action-class: OpenIDRecuperationCompte
+		
+	recuperation-compte-ok:
+		name: Synchroniser les comptes disponibles
+		action-class: OpenIDSynchroniserCompte

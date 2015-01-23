@@ -1,0 +1,34 @@
+name: Unoconv
+
+type: convertisseur-office-pdf
+
+description: |
+	Connecteur permettant de convertir les documents de type office (MS Office, LibreOffice, ...) vers le format PDF
+	Ce connecteur est basé sur unoconv utilisé comme commande externe 
+	https://github.com/dagwieers/unoconv
+	Pour l'installation sous Ubuntu : 
+	apt-get install libreoffice unoconv
+	
+formulaire:
+	Unoconv:
+		unoconv_path: 
+			name: Chemin de la commande unoconv
+		
+		document_test:
+			name: Document de test
+			type: file
+			commentaire: mettre un document au format office
+		
+		document_test_result:
+			name: Résultat de la conversion
+			type: file
+			read-only: true
+		
+action:	
+	unoconv-test:
+		name: Convertir le document de test 
+		action-class: UnoconvTest
+		tab: Unoconv
+		rule:
+			droit_id_u: 'entite:edition'
+		

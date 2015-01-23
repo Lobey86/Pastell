@@ -1,0 +1,72 @@
+nom: Message interne
+type: Flux Généraux
+
+description: Permet au collectivité d'envoyer des messages à leur service (entité fille)
+
+formulaire:
+	Message :			
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Document attaché: {type: file}
+		
+	
+action:
+	creation:
+		name-action: Créer
+		name: Créé
+		rule:
+			no-last-action:
+			droit_id_u: 'message-service:edition'
+
+	modification:
+		name-action: Modifier
+		name: En cours de rédaction
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'message-service:edition'
+	
+	supression:
+		name-action: Supprimer
+		name: Supprimé
+		
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'message-service:edition'
+		action-class: Supprimer
+	
+	envoi :
+		name-action: Envoyer
+		name: Envoyé
+		rule:
+			last-action: 
+				creation
+				modification
+			role_id_e: editeur
+			droit_id_u: 'message-service:edition'
+		action-class: Envoyer
+		action-selection: service
+		
+	recu:
+		name: Reçu
+		rule:
+			role_id_e: no-role
+		accuse_de_reception_action: accuse_de_reception
+	
+	accuse_de_reception:
+		name-action: Accuser réception
+		name: Accusé réception
+		rule:
+			last-action:
+				recu
+			role_id_e: lecteur
+			droit_id_u: 'message-service:edition'
+			
+		action-class: AccuserReception
+		
+		
