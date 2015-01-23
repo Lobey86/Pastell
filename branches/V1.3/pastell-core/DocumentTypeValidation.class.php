@@ -55,7 +55,7 @@ class DocumentTypeValidation {
 		$result &= $this->validateRuleTypeIdE($typeDefinition,$all_type_entite);
 		$result &= $this->validateActionClass($module_id,$typeDefinition);
 		$result &= $this->validateChampsAffiche($typeDefinition);
-        $result &= $this->validateChampsRechercheAvancee($typeDefinition);
+		$result &= $this->validateChampsRechercheAvancee($typeDefinition);
 		return $result;
 	}
     
