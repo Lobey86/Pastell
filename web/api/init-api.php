@@ -6,10 +6,9 @@ $JSONoutput = new JSONoutput();
 $recuperateur = new Recuperateur($_REQUEST);
 $auth = $recuperateur->get("auth");
 
-if ($auth=='cas') {
-
-
 $id_u = false;
+
+if ($auth=='cas') {
 
 	try{
 		$id_u = $objectInstancier->ConnexionControler->apiCasConnexion();
