@@ -19,8 +19,9 @@ class OpenIDSynchroniserCompte extends ActionExecutor {
 			$utilisateur->validMailAuto($id_u);
 			$utilisateur->setColBase($id_u,$this->id_e);
 			$utilisateur->setNomPrenom($id_u,$account['user_name'],"");
-			
+
 			$this->objectInstancier->RoleUtilisateur->addRole($id_u,RoleUtilisateur::AUCUN_DROIT,$this->id_e);
+			
 			$this->getJournal()->add(Journal::MODIFICATION_UTILISATEUR,$this->id_e,0,"Ajout","Ajout de l'utilisateur {$account['user_name']} via OpenID");
 			
 			$create[] = $account['user_name'];

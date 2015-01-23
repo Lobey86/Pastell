@@ -398,12 +398,13 @@ class DocumentControler extends PastellControler {
 		} else {
 			$this->champs_affiches = array('titre'=>'Objet','type'=>'Type','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date');
 			$this->indexedFieldsList = array();
+			
 		}
-				
 		$this->indexedFieldValue = $indexedFieldValue;
 		
 		
 		$allDroit = $this->RoleUtilisateur->getAllDroit($this->getId_u());		
+		
 		$this->listeEtat = $this->DocumentTypeFactory->getActionByRole($allDroit);
 		
 		$this->documentActionEntite = $this->DocumentActionEntite;
@@ -571,13 +572,13 @@ class DocumentControler extends PastellControler {
 				unset($listDocument[$i]['action_possible'][$key]);
 			}
 			$all_action = array_merge($all_action,$listDocument[$i]['action_possible']);
-				
+			
 		}
 		$this->listDocument = $listDocument;
 		
 		$all_action = array_unique($all_action);
 		
-		$this->all_action = $all_action; 
+		$this->all_action = $all_action;
 		$this->type_list = $this->getAllType($this->listDocument);		
 		$this->template_milieu = "DocumentTraitementLot";
 		$this->renderDefault();

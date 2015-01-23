@@ -1,443 +1,442 @@
 parameters: 
-	id_e: 
-		required: true
-		comment: Identifiant de l'entité (retourné par list-entite)
-	type: 
-		required: true
-		comment: Type de document (retourné par document-type.php)
-	id_d: 
-		required: true
-		comment: Identifiant unique du document  (retourné par list-document)
-	offset: 
-		required: false
-		default: 0
-		comment: numéro de la première ligne à retourner
-	limit: 
-		required: false
-		default: 100
-		comment: Nombre maximum de lignes à retourner
+    id_e: 
+        required: true
+        comment: Identifiant de l'entité (retourné par list-entite)
+    type: 
+        required: true
+        comment: Type de document (retourné par document-type.php)
+    id_d: 
+        required: true
+        comment: Identifiant unique du document  (retourné par list-document)
+    offset: 
+        required: false
+        default: 0
+        comment: numéro de la première ligne à retourner
+    limit: 
+        required: false
+        default: 100
+        comment: Nombre maximum de lignes à retourner
 
 function: 
-	version: 
-		description: Version de la plateforme
-		comment: Permet d'obtenir la version de la plateforme. Pastell assure une compatibilité ascendante entre les différents numéro de révision. (ie. Un script basé sur une révision n fonctionneras avec une révision n+1 de Pastell)
-		soap: true
-		output:
-			version:	
-				comment: Numéro de version commerciale
-			revision: 
-				comment: Numéro de révision du dépôt de source officiel de Pastell (https://adullact.net/scm/viewvc.php/?root=pastell)
-			version_complete:
-				comment: Version affiché sur la l'interface web de la plateforme 
-		
-	document-type: 
-		description: Types de document supportés par la plateforme
-		soap: true
-		comment : Liste l'ensemble des flux (types de documents) disponible sur Pastell comme par exemple, les actes, les mails sécurisées, les flux citoyen, etc...
-		output:
-			type_de_document:
-				comment: 'Nom symbolique du type de document (exemple : actes, helios)'
-				is_variable: true
-				is_multiple : true
-				content:
-					type:
-						comment: 'Le groupe de type de document (exemple: flux généraux)'
-					nom: 
-						comment: "Nom à afficher pour l'utilisateur (exemple : Actes, Message du centre de gestion)"						
-				
-		
-	document-type-info: 
-		description: Information sur un type de document
-		soap: true
-		comment: Liste l'ensemble des champs d'un type document ainsi que les informations sur chaque champs (type de champs, valeur par défaut, script de choix, ...)
-		input: 
-			type: 
-		output:
-			nom_du_champ:
-				is_variable: true
-				is_multiple: true
-				comment: Nom symbolique du champs  
-				content:
-					propriete:
-						is_variable: true
-						is_multiple: true
-						comment: 'Couple clé/valeur de la propriété'
+    version: 
+        description: Version de la plateforme
+        comment: Permet d'obtenir la version de la plateforme. Pastell assure une compatibilité ascendante entre les différents numéro de révision. (ie. Un script basé sur une révision n fonctionneras avec une révision n+1 de Pastell)
+        soap: true
+        output:
+            version:	
+                comment: Numéro de version commerciale
+            revision: 
+                comment: Numéro de révision du dépôt de source officiel de Pastell (https://adullact.net/scm/viewvc.php/?root=pastell)
+            version_complete:
+                comment: Version affiché sur la l'interface web de la plateforme 
 
-	document-type-action:
-		description: Actions possible sur un type de document
-		soap: false
-		comment: ramène la liste des statuts/actions possibles sur ce type de document ainsi que des infos relatives à ce type de document 
-		input:
-			type:
-		output:
-			nom_du_champ:
-				is_variable: true
-				is_multiple: true
-				comment: Nom symbolique de l'action  
-				content:
-					propriete:
-						is_variable: true
-						is_multiple: true
-						comment: 'Couple clé/valeur de la propriété'
-						
-	list-entite: 
-		description: Listes des entités 
-		soap: true
-		comment: Liste l'ensemble des entités sur lesquelles l'utilisateur a des droits. Liste également les entités filles.	
-		output:
-			id_e: 
-				comment: Identifiant numérique de l'entité
-			denomination: 
-				comment: "Libellé de l'entité (ex : Saint-Amand-les-Eaux)"
-			siren:
-				comment: "Numéro SIREN de l'entité (si c'est une collectivité ou un centre de gestion)"
-			centre_de_gestion: 
-				comment: "Identifiant numérique (id_e) du CDG de la collectivité"
-			entite_mere : 
-				comment: "Identifiant numérique (id_e) de l'entité mère de l'entité (par exemple pour un service)" 
-		
-			
-	list-document: 
-		description: Listes de documents d'une collectivité
-		soap: true
-		input: 
-			id_e:
-				comment: Identifiant de l'entité (retourné par list-entite)
-				required: false
-			type: 
-				required: false
-				comment: Type de document (retourné par document-type.php)
-			offset: 
-			limit:
-		output:
-			id_e: 
-				comment: Identifiant numérique de l'entité
-			id_d:
-				comment: Identifiant unique du document
-			role: 
-				comment: "Rôle de l'entité sur le document (exemple : éditeur)"
-			last-action: 
-				comment: "Dernière action effectuée sur le document"
-			last_action_date: 
-				comment: "Date de la dernière action"
-			type:
-				comment: "Type de document (identique à l'entrée)"
-			creation:
-				comment: "Date de création du document"
-			modification:
-				comment: "Date de dernière modification du document"
-			entite:
-				is_multiple: true
-				comment: "Liste des identifiant (id_e) des autres entités qui ont des droits sur ce document."
-			
+    document-type: 
+        description: Types de document supportés par la plateforme
+        soap: true
+        comment : Liste l'ensemble des flux (types de documents) disponible sur Pastell comme par exemple, les actes, les mails sécurisées, les flux citoyen, etc...
+        output:
+            type_de_document:
+                comment: 'Nom symbolique du type de document (exemple : actes, helios)'
+                is_variable: true
+                is_multiple : true
+                content:
+                    type:
+                        comment: 'Le groupe de type de document (exemple: flux généraux)'
+                    nom: 
+                        comment: "Nom à afficher pour l'utilisateur (exemple : Actes, Message du centre de gestion)"						
 
-	recherche-document:
-		description: Recherche multi-critère dans la liste des documents
-		soap: false
-		input: 
-			id_e:
-				comment: Identifiant de l'entité (retourné par list-entite)
-				required: false
-			type: 
-				required: false
-				comment: Type de document (retourné par document-type.php)
-			offset: 
-			
-			lastetat:
-				required: false
-				comment: Dernier état du document
-			last_state_begin: 
-				required: false
-				comment: date du passage au dernier état du document le plus ancien(date iso)
-			last_state_end:
-				required: false
-				comment: date du passage au dernier état du document le plus récent(date iso)
-			etatTransit:
-				required: false
-				comment: le document doit être passé dans cet état
-			state_begin:
-				required: false
-				comment: date d'entrée la plus ancienne de l'état etatTransit 
-			state_end:
-				required: false
-				comment: date d'entrée la plus récente de l'état etatTransit 
-			tri:
-				required: false
-				comment: critère de tri parmi last_action_date, title et entite
-			search:
-				required: false
-				comment: l'objet du document doit contenir la chaine indiquée
-			
-			
-		output:
-			id_e: 
-				comment: Identifiant numérique de l'entité
-			id_d:
-				comment: Identifiant unique du document
-			role: 
-				comment: "Rôle de l'entité sur le document (exemple : éditeur)"
-			last-action: 
-				comment: "Dernière action effectuée sur le document"
-			last_action_date: 
-				comment: "Date de la dernière action"
-			type:
-				comment: "Type de document (identique à l'entrée)"
-			creation:
-				comment: "Date de création du document"
-			modification:
-				comment: "Date de dernière modification du document"
-			entite:
-				is_multiple: true
-				comment: "Liste des identifiant (id_e) des autres entités qui ont des droits sur ce document."
 
-	detail-document: 
-		description: Détail sur un document
-		comment: Récupère l'ensemble des informations sur un document Liste également les entités filles.
-		soap: true
-		input: 
-			id_e: 
-			id_d: 
-		output:
-			info:
-				comment: Reprend les informations disponible sur list-document.php
-			data:
-				comment: "Données issue du formulaire (voir document-type-info.php pour savoir ce qu'il est possible de récupérer)"
-			action_possible:
-				is_multiple: true
-				comment: "Liste des actions possible (exemple : modification, envoie-tdt, ...)"
-			action-possible:
-				is_multiple: true
-				comment: "Contient la même chose que action_possible, cette sortie est déprécié et sera supprimé dans une prochaine version de Pastell"
-			
-	detail-several-document: 
-		description: Détail sur plusieurs documents
-		comment: Récupère l'ensemble des informations sur plusieurs documents
-		input: 
-			id_e: 
-			id_d[]: 
-				required: true
-				default: 
-				comment: Tableau d'identifiants uniques de documents  (retourné par list-document.php)
-		output:
-			info:
-				comment: Reprend les informations disponible sur list-document.php
-			data:
-				comment: "Données issue du formulaire (voir document-type-info.php pour savoir ce qu'il est possible de récupérer)"
-			action_possible:
-				is_multiple: true
-				comment: "Liste des actions possible (exemple : modification, envoie-tdt, ...)"
-			action-possible:
-				is_multiple: true
-				comment: "Contient la même chose que action_possible, cette sortie est dépréciée et sera supprimée dans une prochaine version de Pastell"
-			
-				
-	create-document: 
-		description: Création d'un document
-		comment: "Crée un nouveau document"
-		soap: true
-		input: 
-			id_e:
-			type: 
-		output:
-			id_d:
-				comment: "Identifiant unique du document crée."
-				
+    document-type-info: 
+        description: Information sur un type de document
+        soap: true
+        comment: Liste l'ensemble des champs d'un type document ainsi que les informations sur chaque champs (type de champs, valeur par défaut, script de choix, ...)
+        input: 
+            type: 
+        output:
+            nom_du_champ:
+                is_variable: true
+                is_multiple: true
+                comment: Nom symbolique du champs  
+                content:
+                    propriete:
+                        is_variable: true
+                        is_multiple: true
+                        comment: 'Couple clé/valeur de la propriété'
 
-	external-data: 
-		description: Récupération des choix possibles pour un champs spécial du document
-		comment: "Récupère les valeurs possible d'un champs. En effet,  certaine valeur sont « externe » a Pastell : classification Actes, classification CDG, etc.. Ce script permet de récupérer l'ensemble de ces valeurs. Ce script est utilisable sur tous les champs qui dispose d'une propriétés « controler »"
-		soap: true
-		input: 
-			id_e: 
-			id_d: 
-			field: 
-				required: true
-				default: 
-				comment: le nom d'un champ du document
-		output:
-			valeur_possible:
-				is_multiple: true
-				is_variable: true
-				comment: "Information supplémentaire sur la valeur possible (éventuellement sous forme de tableau associatif)"
-				
-				
-	modif-document: 
-		description: Modification d'un document
-		soap: true
-		input: 
-			data:
-				comment: contient les clés id_e et id_d pour identifier le document à modifier, puis, toutes les clés correspondantes au clé du type de document. Permet également l'enregistrement des fichiers (pas en SOAP). data n'est pas le nom de la clé en mode REST, il faut utilisé id_e, id_d, ...
-				required: false
-					  
-		output:
-			result:
-				comment: " ok - si l'enregistrement s'est bien déroulé"
-			formulaire_ok:  
-				comment: "1 si le formulaire est valide, 0 sinon"
-			message: 
-				comment: "Message complémentaire"
-	
-	send-file: 
-		description: Envoie d'un fichier pour modifier un document
-		soap: true
-		input:
-			id_e: 
-			id_d: 
-			field_name:
-				comment: le nom du champs
-				required: false
-			file_name:
-				comment: le nom du fichier
-				required: false
-			file_number: 
-				comment: le numéro du fichier (pour les fichier multiple)
-				required: false
-			file_content:
-				comment: le contenu du fichier
-				required: false
-					  
-		output:
-			result:
-				comment: " ok - si l'enregistrement s'est bien déroulé"
-			formulaire_ok:  
-				comment: "1 si le formulaire est valide, 0 sinon"
-			message: 
-				comment: "Message complémentaire"
-	
-	receive-file:
-		description: Réception d'un fichier (utile pour le mode SOAP)
-		soap: true
-		input:
-			id_e: 
-			id_d: 
-			field_name:
-				comment: le nom du champs
-				required: false
-			file_number: 
-				comment: le numéro du fichier (pour les fichier multiple)
-				required: false
-		output:
-			file_name:
-				comment: le nom du fichier
-			file_content:
-				comment: le contenu du fichier
-		 
-	
-	action: 
-		description: Execute une action sur un document
-		soap: true
-		input: 
-			id_e: 
-			id_d: 
-			action: 
-				required: true
-				comment: Nom de l'action  (retourné par detail-document, champs action-possible)
-			destinataire: 
-				required: false
-				default: 
-				comment: tableau contenant l'identifiant des destinataires pour les actions qui le requièrent
-		output:
-			result: 
-				comment: "1 si l'action a été correctement exécute. Sinon, une erreur est envoyé"
-			message:
-				comment: "Message complémentaire en cas de réussite"
-				
-	recuperation-fichier: 
-		description: Récupère le contenu d'un fichier
-		input: 
-			id_e: 
-			id_d: 
-			field: 
-				required: true
-				default: 
-				comment: le nom d'un champ du document
-			num: 
-				required: false
-				default: 0
-				comment: le numéro du fichier, s'il s'agit d'un champ fichier multiple
-		output:
-			fichier:
-				comment: c'est le fichier qui est renvoyé directement
+    document-type-action:
+        description: Actions possible sur un type de document
+        soap: false
+        comment: ramène la liste des statuts/actions possibles sur ce type de document ainsi que des infos relatives à ce type de document 
+        input:
+            type:
+        output:
+            nom_du_champ:
+                is_variable: true
+                is_multiple: true
+                comment: Nom symbolique de l'action  
+                content:
+                    propriete:
+                        is_variable: true
+                        is_multiple: true
+                        comment: 'Couple clé/valeur de la propriété'
 
-	
-				
-	journal: 
-		description: Récupérer le journal
-		soap: true
-		input: 
-			id_e: 
-				required: false
-				default: 
-				comment: Identifiant de l'entité (retourné par list-entite.php)
-			recherche: 
-				required: false
-				default: 
-				comment: Champs de recherche sur le contenu du message horodaté
-			id_user: 
-				required: false
-				default: 
-				comment: Identifiant de l'utilisateur
-			date_debut: 
-				required: false
-				default: 
-				comment: Date à partir de laquelle les informations sont récupérées.
-			date_fin: 
-				required: false
-				default: 
-				comment: Date au delà de laquelle les informations ne sont plus récupérées.
-			id_d: 
-				required: false
-				default: 
-				comment: Identifiant unique du document  (retourné par list-document.php)
-			type: 
-				required: false
-				default: 
-				comment: Type de document (retourné par document-type.php)
-			format: 
-				required: false
-				default: json
-				comment: 'Format du journal : json ou bien csv'
-			offset: 
-			limit: 
-		output:
-			id_j:
-				comment: "Numéro unique, auto-incrémentiel et sans trou du journal"
-			type: 
-				comment: >
-							1. Action sur un document
-							2 : Notification
-							3 : Modification d'une entité
-							4 : Modification d'un utilisateur
-							5 : Mail sécurisé
-							6 : Connexion
-							7 : Consultation d'un document"
-			id_e:
-				comment: "Identifiant de l'entité"
-			id_u:
-				comment: "Identifiant de l'utilisateur"
-			id_d:
-				comment: "Identifiant du document"
-			action:
-				comment: "Action effectuée"
-			message:
-				comment: "Message"
-			date:
-				comment: "Date de l'ajout dans le journal (peut-être différents de l'horodatage)"
-			preuve:
-				comment: "Contenu de la preuve. Peut être utilisé dans une application qui sait analyser les jetons d'horodatage."
-			date_horodatage:
-				comment: "Date récupéré dans le jeton d'horodatage."
-			message_horodate:
-				comment: "Message qui a été horodaté"
-			titre:
-				comment: "Titre du document"
-			document_type: 
-				comment: "Type du document"
-			denomination:
-				comment: "Nom de l'entité"
-			nom:
-				comment: "Nom de l'utilisateur"
-			prenom:
-				comment: "Prénom de l'utilisateur"				
-				
-				
+    list-entite: 
+        description: Listes des entités 
+        soap: true
+        comment: Liste l'ensemble des entités sur lesquelles l'utilisateur a des droits. Liste également les entités filles.	
+        output:
+            id_e: 
+                comment: Identifiant numérique de l'entité
+            denomination: 
+                comment: "Libellé de l'entité (ex : Saint-Amand-les-Eaux)"
+            siren:
+                comment: "Numéro SIREN de l'entité (si c'est une collectivité ou un centre de gestion)"
+            centre_de_gestion: 
+                comment: "Identifiant numérique (id_e) du CDG de la collectivité"
+            entite_mere : 
+                comment: "Identifiant numérique (id_e) de l'entité mère de l'entité (par exemple pour un service)" 
+
+
+    list-document: 
+        description: Listes de documents d'une collectivité
+        soap: true
+        input: 
+            id_e:
+                comment: Identifiant de l'entité (retourné par list-entite)
+                required: false
+            type: 
+                required: false
+                comment: Type de document (retourné par document-type.php)
+            offset: 
+            limit:
+        output:
+            id_e: 
+                comment: Identifiant numérique de l'entité
+            id_d:
+                comment: Identifiant unique du document
+            role: 
+                comment: "Rôle de l'entité sur le document (exemple : éditeur)"
+            last-action: 
+                comment: "Dernière action effectuée sur le document"
+            last_action_date: 
+                comment: "Date de la dernière action"
+            type:
+                comment: "Type de document (identique à l'entrée)"
+            creation:
+                comment: "Date de création du document"
+            modification:
+                comment: "Date de dernière modification du document"
+            entite:
+                is_multiple: true
+                comment: "Liste des identifiant (id_e) des autres entités qui ont des droits sur ce document."
+
+
+    recherche-document:
+        description: Recherche multi-critère dans la liste des documents
+        soap: false
+        input: 
+            id_e:
+                comment: Identifiant de l'entité (retourné par list-entite)
+                required: false
+            type: 
+                required: false
+                comment: Type de document (retourné par document-type.php)
+            offset: 
+
+            lastetat:
+                required: false
+                comment: Dernier état du document
+            last_state_begin: 
+                required: false
+                comment: date du passage au dernier état du document le plus ancien(date iso)
+            last_state_end:
+                required: false
+                comment: date du passage au dernier état du document le plus récent(date iso)
+            etatTransit:
+                required: false
+                comment: le document doit être passé dans cet état
+            state_begin:
+                required: false
+                comment: date d'entrée la plus ancienne de l'état etatTransit 
+            state_end:
+                required: false
+                comment: date d'entrée la plus récente de l'état etatTransit 
+            tri:
+                required: false
+                comment: critère de tri parmi last_action_date, title et entite
+            search:
+                required: false
+                comment: l'objet du document doit contenir la chaine indiquée
+
+
+        output:
+            id_e: 
+                comment: Identifiant numérique de l'entité
+            id_d:
+                comment: Identifiant unique du document
+            role: 
+                comment: "Rôle de l'entité sur le document (exemple : éditeur)"
+            last-action: 
+                comment: "Dernière action effectuée sur le document"
+            last_action_date: 
+                comment: "Date de la dernière action"
+            type:
+                comment: "Type de document (identique à l'entrée)"
+            creation:
+                comment: "Date de création du document"
+            modification:
+                comment: "Date de dernière modification du document"
+            entite:
+                is_multiple: true
+                comment: "Liste des identifiant (id_e) des autres entités qui ont des droits sur ce document."
+
+    detail-document: 
+        description: Détail sur un document
+        comment: Récupère l'ensemble des informations sur un document Liste également les entités filles.
+        soap: true
+        input: 
+            id_e: 
+            id_d: 
+        output:
+            info:
+                comment: Reprend les informations disponible sur list-document.php
+            data:
+                comment: "Données issue du formulaire (voir document-type-info.php pour savoir ce qu'il est possible de récupérer)"
+            action_possible:
+                is_multiple: true
+                comment: "Liste des actions possible (exemple : modification, envoie-tdt, ...)"
+            action-possible:
+                is_multiple: true
+                comment: "Contient la même chose que action_possible, cette sortie est déprécié et sera supprimé dans une prochaine version de Pastell"
+
+    detail-several-document: 
+        description: Détail sur plusieurs documents
+        comment: Récupère l'ensemble des informations sur plusieurs documents
+        input: 
+            id_e: 
+            id_d[]: 
+                required: true
+                default: 
+                comment: Tableau d'identifiants uniques de documents  (retourné par list-document.php)
+        output:
+            info:
+                comment: Reprend les informations disponible sur list-document.php
+            data:
+                comment: "Données issue du formulaire (voir document-type-info.php pour savoir ce qu'il est possible de récupérer)"
+            action_possible:
+                is_multiple: true
+                comment: "Liste des actions possible (exemple : modification, envoie-tdt, ...)"
+            action-possible:
+                is_multiple: true
+                comment: "Contient la même chose que action_possible, cette sortie est dépréciée et sera supprimée dans une prochaine version de Pastell"
+
+    create-document: 
+        description: Création d'un document
+        comment: "Crée un nouveau document"
+        soap: true
+        input: 
+            id_e:
+            type: 
+        output:
+            id_d:
+                comment: "Identifiant unique du document crée."
+
+
+    external-data: 
+        description: Récupération des choix possibles pour un champs spécial du document
+        comment: "Récupère les valeurs possible d'un champs. En effet,  certaine valeur sont « externe » a Pastell : classification Actes, classification CDG, etc.. Ce script permet de récupérer l'ensemble de ces valeurs. Ce script est utilisable sur tous les champs qui dispose d'une propriétés « controler »"
+        soap: true
+        input: 
+            id_e: 
+            id_d: 
+            field: 
+                required: true
+                default: 
+                comment: le nom d'un champ du document
+        output:
+            valeur_possible:
+                is_multiple: true
+                is_variable: true
+                comment: "Information supplémentaire sur la valeur possible (éventuellement sous forme de tableau associatif)"
+
+
+    modif-document: 
+        description: Modification d'un document
+        soap: true
+        input: 
+            data:
+                comment: contient les clés id_e et id_d pour identifier le document à modifier, puis, toutes les clés correspondantes au clé du type de document. Permet également l'enregistrement des fichiers (pas en SOAP). data n'est pas le nom de la clé en mode REST, il faut utilisé id_e, id_d, ...
+                required: false
+
+        output:
+            result:
+                comment: " ok - si l'enregistrement s'est bien déroulé"
+            formulaire_ok:  
+                comment: "1 si le formulaire est valide, 0 sinon"
+            message: 
+                comment: "Message complémentaire"
+
+    send-file: 
+        description: Envoie d'un fichier pour modifier un document
+        soap: true
+        input:
+            id_e: 
+            id_d: 
+            field_name:
+                comment: le nom du champs
+                required: false
+            file_name:
+                comment: le nom du fichier
+                required: false
+            file_number: 
+                comment: le numéro du fichier (pour les fichier multiple)
+                required: false
+            file_content:
+                comment: le contenu du fichier
+                required: false
+
+        output:
+            result:
+                comment: " ok - si l'enregistrement s'est bien déroulé"
+            formulaire_ok:  
+                comment: "1 si le formulaire est valide, 0 sinon"
+            message: 
+                comment: "Message complémentaire"
+
+    receive-file:
+        description: Réception d'un fichier (utile pour le mode SOAP)
+        soap: true
+        input:
+            id_e: 
+            id_d: 
+            field_name:
+                comment: le nom du champs
+                required: false
+            file_number: 
+                comment: le numéro du fichier (pour les fichier multiple)
+                required: false
+        output:
+            file_name:
+                comment: le nom du fichier
+            file_content:
+                comment: le contenu du fichier
+
+
+    action: 
+        description: Execute une action sur un document
+        soap: true
+        input: 
+            id_e: 
+            id_d: 
+            action: 
+                required: true
+                comment: Nom de l'action  (retourné par detail-document, champs action-possible)
+            destinataire: 
+                required: false
+                default: 
+                comment: tableau contenant l'identifiant des destinataires pour les actions qui le requièrent
+        output:
+            result: 
+                comment: "1 si l'action a été correctement exécute. Sinon, une erreur est envoyé"
+            message:
+                comment: "Message complémentaire en cas de réussite"
+
+    recuperation-fichier: 
+        description: Récupère le contenu d'un fichier
+        input: 
+            id_e: 
+            id_d: 
+            field: 
+                required: true
+                default: 
+                comment: le nom d'un champ du document
+            num: 
+                required: false
+                default: 0
+                comment: le numéro du fichier, s'il s'agit d'un champ fichier multiple
+        output:
+            fichier:
+                comment: c'est le fichier qui est renvoyé directement
+
+
+
+    journal: 
+        description: Récupérer le journal
+        soap: true
+        input: 
+            id_e: 
+                required: false
+                default: 
+                comment: Identifiant de l'entité (retourné par list-entite.php)
+            recherche: 
+                required: false
+                default: 
+                comment: Champs de recherche sur le contenu du message horodaté
+            id_user: 
+                required: false
+                default: 
+                comment: Identifiant de l'utilisateur
+            date_debut: 
+                required: false
+                default: 
+                comment: Date à partir de laquelle les informations sont récupérées.
+            date_fin: 
+                required: false
+                default: 
+                comment: Date au delà de laquelle les informations ne sont plus récupérées.
+            id_d: 
+                required: false
+                default: 
+                comment: Identifiant unique du document  (retourné par list-document.php)
+            type: 
+                required: false
+                default: 
+                comment: Type de document (retourné par document-type.php)
+            format: 
+                required: false
+                default: json
+                comment: 'Format du journal : json ou bien csv'
+            offset: 
+            limit: 
+        output:
+            id_j:
+                comment: "Numéro unique, auto-incrémentiel et sans trou du journal"
+            type: 
+                comment: >
+                            1. Action sur un document
+                            2 : Notification
+                            3 : Modification d'une entité
+                            4 : Modification d'un utilisateur
+                            5 : Mail sécurisé
+                            6 : Connexion
+                            7 : Consultation d'un document"
+            id_e:
+                comment: "Identifiant de l'entité"
+            id_u:
+                comment: "Identifiant de l'utilisateur"
+            id_d:
+                comment: "Identifiant du document"
+            action:
+                comment: "Action effectuée"
+            message:
+                comment: "Message"
+            date:
+                comment: "Date de l'ajout dans le journal (peut-être différents de l'horodatage)"
+            preuve:
+                comment: "Contenu de la preuve. Peut être utilisé dans une application qui sait analyser les jetons d'horodatage."
+            date_horodatage:
+                comment: "Date récupéré dans le jeton d'horodatage."
+            message_horodate:
+                comment: "Message qui a été horodaté"
+            titre:
+                comment: "Titre du document"
+            document_type: 
+                comment: "Type du document"
+            denomination:
+                comment: "Nom de l'entité"
+            nom:
+                comment: "Nom de l'utilisateur"
+            prenom:
+                comment: "Prénom de l'utilisateur"				
+
+

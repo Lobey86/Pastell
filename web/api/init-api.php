@@ -9,6 +9,7 @@ $auth = $recuperateur->get("auth");
 $id_u = false;
 
 if ($auth=='cas') {
+
 	try{
 		$id_u = $objectInstancier->ConnexionControler->apiCasConnexion();
 	} catch(Exception $e){

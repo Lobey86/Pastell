@@ -585,13 +585,13 @@ class DonneesFormulaire {
 				return ".".$path_parts['extension'];
 			}
 		}
-		if ($result =='.txt'){
+        if ($result =='.txt'){
 			$file_content = file_get_contents($file_path);
 			if (preg_match("#-----BEGIN PKCS7-----#", $file_content)){
 				return ".p7c";
 			}
 		}
-		
+		        
 		if (!$result){
 			if ($path_parts['extension']) {
 				$result = ".".$path_parts['extension']; 

@@ -262,7 +262,6 @@ class ActesSEDACG86  extends SEDAConnecteur {
 		$c->Document = $this->getDocument(basename($transactionsInfo['ar_actes']), "text/xml",$ar_actes_info['DateReception'],false,true);
 		$archiveTransfer->Contains->Contains[0]->Contains[] = $c;
 		
-		
 		$num_echange = 0;
 		$num_contains = 0;
 		while(isset($transactionsInfo['echange_prefecture_type'][$num_echange])){

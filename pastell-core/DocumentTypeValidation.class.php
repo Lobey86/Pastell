@@ -58,8 +58,8 @@ class DocumentTypeValidation {
 		$result &= $this->validateChampsRechercheAvancee($typeDefinition);
 		return $result;
 	}
-	
-	private function validateChampsRechercheAvancee($typeDefinition){
+    
+    private function validateChampsRechercheAvancee($typeDefinition){
 		$result = true;
 		$all_champs_affiche = $this->getList($typeDefinition,'champs-recherche-avancee');
 		$all_element_name = $this->getAllElementIndexed($typeDefinition);
@@ -92,9 +92,6 @@ class DocumentTypeValidation {
 		}
 		return $result;
 	}
-	
-	
-	
 	
 	private function validateActionClass($module_id,$typeDefinition){
 		$all_action = $this->getList($typeDefinition,'action');
@@ -225,14 +222,14 @@ class DocumentTypeValidation {
 	private function getAllElementName($typeDefinition){
 		$result = array();
 		foreach($this->getList($typeDefinition,'formulaire') as $onglet => $element_list){
-			if (! $element_list){
-				$this->last_error[] = "formulaire:onglet: est vide";
-				continue;
-			}
-			foreach($element_list as $name => $prop){
-				$result[] = $name;
-				$result[] = Field::Canonicalize($name);
-			}
+            if(!$element_list) {
+                $this->last_error[] = "formulaire:onglet: est vide";
+                continue;
+            }
+            foreach($element_list as $name => $prop){
+                $result[] = $name;
+                $result[] = Field::Canonicalize($name);
+            }
 		}
 		return $result;
 	}
