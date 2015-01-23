@@ -1,0 +1,65 @@
+nom: Test
+type: Flux Généraux
+
+description: flux de test, ne pas utiliser.
+
+connecteur:
+	SAE
+
+formulaire:
+	onglet:
+		password:
+			name: Mot de passe
+			type: password
+		test1:
+			type: url
+			link_name: toto
+			
+		test2:
+		
+		nom:
+			index: true
+		
+		prenom:
+			index: true
+		
+		
+	
+action:
+	creation:
+		name-action: Créer
+		name: Créé
+		rule:
+			no-last-action:
+
+	modification:
+		name-action: Modifier
+		name: En cours de rédaction
+		rule:
+			last-action: 
+				creation
+				modification
+			
+			
+	test:
+		rule:
+			content:
+				test1: toto
+			or_1:
+				last-action:
+					creation
+					modification
+				content:
+					test1: true
+			or_2:
+				and_1:
+					last-action:
+						creation
+						modification
+					content:
+						test2: true
+				and_2:
+					last-action:
+						creation
+				
+		action-class: Test

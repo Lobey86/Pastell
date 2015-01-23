@@ -1,0 +1,10 @@
+La table de log des actions automatique devenant beaucoup trop grosse, elle pose des problème de temps d'accès.
+
+Cette révision corrige ce problème.
+
+Il est important de vider la table action_auto_log (les données seront donc perdu)
+
+TRUNCATE TABLE action_auto_log
+
+Puis de mettre à jour la base (dbupdate)
+
