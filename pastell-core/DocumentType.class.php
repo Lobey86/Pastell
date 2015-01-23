@@ -13,7 +13,7 @@ class DocumentType {
 	const CONNECTEUR = 'connecteur';
 	const DESCRIPTION = 'description';
 	const CHAMPS_AFFICHE = 'champs-affiches';
-    const CHAMPS_RECHERCHE_AFFICHE = 'champs-recherche-avancee';
+	const CHAMPS_RECHERCHE_AFFICHE = 'champs-recherche-avancee';
 	
 	const TYPE_FLUX_DEFAULT = 'Flux Généraux';
 	
