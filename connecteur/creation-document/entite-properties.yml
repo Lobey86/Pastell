@@ -50,7 +50,7 @@ action:
 			droit_id_u: 'entite:edition'
 		
 	recuperation-auto:
-		name: Récupérer et créer les documents
+		name: Récupérer et créer les documents (mode automatique)
 		no-workflow: true
 		action-class: CreationDocumentRecupAuto
 		rule:

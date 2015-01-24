@@ -13,13 +13,10 @@ if  (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$
 	exit;
 }
 
-header("Content-Type: application/timestamp-reply");
-header("Content-Transfer-Encoding: base64");
-header("Content-disposition: attachment; filename=preuve.tsr");
-
+header("Content-Type: text/plain; charset=ISO-8859-15");
+header("Content-disposition: attachment; filename=preuve.txt");
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Pragma: public");
 
-//echo base64_encode($info['preuve']);
-echo $info['preuve'];
+echo $info['message'];
 
