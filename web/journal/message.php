@@ -18,5 +18,5 @@ header("Content-disposition: attachment; filename=preuve.txt");
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Pragma: public");
 
-echo $info['message'];
+echo $info['message_horodate'];
 

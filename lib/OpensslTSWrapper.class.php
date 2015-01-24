@@ -46,7 +46,7 @@ class OpensslTSWrapper {
 	}
 	
 
-	public function verify($data,$timestampReply, $CAFilePath, $certFilePath,$configFile){
+	public function verify($data,$timestampReply, $CAFilePath, $certFilePath,$configFile){		
 		$dataFilePath = $this->getTmpFile($data);
 		$timestampReplyFilePath = $this->getTmpFile($timestampReply);
 		

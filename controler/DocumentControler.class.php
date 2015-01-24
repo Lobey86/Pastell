@@ -630,7 +630,7 @@ class DocumentControler extends PastellControler {
 		$all_id_d = $recuperateur->get('id_d');
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
 		
-		$action_libelle = $documentType->getAction()->getActionName($action_selected);
+		$action_libelle = $documentType->getAction()->getDoActionName($action_selected);
 		
 		$url_retour = "document/traitement-lot.php?id_e={$this->id_e}&type={$this->type}&search={$this->search}&filtre={$this->filtre}&offset={$this->offset}";
 		
@@ -645,7 +645,7 @@ class DocumentControler extends PastellControler {
 				$error .= "Il y a déjà une action programmée pour le document « {$infoDocument['titre']} »<br/>";
 			}
 			$listDocument[] = $infoDocument;
-			$message .= "L'action « $action_libelle » est programmé pour le document « {$infoDocument['titre']} »<br/>";	
+			$message .= "L'action « $action_libelle » est programmée pour le document « {$infoDocument['titre']} »<br/>";	
 		
 		}
 		if ($error){
