@@ -73,6 +73,18 @@ class IParapheur extends SignatureConnecteur {
 		return $info;
 	}
 	
+	private function getDocumentSigne($result){
+		$info = array();
+		if (! isset($result->DocPrincipal)){
+			$info['document'] = false;
+			$info['nom_document'] = false;
+			return $info;
+		}
+		$info['document'] = $result->DocPrincipal;
+		$info['nom_document'] = $result->NomDocPrincipal;
+		return $info;
+	}
+	
 	public function getSignature($dossierID){
 		try{
 			$result =  $this->getClient()->GetDossier(utf8_encode($dossierID));
@@ -90,6 +102,8 @@ class IParapheur extends SignatureConnecteur {
 			} else {
 				$info['signature'] = false;
 			}
+			
+			$info['document_signe'] = $this->getDocumentSigne($result);
 			
 			$this->archiver($dossierID);
 			return $info;
