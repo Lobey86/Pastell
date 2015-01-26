@@ -12,4 +12,6 @@ class BLFlux {
     const ATTR_APP_PILOTE = FluxSynchroneActionExecutor::FLUX_ATTR_PILOTE;
     const ATTR_ERREUR_DETAIL = FluxSynchroneActionExecutor::FLUX_ATTR_ERREUR_DETAIL;
     const ATTR_EMETTEUR_EMAIL = 'emetteur_email';
+    
+    const ACTION_CLOTURE_NAME = 'cloture';
 }
