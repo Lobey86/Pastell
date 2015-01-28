@@ -23,6 +23,7 @@ foreach ($all_connecteur as $connecteur) {
         } else {
             $blscript->traceln("ok");
         }
+        $objectInstancier->LastUpstart->updateMtime();
     }
 }
 
@@ -50,6 +51,7 @@ foreach ($list_id_connecteur as $id_connecteur) {
                     $blscript->traceln("ok");
                 }            
             }
+            $objectInstancier->LastUpstart->updateMtime();
         }
     }
 }
@@ -88,6 +90,7 @@ foreach ($objectInstancier->fluxDefinitionFiles->getAll() as $type => $config) {
                     $blscript->traceln("Annulé : état changé en $lastAction par une action concurrente");
                 }
             }
+            $objectInstancier->LastUpstart->updateMtime();
         }
     }
 }
