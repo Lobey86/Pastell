@@ -23,7 +23,7 @@ class BLBatch {
         echo $texte;
     }
 
-    public function traceln($texte = '', $encode = true) {        
+    public function traceln($texte = '', $encode = true) {
         $this->trace($texte, $encode);
         if (PHP_SAPI == 'cli') {
             echo "\n";
@@ -71,8 +71,8 @@ class BLBatch {
     private function error($text) {
         echo utf8_encode($text . "\n");
         exit(1);
-    }    
-    
+    }
+
     /**
      * En mode http comme en mode 'cli', les paramètres sont fournis au format {name}={value}.
      * @param string $name
@@ -109,8 +109,22 @@ class BLBatch {
             }
             throw new Exception('Paramètre \'' . $name . '\' non fourni');
         }
-        
+
         return $argValue;
+    }
+
+    /**
+     * Exécute une fonction en mesurant sa durée et la mémoire consommée.
+     * @param Closure $function fonction exécutant le traitement à mesurer. Aucun paramètre.
+     * @return array tableau à indexation numérique contenant le résultat de la fonction, la durée, la mémoire consommée
+     */
+    function mesurer($function) {
+        $debut = microtime(true);
+        $mem = memory_get_usage(true);
+        $result = $function();
+        $duree = round(microtime(true) - $debut, 3);
+        $mem = memory_get_usage(true) - $mem;
+        return array($result, $duree, $mem);
     }
 
 }
