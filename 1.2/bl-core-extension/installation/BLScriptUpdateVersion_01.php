@@ -101,6 +101,11 @@ if (!$sqlQuery->queryOne($requeteExtension, $ext_fasttdtactesbl)) {
     $blScript->traceln('DEJA FAIT');
 }
 
+
+// Signaler la modification à apporter au CRON Pastell pour le script de controle des actions automatiques
+$todoList[] = 'Modifier le fichier CRON Pastell pour le script de controle des actions automatiques (cf document de montée de version).';
+
+
 ///////////////////////////////////////////////////////////////
 //          Affichage des paramétrages complémentaires
 //          (à conserver en fin de script)
