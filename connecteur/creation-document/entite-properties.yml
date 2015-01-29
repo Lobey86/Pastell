@@ -2,7 +2,7 @@ name: CreationDocument
 
 description:| 
 	Permet de récuperer un document ZIP via un connecteur de récupération.
-	Le ZIP contient un fichier manifest.xml 
+	Le ZIP contient un fichier manifest.xml et/ou un fichier csv
 	Le fichier manifest.xml contient : 
 	<flux type='actes-generique'>
 		<data name='objet' value='Achat de matériel'/>
@@ -17,7 +17,9 @@ description:|
 			<file content='annexe2.jpg'>
 		</files>
 	</flux>
-	Le ZIP contient également tous les fichiers défini dans le manifest. (ex: fichier_contenant_lacte.pdf,annexe1.pdf,annexe2.jpg)
+	Le fichier csv contient un en tête de colonne avec le nom des champs tel que définit dans le definition.yml du type de flux des documents à créer.
+	Chaque ligne du fichier csv décrit un document à créer (suivant le type de flux en première colonne).
+	Le ZIP contient également tous les fichiers défini dans le manifest.xml ou le csv (ex: fichier_contenant_lacte.pdf,annexe1.pdf,annexe2.jpg)
 	Les fichiers sont détruit sur le serveur distant.
 	Les données inconsistantes ou incomplètes sont ignorées.
 
@@ -51,7 +53,7 @@ action:
 			droit_id_u: 'entite:edition'
 		
 	recuperation-auto:
-		name: Récupérer et créer les documents (mode automatique)
+		name: Tester le mode automatique
 		no-workflow: true
 		action-class: CreationDocumentRecupAuto
 		rule:
