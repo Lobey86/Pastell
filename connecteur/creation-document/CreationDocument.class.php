@@ -44,43 +44,47 @@ class CreationDocument extends Connecteur {
 	private function recupFile($filename,$id_e){
 		$tmpFolder = $this->objectInstancier->TmpFolder->create();
 		try{
-			$result = $this->recupFileThrow($filename, $tmpFolder,$id_e);
+			if (substr($filename, -4) !== ".zip"){
+				throw new Exception("$filename n'est pas un fichier zip");
+			}
+			$this->connecteurRecuperation->retrieveFile($filename, $tmpFolder);
+			$zip = new ZipArchive();
+			$handle = $zip->open($tmpFolder."/".$filename);
+			if (!$handle){
+				throw new Exception("Impossible d'ouvrir le fichier d'archive $filename");
+			}
+			$zip->extractTo($tmpFolder);
+			$zip->close();
+			$result .= "Traitement de l'archive $filename "."<br />\n";
+			$result .= $this->recupFileThrow($tmpFolder,$id_e); //XML
+			$result .= "<br />\n";
+			$result .= $this->recupFileCSV($tmpFolder,$id_e); //CSV
 		} catch (Exception $e){
 			return "Erreur lors de l'importation : ".$e->getMessage();
 		}
-		$this->objectInstancier->TmpFolder->delete($tmpFolder);
 		
+		$this->objectInstancier->TmpFolder->delete($tmpFolder);		
 		$this->connecteurRecuperation->deleteFile($filename);
 		return $result;
 	}
 	
-	private function recupFileThrow($filename,$tmpFolder,$id_e){
-		if (substr($filename, -4) !== ".zip"){		
-			throw new Exception("$filename n'est pas un fichier zip");
-		}
-		$this->connecteurRecuperation->retrieveFile($filename, $tmpFolder);
-		$zip = new ZipArchive();
-		$handle = $zip->open($tmpFolder."/".$filename);
-		if (!$handle){
-			throw new Exception("Impossible d'ouvrir le fichier d'archive");
-		}
-		$zip->extractTo($tmpFolder);
-		$zip->close();
+	private function recupFileThrow($tmpFolder,$id_e){
+
 		$manifest_file = $tmpFolder."/".self::MANIFEST_FILENAME;
 		if (! file_exists($manifest_file)){
-			throw new Exception("Le fihcier ".self::MANIFEST_FILENAME." n'a pas été trouvé dans l'archive");
+			return "Le fihcier ".self::MANIFEST_FILENAME." n'a pas été trouvé dans l'archive";
 		}
 		$xml = simplexml_load_file($manifest_file);
 		if (! $xml){
-			throw new Exception("Le fichier ".self::MANIFEST_FILENAME." n'est pas lisible");
+			return "Le fichier ".self::MANIFEST_FILENAME." n'est pas lisible";
 		}
 		$pastell_type = strval($xml->attributes()->type);
 		if (!$pastell_type){
-			throw new Exception("L'attribut 'type' n'a pas été trouvé dans le manifest");
+			return "L'attribut 'type' n'a pas été trouvé dans le manifest";
 		}
 		
 		if (!$this->objectInstancier->DocumentTypeFactory->isTypePresent($pastell_type)){
-			throw new Exception("Le type $pastell_type n'existe pas sur cette plateforme Pastell");
+			return "Le type $pastell_type n'existe pas sur cette plateforme Pastell";
 		}
 		
 		$new_id_d = $this->objectInstancier->Document->getNewId();
@@ -118,10 +122,132 @@ class CreationDocument extends Connecteur {
 				$donneesFormulaire->addFileFromCopy($name,$content,$tmpFolder."/".$content,$file_num);
 				$file_num++;
 			}
-		}
-		
+		}	
 		return "Création du document #ID $new_id_d - type : $pastell_type - $titre";
 	}
+
+
+	private function recupFileCSV($tmpFolder, $id_e){
+
+		foreach(scandir($tmpFolder) as $file){
+			if (substr($file, -4) == ".csv") {
+				$result = $this->TraitementCSV($file, $tmpFolder,$id_e);
+			}
+		}
+		if (!$result) {
+			return "Le fihcier CSV n'a pas été trouvé dans l'archive";
+		}		
+		return $result;
+	}
 	
+	private function TraitementCSV($file,$tmpFolder,$id_e){
+		
+		$csv_file = $tmpFolder."/".$file;
+		if (! file_exists($csv_file)){
+			return "Le fichier ".$csv_file." n'a pas été trouvé dans le dossier";
+		}		
+		$handle = fopen($csv_file, "r");
+		if (!$handle){
+			return "Impossible d'ouvrir le fichier ".$csv_file;
+		}
+
+		$row = 1;
+		$name_data = array();
+		while (($ligne = fgetcsv($handle, 1000, ";")) !== FALSE) {
+			$ligne = utf8_decode_array($ligne);
+			if ($row == 1) {
+				// ligne en tete avec nom des champs
+				$num = count($ligne);
+				for ($c=0; $c < $num; $c++) {
+					$name_data[] = $ligne[$c];
+				}
+			}
+			else {
+				// lignes documents à créer
+				$result .= $this->TraitementLigneCSV($tmpFolder, $file, $name_data, $ligne,$id_e). "<br />\n";
+			}
+			$row++;
+		}
+		fclose($handle);
+				
+		return $result;		
+	}
 	
+	private function TraitementLigneCSV($tmpFolder, $name_csv_file, $name_data, $ligne_csv,$id_e){
+
+		$erreur = "";
+		$type_flux = $ligne_csv[0]; // type de flux, ex: actes-generique
+			
+		if (!$this->objectInstancier->DocumentTypeFactory->isTypePresent($type_flux)){			
+			$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,0);
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Création par $name_csv_file échec: Le type $type_flux n'existe pas");			
+			return "Création par $name_csv_file échec: Le type $type_flux n'existe pas";
+		}
+			
+		$new_id_d = $this->objectInstancier->Document->getNewId();
+		$this->objectInstancier->Document->save($new_id_d,$type_flux);
+		$this->objectInstancier->DocumentEntite->addRole($new_id_d, $id_e, "editeur");			
+		$donneesFormulaire = $this->objectInstancier->DonneesFormulaireFactory->get($new_id_d);
+		$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,$new_id_d);
+
+		// Récupération de la description des champs name_data suivant le type de flux (formulaire)
+		$num = count($name_data);
+		for ($c=1; $c < $num; $c++) {
+			if ($donneesFormulaire->getFormulaire()->getField($name_data[$c])) {
+				$field[$c] = $donneesFormulaire->getFormulaire()->getField($name_data[$c]);
+			}
+		}	
+		
+		// Traitement de la ligne
+		$num = count($ligne_csv);		
+		$file_num = 0; // pour les fichiers multiples
+		for ($c=1; $c < $num; $c++) {
+			if ($field[$c]) {				
+				switch ($field[$c]->getType()) {
+    				case 'date':
+						$date = preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$ligne_csv[$c]);
+						$donneesFormulaire->setData($field[$c]->getName(),$date);
+						break;
+    				case 'select':
+						$select = $field[$c]->getSelect();
+						foreach($select as $key => $value) {
+							if ($ligne_csv[$c] == $value) {
+								$donneesFormulaire->setData($field[$c]->getName(),$key);
+								continue;
+							}
+						}
+        				break;
+    				case 'file':
+    					if ($ligne_csv[$c]) {
+    						if (file_exists($tmpFolder."/".$ligne_csv[$c])) {
+    							$name_file = end(explode("/", $ligne_csv[$c]));
+    							$donneesFormulaire->addFileFromCopy($field[$c]->getName(),$name_file,$tmpFolder."/".$ligne_csv[$c], $file_num);
+    							if ($field[$c]->isMultiple()) {$file_num++;} 							
+    						}
+    						else {$erreur .= "Le fichier $ligne_csv[$c] n'a pas été trouvé.";}    							
+    					}
+        				break;
+    				default:
+    					$donneesFormulaire->setData($field[$c]->getName(),$ligne_csv[$c]);
+    					break;
+				}
+			}
+		}		
+		$titre_fieldname = $donneesFormulaire->getFormulaire()->getTitreField();
+		$titre = $donneesFormulaire->get($titre_fieldname);
+		$this->objectInstancier->Document->setTitre($new_id_d,$titre);
+
+		if (! $donneesFormulaire->isValidable()){
+			$erreur .= $donneesFormulaire->getLastError();
+		}
+		
+		if ($erreur) {
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Création par $name_csv_file avec erreur: $erreur");
+			return "Création par $name_csv_file avec erreur: document #ID $new_id_d - type : $type_flux - $titre - Erreur: $erreur";			
+		}
+		else {
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Création par $name_csv_file succès");
+			return "Création par $name_csv_file succès: document #ID $new_id_d - type : $type_flux - $titre";
+		}
+	}		
 }
