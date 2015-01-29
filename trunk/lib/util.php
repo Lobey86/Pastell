@@ -81,3 +81,26 @@ if (!function_exists('http_response_code'))
 		return $code;
 	}
 }
+
+function utf8_decode_array($array){
+	$result = array();
+	if (is_valid_utf8($array)) {
+		if (! is_array($array)){
+			$result = utf8_decode($array);
+		}
+		else {
+			foreach ($array as $cle => $value) {
+				$result[utf8_decode($cle)] = utf8_decode_array($value);
+			}
+		}
+	}
+	else {
+		$result = $array;
+	}
+	return $result;
+}
+
+function is_valid_utf8($text) {
+	return (bool)preg_match('//u', serialize($text));
+}
+
