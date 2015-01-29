@@ -20,7 +20,6 @@ class CreationDocument extends Connecteur {
 		$id_ce = $donneesFormulaire->get("connecteur_recup_id");
 		$this->connecteurRecuperation = $this->objectInstancier->ConnecteurFactory->getConnecteurById($id_ce);
 		$this->mode_auto = $donneesFormulaire->get('connecteur_auto');
-		
 	}
 	
 	public function recupAllAuto($id_e){
@@ -48,7 +47,8 @@ class CreationDocument extends Connecteur {
 			if (substr($filename, -4) !== ".zip"){
 				throw new Exception("$filename n'est pas un fichier zip");
 			}
-			$this->connecteurRecuperation->retrieveFile($filename, $tmpFolder);
+			$basename = basename($filename);
+			$this->connecteurRecuperation->retrieveFile($filename, $tmpFolder."/$basename");
 			$zip = new ZipArchive();
 			$handle = $zip->open($tmpFolder."/".$filename);
 			if (!$handle){
