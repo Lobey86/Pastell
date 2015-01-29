@@ -25,7 +25,7 @@ class OpensslTSWrapper {
 	
 	public function getTimestampQuery($data){
 		$dataFilePath = $this->getTmpFile($data);
-		$result = $this->execute($this->opensslPath." ts -query -data $dataFilePath");
+		$result = $this->execute($this->opensslPath." ts -query -data $dataFilePath -cert");
 		unlink($dataFilePath);
 		return $result;
 	}
