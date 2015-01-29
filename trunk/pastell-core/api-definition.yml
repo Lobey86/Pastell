@@ -137,7 +137,7 @@ function:
 		input: 
 			id_e:
 				comment: Identifiant de l'entité (retourné par list-entite)
-				required: false
+				required: true
 			type: 
 				required: false
 				comment: Type de document (retourné par document-type.php)

@@ -130,7 +130,7 @@ class NotBuggySoapClient extends SoapClient {
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 		curl_setopt($ch,  CURLOPT_SSL_VERIFYHOST , false ); 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
+        
 		if (isset( $this->option['userCertOnly'])){
             curl_setopt($ch, CURLOPT_SSLCERT, $this->option['userCertOnly']);
             curl_setopt($ch, CURLOPT_SSLKEY, $this->option['userKeyOnly']);
@@ -146,8 +146,8 @@ class NotBuggySoapClient extends SoapClient {
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
         $response = curl_exec($ch);
-        if (curl_errno($ch) !== 0)
-        {
+                
+        if (curl_errno($ch) !== 0) {
             throw new Exception('CurlSoapClient, curl error ('.curl_errno($ch).'): ' .
             curl_error($ch));
         }
