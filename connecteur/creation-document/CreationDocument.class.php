@@ -42,6 +42,7 @@ class CreationDocument extends Connecteur {
 	}
 	
 	private function recupFile($filename,$id_e){
+		$result = "";
 		$tmpFolder = $this->objectInstancier->TmpFolder->create();
 		try{
 			if (substr($filename, -4) !== ".zip"){
@@ -63,7 +64,7 @@ class CreationDocument extends Connecteur {
 			return "Erreur lors de l'importation : ".$e->getMessage();
 		}
 		
-		$this->objectInstancier->TmpFolder->delete($tmpFolder);		
+		$this->objectInstancier->TmpFolder->delete($tmpFolder);
 		$this->connecteurRecuperation->deleteFile($filename);
 		return $result;
 	}
@@ -128,7 +129,7 @@ class CreationDocument extends Connecteur {
 
 
 	private function recupFileCSV($tmpFolder, $id_e){
-
+		$result = "";
 		foreach(scandir($tmpFolder) as $file){
 			if (substr($file, -4) == ".csv") {
 				$result = $this->TraitementCSV($file, $tmpFolder,$id_e);
@@ -141,7 +142,7 @@ class CreationDocument extends Connecteur {
 	}
 	
 	private function TraitementCSV($file,$tmpFolder,$id_e){
-		
+		$result = "";
 		$csv_file = $tmpFolder."/".$file;
 		if (! file_exists($csv_file)){
 			return "Le fichier ".$csv_file." n'a pas été trouvé dans le dossier";
@@ -180,8 +181,8 @@ class CreationDocument extends Connecteur {
 			
 		if (!$this->objectInstancier->DocumentTypeFactory->isTypePresent($type_flux)){			
 			$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,0);
-			$actionCreator->addAction($id_e,0,Action::CREATION,"Création par $name_csv_file échec: Le type $type_flux n'existe pas");			
-			return "Création par $name_csv_file échec: Le type $type_flux n'existe pas";
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par $name_csv_file échec: Le type $type_flux n'existe pas");			
+			return "Importation par $name_csv_file échec: Le type $type_flux n'existe pas";
 		}
 			
 		$new_id_d = $this->objectInstancier->Document->getNewId();
@@ -242,12 +243,12 @@ class CreationDocument extends Connecteur {
 		}
 		
 		if ($erreur) {
-			$actionCreator->addAction($id_e,0,Action::CREATION,"Création par $name_csv_file avec erreur: $erreur");
-			return "Création par $name_csv_file avec erreur: document #ID $new_id_d - type : $type_flux - $titre - Erreur: $erreur";			
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par $name_csv_file avec erreur: $erreur");
+			return "Importation par $name_csv_file avec erreur: document #ID $new_id_d - type : $type_flux - $titre - Erreur: $erreur";			
 		}
 		else {
-			$actionCreator->addAction($id_e,0,Action::CREATION,"Création par $name_csv_file succès");
-			return "Création par $name_csv_file succès: document #ID $new_id_d - type : $type_flux - $titre";
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par $name_csv_file succès");
+			return "Importation par $name_csv_file succès: document #ID $new_id_d - type : $type_flux - $titre";
 		}
 	}		
 }
