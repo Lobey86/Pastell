@@ -35,5 +35,12 @@ interface ConnecteurSuspensionIntf {
      * @return array
      */
     public function getConnecteurInfo();
+    
+    /**
+     * Retourne le nom du serveur cible (le FQDN en général).
+     * @return FALSE si le nom n'est pas défini
+     */
+    public function getServerName();
+    
 }
 
