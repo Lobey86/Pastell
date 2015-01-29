@@ -15,7 +15,7 @@ if  (! $roleUtilisateur->hasDroit($authentification->getId(),"journal:lecture",$
 
 header("Content-Type: application/timestamp-reply");
 header("Content-Transfer-Encoding: base64");
-header("Content-disposition: attachment; filename=preuve.tsr");
+header("Content-disposition: attachment; filename=preuve.tsa");
 
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Pragma: public");
