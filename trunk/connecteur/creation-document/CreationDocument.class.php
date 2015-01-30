@@ -130,12 +130,15 @@ class CreationDocument extends Connecteur {
 
 	private function recupFileCSV($tmpFolder, $id_e){
 		$result = "";
+		$existe_csv = false;
 		foreach(scandir($tmpFolder) as $file){
 			if (substr($file, -4) == ".csv") {
-				$result = $this->TraitementCSV($file, $tmpFolder,$id_e);
+				$existe_csv = true;
+				$result .= "Traitement du fihcier CSV $file "."<br />\n";
+				$result .= $this->TraitementCSV($file, $tmpFolder,$id_e);
 			}
 		}
-		if (!$result) {
+		if (!$existe_csv) {
 			return "Le fihcier CSV n'a pas été trouvé dans l'archive";
 		}		
 		return $result;
@@ -165,7 +168,7 @@ class CreationDocument extends Connecteur {
 			}
 			else {
 				// lignes documents à créer
-				$result .= $this->TraitementLigneCSV($tmpFolder, $file, $name_data, $ligne,$id_e). "<br />\n";
+				$result .= $this->TraitementLigneCSV($tmpFolder, $name_data, $ligne,$id_e). "<br />\n";
 			}
 			$row++;
 		}
@@ -174,15 +177,15 @@ class CreationDocument extends Connecteur {
 		return $result;		
 	}
 	
-	private function TraitementLigneCSV($tmpFolder, $name_csv_file, $name_data, $ligne_csv,$id_e){
+	private function TraitementLigneCSV($tmpFolder, $name_data, $ligne_csv,$id_e){
 
 		$erreur = "";
-		$type_flux = $ligne_csv[0]; // type de flux, ex: actes-generique
+		$type_flux = $ligne_csv[0]; // premiere colonne: type de flux, ex: actes-generique
 			
 		if (!$this->objectInstancier->DocumentTypeFactory->isTypePresent($type_flux)){			
 			$actionCreator = new ActionCreator($this->objectInstancier->SQLQuery,$this->objectInstancier->Journal,0);
-			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par $name_csv_file échec: Le type $type_flux n'existe pas");			
-			return "Importation par $name_csv_file échec: Le type $type_flux n'existe pas";
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par csv échec: Le type $type_flux n'existe pas");			
+			return "Importation par csv échec: Le type $type_flux n'existe pas";
 		}
 			
 		$new_id_d = $this->objectInstancier->Document->getNewId();
@@ -243,12 +246,12 @@ class CreationDocument extends Connecteur {
 		}
 		
 		if ($erreur) {
-			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par $name_csv_file avec erreur: $erreur");
-			return "Importation par $name_csv_file avec erreur: document #ID $new_id_d - type : $type_flux - $titre - Erreur: $erreur";			
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par csv avec erreur: $erreur");
+			return "Importation par csv avec erreur: document #ID $new_id_d - type : $type_flux - $titre - Erreur: $erreur";			
 		}
 		else {
-			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par $name_csv_file succès");
-			return "Importation par $name_csv_file succès: document #ID $new_id_d - type : $type_flux - $titre";
+			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par csv succès");
+			return "Importation par csv succès: document #ID $new_id_d - type : $type_flux - $titre";
 		}
 	}		
 }
