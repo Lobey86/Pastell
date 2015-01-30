@@ -12,7 +12,7 @@ class RecuperationFichierLocal extends RecuperationFichier {
 	}
 	
 	public function retrieveFile($filename, $destination_directory){
-		copy($this->directory."/$filename", $destination_directory."/".$filename);
+		copy($this->directory."/$filename", $destination_directory);
 	}
 	
 	public function deleteFile($filename){
