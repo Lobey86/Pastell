@@ -47,8 +47,7 @@ class CreationDocument extends Connecteur {
 			if (substr($filename, -4) !== ".zip"){
 				throw new Exception("$filename n'est pas un fichier zip");
 			}
-			$basename = basename($filename);
-			$this->connecteurRecuperation->retrieveFile($filename, $tmpFolder."/$basename");
+			$this->connecteurRecuperation->retrieveFile($filename, $tmpFolder);
 			$zip = new ZipArchive();
 			$handle = $zip->open($tmpFolder."/".$filename);
 			if (!$handle){
