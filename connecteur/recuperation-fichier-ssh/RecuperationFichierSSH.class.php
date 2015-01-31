@@ -36,9 +36,9 @@ class RecuperationFichierSSH extends RecuperationFichier {
 		return $directory_listing;
 	}
 	
-	public function retrieveFile($filename, $destination){
+	public function retrieveFile($filename, $destination_directory){
 		$this->configSSH2();
-		if (! $this->ssh2->retrieveFile($this->getProperties("ssh_directory") . "/" . $filename,$destination)){
+		if (! $this->ssh2->retrieveFile($this->getProperties("ssh_directory") . "/" . $filename,$destination_directory."/".$filename)){
 			throw new Exception($this->ssh2->getLastError());
 		}
 		return true;
