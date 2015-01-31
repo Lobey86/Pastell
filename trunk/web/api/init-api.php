@@ -38,5 +38,8 @@ if (! $id_u){
 	$JSONoutput->displayErrorAndExit("Acces interdit");
 }
 
+$info_utilisateur = $utilisateur->getInfo($id_u);
+$objectInstancier->Authentification->connexion($info_utilisateur['login'],$id_u);
+
 $apiAction = new APIAction($objectInstancier,$id_u);
 $api_json = new API_JSON($apiAction,$JSONoutput);
