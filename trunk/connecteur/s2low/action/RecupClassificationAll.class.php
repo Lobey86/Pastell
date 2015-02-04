@@ -12,12 +12,12 @@ class RecupClassificationAll extends ActionExecutor {
 		$envoye = array();
 		foreach($all_col as $infoCollectivite) {			
 			try {
-				$tdT = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($infoCollectivite['id_e'],'actes','TdT');
+				$tdT = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($infoCollectivite['id_e'],'actes-generique','TdT');
 				if (!$tdT){
 					continue;
 				}
 				$classification = $tdT->getClassification();
-				$connecteur_properties = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCollectivite['id_e'],'actes','TdT');
+				$connecteur_properties = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCollectivite['id_e'],'actes-generique','TdT');
 				$connecteur_properties->addFileFromData("classification_file","classification.xml",$classification);
 				
 				$envoye[] = "{$infoCollectivite['denomination']}  : classification récupérée";
