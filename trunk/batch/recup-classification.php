@@ -13,7 +13,7 @@ $notificationMail = $objectInstancier->NotificationMail;
 
 foreach($liste_collectivite as $col){
 	try {
-		$tdT = $objectInstancier->ConnecteurFactory->getConnecteurByType($col['id_e'],'actes','TdT');
+		$tdT = $objectInstancier->ConnecteurFactory->getConnecteurByType($col['id_e'],'actes-generique','TdT');
 		if (!$tdT){
 			echo "{$col['denomination']} : aucun connecteur TdT pour actes\n";
 			continue;
@@ -25,7 +25,7 @@ foreach($liste_collectivite as $col){
 		}
 		$result = $tdT->getClassification();
 			
-		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($col['id_e'],'actes','TdT');
+		$donneesFormulaire = $objectInstancier->ConnecteurFactory->getConnecteurConfigByType($col['id_e'],'actes-generique','TdT');
 		$donneesFormulaire->addFileFromData("classification_file","classification.xml",$result);
 					
 		$objectInstancier->ChoixClassificationControler->disabledClassificationCDG($col['id_e']);
