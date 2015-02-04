@@ -12,7 +12,7 @@ class DemandeClassificationAll extends ActionExecutor {
 		$envoye = array();
 		foreach($all_col as $infoCollectivite) {			
 			try {
-				$tdT = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($infoCollectivite['id_e'],'actes','TdT');
+				$tdT = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($infoCollectivite['id_e'],'actes-generique','TdT');
 				if (!$tdT){
 					continue;
 				}
