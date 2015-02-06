@@ -83,24 +83,23 @@ if (!function_exists('http_response_code'))
 }
 
 function utf8_decode_array($array){
-	$result = array();
-	if (is_valid_utf8($array)) {
-		if (! is_array($array)){
-			$result = utf8_decode($array);
-		}
-		else {
-			foreach ($array as $cle => $value) {
-				$result[utf8_decode($cle)] = utf8_decode_array($value);
-			}
-		}
+	if (! is_array($array)){
+		return utf8_decode($array);
 	}
-	else {
-		$result = $array;
+	$result = array();
+	foreach ($array as $cle => $value) {
+		$result[utf8_decode($cle)] = utf8_decode_array($value);
 	}
 	return $result;
 }
 
-function is_valid_utf8($text) {
-	return (bool)preg_match('//u', serialize($text));
+function isUTF8($filename)
+{
+	$info = finfo_open(FILEINFO_MIME_ENCODING);
+	$type = finfo_buffer($info, file_get_contents($filename));
+	finfo_close($info);
+
+	return ($type == 'utf-8' || $type == 'us-ascii');
 }
+
 
