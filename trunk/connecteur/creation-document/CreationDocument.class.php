@@ -42,6 +42,8 @@ class CreationDocument extends Connecteur {
 	
 	private function recupFile($filename,$id_e){
 		$result = "";
+		$traitement = false;
+		$result_csv = "";
 		$tmpFolder = $this->objectInstancier->TmpFolder->create();
 		try{
 			if (substr($filename, -4) !== ".zip"){
@@ -56,9 +58,20 @@ class CreationDocument extends Connecteur {
 			$zip->extractTo($tmpFolder);
 			$zip->close();
 			$result .= "Traitement de l'archive $filename "."<br />\n";
-			$result .= $this->recupFileThrow($tmpFolder,$id_e); //XML
-			$result .= "<br />\n";
-			$result .= $this->recupFileCSV($tmpFolder,$id_e); //CSV
+			if (file_exists($tmpFolder."/".self::MANIFEST_FILENAME)){
+				$result .= $this->recupFileThrow($tmpFolder,$id_e); //XML
+				$result .= "<br />\n";
+				$traitement = true;
+			}
+			$result_csv .= $this->recupFileCSV($tmpFolder,$id_e); //CSV
+			if ($result_csv) {
+				$result .= $result_csv;
+				$traitement = true;
+			}		
+			if (!($traitement)) {
+				$result .= "L'archive ne contient pas de fichier à traiter (self::MANIFEST_FILENAME ou fichier au format csv)<br />\n";
+			}
+			
 		} catch (Exception $e){
 			return "Erreur lors de l'importation : ".$e->getMessage();
 		}
@@ -72,7 +85,7 @@ class CreationDocument extends Connecteur {
 
 		$manifest_file = $tmpFolder."/".self::MANIFEST_FILENAME;
 		if (! file_exists($manifest_file)){
-			return "Le fihcier ".self::MANIFEST_FILENAME." n'a pas été trouvé dans l'archive";
+			return "Le fichier ".self::MANIFEST_FILENAME." n'a pas été trouvé dans l'archive";
 		}
 		$xml = simplexml_load_file($manifest_file);
 		if (! $xml){
@@ -133,12 +146,9 @@ class CreationDocument extends Connecteur {
 		foreach(scandir($tmpFolder) as $file){
 			if (substr($file, -4) == ".csv") {
 				$existe_csv = true;
-				$result .= "Traitement du fihcier CSV $file "."<br />\n";
+				$result .= "Traitement du fichier CSV $file "."<br />\n";
 				$result .= $this->TraitementCSV($file, $tmpFolder,$id_e);
 			}
-		}
-		if (!$existe_csv) {
-			return "Le fihcier CSV n'a pas été trouvé dans l'archive";
 		}		
 		return $result;
 	}
@@ -153,11 +163,11 @@ class CreationDocument extends Connecteur {
 		if (!$handle){
 			return "Impossible d'ouvrir le fichier ".$csv_file;
 		}
-
+		
 		$row = 1;
 		$name_data = array();
 		while (($ligne = fgetcsv($handle, 1000, ";")) !== FALSE) {
-			$ligne = utf8_decode_array($ligne);
+			if (isUTF8($csv_file)) {$ligne = utf8_decode_array($ligne);}			
 			if ($row == 1) {
 				// ligne en tete avec nom des champs
 				$num = count($ligne);
@@ -222,9 +232,10 @@ class CreationDocument extends Connecteur {
         				break;
     				case 'file':
     					if ($ligne_csv[$c]) {
-    						if (file_exists($tmpFolder."/".$ligne_csv[$c])) {
+    						$chemin_fic = $tmpFolder."/".utf8_encode_array($ligne_csv[$c]);
+    						if (file_exists($chemin_fic)) {
     							$name_file = end(explode("/", $ligne_csv[$c]));
-    							$donneesFormulaire->addFileFromCopy($field[$c]->getName(),$name_file,$tmpFolder."/".$ligne_csv[$c], $file_num);
+    							$donneesFormulaire->addFileFromCopy($field[$c]->getName(),$name_file,$chemin_fic, $file_num);
     							if ($field[$c]->isMultiple()) {$file_num++;} 							
     						}
     						else {$erreur .= "Le fichier $ligne_csv[$c] n'a pas été trouvé.";}    							
