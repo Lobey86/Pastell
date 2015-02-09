@@ -69,7 +69,7 @@ class CreationDocument extends Connecteur {
 				$traitement = true;
 			}		
 			if (!($traitement)) {
-				$result .= "L'archive ne contient pas de fichier à traiter (self::MANIFEST_FILENAME ou fichier au format csv)<br />\n";
+				$result .= "L'archive ne contient pas de fichier à traiter (".self::MANIFEST_FILENAME." ou fichier au format csv)<br />\n";
 			}
 			
 		} catch (Exception $e){
@@ -167,7 +167,7 @@ class CreationDocument extends Connecteur {
 		$row = 1;
 		$name_data = array();
 		while (($ligne = fgetcsv($handle, 1000, ";")) !== FALSE) {
-			if (isUTF8($csv_file)) {$ligne = utf8_decode_array($ligne);}			
+			if ($this->isUTF8($csv_file)) {$ligne = $this->utf8_decode_array($ligne);}			
 			if ($row == 1) {
 				// ligne en tete avec nom des champs
 				$num = count($ligne);
@@ -263,5 +263,26 @@ class CreationDocument extends Connecteur {
 			$actionCreator->addAction($id_e,0,Action::CREATION,"Importation par csv succès");
 			return "Importation par csv succès: document #ID $new_id_d - type : $type_flux - $titre";
 		}
-	}		
+	}
+	
+	private function utf8_decode_array($array){
+		if (! is_array($array)){
+			return utf8_decode($array);
+		}
+		$result = array();
+		foreach ($array as $cle => $value) {
+			$result[utf8_decode($cle)] = $this->utf8_decode_array($value);
+		}
+		return $result;
+	}
+	
+	private function isUTF8($filename)
+	{
+		$info = finfo_open(FILEINFO_MIME_ENCODING);
+		$type = finfo_buffer($info, file_get_contents($filename));
+		finfo_close($info);
+	
+		return ($type == 'utf-8' || $type == 'us-ascii');
+	}
+	
 }
