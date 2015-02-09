@@ -82,24 +82,4 @@ if (!function_exists('http_response_code'))
 	}
 }
 
-function utf8_decode_array($array){
-	if (! is_array($array)){
-		return utf8_decode($array);
-	}
-	$result = array();
-	foreach ($array as $cle => $value) {
-		$result[utf8_decode($cle)] = utf8_decode_array($value);
-	}
-	return $result;
-}
-
-function isUTF8($filename)
-{
-	$info = finfo_open(FILEINFO_MIME_ENCODING);
-	$type = finfo_buffer($info, file_get_contents($filename));
-	finfo_close($info);
-
-	return ($type == 'utf-8' || $type == 'us-ascii');
-}
-
 
