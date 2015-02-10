@@ -29,7 +29,7 @@ class IParapheurRecup extends ActionExecutor {
 			return true;
 		} 
 		$nb_jour_max = $signature->getNbJourMaxInConnecteur();
-		$lastAction = $this->getDocumentActionEntite()->getLastAction($this->id_e,$this->id_d);
+		$lastAction = $this->getDocumentActionEntite()->getLastActionInfo($this->id_e,$this->id_d);
 		$time_action = strtotime($lastAction['date']);
 		if (time() - $time_action > $nb_jour_max * 86400){
 			$erreur = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max !";

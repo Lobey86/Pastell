@@ -80,7 +80,7 @@ class IParapheur extends SignatureConnecteur {
 			$info['nom_document'] = false;
 			return $info;
 		}
-		$info['document'] = $result->DocPrincipal;
+		$info['document'] = $result->DocPrincipal->_;
 		$info['nom_document'] = $result->NomDocPrincipal;
 		return $info;
 	}
@@ -94,10 +94,10 @@ class IParapheur extends SignatureConnecteur {
 				return false;
 			}
 			$info = $this->getBordereau($result);
-
+			
 			if (isset($result->SignatureDocPrincipal)){
 				$info['signature'] = $result->SignatureDocPrincipal->_;
-			} elseif ($result->FichierPES) {
+			} elseif (isset($result->FichierPES)) {
 				$info['signature'] = $result->FichierPES->_;
 			} else {
 				$info['signature'] = false;
