@@ -65,6 +65,8 @@ class SAEEnvoiActes extends ActionExecutor {
 		$donneesFormulaire->setData("sae_transfert_id",$transferId);
 		
 		$this->addActionOK("Le document a été envoyé au SAE");
+		$this->notify($this->action, $this->type,"Le document a été envoyé au SAE");
+		
 		return true;
 	}
 	

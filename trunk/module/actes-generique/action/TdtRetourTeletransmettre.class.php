@@ -8,7 +8,10 @@ class TdtRetourTeletransmettre extends ActionExecutor {
 		if ($error){
 			throw new Exception("Erreur sur le Tdt : " . $message);
 		}
+		
 		$this->changeAction("send-tdt", "Le document à été télétransmis à la préfecture");
+		$this->notify('send-tdt', $this->type,"Le document à été télétransmis à la préfecture");
+		
 		return true;
 	}
 }

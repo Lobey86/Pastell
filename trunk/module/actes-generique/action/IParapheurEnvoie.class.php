@@ -40,6 +40,8 @@ class IParapheurEnvoie extends ActionExecutor {
 		}
 		
 		$this->addActionOK("Le document a été envoyé au parapheur électronique");
+		$this->notify($this->action, $this->type,"Le document a été envoyé au parapheur électronique");
+		
 		return true;
 	}
 	
