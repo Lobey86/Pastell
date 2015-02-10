@@ -94,6 +94,9 @@ formulaire:
 			link_name: liste des types
 		
 	Signature locale:
+		has_signature_locale:
+			no-show: true
+	
 		signature_locale_display:
 			no-show: true
 	
@@ -370,6 +373,7 @@ action:
 				modification
 				recu-iparapheur
 				attente-reponse-prefecture
+				send-signature-local
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 
@@ -412,6 +416,23 @@ action:
 			droit_id_u: 'actes-generique:edition'
 		action-class: Supprimer
 		warning: "Êtes-vous sûr ?"
+	
+	send-signature-local: 
+		name-action: Signer
+		name: Document à faire signer
+		rule:
+			last-action:
+				creation
+				modification
+			document_is_valide: true
+			content: 
+				has_signature_locale: true
+		editable-content:
+			signature
+			signature_link
+		action-class: ActesSignatureLocale
+			
+				
 	
 	send-iparapheur:
 		name-action: Transmettre au parapheur
@@ -478,6 +499,7 @@ action:
 					content: 
 						envoi_tdt: true
 						envoi_signature: false
+						has_signature_locale: false
 				and_2:
 					has-action: 
 						recu-iparapheur
@@ -486,6 +508,14 @@ action:
 					content: 
 						envoi_tdt: true
 						envoi_signature: true
+				and_3:
+					no-action: 
+						send-tdt
+					content: 
+						envoi_tdt: true
+						has_signature_locale: true
+						signature: true
+						
 						
 		action-class: TedetisEnvoie
 		action-automatique: verif-tdt

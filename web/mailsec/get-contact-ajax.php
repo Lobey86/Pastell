@@ -7,6 +7,8 @@ $id_e = $recuperateur->getInt('id_e');
 $q = $recuperateur->get('q');
 $mailOnly = $recuperateur->get('mail-only');
 
+
+
 if ( ! $roleUtilisateur->hasDroit($authentification->getId(),"annuaire:lecture",$id_e)){
 	header("Location: ".SITE_BASE."index.php");
 	exit;
