@@ -100,7 +100,7 @@ class TedetisVerifReponsePref extends ActionExecutor {
 		$this->getDonneesFormulaire()->addFileFromData("{$type}","{$type}.tar.gz", $file_content);
 		$message = "Réception d'un message ($type) de la préfecture";
 		$this->addActionOK($message);
-		$this->notify('verif-reponse-tdt', 'actes', $message);
+		$this->notify('verif-reponse-tdt', $this->type, $message);
 		return true;
 	}
 	

@@ -43,7 +43,7 @@ class TedetisRecupHelios extends ActionExecutor {
 			$retour = $tdT->getFichierRetour($tedetis_transaction_id);
 			$this->getDonneesFormulaire()->addFileFromData('fichier_reponse', "retour.xml", $retour);
 			$actionCreator->addAction($this->id_e,0,$next_action,$next_message);
-			$this->notify('acquiter-tdt', 'helios',$next_message);
+			$this->notify('acquiter-tdt', $this->type,$next_message);
 		}
 		$this->setLastMessage( $next_message );
 		return true;

@@ -36,6 +36,7 @@ class HeliosGeneriqueSAEVerif extends ActionExecutor {
 		$message = "Récupération de l'accusé de réception : $message"; 
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'ar-recu-sae',$message);
 		
+		$this->notify('ar-recu-sae', $this->type,$message);
 		$this->setLastMessage($message);
 		return true;
 	}
