@@ -127,6 +127,7 @@ $id_e = $inject['id_e'];
 								name='<?php echo $field->getName(); ?>' 
 								value='' 
 								size='16'
+								class='noautocomplete'
 								<?php echo $donneesFormulaire->isEditable($field->getName())?:"disabled='disabled'" ?>
 						/>
 					<?php elseif( $field->getType() == 'link') : ?>
@@ -168,15 +169,8 @@ $id_e = $inject['id_e'];
 						<?php if ($field->getProperties('autocomplete')) : ?>
 						 <script>
  							 $(document).ready(function(){
-									$("#<?php echo $field->getName();?>").autocomplete("<?php echo $field->getProperties('autocomplete')?>",  
-											{multiple: true,
-											cacheLength:0, 
-											max: 20, 
-											extraParams: { id_e: <?php echo $id_e?>},
-											formatItem : format_item
-
-									});
- 							 });
+									$("#<?php echo $field->getName();?>").pastellAutocomplete("<?php echo $field->getProperties('autocomplete')?>",<?php echo $id_e?>,false);
+							});
 						</script>
 						<?php endif;?>
 					<?php endif;?>						

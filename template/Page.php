@@ -36,15 +36,16 @@ if (! headers_sent()) {
 			<link rel="stylesheet" type="text/css" href="img/style_IE6.css" media="screen" />
 		<![endif]-->
 		<link rel="stylesheet" href="img/jquery.autocomplete.css" type="text/css" />
+		
 		<link type="text/css" href="img/jquery-ui-1.8.10.custom.css" rel="stylesheet" />
 		<link type="text/css" href="img/jquery.treeview.css" rel="stylesheet" />
 		
 		
 		
 		
-		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src='js/jquery-ui-1.8.10.custom.min.js'></script> 
-		<script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>     
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src='js/jquery-ui-1.11.2.min.js'></script> 
+
 		<script type="text/javascript" src="js/htmlentities.js"></script>   
 		<script type="text/javascript" src="js/jquery.treeview.js"></script>  
 		<script type="text/javascript" src="js/pastell.js"></script>   

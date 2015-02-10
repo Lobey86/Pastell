@@ -53,14 +53,8 @@
 	<script>
 	 
  		 $(document).ready(function(){
-				$("#nom_contact").autocomplete("mailsec/get-contact-ajax.php",  
-						{
-						cacheLength:0, 
-						max: 20, 
-						extraParams: { id_e: <?php echo $id_e?>, "mail-only": "true"},
-						formatItem : format_item,
+				$("#nom_contact").pastellAutocomplete("mailsec/get-contact-ajax.php",<?php echo $id_e?>,true);
 
-				});
  		 });
 	</script>
 	<input type='submit' value='Ajouter' class='btn'/>
