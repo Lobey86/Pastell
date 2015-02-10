@@ -70,7 +70,7 @@ class IParapheurRecup extends ActionExecutor {
 		$actes->addFileFromData('document_signe',$info['nom_document'],$info['document']);
 		
 		$this->setLastMessage("La signature a été récupérée");
-		
+		$this->notify('recu-iparapheur', $this->type,"La signature a été récupérée");
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'recu-iparapheur',"La signature a été récupérée sur parapheur électronique");			
 		return true;
 		

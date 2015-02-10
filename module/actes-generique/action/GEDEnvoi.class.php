@@ -33,6 +33,8 @@ class GEDEnvoi extends ActionExecutor {
 		
 		$actionName  = $this->getActionName();
 		$this->setLastMessage("L'action $actionName a été executé sur le document");
+		$this->notify($this->action, $this->type,"L'action $actionName a été executé sur le document");
+		
 		return true;
 	}
 	
