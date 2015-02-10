@@ -16,9 +16,12 @@ class Action {
 	const WARNING = "warning";
 	const NO_WORKFLOW = "no-workflow";
 	const EDITABLE_CONTENT = "editable-content";
+	const PAS_DANS_UN_LOT = "pas-dans-un-lot";
 	
 	const CREATION = "creation";
 	const MODIFICATION = "modification";
+	
+	
 	
 	private $tabAction;
 	
@@ -139,6 +142,11 @@ class Action {
 			$result[] = array('id'=>$id,'action_name'=>$name);		
 		}
 		return $result;
+	}
+	
+	public function isPasDansUnLot($action_name){
+		return $this->getProperties($action_name,self::PAS_DANS_UN_LOT);
+		
 	}
 	
 }

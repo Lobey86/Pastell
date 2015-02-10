@@ -380,7 +380,6 @@ action:
 	supression:
 		name-action: Supprimer
 		name: Supprimé
-		
 		rule:
 			or_1:
 				and_1:
@@ -431,7 +430,6 @@ action:
 			signature
 			signature_link
 		action-class: ActesSignatureLocale
-			
 				
 	
 	send-iparapheur:
@@ -537,6 +535,7 @@ action:
 			last-action: 
 				document-transmis-tdt
 		action-class: TdtTeletransmettre
+		pas-dans-un-lot: true
 	
 	return-teletransmission-tdt:
 		name: Retour de la télétransmission

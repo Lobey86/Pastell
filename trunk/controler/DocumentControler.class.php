@@ -570,12 +570,8 @@ class DocumentControler extends PastellControler {
 		
 		$all_action = array();
 		foreach($listDocument as $i => $document){
-			$listDocument[$i]['action_possible'] = $this->ActionPossible->getActionPossible($this->id_e,$this->Authentification->getId(),$document['id_d']);
-			if(($key = array_search('modification', $listDocument[$i]['action_possible'])) !== false) {
-				unset($listDocument[$i]['action_possible'][$key]);
-			}
+			$listDocument[$i]['action_possible'] =  $this->ActionPossible->getActionPossibleLot($this->id_e,$this->Authentification->getId(),$document['id_d']);
 			$all_action = array_merge($all_action,$listDocument[$i]['action_possible']);
-				
 		}
 		$this->listDocument = $listDocument;
 		
