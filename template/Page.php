@@ -79,7 +79,9 @@ if (! headers_sent()) {
 			<?php if ($authentification->isConnected() ) : ?>
 				<div id="main_menu">				
 					<a href="document/index.php" class="picto_flux">Accueil</a>
-					<?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"entite:edition")) : ?>
+					<?php if ($roleUtilisateur->hasOneDroit($authentification->getId(),"entite:edition") 
+								|| $roleUtilisateur->hasOneDroit($authentification->getId(),"annuaire:edition")
+							) : ?>
 					<a href="entite/detail.php" class="picto_utilisateurs">Administration</a>
 					<?php endif;?>					
 					<a href="journal/index.php" class="picto_journal">Journal des évènements</a>
