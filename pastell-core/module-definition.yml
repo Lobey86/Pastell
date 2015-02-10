@@ -180,7 +180,10 @@ action_unitaire:
 			info: l'action nécessite un accusé de réception avant d'être réalisé. 
 			type: string
 		action-automatique:
-			type: string 
+			type: string
+		pas-dans-un-lot:
+			type: boolean
+			info: cette action ne peut pas être réalisée dans le cadre du traitement par lot 
 
 
 		
