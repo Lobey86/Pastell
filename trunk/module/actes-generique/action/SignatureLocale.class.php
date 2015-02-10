@@ -18,7 +18,6 @@ class SignatureLocale extends ChoiceActionExecutor {
 		
 		$this->setLastMessage("La signature a été correctement récupéré");
 		$this->redirect("/document/detail.php?id_e=".$this->id_e."&id_d=".$this->id_d."&page=".$this->page);
-		
 	}
 
 	public function displayAPI(){
