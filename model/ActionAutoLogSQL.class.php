@@ -42,5 +42,14 @@ class ActionAutoLogSQL extends SQL {
 		return $this->queryOne($sql);
 	}
 	
+	public function nettoyer(){
+		$sql = "DELETE aal FROM action_auto_log aal " .
+				" JOIN document_entite " . 
+				" ON aal.id_e=document_entite.id_e " .
+				" AND aal.id_d=document_entite.id_d " . 
+				" AND aal.etat_source!=document_entite.last_action";
+		$this->query($sql);
+	}
+	
 	
 } 
