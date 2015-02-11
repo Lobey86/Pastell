@@ -48,6 +48,7 @@ class FieldData {
 		if ($field->getType() == 'link'){
 			$value = $field->getProperties('link_name');
 		}
+		
 		if ($value == ''){
 			$value = $field->getDefault();
 		}
