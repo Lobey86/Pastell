@@ -209,4 +209,10 @@ class SystemControler extends PastellControler {
 		$this->redirect("system/index.php");
 	}
 	
+	public function nettoyerActionAuto(){
+		$this->ActionAutoLogSQL->nettoyer();
+		$this->LastMessage->setLastMessage("Actions automatiques nettoyées");
+		$this->redirect("system/index.php");
+	}
+	
 }
