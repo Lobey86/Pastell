@@ -15,7 +15,12 @@
 						<?php if ($displayField->isURL()) :?>
 							<a href='<?php echo $displayField->getURL($recuperation_fichier_url, $num,$id_e)?>'>
 						<?php endif;?>
-							<?php hecho($value);?><br/>
+							<?php if ($displayField->getField()->getType() == 'textarea') : ?>
+								<?php echo nl2br(get_hecho($value)); ?>
+							<?php else:?>
+							<?php hecho($value);?>
+							<?php endif;?>
+							<br/>
 						<?php if($displayField->isURL()):?>
 							</a>
 						<?php endif;?>
