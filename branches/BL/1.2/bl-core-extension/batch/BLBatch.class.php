@@ -5,31 +5,58 @@
  * - formattage d'affichage selon mode d'appel
  * - détection d'interruption, pour les cas de batch longs
  * - horodatage
+ * - mesures de temps d'exécution et de mémoire consommée
+ * - alimentation d'une todolist, tracée en terminaison de script
+ * 
+ * La todolist est générée en terminaison de script. Elle est soit ajoutée dans 
+ * le fichier défini par le paramètre de nom self::TODOLIST_FILEPATH, soit affichée
+ * si ce paramètre n'est pas défini.
  */
 class BLBatch {
+
+    const ATTR_TODOLIST_FILEPATH = 'todolist_filepath';
+
+    private $todoList_filepath;
+    private $todoList;
 
     public function __construct() {
         if (PHP_SAPI != 'cli') {
             header("Content-type: text/html; charset=iso-8859-15");
         }
+        $this->todoList_filepath = $this->getArg(self::ATTR_TODOLIST_FILEPATH, false);
+        $this->todoList = array();
     }
 
-    public function trace($texte, $encode = true) {
-        if (PHP_SAPI == 'cli') {
-            if ($encode) {
-                $texte = utf8_encode($texte);
+    public function __destruct() {
+        if ($this->todoList) {
+            if (!$this->todoList_filepath) {
+                $this->traceln('');
+                $this->traceln('====> Paramétrages complémentaires à effectuer :');
+            }
+            foreach ($this->todoList as $todo) {
+                $this->traceln($todo, true, $this->todoList_filepath);
+            }
+            if (!$this->todoList_filepath) {
+                $this->traceln('');
             }
         }
-        echo $texte;
+        $this->todoList_count = 0;
+        unset($this->todoList);
     }
 
-    public function traceln($texte = '', $encode = true) {
-        $this->trace($texte, $encode);
-        if (PHP_SAPI == 'cli') {
-            echo "\n";
-        } else {
-            echo "<BR/>";
+    public function trace($texte, $utf8 = true, $toFile = false) {
+        if ($toFile || ($utf8 && (PHP_SAPI == 'cli'))) {
+            $texte = utf8_encode($texte);
         }
+        if ($toFile) {
+            throwIfFalse(file_put_contents($toFile, $texte, FILE_APPEND));
+        } else {
+            echo $texte;
+        }
+    }
+
+    public function traceln($texte = '', $utf8 = true, $toFile = false) {
+        $this->trace($texte . (PHP_SAPI == 'cli' ? "\n" : "<BR/>"), $utf8, $toFile);
     }
 
     public function heure() {
@@ -125,6 +152,10 @@ class BLBatch {
         $duree = round(microtime(true) - $debut, 3);
         $mem = memory_get_usage(true) - $mem;
         return array($result, $duree, $mem);
+    }
+
+    public function addTodo($texte) {
+        $this->todoList[] = $texte;
     }
 
 }
