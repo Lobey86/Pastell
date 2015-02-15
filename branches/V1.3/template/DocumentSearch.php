@@ -18,14 +18,14 @@ function dateInput($name,$value=''){
 	<?php 
 }
 
+
+
 ?>
 <div class="box">
 
 <form action='document/search.php' method='get' >
-<input type='hidden' name='go' value='go' />
-					
-<?php  $this->RechercheAvanceFormulaireHTML->display(); ?>
-
+	<input type='hidden' name='go' value='go' />
+	<?php  $this->RechercheAvanceFormulaireHTML->display(); ?>
 	<input type='submit' class='btn' value='Rechercher' />
 </form>
 </div>

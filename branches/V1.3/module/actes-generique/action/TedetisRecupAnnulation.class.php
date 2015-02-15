@@ -37,7 +37,7 @@ class TedetisRecupAnnulation extends ActionExecutor {
 		$this->getDonneesFormulaire()->setData('date_ar_annulation', $tdT->getDateAR($tedetis_transaction_id));
 		
 		$message = "L'acquittement pour l'annulation de l'acte a été reçu.";
-		$this->notify('annuler-tdt', 'actes',$message);
+		$this->notify('annuler-tdt', $this->type,$message);
 		$this->setLastMessage($message);
 		return true;
 

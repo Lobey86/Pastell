@@ -44,5 +44,6 @@ $this->SuivantPrecedent($offset,$limit,$count,"system/index.php?page_number=0");
 
 </table>
 
-
+<a href='system/nettoyer-action-auto.php' class='btn btn-warning'>Nettoyer les actions terminées</a>
 </div>
+

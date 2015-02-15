@@ -17,7 +17,6 @@ class ConnecteurEntiteSQL extends SQL {
 		
 		$sql = "SELECT id_ce FROM connecteur_entite WHERE id_e=? AND id_connecteur=? AND type= ? AND libelle=? ORDER BY id_ce DESC LIMIT 1";
 		return $this->queryOne($sql,$id_e,$id_connecteur,$type,$libelle);
-		
 	}
 	
 	public function getInfo($id_ce){

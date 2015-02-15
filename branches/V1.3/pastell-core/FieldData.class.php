@@ -13,9 +13,9 @@ class FieldData {
 	
 	public function setValue($value){
 		$field = $this->field;
-        if ($field->getProperties('depend') && is_array($value)){
+		if ($field->getProperties('depend') && is_array($value)){
 			$new_value = array();
-            
+			
 			foreach($value as $filename => $value){
 				if ($field->getType() == 'checkbox') {
 					$new_value[] = "$filename : ".($value?"OUI":"NON");
@@ -48,6 +48,7 @@ class FieldData {
 		if ($field->getType() == 'link'){
 			$value = $field->getProperties('link_name');
 		}
+		
 		if ($value == ''){
 			$value = $field->getDefault();
 		}
@@ -109,10 +110,8 @@ class FieldData {
 			$this->lastError = "Le champ «{$this->field->getLibelle()}» est incorrect ({$this->field->pregMatchError()}) ";
 			return false;
 		}
-		
 		return true;
 	}
-	
 	
 	public function getMailList(){
 		return $this->get_mail_list($this->value);
