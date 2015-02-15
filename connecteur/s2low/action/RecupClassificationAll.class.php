@@ -17,7 +17,7 @@ class RecupClassificationAll extends ActionExecutor {
 					continue;
 				}
 				$classification = $tdT->getClassification();
-				$connecteur_properties = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCollectivite['id_e'],'actes','TdT');
+				$connecteur_properties = $this->objectInstancier->ConnecteurFactory->getConnecteurConfigByType($infoCollectivite['id_e'],'actes-generique','TdT');
 				$connecteur_properties->addFileFromData("classification_file","classification.xml",$classification);
 				
 				$envoye[] = "{$infoCollectivite['denomination']}  : classification récupérée";

@@ -369,7 +369,11 @@ class DocumentControler extends PastellControler {
 		}
 		
 		if ( ! $this->id_e ){
-			$this->LastError->setLastError("id_e est obligatoire");
+			$error_message = "id_e est obligatoire";
+			if ($is_api){
+				throw new Exception($error_message);
+			}
+			$this->LastError->setLastError($error_message);
 			$this->redirect("");
 		}
 		$this->verifDroit($this->id_e, "entite:lecture");
@@ -398,13 +402,12 @@ class DocumentControler extends PastellControler {
 		} else {
 			$this->champs_affiches = array('titre'=>'Objet','type'=>'Type','entite'=>'Entité','dernier_etat'=>'Dernier état','date_dernier_etat'=>'Date');
 			$this->indexedFieldsList = array();
-			
 		}
+				
 		$this->indexedFieldValue = $indexedFieldValue;
 		
 		
 		$allDroit = $this->RoleUtilisateur->getAllDroit($this->getId_u());		
-		
 		$this->listeEtat = $this->DocumentTypeFactory->getActionByRole($allDroit);
 		
 		$this->documentActionEntite = $this->DocumentActionEntite;
@@ -567,18 +570,14 @@ class DocumentControler extends PastellControler {
 		
 		$all_action = array();
 		foreach($listDocument as $i => $document){
-			$listDocument[$i]['action_possible'] = $this->ActionPossible->getActionPossible($this->id_e,$this->Authentification->getId(),$document['id_d']);
-			if(($key = array_search('modification', $listDocument[$i]['action_possible'])) !== false) {
-				unset($listDocument[$i]['action_possible'][$key]);
-			}
+			$listDocument[$i]['action_possible'] =  $this->ActionPossible->getActionPossibleLot($this->id_e,$this->Authentification->getId(),$document['id_d']);
 			$all_action = array_merge($all_action,$listDocument[$i]['action_possible']);
-			
 		}
 		$this->listDocument = $listDocument;
 		
 		$all_action = array_unique($all_action);
 		
-		$this->all_action = $all_action;
+		$this->all_action = $all_action; 
 		$this->type_list = $this->getAllType($this->listDocument);		
 		$this->template_milieu = "DocumentTraitementLot";
 		$this->renderDefault();
@@ -631,7 +630,7 @@ class DocumentControler extends PastellControler {
 		$all_id_d = $recuperateur->get('id_d');
 		$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
 		
-		$action_libelle = $documentType->getAction()->getActionName($action_selected);
+		$action_libelle = $documentType->getAction()->getDoActionName($action_selected);
 		
 		$url_retour = "document/traitement-lot.php?id_e={$this->id_e}&type={$this->type}&search={$this->search}&filtre={$this->filtre}&offset={$this->offset}";
 		
@@ -646,7 +645,7 @@ class DocumentControler extends PastellControler {
 				$error .= "Il y a déjà une action programmée pour le document « {$infoDocument['titre']} »<br/>";
 			}
 			$listDocument[] = $infoDocument;
-			$message .= "L'action « $action_libelle » est programmé pour le document « {$infoDocument['titre']} »<br/>";	
+			$message .= "L'action « $action_libelle » est programmée pour le document « {$infoDocument['titre']} »<br/>";	
 		
 		}
 		if ($error){
