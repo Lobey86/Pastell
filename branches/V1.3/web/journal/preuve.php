@@ -20,4 +20,6 @@ header("Content-disposition: attachment; filename=preuve.tsa");
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Pragma: public");
 
+//echo base64_encode($info['preuve']);
 echo $info['preuve'];
+
