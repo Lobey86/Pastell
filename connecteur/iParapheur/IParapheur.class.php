@@ -73,6 +73,18 @@ class IParapheur extends SignatureConnecteur {
 		return $info;
 	}
 	
+	private function getDocumentSigne($result){
+		$info = array();
+		if (! isset($result->DocPrincipal)){
+			$info['document'] = false;
+			$info['nom_document'] = false;
+			return $info;
+		}
+		$info['document'] = $result->DocPrincipal->_;
+		$info['nom_document'] = $result->NomDocPrincipal;
+		return $info;
+	}
+	
 	public function getSignature($dossierID){
 		try{
 			$result =  $this->getClient()->GetDossier(utf8_encode($dossierID));
@@ -82,14 +94,16 @@ class IParapheur extends SignatureConnecteur {
 				return false;
 			}
 			$info = $this->getBordereau($result);
-
+			
 			if (isset($result->SignatureDocPrincipal)){
 				$info['signature'] = $result->SignatureDocPrincipal->_;
-			} elseif ($result->FichierPES) {
+			} elseif (isset($result->FichierPES)) {
 				$info['signature'] = $result->FichierPES->_;
 			} else {
 				$info['signature'] = false;
 			}
+			
+			$info['document_signe'] = $this->getDocumentSigne($result);
 			
 			$this->archiver($dossierID);
 			return $info;
@@ -268,7 +282,8 @@ class IParapheur extends SignatureConnecteur {
 			throw new Exception("Le WSDL n'a pas été fourni");
 		}
 		
-		return $this->soapClientFactory->getInstance(
+		
+		$client = $this->soapClientFactory->getInstance(
 				$this->wsdl,
 				array(
 	     			'local_cert' => $this->userCert,
@@ -277,10 +292,11 @@ class IParapheur extends SignatureConnecteur {
 					'password' => $this->password_http,
 					'trace' => 1,
 					'exceptions' => 1,
-					//'use_curl' => 1,
+					'use_curl' => 1,
 					'userKeyOnly' => $this->userKeyOnly,
 					'userCertOnly' => $this->userCertOnly,
 	    		),true);
+		return $client;
 	} 
 	
 	public function getType(){
@@ -320,7 +336,8 @@ class IParapheur extends SignatureConnecteur {
 	}
 	
 	public function testConnexion(){
-		return $this->getClient()->echo("test_connexion_pastell");
+		$client = $this->getClient();
+		return $client->echo("test_connexion_pastell");
 	}
 	
 }

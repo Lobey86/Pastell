@@ -52,7 +52,10 @@
 </tr>
 <tr>
 	<th>Message horodaté: </th>
-	<td><?php echo  $info['message_horodate']?></td>
+	<td><?php echo  $info['message_horodate']?>
+	<br/>
+	<a href='journal/message.php?id_j=<?php echo $id_j ?>'>Télécharger</a>
+	</td>
 </tr>
 <tr>
 		<th>Date et heure de l'horodatage: </th>

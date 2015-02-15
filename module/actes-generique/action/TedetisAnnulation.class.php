@@ -16,6 +16,8 @@ class TedetisAnnulation  extends ActionExecutor {
 		$this->getDonneesFormulaire()->setData('has_annulation',true);
 		
 		$this->addActionOK("Une notification d'annulation a été envoyé au contrôle de légalité");
+		$this->notify('annulation-tdt', $this->type,"Une notification d'annulation a été envoyé au contrôle de légalité");
+		
 		return true;			
 	}
 }

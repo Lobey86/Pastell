@@ -63,11 +63,13 @@ class IParapheurRecupHelios extends ActionExecutor {
 		} else {
 			$this->throwError($signature, $result);
 		}
+		
 		$this->setLastMessage($result);
 		return true;			
 	}
 	
 	public function rejeteDossier($result){
+		$this->notify('rejet-iparapheur', $this->type,"Le document a été rejeté dans le parapheur : $result");
 		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'rejet-iparapheur',"Le document a été rejeté dans le parapheur : $result");
 	}
 	
@@ -98,7 +100,8 @@ class IParapheurRecupHelios extends ActionExecutor {
 		
 		$this->setLastMessage("La signature a été récupérée");
 		
-		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'recu-iparapheur',"La signature a été récupérée sur parapheur électronique");			
+		$this->getActionCreator()->addAction($this->id_e,$this->id_u,'recu-iparapheur',"La signature a été récupérée sur parapheur électronique");
+		$this->notify('recu-iparapheur', $this->type,"La signature a été récupérée sur parapheur électronique");
 		return true;
 		
 	} 

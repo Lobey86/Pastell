@@ -346,7 +346,7 @@ class DocumentControler extends PastellControler {
 		$this->renderDefault();
 	}
 	
-	public function searchDocument($is_date_iso = false){
+	public function searchDocument($is_date_iso = false,$is_api=false){
 		$recuperateur = new Recuperateur($_REQUEST);
 		$this->id_e = $recuperateur->get('id_e',0);
 		$this->type = $recuperateur->get('type');

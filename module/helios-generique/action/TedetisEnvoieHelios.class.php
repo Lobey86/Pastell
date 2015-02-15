@@ -13,6 +13,8 @@ class TedetisEnvoieHelios  extends ActionExecutor {
 		$tdT = $this->getConnecteur("TdT");
 		$tdT->postHelios($this->getDonneesFormulaire());
 		$this->addActionOK("Le document a été envoyé au TdT");
+		$this->notify($this->action, $this->type,"Le document a été envoyé au TdT");
+		
 		return true;			
 	}
 }

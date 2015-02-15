@@ -94,7 +94,7 @@ class APIAction {
 	}
 	
 	public function rechercheDocument(){
-		$this->objectInstancier->DocumentControler->searchDocument(true);
+		$this->objectInstancier->DocumentControler->searchDocument(true,true);
 		$list = $this->objectInstancier->DocumentControler->listDocument;
 		return $list;
 	}

@@ -67,9 +67,30 @@ class ActionPossible {
 			if ($this->isActionPossible($id_e,$id_u,$id_d,$action_name)){
 				$possible[] = $action_name;
 			}
+			
 		}
 		return $possible;
 	}
+	
+	public function getActionPossibleLot($id_e,$id_u,$id_d){
+		$action_possible_list = $this->getActionPossible($id_e,$id_u,$id_d);
+		
+		$type_document = $this->getTypeDocument($id_e, $id_d);
+		$action = $this->getAction($id_e,$id_d,$type_document);
+				
+		$result = array();
+		foreach($action_possible_list as $action_possible ){
+			if ($action_possible=='modification'){
+				continue;
+			}
+			if ($action->isPasDansUnLot($action_possible)){
+				continue;
+			}
+			$result[] = $action_possible;
+		}
+		return $result;
+	}
+	
 	
 	private function getConnecteurDocumentType($id_e,$id_connecteur){		
 		if ($id_e){
@@ -127,7 +148,12 @@ class ActionPossible {
 		}
 		return true;
 	}
-	
+	/**
+	 * @param int $id_e
+	 * @param string $id_d
+	 * @param string $type_document
+	 * @return Action
+	 */
 	private function getAction($id_e, $id_d,$type_document){
 		return $this->documentTypeFactory->getFluxDocumentType($type_document)->getAction();
 	}

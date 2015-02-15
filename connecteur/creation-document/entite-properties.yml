@@ -5,8 +5,9 @@ description:|
 	Le ZIP contient un fichier manifest.xml 
 	Le fichier manifest.xml contient : 
 	<flux type='actes-generique'>
-		<data name='objet' value='Achat de matériel'>
-		<data name='numero_de_lacte' value='20141023A'>
+		<data name='objet' value='Achat de matériel'/>
+		<data name='numero_de_lacte' value='20141023A'/>
+		<data name='date_de_lacte' value='2015-01-17'/>
 		[...]
 		<files name='arrete'>
 			<file content='fichier_contenant_lacte.pdf'>

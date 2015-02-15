@@ -1,6 +1,8 @@
+
+
 J'ai ajouté comme "nom" Pastell le "user_name" OASIS 
 
-Par contre, le "login" Pastell doit être associé à  l'"ID" OASIS. Ainsi, on a : 	447e1478-461b-4802-b3a5-81fb7ae912c2   comme exemple de login.
+Par contre, le "login" Pastell doit être associé Ã  l'"ID" OASIS. Ainsi, on a : 	447e1478-461b-4802-b3a5-81fb7ae912c2   comme exemple de login.
 
 
 Mise en place:
@@ -10,7 +12,7 @@ Les trois données sont fournis par OASIS
 2) Tester la connexion avec un utilisateur "admin" (au sens OASIS)(i.e qui peut récupérer la liste des utilisateurs)
 
 3) cela doit échouer car l'utilisateur n'existe pas : il faut copier l'ID donné par le message d'erreur et créer l'utilisateur à
-  la main avec comme login, l'ID OASIS. Il faut aussi donner les droits admin sur l'entité racine à  cet utilisateur
+  la main avec comme login, l'ID OASIS. Il faut aussi donner les droits admin sur l'entité racine à  cet utilisateur
 
 4) Recommencer le test de connexion : cette fois cela doit fonctionner et on obtient une connexion admin
 

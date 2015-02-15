@@ -22,6 +22,7 @@ class HeliosGeneriqueSignatureLocale extends ChoiceActionExecutor {
 		$this->getDonneesFormulaire()->setData('signature_locale','OUI');
 		
 		$this->setLastMessage("La signature a été correctement récupéré");
+		$this->notify('signature', $this->type,"La signature a été récupérée sur parapheur électronique");
 		$this->redirect("/document/detail.php?id_e=".$this->id_e."&id_d=".$this->id_d."&page=".$this->page);
 	}
 
