@@ -162,7 +162,9 @@ class BLBatch {
      * @return PDOStatement
      */
     function sqlPrepare(SQLQuery $sqlQuery, $sql) {
-        $stmt = $sqlQuery->getPdo()->prepare($sql);
+        $pdo = $sqlQuery->getPdo();
+        $stmt = $pdo->prepare($sql);
+        $stmt->pdo = $pdo;
         return $stmt;
     }
 
@@ -171,8 +173,10 @@ class BLBatch {
      * @return int id du dernier élément ajouté, ou FALSE en cas d'erreur (attention à la différence entre FALSE et 0)
      */
     function sqlInsert(PDOStatement $stmt, array $params = null) {
+        /** @var $pdo PDO */
+        $pdo = $stmt->pdo;
         $result = $stmt->execute($params);
-        $lastInsertId = $result ? $this->getPdo()->lastInsertId() : FALSE;
+        $lastInsertId = $result ? $pdo->lastInsertId() : FALSE;
         $stmt->closeCursor();
         return $lastInsertId;
     }
