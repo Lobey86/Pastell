@@ -1,28 +1,37 @@
 #!/bin/sh
 
-# Exécution des scripts qui se trouvent dans le répertoire du script courant.
-# Le premier des scripts à exécuté est mentionné dans le fichier de configuration. Si non défini, tous sont exécutés.
-# Les scripts exécutés doivent se nommer : BLScriptUpdateVersion_XX.php (ex: BLScriptUpdateVersion_01.php, BLScriptUpdateVersion_02.php, BLScriptUpdateVersion_01.1.php)
-# Ils sont exécutés dans l'ordre alpha-numérique.
-# S'il existe qu'un seul script, il doit quand-même être numéroté (ex: BLScriptUpdateVersion_01.php)
+# Exécution des scripts de la version.
+#
+# Paramètres :
+#   $1 : version (ex : 1.7.0)
+#
+# La version est fournie en paramètre. Elle donne le nom du sous-répertoire contenant les scripts à exécuter.
+# Les scripts son exécutés dans l'ordre alpha-numérique de leur nom (Ex : BLScriptUpdateVersion_01.php,  BLScriptUpdateVersion_01.1.php, BLScriptUpdateVersion_02.php). A noter : "8" sera après "10".
 # Il faut multiplier les scripts si entre 2 scripts le contexte ou du cache doivent être réinitialisés.
 
 echo "====> Montée de version des données..."
 
-. $(dirname $0)/busbl_updatedata.cfg
-
+CURDIR=$(dirname $0)
 TODOLIST_FILEPATH="/tmp/todolist.txt"
+VERSION="$1"
+VERSIONDIR="$CURDIR/$VERSION"
+
+if [ -z "$VERSION" ]; then
+    echo "Paramètre \$1 non fourni (version)"
+    exit 1
+fi
+if [ ! -d "$VERSIONDIR" ]; then
+    echo "Répertoire inexistant ($VERSIONDIR)"
+    exit 1
+fi
 
 if [ -f $TODOLIST_FILEPATH ]; then
     rm $TODOLIST_FILEPATH;
 fi
 
-for script in $(find $(dirname $0)/ -name "BLScriptUpdateVersion*.php" -type f | sort) ;
-do
-    if [ ! "$(basename $script)" \< "$script_premier" ]; then
-        echo "--> Exécution du script : $script"
-        sudo -H -u www-data /usr/bin/php "$script" todolist_filepath=$TODOLIST_FILEPATH
-    fi
+for script in $(find $VERSIONDIR/ -name "*ScriptUpdate*.php" -type f | sort); do
+    echo "--> Exécution du script : $script"
+    sudo -H -u www-data /usr/bin/php "$script" todolist_filepath=$TODOLIST_FILEPATH
 done
 
 if [ -f $TODOLIST_FILEPATH ]; then
@@ -31,4 +40,3 @@ if [ -f $TODOLIST_FILEPATH ]; then
     cat $TODOLIST_FILEPATH
     echo ""
 fi
-
