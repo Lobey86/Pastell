@@ -17,11 +17,11 @@ VERSION="$1"
 VERSIONDIR="$CURDIR/$VERSION"
 
 if [ -z "$VERSION" ]; then
-    echo "Paramètre \$1 non fourni (version)"
+    echo "ERREUR : paramètre \$1 non fourni (version)"
     exit 1
 fi
 if [ ! -d "$VERSIONDIR" ]; then
-    echo "Répertoire inexistant ($VERSIONDIR)"
+    echo "ERREUR : répertoire inexistant ($VERSIONDIR)"
     exit 1
 fi
 
