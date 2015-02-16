@@ -158,4 +158,55 @@ class BLBatch {
         $this->todoList[] = $texte;
     }
 
+    /**
+     * @return PDOStatement
+     */
+    function sqlPrepare(SQLQuery $sqlQuery, $sql) {
+        $stmt = $sqlQuery->getPdo()->prepare($sql);
+        return $stmt;
+    }
+
+    /**
+     * Exécute une requête INSERT et renvoie l'id du dernier élément ajouté.
+     * @return int id du dernier élément ajouté, ou FALSE en cas d'erreur (attention à la différence entre FALSE et 0)
+     */
+    function sqlInsert(PDOStatement $stmt, array $params = null) {
+        $result = $stmt->execute($params);
+        $lastInsertId = $result ? $this->getPdo()->lastInsertId() : FALSE;
+        $stmt->closeCursor();
+        return $lastInsertId;
+    }
+
+    /**
+     * Exécute une requête SELECT et renvoie les éléments
+     * @return array éléments, ou FALSE en cas d'erreur
+     */
+    function sqlSelect(PDOStatement $stmt, array $params = null) {
+        $result = $stmt->execute($params);
+        $stmt->closeCursor();
+        return $result;
+    }
+
+    /**
+     * Exécute une requête UPDATE et renvoie le nombre de lignes modifiées.
+     * @return mixed nombre de lignes modifiées, ou FALSE en cas d'erreur (attention à la différence entre FALSE et 0)
+     */
+    function sqlUpdate(PDOStatement $stmt, array $params = null) {
+        $result = $stmt->execute($params);
+        $rowCount = $result ? $stmt->rowCount() : FALSE;
+        $stmt->closeCursor();
+        return $rowCount;
+    }
+
+    /**
+     * Exécute une requête DELETE et renvoie le nombre de lignes supprimées.
+     * @return mixed nombre de lignes supprimées, ou FALSE en cas d'erreur (attention à la différence entre FALSE et 0)
+     */
+    function sqlDelete(PDOStatement $stmt, array $params = null) {
+        $result = $stmt->execute($params);
+        $rowCount = $result ? $stmt->rowCount() : FALSE;
+        $stmt->closeCursor();
+        return $rowCount;
+    }
+
 }
