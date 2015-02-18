@@ -22,6 +22,7 @@ if (!$id_u){
 	$id_u = $certificatConnexion->autoConnect();
 }
 	
+$utilisateur = new Utilisateur($sqlQuery);
 if ( ! $id_u && ! empty($_SERVER['PHP_AUTH_USER'])){
 	$utilisateurListe = new UtilisateurListe($sqlQuery);
 	$id_u = $utilisateurListe->getUtilisateurByLogin($_SERVER['PHP_AUTH_USER']);
