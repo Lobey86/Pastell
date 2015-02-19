@@ -9,9 +9,11 @@ abstract class BLSignatureConnecteur extends Connecteur {
 
     // Attributs de flux, spécifiques à ce type de connecteur; 
     // accessibles uniquement par les connecteurs de ce type.
-    const ATTR_SIGNATURE_CACHECIRCUITS = 'cache-circuits';
     const ATTR_SIGNATURE_DOSSIERID = 'parapheur_dossierid';
     const ATTR_SIGNATURE_DELETED = 'parapheur_deleted';
+    // Attributs spécifiques à ce type de connecteur, 
+    // accessibles uniquement par les connecteurs de ce type.
+    const ATTR_SIGNATURE_CACHECIRCUITS = 'cache-circuits';
     
     public abstract function getListTypes();
     public abstract function getListCircuits($type);
