@@ -15,15 +15,20 @@ abstract class BLSignatureConnecteur extends Connecteur {
     // accessibles uniquement par les connecteurs de ce type.
     const ATTR_SIGNATURE_CACHECIRCUITS = 'cache-circuits';
     
+    /** @link ConnecteurSignatureDocTypableIntf::getListTypes */
     public abstract function getListTypes();
+    /** @link ConnecteurSignatureDocTypableIntf::getListCircuits */
     public abstract function getListCircuits($type);
+    /** @link ConnecteurSignatureDocTypableIntf::getCircuitDetail */
     public abstract function getCircuitDetail($type, $circuit);
     public abstract function sendDocument();
     public abstract function sendHeliosDocument();
     public abstract function sendActeDocument();
-    /** @link ConnecteurSignatureDocHistorisableIntf */
+    /** @link ConnecteurSignatureDocHistorisableIntf::docHistorique */
     public abstract function docHistorique();
+    /** @link ConnecteurSignatureDocHistorisableIntf::searchHistoriqueLogValidation */
     public abstract function searchHistoriqueLogValidation($histoAll);
+    /** @link ConnecteurSignatureDocHistorisableIntf::searchHistoriqueLogRejet */
     public abstract function searchHistoriqueLogRejet($histoAll);
     public abstract function getSignature();
     
