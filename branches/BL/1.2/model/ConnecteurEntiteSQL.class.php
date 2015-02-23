@@ -61,4 +61,16 @@ class ConnecteurEntiteSQL extends SQL {
         $sql = "SELECT distinct id_connecteur FROM connecteur_entite WHERE id_e <>0";
         return  $this->query($sql);
     }
+    
+    public function listNotUsed($id_e) {
+        $sql = "SELECT ce.* FROM connecteur_entite ce"; 
+        $sql .= " LEFT JOIN flux_entite fe ON ce.id_ce = fe.id_ce";
+        $sql .= " WHERE fe.id_ce IS NULL";
+ 		if ($id_e) {
+			$sql .= " AND ce.id_e IN (SELECT id_e FROM entite_ancetre ea WHERE ea.id_e_ancetre = ?)";
+			return $this->query($sql,$id_e);
+		} else {
+			return $this->query($sql);
+		}
+    }
 }
