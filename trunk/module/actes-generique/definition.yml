@@ -533,6 +533,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 			last-action: 
+				teletransmission-tdt
 				document-transmis-tdt
 		action-class: TdtTeletransmettre
 		pas-dans-un-lot: true
@@ -543,7 +544,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 			last-action: 
-				document-transmis-tdt
+				teletransmission-tdt
 		action-class: TdtRetourTeletransmettre
 		
 	
