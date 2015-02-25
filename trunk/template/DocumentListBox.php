@@ -72,6 +72,8 @@
 								<a href='document/recuperation-fichier.php?id_d=<?php echo $document['id_d']?>&id_e=<?php echo $document['id_e']?>&field=<?php echo $champs?>&num=0'>
 									<?php hecho($this->DocumentIndexSQL->get($document['id_d'],$champs));?>
 								</a>
+							<?php elseif ($formulaire->getField($champs)->getType() == 'date'):?>
+								<?php echo date_iso_to_fr($this->DocumentIndexSQL->get($document['id_d'],$champs));?>
 							<?php else:?>
 								<?php hecho($this->DocumentIndexSQL->get($document['id_d'],$champs));?>
 							<?php endif;?>											
