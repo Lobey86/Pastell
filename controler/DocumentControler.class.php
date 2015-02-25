@@ -395,8 +395,12 @@ class DocumentControler extends PastellControler {
 		if ($this->type) {
 			$documentType = $this->DocumentTypeFactory->getFluxDocumentType($this->type);
 			$this->indexedFieldsList = $documentType->getFormulaire()->getIndexedFields();
+			
 			foreach($this->indexedFieldsList as $indexField => $indexLibelle){
-				$indexedFieldValue[$indexField]=$recuperateur->get($indexField);
+				$indexedFieldValue[$indexField] = $recuperateur->get($indexField);
+				if ($documentType->getFormulaire()->getField($indexField)->getType() == 'date'){
+					$indexedFieldValue[$indexField] = date_fr_to_iso($recuperateur->get($indexField));
+				}
 			}
 			$this->champs_affiches = $documentType->getChampsAffiches();
 		} else {
@@ -720,7 +724,8 @@ class DocumentControler extends PastellControler {
 			$documentIndexor = new DocumentIndexor($this->DocumentIndexSQL, $document_info['id_d']);
 			$donneesFormulaire = $this->DonneesFormulaireFactory->get($document_info['id_d']);
 			$fieldData = $donneesFormulaire->getFieldData($field_name);
-			$documentIndexor->index($field_name, $fieldData->getValueNum());
+			
+			$documentIndexor->index($field_name, $fieldData->getValueForIndex());
 		}
 	}
 	

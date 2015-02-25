@@ -3,11 +3,13 @@ class FieldData {
 	
 	private $field;
 	private $value;
+	private $orig_value;
 	
 	private $lastError;
 	
 	public function __construct(Field $field, $value){
 		$this->field = $field;
+		$this->orig_value = $value;
 		$this->setValue($value);
 	}
 	
@@ -74,12 +76,18 @@ class FieldData {
 		return $this->value;
 	}
 	
-	public function getValueNum($num=0){
+	public function getValueForIndex(){
 		$valueList = $this->getValue();
-		if ($valueList){
-			return $valueList[0];
+		if (! $valueList){
+			return false;
 		}
-		return false;
+		$value = $valueList[0];
+		
+		if ($this->field->getType() == 'date') {
+			return date_fr_to_iso($value);
+		}
+		
+		return $value;
 	}
 	
 	
