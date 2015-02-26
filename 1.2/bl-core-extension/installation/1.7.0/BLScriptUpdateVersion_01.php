@@ -23,3 +23,48 @@ if (!$index_structure) {
     $blScript->traceln('déjà fait');
 }
 
+$blScript->trace('Suppression de l\'index JOURNAL.message_horodate : ');
+$index_structure = $objectInstancier->SQLQuery->query("SHOW INDEX FROM journal WHERE KEY_NAME = 'message_horodate'");
+if ($index_structure) {
+    $objectInstancier->SQLQuery->query("ALTER TABLE journal DROP INDEX message_horodate");
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('déjà fait');
+}
+
+$blScript->trace('Création de l\'index JOURNAL.date : ');
+$index_structure = $objectInstancier->SQLQuery->query("SHOW INDEX FROM journal WHERE KEY_NAME = 'date'");
+if (!$index_structure) {
+    $objectInstancier->SQLQuery->query("ALTER TABLE journal ADD INDEX date (date)");
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('déjà fait');
+}
+
+$blScript->trace('Création de l\'index JOURNAL.id_e : ');
+$index_structure = $objectInstancier->SQLQuery->query("SHOW INDEX FROM journal WHERE KEY_NAME = 'id_e'");
+if (!$index_structure) {
+    $objectInstancier->SQLQuery->query("ALTER TABLE journal ADD INDEX id_e (id_e)");
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('déjà fait');
+}
+
+$blScript->trace('Création de l\'index JOURNAL.id_d : ');
+$index_structure = $objectInstancier->SQLQuery->query("SHOW INDEX FROM journal WHERE KEY_NAME = 'id_d'");
+if (!$index_structure) {
+    $objectInstancier->SQLQuery->query("ALTER TABLE journal ADD INDEX id_d (id_d)");
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('déjà fait');
+}
+
+$blScript->trace('Création de l\'index JOURNAL.type : ');
+$index_structure = $objectInstancier->SQLQuery->query("SHOW INDEX FROM journal WHERE KEY_NAME = 'type'");
+if (!$index_structure) {
+    $objectInstancier->SQLQuery->query("ALTER TABLE journal ADD INDEX type (type)");
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('déjà fait');
+}
+
