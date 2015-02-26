@@ -3,7 +3,7 @@ require_once( __DIR__ . "/../web/init.php");
 
 $recuperateur = new Recuperateur($_POST);
 $key = $recuperateur->get('key');
-$password = $recuperateur->get('password');
+$password = $recuperateur->getNoTrim('password');
 
 
 
