@@ -31,9 +31,10 @@ $all_ancetre = $entite->getAncetreId();
 $groupe_herited = $annuaireGroupe->getGroupeHerite($all_ancetre,$q);
 $role_herited = $annuaireRole->getGroupeHerite($all_ancetre,$q);
 
-if (! $mailOnly){
+if ($mailOnly == "false"){
+	
 	foreach($annuaireGroupe->getListGroupe($q) as $item){
-		$result[] = "groupe: \"".$item['nom'] . "\"\n";
+		$result[] = "groupe: \"".$item['nom'] ."\"\n";
 	}
 	foreach($annuaireRole->getList($id_e,$q) as $item){
 		$result[] = "role: \"".$item['nom'] ."\"\n";
@@ -44,7 +45,9 @@ if (! $mailOnly){
 	foreach($role_herited as $item){
 		$result[] = $annuaireRole->getChaineHerited($item)."\n"; 
 	}
+	
 }
+
 
 foreach ($annuaire->getListeMail($q) as $item){
 	$result[] = '"'.$item['description'] . '"'." <".$item['email'].">";
