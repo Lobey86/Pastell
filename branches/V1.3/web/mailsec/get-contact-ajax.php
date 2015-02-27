@@ -31,7 +31,7 @@ $all_ancetre = $entite->getAncetreId();
 $groupe_herited = $annuaireGroupe->getGroupeHerite($all_ancetre,$q);
 $role_herited = $annuaireRole->getGroupeHerite($all_ancetre,$q);
 
-if (! $mailOnly){
+if ($mailOnly=="false"){
 	foreach($annuaireGroupe->getListGroupe($q) as $item){
 		$result[] = "groupe: \"".$item['nom'] . "\"\n";
 	}
