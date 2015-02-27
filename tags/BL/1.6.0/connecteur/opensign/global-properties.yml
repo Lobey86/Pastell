@@ -1,0 +1,46 @@
+name: OpenSign
+
+type: horodateur
+
+description: |
+	Connecteur permettant d'utiliser le système d'horodatage proposé par l'Adullact.
+	
+	Ce système apporte un niveau de preuve optimal pour l'horodatage du journal des événements.
+
+formulaire:
+	OpenSign:
+		opensign_wsdl: {name: "WSDL"}
+		opensign_ca: 
+			name: "Autorité de certification"
+			commentaire: "Le certificat X509 au format PEM qui a signé le certificat du timestamp"
+			type: file
+		opensign_x509:
+			name: "Certificat de l'horodateur"
+			commentaire: "Le certificat X509 au format PEM de l'horodateur"
+			type: file
+		opensign_timeout:
+			name: "Timeout de connexion"
+			commentaire: "Temps en seconde avant que l'on considère que le serveur n'est pas disponible pour le moment"
+			default: 2
+
+action:	
+	opensign-test:
+		name: Tester la connexion 
+		action-class: OpenSignTest
+		tab: OpenSign
+		rule:
+			droit_id_u: 'entite:edition'
+		
+	opensign-test-token:
+		name: Tester la création d'un token 
+		action-class: OpenSignTestToken
+		tab: OpenSign
+		rule:
+			droit_id_u: 'entite:edition'
+
+	opensign-test-verif:
+		name: Créer et vérifier un token 
+		action-class: OpenSignTestVerifToken
+		tab: OpenSign
+		rule:
+			droit_id_u: 'entite:edition'

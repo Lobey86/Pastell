@@ -1,0 +1,10 @@
+nom: Mail sécurisé (destinataire)
+type: Flux Généraux
+
+formulaire:
+	Message :			
+		to: {name: Destinataire(s), requis: true}
+		cc:  {name: Copie à}
+		Objet: {requis: true, title: true}
+		Message: {type: textarea}
+		Document attaché: {type: file, multiple: true}
