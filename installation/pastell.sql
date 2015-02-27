@@ -192,7 +192,10 @@ CREATE TABLE journal (
 	`document_type` varchar(128) NOT NULL,
 	PRIMARY KEY (`id_j`),
 	KEY id_j (`id_u`,`id_j`),
-	FULLTEXT KEY message_horodate (`message_horodate`)
+	KEY date (`date`),
+	KEY id_e (`id_e`),
+	KEY id_d (`id_d`),
+	KEY type (`type`)
 )  ENGINE=MyISAM  ;
 CREATE TABLE notification (
 	`id_n` int(11) NOT NULL AUTO_INCREMENT,
