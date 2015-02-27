@@ -340,4 +340,8 @@ class IParapheur extends SignatureConnecteur {
 		return $client->echo("test_connexion_pastell");
 	}
 	
+	public function getLogin(){
+		return $this->login_http;
+	}
+	
 }

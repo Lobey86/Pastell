@@ -677,7 +677,8 @@ class DocumentControler extends PastellControler {
 		if ( ! $this->ActionPossible->isActionPossible($id_e,$id_u,$id_d,$action)) {
 			throw new Exception("L'action « $action »  n'est pas permise : " .$this->ActionPossible->getLastBadRule());
 		}
-			
+		
+		
 		$result = $this->ActionExecutorFactory->executeOnDocument($id_e,$id_u,$id_d,$action,array(), true,array());
 		$message = $this->objectInstancier->ActionExecutorFactory->getLastMessage();
 			
