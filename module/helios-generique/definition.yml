@@ -145,6 +145,7 @@ action:
 		
 		rule:
 			no-last-action:
+			droit_id_u: 'helios-generique:edition'
 			type_id_e: 
 				service
 				collectivite
@@ -159,6 +160,7 @@ action:
 				modification
 			no-action:
 				send-tdt
+			droit_id_u: 'helios-generique:edition'
 				
 	supression:
 		name-action: Supprimer
@@ -174,7 +176,8 @@ action:
 				refus-tdt
 				erreur-verif-iparapheur
 				erreur-envoie-sae
-				send-ged			
+				send-ged
+			droit_id_u: 'helios-generique:edition'			
 		action-class: Supprimer
 		warning: "Êtes-vous sûr ?"
 	
