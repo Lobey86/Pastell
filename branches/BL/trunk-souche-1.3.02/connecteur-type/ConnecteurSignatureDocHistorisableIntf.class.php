@@ -20,7 +20,7 @@ interface ConnecteurSignatureDocHistorisableIntf {
      * - les valeurs ne sont pas conventionnées et NE doivent PAS servir dans des expressions conditionnelles
      * @return array(
      *           int => array(
-     *                    KEY_LOG_TIMESTAMP => string, format ISO, 
+     *                    KEY_LOG_TIMESTAMP => string, format ISO (2014-05-06T14:27:06.789+02:00) 
      *                    KEY_LOG_STATUS => string,
      *                    KEY_LOG_ACTEUR => string,
      *                    KEY_LOG_ANNOTATION => string

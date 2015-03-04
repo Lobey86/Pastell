@@ -11,6 +11,7 @@ class DonneesFormulaireFactory{
 	private $connecteurEntiteSQL;
 	private $documentSQL;
 	private $documentIndexSQL;
+    private $cache;
 	
 	public function __construct(DocumentTypeFactory $documentTypeFactory, 
 								$workspacePath, 
@@ -51,29 +52,35 @@ class DonneesFormulaireFactory{
 	}
 	
 	private function getFromCache($id_document,DocumentType $documentType){
-		static $cache;
-		if (empty($cache[$id_document])){
-			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $documentType);
+		if (empty($this->cache[$id_document])){
+			$doc = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $documentType);
+            $doc->id_d = $id_document;
 			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
-			$cache[$id_document]->setDocumentIndexor($documentIndexor);
+			$doc->setDocumentIndexor($documentIndexor);
+			$this->cache[$id_document] = $doc;
 		}
-		return $cache[$id_document];
+		return $this->cache[$id_document];
 	}
 	
 	private function getFromCacheNewPlan($id_document,DocumentType $documentType){
-		static $cache;
-		if (empty($cache[$id_document])){
+		if (empty($this->cache[$id_document])){
 			$dir = $this->getNewDirectoryPath($id_document);
 			if (! file_exists($dir)) {
 				mkdir($dir,0777,true);
 			}
-			$cache[$id_document] = new DonneesFormulaire("$dir/$id_document.yml", $documentType);
+			$doc = new DonneesFormulaire("$dir/$id_document.yml", $documentType);
+            $doc->id_d = $id_document;
 			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
-			$cache[$id_document]->setDocumentIndexor($documentIndexor);
+			$doc->setDocumentIndexor($documentIndexor);
+			$this->cache[$id_document] = $doc;
 		}
-		return $cache[$id_document];
+		return $this->cache[$id_document];
 	}
 	
+    public function clearCache() {
+        unset($this->cache);
+    }
+    
 	private function getNewDirectoryPath($id_document){
 		if (strlen($id_document) < 2){
 			return $this->workspacePath;

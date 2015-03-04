@@ -188,7 +188,7 @@ abstract class ActionExecutor {
 		if (!$connecteur) {
 			$connecteur = $this->objectInstancier->ConnecteurFactory->getConnecteurByType($this->id_e,$this->type,$type_connecteur);
 			if (!$connecteur ){
-				throw new Exception("Aucun connecteur $type_connecteur disponible");
+				throw new Exception("Aucun connecteur de type $type_connecteur n'est associé au flux $this->type");
 			}
 			$connecteur->setDocDonneesFormulaire($this->getDonneesFormulaire());
 			$this->connecteurs[$type_connecteur] = $connecteur;

@@ -210,6 +210,11 @@ class EntiteSQL extends SQL {
         	$this->deleteEntite($id_e);
         }
         
+        public function updateEntiteMere($id_e, $id_entite_mere){
+            $sql = "UPDATE entite SET entite_mere = ? WHERE id_e = ?";
+            return $this->query($sql, $id_entite_mere, $id_e);            
+        }
+
         public function setActive($id_e,$active){
         	$sql = "UPDATE entite SET is_active=? WHERE id_e=?";
         	$this->query($sql,$active,$id_e);

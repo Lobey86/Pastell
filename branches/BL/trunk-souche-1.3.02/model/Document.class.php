@@ -55,17 +55,15 @@ class Document extends SQL {
 		$sql = "DELETE FROM document WHERE id_d=?";
 		$this->query($sql,$id_d);
 		
-		$sql = "SELECT id_a FROM document_action WHERE id_d=?";
-		$id_a = $this->queryOne($sql,$id_d);
-		
-		$sql = "DELETE FROM document_action_entite WHERE id_a=?";	
-		$this->query($sql,$id_a);
+        $sql = "DELETE dae.* FROM document_action_entite dae"; 
+        $sql .= " INNER JOIN document_action da ON dae.id_a = da.id_a";
+        $sql .= " WHERE da.id_d = ?";
+		$this->query($sql,$id_d);
 		
 		$sql = "DELETE FROM document_action WHERE id_d=?";
 		$this->query($sql,$id_d);
 		$sql = "DELETE FROM document_entite WHERE id_d=?";
-		$this->query($sql,$id_d);
-		
+		$this->query($sql,$id_d);	
 		$sql = "DELETE FROM document_index WHERE id_d=?";
 		$this->query($sql,$id_d);
 	}
