@@ -424,7 +424,7 @@ class DonneesFormulaire {
 		if ( ! $fieldData->getField()->isIndexed()){
 			return;
 		}
-		$value = $fieldData->getValueNum(); 
+		$value = $fieldData->getValueForIndex(); 
 		$this->documentIndexor->index($fieldData->getField()->getName(), $value);
 	}
 	
