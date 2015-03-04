@@ -29,5 +29,18 @@ interface ConnecteurSuspensionIntf {
      *         false : la limite est atteinte; les accès seront suspendus
      */
     public function onAccesEchec(&$tentativesContext);
+    
+    /**
+     * Retourne les informations du connecteur entité.
+     * @return array
+     */
+    public function getConnecteurInfo();
+    
+    /**
+     * Retourne le nom du serveur cible (le FQDN en général).
+     * @return FALSE si le nom n'est pas défini
+     */
+    public function getServerName();
+    
 }
 

@@ -30,6 +30,9 @@ class ConnecteurSuspensionException extends ConnecteurException {
 abstract class Connecteur {
 	
 	protected $lastError;
+    /**
+     * @var DonneesFormulaire
+     */
 	private $docDonneesFormulaire;
 	private $connecteurInfo;
 
@@ -66,4 +69,7 @@ abstract class Connecteur {
 		$this->connecteurInfo = $connecteur_info;
 	}
 	
+    public function isGlobal() {
+        return $this->connecteur_info['id_e'] == 0;
+    }
 }

@@ -54,10 +54,7 @@ class FluxEntiteSQL extends SQL {
 		$this->deleteConnecteur($id_e, $flux, $type);;
 		$sql = "INSERT INTO flux_entite(id_e,flux,type,id_ce) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$flux,$type,$id_ce);
-                // Ajout de la requete pour le retour sur l'API
-                $sql = "SELECT id_fe FROM flux_entite WHERE id_e=? AND flux=? AND type=? AND id_ce=? ORDER BY id_fe DESC LIMIT 1";
-		return $this->queryOne($sql,$id_e,$flux,$type,$id_ce);                
-                
+        return $this->lastInsertId();
 	}
 	
         public function deleteConnecteur($id_e,$flux,$type){

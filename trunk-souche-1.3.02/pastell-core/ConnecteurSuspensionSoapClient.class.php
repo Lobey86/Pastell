@@ -35,12 +35,22 @@ class ConnecteurSuspensionSoapClient extends NotBuggySoapClient {
 
     private function checkSoapFault(SoapFault $soapFault) {
         $message = $soapFault->getMessage();
+
+        $matches = array();
+        if (preg_match('#HTTP/[\d.]* (\d*)#i', $this->__getLastResponseHeaders(), $matches)) {
+            $http_status_code = $matches[1];
+            if (in_array($http_status_code, array(
+                        403 /* Forbidden */,
+                        503 /* 503 : Service Unavailable */
+                    ))) {
+                throw new ConnecteurAccesException($this->connecteur, $message);
+            }
+        }
+
         if (
                 (preg_match('/Could not connect to host/is', $message) === 1) ||
-                (preg_match('/Forbidden/is', $message) === 1) ||
-                (preg_match('/Service Temporarily Unavailable/is', $message) === 1) ||
                 (preg_match('/not a valid method for this service/is', $message) === 1)) {
-            throw new ConnecteurAccesException($this->connecteur, $soapFault->getMessage());
+            throw new ConnecteurAccesException($this->connecteur, $message);
         }
         throw $soapFault;
     }

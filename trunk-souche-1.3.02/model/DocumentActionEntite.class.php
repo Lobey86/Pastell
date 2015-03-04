@@ -129,6 +129,30 @@ class DocumentActionEntite extends SQL {
 		return $this->addEntiteToList($id_e,$list);
 	}
 	
+    public function getListByTypeAndEtatAndIdeancetre($type = false, $etats = false, $id_e = false) {
+        $binding = array();
+        $sql = 'SELECT *';
+        $sql .= ' FROM document_entite de';
+        $sql .= ' INNER JOIN document d ON de.id_d = d.id_d';
+        if ($id_e) {
+            $sql .= ' INNER JOIN entite_ancetre ea ON de.id_e = ea.id_e';
+        }
+        $sql .= ' WHERE 1=1';
+        if ($type) {
+            $binding[] = $type;
+            $sql .= ' AND d.type=?';
+        }
+        if ($etats) {
+            $sql .= ' AND de.last_action IN (\'' . implode('\',\'', $etats) . '\')';
+        }
+        if ($id_e) {
+            $binding[] = $id_e;
+            $sql .= ' AND ea.id_e_ancetre=?';
+        }
+        $list = $this->query($sql, $binding);
+        return $list;
+    }
+
 	public function  getListDocumentByEntite($id_e,array $type_list,$offset,$limit,$search){
 		
 		$type_list = "'" . implode("','",$type_list) . "'";

@@ -96,11 +96,21 @@ class NotBuggySoapClient extends SoapClient {
             }
         }
 
-
-
-    	if ($this->is_jax_ws){
-			$response = strstr($response,"<?xml");
-	        $response = strstr($response,"--uuid:",true);
+        // Analyse de la response pour la formater en XML valide
+        // Pour le format multipart XOP MTOM, il faut fusionner les parts dans l'enveloppe XML.
+        $headers = $this->__getLastResponseHeaders();        
+        if (preg_match('/Content-Type: Multipart\/Related;.*type="application\/xop\+xml";/i', $headers) === 1) {
+            $response = $this->formaterRetourMultiPartXOPToXML($response, $headers);
+        } else {    	
+            $pos = stripos($response, "<?xml");            
+            if ($pos === false) {
+                $pos = stripos($response, "<soap:");
+            }
+            $response = substr($response, $pos);
+            $pos = stripos($response, "--uuid:");
+            if ($pos) {
+                $response = substr($response, 0, $pos);
+            }
         }
 
         return $response;
@@ -158,6 +168,109 @@ class NotBuggySoapClient extends SoapClient {
         return $response;
     }
 
+    private function agregerPartsToEnveloppe($content_enveloppe, $parts) {
+        foreach($parts as $mpart) {
+            if ($mpart->isEnv==false) {
+                $content_part = $mpart->content;
+                $content_id = $mpart->header['content-id'];
+                //Suppression des <> en fin et début du content_id
+                $content_id = substr($content_id,1,-1);
+                $content_enveloppe = $this->remplacerRefParContentPart($content_enveloppe, $content_id, $content_part);
+            }
+        }
+        return $content_enveloppe;
+    }
     
+    private function remplacerRefParContentPart($content_enveloppe, $contentId, $content_part) {
+        // Recherche du contentId
+        $matches=array();
+        if (preg_match('/(<xop:.*'. $contentId . '.*\/>)/i', $content_enveloppe, $matches)===1) {
+            $content_part64 = base64_encode($content_part);
+            $content_enveloppe = str_replace($matches[1], $content_part64, $content_enveloppe);
+        }
+        return $content_enveloppe;
+    }
     
+    private function formaterRetourMultiPartXOPToXML($response, $headers) {
+        $boundary = array();
+        $start = array();
+        $multiParts = array();
+        $CRLF  = "\r\n";
+        // Boundary hyphens
+        $BHYP  = "--";
+        
+        if (preg_match('/boundary="(.*)"/Ui', $headers, $boundary) === 1 && preg_match('/start="(.*)"/Ui', $headers, $start) === 1) {
+
+            $parts = explode($CRLF . $BHYP . $boundary[1], $response);
+
+            if (isset($parts[0]) && empty($parts[0]))
+                array_shift($parts);
+
+            foreach ($parts as $part) {
+                // Is it over?
+                if (preg_match("/" . $BHYP . "$/i", $part))
+                    break;
+
+                // New part
+                $multiPart = new multiPart();
+                
+
+                // start position
+                $startp = $part[0] . $part[1] === $CRLF ? 2 : 0;
+                // Headers end position
+                $h_endp = strpos($part, $CRLF . $CRLF, 0);
+
+                // Actual part's header string line by line
+                foreach (explode($CRLF, substr($part, $startp, $h_endp)) as $h_line) {
+                    $multiPart->header[strtolower(strstr($h_line, ': ', TRUE))] = substr(strstr($h_line, ': '), 2);
+                }
+
+                // This is the envelope, so set the response
+                if ($multiPart->header['content-id'] === $start[1]) {
+                    $multiPart->isEnv = TRUE;
+                    $multiPart->content = substr($part, $h_endp + 4);
+                }
+                // Its not the soap envelope
+                else {
+                    // Get actual part's content
+                    switch ($multiPart->header['content-transfer-encoding']) {
+                        case 'base64': {
+                                $multiPart->content = base64_decode(substr($part, $h_endp + 4));
+                            }
+                            break;
+
+                        case 'binary':
+                        default: {
+                                $multiPart->content = substr($part, $h_endp + 4);
+                            }
+                            break;
+                    }
+                }
+                $multiParts[] = $multiPart;
+            }
+
+            // Insertion des parts dans l'enveloppe principale                
+            $parts = array();
+            foreach ($multiParts as $mpart) {
+                if ($mpart->isEnv == true) {
+                    $content_enveloppe = $mpart->content;
+                } else {
+                    $parts[] = $mpart;
+                }
+            }
+
+            $result = $this->agregerPartsToEnveloppe($content_enveloppe, $parts);
+
+            return $result;
+        }
+    }
+
+}
+
+
+
+class multiPart {
+    public $header      = array();
+    public $content     = '';
+    public $isEnv       = FALSE;
 }

@@ -19,10 +19,11 @@ class ManifestReader {
 				$result[$key] = false;
 			}
 		}
+// Suppression de la regex afin d'afficher la révision telle qu'elle est écrite dans le manifest.		
+//		if (preg_match('#^\$Rev: (\d*) \$#',$result['revision'],$matches)){
+//			$result['revision'] = $matches[1];
+//		}
 		
-		if (preg_match('#^\$Rev: (\d*) \$#',$result['revision'],$matches)){
-			$result['revision'] = $matches[1];
-		}
 		$result['version-complete'] =  "Version {$result['version']} - Révision  {$result['revision']}" ;
 		return $result;
 	}

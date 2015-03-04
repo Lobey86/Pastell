@@ -17,29 +17,39 @@ class ConnecteurSuspensionControler {
         return $suspension;
     }
 
-    public function setSuspension(ConnecteurSuspensionIntf $connecteur, $suspension) {
+    public function setSuspension(ConnecteurSuspensionIntf $connecteur, $suspension, $doLock = true) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $oldSuspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
-        if ($oldSuspension != $suspension) {
-            $connecteurConfig->setData(self::ATTR_SUSPENSION, $suspension);
+        $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
+        if ($doLock) {
+            $hLock = $this->lock($connecteurConfig);
+        }
+        try {
+            if ($oldSuspension != $suspension) {
+                if ($suspension) {
+                    $connecteurConfig->addFileFromData(self::ATTR_SUSPENSION, 'suspension_erreur_detail', $suspension);
+                } else {
+                    $connecteurConfig->removeFile(self::ATTR_SUSPENSION);
+                }
+            }
             if (!$suspension) {
                 // Réinitialiser le contexte des tentatives
-                $fContext = $connecteurConfig->getFilePath(self::ATTR_TENTATIVES_CONTEXT);
-                $hLock = $this->lock($connecteurConfig);
-                try {
-                    if (file_exists($fContext)) {
-                        unlink($fContext);
-                    }
-                } catch (Exception $ex) {
-                    $this->unlock($hLock);
-                    throw $ex;
+                if (file_exists($fContext)) {
+                    unlink($fContext);
                 }
+            }
+        } catch (Exception $ex) {
+            if ($doLock) {
                 $this->unlock($hLock);
             }
+            throw $ex;
+        }
+        if ($doLock) {
+            $this->unlock($hLock);
         }
     }
 
-    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur) {
+    public function onAccesEchec(ConnecteurSuspensionIntf $connecteur, Exception $accesException) {
         $connecteurConfig = $connecteur->getConnecteurConfig();
         $suspension = $connecteurConfig->get(self::ATTR_SUSPENSION, false);
         if ($suspension) {
@@ -62,7 +72,22 @@ class ConnecteurSuspensionControler {
             file_put_contents($fContext, json_encode($context));
             // Suspend les accès si demandé
             if (!$poursuivre) {
-                $this->setSuspension($connecteur, true);
+                $suspensionDetail = exceptionToJson($accesException);
+                $this->setSuspension($connecteur, $suspensionDetail, false);
+                $connecteur_info = $connecteur->getConnecteurInfo();                
+                $id_e = $connecteur_info['id_e'];
+                $id_ce = $connecteur_info['id_ce'];
+                $sujet = parse_url(SITE_BASE, PHP_URL_HOST) . ' : connecteur ' . $id_ce . ' suspendu';
+                $texte = "Libellé : " . $connecteur_info['libelle'] . "\t\n"
+                        . "Id : " . $id_ce . "\n"
+                        . "Identifiant : " . $connecteur_info['id_connecteur'] . "\n"
+                        . "Type : " . $connecteur_info['type'] . "\n"
+                        . "Entite : " . $id_e . "\n"
+                        . "\n"
+                        . "Page de configuration : " . SITE_BASE . 'connecteur/edition.php?id_ce=' . $id_ce . "\n"
+                        . "\n"
+                        . "Cause : " . $accesException->getMessage() . "\n";
+                $this->objectInstancier->MailTo->mailRacineAdmins($sujet, $texte, 'connecteur-suspendu', array(), null, $id_e, 0);
             }
         } catch (Exception $ex) {
             $this->unlock($hLock);
@@ -89,4 +114,3 @@ class ConnecteurSuspensionControler {
     }
 
 }
-

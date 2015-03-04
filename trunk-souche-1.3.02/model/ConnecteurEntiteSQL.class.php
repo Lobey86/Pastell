@@ -2,8 +2,13 @@
 class ConnecteurEntiteSQL extends SQL {
 	
 	public function getAll($id_e){
-		$sql = "SELECT * FROM connecteur_entite WHERE id_e = ?";
-		return $this->query($sql,$id_e);
+		$sql = "SELECT * FROM connecteur_entite";
+		if (isset($id_e)) {
+			$sql .= " WHERE id_e = ?";
+			return $this->query($sql,$id_e);
+		} else {
+			return $this->query($sql);
+		}
 	}
 	
 	public function getAllLocal(){
@@ -14,10 +19,7 @@ class ConnecteurEntiteSQL extends SQL {
 	public function addConnecteur($id_e,$id_connecteur,$type,$libelle){
 		$sql = "INSERT INTO connecteur_entite (id_e,id_connecteur,type,libelle) VALUES (?,?,?,?)";
 		$this->query($sql,$id_e,$id_connecteur,$type,$libelle);
-		
-		$sql = "SELECT id_ce FROM connecteur_entite WHERE id_e=? AND id_connecteur=? AND type= ? AND libelle=? ORDER BY id_ce DESC LIMIT 1";
-		return $this->queryOne($sql,$id_e,$id_connecteur,$type,$libelle);
-		
+        return $this->lastInsertId();
 	}
 	
 	public function getInfo($id_ce){
@@ -36,9 +38,13 @@ class ConnecteurEntiteSQL extends SQL {
 	}
 	
 	public function getDisponible($id_e,$type){
-		$sql = "SELECT * FROM connecteur_entite " .
-				" WHERE id_e=? AND type=?";
-		return $this->query($sql,$id_e,$type);
+		$sql = "SELECT * FROM connecteur_entite WHERE type=?";
+		if (isset($id_e)) {
+			$sql .= " AND id_e = ?";
+			return $this->query($sql,$type, $id_e);
+		} else {
+			return $this->query($sql,$type);
+		}
 	}
 	
 	public function getGlobal($id_connecteur){
@@ -60,4 +66,21 @@ class ConnecteurEntiteSQL extends SQL {
 		$sql = "SELECT * FROM connecteur_entite WHERE id_e=? AND type= ? ORDER BY libelle DESC";
 		return $this->query($sql,$id_e,$type);
 	}
+
+    public function getAllId() {
+        $sql = "SELECT distinct id_connecteur FROM connecteur_entite WHERE id_e <>0";
+        return  $this->query($sql);
+    }
+    
+    public function listNotUsed($id_e) {
+        $sql = "SELECT ce.* FROM connecteur_entite ce"; 
+        $sql .= " LEFT JOIN flux_entite fe ON ce.id_ce = fe.id_ce";
+        $sql .= " WHERE fe.id_ce IS NULL";
+ 		if ($id_e) {
+			$sql .= " AND ce.id_e IN (SELECT id_e FROM entite_ancetre ea WHERE ea.id_e_ancetre = ?)";
+			return $this->query($sql,$id_e);
+		} else {
+			return $this->query($sql);
+		}
+    }
 }

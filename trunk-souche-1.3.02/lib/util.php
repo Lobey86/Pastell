@@ -44,7 +44,7 @@ function get_argv($num_arg) {
 
 
 function utf8_encode_array($array){
-	if (! is_array($array)){
+	if (! is_array($array) && !is_object($array)){
 		return utf8_encode($array);
 	}
 	$result = array();
@@ -52,6 +52,20 @@ function utf8_encode_array($array){
 		$result[utf8_encode($cle)] = utf8_encode_array($value);
 	}
 	return $result;
+}
+
+function exceptionToJson(Exception $ex) {
+    $json = array(
+        'date' => date('d/m/Y H:i:s'),
+        'code' => $ex->getCode(),
+        'file' => $ex->getFile(),
+        'line' => $ex->getLine(),
+        'message' => utf8_encode($ex->getMessage()),
+        // utf8_encode_array non applicable sur getTrace() car peut contenir des "resources"
+        'trace' => explode("\n", utf8_encode($ex->getTraceAsString()))
+    );
+    $json = json_encode($json);
+    return $json;
 }
 
 function date_iso_to_fr($date){
@@ -64,6 +78,24 @@ function time_iso_to_fr($datetime){
 
 function date_fr_to_iso($date){
 	return preg_replace("#^(\d{2})/(\d{2})/(\d{4})$#",'$3-$2-$1',$date);	
+}
+
+function throwIfFalse($result, $message = false) {
+    if ($result === false) {
+        throwLastError($message);
+    }
+    return $result;
+}
+
+function throwLastError($message = false) {
+    $last = error_get_last();
+    $cause = $last['message'];
+    if ($message) {
+        $ex = $message . ' Cause : ' . $cause;
+    } else {
+        $ex = $cause;
+    }
+    throw new Exception($ex);
 }
 
 // For 4.3.0 <= PHP <= 5.4.0
