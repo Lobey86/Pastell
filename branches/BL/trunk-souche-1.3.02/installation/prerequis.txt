@@ -1,0 +1,56 @@
+Pré-requis à l'installation de Pastell.
+
+Pastell est prévu pour fonctionner sur un environnement LAMP (Linux Apache MySQL PHP).
+Il peut sans doute fonctionner sur d'autre OS (MS Windows, Mac OS) et d'autres serveurs web (nginx, lighthttpd). 
+Cela n'a toutefois pas été testé.
+
+
+== Système d'exploitation ==
+Pastell est développé et testé sur le système Ubuntu GNU/Linux.
+La version minimale recommandée pour Pastell est  :
+		
+		Ubuntu GNU/Linux 12.04 LTS
+
+Dans cette version, les paquet apache2, php5 et mysql-server sont suffisant pour 
+l'environnement LAMP de Pastell.
+		
+				
+== Apache et MySQL ==
+Les versions minimums suivantes permettent de faire fonctionnner Pastell  
+
+Apache : 2.2.X
+
+Module d'Apache : mod_ssl
+
+MySQL : 5.1.X
+
+
+== PHP ==
+La version 5.3 de PHP est nécessaire au fonctionnement de Pastell. 
+Pastell ne fonctionne pas avec une version inférieure (y compris une 5.2).
+
+== Modules de PHP ==
+Un certain nombre de module de PHP sont nécessaire au bon fonctionnement de Pastell.
+*curl,
+*mysql,
+*openssl
+*simplexml
+*imap
+*apc
+
+== OpenSSL ==
+La version minimum d'openSSL est 1.0.0a
+Cette version n'étant pas encore livrée dans les distributions, notamment Ubuntu, il est nécessaire
+de compiler et installer la dernière version stable de la branche 1.0 d'OpenSSL (http://www.openssl.org)
+
+== Navigateur compatible ==
+Pastell est développé dans le respect des standard du web et de l'accessibilité.
+
+Toutefois, Pastell a été testé sur les navigateurs suivants :
+Au niveau fonctionnel : Mozilla Firefox 3.6.16
+Au niveau ergonomie : Mozilla Firefox 3, Internet Explorer 7, Chrome, Opera, Safari
+
+
+
+
+
