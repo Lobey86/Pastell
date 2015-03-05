@@ -101,7 +101,6 @@ if (!$result) {
         )  ENGINE=InnoDB  ;
         ALTER TABLE `entite` ADD `is_active` tinyint(1) NOT NULL DEFAULT '1';
         ALTER TABLE `flux_entite` CHANGE `id_ce` `id_ce` int(11) NOT NULL;
-        DROP INDEX id_ce ON flux_entite;
 
         ALTER TABLE `journal` CHANGE `type` `type` int(11) NOT NULL;
         ALTER TABLE `journal` CHANGE `id_e` `id_e` int(11) NOT NULL;
@@ -109,15 +108,6 @@ if (!$result) {
         ALTER TABLE `journal` CHANGE `message` `message` text NOT NULL;
         ALTER TABLE `journal` CHANGE `date` `date` datetime NOT NULL;
         ALTER TABLE `journal` CHANGE `message_horodate` `message_horodate` text NOT NULL;
-        CREATE  FULLTEXT INDEX message_horodate ON journal (`message_horodate`) ;
-
-        DROP INDEX date ON journal;
-
-        DROP INDEX id_e ON journal;
-
-        DROP INDEX id_d ON journal;
-
-        DROP INDEX type ON journal;
 
         ALTER TABLE `notification` CHANGE `action` `action` varchar(64) NOT NULL;
         ALTER TABLE `notification` ADD `daily_digest` tinyint(1) NOT NULL;
