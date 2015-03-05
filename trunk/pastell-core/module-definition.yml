@@ -142,7 +142,10 @@ element_formulaire:
 			default: false
 		content-type:
 			info: Uniquement pour le type fichier. Indique que le fichier doit avoir le content-type indiqué ici (sinon, le document n'est pas valide)
-			type: string 
+			type: string
+		visionneuse:
+			info: Permet de spécifier une classe utilisé pour visualisé le ou les fichiers
+			type: string
 			
 			
 action:

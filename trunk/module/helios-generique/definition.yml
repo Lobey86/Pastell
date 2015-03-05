@@ -90,7 +90,10 @@ formulaire:
 	
 	Reponse:
 		has_reponse: {no-show: true}
-		fichier_reponse: {name: Fichier réponse, type: file}
+		fichier_reponse: 
+			name: Fichier réponse
+			type: file
+			visionneuse: PESRetourVisionneuse
 
 	SAE:
 		ar_sae: {type: file, name: Accusé de réception SAE}
@@ -111,6 +114,8 @@ formulaire:
 			requis: true
 			type: file
 			commentaire: Fichier contenant le PES retour
+			visionneuse: PESRetourVisionneuse
+			
 			
 					
 
