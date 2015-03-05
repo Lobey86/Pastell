@@ -1,0 +1,60 @@
+name: Mail invitation fournisseur
+type: mail-fournisseur-invitation
+description: |
+	Permet d'enregistrer un mail au format HTML qui sera envoyé au fournisseur afin de les inviter à s'inscrire sur Pastell
+	Il est possible de mettre des données dans le mail HTML : %FLUX:xxx% sera remplacé par la données correspondant à la clé xxx
+	dans le flux d'invitation.
+	Il est églament possible de mettre des informations sur l'entité : %ENTITE:xxx%
+	Enfin, %URL_INSCRIPTION% sera remplacé par l'url permettant au fournisseur de s'inscrire. 
+	
+formulaire:
+	page0:
+	
+		subject:
+			name: Sujet 
+		
+		from:
+			name: From
+			commentaire: email de provenance.
+		
+		from_libelle:
+			name: Libellé associé au from
+			commentaire: Par exemple le nom de la collectivité ou du service Emmeteur.
+		
+		charset:
+			name: Encodage
+			type: select
+			value:
+				iso-8859-1: iso-8859-15
+				utf-8: utf-8
+			
+		content_html:
+			name: Mail HTML
+			commentaire: Un fichier HTML suceptible d'être envoyé par mail. Peut contenir des chaine %FLUX:xxx% qui seront remplacé par les données prises dans le flux.
+			type: file
+			
+		embeded_image:
+			name: Images jointes
+			type: file
+			is_multiple: true
+			commentaire: Fichier permettant de mettre des images et/ou des pieces jointes. Utiliser cid:imageXX dans le mail HTML avec XX le numéro de l'image (commence à 0)
+			
+		content_txt:
+			name: Mail texte 
+			type: file
+			commentaire: Mail alternatif pour les lecteurs de mail ne supportant pas le HTML. Si absent, un mail en texte sera généré à partir du fichier HTML
+			
+		fichier_fournisseur:
+			name: Fichier de fournisseurs
+			commentaire: | 
+				Fichier au format CSV comprenant : raison_sociale,email_contact
+			type: file		
+			 
+action:
+	test-send:
+		name: Tester l'envoi du mail (au from) 
+		action-class: MailFournisseurInvitationSendTest
+
+	import:
+		name: Créer les invitations
+		action-class: MailFournisseurImport

@@ -1,0 +1,95 @@
+<ArchiveTransfer xmlns="fr:gouv:ae:archive:draft:standard_echange_v0.2">
+	<Comment>Transfert d'un acte soumis au contrôle de légalité</Comment>
+	<Date>2013-12-03T08:21:24+01:00</Date>
+	
+	<TransferIdentifier schemeName="Codification interne">#numeroInterne#</TransferIdentifier>
+	<TransferringAgency>
+		<Identification>#collectiviteNom#</Identification>
+	</TransferringAgency>
+	
+	<test>
+		#classificationCode# #identifiantUnique#
+	</test>
+	<autre date="#date#"></autre>
+	
+	<ArchivalAgency>
+		<Identification/>
+	</ArchivalAgency>
+
+	<AAA pastellCondition="annexePresente">
+		<BBB>Présent si annexePresente</BBB>
+	</AAA>
+
+	<Contains>
+		<ArchivalAgreement schemeName="Convention de transfert" schemeAgencyName=""/>
+		<ArchivalProfile schemeName="Profil de données">ACTES 1.4</ArchivalProfile>
+		<DescriptionLanguage listVersionID="edition 2009">fr</DescriptionLanguage>
+		<DescriptionLevel listVersionID="edition 2009">file</DescriptionLevel>
+		<Name>1709120581</Name>
+		<ContentDescription>
+			<CustodialHistory>Actes dématérialisés soumis au contrôle de légalité, les données archivées sont structurées selon le schéma Actes (Aide au contrôle de légalité dématérialisé) établi par le ministère de l'intérieur, de l'outre mer et des collectivités territoriales. La description a été établie selon les règles du standard d'échange de données pour l'archivage version 0.2</CustodialHistory>
+			<Description>#objet#</Description>
+			<Language listVersionID="edition 2009">fr</Language>
+			<LatestDate>#dateDecision#</LatestDate>
+			<OldestDate>#dateAccuseReception#</OldestDate>
+			<OriginatingAgency>
+				<Identification/>
+			</OriginatingAgency>
+			<ContentDescriptive>
+				<KeywordContent>#collectiviteSIREN#</KeywordContent>
+				<KeywordReference schemeName="SIRENE" schemeAgencyName="INSEE"/>
+				<KeywordType listVersionID="edition 2009">corpname</KeywordType>
+			</ContentDescriptive>
+			<ContentDescriptive>
+				<KeywordContent>Contrôle de légalité</KeywordContent>
+				<KeywordReference schemeName="Thésaurus pour la description et l'indexation des archives locales anciennes, modernes et contemporaines_liste d'autorité Actions" schemeAgencyName="Direction des archives de france" schemeDataURI="http://www.archivesdefrance.culture.gouv.fr/gerer/classement/normesoutils/thesaurus/" schemeVersionID="version 2009"/>
+				<KeywordType listVersionID="edition 2009">subject</KeywordType>
+			</ContentDescriptive>
+			<ContentDescriptive>
+				<KeywordContent>#natureCode#</KeywordContent>
+				<KeywordReference schemeName="ACTES.codeNatureActe" schemeAgencyName="Ministère de l'intérieur, de l'outre mer et des collectivités territoriales" schemeVersionID="ACTES V1.4">bla</KeywordReference>
+				<KeywordType listVersionID="edition 2009">genreform</KeywordType>
+			</ContentDescriptive>
+			<ContentDescriptive>
+				<KeywordContent>#natureLibelle#</KeywordContent>
+				<KeywordReference schemeName="Thésaurus pour la description et l'indexation des archives locales anciennes, modernes et contemporaines_liste d'autorité Actions" schemeAgencyName="Direction des archives de france" schemeDataURI="http://www.archivesdefrance.culture.gouv.fr/gerer/classement/normesoutils/thesaurus/" schemeVersionID="version 2009"/>
+				<KeywordType listVersionID="edition 2009">subject</KeywordType>
+			</ContentDescriptive>
+		</ContentDescription>
+		<Appraisal>
+			<Code listVersionID="edition 2009">detruire</Code>
+			<Duration>P1Y</Duration>
+			<StartDate>2014-02-03</StartDate>
+		</Appraisal>
+		<AccessRestriction>
+			<Code listVersionID="edition 2009">AR038</Code>
+			<StartDate>2014-02-03</StartDate>
+		</AccessRestriction>
+		<Contains>
+			<DescriptionLevel listVersionID="edition 2009">file</DescriptionLevel>
+			<Name>Transmission d'un acte soumis au contrôle de légalité</Name>
+			<Contains>
+				<DescriptionLevel listVersionID="edition 2009">item</DescriptionLevel>
+				<Name>Actes</Name>
+				<Document>
+					<Attachment mimeCode="#fichierActeMimeCode#" filename="#fichierActeNom#"/>
+					<Control>false</Control>
+					<Copy>true</Copy>
+					<Description>Acte</Description>
+					<Type listVersionID="edition 2009">CDO</Type>
+				</Document>
+			</Contains>
+			<Contains pastellRepetition='annexes'>
+				<DescriptionLevel listVersionID="edition 2009">item</DescriptionLevel>
+				<Name>Annexe(s) d'un acte soumis au contrôle de légalité</Name>
+				<Document index="#annexeIndex#">
+					<Attachment mimeCode="#fichierAnnexeMimeCode#" filename="#fichierAnnexeNom#"/>
+					<Control>false</Control>
+					<Copy>true</Copy>
+					<Description>Acte</Description>
+					<Type listVersionID="edition 2009">CDO</Type>
+				</Document>
+			</Contains>
+		</Contains>
+	</Contains>
+</ArchiveTransfer>
