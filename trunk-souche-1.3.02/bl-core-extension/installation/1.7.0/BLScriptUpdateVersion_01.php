@@ -68,3 +68,64 @@ if (!$index_structure) {
     $blScript->traceln('déjà fait');
 }
 
+/*
+ * Merge souche 1.3.02
+ */
+$blScript->trace('Migration de la structure de la BD vers souche 1.3.02 : ');
+$result = $objectInstancier->SQLQuery->query("SHOW TABLES LIKE 'notification_digest'");
+if (!$result) {
+    $objectInstancier->SQLQuery->query(<<<SQL
+        ALTER TABLE `action_auto_log` CHANGE `etat_source` `etat_source` varchar(64) NOT NULL;
+        ALTER TABLE `action_auto_log` CHANGE `etat_cible` `etat_cible` varchar(64) NOT NULL;
+        DROP INDEX id_ei ON action_auto_log;
+
+        CREATE  UNIQUE INDEX id_e ON action_auto_log (`id_e`,`id_d`,`first_try`) ;
+
+        CREATE TABLE action_programmee (
+                `id_d` varchar(32) NOT NULL,
+                `id_e` int(11) NOT NULL,
+                `id_u` int(11) NOT NULL,
+                `action` varchar(32) NOT NULL
+        )  ENGINE=InnoDB  ;
+        CREATE TABLE collectivite_fournisseur (
+                `id_e_col` int(11) NOT NULL,
+                `id_e_fournisseur` int(11) NOT NULL,
+                `is_valid` tinyint(1) NOT NULL
+        )  ENGINE=InnoDB  ;
+        ALTER TABLE `document_entite` CHANGE `last_action` `last_action` varchar(64) NOT NULL;
+        CREATE TABLE document_index (
+                `id_d` varchar(64) NOT NULL,
+                `field_name` varchar(128) NOT NULL,
+                `field_value` varchar(128) NOT NULL,
+                PRIMARY KEY (`id_d`,`field_name`)
+        )  ENGINE=InnoDB  ;
+        ALTER TABLE `entite` ADD `is_active` tinyint(1) NOT NULL DEFAULT '1';
+        ALTER TABLE `flux_entite` CHANGE `id_ce` `id_ce` int(11) NOT NULL;
+        DROP INDEX id_ce ON flux_entite;
+
+        ALTER TABLE `journal` CHANGE `type` `type` int(11) NOT NULL;
+        ALTER TABLE `journal` CHANGE `id_e` `id_e` int(11) NOT NULL;
+        ALTER TABLE `journal` CHANGE `id_d` `id_d` varchar(16) NOT NULL;
+        ALTER TABLE `journal` CHANGE `message` `message` text NOT NULL;
+        ALTER TABLE `journal` CHANGE `date` `date` datetime NOT NULL;
+        ALTER TABLE `journal` CHANGE `message_horodate` `message_horodate` text NOT NULL;
+        CREATE  FULLTEXT INDEX message_horodate ON journal (`message_horodate`) ;
+
+        DROP INDEX date ON journal;
+
+        DROP INDEX id_e ON journal;
+
+        DROP INDEX id_d ON journal;
+
+        DROP INDEX type ON journal;
+
+        ALTER TABLE `notification` CHANGE `action` `action` varchar(64) NOT NULL;
+        ALTER TABLE `notification` ADD `daily_digest` tinyint(1) NOT NULL;
+SQL
+    );
+    $blScript->traceln('OK');
+} else {
+    $blScript->traceln('déjà fait');
+}
+
+
