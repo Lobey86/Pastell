@@ -51,7 +51,7 @@ class AnnuaireGroupe extends SQL {
 		}
 		$sql = "SELECT * FROM annuaire_groupe_contact " . 
 				" JOIN annuaire ON annuaire_groupe_contact.id_a=annuaire.id_a " .
-				" WHERE id_g=? LIMIT $offset,$limit";
+				" WHERE id_g=? ORDER BY annuaire.description ASC LIMIT $offset,$limit";
 		return $this->query($sql,$id_g);
 	}
 	
