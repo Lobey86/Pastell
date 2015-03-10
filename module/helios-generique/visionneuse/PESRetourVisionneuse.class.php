@@ -19,9 +19,11 @@ class PESRetourVisionneuse extends Visionneuse {
 		$nomFic = $xml->Enveloppe->Parametres->NomFic['V'];
 		
 		$nb_erreur = 0;
-		foreach($xml->ACQUIT->ElementACQUIT as $elementACQUIT){
-			if ($elementACQUIT->EtatAck['V'] != 1){
-				$nb_erreur ++;
+		if( !empty($xml->ACQUIT->ElementACQUIT) ) {
+			foreach($xml->ACQUIT->ElementACQUIT as $elementACQUIT){
+				if ($elementACQUIT->EtatAck['V'] != 1){
+					$nb_erreur ++;
+				}
 			}
 		}
 				
@@ -47,6 +49,7 @@ class PESRetourVisionneuse extends Visionneuse {
 			 &nbsp;-&nbsp;<b style='color:red'><?php echo $nb_erreur?> erreur<?php echo $nb_erreur>1?'s':''?></b>
 		<?php endif;?>
 	</p>
+	<?php if( !empty($xml->ACQUIT->ElementACQUIT) ) :?>
 	<table>
 		<tr>
 			<th>Domaine</th>
@@ -87,6 +90,7 @@ class PESRetourVisionneuse extends Visionneuse {
 		</tr>
 		<?php endforeach;?>
 	</table>
+	<?php endif;?>
 </div>
 		<?php 
 	}
