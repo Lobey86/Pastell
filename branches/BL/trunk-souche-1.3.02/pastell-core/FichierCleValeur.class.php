@@ -50,15 +50,17 @@ class FichierCleValeur {
 	
 	public function save(){
 		$result = array();
-		foreach($this->info as $field_name => $field_value){
-			if (is_array($field_value)){
-				foreach($field_value as $i => $value){
-					$result[$field_name][$i] = $this->escape($value);
-				}
-			} else {
-				$result[$field_name] = $this->escape($field_value);
-			}
-		}
+        if ($this->info) {
+            foreach($this->info as $field_name => $field_value){
+                if (is_array($field_value)){
+                    foreach($field_value as $i => $value){
+                        $result[$field_name][$i] = $this->escape($value);
+                    }
+                } else {
+                    $result[$field_name] = $this->escape($field_value);
+                }
+            }
+        }
 	
 		$dump = Spyc::YAMLDump($result);
 		file_put_contents($this->filePath,$dump);
