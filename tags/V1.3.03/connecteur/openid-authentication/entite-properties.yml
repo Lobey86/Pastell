@@ -1,0 +1,32 @@
+name: Authentification OpenID
+type: openid-authentication
+
+description: |
+	Permet l'utilisation d'un serveur OpenID comme source d'authentification pour une entité.		
+
+formulaire:
+	page0:
+		client_id:
+			name: client_id
+		client_secret:
+			name: client_secret
+		instance_id:
+			name: instance_id
+			read-only: true
+			
+action:
+	test-connexion:
+		name: Tester la connexion OpenID
+		action-class: OpenIDTestLogin
+		
+	test-deconnexion:
+		name: Tester la déconnexion OpenID
+		action-class: OpenIDTestLogout
+	
+	recuperation-compte:
+		name: Lister les comptes disponibles
+		action-class: OpenIDRecuperationCompte
+		
+	recuperation-compte-ok:
+		name: Synchroniser les comptes disponibles
+		action-class: OpenIDSynchroniserCompte
