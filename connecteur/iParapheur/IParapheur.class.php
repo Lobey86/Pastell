@@ -211,7 +211,12 @@ class IParapheur extends SignatureConnecteur {
 			array $all_annexes = array(),
 			$date_limite = false
 			){
-		
+// 		echo '<pre>';
+// var_dump($typeTechnique); 
+// var_dump($sousType);
+// var_dump($dossierID);
+// echo '</pre>';
+// die();
 		try {
 			$client = $this->getClient();		
 			
@@ -269,10 +274,11 @@ class IParapheur extends SignatureConnecteur {
 	}
 	
 	protected function getClient(){
-		static $client;
-		if ($client) {
-			return $client;
-		}
+// 		static $client;
+// var_dump($client);
+// 		if ($client) {
+// 			return $client;
+// 		}
 		if ( ! $this->activate){
 			$this->lastError = "Le module n'est pas activé";
 			throw new Exception("Le module n'est pas activé");
@@ -296,6 +302,10 @@ class IParapheur extends SignatureConnecteur {
 					'userKeyOnly' => $this->userKeyOnly,
 					'userCertOnly' => $this->userCertOnly,
 	    		),true);
+
+// echo '<pre>';
+// var_dump($client);
+// // die();
 		return $client;
 	} 
 	
