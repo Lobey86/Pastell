@@ -106,7 +106,7 @@ class CMIS extends GEDConnecteur {
     	}
     	
     	$url_template = $repositoryInfo['template']['objectbypath'];
-    	
+    	$path = urlencode($path);
     	$url = str_replace("{path}", $path, $url_template);
     	$url = preg_replace("/{[a-zA-Z0-9_]+}/", "", $url);
     	
