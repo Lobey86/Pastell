@@ -257,7 +257,7 @@ class IParapheur extends SignatureConnecteur {
 			if (! empty($client)){
 				$this->lastError .= $client->__getLastResponse();
 			} 
-			return false;			
+			return false;
 		}
 		
 	}
@@ -269,10 +269,10 @@ class IParapheur extends SignatureConnecteur {
 	}
 	
 	protected function getClient(){
-		static $client;
+		/*static $client;
 		if ($client) {
 			return $client;
-		}
+		}*/
 		if ( ! $this->activate){
 			$this->lastError = "Le module n'est pas activé";
 			throw new Exception("Le module n'est pas activé");
