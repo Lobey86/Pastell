@@ -48,10 +48,6 @@ class HeliosSignature {
 			$cloned = $signature->cloneNode(TRUE);
 			
 			$bordereauNode = $all_bordereau->item($num_bordereau);
-			if (! $bordereauNode->hasAttribute('Id')){
-				$bordereauSimpleXML = simplexml_import_dom($bordereauNode);
-				$bordereauNode->setAttribute('Id', strval($bordereauSimpleXML->BlocBordereau->IdBord['V']));
-			}
 			
 			$bordereauNode->appendChild($domDocument->importNode($cloned,true));
 		}
