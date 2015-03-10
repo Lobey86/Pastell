@@ -737,7 +737,18 @@ class DocumentControler extends PastellControler {
 			$donneesFormulaire->setData($new_field_name,$value);
 			$donneesFormulaire->deleteField($old_field_name);
 		}
+	}
+	
+	public function visionneuseAction(){
+		$recuperateur = new Recuperateur($_GET);
+		$id_d = $recuperateur->get('id_d');
+		$id_e = $recuperateur->getInt('id_e');
+		$field = $recuperateur->get('field');
+		$num = $recuperateur->getInt('num',0);
 		
+		$info_document = $this->verifDroitLecture($id_e, $id_d);
+		
+		$this->VisionneuseFactory->display($id_d,$field,$num);
 	}
 	
 	
