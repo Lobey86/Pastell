@@ -1,6 +1,0 @@
-Attention, le plan de sauvegarde du WORKSPACE a été revu :
-
-- les connecteurs sont laissés à la racine 
-- les fichiers XYzzz.yml et leur dépendances sont placés dans le répertoire X/Y/
-
-Afin de mettre à jour les anciens workspace, il est nécessaire de déclenché le script installation/old-workspace-to-new-workspace.php
