@@ -84,6 +84,7 @@ class CMIS extends GEDConnecteur {
 		
 		$uriTemplate = $xml->workspace->children(self::NS_CMIS_RA)->uritemplate;
 		
+		
 		foreach ($uriTemplate as $template){
 			$type = strval($template->children(self::NS_CMIS_RA)->type);
 			$result['template'][$type] = strval($template->children(self::NS_CMIS_RA)->template);
@@ -107,8 +108,13 @@ class CMIS extends GEDConnecteur {
     	
     	$url_template = $repositoryInfo['template']['objectbypath'];
     	
+    	$path = urlencode($path);
+    	
     	$url = str_replace("{path}", $path, $url_template);
+    	
+    	
     	$url = preg_replace("/{[a-zA-Z0-9_]+}/", "", $url);
+    	
     	
         $xmldata = $this->get($url);
         
@@ -140,7 +146,7 @@ class CMIS extends GEDConnecteur {
     }
 	
 	public function addDocument($title,$description,$contentType,$content,$gedFolder){
-		$folderInfo = $this->getObjectByPath($gedFolder);
+		$folderInfo = $this->getObjectByPath($gedFolder);		
 		$folderId = $folderInfo['id'];
 		$url = $folderInfo['link']['down'];     
         $content = $this->getContent($title,$description,$contentType,$content);
