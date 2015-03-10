@@ -16,13 +16,8 @@ class HeliosSignature {
 		$hash = array();
 		foreach($root->Bordereau as $bordereau){
 			$dom = dom_import_simplexml($bordereau);
-			
-			//Si la balise Bordereau n'a pas d'attribut Id (qui est facultatif), on met l'id qu'on trouve à l'interieur du BlocBordereau
 			if (! $dom->hasAttribute('Id')){
-				if (empty($bordereau->BlocBordereau->IdBord['V'])){
-					throw new Exception("Au moins un bordereau du fichier PES ne contient pas d'identifiant valide : signature impossible");
-				}
-				$dom->setAttribute('Id', strval($bordereau->BlocBordereau->IdBord['V']));
+				throw new Exception("Le bordereau du fichier PES ne contient pas d'identifiant valide : signature impossible");
 			}
 			$id[]=$dom->getAttribute('Id');
 			$data_to_sign = $dom->C14N(true, false);
