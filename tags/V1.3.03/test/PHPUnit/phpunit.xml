@@ -1,0 +1,25 @@
+<!-- 
+PHPUnit essaye de sauver les variables global, dont PDO qui ne peut être sérialisé
+cf : http://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-instances/
+-->
+<phpunit backupGlobals="false">
+    <testsuites>
+        <testsuite name="Pastell Core">
+            <directory>.</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+  <log type="coverage-html" target="/tmp/pastell-coverage" charset="UTF-8"
+       yui="true" highlight="false"
+       lowUpperBound="35" highLowerBound="90"/> 
+</logging>
+<filter>
+<whitelist processUncoveredFilesFromWhitelist="false">
+    <directory suffix=".php">../../</directory>
+    <exclude>
+		<directory suffix=".php">..</directory>
+		<directory>../../ext</directory>
+    </exclude>
+</whitelist>
+</filter>
+</phpunit>
