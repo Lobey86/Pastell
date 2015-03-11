@@ -2,7 +2,7 @@
 
 class IParapheur extends SignatureConnecteur {
 	
-	const IPARAPHEUR_NB_JOUR_MAX_DEFAULT = 30;
+	const IPARAPHEUR_NB_JOUR_MAX_DEFAULT = "10";
 	
 	private $wsdl;
 	private $userCert;
@@ -40,7 +40,10 @@ class IParapheur extends SignatureConnecteur {
 	}
 	
 	public function getNbJourMaxInConnecteur(){
-		return $this->iparapheur_nb_jour_max || self::IPARAPHEUR_NB_JOUR_MAX_DEFAULT;
+		if ($this->iparapheur_nb_jour_max){
+			return $this->iparapheur_nb_jour_max;
+		}
+		return self::IPARAPHEUR_NB_JOUR_MAX_DEFAULT;
 	}
 	
 	
