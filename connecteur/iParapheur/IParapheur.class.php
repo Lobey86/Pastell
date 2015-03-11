@@ -39,8 +39,11 @@ class IParapheur extends SignatureConnecteur {
 		$this->visibilite = $collectiviteProperties->get('iparapheur_visibilite')?:"SERVICE";
 	}
 	
-	public function getNbJourMaxInConnecteur(){
-		return $this->iparapheur_nb_jour_max || self::IPARAPHEUR_NB_JOUR_MAX_DEFAULT;
+	public function getNbJourMaxInConnecteur(){		
+		if ($this->iparapheur_nb_jour_max){
+			return $this->iparapheur_nb_jour_max;
+		}
+		return self::IPARAPHEUR_NB_JOUR_MAX_DEFAULT;
 	}
 	
 	
