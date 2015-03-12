@@ -7,6 +7,7 @@ class HeliosGeneriqueSignatureLocale extends ChoiceActionExecutor {
 	public function go(){
 		$recuperateur = new Recuperateur($_POST);
 		$signature_1 = $recuperateur->get("signature_1");
+		$isbordereau = $recuperateur->get("is_bordereau");
 		if (! $signature_1){
 			throw new Exception("Aucune signature n'a été trouvée");
 		}
@@ -16,13 +17,17 @@ class HeliosGeneriqueSignatureLocale extends ChoiceActionExecutor {
 		
 		$heliosSignature = new HeliosSignature();
 		
-		$new_pes_content = $heliosSignature->injectSignature($pes_filepath, $signature_1);
+		$new_pes_content = $heliosSignature->injectSignature($pes_filepath, $signature_1, $isbordereau);
 		
 		$this->getDonneesFormulaire()->addFileFromData('fichier_pes', $pes_filename, $new_pes_content);
 		$this->getDonneesFormulaire()->setData('signature_locale','OUI');
 		
-		$this->setLastMessage("La signature a été correctement récupéré");
-		$this->notify('signature', $this->type,"La signature a été récupérée sur parapheur électronique");
+        
+        $this->getActionCreator()->addAction($this->id_e,$this->id_u,'recu-iparapheur',"La signature a été récupérée depuis l'applet de signature");
+		$this->notify('recu-iparapheur', $this->type,"La signature a été récupérée depuis l'aplet de signature");
+        
+		$this->setLastMessage("La signature a été correctement récupérée");
+//		$this->notify('signature', $this->type,"La signature a été récupérée sur parapheur électronique");
 		$this->redirect("/document/detail.php?id_e=".$this->id_e."&id_d=".$this->id_d."&page=".$this->page);
 	}
 
