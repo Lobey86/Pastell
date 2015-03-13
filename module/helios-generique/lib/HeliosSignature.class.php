@@ -15,7 +15,7 @@ class HeliosSignature {
 		// Signature par bordereau
 		$id = array();
 		$hash = array();        
-        // Est-ce que chacun des bordereaux possÃ¨de un Id ?
+        // Est-ce que chacun des bordereaux possède un Id ?
         $isIdInBordereau = true;
         foreach($root->Bordereau as $bordereau){
             $dom = dom_import_simplexml($bordereau);
@@ -39,7 +39,7 @@ class HeliosSignature {
         }
         // sinon
         else {
-                //On vÃ©rifie que la balise PES_Ã§Aller possÃ¨de un ID
+                //On vérifie que la balise PES_çAller possède un ID
             if( isset( $xml['Id'] ) && !empty($xml['Id'] ) ) {
                 $domGlobal = dom_import_simplexml($xml);
                 $isBordereau = false;
