@@ -1,5 +1,0 @@
-Les mots de passe des utilisateurs sont maintenant chiffrés dans la base de données.
-
-Pour mettre la jour la base de données : installation/crype-password.php
-
-Attention, il est impératif de n'utiliser ce script qu'une seule fois, sinon, tous les mots de passe seront perdus.
