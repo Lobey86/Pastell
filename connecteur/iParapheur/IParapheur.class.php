@@ -2,7 +2,7 @@
 
 class IParapheur extends SignatureConnecteur {
 	
-	const IPARAPHEUR_NB_JOUR_MAX_DEFAULT = 30;
+	const IPARAPHEUR_NB_JOUR_MAX_DEFAULT = "10";
 	
 	private $wsdl;
 	private $userCert;
@@ -39,7 +39,7 @@ class IParapheur extends SignatureConnecteur {
 		$this->visibilite = $collectiviteProperties->get('iparapheur_visibilite')?:"SERVICE";
 	}
 	
-	public function getNbJourMaxInConnecteur(){		
+	public function getNbJourMaxInConnecteur(){
 		if ($this->iparapheur_nb_jour_max){
 			return $this->iparapheur_nb_jour_max;
 		}
@@ -214,12 +214,7 @@ class IParapheur extends SignatureConnecteur {
 			array $all_annexes = array(),
 			$date_limite = false
 			){
-// 		echo '<pre>';
-// var_dump($typeTechnique); 
-// var_dump($sousType);
-// var_dump($dossierID);
-// echo '</pre>';
-// die();
+		
 		try {
 			$client = $this->getClient();		
 			
@@ -265,7 +260,7 @@ class IParapheur extends SignatureConnecteur {
 			if (! empty($client)){
 				$this->lastError .= $client->__getLastResponse();
 			} 
-			return false;			
+			return false;
 		}
 		
 	}
@@ -277,11 +272,10 @@ class IParapheur extends SignatureConnecteur {
 	}
 	
 	protected function getClient(){
-// 		static $client;
-// var_dump($client);
-// 		if ($client) {
-// 			return $client;
-// 		}
+		/*static $client;
+		if ($client) {
+			return $client;
+		}*/
 		if ( ! $this->activate){
 			$this->lastError = "Le module n'est pas activé";
 			throw new Exception("Le module n'est pas activé");
@@ -305,10 +299,6 @@ class IParapheur extends SignatureConnecteur {
 					'userKeyOnly' => $this->userKeyOnly,
 					'userCertOnly' => $this->userCertOnly,
 	    		),true);
-
-// echo '<pre>';
-// var_dump($client);
-// // die();
 		return $client;
 	} 
 	
@@ -352,9 +342,8 @@ class IParapheur extends SignatureConnecteur {
 		$client = $this->getClient();
 		return $client->echo("test_connexion_pastell");
 	}
-	
+		
 	public function getLogin(){
 		return $this->login_http;
 	}
-	
 }
