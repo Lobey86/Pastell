@@ -1,0 +1,41 @@
+name: As@lae (Rest)
+type: SAE
+formulaire:
+	page0:
+		url:
+			name: "URL de base des webservices"
+		login:
+			name: Identifiant de connexion
+		password:
+			name: Mot de passe
+			type: password
+			
+		max_delai_ar :
+			name: Temps maximum d'attente de l'AR (minutes)
+			commentaire: temps en minute au bout de laquelle une erreur est déclenché
+			default: 60
+		
+		originating_agency: 
+			name: Identifiant service versant
+			
+		last_bordereau:
+			name: Dernier bordereau envoyé
+			type: file
+			read-only: true
+			
+		last_file:
+			name: Dernier fichier zip envoyé
+			type: file
+			read-only: true
+			
+
+action:
+	ping:
+		name: Tester la connexion (réseau)
+		action-class: AsalaeRestPing
+		
+	version:
+		name: Tester la connexion (authentification)
+		action-class: AsalaeRestVersion
+		
+	

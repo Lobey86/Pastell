@@ -1,0 +1,13 @@
+name: Validation fournisseur
+type: validation-fournisseur
+
+description: |
+	Ce connecteur est utilisé pour désigné une entité qui sera chargé de valider toutes les demandes d'inscriptions des fournisseurs.
+	Une fois le fournisseur validé par une collectivité, le flux fournisseur-inscription est envoyé à l'entité spécifié par ce connecteur global
+	
+
+formulaire:
+	page0:
+		id_e:
+			name: Identifiant de l'entité modératrice du flux fournisseur-inscription
+			commentaire: id_e
