@@ -176,6 +176,7 @@ class Journal extends SQL {
 			$sql.= "AND DATE(journal.date) <= ?";
 			$value[] = $date_fin;
 		}
+		
 		return $this->queryOne($sql,$value);
 	}
 	
