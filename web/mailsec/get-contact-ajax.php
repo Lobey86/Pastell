@@ -50,7 +50,7 @@ if ($mailOnly == "false"){
 
 
 foreach ($annuaire->getListeMail($q) as $item){
-	$result[] = '"'.$item['description'] . '"'." <".$item['email'].">";
+	$result[] = '"'.utf8_encode($item['description']) . '"'." <".utf8_encode($item['email']).">";
 }
 
 
