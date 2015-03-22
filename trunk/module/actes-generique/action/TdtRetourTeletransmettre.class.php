@@ -2,6 +2,7 @@
 class TdtRetourTeletransmettre extends ActionExecutor {
 
 	public function go(){
+				
 		$recuperateur = new Recuperateur($_GET);
 		$error = $recuperateur->get("error");
 		$message = $recuperateur->get("message");
