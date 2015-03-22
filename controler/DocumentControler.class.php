@@ -736,6 +736,8 @@ class DocumentControler extends PastellControler {
 			$value = $donneesFormulaire->get($old_field_name);
 			$donneesFormulaire->setData($new_field_name,$value);
 			$donneesFormulaire->deleteField($old_field_name);
+			
+			echo $document_info['id_d'] ." : OK\n"; 
 		}
 	}
 	

@@ -556,6 +556,7 @@ action:
 				send-tdt
 				erreur-verif-tdt
 				document-transmis-tdt
+				teletransmission-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisRecup
