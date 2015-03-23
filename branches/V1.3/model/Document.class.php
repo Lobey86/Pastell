@@ -71,7 +71,7 @@ class Document extends SQL {
 	}
 	
 	public function getAllByType($type){
-		$sql = "SELECT id_d,titre FROM document WHERE type=?";
+		$sql = "SELECT id_d,titre FROM document WHERE type=? ORDER BY creation"; 
 		return $this->query($sql,$type);
 	}
 	

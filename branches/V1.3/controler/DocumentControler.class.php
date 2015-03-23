@@ -701,7 +701,7 @@ class DocumentControler extends PastellControler {
 		}
 	}
 	
-	public function reindex($document_type,$field_name){
+	public function reindex($document_type,$field_name,$offset=0,$limit=-1){
 		if (! $this->DocumentTypeFactory->isTypePresent($document_type)){
 			echo "[ERREUR] Le type de document $document_type n'existe pas sur cette plateforme.\n";
 			return;
@@ -720,7 +720,12 @@ class DocumentControler extends PastellControler {
 			return;
 		}
 
-		foreach($this->Document->getAllByType($document_type) as $document_info){
+		$document_list = $this->Document->getAllByType($document_type);
+        if ($limit > 0){
+            $document_list = array_slice($document_list,$offset,$limit);
+        }
+
+        foreach($document_list as $document_info){ 
 			echo "Réindexation du document {$document_info['titre']} ({$document_info['id_d']})\n";
 			$documentIndexor = new DocumentIndexor($this->DocumentIndexSQL, $document_info['id_d']);
 			$donneesFormulaire = $this->DonneesFormulaireFactory->get($document_info['id_d']);
