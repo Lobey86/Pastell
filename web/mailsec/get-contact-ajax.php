@@ -50,6 +50,10 @@ foreach ($annuaire->getListeMail($q) as $item){
 	$result[] = '"'.$item['description'] . '"'." <".$item['email'].">";
 }
 
+foreach($result as $i => $line){
+	$result[$i] = utf8_encode($line);
+}
+
 
 
 echo json_encode($result);
