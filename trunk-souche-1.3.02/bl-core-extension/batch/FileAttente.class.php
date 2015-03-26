@@ -29,8 +29,7 @@ class FileAttente {
             
     private $cache_file_attente;
     private $cache_server_name;
-    private $all_flux_connecteur_action;
-    private $flag_path;
+    private $all_flux_connecteur_action;    
                        
     const LOG_FILENAME_PREFIX = 'bl-action-auto-';
         
@@ -44,14 +43,13 @@ class FileAttente {
         return $conf_file_attente;
     }
         
-    public function __construct($objectInstancier, $flag_path, $file_attente_name, $duree_attente) {
+    public function __construct($objectInstancier, $file_attente_name, $duree_attente) {
         $this->file_attente_name = $file_attente_name;
         $this->objectInstancier = $objectInstancier;
         $this->duree_attente = $duree_attente;
         $this->cache_server_name=array();
         $this->cache_file_attente=array();
-        $this->file_encours = false;
-        $this->flag_path = $flag_path;
+        $this->file_encours = false;        
         // Chargement du fichier contenant les associations entre action et type de connecteur
         $this->all_flux_connecteur_action = json_decode(file_get_contents('/var/pastell_settings/connecteur_action.json'), true);        
     }
@@ -64,7 +62,7 @@ class FileAttente {
     }
 
     private function getFileAttenteInfoFilePath() {
-        return $this->flag_path . "/" . $this->file_attente_name;
+        return WORKSPACE_PATH . "/" . $this->file_attente_name;
     }
     
     public function demarrerExecutionFileAttente() {
@@ -230,7 +228,7 @@ class FileAttente {
                 }
             }
             // Si pas trouvé en conf, le traitement sera exécuté dans la file DEFAULT.
-            $file_trouve = $file_from_conf? $file_from_conf : self::FILE_ATTENTE_DEFAUT;
+            $file_trouve = $file_from_conf? $file_from_conf : FILE_ATTENTE_DEFAUT;
             
             // stocker la file d'attente dans le cache.
             $this->cache_file_attente[] = array('type_flux' => $type_flux, 'id_e' => $id_e, 'id_ce' => '', 'action' => $action, 'file' => $file_trouve);
@@ -252,14 +250,14 @@ class FileAttente {
             $file_from_conf = $this->determinerFileAttente($id_ce, $action);                
             
             // Si pas trouvé en conf, le traitement sera exécuté dans la file DEFAULT.
-            $file_trouve = $file_from_conf? $file_from_conf : self::FILE_ATTENTE_DEFAUT;
+            $file_trouve = $file_from_conf? $file_from_conf : FILE_ATTENTE_DEFAUT;
             
             // stocker la file d'attente dans le cache.
             $this->cache_file_attente[] = array('type_flux' => '', 'id_e' => '', 'id_ce' => $id_ce, 'action' => $action, 'file' => $file_trouve);
         } 
                
         // Déternminer si le traitement est executable sur la file d'attente
-        if ($this->file_attente_name == file_trouve) {
+        if ($this->file_attente_name == $file_trouve) {
             return true;
         }
         return false;

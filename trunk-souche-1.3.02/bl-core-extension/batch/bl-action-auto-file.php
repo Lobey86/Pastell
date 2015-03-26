@@ -15,7 +15,7 @@ $totaux = array(
 $file_attente_name = $blscript->getArg('file', 'DEFAULT');
 $duree_attente = $blscript->getArg('duree_attente', '1800');
 
-$file_attente = new FileAttente($objectInstancier, WORKSPACE_PATH, $file_attente_name, $duree_attente);
+$file_attente = new FileAttente($objectInstancier, $file_attente_name, $duree_attente);
 
 $file_attente->demarrerExecutionFileAttente();
 
