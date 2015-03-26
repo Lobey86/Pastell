@@ -23,7 +23,7 @@ while(true) {
     $blscript->checkBatchStop();
     
     foreach($list_file_attente as $file_attente_courante) {
-        $file_attente = new FileAttente($objectInstancier, WORKSPACE_PATH, $file_attente_courante['file'], $file_attente_courante['duree_attente']);            
+        $file_attente = new FileAttente($objectInstancier, $file_attente_courante['file'], $file_attente_courante['duree_attente']);            
         $file_en_cours = $file_attente->isFileAttenteEnCoursTraitement();       
         if (!$file_en_cours) {
             $lancer_process = false; 

@@ -10,7 +10,7 @@ $notifier = false;
 
 $list_file_attente = FileAttente::getAllFileAttente();
 foreach($list_file_attente as $file_attente_courante) {
-    $file_attente = new FileAttente($objectInstancier, WORKSPACE_PATH, $file_attente_courante['file'], $file_attente_courante['duree_attente']);
+    $file_attente = new FileAttente($objectInstancier, $file_attente_courante['file'], $file_attente_courante['duree_attente']);
     $duree_attente = $file_attente->getDureeAttente();
     $duree_depasse = $file_attente->isFileAttenteWarning();
     $duree = $file_attente->getDureeLastMTime();
