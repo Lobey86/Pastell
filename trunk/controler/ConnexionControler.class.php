@@ -181,6 +181,12 @@ class ConnexionControler extends PastellControler {
 		if ($authentificationConnecteur){
 			$authentificationConnecteur->logout();
 		}
+		
+		$openIDAuthentification = $this->ConnecteurFactory->getGlobalConnecteur("oasis-provisionning");
+		if ($openIDAuthentification){
+			$openIDAuthentification->logout();
+		}
+		
 		$this->redirect("/connexion/connexion.php");
 	}
 	
@@ -218,6 +224,13 @@ class ConnexionControler extends PastellControler {
 	public function doConnexionAction(){		
 		$this->connexionActionRedirect("connexion/connexion.php");
 		$this->redirect();
+	}
+	
+	public function renderOasisError(){
+		$this->page="connexion";
+		$this->page_title="Erreur";
+		$this->template_milieu = "ConnexionOasisError";
+		$this->renderDefault();
 	}
 	
 }

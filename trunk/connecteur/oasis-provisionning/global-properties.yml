@@ -23,7 +23,7 @@ formulaire:
 					
 		role :
 			name: Rôle administrateur
-			commentaire: Rôle qui sera automatiquement alloué à l'utilisateur sur l'entité qui est envoyé par le protocole de provisionning (exemple : admin)
+			commentaire: "Rôle qui sera automatiquement alloué à l'utilisateur sur l'entité qui est envoyé par le protocole de provisionning (exemple : admin)"
 					
 		instance_en_attente:
 			name: Instances en attente
