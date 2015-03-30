@@ -42,10 +42,20 @@ formulaire:
                 CONFIDENTIEL: CONFIDENTIEL
                 SERVICE: SERVICE
                 PUBLIC: PUBLIC
+                
         visuel_pdf_default:
             name: Visuel PDF par défaut
             type: file
             commentaire: Utiliser dans le cadre de l'envoi de flux PES
+            
+        XPathPourSignatureXML:
+            name: Position des signatures PES
+            commentaire: permet de préciser au iParapheur l'emplacement des signatures pour les PES 
+            type: select
+            value:
+                1: Bordereau si possible ou PES_Aller sinon (defaut)
+                2: Bordereau
+                3: PES_Aller
 		
 action:
     test-iparapheur:
