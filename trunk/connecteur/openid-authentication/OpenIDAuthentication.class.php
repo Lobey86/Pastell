@@ -198,7 +198,7 @@ class OpenIDAuthentication extends Connecteur {
 		foreach($info as $key=>$value){
 			$url.=$key."=".$value."&";
 		}
-		session_detroy();
+		session_destroy();
 		header("Location: $url");
 		exit;
 	}
