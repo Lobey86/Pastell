@@ -19,7 +19,10 @@ $x_hub_signature = $_SERVER['HTTP_X_HUB_SIGNATURE'];
 $rawdata = file_get_contents('php://input');
 
 try {
-	$oasisProvisionning->addInstance($rawdata,$x_hub_signature);
+	$oasisProvisionning->addInstance($rawdata,$x_hub_signature);	
+
+	$objectInstancier->Journal->add(Journal::CONNEXION,0,0,"Nouvelle demande de provisionning Oasis ajouté");
+	
 } catch (Exception $e){
 	http_response_code(400);
 	echo $e->getMessage();
