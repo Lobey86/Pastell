@@ -50,6 +50,8 @@ class ConnexionControler extends PastellControler {
 			$this->redirect("connexion/connexion.php");
 		}
 		
+		$_SESSION['open_id_authenticate_id_ce'] = $id_ce;
+		
 		$this->setConnexion($id_u,"OpenID");
 		$this->redirect();
 	}
@@ -177,14 +179,15 @@ class ConnexionControler extends PastellControler {
 		$this->Authentification->deconnexion();
 			
 		$authentificationConnecteur = $this->ConnecteurFactory->getGlobalConnecteur("authentification");
-		
 		if ($authentificationConnecteur){
 			$authentificationConnecteur->logout();
 		}
 		
-		$openIDAuthentification = $this->ConnecteurFactory->getGlobalConnecteur("oasis-provisionning");
-		if ($openIDAuthentification){
-			$openIDAuthentification->logout();
+		if (isset($_SESSION['open_id_authenticate_id_ce'] )){
+			$openIdAuthentication = $this->ConnecteurFactory->getConnecteurById($_SESSION['open_id_authenticate_id_ce']);
+			if ($openIdAuthentication){
+				$openIdAuthentication->logout();
+			}
 		}
 		
 		$this->redirect("/connexion/connexion.php");
