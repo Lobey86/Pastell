@@ -532,7 +532,8 @@ action:
 		rule:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
-			last-action: 
+			last-action:
+				teletransmission-tdt 
 				document-transmis-tdt
 		action-class: TdtTeletransmettre
 		pas-dans-un-lot: true
@@ -543,7 +544,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 			last-action: 
-				document-transmis-tdt
+				teletransmission-tdt
 		action-class: TdtRetourTeletransmettre
 		
 	
@@ -555,6 +556,7 @@ action:
 				send-tdt
 				erreur-verif-tdt
 				document-transmis-tdt
+				teletransmission-tdt
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 		action-class: TedetisRecup

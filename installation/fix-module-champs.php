@@ -34,6 +34,18 @@ if ($entree != 'o'){
 	exit;
 }
 
-$objectInstancier->DocumentControler->fixModuleChamps($flux_name,$old_field_name,$new_field_name);
+foreach($result as $document_info){
+
+	$file_path = $objectInstancier->DonneesFormulaireFactory->getNewDirectoryPath($document_info['id_d'])."{$document_info['id_d']}.yml";
+	$file_content = file_get_contents($file_path);
+	$file_content = preg_replace("#^$old_field_name:#m", "$new_field_name:", $file_content);
+
+	file_put_contents($file_path, $file_content);
+	echo $document_info['id_d']. " : OK \n";
+
+
+}
+
+//$objectInstancier->DocumentControler->fixModuleChamps($flux_name,$old_field_name,$new_field_name);
 echo "Les documents ont ete modifies\n";
 	
