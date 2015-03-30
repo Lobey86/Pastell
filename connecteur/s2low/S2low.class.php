@@ -141,7 +141,7 @@ class S2low  extends TdtConnecteur {
 	public function postHelios(DonneesFormulaire $donneesFormulaire){
 		$file_path = $donneesFormulaire->getFilePath('fichier_pes_signe');
 		$file_name = $donneesFormulaire->get('fichier_pes_signe');
-		$file_name = $file_name[0];
+		$file_name = preg_replace("#[^a-zA-Z0-9_ ]#", "_", $file_name[0]);
 		$this->curlWrapper->addPostFile('enveloppe',$file_path,$file_name);
 		$result = $this->exec( self::URL_POST_HELIOS );	
 		$xml = simplexml_load_string($result);
@@ -181,7 +181,7 @@ class S2low  extends TdtConnecteur {
 		
 		$file_path = $donneesFormulaire->getFilePath('arrete');
 		$file_name = $donneesFormulaire->get('arrete');
-		$file_name = $file_name[0];
+		$file_name = preg_replace("#[^a-zA-Z0-9_ ]#", "_", $file_name[0]);
 		
 		$this->curlWrapper->addPostFile('acte_pdf_file',$file_path,$file_name);
 				
