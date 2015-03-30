@@ -52,6 +52,7 @@ class DonneesFormulaireFactory{
 	
 	private function getFromCache($id_document,DocumentType $documentType){
 		static $cache;
+		$cache = false;
 		if (empty($cache[$id_document])){
 			$cache[$id_document] = new DonneesFormulaire( $this->workspacePath  . "/$id_document.yml", $documentType);
 			$documentIndexor = new DocumentIndexor($this->documentIndexSQL, $id_document);
