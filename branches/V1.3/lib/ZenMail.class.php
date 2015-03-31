@@ -56,6 +56,10 @@ class ZenMail {
 		$this->contenu = $content;
 	}
 	
+	public function resetAttachment(){
+		$this->attachment = array();
+	}
+	
 	public function addAttachment($filename,$filepath){
 		$this->attachment[$filename] = $filepath;
 	}	
