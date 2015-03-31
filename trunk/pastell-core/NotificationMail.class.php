@@ -31,6 +31,7 @@ class NotificationMail {
 		$this->zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		$this->zenMail->setDestinataire($mail);
 		$this->zenMail->setSujet("[Pastell] Notification");
+		$this->zenMail->resetAttachment();
 		foreach($attachment as $filename => $filepath){
 			$this->zenMail->addAttachment($filename, $filepath);
 		}
