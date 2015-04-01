@@ -232,7 +232,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         // créateur si api ou cron; console sinon.
         if ($this->from_api || $this->isActionAuto()) {
             $doc = $this->getDonneesFormulaire();
-            $pilote = $doc->get(self::FLUX_ATTR_PILOTE, "inconnu");
+            $pilote = $doc->get(self::FLUX_ATTR_PILOTE) ?: "inconnu";
         } else {
             $pilote = self::FLUX_PILOTE_CONSOLE;
         }
