@@ -145,7 +145,7 @@ class Journal extends SQL {
 	
 	
 	public function countAll($id_e,$type,$id_d,$id_u,$recherche,$date_debut,$date_fin){
-		$sql = "SELECT count(journal.id_j) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
+		$sql = "SELECT count(*) FROM journal LEFT JOIN document ON journal.id_d= document.id_d  WHERE 1 = 1 ";
 		$value = array();
 		
 		if ($id_e){
