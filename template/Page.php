@@ -48,7 +48,8 @@ if (! headers_sent()) {
 
 		<script type="text/javascript" src="js/htmlentities.js"></script>   
 		<script type="text/javascript" src="js/jquery.treeview.js"></script>  
-		<script type="text/javascript" src="js/pastell.js"></script>   
+		<script type="text/javascript" src="js/pastell.js"></script> 
+		<script type="text/javascript" src="js/jquery.ui.datepicker-fr.js"></script> 
 		
 
 
