@@ -96,21 +96,24 @@ class DocumentActionEntite extends SQL {
 		return $offset;
 	}
 	
-	
 	public function getInfo($id_d,$id_e){
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .
 				" JOIN document ON document_entite.id_d = document.id_d" .
 				" WHERE document_entite.id_e = ? AND document.id_d=? ";
 		$result =  $this->queryOne($sql,$id_e,$id_d);
+	
+		$result['last_action_display'] = $this->getLastActionDisplay($id_e,$id_d);
+		return $result;
+	}
+	
+	private function getLastActionDisplay($id_e,$id_d){
 		$sql = "SELECT action  FROM document_action " .
 				" JOIN document_action_entite ON document_action.id_a = document_action_entite.id_a " .
 				" WHERE document_action_entite.id_e=? AND document_action.id_d= ? " .
 				" ORDER BY document_action.date DESC, document_action.id_a DESC LIMIT 1";
-		$result['last_action_display'] = $this->queryOne($sql,$id_e,$id_d);
-		return $result;
-		
+		return $this->queryOne($sql,$id_e,$id_d);
 	}
-	
+		
 	public function getListDocument($id_e,$type,$offset,$limit,$search="",$etat = false){
 		$sql = "SELECT *,document_entite.last_action as last_action,document_entite.last_action_date as last_action_date FROM document_entite " .  
 				" JOIN document ON document_entite.id_d = document.id_d" .
@@ -153,12 +156,8 @@ class DocumentActionEntite extends SQL {
 					" WHERE id_d= ? AND document_action_entite.id_e=? AND entite.id_e != ?";
 			$list[$i]['entite'] = $this->query($sql,$id_d,$id_e,$id_e);
 			
-			$sql = "SELECT action  FROM document_action " .
-					" JOIN document_action_entite ON document_action.id_a = document_action_entite.id_a " .
-					" WHERE document_action_entite.id_e=? AND document_action.id_d= ? " .
-					" ORDER BY document_action.date DESC, document_action.id_a DESC LIMIT 1";
-			$list[$i]['last_action_display'] = $this->queryOne($sql,$id_e,$id_d); 
-			
+			$list[$i]['last_action_display'] = $this->getLastActionDisplay($id_e,$id_d);
+						
 		}
 		return $list;
 	}
