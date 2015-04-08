@@ -16,6 +16,7 @@ class IParapheur extends SignatureConnecteur {
 	private $iparapheur_type;
 	private $iparapheur_nb_jour_max;
 	private $visibilite;
+	private $xPathPourSignatureXML;
 	
 	private $soapClientFactory;
 	
@@ -37,6 +38,8 @@ class IParapheur extends SignatureConnecteur {
 		$this->iparapheur_nb_jour_max = $collectiviteProperties->get("iparapheur_nb_jour_max");
 		
 		$this->visibilite = $collectiviteProperties->get('iparapheur_visibilite')?:"SERVICE";
+		$this->xPathPourSignatureXML =  $collectiviteProperties->get('XPathPourSignatureXML');
+		
 	}
 	
 	public function getNbJourMaxInConnecteur(){
@@ -183,7 +186,7 @@ class IParapheur extends SignatureConnecteur {
 					"DocumentPrincipal" => array("_"=>$document_content,"contentType"=>$content_type),
 					"VisuelPDF" => array("_" => $visuel_pdf, "contentType" => "application/pdf"),
 					"Visibilite" => $this->visibilite,
-					"XPathPourSignatureXML" => ".",
+					"XPathPourSignatureXML" => $this->getXPathPourSignatureXML($document_content),
 					
 			); 
 			$result =  $client->CreerDossier($data);
@@ -345,5 +348,46 @@ class IParapheur extends SignatureConnecteur {
 		
 	public function getLogin(){
 		return $this->login_http;
+	}
+	
+	public function getXPathPourSignatureXML($pes_content){
+		if ($this->xPathPourSignatureXML == 2){
+			return "//Bordereau";
+		}
+		if ($this->xPathPourSignatureXML == 3){
+			return ".";
+		}
+		return $this->getXPathPourSignatureXMLBestMethod($pes_content);
+	}
+	
+	public function getXPathPourSignatureXMLBestMethod($pes_content){
+		$xml = simplexml_load_string($pes_content);
+	
+		if ($this->allBordereauHasId($xml)){
+			return "//Bordereau";
+		}
+		if (! empty($xml['Id'])){
+			return ".";
+		}
+	
+		throw new Exception("Le bordereau du fichier PES ne contient pas d'identifiant valide, ni la balise PESAller : signature impossible");
+	}
+	
+	private function allBordereauHasId($simple_xml_pes_content){
+		if ($simple_xml_pes_content->PES_DepenseAller){
+			$root = $simple_xml_pes_content->PES_DepenseAller;
+		} else if($simple_xml_pes_content->PES_RecetteAller) {
+			$root = $simple_xml_pes_content->PES_RecetteAller;
+		} else {
+			throw new Exception("Le bordereau ne contient ni Depense ni Recette");
+		}
+	
+		foreach($root->Bordereau as $bordereau){
+			$attr = $bordereau->attributes();
+			if (empty($attr['Id'])){
+				return false;
+			}
+		}
+		return true;
 	}
 }
