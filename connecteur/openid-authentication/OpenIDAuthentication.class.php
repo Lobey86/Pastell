@@ -110,6 +110,15 @@ class OpenIDAuthentication extends Connecteur {
 		if ($token != $_SESSION[self::PASTELL_OPENID_SESSION_TOKEN]){
 			throw new Exception("Le token ne correspond pas");
 		}
+
+		$error = $recuperateur->get('error');
+		
+		if ($error){
+				
+			header("Location: ".SITE_BASE."/oasis/connexion-return-error.php");
+			exit;
+				
+		}
 		
 		$this->curlWrapper->httpAuthentication($this->client_id, $this->client_secret);
 		
@@ -144,6 +153,8 @@ class OpenIDAuthentication extends Connecteur {
 		if ($payload['nonce'] != $_SESSION[self::PASTELL_OPENID_SESSION_NONCE]){
 			throw new Exception("La nonce ne correspond pas");
 		}
+
+		unset($_SESSION[self::PASTELL_OPENID_SESSION_NONCE]);
 		
 		$jws = Akita_JOSE_JWS::load($id_token, true);
 		
@@ -159,6 +170,9 @@ class OpenIDAuthentication extends Connecteur {
 	}
 	
 	public function logout(){
+		if (empty($_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN])){
+			return false;
+		}
 		$this->curlWrapper->httpAuthentication($this->client_id, $this->client_secret);
 		$post_data = array(
 				"token" =>$_SESSION[self::PASTELL_OPENID_SESSION_ACCESS_TOKEN],
@@ -184,6 +198,7 @@ class OpenIDAuthentication extends Connecteur {
 		foreach($info as $key=>$value){
 			$url.=$key."=".$value."&";
 		}
+		session_destroy();
 		header("Location: $url");
 		exit;
 	}

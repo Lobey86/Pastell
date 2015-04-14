@@ -49,6 +49,7 @@ class ConnexionControler extends PastellControler {
 			$this->LastError->setLastError("Aucun utilisateur ne correspond au login $sub");
 			$this->redirect("connexion/connexion.php");
 		}
+		$_SESSION['open_id_authenticate_id_ce'] = $id_ce;
 		
 		$this->setConnexion($id_u,"OpenID");
 		$this->redirect();
@@ -181,6 +182,13 @@ class ConnexionControler extends PastellControler {
 		if ($authentificationConnecteur){
 			$authentificationConnecteur->logout();
 		}
+		if (isset($_SESSION['open_id_authenticate_id_ce'] )){
+			$openIdAuthentication = $this->ConnecteurFactory->getConnecteurById($_SESSION['open_id_authenticate_id_ce']);
+			if ($openIdAuthentication){
+				$openIdAuthentication->logout();
+			}
+		}
+		
 		$this->redirect("/connexion/connexion.php");
 	}
 	
@@ -218,6 +226,13 @@ class ConnexionControler extends PastellControler {
 	public function doConnexionAction(){		
 		$this->connexionActionRedirect("connexion/connexion.php");
 		$this->redirect();
+	}
+	
+	public function renderOasisError(){
+		$this->page="connexion";
+		$this->page_title="Erreur";
+		$this->template_milieu = "ConnexionOasisError";
+		$this->renderDefault();
 	}
 	
 }
