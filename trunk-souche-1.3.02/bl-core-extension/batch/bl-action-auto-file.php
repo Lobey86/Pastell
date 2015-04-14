@@ -2,7 +2,7 @@
 
 require_once( __DIR__ . "/../../web/init.php");
 require_once( __DIR__ . "/BLBatch.class.php");
-require_once( __DIR__ . "/FileAttente.class.php");
+require_once( __DIR__ . "/ActionAutoControler.class.php");
 
 $blscript = new BLBatch();
 
@@ -15,11 +15,11 @@ $totaux = array(
 $file_attente_name = $blscript->getArg('file', 'DEFAULT');
 $duree_attente = $blscript->getArg('duree_attente', '1800');
 
-$file_attente = new FileAttente($objectInstancier, $file_attente_name, $duree_attente);
+$action_auto_controler = new ActionAutoControler($objectInstancier, $file_attente_name, $duree_attente);
 
-$file_attente->demarrerExecutionFileAttente();
+$action_auto_controler->demarrerExecutionFileAttente();
 
-$fmesure = function() use (&$blscript, &$objectInstancier, &$sqlQuery, &$totaux, &$file_attente) {
+$fmesure = function() use (&$blscript, &$objectInstancier, &$sqlQuery, &$totaux, &$action_auto_controler) {
     // Effectuer les actions des connecteurs globaux.
 
     $all_connecteur = $objectInstancier->ConnecteurEntiteSQL->getAll(0);
@@ -42,14 +42,14 @@ $fmesure = function() use (&$blscript, &$objectInstancier, &$sqlQuery, &$totaux,
                 return 'ok';
             };
             $blscript->checkBatchStop();
-            $file_attente->checkFileAttenteStop();
-            $executable = $file_attente->isTraitementExecutableSurConnecteur($connecteur['id_ce'], $action);
+            $action_auto_controler->checkFileAttenteStop();                       
+            $executable = $action_auto_controler->isActionConnecteurExecutable($connecteur['id_ce'], $action);
             if ($executable) {            
                 list($result, $duree, $mem) = $blscript->mesurer($fmesure);            
                 $blscript->traceln(" durée=$duree, mem=$mem");
                 $blscript->traceln($result);
             }
-            $file_attente->majMtime();
+            $action_auto_controler->majMtime();
         }
     }
 
@@ -82,14 +82,14 @@ $fmesure = function() use (&$blscript, &$objectInstancier, &$sqlQuery, &$totaux,
                         return "ok";                       
                     };
                     $blscript->checkBatchStop();     
-                    $file_attente->checkFileAttenteStop();
-                    $executable = $file_attente->isTraitementExecutableSurConnecteur($connecteur_entite['id_ce'], $action_auto);
+                    $action_auto_controler->checkFileAttenteStop();
+                    $executable = $action_auto_controler->isActionConnecteurExecutable($connecteur_entite['id_ce'], $action_auto);
                     if ($executable) {
                         list($result, $duree, $mem) = $blscript->mesurer($fmesure);
                         $blscript->traceln(" durée=$duree, mem=$mem");
                         $blscript->traceln($result);
                     }
-                    $file_attente->majMtime();
+                    $action_auto_controler->majMtime();
                 }
             }
         }
@@ -132,14 +132,14 @@ $fmesure = function() use (&$blscript, &$objectInstancier, &$sqlQuery, &$totaux,
                 };
 
                 $blscript->checkBatchStop();
-                $file_attente->checkFileAttenteStop();
-                $executable = $file_attente->isTraitementExecutableSurFlux($type, $infoDocument['id_e'], $etat_cible);                    
+                $action_auto_controler->checkFileAttenteStop();
+                $executable = $action_auto_controler->isActionDocumentExecutable($infoDocument['id_e'], $infoDocument['id_d'], $type, $etat_cible);                    
                 if ($executable) {                
                     list($result, $duree, $mem) = $blscript->mesurer($fmesure);
                     $blscript->traceln(" durée=$duree, mem=$mem");
                     $blscript->traceln($result);
                 }
-                $file_attente->majMtime();
+                $action_auto_controler->majMtime();
             }
         }
     }
@@ -161,6 +161,6 @@ if ($duree>=$duree_attente) {
 $blscript->traceln($blscript->heure() . " Duree execution : " . $duree . " - Prochaine : " . $prochaine_execution);
 
 // Suppression du fichier flag
-$file_attente->arreterExecutionFileAttente();
+$action_auto_controler->arreterExecutionFileAttente();
 
-$file_attente->majMtime();
+$action_auto_controler->majMtime();

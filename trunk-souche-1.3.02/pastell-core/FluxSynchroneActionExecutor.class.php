@@ -26,6 +26,7 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
     const FLUX_ATTR_OBJET = 'objet';
     const FLUX_ATTR_PILOTE = 'app_pilote';
     const FLUX_ATTR_ERREUR_DETAIL = 'erreur_detail';
+    const FLUX_ATTR_DERNIERE_TENTATIVE_ACTION = 'derniere_tentative_action';
     // Valeurs conventionnées pour FLUX_ATTR_*
     const FLUX_PILOTE_CONSOLE = 'console';
     // Clés pour retour goFonctionnel
@@ -142,7 +143,11 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
             if ($gofRedirect) {
                 $this->redirect($gofRedirect);
             }
-
+            if ($this->isWorkflow()) {
+                // Mise à jour de la date du dernier essai de l'action
+                $this->majDerniereTentativeAction($gofEtat == self::GO_ETAT_INCHANGE);
+            }
+            
             return $goRet;
         } catch (ConnecteurActivationException $gofEx) {
             // Les erreurs dues à la désactivation "volontaire" ne sont considérées
@@ -169,12 +174,23 @@ abstract class FluxSynchroneActionExecutor extends ActionExecutor {
         }
     }
 
+    private function majDerniereTentativeAction($etat_inchange) {        
+        $doc = $this->getDonneesFormulaire();
+        if ($etat_inchange) {                
+            $doc->setData(self::FLUX_ATTR_DERNIERE_TENTATIVE_ACTION, date('Y-m-d H:i:s'));
+        } else {
+            $doc->deleteField(self::FLUX_ATTR_DERNIERE_TENTATIVE_ACTION);
+        }
+    }
+        
     private function onException(Exception $ex, /* boolean */ $changeEtatErreur) {
         $message = $ex->getMessage();
         // Journaliser
         if ($this->isWorkflow()) {
             $etat = $changeEtatErreur ? $this->action . '-erreur' : null;
             $this->logAction($etat, $message);
+            // Mise à jour de la date du dernier essai de l'action
+            $this->majDerniereTentativeAction(!$changeEtatErreur);
         }
         // Persister le détail de l'erreur dans le flux
         $messageDetail = exceptionToJson($ex);
