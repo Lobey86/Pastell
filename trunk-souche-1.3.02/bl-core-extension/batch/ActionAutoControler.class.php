@@ -238,7 +238,7 @@ class ActionAutoControler {
         return $file_trouve;
     }
 
-    public function isActionDocumentExecutable($id_e, $id_d, $type_flux, $action) {
+    public function isActionDocumentExecutable($id_e, $id_d, $date_creation_document, $type_flux, $action) {
         $retour = false;
         // File Attente
         $retour = $this->isActionDocumentExecutableFileAttente($type_flux, $id_e, $action);
@@ -246,7 +246,7 @@ class ActionAutoControler {
             return false;
         }
         // Frequence / Age du document
-        $retour = $this->isActionDocumentExecutableFrequence($id_d);
+        $retour = $this->isActionDocumentExecutableFrequence($id_d, $date_creation_document);
         return $retour;
     }
 
@@ -359,13 +359,11 @@ class ActionAutoControler {
         return $this->conf_frequence_action;
     }
 
-    private function isActionDocumentExecutableFrequence($id_d) {
-        // Age du document : Correspond à la date de la dernière action réussie sur le document.        
-        $info_doc = $this->objectInstancier->Document->getInfo($id_d);
-        $date_document = $info_doc['creation'];
+    private function isActionDocumentExecutableFrequence($id_d, $date_creation_document) {
+        // Age du document à partir de sa date de création
         $date_now = time();
         //Age du document en jour
-        $age = ($date_now - strtotime($date_document)) / 86400;
+        $age = ($date_now - strtotime($date_creation_document)) / 86400;
         $frequence = $this->getFrequenceCalculeActionAuto($age);
         // Si la fréquence trouvée est "0", il faut exécuter l'action à chaque cycle des actions automatiques.
         if ($frequence === "0") {
@@ -377,7 +375,7 @@ class ActionAutoControler {
         if ($dernier_essai_action) {
             //Calcul du délai en minute de la dernière action exécutée            
             $dernier_action = ($date_now - strtotime($dernier_essai_action)) / 60;
-            if ($dernier_action >= ($frequence)) {
+            if ($dernier_action >= $frequence) {
                 return true;
             }
         } else {
