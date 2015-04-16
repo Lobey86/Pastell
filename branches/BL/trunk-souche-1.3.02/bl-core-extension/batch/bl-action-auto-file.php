@@ -133,7 +133,7 @@ $fmesure = function() use (&$blscript, &$objectInstancier, &$sqlQuery, &$totaux,
 
                 $blscript->checkBatchStop();
                 $action_auto_controler->checkFileAttenteStop();
-                $executable = $action_auto_controler->isActionDocumentExecutable($infoDocument['id_e'], $infoDocument['id_d'], $type, $etat_cible);                    
+                $executable = $action_auto_controler->isActionDocumentExecutable($infoDocument['id_e'], $infoDocument['id_d'], $infoDocument['creation'], $type, $etat_cible);
                 if ($executable) {                
                     list($result, $duree, $mem) = $blscript->mesurer($fmesure);
                     $blscript->traceln(" durée=$duree, mem=$mem");
