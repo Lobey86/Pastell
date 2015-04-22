@@ -124,5 +124,41 @@ if (!$result) {
 } else {
     $blScript->traceln('déjà fait');
 }
-
-
+/*
+ * DSN
+ */
+$blScript->trace('Modification de noms d\'attribut pour les documents DSN : ');
+$field_to_fix = array(); 
+$field_to_fix[] = array('old_field_name' => 'regime', 'new_field_name' => 'regime_dsn');
+$field_to_fix[] = array('old_field_name' => 'siret', 'new_field_name' => 'siret_dsn');
+$field_to_fix[] = array('old_field_name' => 'declarant_nom', 'new_field_name' => 'nom_declarant_dsn');
+$field_to_fix[] = array('old_field_name' => 'declarant_prenom', 'new_field_name' => 'prenom_declarant_dsn');
+$nb_document_fixed = 0;
+$document_exist = false;
+foreach($objectInstancier->Document->getAllByType('dsnbl') as $document_info){
+    $document_exist = true;
+    $document_fixed = false;
+    $donneesFormulaire = $objectInstancier->DonneesFormulaireFactory->get($document_info['id_d']);    
+    foreach ($field_to_fix as $field) {
+        $value = $donneesFormulaire->get($field['old_field_name']);
+        if ($value !== false) {
+            $document_fixed = true;            
+            $donneesFormulaire->setData($field['new_field_name'],$value);
+            $donneesFormulaire->deleteField($field['old_field_name']);        
+        }
+    }
+    
+    if ($document_fixed) {
+        $nb_document_fixed++;
+    }
+}
+		
+if ($nb_document_fixed !== 0) {
+    $blScript->traceln("OK ($nb_document_fixed document(s) actualisé(s)");
+} else {
+    if ($document_exist) {
+        $blScript->traceln('déjà fait');
+    } else {
+        $blScript->traceln('aucun document concerné');
+    }
+}

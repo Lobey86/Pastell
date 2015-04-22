@@ -14,10 +14,10 @@ class BLDsnFlux extends BLFlux {
     const ATTR_LISTE_RETOUR = 'liste_retour_dsn';
     const ATTR_FICHIER_RETOUR = 'fichier_retour_dsn';
     
-    const ATTR_DECLARANT_NOM = 'declarant_nom';
-    const ATTR_DECLARANT_PRENOM = 'declarant_prenom';
-    const ATTR_SIRET = 'siret';
-    const ATTR_REGIME = 'regime';
+    const ATTR_DECLARANT_NOM = 'nom_declarant_dsn';
+    const ATTR_DECLARANT_PRENOM = 'prenom_declarant_dsn';
+    const ATTR_SIRET = 'siret_dsn';
+    const ATTR_REGIME = 'regime_dsn';
     
 }
 
