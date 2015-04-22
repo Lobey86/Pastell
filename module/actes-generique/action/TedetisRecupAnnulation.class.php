@@ -27,7 +27,7 @@ class TedetisRecupAnnulation extends ActionExecutor {
 			return false;
 		} 
 		
-		if ($status != TdtConnecteur::STATUS_ACQUITTEMENT_RECU){
+		if ($status != TdtConnecteur::STATUS_ANNULE){
 			$this->setLastMessage("La transaction d'annulation a comme statut : " . TdtConnecteur::getStatusString($status));
 			return true;
 		}
