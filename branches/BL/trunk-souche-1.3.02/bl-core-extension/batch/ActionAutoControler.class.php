@@ -35,10 +35,10 @@ require_once (__DIR__ . "/../module/BLFlux.class.php");
  *  - Alimentation de l'attribut BLFlux::DERNIER_ESSAI_ACTION avec la date/heure de l'instant si l'action workflow n'a pas modifié l'état.
  *  - Suppression de l'attribut BLFlux::DERNIER_ESSAI_ACTION lorsqu'une action worflow réussie avec un changement d'état. 
  * 
+ * L'age du document correspond à la date de la dernière action réussie.
+ * 
  * La configuration des fréquences en fonction de l'age sont dans un fichier référencé par la variable suivante :
- * - TODO
- * 
- * 
+ * - FREQUENCE_ACTION_AUTO_FILEPATH
  * 
  * 
  */
@@ -238,7 +238,7 @@ class ActionAutoControler {
         return $file_trouve;
     }
 
-    public function isActionDocumentExecutable($id_e, $id_d, $date_creation_document, $type_flux, $action) {
+    public function isActionDocumentExecutable($id_e, $id_d, $type_flux, $action) {
         $retour = false;
         // File Attente
         $retour = $this->isActionDocumentExecutableFileAttente($type_flux, $id_e, $action);
@@ -246,7 +246,7 @@ class ActionAutoControler {
             return false;
         }
         // Frequence / Age du document
-        $retour = $this->isActionDocumentExecutableFrequence($id_d, $date_creation_document);
+        $retour = $this->isActionDocumentExecutableFrequence($id_e, $id_d);
         return $retour;
     }
 
@@ -359,11 +359,13 @@ class ActionAutoControler {
         return $this->conf_frequence_action;
     }
 
-    private function isActionDocumentExecutableFrequence($id_d, $date_creation_document) {
-        // Age du document à partir de sa date de création
+    private function isActionDocumentExecutableFrequence($id_e, $id_d) {
+        // Age du document à partir de la dernière action réussie sur le document        
+        $info_document_action = $this->objectInstancier->DocumentActionSQL->getLastActionInfo($id_d, $id_e);
+        $date_document = $info_document_action['date'];
         $date_now = time();
         //Age du document en jour
-        $age = ($date_now - strtotime($date_creation_document)) / 86400;
+        $age = ($date_now - strtotime($date_document)) / 86400;
         $frequence = $this->getFrequenceCalculeActionAuto($age);
         // Si la fréquence trouvée est "0", il faut exécuter l'action à chaque cycle des actions automatiques.
         if ($frequence === "0") {
