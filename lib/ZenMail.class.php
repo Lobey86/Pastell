@@ -74,8 +74,8 @@ class ZenMail {
 		if ($this->attachment) {
 			$this->sendTxtMailWithAttachment();
 		} else {
-			$entete =	"From: ".$this->emmeteur."\r\n".
-						"Reply-To: ".$this->mailEmmeteur."\r\n".
+			$entete =	"From: ".$this->emmeteur.PHP_EOL.
+						"Reply-To: ".$this->mailEmmeteur.PHP_EOL.
 						"Content-Type: text/plain; charset=\"".$this->charset."\"";		
 	    	mail($this->destinataire,$this->sujet,$this->contenu,$entete);
 		}   
