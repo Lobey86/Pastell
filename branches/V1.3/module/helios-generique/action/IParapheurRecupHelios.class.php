@@ -5,20 +5,25 @@ require_once( PASTELL_PATH . "/lib/Array2XML.class.php");
 class IParapheurRecupHelios extends ActionExecutor {
 	
 	public function throwError($signature,$message){		
+		
+		$this->verifNbJour($signature,$message);
+		throw new Exception($message);
+	}
+	
+	
+	private function verifNbJour($signature,$message){
 		$nb_jour_max = $signature->getNbJourMaxInConnecteur();
-
+		
 		$lastAction = $this->getDocumentActionEntite()->getLastActionInfo($this->id_e,$this->id_d);
 		
 		$time_action = strtotime($lastAction['date']);
 		if (time() - $time_action > $nb_jour_max * 86400){
-			$message = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max !";
-			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$message);		
+			$message = "Aucune réponse disponible sur le parapheur depuis $nb_jour_max jours !";
+			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'erreur-verif-iparapheur',$message);
 			$this->notify($this->action, $this->type,$message);
-		}			
-		
-		throw new Exception($message);
+		}
 	}
-	
+		
 	public function go(){
 		
 		if ($this->from_api == false){
@@ -61,7 +66,10 @@ class IParapheurRecupHelios extends ActionExecutor {
 			$this->rejeteDossier($result);
 			$signature->effacerDossierRejete($dossierID);
 		} else {
-			$this->throwError($signature, $result);
+			$this->verifNbJour($signature,$result);
+			$this->setLastMessage($result);
+			return false;
+			
 		}
 		
 		$this->setLastMessage($result);
