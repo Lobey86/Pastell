@@ -26,12 +26,10 @@ class TedetisRecupAnnulation extends ActionExecutor {
 			$this->notify($this->action, $this->type,$message);													
 			return false;
 		} 
-		
-		if ($status != TdtConnecteur::STATUS_ANNULE){
+		if ($status != TdtConnecteur::STATUS_ACQUITTEMENT_RECU){
 			$this->setLastMessage("La transaction d'annulation a comme statut : " . TdtConnecteur::getStatusString($status));
 			return true;
 		}
-		
 		$actionCreator->addAction($this->id_e,0,'annuler-tdt',"L'acte a été annulé par le contrôle de légalité");
 		
 		$this->getDonneesFormulaire()->setData('date_ar_annulation', $tdT->getDateAR($tedetis_transaction_id));
