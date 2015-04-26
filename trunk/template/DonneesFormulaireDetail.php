@@ -37,16 +37,12 @@ $(document).ready(function(){
 		var link=$(this).attr('href');
 		var visionneuse_result = $(this).next(".visionneuse_result");
 		visionneuse_result.toggle();
-		
-		//if (visionneuse_result.html() == ''){
 			$.ajax({
 				url: link,
 				cache: false
 			}).done(function( html ) {
 				visionneuse_result.html( html );
 			});
-		//};
-		
 		return false;
 	});
 
