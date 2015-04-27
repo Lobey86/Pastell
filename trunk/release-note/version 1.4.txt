@@ -1,3 +1,7 @@
 Révision 1161:
 Mise à jour de Jquery en version 1.11.2 ainsi que de jQueryUI
 Modification des script de réponse AJAX au champs d'autocomplétion : on passe désormais par JSON (voir le script web/mailsec/get-contact-ajax.php)
+
+
+Révision 1314:
+Ajout de la fonction abstraite getAnnexesTamponnees($transaction_id) sur le type de connecteur "TdT"

@@ -184,6 +184,11 @@ formulaire:
 			name: Acte tamponné par le TdT
 			type: file
 			
+		annexes_tamponnees:
+			name: Annexe(s) tamponnée(s) par le TdT
+			type: file
+			multiple: true
+			
 	SAE:
 		sae_transfert_id:
 			name: Identifiant du transfert

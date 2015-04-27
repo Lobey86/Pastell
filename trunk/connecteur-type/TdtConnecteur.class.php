@@ -79,4 +79,6 @@ abstract class TdtConnecteur extends Connecteur{
 	
 	abstract public function sendResponse(DonneesFormulaire $donneesFormulaire);
 	
+	abstract public function getAnnexesTamponnees($transaction_id);
+	
 }
