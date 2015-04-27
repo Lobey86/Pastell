@@ -274,10 +274,46 @@ class S2low  extends TdtConnecteur {
 		return $result;
 	}
 	
+	/**
+	 * Fonction compatible S2low v2 et S2low < v2
+	 * @see TdtConnecteur::getActeTamponne()
+	 */
 	public function getActeTamponne($id_transaction){
-		$result = $this->exec(self::URL_ACTES_TAMPONNE."?transaction=$id_transaction");
+		$file_list = $this->getActeTamponneS2lowV2FileList($id_transaction);
+		if (! $file_list){
+			//S2low v<2
+			$result = $this->exec(self::URL_ACTES_TAMPONNE."?transaction=$id_transaction");
+		}
+		//S2low v2
+		return $this->getActeTamponneS2lowV2($file_list);
+	}
+	
+	private function getActeTamponneS2lowV2FileList($id_transaction){
+		try{
+			$file_list = $this->exec(self::URL_GET_FILE_LIST."?transaction=$id_transaction");
+		} catch(Exception $e){
+			return false;
+		}
+		if (!$file_list){
+			return false;
+		}
+		$file_list = json_decode($file_list,true);
+		if (!$file_list){
+			return false;
+		}
+		return $file_list;
+		
+	} 
+	
+	private function getActeTamponneS2lowV2($file_list){
+		if($file_list[1]['mimetype'] != 'application/pdf'){
+			return false;
+		}
+		
+		$result = $this->exec(self::URL_DOWNLOAD_FILE."?file={$file_list[1]['id']}&tampon=true");
 		return $result;
 	}
+	
 	
 	public function getStatusInfo($status_id){
 		//Note : les status helios et actes sont commun sur le TdT pour la plupart.
