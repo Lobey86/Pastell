@@ -43,6 +43,9 @@ class TedetisRecup extends ActionExecutor {
 		$aractes = $tdT->getARActes();
 		$bordereau_data = $tdT->getBordereau($tedetis_transaction_id);
 		$actes_tamponne = $tdT->getActeTamponne($tedetis_transaction_id);
+		$annexes_tamponnees_list = $tdT->getAnnexesTamponnees($tedetis_transaction_id);
+		
+		
 		
 		$actionCreator->addAction($this->id_e,0,'acquiter-tdt',"L'acte a été acquitté par le contrôle de légalité");
 		
@@ -52,8 +55,6 @@ class TedetisRecup extends ActionExecutor {
 		$message = "L'acte « {$infoDocument['titre']} » télétransmis par {$infoUser['prenom']} {$infoUser['nom']} a été acquitté par le contrôle de légalité";
 		
 		$message .= "\n\nConsulter le détail de l'acte : " . SITE_BASE . "document/detail.php?id_d={$this->id_d}&id_e={$this->id_e}";
-		
-		
 		
 		$donneesFormulaire = $this->getDonneesFormulaire();
 		if ($bordereau_data){
@@ -65,6 +66,12 @@ class TedetisRecup extends ActionExecutor {
 		}
 		if ($actes_tamponne){
 			$donneesFormulaire->addFileFromData('acte_tamponne',$infoDocument['titre']."-tamponne.pdf",$actes_tamponne);
+		}
+		if ($annexes_tamponnees_list){
+			foreach($annexes_tamponnees_list as $i => $annexe_tamponnee){
+				$num_document = $i + 1;
+				$donneesFormulaire->addFileFromData('annexes_tamponnees',$infoDocument['titre']."-annexe-tamponne-{$num_document}.pdf",$annexe_tamponnee,$i);
+			}
 		}
 		
 		$donneesFormulaire->setData('date_ar', $tdT->getDateAR($tedetis_transaction_id));

@@ -85,4 +85,9 @@ class TdtAdapter extends TdtConnecteur {
 		throw new Exception("Not implemented");
 	}
 	
+	public function getAnnexesTamponnees($transaction_id){
+		throw new Exception("Not implemented");
+	}
+	
+	
 }
