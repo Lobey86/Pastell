@@ -96,8 +96,11 @@ class DonneesFormulaire {
 	
 	public function getFieldDataListAllOnglet($my_role){
 		$ongletList = $this->getOngletList();
-		$fieldNameList = $this->getFormulaire()->getFieldsForOngletList($ongletList);
-		return $this->getFieldDataListByFieldName($my_role,$fieldNameList);
+		$fieldsList = array();
+		foreach ($ongletList as $onglet_num => $onglet){
+			$fieldsList = array_merge($fieldsList,$this->getFieldDataList($my_role,$onglet_num));
+		}
+		return $fieldsList;
 	}
 	
 	public function getFieldDataList($my_role,$ongletNum = 0){
@@ -110,7 +113,6 @@ class DonneesFormulaire {
 		$result = array();
 		foreach ($fieldNameList as $field) {
 			if ($field->isShowForRole($my_role)){
-				
 				$result[] = $this->getFieldData($field->getName(),$ongletNum);
 			}
 		}
