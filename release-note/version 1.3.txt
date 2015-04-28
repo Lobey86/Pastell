@@ -7,16 +7,17 @@ Cette révision marque le passage de la version 1.2 vers le début du développemen
 - suppression de l'ancien répertoire web/img
 - renommage web/img_lbi en web/img
 
-Révision 728:
+Pour installation voir: Rev 728, 940, 991(!passage 1 seule fois), 1019,  dbupdate.php...
 
+--------------------
+
+Révision 728
 L'ajout des daily-digest des notifications rends nécessaire l'utilisation de cron : il faut déclencher le script batch/cron-jour.php chaque jour afin d'envoyer ces daily-digest.
 
-Révision 940 :
-
+Révision 940
 Il peut être nécessaire de passer le script installation/fix-nb-user-in-annuaire_groupe.php afin de corriger un problème sur la table annuaire_groupe.
 
 Révision 974
-
 Modification dans l'API pour développeur (pastell-core) :
 - Afin de supprimer la référence circulaire Formulaire<->DonneesFormulaire, la fonction Formulaire:addDonneesFormulaire a été SUPPRIME
 - L'objet Formulaire doit-être récupérer via la fonction DonneesFormulaire:getFormulaire qui renvoie l'objet Formulaire correctement 
@@ -40,7 +41,133 @@ L'homogénéisation des notifications a conduit à formalisé qui peut éditer les no
 - soit on est l'utilisateur en question et dans ce cas, il faut : entite:lecture et type_de_document:lecture sur la collectivité sur laquelle on tente de s'abonner
 (le code précédent cette révision permettait incorrectement à plus de gens de modifier les notifications)
 
+Révision 1007
+Ajout d'un connecteur global Unoconv pour convertir les fichier MS Office et LibreOffice vers PDF
+Révision 1019, Le connecteur Cloudooo est désormais opérationel
+Necessite:
+sudo apt-get install php-pear
+sudo apt-get install php-xml-rpc2
+sudo pear install HTTP_Request2
 
 Révision 1014
 Le script connecteur/cas-authentication/script/delete-association-cas.php passe dans installation/delete-association-authentification.php et permet 
 de supprimé l'association des tous les connecteurs globaux de type authentification (CAS et OpenID lors de cette révision)
+
+Révision 1022
+Connecteur récuperation SSH et local
+Connecteur de création de document à partir d'une récupération
+
+Révision 1023
+Intégration de la signature des fichiers Helios via Libersign
+
+--------------------TAG V1.3 Octobre 2014--------------------
+
+Révision 1043
+Passage de SHA1 à SHA256 pour les bordereau SEDA et ajout de l'attribut algorithme sur la balise d'Intégrité.
+ACTE SEDA CG86, ACTE SEDA Paramétrable, ACTE SEDA Standard, HELIOS SEDA Standard
+
+--------------------TAG V1.3.01 (rev 1045) Dec 2014--------------------
+
+Révision 1049
+Ajout du paramètre auth=cas dans l'API
+
+Révision 1074
+[Connecteur OASIS provisionning]
+
+Révision 1079
+prise en compte du bordereau d'acquittement et de l'acte tamponné envoyés par S²LOW
+
+Révision 1108
+[Connecteur Actes SEDA Standard] Ajout de la signature dans le bordereau
+[CORE] ajout du mime-type p7c (application/pkcs7) comme type des fichiers de DonneesFormulaire
+
+--------------------TAG V1.3.02 (rev 1127) Janv 2015--------------------
+
+Révision 1150
+Correction recuperateur fichier ssh
+
+Révision 1152
+Correction des actions de demande des classifications présentes dans le connecteur global S2LOW(Tdt)
+(utilisait le type 'actes' au lieu du type 'actes-generique').
+
+Révision 1157
+[actes générique] Ajout d'un pseudo état pour gérer la signature locale
+
+Révision 1158
+[Core] ajout de la clé pas-dans-un-lot sur les actions afin de ne pas inclure certaine action dans le traitement par lot
+[Actes generique] La télétransmission par certificat RGS** ne peut pas être incluse dans le traitement par lot
+
+Révision 1160
+Ajout de divers notification dans actes-generique et helios-generique
+
+Révision 1161
+Mise à jour de Jquery en version 1.11.2 ainsi que de jQueryUI
+Modification des script de réponse AJAX au champs d'autocomplétion : on passe désormais par JSON (voir le script web/mailsec/get-contact-ajax.php)
+
+Révision 1162
+Ajout de la signature PADES pour le connecteur iParapheur
+
+Révision 1163
+Traitement par lot : Les actions affiché sont l'intersection des actions possibles.
+
+Révision 1165
+Ajout d'une méthode pour nettoyer le log des actions automatiques
+(terminé en dehors des actions automatiques)
+
+Révision 1195
+correction mail sécurisé, autocompletion destinataire avec nom d'un groupe.
+
+Révision 1198
+Correction des champs indexé pour les dates
+
+--------------------Premier TAG V1.3.03 (rev 1207) !! écrasé--------------------
+
+Révision 1213
+[Helios generique] Ajout d'une visionneuse sur les fichier PES Acquit.
+
+Révision 1243
+Modification de la gestion de la signature (ticket 8682) via l'applet dans PASTELL.
+Désormais, la signature d'un flux PES se fait:
+- soit par bordereaux si ils ont tous un ID
+- soit par flux dans son intégralité si balise PES_Aller possède un ID
+
+--------------------TAG V1.3.03 (rev 1246) Mars 2015--------------------
+
+Révision 1265
+[actes-generique] Le bordereau et l'actes tamponné sont récupéré avant de passé la transaction au statut acquitté
+
+Révision 1268
+[Connecteur iParapheur] Ajout du XPathPourSignatureXML permettant de choisir où le PES doit-être signé 
+(Bordereau ou PES_Aller, par défaut, le connecteur choisi la première méthode possible)
+
+Révision 1277
+indexation partielle des documents
+
+Révision 1280
+vider-journal-to-historique.php (permet de scinder le journal)
+
+Révision 1282
+Réinitialisation des attachements envoyé en trop dans ZenMail.
+
+Révision 1292
+Ajout datepicker en fr
+
+Révision 1293
+Amélioration d'une requête pour le journal des évenements
+
+Révision 1300
+[connecteur Oasis/OpenID] Correction de problème sur Ozwillo (ex Oasis)
+
+Révision 1307
+[Helios Generique] Correction permettant de ne pas enregistrer le message dans le journal
+ sur la récupération s'il s'agit d'un message "normal" (fichier non lu par exemple)
+
+Révision 1313:
+[Pastell Core] Correction d'un bug dans l'analyse d'un fichier de défintion de flux YML: 
+Pour la vérification d'un document, Pastell prenait en compte la première définition trouvé pour un Field 
+au lieu de prendre la définition pour l'onglet correspondant.
+
+Révision 1314, (corrections: 1315, 1318):
+Ajout de la fonction abstraite getAnnexesTamponnees($transaction_id) sur le type de connecteur "TdT"
+
+--------------------TAG V1.3.04 (rev _) Mai 2015--------------------
