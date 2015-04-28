@@ -78,5 +78,6 @@ abstract class TdtConnecteur extends Connecteur{
 	abstract public function getReponsePrefecture($transaction_id);
 	
 	abstract public function sendResponse(DonneesFormulaire $donneesFormulaire);
-	
+
+	abstract public function getAnnexesTamponnees($transaction_id);
 }

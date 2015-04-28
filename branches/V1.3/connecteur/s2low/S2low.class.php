@@ -18,6 +18,9 @@ class S2low  extends TdtConnecteur {
 	const URL_POST_REPONSE_PREFECTURE = "/modules/actes/actes_transac_reponse_create.php";
 	const URL_ACTES_TAMPONNE = "/modules/actes/actes_transac_get_tampon.php";
 	const URL_POST_CONFIRM = "/modules/actes/actes_transac_post_confirm_api.php";
+
+	const URL_GET_FILE_LIST = "/modules/actes/actes_transac_get_files_list.php";
+	const URL_DOWNLOAD_FILE = "/modules/actes/actes_download_file.php";
 	
 	private $arActes;
 	private $reponseFile;
@@ -270,11 +273,46 @@ class S2low  extends TdtConnecteur {
 		return $result;
 	}
 	
+	/**
+	 * Fonction compatible S2low v2 et S2low < v2
+	 * @see TdtConnecteur::getActeTamponne()
+	 */
 	public function getActeTamponne($id_transaction){
-		$result = $this->exec(self::URL_ACTES_TAMPONNE."?transaction=$id_transaction");
-		return $result;
+		$file_list = $this->getActeTamponneS2lowV2FileList($id_transaction);
+		if (! $file_list){
+			//S2low v<2
+			$result = $this->exec(self::URL_ACTES_TAMPONNE."?transaction=$id_transaction");
+			return $result;
+		}
+		//S2low v2
+		return $this->getActeTamponneS2lowV2($file_list);
 	}
 	
+	private function getActeTamponneS2lowV2FileList($id_transaction){
+		try{
+			$file_list = $this->exec(self::URL_GET_FILE_LIST."?transaction=$id_transaction");
+		} catch(Exception $e){
+			return false;
+		}
+		if (!$file_list){
+			return false;
+		}
+		$file_list = json_decode($file_list,true);
+		if (!$file_list){
+			return false;
+		}
+		return $file_list;
+		
+	} 
+	
+	private function getActeTamponneS2lowV2($file_list){
+		if($file_list[1]['mimetype'] != 'application/pdf'){
+			return false;
+		}
+		$result = $this->exec(self::URL_DOWNLOAD_FILE."?file={$file_list[1]['id']}&tampon=true");
+		return $result;
+	}
+		
 	public function getStatusInfo($status_id){
 		//Note : les status helios et actes sont commun sur le TdT pour la plupart.
 		$all_status = array (
@@ -364,6 +402,40 @@ class S2low  extends TdtConnecteur {
 	
 	public function getRedirectURLForTeletransimission(){
 		return $this->tedetisURL .self::URL_POST_CONFIRM;
+	}
+	
+	//Cette fonction fonctionne sur une branche de S2low 1.5 ou 2.0
+	//Elle ne lance pas d'exception (la branche 1.5 ne connait pas cette fonction).
+	//Lorsque la version 1.5 de S2low n'existera plus, il conviendra de modifier la fonction
+	//pour qu'elle déclenche de véritables erreurs en cas de problème.
+	public function getAnnexesTamponnees($transaction_id){
+	try{
+	$file_list = $this->exec(self::URL_GET_FILE_LIST."?transaction=$transaction_id");
+	} catch(Exception $e){
+	return array();
+	}
+	if (!$file_list){
+	return array();
+	}
+	$file_list = json_decode($file_list,true);
+	if (!$file_list){
+	return array();
+	}
+	
+	if (count($file_list)<=2){
+	return array();
+	}
+	array_shift($file_list);
+	array_shift($file_list);
+	$result = array();
+	foreach($file_list as $file){
+	if($file['mimetype'] != 'application/pdf'){
+	continue;
+			}
+			$result[] = $this->exec(self::URL_DOWNLOAD_FILE."?file={$file['id']}&tampon=true");
+	}
+	
+	return $result;
 	}
 	
 }
