@@ -283,6 +283,7 @@ class S2low  extends TdtConnecteur {
 		if (! $file_list){
 			//S2low v<2
 			$result = $this->exec(self::URL_ACTES_TAMPONNE."?transaction=$id_transaction");
+			return $result;
 		}
 		//S2low v2
 		return $this->getActeTamponneS2lowV2($file_list);
