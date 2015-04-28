@@ -183,6 +183,11 @@ formulaire:
 		acte_tamponne:
 			name: Acte tamponné par le TdT
 			type: file
+
+		annexes_tamponnees:
+			name: Annexe(s) tamponnée(s) par le TdT
+			type: file
+			multiple: true
 			
 	SAE:
 		sae_transfert_id:
@@ -513,8 +518,6 @@ action:
 						envoi_tdt: true
 						has_signature_locale: true
 						signature: true
-						
-						
 		action-class: TedetisEnvoie
 		action-automatique: verif-tdt
 	
@@ -533,7 +536,7 @@ action:
 			role_id_e: editeur
 			droit_id_u: 'actes-generique:edition'
 			last-action:
-				teletransmission-tdt 
+				teletransmission-tdt
 				document-transmis-tdt
 		action-class: TdtTeletransmettre
 		pas-dans-un-lot: true
