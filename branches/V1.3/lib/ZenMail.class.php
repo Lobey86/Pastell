@@ -2,6 +2,8 @@
 class ZenMail {
 	
 	const DEFAULT_CHARSET = 'ISO-8859-15';
+
+	//const HEADER_LINE_ENDING =
 	
 	private $fileContentType;
 	
@@ -74,8 +76,8 @@ class ZenMail {
 		if ($this->attachment) {
 			$this->sendTxtMailWithAttachment();
 		} else {
-			$entete =	"From: ".$this->emmeteur."\r\n".
-						"Reply-To: ".$this->mailEmmeteur."\r\n".
+			$entete =	"From: ".$this->emmeteur.PHP_EOL.
+						"Reply-To: ".$this->mailEmmeteur.PHP_EOL.
 						"Content-Type: text/plain; charset=\"".$this->charset."\"";		
 	    	mail($this->destinataire,$this->sujet,$this->contenu,$entete);
 		}   
@@ -104,7 +106,7 @@ class ZenMail {
 			"Content-Transfer-Encoding: base64".PHP_EOL. 
 			"Content-Disposition: attachment, filename=\"$filename\"".PHP_EOL.PHP_EOL;
 			
-			$attachment = chunk_split(base64_encode(file_get_contents($filepath)));
+			$attachment = chunk_split(base64_encode(file_get_contents($filepath)),76,PHP_EOL);
 			$message.=$attachment;			
 		} 
 		$message .= "--".$boundary.PHP_EOL;
