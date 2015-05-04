@@ -3,6 +3,8 @@ class ZenMail {
 	
 	const DEFAULT_CHARSET = 'ISO-8859-15';
 	
+	//const HEADER_LINE_ENDING = 
+	
 	private $fileContentType;
 	
 	private $destinataire;
@@ -104,7 +106,7 @@ class ZenMail {
 			"Content-Transfer-Encoding: base64".PHP_EOL. 
 			"Content-Disposition: attachment, filename=\"$filename\"".PHP_EOL.PHP_EOL;
 			
-			$attachment = chunk_split(base64_encode(file_get_contents($filepath)));
+			$attachment = chunk_split(base64_encode(file_get_contents($filepath)),76,PHP_EOL);
 			$message.=$attachment;			
 		} 
 		$message .= "--".$boundary.PHP_EOL;
