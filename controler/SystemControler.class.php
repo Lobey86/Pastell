@@ -215,4 +215,22 @@ class SystemControler extends PastellControler {
 		$this->redirect("system/index.php");
 	}
 	
+	public function mailTestAction(){
+		$this->verifDroit(0,"system:edition");
+		$recuperateur=new Recuperateur($_POST);
+		$email = $recuperateur->get("email");
+		
+		$this->zenMail->setDestinataire($email);
+		$this->zenMail->setSujet("[Pastell] Mail de test");
+		
+		$this->zenMail->resetAttachment();
+		$this->zenMail->addAttachment("exemple.pdf", __DIR__."/../data-exemple/exemple.pdf");
+		
+		$this->zenMail->setContenu(PASTELL_PATH . "/mail/test.php",array());
+		$this->zenMail->send();
+		
+		$this->LastMessage->setLastMessage("Un email a été envoyé à l'adresse  : ".get_hecho($email));
+		$this->redirect('system/index.php?page_number=1');		
+	}
+	
 }
