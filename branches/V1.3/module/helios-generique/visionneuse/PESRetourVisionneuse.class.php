@@ -7,7 +7,7 @@ class PESRetourVisionneuse extends Visionneuse {
 	}
 	
 	private function getDomaineLibelle($libelle_numero){
-		$libelle_list = array("technique","technique","technique","pièce justificative","dépense","recette","budget");
+		$libelle_list = array("technique","technique","technique","validité du certificat","pièce justificative","dépense","recette","budget");
 		return $libelle_list[$libelle_numero];
 	}
 	
@@ -76,8 +76,8 @@ class PESRetourVisionneuse extends Visionneuse {
 				<?php if ($elementACQUIT->EtatAck['V'] == 1) : ?>
 					&nbsp;
 				<?php else: ?>
-					 <b>Erreur <?php hecho($elementACQUIT->NumAnoAck['V']) ?> : 
-				<?php $this->hecho($elementACQUIT->LibelleAnoAck['V'])?> 
+					 <b>Erreur <?php hecho($elementACQUIT->Erreur->NumAnoAck['V']) ?> : 
+				<?php $this->hecho($elementACQUIT->Erreur->LibelleAnoAck['V'])?> 
 			<?php if (strval($elementACQUIT->NumPiece['V'])) : ?>
 			sur pièce n° <?php hecho($elementACQUIT->NumPiece['V'])?>
 			<?php endif;?>  
