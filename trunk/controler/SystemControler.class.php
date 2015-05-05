@@ -220,17 +220,16 @@ class SystemControler extends PastellControler {
 		$recuperateur=new Recuperateur($_POST);
 		$email = $recuperateur->get("email");
 
-		$zenMail = $this->ZenMail;
-		$this->zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
+		$this->ZenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		
-		$this->zenMail->setDestinataire($email);
-		$this->zenMail->setSujet("[Pastell] Mail de test");
+		$this->ZenMail->setDestinataire($email);
+		$this->ZenMail->setSujet("[Pastell] Mail de test");
 		
-		$this->zenMail->resetAttachment();
-		$this->zenMail->addAttachment("exemple.pdf", __DIR__."/../data-exemple/exemple.pdf");
+		$this->ZenMail->resetAttachment();
+		$this->ZenMail->addAttachment("exemple.pdf", __DIR__."/../data-exemple/exemple.pdf");
 		
-		$this->zenMail->setContenu(PASTELL_PATH . "/mail/test.php",array());
-		$this->zenMail->send();
+		$this->ZenMail->setContenu(PASTELL_PATH . "/mail/test.php",array());
+		$this->ZenMail->send();
 		
 		$this->LastMessage->setLastMessage("Un email a été envoyé à l'adresse  : ".get_hecho($email));
 		$this->redirect('system/index.php?page_number=1');		
