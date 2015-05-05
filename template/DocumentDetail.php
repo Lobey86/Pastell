@@ -164,5 +164,28 @@ if ($infoDocumentEmail) :
 </table>
 </div>
 
+<?php if ($is_super_admin):?>
+<div class="box">
+<h2>[Admin] Changement manuel de l'état</h2>
+
+<div class='alert alert-danger'>
+<b>Attention !</b> Rien ne garantit la cohérence du nouvel état !
+</div>
+<form action='document/change-etat.php' method='post'>
+	<input type='hidden' name='id_e' value='<?php echo $id_e?>'/>
+	<input type='hidden' name='id_d' value='<?php echo $id_d?>'/>
+Nouvel état : <select name='action'>
+	<option value=''></option>
+	<?php foreach($all_action as $etat => $libelle_etat) : ?>
+		<option value='<?php echo $etat?>'><?php echo $libelle_etat?> [<?php echo $etat?>]</option>
+	<?php endforeach;?>
+</select><br/>
+Texte à mettre dans le journal : <input type='text' value='' name='message'>
+<br/>
+<input type='submit' value='Valider' class='btn btn-danger'/>
+</form>
+</div>
+<?php endif;?>
+
 <a class='btn btn-mini' href='journal/index.php?id_e=<?php echo $id_e?>&id_d=<?php echo $id_d?>'><i class='icon-list'></i>Voir le journal des évènements</a>
 
