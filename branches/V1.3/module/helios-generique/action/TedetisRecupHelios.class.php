@@ -23,6 +23,14 @@ class TedetisRecupHelios extends ActionExecutor {
 		} 
 		
 		$status_info = $tdT->getStatusInfo($status);
+
+		if ($status == TdtConnecteur::STATUS_ERREUR){
+			$message = "Transaction en erreur sur le TdT";
+			$this->setLastMessage($message);
+			$this->getActionCreator()->addAction($this->id_e,$this->id_u,'tdt-error',$message);
+			$this->notify('tdt-error', $this->type,$message);
+			return false;
+		}
 		
 		$next_message = "La transaction est dans l'état : $status_info ($status) ";
 		
