@@ -86,6 +86,11 @@ class DocumentControler extends PastellControler {
 		
 		$this->next_action_automatique =  $this->theAction->getActionAutomatique($true_last_action);
 		$this->droit_erreur_fatale = $this->RoleUtilisateur->hasDroit($this->getId_u(),$info_document['type'].":edition",0);
+
+		$this->is_super_admin = $this->RoleUtilisateur->hasDroit($this->getId_u(),"system:edition",0);
+		if ($this->is_super_admin){
+			$this->all_action = $documentType->getAction()->getWorkflowAction();				
+		}
 		
 		$this->page_title =  $info_document['titre'] . " (".$documentType->getName().")";
 		
