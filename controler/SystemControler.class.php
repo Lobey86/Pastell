@@ -219,6 +219,9 @@ class SystemControler extends PastellControler {
 		$this->verifDroit(0,"system:edition");
 		$recuperateur=new Recuperateur($_POST);
 		$email = $recuperateur->get("email");
+
+		$zenMail = $this->ZenMail;
+		$this->zenMail->setEmetteur("Pastell",PLATEFORME_MAIL);
 		
 		$this->zenMail->setDestinataire($email);
 		$this->zenMail->setSujet("[Pastell] Mail de test");
