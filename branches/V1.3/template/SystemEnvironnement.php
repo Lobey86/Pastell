@@ -120,5 +120,20 @@
 		<td><?php echo $checkWorkspace?"ok":"<b style='color:red'>NON</b>"?></td>
 	</tr>
 </table>
+</div>
 
+<div class='box'>
+<h2>Envoi de mail</h2>
+<div class='alert alert-info'>Permet d'envoyer un <b>email de test</b></div>
+<form action='system/mail-test-controler.php' method='post' >
+<table class='table table-striped'>
+<tr>
+	<th class="w200"><label for='email'>
+	Email</label></th>
+	<td> <input style='width:200px' type='text' name='email' value='' /></td>
+</tr>
+</table>
+<input type='submit' class='btn' value="Envoyer" />
+
+</form>
 </div>
