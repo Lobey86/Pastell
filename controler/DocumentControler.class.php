@@ -763,5 +763,24 @@ class DocumentControler extends PastellControler {
 		$this->VisionneuseFactory->display($id_d,$field,$num);
 	}
 	
+	public function changeEtatAction(){
+		if (! $this->RoleUtilisateur->hasDroit($this->getId_u(),"system:edition",0)){
+			$this->redirect("");
+		}
+	
+		$recuperateur = new Recuperateur($_POST);
+		$id_d = $recuperateur->get('id_d');
+		$id_e = $recuperateur->getInt('id_e');
+		$action = $recuperateur->get('action');
+		$message = $recuperateur->get('message');
+	
+		if ($action){
+			$this->ActionChange->addAction($id_d,$id_e,$this->getId_u(),$action,"Modification manuelle de l'état - $message");
+			$this->LastMessage->setLastMessage("L'état du document a été modifié : -> $action");
+		}
+	
+		$this->redirect("document/detail.php?id_d=$id_d&id_e=$id_e");
+	}
+	
 	
 }
