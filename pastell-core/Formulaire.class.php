@@ -148,12 +148,18 @@ class Formulaire {
 	
 	public function getAllFields(){
 		$fields = array();
+		
 		foreach ($this->formArray as $name => $tab) {
+			if (! is_array($tab)){
+				continue;	
+			}
 			foreach($tab as $libelle => $properties){
+				
 				$field = new Field($libelle,$properties);
 				$fields[$field->getName()]  = $field;	
 			}
 		}
+		
 		return $fields;
 	}
 	
